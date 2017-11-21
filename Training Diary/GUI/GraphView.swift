@@ -14,6 +14,24 @@ import Cocoa
 @IBDesignable
 class GraphView: NSView {
     
+    enum Axis{
+        case Primary, Secondary
+    }
+    enum ChartType{
+        case Line, Bar, Point
+    }
+    
+    struct GraphDefinition{
+        let data: [Double]
+        let axis: Axis
+        let type: ChartType
+        let fill: Bool
+        let colour: NSColor
+        let fillGradientStart: NSColor
+        let fillGradientEnd: NSColor
+        let gradientAngle: CGFloat
+    }
+    
     fileprivate struct Constants{
         static let phaseFactorForFinalLine: Double = 0.2
         static let labelWidth = 100.0
