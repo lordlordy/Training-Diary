@@ -87,6 +87,15 @@ extension TrainingDiary{
         return result
     }
     
+    func getValues(forActivity activity: Activity, andUnit unit: Unit, fromDate from: Date, toDate to: Date) -> [Double]{
+        var result: [Double] = []
+        let sortedDays = ascendingOrderedDays(fromDate: from, toDate: to)
+        for day in sortedDays{
+            result.append(day.valueFor(activity: activity, activityType: ActivityType.All, unit: unit))
+        }
+        return result
+    }
+    
     func calcTSB(forActivity activity: Activity, fromDate d: Date){
         let start = Date()
         

@@ -163,9 +163,12 @@ class GraphViewController: NSViewController {
                 if let td = trainingDiary{
                     if let graph = graphView{
                         let tsb  = td.getTSB(forActivity: selectedActivity, fromDate: fdp.dateValue, toDate: tdp.dateValue)
-                        graph.data1 = tsb.map{$0.ctl}
+                        let tss = td.getValues(forActivity: selectedActivity, andUnit: .TSS, fromDate: fdp.dateValue, toDate: tdp.dateValue)
+                        graph.data1 = tsb.map{$0.tsb}
                         graph.data2 = tsb.map{$0.atl}
-                        graph.data3 = tsb.map{$0.tsb}
+                        graph.data3 = tsb.map{$0.ctl}
+                        graph.data4 = tss
+                        
                         graph.xAxisLabelStrings = getXAxisLabels(fromDate: fdp.dateValue      , toDate: tdp.dateValue)
                         
                     }
