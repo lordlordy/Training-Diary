@@ -15,5 +15,8 @@ class BikeComboBox: NSComboBox {
         self.addItems(withObjectValues: Bike.ActiveBikes.map({$0.rawValue}))
         
     }
+    func selectedBike() -> Bike?{
+        return Bike(rawValue: self.stringValue)
+    }
     
 }

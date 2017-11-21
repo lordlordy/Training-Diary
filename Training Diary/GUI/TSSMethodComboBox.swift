@@ -16,5 +16,7 @@ class TSSMethodComboBox: NSComboBox {
         
     }
     
-    
+    func selectedTSSMethod() -> TSSMethod?{
+        return TSSMethod(rawValue: self.stringValue)
+    }
 }

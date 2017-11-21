@@ -16,5 +16,9 @@ class ActivityTypeComboBox: NSComboBox {
         self.addItems(withObjectValues: ActivityType.AllActivityTypes.map({$0.rawValue}))
         
     }
+  
+    func selectedActivityType() -> ActivityType?{
+        return ActivityType(rawValue: self.stringValue)
+    }
     
 }

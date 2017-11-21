@@ -15,5 +15,10 @@ class SleepQualityComboBox: NSComboBox {
         self.addItems(withObjectValues: SleepQuality.All.map({$0.rawValue}))
         
     }
+ 
+    func selectedSleepQuality() -> SleepQuality?{
+        return SleepQuality(rawValue: self.stringValue)
+    }
+    
     
 }

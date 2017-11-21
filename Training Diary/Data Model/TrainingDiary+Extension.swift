@@ -66,11 +66,11 @@ extension TrainingDiary{
     }
 
     func getTSB(forActivity activity: Activity) ->  [(ctl: Double, atl: Double, tsb: Double)]{
-        return getTSB(forActivity: activity, fromDate: self.firstDayOfDiary!)
+        return getTSB(forActivity: activity, fromDate: firstDayOfDiary!)
     }
     
-    func getTSB(forActivity activity: Activity, fromDate d: Date) -> [(ctl: Double, atl: Double, tsb: Double)]{
-        return getTSB(forActivity: activity, fromDate: d, toDate: lastDayOfDiary!)
+    func getTSB(forActivity activity: Activity, fromDate from: Date) -> [(ctl: Double, atl: Double, tsb: Double)]{
+        return getTSB(forActivity: activity, fromDate: from, toDate: lastDayOfDiary!)
     }
     
     func getTSB(forActivity activity: Activity, fromDate from: Date, toDate to: Date) ->   [(ctl: Double, atl: Double, tsb: Double)]{
@@ -87,12 +87,22 @@ extension TrainingDiary{
         return result
     }
     
+    func getValues(forActivity activity: Activity, andUnit unit: Unit) -> [Double]{
+        return getValues(forActivity: activity, andUnit: unit, fromDate: firstDayOfDiary!, toDate: lastDayOfDiary!)
+    }
+
+    func getValues(forActivity activity: Activity, andUnit unit: Unit, fromDate from: Date) -> [Double]{
+        return getValues(forActivity: activity, andUnit: unit, fromDate: from, toDate: lastDayOfDiary!)
+    }
+
     func getValues(forActivity activity: Activity, andUnit unit: Unit, fromDate from: Date, toDate to: Date) -> [Double]{
+        let start = Date()
         var result: [Double] = []
         let sortedDays = ascendingOrderedDays(fromDate: from, toDate: to)
         for day in sortedDays{
             result.append(day.valueFor(activity: activity, activityType: ActivityType.All, unit: unit))
         }
+        print("Time taken to get diary values for \(activity):\(unit) = \(Date().timeIntervalSince(start)) seconds")
         return result
     }
     

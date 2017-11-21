@@ -16,5 +16,9 @@ class UnitComboBox: NSComboBox {
         self.addItems(withObjectValues: Unit.allUnits.map({$0.rawValue}))
         
     }
+   
+    func selectedUnit() -> Unit?{
+        return Unit(rawValue: self.stringValue)
+    }
     
 }

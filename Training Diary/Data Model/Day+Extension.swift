@@ -15,6 +15,14 @@ extension Day{
     */
     func valueFor(activity: Activity, activityType: ActivityType, unit: Unit) -> Double{
         var result = 0.0
+        if activityType == ActivityType.All{
+            // in the case of activity.All check if Day knows this value rather than summing over workouts. For instance ATL, CTL, TSB
+            if let value = self.value(forKey: activity.keyString(forUnit: unit)){
+                if value is Double{
+                    return value as! Double
+                }
+            }
+        }
         if let wos = self.workouts{
             for workout in wos{
                 let w = workout as! Workout

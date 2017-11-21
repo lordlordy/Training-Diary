@@ -175,25 +175,9 @@ enum ActivityType: String{
  property in Core Data this should match it
  */
 enum Unit: String{
-    case AscentFeet     = "AscentFeet"
-    case AscentMetres   = "AscentMetres"
-    case Brick          = "Brick"
-    case Cadence        = "Cadence"
-    case Hours          = "Hours"
-    case HR             = "HR"
-    case KJ             = "KJ"
-    case KM             = "KM"
-    case Miles          = "Miles"
-    case Minutes        = "Minutes"
-    case Reps           = "Reps"
-    case RPETSS         = "RPETSS"
-    case Seconds        = "Seconds"
-    case TSS            = "TSS"
-    case Watts          = "Watts"
-    //metrics
-    case ATL            = "ATL"
-    case CTL            = "CTL"
-    case TSB            = "TSB"
+    case AscentFeet, AscentMetres, Brick, Cadence, Hours
+    case HR, KJ, KM, Miles, Minutes, Reps, RPETSS, Seconds
+    case TSS, Watts, ATL, CTL, TSB
     
     static var allUnits = [AscentMetres,AscentFeet, Cadence, Hours, HR, KJ, KM, Miles, Minutes, Reps, RPETSS, Seconds, TSS, Watts, ATL, CTL, TSB]
     static var metrics = [ATL, CTL, TSB]
@@ -299,12 +283,9 @@ enum ENTITY: String{
 
 enum WeightProperty: String, FileMakerProJSONString{
     
-    case fatPercent = "fatPercent"
-    case fromDate       = "fromDate"
-    case kg             = "kg"
-    case lbs            = "lbs"
-    case toDate         = "toDate"
-    case trainingDiary  = "trainingDiary"
+    case fatPercent, kg, lbs
+    case fromDate, toDate
+    case trainingDiary
     
     func fmpString() -> String {
         switch self{

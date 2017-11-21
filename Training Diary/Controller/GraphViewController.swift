@@ -29,6 +29,54 @@ class GraphViewController: NSViewController {
     
     private var selectedActivity: Activity = Activity.All
     
+    private var series2SelectedActivity: Activity   = Activity.All
+    private var series2SelectedUnit: Unit           = Unit.KM
+    
+    @IBAction func series2ActivityComboBoxChanged(_ sender: NSComboBox) {
+        let cb = sender as! ActivityComboBox
+        if let activity = cb.selectedActivity(){
+            // have a valid activity
+            series2SelectedActivity = activity
+            print("series2SelectedActivity = \(series2SelectedActivity)")
+            tempTester()
+        }
+    }
+    
+    @IBAction func series2UnitComboBoxChanged(_ sender: NSComboBox) {
+        let cb = sender as! UnitComboBox
+        if let unit = cb.selectedUnit(){
+            // have a valid unit
+            series2SelectedUnit = unit
+            print("series2SelectedUnit = \(series2SelectedUnit)")
+            tempTester()
+        }
+    }
+    
+    func tempTester(){
+        if let td = trainingDiary{
+            if let fdp = fromDatePicker{
+                if let tdp = toDatePicker{
+                    if let gv = graphView{
+                        print("\(series2SelectedActivity):\(series2SelectedUnit)")
+                        let data = td.getValues(forActivity: series2SelectedActivity, andUnit: series2SelectedUnit, fromDate: fdp.dateValue, toDate: tdp.dateValue)
+                        gv.data2 = data
+                    }
+                }
+            }
+            let tsb = td.getTSB(forActivity: Activity.Bike)
+            let tsb2 = td.getValues(forActivity: Activity.Bike, andUnit: Unit.CTL)
+            var i = 0
+            for t in tsb{
+                let ctl = t.ctl
+                let ctl2 = tsb2[i]
+                let diff = ctl - ctl2
+                print("getTSB: \(ctl) - getValues: \(ctl2) = \(diff)  ")
+                i += 1
+            }
+            
+        }
+    }
+    
     @IBAction func activityChanged(_ sender: NSComboBox) {
         print("Activity changed to \(sender.stringValue)")
         switch sender.stringValue{
@@ -90,6 +138,8 @@ class GraphViewController: NSViewController {
         trainingDiarySet()
     }
     
+    
+    //this observing needs to be moved in to TrainingDiary itself. Not sure at what point the observer can be added.
     func setTrainingDiary(_ td: TrainingDiary){
         self.trainingDiary = td
         td.addObserver(self, forKeyPath: TrainingDiaryProperty.ctlDays.rawValue, options: NSKeyValueObservingOptions.new, context: nil)
@@ -106,7 +156,6 @@ class GraphViewController: NSViewController {
         
         switch keyPath{
         case TrainingDiaryProperty.ctlDays.rawValue?, TrainingDiaryProperty.atlDays.rawValue?:
-//            trainingDiary?.calcTSB(forActivity: Activity.All, fromDate: (trainingDiary?.firstDayOfDiary!)!)
             trainingDiary?.calcTSB(forActivity: Activity.Gym, fromDate: (trainingDiary?.firstDayOfDiary!)!)
             trainingDiary?.calcTSB(forActivity: Activity.Walk, fromDate: (trainingDiary?.firstDayOfDiary!)!)
             trainingDiary?.calcTSB(forActivity: Activity.Other, fromDate: (trainingDiary?.firstDayOfDiary!)!)

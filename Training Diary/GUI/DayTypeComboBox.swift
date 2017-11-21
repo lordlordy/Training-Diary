@@ -15,5 +15,9 @@ class DayTypeComboBox: NSComboBox {
         self.addItems(withObjectValues: DayType.AllTypes.map({$0.rawValue}))
 
     }
+   
+    func selectedDayType() -> DayType?{
+        return DayType(rawValue: self.stringValue)
+    }
     
 }

@@ -18,4 +18,8 @@ class ActivityComboBox: NSComboBox {
         
     }
     
+    func selectedActivity() -> Activity?{
+        return Activity(rawValue: self.stringValue)
+    }
+    
 }
