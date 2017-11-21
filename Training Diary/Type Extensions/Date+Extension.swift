@@ -45,6 +45,7 @@ extension Date{
         return dateFormatter.string(from: self)
     }
     
+    // added for display in charts
     public func dateOnlyShorterString() ->String{
         let dateFormatter = DateFormatter.init()
         dateFormatter.dateFormat = "dd-MMM-yy"
