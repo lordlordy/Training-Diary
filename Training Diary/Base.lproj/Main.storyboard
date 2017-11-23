@@ -5687,7 +5687,7 @@ IA
                                                                     <rect key="frame" x="0.0" y="0.0" width="72" height="17"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="Vti-SX-IvH">
-                                                                        <font key="font" metaFont="system"/>
+                                                                        <font key="font" metaFont="system" size="12"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
@@ -5720,22 +5720,24 @@ IA
                                                             <rect key="frame" x="76" y="1" width="66" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qtK-gb-p5y">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="66" height="17"/>
-                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="HBA-p9-P7B">
-                                                                        <font key="font" metaFont="system"/>
+                                                                <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="egP-C2-PKR" customClass="ActivityComboBox" customModule="Training_Diary" customModuleProvider="target">
+                                                                    <rect key="frame" x="0.0" y="-4" width="69" height="23"/>
+                                                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" numberOfVisibleItems="5" id="Kho-Qy-CAW">
+                                                                        <font key="font" metaFont="system" size="11"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                                    </textFieldCell>
+                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                    </comboBoxCell>
                                                                     <connections>
-                                                                        <binding destination="LTY-Zz-CZ3" name="value" keyPath="objectValue.activityString" id="ICD-Cn-Ku1"/>
+                                                                        <binding destination="LTY-Zz-CZ3" name="value" keyPath="objectValue.activityString" id="4uX-iR-sUz"/>
                                                                     </connections>
-                                                                </textField>
+                                                                </comboBox>
                                                             </subviews>
-                                                            <connections>
-                                                                <outlet property="textField" destination="qtK-gb-p5y" id="yBj-uZ-86P"/>
-                                                            </connections>
+                                                            <constraints>
+                                                                <constraint firstItem="egP-C2-PKR" firstAttribute="leading" secondItem="LTY-Zz-CZ3" secondAttribute="leading" id="AzX-s3-OtY"/>
+                                                                <constraint firstAttribute="trailing" secondItem="egP-C2-PKR" secondAttribute="trailing" id="lH2-Ui-YhW"/>
+                                                                <constraint firstItem="egP-C2-PKR" firstAttribute="top" secondItem="LTY-Zz-CZ3" secondAttribute="top" id="qRa-js-DFz"/>
+                                                                <constraint firstAttribute="bottom" secondItem="egP-C2-PKR" secondAttribute="bottom" id="vpV-UE-LFX"/>
+                                                            </constraints>
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
@@ -5756,58 +5758,62 @@ IA
                                                             <rect key="frame" x="145" y="1" width="64" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pIP-Ja-eeV">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="64" height="17"/>
-                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="iSs-1I-2Im">
-                                                                        <font key="font" metaFont="system"/>
+                                                                <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wvg-b4-Zxi" customClass="PeriodComboBox" customModule="Training_Diary" customModuleProvider="target">
+                                                                    <rect key="frame" x="0.0" y="-4" width="67" height="23"/>
+                                                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" numberOfVisibleItems="5" id="SxH-10-ZNt">
+                                                                        <font key="font" metaFont="system" size="11"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                                    </textFieldCell>
+                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                    </comboBoxCell>
                                                                     <connections>
-                                                                        <binding destination="zeg-7x-oCx" name="value" keyPath="objectValue.periodString" id="uXf-la-4nR"/>
+                                                                        <binding destination="zeg-7x-oCx" name="value" keyPath="objectValue.periodString" id="AVG-iZ-GEd"/>
                                                                     </connections>
-                                                                </textField>
+                                                                </comboBox>
                                                             </subviews>
-                                                            <connections>
-                                                                <outlet property="textField" destination="pIP-Ja-eeV" id="66x-FP-nNk"/>
-                                                            </connections>
+                                                            <constraints>
+                                                                <constraint firstAttribute="trailing" secondItem="wvg-b4-Zxi" secondAttribute="trailing" id="HGa-L2-jgQ"/>
+                                                                <constraint firstItem="wvg-b4-Zxi" firstAttribute="top" secondItem="zeg-7x-oCx" secondAttribute="top" id="de7-sZ-Zrj"/>
+                                                                <constraint firstAttribute="bottom" secondItem="wvg-b4-Zxi" secondAttribute="bottom" id="mGX-X9-nGf"/>
+                                                                <constraint firstItem="wvg-b4-Zxi" firstAttribute="leading" secondItem="zeg-7x-oCx" secondAttribute="leading" id="tUO-6p-xQ6"/>
+                                                            </constraints>
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="unitString" width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="UYS-MY-qXm">
+                                                <tableColumn identifier="unitString" width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="yHl-PK-zAo">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Unit">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     </tableHeaderCell>
-                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="HCq-ep-thy">
+                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="9X5-Pw-plX">
                                                         <font key="font" metaFont="system"/>
                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView id="1oM-t7-FO1">
+                                                        <tableCellView id="iDb-eX-x5A">
                                                             <rect key="frame" x="212" y="1" width="64" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qp5-Id-GEI">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="64" height="17"/>
-                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="fS5-Pf-MH3">
-                                                                        <font key="font" metaFont="system"/>
+                                                                <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="s5u-nd-ccp" customClass="UnitComboBox" customModule="Training_Diary" customModuleProvider="target">
+                                                                    <rect key="frame" x="0.0" y="-4" width="67" height="23"/>
+                                                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" numberOfVisibleItems="5" id="zq9-T8-GEV">
+                                                                        <font key="font" metaFont="system" size="11"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                                    </textFieldCell>
+                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                    </comboBoxCell>
                                                                     <connections>
-                                                                        <binding destination="1oM-t7-FO1" name="value" keyPath="objectValue.unitString" id="kbH-AB-VfU"/>
+                                                                        <binding destination="iDb-eX-x5A" name="value" keyPath="objectValue.unitString" id="aKC-sI-9DC"/>
                                                                     </connections>
-                                                                </textField>
+                                                                </comboBox>
                                                             </subviews>
-                                                            <connections>
-                                                                <outlet property="textField" destination="Qp5-Id-GEI" id="zxi-ax-sgB"/>
-                                                            </connections>
+                                                            <constraints>
+                                                                <constraint firstItem="s5u-nd-ccp" firstAttribute="leading" secondItem="iDb-eX-x5A" secondAttribute="leading" id="Ddn-t4-fLi"/>
+                                                                <constraint firstAttribute="trailing" secondItem="s5u-nd-ccp" secondAttribute="trailing" id="mpA-ax-3oa"/>
+                                                                <constraint firstAttribute="bottom" secondItem="s5u-nd-ccp" secondAttribute="bottom" id="ytS-qd-w0u"/>
+                                                                <constraint firstItem="s5u-nd-ccp" firstAttribute="top" secondItem="iDb-eX-x5A" secondAttribute="top" id="zIX-6f-Rbb"/>
+                                                            </constraints>
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
@@ -5821,7 +5827,7 @@ IA
                                     </subviews>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="59m-8I-iNO">
-                                    <rect key="frame" x="1" y="64" width="278" height="16"/>
+                                    <rect key="frame" x="1" y="-16" width="0.0" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="aqV-6D-T5N">

@@ -124,7 +124,6 @@ class GraphViewController: NSViewController {
             graphView.needsDisplay = true
         case "name"?:
             if let graphDefinition = object as? ActivityGraphDefinition{
-                print("Observation made on ActivityGraphDefinition with name: \(graphDefinition.name)")
                 updateData(forGraph: graphDefinition)
                 graphView.needsDisplay = true
             }
