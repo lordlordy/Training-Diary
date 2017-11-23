@@ -37,7 +37,8 @@ import Foundation
             if let p = Period(rawValue: newValue){ period = p}
         }
     }
-    @objc dynamic var name: String = ""
+    // not sure we need to set the name in Graph as that name is 'probably' redundant and should probably be removed
+    @objc dynamic var name: String = ""{didSet{ graph?.name = name } }
     
     init(activity a: Activity, unit u: Unit, period p: Period) {
         activity = a

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7309AED61FC6CCC100054A6B /* ActivityGraphDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7309AED51FC6CCC100054A6B /* ActivityGraphDefinition.swift */; };
+		730AE25E1FC732DB00348A63 /* ChartTypeComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730AE25D1FC732DB00348A63 /* ChartTypeComboBox.swift */; };
 		731CF8051F981C3300C59AA8 /* RollingSum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731CF8041F981C3300C59AA8 /* RollingSum.swift */; };
 		731CF8071F98467A00C59AA8 /* TSBCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731CF8061F98467A00C59AA8 /* TSBCalculator.swift */; };
 		73265B641FB471A00081D3F9 /* WeightHRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73265B631FB471A00081D3F9 /* WeightHRViewController.swift */; };
@@ -55,6 +56,7 @@
 
 /* Begin PBXFileReference section */
 		7309AED51FC6CCC100054A6B /* ActivityGraphDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityGraphDefinition.swift; sourceTree = "<group>"; };
+		730AE25D1FC732DB00348A63 /* ChartTypeComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartTypeComboBox.swift; sourceTree = "<group>"; };
 		731CF8041F981C3300C59AA8 /* RollingSum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollingSum.swift; sourceTree = "<group>"; };
 		731CF8061F98467A00C59AA8 /* TSBCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSBCalculator.swift; sourceTree = "<group>"; };
 		73265B631FB471A00081D3F9 /* WeightHRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightHRViewController.swift; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 				7369D9F71FB25B7600ECAA1E /* SleepQualityComboBox.swift */,
 				7369D9F11FB24F2B00ECAA1E /* ActivityComboBox.swift */,
 				7333B9F11FB613CA005F424E /* UnitComboBox.swift */,
+				730AE25D1FC732DB00348A63 /* ChartTypeComboBox.swift */,
 				7369D9F31FB24F5000ECAA1E /* ActivityTypeComboBox.swift */,
 				733990C21FB34BD200E80D4A /* PeriodComboBox.swift */,
 				73E25E181FBEA9150081FC62 /* GraphView.swift */,
@@ -312,6 +315,7 @@
 				73B2BA001F898BF30044DD4E /* Workout+Extension.swift in Sources */,
 				73C58CA71FA8EFD200F57BAE /* EddingtonNumber+Extension.swift in Sources */,
 				7333B8631FA76F3A00E93BF0 /* EddingtonNumbersViewController.swift in Sources */,
+				730AE25E1FC732DB00348A63 /* ChartTypeComboBox.swift in Sources */,
 				73B3188D1FAB78D000B75550 /* String+Extension.swift in Sources */,
 				73E582631F8A12A500B6E25D /* DaysArrayController.swift in Sources */,
 				7369D9FA1FB2C97400ECAA1E /* TrainingDiary+Extension.swift in Sources */,

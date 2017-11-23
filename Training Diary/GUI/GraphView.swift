@@ -14,26 +14,28 @@ import Cocoa
 @IBDesignable
 class GraphView: NSView {
     
-    enum Axis{
+    enum Axis: String{
         case Primary, Secondary
     }
-    enum ChartType{
+    enum ChartType: String{
         case Line, Bar, Point
+        static var AllChartTypes = [Line, Bar, Point]
     }
     
     //this is intentionally a class rather than struct as I want to pass it around by reference
     @objc class GraphDefinition: NSObject{
         var data: [(date: Date, value: Double)] = [] 
+        var name: String
         var axis: Axis
         var type: ChartType
-        var fill: Bool
+        @objc var display: Bool = true
+        @objc var fill: Bool
         @objc var colour: NSColor
-        var fillGradientStart: NSColor
-        var fillGradientEnd: NSColor
-        var gradientAngle: CGFloat
-        var name: String
-        var lineWidth: CGFloat
-        var priority: Int //This gives relative priority of drawing. Remember that things draw on top of each other
+        @objc var fillGradientStart: NSColor
+        @objc var fillGradientEnd: NSColor
+        @objc var gradientAngle: CGFloat
+        @objc var size: CGFloat // used for line width and size of points.
+        @objc var priority: Int //This gives relative priority of drawing. Remember that things draw on top of each other
         
         init(axis: Axis, type: ChartType, fill: Bool, colour: NSColor, fillGradientStart: NSColor, fillGradientEnd: NSColor, gradientAngle: CGFloat, name: String, lineWidth: CGFloat, priority: Int){
             self.axis = axis
@@ -44,7 +46,7 @@ class GraphView: NSView {
             self.fillGradientEnd = fillGradientEnd
             self.gradientAngle = gradientAngle
             self.name = name
-            self.lineWidth = lineWidth
+            self.size = lineWidth
             self.priority = priority
         }
         
@@ -57,7 +59,8 @@ class GraphView: NSView {
     }
     
     private var graphs: [String:GraphDefinition]                 = [:]
-    private var priorityOrderedGraphs: [GraphDefinition]{ return graphs.values.sorted(by: {$0.priority < $1.priority}) }
+   // note the order here. High priority graphs will show on top ... so are drawn last. So this order descending
+    private var priorityOrderedGraphs: [GraphDefinition]{ return graphs.values.sorted(by: {$0.priority > $1.priority}) }
 
     private func getPrimaryAxisGraphs() ->      [GraphDefinition]{
         var result: [GraphDefinition] = []
@@ -84,10 +87,6 @@ class GraphView: NSView {
         graphs.removeValue(forKey: graphName)
     }
     
-//    func updateDateFor(graphName name: String, withData data: [(date: Date, value: Double)]){
-  //      graphs[name]?.data = data
-    //    self.needsDisplay = true
-  //  }
     
     private func graphsMaximum(forAxis: Axis) -> Double{
         var maximums: [Double] = [0.0] // ensure maximum is always at least zero
@@ -185,7 +184,9 @@ class GraphView: NSView {
 
 
         for g in priorityOrderedGraphs{
-            draw(graph: g, inDirtyRect: dirtyRect)
+            if g.display{
+                draw(graph: g, inDirtyRect: dirtyRect)
+            }
         }
         
         //TO DO - should be able to tidy up creation of axis / labels.
@@ -265,41 +266,13 @@ class GraphView: NSView {
     }
     
     private func draw(graph: GraphDefinition, inDirtyRect dirtyRect: NSRect ){
-        
-        let path = NSBezierPath()
-        let maxValue = graphsMaximum(forAxis: graph.axis)
-        let minValue = graphsMinimum(forAxis: graph.axis)
-        var count = 0.0
+        switch graph.type{
+        case .Bar: print("Bar chart to be implemented")
+        case .Line: drawLine(graph: graph, inDirtyRect: dirtyRect)
+        case .Point: drawPoints(graph: graph, inDirtyRect: dirtyRect)
+        }
 
-        let origin = coordinatesInView(xValue: 0.0, maxX: Double(graph.data.count), minX: 0.0, yValue: 0.0, maxY: maxValue, minY: minValue, dirtyRect)
         
-        path.move(to: origin)
-        for point in graph.data.map({$0.value}) {
-            let p = coordinatesInView(xValue:  count, maxX: Double(graph.data.count), minX: 0.0, yValue: point, maxY: maxValue, minY: minValue, dirtyRect)
-            switch graph.type{
-            case .Bar: print("Bar chart TBI")
-            case .Line: path.line(to:p)
-            case .Point:
-                if point != 0.0{
-                    drawPoint(at: p, graph.colour)
-                }
-            }
-            count += 1.0
-        }
-        
-        if graph.fill{
-            let endOfXAxis = coordinatesInView(xValue: Double(graph.data.count), maxX: Double(graph.data.count), minX: 0.0, yValue: 0.0, maxY: maxValue, minY: minValue, dirtyRect)
-            path.line(to: endOfXAxis)
-            if let gradient = NSGradient(starting: graph.fillGradientStart  , ending: graph.fillGradientEnd){
-                gradient.draw(in: path, angle: graph.gradientAngle)
-            }else{
-                path.fill()
-            }
-        }
-        
-        path.lineWidth = graph.lineWidth
-        graph.colour.setStroke()
-        path.stroke()
     }
     
     private func coordinatesInView(xValue: Double, maxX: Double, minX: Double, yValue: Double, maxY: Double, minY: Double, _ dirtyRect: NSRect) -> NSPoint{
@@ -321,15 +294,61 @@ class GraphView: NSView {
         return NSPoint(x: x + Constants.axisPadding, y: y + Constants.axisPadding)
     }
     
-    private func drawPoints(_ data: [Double], maxValue: Double, minValue: Double, _ dirtyRect: NSRect, _ colour: NSColor ){
+    private func drawLine(graph: GraphDefinition, inDirtyRect dirtyRect: NSRect ){
+        
+        let path = NSBezierPath()
+        let maxValue = graphsMaximum(forAxis: graph.axis)
+        let minValue = graphsMinimum(forAxis: graph.axis)
         var count = 0.0
-        for point in data{
-            if point > 0.1{
-                let p = coordinatesInView(xValue: count, maxX: Double(data.count), minX: 0.0, yValue: point, maxY: maxValue, minY: minValue, dirtyRect)
-                drawPoint(at: p, colour)
-            }
+        
+        let origin = coordinatesInView(xValue: 0.0, maxX: Double(graph.data.count), minX: 0.0, yValue: 0.0, maxY: maxValue, minY: minValue, dirtyRect)
+        
+        path.move(to: origin)
+        for point in graph.data.map({$0.value}) {
+            let p = coordinatesInView(xValue:  count, maxX: Double(graph.data.count), minX: 0.0, yValue: point, maxY: maxValue, minY: minValue, dirtyRect)
+            path.line(to:p)
             count += 1.0
         }
+        
+        if graph.fill{
+            let endOfXAxis = coordinatesInView(xValue: Double(graph.data.count), maxX: Double(graph.data.count), minX: 0.0, yValue: 0.0, maxY: maxValue, minY: minValue, dirtyRect)
+            path.line(to: endOfXAxis)
+            if let gradient = NSGradient(starting: graph.fillGradientStart  , ending: graph.fillGradientEnd){
+                gradient.draw(in: path, angle: graph.gradientAngle)
+            }else{
+                path.fill()
+            }
+        }
+        path.lineWidth = graph.size
+        graph.colour.setStroke()
+        path.stroke()
+    }
+    
+    private func drawPoints(graph: GraphDefinition, inDirtyRect dirtyRect: NSRect ){
+        
+        let maxValue = graphsMaximum(forAxis: graph.axis)
+        let minValue = graphsMinimum(forAxis: graph.axis)
+        var count = 0.0
+        
+        for point in graph.data.map({$0.value}) {
+            let p = coordinatesInView(xValue:  count, maxX: Double(graph.data.count), minX: 0.0, yValue: point, maxY: maxValue, minY: minValue, dirtyRect)
+            if point != 0.0{ drawPoint(at: p, graphDefinition: graph) }
+            count += 1.0
+        }
+    }
+
+
+    private func drawPoint(at: NSPoint, graphDefinition gd: GraphDefinition){
+        let path = NSBezierPath(ovalIn: NSRect(x: at.x-gd.size/2, y: at.y-gd.size/2, width: gd.size, height: gd.size))
+        
+        if gd.fill{
+            if let gradient = NSGradient(starting: gd.fillGradientStart, ending: gd.fillGradientEnd){
+                gradient.draw(in: path, angle: gd.gradientAngle)
+            }
+        }
+        
+        gd.colour.setStroke()
+        path.stroke()
     }
     
     private func createLabel(value: String, point: CGPoint, colour: NSColor) -> NSTextField {
@@ -343,9 +362,5 @@ class GraphView: NSView {
         return label
     }
     
-    private func drawPoint(at: NSPoint, _ colour: NSColor){
-        let path = NSBezierPath(ovalIn: NSRect(x: at.x-Constants.pointDiameter/2, y: at.y-Constants.pointDiameter/2, width: Constants.pointDiameter, height: Constants.pointDiameter))
-        colour.setFill()
-        path.fill()
-    }
+
 }
