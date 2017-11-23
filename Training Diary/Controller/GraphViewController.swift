@@ -124,10 +124,10 @@ class GraphViewController: NSViewController {
             graphView.needsDisplay = true
         case "name"?:
             if let graphDefinition = object as? ActivityGraphDefinition{
-                print("Observation made on ActivityGraphDefinition with name: \(graphDefinition.name)")
                 updateData(forGraph: graphDefinition)
                 graphView.needsDisplay = true
             }
+        case "colour"?, "size"?, "fill"?, "priority"?, "fillGradientStart"?, "fillGradientEnd"?, "gradientAngle"?, "display"?: graphView.needsDisplay = true
         default:
             print("~~~~~~~ Am I meant to be observing key path \(String(describing: keyPath))")
         }
@@ -201,19 +201,17 @@ class GraphViewController: NSViewController {
                         let graph3Details = ActivityGraphDefinition(activity: .All, unit: .CTL, period: .Day)
                         let graph4Details = ActivityGraphDefinition(activity: .All, unit: .TSS, period: .Day)
 
-                        
-                        //NOTE must sort out removing this observer when we remove the graph.
-                        graph1Details.addObserver(self, forKeyPath: "name", options: .new, context: nil)
-                        graph2Details.addObserver(self, forKeyPath: "name", options: .new, context: nil)
-                        graph3Details.addObserver(self, forKeyPath: "name", options: .new, context: nil)
-                        graph4Details.addObserver(self, forKeyPath: "name", options: .new, context: nil)
-                        
-                        
-                        graph1Details.graph = GraphView.GraphDefinition( axis: .Primary, type: .Line, fill: true, colour: NSColor.blue, fillGradientStart: NSColor.red, fillGradientEnd: NSColor.blue, gradientAngle: 90.0, name: graph1Details.name, lineWidth: 1.0, priority: 1)
+                        graph1Details.graph = GraphView.GraphDefinition( axis: .Primary, type: .Line, fill: true, colour: NSColor.blue, fillGradientStart: NSColor.red, fillGradientEnd: NSColor.blue, gradientAngle: 90.0, name: graph1Details.name, lineWidth: 1.0, priority: 4)
                         graph2Details.graph = GraphView.GraphDefinition( axis: .Primary, type: .Line, fill: false, colour: NSColor.green, fillGradientStart: NSColor.green, fillGradientEnd: NSColor.green, gradientAngle: 0.0 , name: graph2Details.name, lineWidth: 1.0 , priority: 2)
                         graph3Details.graph = GraphView.GraphDefinition( axis: .Primary, type: .Line, fill: false, colour: NSColor.red, fillGradientStart: NSColor.red, fillGradientEnd: NSColor.red, gradientAngle: 0.0, name: graph3Details.name, lineWidth: 1.0, priority: 3)
                         graph4Details.graph = GraphView.GraphDefinition( axis: .Secondary, type: .Point, fill: true, colour: NSColor.yellow, fillGradientStart: NSColor.yellow, fillGradientEnd: NSColor.yellow, gradientAngle: 0.0, name: graph4Details.name, lineWidth: 1.0, priority: 1)
                         
+                        //NOTE must sort out removing this observer when we remove the graph.
+                        addObservers(forGraph: graph1Details)
+                        addObservers(forGraph: graph2Details)
+                        addObservers(forGraph: graph3Details)
+                        addObservers(forGraph: graph4Details)
+
                         updateData(forGraph: graph1Details)
                         updateData(forGraph: graph2Details)
                         updateData(forGraph: graph3Details)
@@ -244,6 +242,17 @@ class GraphViewController: NSViewController {
         }
     }
 
+    private func addObservers(forGraph g: ActivityGraphDefinition){
+        g.addObserver(self, forKeyPath: "name", options: .new, context: nil)
+        g.graph?.addObserver(self, forKeyPath: "colour", options: .new, context: nil)
+        g.graph?.addObserver(self, forKeyPath: "size", options: .new, context: nil)
+        g.graph?.addObserver(self, forKeyPath: "fill", options: .new, context: nil)
+        g.graph?.addObserver(self, forKeyPath: "priority", options: .new, context: nil)
+        g.graph?.addObserver(self, forKeyPath: "fillGradientStart", options: .new, context: nil)
+        g.graph?.addObserver(self, forKeyPath: "fillGradientEnd", options: .new, context: nil)
+        g.graph?.addObserver(self, forKeyPath: "gradientAngle", options: .new, context: nil)
+        g.graph?.addObserver(self, forKeyPath: "display", options: .new, context: nil)
+    }
     
     private func updateData(forGraph g:  ActivityGraphDefinition){
         if let td = trainingDiary{

@@ -14,7 +14,6 @@ class UnitComboBox: NSComboBox {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         self.addItems(withObjectValues: Unit.allUnits.map({$0.rawValue}))
-        
     }
    
     func selectedUnit() -> Unit?{
