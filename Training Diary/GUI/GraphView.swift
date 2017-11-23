@@ -21,21 +21,113 @@ class GraphView: NSView {
         case Line, Bar, Point
     }
     
-    struct GraphDefinition{
-        let data: [Double]
-        let axis: Axis
-        let type: ChartType
-        let fill: Bool
-        let colour: NSColor
-        let fillGradientStart: NSColor
-        let fillGradientEnd: NSColor
-        let gradientAngle: CGFloat
+    //this is intentionally a class rather than struct as I want to pass it around by reference
+    @objc class GraphDefinition: NSObject{
+        var data: [(date: Date, value: Double)] = [] 
+        var axis: Axis
+        var type: ChartType
+        var fill: Bool
+        @objc var colour: NSColor
+        var fillGradientStart: NSColor
+        var fillGradientEnd: NSColor
+        var gradientAngle: CGFloat
+        var name: String
+        var lineWidth: CGFloat
+        var priority: Int //This gives relative priority of drawing. Remember that things draw on top of each other
+        
+        init(axis: Axis, type: ChartType, fill: Bool, colour: NSColor, fillGradientStart: NSColor, fillGradientEnd: NSColor, gradientAngle: CGFloat, name: String, lineWidth: CGFloat, priority: Int){
+            self.axis = axis
+            self.type = type
+            self.fill = fill
+            self.colour = colour
+            self.fillGradientStart = fillGradientStart
+            self.fillGradientEnd = fillGradientEnd
+            self.gradientAngle = gradientAngle
+            self.name = name
+            self.lineWidth = lineWidth
+            self.priority = priority
+        }
+        
+        convenience init(data: [(date: Date, value: Double)], axis: Axis, type: ChartType, fill: Bool, colour: NSColor, fillGradientStart: NSColor, fillGradientEnd: NSColor, gradientAngle: CGFloat, name: String, lineWidth: CGFloat, priority: Int){
+        
+            self.init(axis: axis, type: type, fill: fill, colour: colour, fillGradientStart: fillGradientStart, fillGradientEnd: fillGradientEnd, gradientAngle: gradientAngle, name: name, lineWidth: lineWidth, priority: priority)
+            self.data = data
+            
+        }
+    }
+    
+    private var graphs: [String:GraphDefinition]                 = [:]
+    private var priorityOrderedGraphs: [GraphDefinition]{ return graphs.values.sorted(by: {$0.priority < $1.priority}) }
+
+    private func getPrimaryAxisGraphs() ->      [GraphDefinition]{
+        var result: [GraphDefinition] = []
+        for graph in graphs.values{
+            if graph.axis == Axis.Primary{ result.append(graph) }
+            
+        }
+        return result
+    }
+
+    private func getSecondaryAxisGraphs() ->   [GraphDefinition]{
+        var result: [GraphDefinition] = []
+        for graph in graphs.values{
+            if graph.axis == Axis.Secondary{ result.append(graph) }
+            
+        }
+        return result
+    }
+    
+    func add(graph: GraphDefinition){
+        graphs[graph.name] = graph
+    }
+    func remove(graphName: String){
+        graphs.removeValue(forKey: graphName)
+    }
+    
+//    func updateDateFor(graphName name: String, withData data: [(date: Date, value: Double)]){
+  //      graphs[name]?.data = data
+    //    self.needsDisplay = true
+  //  }
+    
+    private func graphsMaximum(forAxis: Axis) -> Double{
+        var maximums: [Double] = [0.0] // ensure maximum is always at least zero
+        var graphs: [GraphDefinition] = []
+        switch forAxis{
+        case .Primary: graphs = getPrimaryAxisGraphs()
+        case .Secondary: graphs = getSecondaryAxisGraphs()
+        }
+        if graphs.count > 0{
+            for graph in graphs{
+                if graph.data.count > 0{
+                    maximums.append(graph.data.map{$0.value}.max()!)
+                }
+            }
+        }
+        return maximums.max()!
+    }
+
+    private func graphsMinimum(forAxis: Axis) -> Double{
+        var minimums: [Double] = [0.0] //ensures minimum is always at least zero
+        var graphs: [GraphDefinition] = []
+        switch forAxis{
+        case .Primary: graphs = getPrimaryAxisGraphs()
+        case .Secondary: graphs = getSecondaryAxisGraphs()
+        }
+        if graphs.count > 0{
+            for graph in graphs{
+                if graph.data.count > 0{
+                    minimums.append(graph.data.map{$0.value}.min()!)
+                }
+            }
+        }
+        return minimums.min()!
     }
     
     fileprivate struct Constants{
         static let phaseFactorForFinalLine: Double = 0.2
         static let labelWidth = 100.0
         static let labelHeight = 15.0
+        static let pointDiameter: CGFloat = 3.0
         //how far in from the view edge the axes are
         static let axisPadding = 30.0
     }
@@ -49,33 +141,15 @@ class GraphView: NSView {
         var y: Double     = 10.0
     }
     
-    @IBInspectable var xAxis1Colour: NSColor                     = .black
-    @IBInspectable var xAxis1LabelColour: NSColor                = .black
-    @IBInspectable var xAxis2Colour: NSColor                     = .orange
-    @IBInspectable var xAxis2LabelColour: NSColor                = .black
+    @IBInspectable var primaryAxisColour: NSColor               = .black
+    @IBInspectable var primaryAxisLabelColour: NSColor          = .black
+    @IBInspectable var secondaryAxisColour: NSColor             = .white
+    @IBInspectable var secondaryAxisLabelColour: NSColor        = .white
     @IBInspectable var yAxisColour: NSColor                     = .black
     @IBInspectable var yAxisLabelColour: NSColor                = .black
-    @IBInspectable var backgoundGradientStartColour: NSColor    = .lightGray
-    @IBInspectable var backgroundGradientEndColour: NSColor     = .white
+    @IBInspectable var backgoundGradientStartColour: NSColor    = .gray
+    @IBInspectable var backgroundGradientEndColour: NSColor     = .lightGray
     @IBInspectable var backgroundGradientAngle: CGFloat         = 45.0
-    @IBInspectable var lineWidth: CGFloat                       = 2.0
-    @IBInspectable var data1Colour: NSColor                     = .blue
-    @IBInspectable var data1FillGradientStartColour: NSColor    = .red
-    @IBInspectable var data1GradientAngle: CGFloat              = 135.0
-    @IBInspectable var data1Fill: Bool                          = true
-    @IBInspectable var data2Colour: NSColor                     = .green
-    @IBInspectable var data2FillGradientStartColour: NSColor    = .green
-    @IBInspectable var data2GradientAngle: CGFloat              = 135.0
-    @IBInspectable var data2Fill: Bool                          = false
-    @IBInspectable var data3Colour: NSColor                     = .red
-    @IBInspectable var data3FillGradientStartColour: NSColor    = .red
-    @IBInspectable var data3Fill: Bool                          = false
-    @IBInspectable var data3GradientAngle: CGFloat              = 135.0
-    @IBInspectable var data4Colour: NSColor                     = .yellow
-    @IBInspectable var data4FillGradientStartColour: NSColor    = .red
-    @IBInspectable var data4GradientAngle: CGFloat              = 135.0
-    @IBInspectable var data4Fill: Bool                          = false
-    @IBInspectable var data4IsPoint: Bool                       = true
 
     private var labelNumberFormat: NumberFormatter {
         let nf = NumberFormatter()
@@ -86,47 +160,22 @@ class GraphView: NSView {
     private var yLabels: [NSTextField] = []
     private var xLabels: [NSTextField] = []
 
-    var gapBetweenXAxis1Lines: Double = 50.0{
+    var gapBetweenPrimaryAxisLines: Double = 50.0{
         didSet{ self.needsDisplay = true }
     }
     
-    var gapBetweenXAxis2Lines: Double = 50.0{
-        didSet{ self.needsDisplay = true }
-    }
-    
-    var data1: [Double] = []{
-        didSet{ self.needsDisplay = true }
-    }
-    var data2: [Double] = []{
-        didSet{ self.needsDisplay = true }
-    }
-    var data3: [Double] = []{
-        didSet{ self.needsDisplay = true }
-    }
-    var data4: [Double] = []{
+    var gapBetweenSecondaryAxisLines: Double = 50.0{
         didSet{ self.needsDisplay = true }
     }
     var xAxisLabelStrings: [String] = ["1","2","3","4","5","6","7","8","9","10","11"]{
         didSet{ self.needsDisplay = true}
     }
 
-    override func prepareForInterfaceBuilder() {
-        data1 = [0,5,10,15,18,17,21,15,9,18,19,20,17,15]
-        data2 = [0,7,13,18,25,28,30,20,5,7,15,19,22,21]
-        data3 = [0,-2,-3,-3,-7,-11,-9,-5,-4,11,4,1,-5,-6]
-        data4 = [15,15,0,22,7,5,12,0,0,2,17,21,10,9]
-    }
-    
-
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
-        for l in yLabels{
-            l.removeFromSuperview()
-        }
-        for l in xLabels{
-            l.removeFromSuperview()
-        }
+        for l in yLabels{ l.removeFromSuperview() }
+        for l in xLabels{ l.removeFromSuperview() }
         yLabels = []
         xLabels = []
 
@@ -134,26 +183,16 @@ class GraphView: NSView {
             gradient.draw(in: dirtyRect, angle: backgroundGradientAngle )
         }
 
-        let maxValues: [Double] = [data1.max() ?? 0.0, data2.max() ?? 0.0, data3.max() ?? 0.0]
-        let minValues: [Double] = [data1.min() ?? 0.0, data2.min() ?? 0.0, data3.min() ?? 0.0]
-        let overalMax: Double = maxValues.max() ?? 0.0
-        let overalMin: Double = minValues.min() ?? 0.0
 
-
-        if data1.count > 0{ drawBezierLine(data1, maxValue: overalMax, minValue: overalMin, dirtyRect, data1Colour, data1Fill) }
-        if data2.count > 0{ drawBezierLine(data2, maxValue: overalMax, minValue: overalMin, dirtyRect, data2Colour,data2Fill) }
-        if data3.count > 0{ drawBezierLine(data3, maxValue: overalMax, minValue: overalMin,  dirtyRect, data3Colour,data3Fill) }
-        if data4.count > 0{
-            if data4IsPoint{
-                drawPoints(data4, maxValue: data4.max()!, minValue: data4.min()!, dirtyRect, data4Colour)
-            }else{
-                drawBezierLine(data4, maxValue: overalMax, minValue: overalMin, dirtyRect, data4Colour,data4Fill)
-            }
+        for g in priorityOrderedGraphs{
+            draw(graph: g, inDirtyRect: dirtyRect)
         }
+        
+        //TO DO - should be able to tidy up creation of axis / labels.
         //axis 1
-        drawXAxes(maxValue: overalMax, minValue: overalMin, dirtyRect, colour: xAxis1Colour, lineGap: gapBetweenXAxis1Lines, labelOffset: LabelOffset(position: .Start, x: -(Constants.axisPadding - 2.0), y: 0.0) )
+        drawXAxes(maxValue: graphsMaximum(forAxis: .Primary), minValue: graphsMinimum(forAxis: .Primary), dirtyRect, colour: primaryAxisColour, lineGap: gapBetweenPrimaryAxisLines, labelOffset: LabelOffset(position: .Start, x: -(Constants.axisPadding - 2.0), y: 0.0), labelColour: primaryAxisLabelColour )
         //axis 2 - no lines yet - passed colour as Clear
-        drawXAxes(maxValue: data4.max() ?? 0.0, minValue: data4.min() ?? 0.0, dirtyRect, colour: xAxis2Colour, lineGap: gapBetweenXAxis2Lines, labelOffset: LabelOffset(position: .End, x: 0.0, y: 0.0) )
+        drawXAxes(maxValue: graphsMaximum(forAxis: .Secondary), minValue: graphsMinimum(forAxis: .Secondary), dirtyRect, colour: secondaryAxisColour, lineGap: gapBetweenSecondaryAxisLines, labelOffset: LabelOffset(position: .End, x: 0.0, y: 0.0), labelColour: secondaryAxisLabelColour )
 
         drawYAxes(dirtyRect, labelOffset: LabelOffset(position: .Start, x: -30.0, y: -(Constants.axisPadding - 10.0)) )
 
@@ -167,12 +206,12 @@ class GraphView: NSView {
         for label in xAxisLabelStrings{
             let axisStartPoint = coordinatesInView(xValue: count, maxX: Double(xAxisLabelStrings.count-1), minX: 0.0, yValue: 0.0, maxY: 0.0, minY: 0.0, dirtyRect)
             let axisEndPoint = NSPoint(x: axisStartPoint.x, y: dirtyRect.maxY - CGFloat(Constants.axisPadding))
-            drawAxis(from: axisStartPoint, to: axisEndPoint, colour: yAxisColour, label, labelOffset: labelOffset)
+            drawAxis(from: axisStartPoint, to: axisEndPoint, colour: yAxisColour, label, labelOffset: labelOffset, labelColour: yAxisLabelColour)
             count += 1.0
         }
     }
     
-    private func drawXAxes( maxValue: Double, minValue: Double, _ dirtyRect: NSRect, colour: NSColor, lineGap: Double, labelOffset: LabelOffset){
+    private func drawXAxes( maxValue: Double, minValue: Double, _ dirtyRect: NSRect, colour: NSColor, lineGap: Double, labelOffset: LabelOffset, labelColour: NSColor ){
         
         var factor = lineGap
         var strokeColour = colour
@@ -181,31 +220,31 @@ class GraphView: NSView {
         
         var axisStart = coordinatesInView(xValue: 0.0, maxX: 0.0, minX: 0.0, yValue: 0.0, maxY: maxValue, minY: minValue, dirtyRect)
         var axisEnd = NSPoint(x: dirtyRect.maxX - CGFloat(Constants.axisPadding), y: axisStart.y)
-        drawAxis(from: axisStart, to: axisEnd, colour: strokeColour, "0", labelOffset: labelOffset)
+        drawAxis(from: axisStart, to: axisEnd, colour: strokeColour, "0", labelOffset: labelOffset, labelColour: labelColour)
         
         while factor <= maxValue{
             strokeColour = strokeColour.withAlphaComponent(strokeColour.alphaComponent * phaseFactor)
             strokeColour.setStroke()
             axisStart = coordinatesInView(xValue: 0.0, maxX: 0.0, minX: 0.0, yValue: factor, maxY: maxValue, minY: minValue, dirtyRect)
             axisEnd = NSPoint(x: dirtyRect.maxX - CGFloat(Constants.axisPadding), y: axisStart.y)
-            drawAxis(from: axisStart, to: axisEnd, colour: strokeColour, labelNumberFormat.string(from: NSNumber(value: factor))!, labelOffset: labelOffset)
+            drawAxis(from: axisStart, to: axisEnd, colour: strokeColour, labelNumberFormat.string(from: NSNumber(value: factor))!, labelOffset: labelOffset, labelColour: labelColour)
             factor += lineGap
         }
         
-        factor = -gapBetweenXAxis1Lines
-        strokeColour = xAxis1Colour
+        factor = -gapBetweenPrimaryAxisLines
+        strokeColour = primaryAxisColour
 
         while factor >= minValue{
             strokeColour = strokeColour.withAlphaComponent(strokeColour.alphaComponent * phaseFactor)
             strokeColour.setStroke()
             axisStart = coordinatesInView(xValue: 0.0, maxX: 0.0, minX: 0.0, yValue: factor, maxY: maxValue, minY: minValue, dirtyRect)
             axisEnd = NSPoint(x: dirtyRect.maxX - CGFloat(Constants.axisPadding), y: axisStart.y)
-            drawAxis(from: axisStart, to: axisEnd, colour: strokeColour, labelNumberFormat.string(from: NSNumber(value: factor))!, labelOffset: labelOffset)
+            drawAxis(from: axisStart, to: axisEnd, colour: strokeColour, labelNumberFormat.string(from: NSNumber(value: factor))!, labelOffset: labelOffset, labelColour: labelColour)
             factor -= lineGap
         }
     }
     
-    private func drawAxis(from: NSPoint, to: NSPoint, colour: NSColor, _ labelString: String, labelOffset: LabelOffset){
+    private func drawAxis(from: NSPoint, to: NSPoint, colour: NSColor, _ labelString: String, labelOffset: LabelOffset, labelColour: NSColor){
         let path = NSBezierPath()
         colour.setStroke()
         path.move(to: from)
@@ -220,41 +259,47 @@ class GraphView: NSView {
             labelPosition  = NSPoint(x: to.x + CGFloat(labelOffset.x), y: to.y + CGFloat(labelOffset.y))
         }
         if let p = labelPosition{
-            let label = createLabel(value: labelString, point: p, colour: yAxisLabelColour)
+            let label = createLabel(value: labelString, point: p, colour: labelColour)
             xLabels.append(label)
         }
     }
     
-    private func drawBezierLine(_ data: [Double], maxValue: Double, minValue: Double, _ dirtyRect: NSRect, _ colour: NSColor, _ fill: Bool ){
+    private func draw(graph: GraphDefinition, inDirtyRect dirtyRect: NSRect ){
         
         let path = NSBezierPath()
-        
-        let origin = coordinatesInView(xValue: 0.0, maxX: Double(data.count), minX: 0.0, yValue: 0.0, maxY: maxValue, minY: minValue, dirtyRect)
+        let maxValue = graphsMaximum(forAxis: graph.axis)
+        let minValue = graphsMinimum(forAxis: graph.axis)
+        var count = 0.0
+
+        let origin = coordinatesInView(xValue: 0.0, maxX: Double(graph.data.count), minX: 0.0, yValue: 0.0, maxY: maxValue, minY: minValue, dirtyRect)
         
         path.move(to: origin)
-        var count = 0.0
-        for point in data{
-            let p = coordinatesInView(xValue:  count, maxX: Double(data.count), minX: 0.0, yValue: point, maxY: maxValue, minY: minValue, dirtyRect)
-            path.line(to:p)
+        for point in graph.data.map({$0.value}) {
+            let p = coordinatesInView(xValue:  count, maxX: Double(graph.data.count), minX: 0.0, yValue: point, maxY: maxValue, minY: minValue, dirtyRect)
+            switch graph.type{
+            case .Bar: print("Bar chart TBI")
+            case .Line: path.line(to:p)
+            case .Point:
+                if point != 0.0{
+                    drawPoint(at: p, graph.colour)
+                }
+            }
             count += 1.0
         }
-        let endOfXAxis = coordinatesInView(xValue: Double(data.count), maxX: Double(data.count), minX: 0.0, yValue: 0.0, maxY: maxValue, minY: minValue, dirtyRect)
-
-        path.line(to: endOfXAxis)
         
-        path.lineWidth = lineWidth
-        colour.setStroke()
-        colour.setFill()
-        
-        if fill{
-            if let gradient = NSGradient(starting: data3FillGradientStartColour  , ending: colour){
-                gradient.draw(in: path, angle: data3GradientAngle)
+        if graph.fill{
+            let endOfXAxis = coordinatesInView(xValue: Double(graph.data.count), maxX: Double(graph.data.count), minX: 0.0, yValue: 0.0, maxY: maxValue, minY: minValue, dirtyRect)
+            path.line(to: endOfXAxis)
+            if let gradient = NSGradient(starting: graph.fillGradientStart  , ending: graph.fillGradientEnd){
+                gradient.draw(in: path, angle: graph.gradientAngle)
             }else{
                 path.fill()
             }
-        }else{
-            path.stroke()
         }
+        
+        path.lineWidth = graph.lineWidth
+        graph.colour.setStroke()
+        path.stroke()
     }
     
     private func coordinatesInView(xValue: Double, maxX: Double, minX: Double, yValue: Double, maxY: Double, minY: Double, _ dirtyRect: NSRect) -> NSPoint{
@@ -299,7 +344,7 @@ class GraphView: NSView {
     }
     
     private func drawPoint(at: NSPoint, _ colour: NSColor){
-        let path = NSBezierPath(ovalIn: NSRect(x: at.x-5.0, y: at.y-5.0, width: 5.0, height: 5.0))
+        let path = NSBezierPath(ovalIn: NSRect(x: at.x-Constants.pointDiameter/2, y: at.y-Constants.pointDiameter/2, width: Constants.pointDiameter, height: Constants.pointDiameter))
         colour.setFill()
         path.fill()
     }

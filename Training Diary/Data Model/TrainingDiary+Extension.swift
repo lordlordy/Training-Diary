@@ -10,21 +10,10 @@ import Foundation
 
 extension TrainingDiary{
     
-    @objc dynamic var totalBikeKM: Double{
-        return total(forKey: "bikeKM")
-    }
-
-    @objc dynamic var totalSwimKM: Double{
-        return total(forKey: "swimKM")
-    }
-    
-    @objc dynamic var totalRunKM: Double{
-        return total(forKey: "runKM")
-    }
-    
-    @objc dynamic var totalSeconds: Double{
-        return total(forKey: "allSeconds")
-    }
+    @objc dynamic var totalBikeKM:  Double{ return total(forKey: "bikeKM") }
+    @objc dynamic var totalSwimKM:  Double{ return total(forKey: "swimKM") }
+    @objc dynamic var totalRunKM:   Double{ return total(forKey: "runKM") }
+    @objc dynamic var totalSeconds: Double{ return total(forKey: "allSeconds")}
     
     //needs implementing properly
     @objc dynamic var firstDayOfDiary: Date?{
@@ -65,42 +54,46 @@ extension TrainingDiary{
         return result
     }
 
-    func getTSB(forActivity activity: Activity) ->  [(ctl: Double, atl: Double, tsb: Double)]{
+/*    func getTSB(forActivity activity: Activity) ->  [(date: Date, ctl: Double, atl: Double, tsb: Double)]{
         return getTSB(forActivity: activity, fromDate: firstDayOfDiary!)
     }
     
-    func getTSB(forActivity activity: Activity, fromDate from: Date) -> [(ctl: Double, atl: Double, tsb: Double)]{
+    func getTSB(forActivity activity: Activity, fromDate from: Date) -> [(date: Date, ctl: Double, atl: Double, tsb: Double)]{
         return getTSB(forActivity: activity, fromDate: from, toDate: lastDayOfDiary!)
     }
     
-    func getTSB(forActivity activity: Activity, fromDate from: Date, toDate to: Date) ->   [(ctl: Double, atl: Double, tsb: Double)]{
+    func getTSB(forActivity activity: Activity, fromDate from: Date, toDate to: Date) ->   [(date: Date, ctl: Double, atl: Double, tsb: Double)]{
+        let start = Date()
         let sortedDays = ascendingOrderedDays(fromDate: from, toDate: to)
-        var result: [(Double, Double,Double)] = []
+        var result: [(Date, Double, Double,Double)] = []
         
         for day in sortedDays{
             let a = day.value(forKey: activity.keyString(forUnit: .ATL)) as! Double
             let c = day.value(forKey: activity.keyString(forUnit: .CTL)) as! Double
             let t = day.value(forKey: activity.keyString(forUnit: .TSB)) as! Double
-            result.append((ctl: c, atl: a, tsb: t))
+            result.append((date: day.date!, ctl: c, atl: a, tsb: t))
         }
+        print("Time taken to get TSB values for \(activity) = \(Date().timeIntervalSince(start)) seconds")
 
         return result
     }
-    
-    func getValues(forActivity activity: Activity, andUnit unit: Unit) -> [Double]{
+*/
+    func getValues(forActivity activity: Activity, andUnit unit: Unit) -> [(date: Date, value:Double)]{
         return getValues(forActivity: activity, andUnit: unit, fromDate: firstDayOfDiary!, toDate: lastDayOfDiary!)
     }
 
-    func getValues(forActivity activity: Activity, andUnit unit: Unit, fromDate from: Date) -> [Double]{
+    func getValues(forActivity activity: Activity, andUnit unit: Unit, fromDate from: Date) -> [(date: Date, value:Double)]{
         return getValues(forActivity: activity, andUnit: unit, fromDate: from, toDate: lastDayOfDiary!)
     }
 
-    func getValues(forActivity activity: Activity, andUnit unit: Unit, fromDate from: Date, toDate to: Date) -> [Double]{
+    func getValues(forActivity activity: Activity, andUnit unit: Unit, fromDate from: Date, toDate to: Date) -> [(date: Date, value:Double)]{
         let start = Date()
-        var result: [Double] = []
+        var result: [(date: Date, value: Double)] = []
         let sortedDays = ascendingOrderedDays(fromDate: from, toDate: to)
-        for day in sortedDays{
-            result.append(day.valueFor(activity: activity, activityType: ActivityType.All, unit: unit))
+        if sortedDays.count > 0 {
+            for day in sortedDays{
+                result.append((date: day.date!, value: day.valueFor(activity: activity, activityType: ActivityType.All, unit: unit)))
+            }
         }
         print("Time taken to get diary values for \(activity):\(unit) = \(Date().timeIntervalSince(start)) seconds")
         return result

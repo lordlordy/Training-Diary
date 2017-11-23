@@ -8,11 +8,17 @@
 
 import Cocoa
 
+
 class GraphViewController: NSViewController {
 
     fileprivate struct Constants{
         static let numberOfXAxisLabels: Int = 12
     }
+    
+    //for the moment this is just to see if I can get table to work for the graphs
+    @objc dynamic var dataArray: [ActivityGraphDefinition] = []
+    private var graphDataCache: [String: ActivityGraphDefinition] = [:]
+
     
     @objc dynamic var trainingDiary: TrainingDiary?{
         didSet{
@@ -20,6 +26,7 @@ class GraphViewController: NSViewController {
             setUpSliders()
         }
     }
+    
     @IBOutlet weak var graphView: GraphView!
     @IBOutlet weak var fromDatePicker: NSDatePicker!
     @IBOutlet weak var toDatePicker: NSDatePicker!
@@ -27,70 +34,12 @@ class GraphViewController: NSViewController {
     @IBOutlet weak var toDateSlider: NSSlider!
     @IBOutlet weak var activityComboBox: NSComboBox!
     
-    private var selectedActivity: Activity = Activity.All
-    
-    private var series2SelectedActivity: Activity   = Activity.All
-    private var series2SelectedUnit: Unit           = Unit.KM
-    
-    @IBAction func series2ActivityComboBoxChanged(_ sender: NSComboBox) {
-        let cb = sender as! ActivityComboBox
-        if let activity = cb.selectedActivity(){
-            // have a valid activity
-            series2SelectedActivity = activity
-            print("series2SelectedActivity = \(series2SelectedActivity)")
-            tempTester()
-        }
-    }
-    
-    @IBAction func series2UnitComboBoxChanged(_ sender: NSComboBox) {
-        let cb = sender as! UnitComboBox
-        if let unit = cb.selectedUnit(){
-            // have a valid unit
-            series2SelectedUnit = unit
-            print("series2SelectedUnit = \(series2SelectedUnit)")
-            tempTester()
-        }
-    }
-    
-    func tempTester(){
-        if let td = trainingDiary{
-            if let fdp = fromDatePicker{
-                if let tdp = toDatePicker{
-                    if let gv = graphView{
-                        print("\(series2SelectedActivity):\(series2SelectedUnit)")
-                        let data = td.getValues(forActivity: series2SelectedActivity, andUnit: series2SelectedUnit, fromDate: fdp.dateValue, toDate: tdp.dateValue)
-                        gv.data2 = data
-                    }
-                }
-            }
-            let tsb = td.getTSB(forActivity: Activity.Bike)
-            let tsb2 = td.getValues(forActivity: Activity.Bike, andUnit: Unit.CTL)
-            var i = 0
-            for t in tsb{
-                let ctl = t.ctl
-                let ctl2 = tsb2[i]
-                let diff = ctl - ctl2
-                print("getTSB: \(ctl) - getValues: \(ctl2) = \(diff)  ")
-                i += 1
-            }
-            
-        }
-    }
-    
+
     @IBAction func activityChanged(_ sender: NSComboBox) {
-        print("Activity changed to \(sender.stringValue)")
-        switch sender.stringValue{
-        case Activity.All.rawValue:     selectedActivity = .All
-        case Activity.Swim.rawValue:    selectedActivity = .Swim
-        case Activity.Bike.rawValue:    selectedActivity = .Bike
-        case Activity.Run.rawValue:     selectedActivity = .Run
-        case Activity.Gym.rawValue:     selectedActivity = .Gym
-        case Activity.Walk.rawValue:    selectedActivity = .Walk
-        case Activity.Other.rawValue:   selectedActivity = .Other
-        default:
-            print("Not sure how you managed to select \(sender.stringValue) as this was not implemented as an activity for selection in the TSB tab view")
+        for key in graphDataCache.keys{
+            graphDataCache[key]?.activityString = sender.stringValue
         }
-        updateData()
+        updateGraphs()
         graphView.needsDisplay = true
     }
     
@@ -101,7 +50,7 @@ class GraphViewController: NSViewController {
             dc.year = sender.integerValue
             let newDate = cal.date(from: dc)
             dp.dateValue = newDate!
-            updateData()
+            updateForDateChange()
         }
     }
 
@@ -112,7 +61,7 @@ class GraphViewController: NSViewController {
             dc.year = sender.integerValue
             let newDate = cal.date(from: dc)
             dp.dateValue = newDate!
-            updateData()
+            updateForDateChange()
         }
     }
     
@@ -122,7 +71,7 @@ class GraphViewController: NSViewController {
             let year = sender.dateValue.year()
             ds.doubleValue = Double(year)
         }
-        updateData()
+        updateForDateChange()
     }
     
     @IBAction func toDateChanged(_ sender: NSDatePicker) {
@@ -130,7 +79,7 @@ class GraphViewController: NSViewController {
             let year = sender.dateValue.year()
             ds.doubleValue = Double(year)
         }
-        updateData()
+        updateForDateChange()
     }
     
     
@@ -159,33 +108,44 @@ class GraphViewController: NSViewController {
             trainingDiary?.calcTSB(forActivity: Activity.Gym, fromDate: (trainingDiary?.firstDayOfDiary!)!)
             trainingDiary?.calcTSB(forActivity: Activity.Walk, fromDate: (trainingDiary?.firstDayOfDiary!)!)
             trainingDiary?.calcTSB(forActivity: Activity.Other, fromDate: (trainingDiary?.firstDayOfDiary!)!)
-            updateData()
+            updateGraphs()
             graphView.needsDisplay = true
         case TrainingDiaryProperty.swimCTLDays.rawValue?, TrainingDiaryProperty.swimATLDays.rawValue?:
             trainingDiary?.calcTSB(forActivity: Activity.Swim, fromDate: (trainingDiary?.firstDayOfDiary!)!)
-            updateData()
+            updateGraphs()
             graphView.needsDisplay = true
         case TrainingDiaryProperty.bikeCTLDays.rawValue?, TrainingDiaryProperty.bikeATLDays.rawValue?:
             trainingDiary?.calcTSB(forActivity: Activity.Bike, fromDate: (trainingDiary?.firstDayOfDiary!)!)
-            updateData()
+            updateGraphs()
             graphView.needsDisplay = true
         case TrainingDiaryProperty.runCTLDays.rawValue?, TrainingDiaryProperty.runATLDays.rawValue?:
             trainingDiary?.calcTSB(forActivity: Activity.Run, fromDate: (trainingDiary?.firstDayOfDiary!)!)
-            updateData()
+            updateGraphs()
             graphView.needsDisplay = true
+        case "name"?:
+            if let graphDefinition = object as? ActivityGraphDefinition{
+                print("Observation made on ActivityGraphDefinition with name: \(graphDefinition.name)")
+                updateData(forGraph: graphDefinition)
+                graphView.needsDisplay = true
+            }
         default:
             print("~~~~~~~ Am I meant to be observing key path \(String(describing: keyPath))")
         }
+        
         
     }
 
 
     private func trainingDiarySet(){
         if let td = trainingDiary{
-            fromDatePicker!.dateValue = td.firstDayOfDiary!
-            toDatePicker!.dateValue = td.lastDayOfDiary!
+            if fromDatePicker!.dateValue < td.firstDayOfDiary! || fromDatePicker!.dateValue > td.lastDayOfDiary!{
+                fromDatePicker!.dateValue  = td.firstDayOfDiary!
+            }
+            if toDatePicker!.dateValue < td.firstDayOfDiary! || toDatePicker!.dateValue > td.lastDayOfDiary!{
+                toDatePicker!.dateValue  = td.lastDayOfDiary!
+            }
         }
-        updateData()
+        tsbGraphSetUp()
     }
     
     private func setUpSliders(){
@@ -206,23 +166,100 @@ class GraphViewController: NSViewController {
         }
     }
     
-    private func updateData(){
+    private func updateGraphs(){
+        for key in graphDataCache.keys{
+            updateData(forGraph: graphDataCache[key]!)
+        }
+    }
+    
+    private func updateForDateChange(){
         if let fdp = fromDatePicker{
             if let tdp = toDatePicker{
-                if let td = trainingDiary{
-                    if let graph = graphView{
-                        let tsb  = td.getTSB(forActivity: selectedActivity, fromDate: fdp.dateValue, toDate: tdp.dateValue)
-                        let tss = td.getValues(forActivity: selectedActivity, andUnit: .TSS, fromDate: fdp.dateValue, toDate: tdp.dateValue)
-                        graph.data1 = tsb.map{$0.tsb}
-                        graph.data2 = tsb.map{$0.atl}
-                        graph.data3 = tsb.map{$0.ctl}
-                        graph.data4 = tss
+                if let graph = graphView{
+                    for key in graphDataCache.keys{
+                        if let filteredData = graphDataCache[key]?.cache.filter({$0.date >= fdp.dateValue && $0.date <= tdp.dateValue}){
+                            graphDataCache[key]?.graph?.data = filteredData
+                            graph.needsDisplay = true
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    
+    //sets up to a standard TSB view
+    private func tsbGraphSetUp(){
+        if let fdp = fromDatePicker{
+            if let tdp = toDatePicker{
+                if let _ = trainingDiary{
+                    if let gv = graphView{
+
+                        let graph1Details = ActivityGraphDefinition(activity: .All, unit: .TSB, period: .Day)
+                        let graph2Details = ActivityGraphDefinition(activity: .All, unit: .ATL, period: .Day)
+                        let graph3Details = ActivityGraphDefinition(activity: .All, unit: .CTL, period: .Day)
+                        let graph4Details = ActivityGraphDefinition(activity: .All, unit: .TSS, period: .Day)
+
                         
-                        graph.xAxisLabelStrings = getXAxisLabels(fromDate: fdp.dateValue      , toDate: tdp.dateValue)
+                        //NOTE must sort out removing this observer when we remove the graph.
+                        graph1Details.addObserver(self, forKeyPath: "name", options: .new, context: nil)
+                        graph2Details.addObserver(self, forKeyPath: "name", options: .new, context: nil)
+                        graph3Details.addObserver(self, forKeyPath: "name", options: .new, context: nil)
+                        graph4Details.addObserver(self, forKeyPath: "name", options: .new, context: nil)
+                        
+                        
+                        graph1Details.graph = GraphView.GraphDefinition( axis: .Primary, type: .Line, fill: true, colour: NSColor.blue, fillGradientStart: NSColor.red, fillGradientEnd: NSColor.blue, gradientAngle: 90.0, name: graph1Details.name, lineWidth: 1.0, priority: 1)
+                        graph2Details.graph = GraphView.GraphDefinition( axis: .Primary, type: .Line, fill: false, colour: NSColor.green, fillGradientStart: NSColor.green, fillGradientEnd: NSColor.green, gradientAngle: 0.0 , name: graph2Details.name, lineWidth: 1.0 , priority: 2)
+                        graph3Details.graph = GraphView.GraphDefinition( axis: .Primary, type: .Line, fill: false, colour: NSColor.red, fillGradientStart: NSColor.red, fillGradientEnd: NSColor.red, gradientAngle: 0.0, name: graph3Details.name, lineWidth: 1.0, priority: 3)
+                        graph4Details.graph = GraphView.GraphDefinition( axis: .Secondary, type: .Point, fill: true, colour: NSColor.yellow, fillGradientStart: NSColor.yellow, fillGradientEnd: NSColor.yellow, gradientAngle: 0.0, name: graph4Details.name, lineWidth: 1.0, priority: 1)
+                        
+                        updateData(forGraph: graph1Details)
+                        updateData(forGraph: graph2Details)
+                        updateData(forGraph: graph3Details)
+                        updateData(forGraph: graph4Details)
+                        
+                        graphDataCache[graph1Details.name] = graph1Details
+                        graphDataCache[graph2Details.name] = graph2Details
+                        graphDataCache[graph3Details.name] = graph3Details
+                        graphDataCache[graph4Details.name] = graph4Details
+                        
+                        //test for table
+                        dataArray.append(graph1Details)
+                        dataArray.append(graph2Details)
+                        dataArray.append(graph3Details)
+                        dataArray.append(graph4Details)
+
+                        gv.xAxisLabelStrings = getXAxisLabels(fromDate: fdp.dateValue, toDate: tdp.dateValue)
+                        gv.add(graph: graph1Details.graph!)
+                        gv.add(graph: graph2Details.graph!)
+                        gv.add(graph: graph3Details.graph!)
+                        gv.add(graph: graph4Details.graph!)
+                        
+                    
                         
                     }
                 }
             }
+        }
+    }
+
+    
+    private func updateData(forGraph g:  ActivityGraphDefinition){
+        if let td = trainingDiary{
+            if let _ = g.graph{
+                let values = td.getValues(forActivity: g.activity, andUnit: g.unit)
+                g.cache = values
+                g.graph?.data = values
+            }
+        }
+    }
+
+    
+    //this gets all data in the diary irrelevant of dates user selected. We will cache the data
+    private func populate(graph: inout GraphView.GraphDefinition, forActivity a: Activity, unit u: Unit){
+        if let td = trainingDiary{
+            graph.data = td.getValues(forActivity: a, andUnit: u)
         }
     }
     

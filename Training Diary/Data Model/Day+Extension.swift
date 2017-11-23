@@ -13,14 +13,12 @@ extension Day{
     
     /* Used when creating base data. We do not want this to fail as when requesting a value for a particular combination of activity, type and unit a valid answer is zero. For example: if this gets asked what the swim squad ascent is then the correct answer is zero. 
     */
+
     func valueFor(activity: Activity, activityType: ActivityType, unit: Unit) -> Double{
         var result = 0.0
         if activityType == ActivityType.All{
-            // in the case of activity.All check if Day knows this value rather than summing over workouts. For instance ATL, CTL, TSB
             if let value = self.value(forKey: activity.keyString(forUnit: unit)){
-                if value is Double{
-                    return value as! Double
-                }
+                return value as! Double
             }
         }
         if let wos = self.workouts{
@@ -31,7 +29,13 @@ extension Day{
         }
         return result
     }
-    
+
+    /* Over ridden this to avoid exceptions being fired if ask for a key that doesn't exist. Instead return nil.
+     This allows me to check for value. Main reason is method valueFor(activity:,activityType:unit:)
+ */
+    public override func value(forUndefinedKey key: String) -> Any? {
+        return nil
+    }
     
     func valueFor(period p: Period, activity a: Activity, activityType at: ActivityType, unit u: Unit ) -> Double{
         switch p{

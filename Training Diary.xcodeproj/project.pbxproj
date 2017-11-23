@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7309AED61FC6CCC100054A6B /* ActivityGraphDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7309AED51FC6CCC100054A6B /* ActivityGraphDefinition.swift */; };
 		731CF8051F981C3300C59AA8 /* RollingSum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731CF8041F981C3300C59AA8 /* RollingSum.swift */; };
 		731CF8071F98467A00C59AA8 /* TSBCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731CF8061F98467A00C59AA8 /* TSBCalculator.swift */; };
 		73265B641FB471A00081D3F9 /* WeightHRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73265B631FB471A00081D3F9 /* WeightHRViewController.swift */; };
@@ -53,6 +54,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7309AED51FC6CCC100054A6B /* ActivityGraphDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityGraphDefinition.swift; sourceTree = "<group>"; };
 		731CF8041F981C3300C59AA8 /* RollingSum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollingSum.swift; sourceTree = "<group>"; };
 		731CF8061F98467A00C59AA8 /* TSBCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSBCalculator.swift; sourceTree = "<group>"; };
 		73265B631FB471A00081D3F9 /* WeightHRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightHRViewController.swift; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 				7333B9F51FB6F199005F424E /* PhysiologicalsArrayController.swift */,
 				7385C4781FAA600A00F48685 /* DaysViewController.swift */,
 				73E25E1A1FC038FC0081FC62 /* GraphViewController.swift */,
+				7309AED51FC6CCC100054A6B /* ActivityGraphDefinition.swift */,
 				7333B8621FA76F3A00E93BF0 /* EddingtonNumbersViewController.swift */,
 				73265B631FB471A00081D3F9 /* WeightHRViewController.swift */,
 				73C58CA81FA8FEB200F57BAE /* BaseDataViewController.swift */,
@@ -287,6 +290,7 @@
 				73B2B9E51F894CC00044DD4E /* ViewController.swift in Sources */,
 				73265B661FB47D240081D3F9 /* Weight+Extension.swift in Sources */,
 				73AF14031FB06A1E002A1B9E /* BaseDataCreatorFactory.swift in Sources */,
+				7309AED61FC6CCC100054A6B /* ActivityGraphDefinition.swift in Sources */,
 				73F270621FAB0CC400D36156 /* TableViewWithColumnSort.swift in Sources */,
 				7369D9EE1FB23DBC00ECAA1E /* DayTypeComboBox.swift in Sources */,
 				73F2119F1FB4A06900062DAE /* JSONImporter.swift in Sources */,
