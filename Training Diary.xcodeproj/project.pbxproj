@@ -49,6 +49,7 @@
 		73D6CC711FC80A75006830DA /* GraphFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D6CC701FC80A75006830DA /* GraphFormat.swift */; };
 		73D6CC771FC86CBE006830DA /* RollingPeriodSum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D6CC761FC86CBE006830DA /* RollingPeriodSum.swift */; };
 		73D6CC791FC86E5D006830DA /* ToDateSum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D6CC781FC86E5D006830DA /* ToDateSum.swift */; };
+		73D6CC7B1FC87DF3006830DA /* AxisComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D6CC7A1FC87DF3006830DA /* AxisComboBox.swift */; };
 		73D8D7151FB5E26700FAB8A3 /* BaseData+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D8D7141FB5E26700FAB8A3 /* BaseData+Extension.swift */; };
 		73E25E191FBEA9150081FC62 /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E25E181FBEA9150081FC62 /* GraphView.swift */; };
 		73E25E1B1FC038FC0081FC62 /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E25E1A1FC038FC0081FC62 /* GraphViewController.swift */; };
@@ -103,6 +104,7 @@
 		73D6CC701FC80A75006830DA /* GraphFormat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphFormat.swift; sourceTree = "<group>"; };
 		73D6CC761FC86CBE006830DA /* RollingPeriodSum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollingPeriodSum.swift; sourceTree = "<group>"; };
 		73D6CC781FC86E5D006830DA /* ToDateSum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDateSum.swift; sourceTree = "<group>"; };
+		73D6CC7A1FC87DF3006830DA /* AxisComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AxisComboBox.swift; sourceTree = "<group>"; };
 		73D8D7141FB5E26700FAB8A3 /* BaseData+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BaseData+Extension.swift"; sourceTree = "<group>"; };
 		73E25E181FBEA9150081FC62 /* GraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
 		73E25E1A1FC038FC0081FC62 /* GraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 				7369D9F11FB24F2B00ECAA1E /* ActivityComboBox.swift */,
 				7333B9F11FB613CA005F424E /* UnitComboBox.swift */,
 				730AE25D1FC732DB00348A63 /* ChartTypeComboBox.swift */,
+				73D6CC7A1FC87DF3006830DA /* AxisComboBox.swift */,
 				7369D9F31FB24F5000ECAA1E /* ActivityTypeComboBox.swift */,
 				733990C21FB34BD200E80D4A /* PeriodComboBox.swift */,
 				73E25E181FBEA9150081FC62 /* GraphView.swift */,
@@ -338,6 +341,7 @@
 				73B2B9F81F894E870044DD4E /* CoreDataStackSingleton.swift in Sources */,
 				731CF8071F98467A00C59AA8 /* TSBCalculator.swift in Sources */,
 				73AF13FF1FB064D2002A1B9E /* RollingSumQueue.swift in Sources */,
+				73D6CC7B1FC87DF3006830DA /* AxisComboBox.swift in Sources */,
 				733990C31FB34BD200E80D4A /* PeriodComboBox.swift in Sources */,
 				73D6CC711FC80A75006830DA /* GraphFormat.swift in Sources */,
 				7333B9F21FB613CA005F424E /* UnitComboBox.swift in Sources */,

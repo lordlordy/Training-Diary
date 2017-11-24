@@ -16,6 +16,7 @@ class GraphView: NSView {
     
     enum Axis: String{
         case Primary, Secondary
+        static var AllAxes = [Primary, Secondary]
     }
     enum ChartType: String{
         case Line, Bar, Point
@@ -26,8 +27,18 @@ class GraphView: NSView {
     @objc class GraphDefinition: NSObject{
         var data: [(date: Date, value: Double)] = [] 
         var name: String
-        var axis: Axis
-        var type: ChartType
+        var axis: Axis = Axis.Primary
+        var type: ChartType = ChartType.Line
+        
+        @objc dynamic var axisString: String{
+            get{ return axis.rawValue }
+            set{ if let a = Axis(rawValue: newValue){ axis = a } }
+        }
+        @objc dynamic var typeString: String{
+            get{ return type.rawValue }
+            set{ if let t = ChartType(rawValue: newValue){ type = t }}
+        }
+        
         @objc var display: Bool = true
         @objc var format: GraphFormat
         //need to figure this out. For some reason if I remove this and use colour in GraphFormat I get an uncaught exception.
@@ -35,9 +46,9 @@ class GraphView: NSView {
             get{return format.colour}
             set{format.colour = newValue}
         }
-        @objc var priority: Int //This gives relative priority of drawing. Remember that things draw on top of each other
+        @objc var priority: Int = 1 //This gives relative priority of drawing. Remember that things draw on top of each other
         
-        static var observerStrings: [String] = ["axis","type","display","format","colour","priority"]
+        static var observerStrings: [String] = ["axisString","typeString","display","format","colour","priority"]
         
         init(name: String,axis: Axis, type: ChartType, format: GraphFormat,  priority: Int){
             self.axis = axis
@@ -91,8 +102,12 @@ class GraphView: NSView {
     }
     
     private func endObserving(_ graph: GraphDefinition){
-        for keyPath in GraphFormat.observerStrings{ graph.format.removeObserver(self, forKeyPath: keyPath)}
-        for keyPath in GraphDefinition.observerStrings{ graph.removeObserver(self, forKeyPath: keyPath)}
+        for keyPath in GraphFormat.observerStrings{
+            graph.format.removeObserver(self, forKeyPath: keyPath)
+        }
+        for keyPath in GraphDefinition.observerStrings{
+            graph.removeObserver(self, forKeyPath: keyPath)
+        }
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
