@@ -178,6 +178,7 @@ class GraphViewController: NSViewController {
                     for key in graphDataCache.keys{
                         if let filteredData = graphDataCache[key]?.cache.filter({$0.date >= fdp.dateValue && $0.date <= tdp.dateValue}){
                             graphDataCache[key]?.graph?.data = filteredData
+                            graph.xAxisLabelStrings = getXAxisLabels(fromDate: fdp.dateValue, toDate: tdp.dateValue)
                             graph.needsDisplay = true
                         }
                     }
@@ -196,6 +197,8 @@ class GraphViewController: NSViewController {
                     if let gv = graphView{
                         // this shouldn't be here. Will refactor out when sort out creating axes in GraphView
                         gv.xAxisLabelStrings = getXAxisLabels(fromDate: fdp.dateValue, toDate: tdp.dateValue)
+                        gv.numberOfPrimaryAxisLines = 6
+                        gv.numberOfSecondaryAxisLines = 8
 
                         let tsbGraph = createGraphDefinition(forActivity: .All, period: .Day, unit: .TSB, type: .Line, axis: .Primary, priority: 4, format: GraphFormat(fill: true, colour: .blue, fillGradientStart: .red, fillGradientEnd: .blue, gradientAngle: 90.0, size: 1.0))
                         let ctlGraph = createGraphDefinition(forActivity: .All, period: .Day, unit: .CTL, type: .Line, axis: .Primary, priority: 3, format: GraphFormat(fill: false, colour: .red, fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 0.0, size: 1.0))
@@ -206,6 +209,7 @@ class GraphViewController: NSViewController {
                         add(graph: ctlGraph)
                         add(graph: atlGraph)
                         add(graph: tssGraph)
+                        
                     }
                 }
             }
@@ -227,6 +231,7 @@ class GraphViewController: NSViewController {
         addObservers(forGraph: g)
         //test for table
         dataArray.append(g)
+        graphDataCache[g.name] = g
         if let gv = graphView{
             gv.add(graph: g.graph!)
         }
@@ -240,7 +245,7 @@ class GraphViewController: NSViewController {
     private func updateData(forGraph g:  ActivityGraphDefinition){
         if let td = trainingDiary{
             if let _ = g.graph{
-                let values = td.getValues(forActivity: g.activity, andUnit: g.unit)
+                let values = td.getValues(forActivity: g.activity, andPeriod: g.period, andUnit: g.unit)
                 g.cache = values
                 g.graph?.data = values
             }
@@ -249,11 +254,11 @@ class GraphViewController: NSViewController {
 
     
     //this gets all data in the diary irrelevant of dates user selected. We will cache the data
-    private func populate(graph: inout GraphView.GraphDefinition, forActivity a: Activity, unit u: Unit){
-        if let td = trainingDiary{
-            graph.data = td.getValues(forActivity: a, andUnit: u)
-        }
-    }
+ //   private func populate(graph: inout GraphView.GraphDefinition, forActivity a: Activity, unit u: Unit){
+   //     if let td = trainingDiary{
+     //       graph.data = td.getValues(forActivity: a, andUnit: u)
+       // }
+    //}
     
     private func getXAxisLabels(fromDate from: Date, toDate to: Date) -> [String]{
         let gap = to.timeIntervalSince(from) / Double(Constants.numberOfXAxisLabels)

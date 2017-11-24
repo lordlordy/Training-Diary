@@ -19,7 +19,7 @@ class RollingPeriodSum{
     func addAndReturnSum(forDate date: Date, value v: Double) -> Double {
             return rollingSumQueue.addAndReturnSum(value: v)
     }
-    
+     
     func resetQueue(){
         rollingSumQueue.resetQueue()
     }

@@ -173,15 +173,27 @@ class GraphView: NSView {
     private var yLabels: [NSTextField] = []
     private var xLabels: [NSTextField] = []
 
-    var gapBetweenPrimaryAxisLines: Double = 50.0{
-        didSet{ self.needsDisplay = true }
-    }
+    @objc var numberOfPrimaryAxisLines: Int = 6{ didSet{ self.needsDisplay = true }}
+    @objc var numberOfSecondaryAxisLines: Int = 6{ didSet{ self.needsDisplay = true }}
     
-    var gapBetweenSecondaryAxisLines: Double = 50.0{
-        didSet{ self.needsDisplay = true }
-    }
+    private var gapBetweenPrimaryAxisLines:     Double{ return calcAxisLineGap(forAxis: .Primary) }
+    private var gapBetweenSecondaryAxisLines:   Double{ return calcAxisLineGap(forAxis: .Primary) }
+    
     var xAxisLabelStrings: [String] = ["1","2","3","4","5","6","7","8","9","10","11"]{
         didSet{ self.needsDisplay = true}
+    }
+    
+    private func calcAxisLineGap(forAxis a: Axis) -> Double{
+        var result = 100.0
+        
+        var range = graphsMaximum(forAxis: a) - graphsMinimum(forAxis: a)
+        if range == 0.0{ range = 10.0}
+        switch a{
+        case .Primary: result = range / Double(numberOfPrimaryAxisLines)
+        case .Secondary: result = range / Double(numberOfSecondaryAxisLines)
+        }
+        
+        return result
     }
 
     override func draw(_ dirtyRect: NSRect) {
