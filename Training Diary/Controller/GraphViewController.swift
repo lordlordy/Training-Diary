@@ -127,7 +127,6 @@ class GraphViewController: NSViewController {
                 updateData(forGraph: graphDefinition)
                 graphView.needsDisplay = true
             }
-        case "colour"?, "size"?, "fill"?, "priority"?, "fillGradientStart"?, "fillGradientEnd"?, "gradientAngle"?, "display"?: graphView.needsDisplay = true
         default:
             print("~~~~~~~ Am I meant to be observing key path \(String(describing: keyPath))")
         }
@@ -145,7 +144,7 @@ class GraphViewController: NSViewController {
                 toDatePicker!.dateValue  = td.lastDayOfDiary!
             }
         }
-        tsbGraphSetUp()
+        initialSetUp()
     }
     
     private func setUpSliders(){
@@ -190,68 +189,52 @@ class GraphViewController: NSViewController {
 
     
     //sets up to a standard TSB view
-    private func tsbGraphSetUp(){
+    private func initialSetUp(){
         if let fdp = fromDatePicker{
             if let tdp = toDatePicker{
                 if let _ = trainingDiary{
                     if let gv = graphView{
-
-                        let graph1Details = ActivityGraphDefinition(activity: .All, unit: .TSB, period: .Day)
-                        let graph2Details = ActivityGraphDefinition(activity: .All, unit: .ATL, period: .Day)
-                        let graph3Details = ActivityGraphDefinition(activity: .All, unit: .CTL, period: .Day)
-                        let graph4Details = ActivityGraphDefinition(activity: .All, unit: .TSS, period: .Day)
-
-                        graph1Details.graph = GraphView.GraphDefinition( axis: .Primary, type: .Line, fill: true, colour: NSColor.blue, fillGradientStart: NSColor.red, fillGradientEnd: NSColor.blue, gradientAngle: 90.0, name: graph1Details.name, lineWidth: 1.0, priority: 4)
-                        graph2Details.graph = GraphView.GraphDefinition( axis: .Primary, type: .Line, fill: false, colour: NSColor.green, fillGradientStart: NSColor.green, fillGradientEnd: NSColor.green, gradientAngle: 0.0 , name: graph2Details.name, lineWidth: 1.0 , priority: 2)
-                        graph3Details.graph = GraphView.GraphDefinition( axis: .Primary, type: .Line, fill: false, colour: NSColor.red, fillGradientStart: NSColor.red, fillGradientEnd: NSColor.red, gradientAngle: 0.0, name: graph3Details.name, lineWidth: 1.0, priority: 3)
-                        graph4Details.graph = GraphView.GraphDefinition( axis: .Secondary, type: .Point, fill: true, colour: NSColor.yellow, fillGradientStart: NSColor.yellow, fillGradientEnd: NSColor.yellow, gradientAngle: 0.0, name: graph4Details.name, lineWidth: 1.0, priority: 1)
-                        
-                        //NOTE must sort out removing this observer when we remove the graph.
-                        addObservers(forGraph: graph1Details)
-                        addObservers(forGraph: graph2Details)
-                        addObservers(forGraph: graph3Details)
-                        addObservers(forGraph: graph4Details)
-
-                        updateData(forGraph: graph1Details)
-                        updateData(forGraph: graph2Details)
-                        updateData(forGraph: graph3Details)
-                        updateData(forGraph: graph4Details)
-                        
-                        graphDataCache[graph1Details.name] = graph1Details
-                        graphDataCache[graph2Details.name] = graph2Details
-                        graphDataCache[graph3Details.name] = graph3Details
-                        graphDataCache[graph4Details.name] = graph4Details
-                        
-                        //test for table
-                        dataArray.append(graph1Details)
-                        dataArray.append(graph2Details)
-                        dataArray.append(graph3Details)
-                        dataArray.append(graph4Details)
-
+                        // this shouldn't be here. Will refactor out when sort out creating axes in GraphView
                         gv.xAxisLabelStrings = getXAxisLabels(fromDate: fdp.dateValue, toDate: tdp.dateValue)
-                        gv.add(graph: graph1Details.graph!)
-                        gv.add(graph: graph2Details.graph!)
-                        gv.add(graph: graph3Details.graph!)
-                        gv.add(graph: graph4Details.graph!)
+
+                        let tsbGraph = createGraphDefinition(forActivity: .All, period: .Day, unit: .TSB, type: .Line, axis: .Primary, priority: 4, format: GraphFormat(fill: true, colour: .blue, fillGradientStart: .red, fillGradientEnd: .blue, gradientAngle: 90.0, size: 1.0))
+                        let ctlGraph = createGraphDefinition(forActivity: .All, period: .Day, unit: .CTL, type: .Line, axis: .Primary, priority: 3, format: GraphFormat(fill: false, colour: .red, fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 0.0, size: 1.0))
+                        let atlGraph = createGraphDefinition(forActivity: .All, period: .Day, unit: .ATL, type: .Line, axis: .Primary, priority: 2, format: GraphFormat(fill: false, colour: .green, fillGradientStart: .green, fillGradientEnd: .green, gradientAngle: 0.0, size: 1.0))
+                        let tssGraph = createGraphDefinition(forActivity: .All, period: .Day, unit: .TSS, type: .Point, axis: .Secondary, priority: 1, format: GraphFormat(fill: true, colour: .yellow, fillGradientStart: .yellow, fillGradientEnd: .yellow, gradientAngle: 0.0, size: 1.0))
                         
-                    
-                        
+                        add(graph: tsbGraph)
+                        add(graph: ctlGraph)
+                        add(graph: atlGraph)
+                        add(graph: tssGraph)
                     }
                 }
             }
         }
     }
 
+    
+    private func createGraphDefinition(forActivity a: Activity, period p: Period, unit u: Unit, type t: GraphView.ChartType, axis: GraphView.Axis, priority: Int,  format f: GraphFormat) -> ActivityGraphDefinition{
+        
+        let graphDetails = ActivityGraphDefinition(activity: a, unit: u, period: p)
+        graphDetails.graph = GraphView.GraphDefinition(name: graphDetails.name, axis: axis, type: t, format: f, priority: priority)
+        //NOTE must sort out removing this observer when we remove the graph.
+        updateData(forGraph: graphDetails)
+        return graphDetails
+        
+    }
+    
+    private func add(graph g: ActivityGraphDefinition){
+        addObservers(forGraph: g)
+        //test for table
+        dataArray.append(g)
+        if let gv = graphView{
+            gv.add(graph: g.graph!)
+        }
+    }
+    
     private func addObservers(forGraph g: ActivityGraphDefinition){
+        //if name changes we need to get new data
         g.addObserver(self, forKeyPath: "name", options: .new, context: nil)
-        g.graph?.addObserver(self, forKeyPath: "colour", options: .new, context: nil)
-        g.graph?.addObserver(self, forKeyPath: "size", options: .new, context: nil)
-        g.graph?.addObserver(self, forKeyPath: "fill", options: .new, context: nil)
-        g.graph?.addObserver(self, forKeyPath: "priority", options: .new, context: nil)
-        g.graph?.addObserver(self, forKeyPath: "fillGradientStart", options: .new, context: nil)
-        g.graph?.addObserver(self, forKeyPath: "fillGradientEnd", options: .new, context: nil)
-        g.graph?.addObserver(self, forKeyPath: "gradientAngle", options: .new, context: nil)
-        g.graph?.addObserver(self, forKeyPath: "display", options: .new, context: nil)
     }
     
     private func updateData(forGraph g:  ActivityGraphDefinition){

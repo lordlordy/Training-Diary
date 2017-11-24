@@ -29,32 +29,28 @@ class GraphView: NSView {
         var axis: Axis
         var type: ChartType
         @objc var display: Bool = true
-        @objc var fill: Bool
-        @objc var colour: NSColor
-        @objc var fillGradientStart: NSColor
-        @objc var fillGradientEnd: NSColor
-        @objc var gradientAngle: CGFloat
-        @objc var size: CGFloat // used for line width and size of points.
+        @objc var format: GraphFormat
+        //need to figure this out. For some reason if I remove this and use colour in GraphFormat I get an uncaught exception.
+        @objc var colour: NSColor{
+            get{return format.colour}
+            set{format.colour = newValue}
+        }
         @objc var priority: Int //This gives relative priority of drawing. Remember that things draw on top of each other
         
-        init(axis: Axis, type: ChartType, fill: Bool, colour: NSColor, fillGradientStart: NSColor, fillGradientEnd: NSColor, gradientAngle: CGFloat, name: String, lineWidth: CGFloat, priority: Int){
+        static var observerStrings: [String] = ["axis","type","display","format","colour","priority"]
+        
+        init(name: String,axis: Axis, type: ChartType, format: GraphFormat,  priority: Int){
             self.axis = axis
             self.type = type
-            self.fill = fill
-            self.colour = colour
-            self.fillGradientStart = fillGradientStart
-            self.fillGradientEnd = fillGradientEnd
-            self.gradientAngle = gradientAngle
+            self.format = format
             self.name = name
-            self.size = lineWidth
             self.priority = priority
         }
         
-        convenience init(data: [(date: Date, value: Double)], axis: Axis, type: ChartType, fill: Bool, colour: NSColor, fillGradientStart: NSColor, fillGradientEnd: NSColor, gradientAngle: CGFloat, name: String, lineWidth: CGFloat, priority: Int){
+        convenience init(name: String, data: [(date: Date, value: Double)], axis: Axis, type: ChartType, format: GraphFormat, priority: Int){
         
-            self.init(axis: axis, type: type, fill: fill, colour: colour, fillGradientStart: fillGradientStart, fillGradientEnd: fillGradientEnd, gradientAngle: gradientAngle, name: name, lineWidth: lineWidth, priority: priority)
+            self.init(name: name, axis: axis, type: type, format: format, priority: priority)
             self.data = data
-            
         }
     }
     
@@ -82,10 +78,28 @@ class GraphView: NSView {
     
     func add(graph: GraphDefinition){
         graphs[graph.name] = graph
+        startObserving(graph)
     }
-    func remove(graphName: String){
-        graphs.removeValue(forKey: graphName)
+    func remove(graph: GraphDefinition){
+        endObserving(graph)
+        graphs.removeValue(forKey: graph.name)
     }
+    
+    private func startObserving(_ graph: GraphDefinition){
+        for keyPath in GraphFormat.observerStrings{ graph.format.addObserver(self, forKeyPath: keyPath, options: .new, context: nil)}
+        for keyPath in GraphDefinition.observerStrings{ graph.addObserver(self, forKeyPath: keyPath, options: .new, context: nil)}
+    }
+    
+    private func endObserving(_ graph: GraphDefinition){
+        for keyPath in GraphFormat.observerStrings{ graph.format.removeObserver(self, forKeyPath: keyPath)}
+        for keyPath in GraphDefinition.observerStrings{ graph.removeObserver(self, forKeyPath: keyPath)}
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        //currently don't switch ... all observed values are assume to require a redraw. Keep an eye on this
+        needsDisplay = true
+    }
+    
     
     
     private func graphsMaximum(forAxis: Axis) -> Double{
@@ -310,17 +324,17 @@ class GraphView: NSView {
             count += 1.0
         }
         
-        if graph.fill{
+        if graph.format.fill{
             let endOfXAxis = coordinatesInView(xValue: Double(graph.data.count), maxX: Double(graph.data.count), minX: 0.0, yValue: 0.0, maxY: maxValue, minY: minValue, dirtyRect)
             path.line(to: endOfXAxis)
-            if let gradient = NSGradient(starting: graph.fillGradientStart  , ending: graph.fillGradientEnd){
-                gradient.draw(in: path, angle: graph.gradientAngle)
+            if let gradient = NSGradient(starting: graph.format.fillGradientStart  , ending: graph.format.fillGradientEnd){
+                gradient.draw(in: path, angle: graph.format.gradientAngle)
             }else{
                 path.fill()
             }
         }
-        path.lineWidth = graph.size
-        graph.colour.setStroke()
+        path.lineWidth = graph.format.size
+        graph.format.colour.setStroke()
         path.stroke()
     }
     
@@ -339,15 +353,15 @@ class GraphView: NSView {
 
 
     private func drawPoint(at: NSPoint, graphDefinition gd: GraphDefinition){
-        let path = NSBezierPath(ovalIn: NSRect(x: at.x-gd.size/2, y: at.y-gd.size/2, width: gd.size, height: gd.size))
+        let path = NSBezierPath(ovalIn: NSRect(x: at.x-gd.format.size/2, y: at.y-gd.format.size/2, width: gd.format.size, height: gd.format.size))
         
-        if gd.fill{
-            if let gradient = NSGradient(starting: gd.fillGradientStart, ending: gd.fillGradientEnd){
-                gradient.draw(in: path, angle: gd.gradientAngle)
+        if gd.format.fill{
+            if let gradient = NSGradient(starting: gd.format.fillGradientStart, ending: gd.format.fillGradientEnd){
+                gradient.draw(in: path, angle: gd.format.gradientAngle)
             }
         }
         
-        gd.colour.setStroke()
+        gd.format.colour.setStroke()
         path.stroke()
     }
     
