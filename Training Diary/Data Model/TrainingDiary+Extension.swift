@@ -54,30 +54,7 @@ extension TrainingDiary{
         return result
     }
 
-/*    func getTSB(forActivity activity: Activity) ->  [(date: Date, ctl: Double, atl: Double, tsb: Double)]{
-        return getTSB(forActivity: activity, fromDate: firstDayOfDiary!)
-    }
-    
-    func getTSB(forActivity activity: Activity, fromDate from: Date) -> [(date: Date, ctl: Double, atl: Double, tsb: Double)]{
-        return getTSB(forActivity: activity, fromDate: from, toDate: lastDayOfDiary!)
-    }
-    
-    func getTSB(forActivity activity: Activity, fromDate from: Date, toDate to: Date) ->   [(date: Date, ctl: Double, atl: Double, tsb: Double)]{
-        let start = Date()
-        let sortedDays = ascendingOrderedDays(fromDate: from, toDate: to)
-        var result: [(Date, Double, Double,Double)] = []
-        
-        for day in sortedDays{
-            let a = day.value(forKey: activity.keyString(forUnit: .ATL)) as! Double
-            let c = day.value(forKey: activity.keyString(forUnit: .CTL)) as! Double
-            let t = day.value(forKey: activity.keyString(forUnit: .TSB)) as! Double
-            result.append((date: day.date!, ctl: c, atl: a, tsb: t))
-        }
-        print("Time taken to get TSB values for \(activity) = \(Date().timeIntervalSince(start)) seconds")
 
-        return result
-    }
-*/
     func getValues(forActivity activity: Activity, andUnit unit: Unit) -> [(date: Date, value:Double)]{
         return getValues(forActivity: activity, andUnit: unit, fromDate: firstDayOfDiary!, toDate: lastDayOfDiary!)
     }
@@ -96,6 +73,34 @@ extension TrainingDiary{
             }
         }
         print("Time taken to get diary values for \(activity):\(unit) = \(Date().timeIntervalSince(start)) seconds")
+        return result
+    }
+
+    // not this can be pretty time consuming if asking for things like RYear
+    func getValues(forActivity activity: Activity, andPeriod period: Period, andUnit unit: Unit) -> [(date: Date, value:Double)]{
+        if let results = optimisedCalculation(forActivity: activity, andPeriod: period, andUnit: unit){
+            //optimized calculation available
+            return results
+        }
+        return getValues(forActivity: activity, andPeriod: period, andUnit: unit, fromDate: firstDayOfDiary!)
+    }
+
+    // not this can be pretty time consuming if asking for things like RYear
+    func getValues(forActivity activity: Activity, andPeriod period: Period, andUnit unit: Unit, fromDate from: Date) -> [(date: Date, value:Double)]{
+        return getValues(forActivity: activity, andPeriod: period, andUnit: unit, fromDate: from, toDate: lastDayOfDiary!)
+    }
+
+    // not this can be pretty time consuming if asking for things like RYear
+    func getValues(forActivity activity: Activity, andPeriod period: Period, andUnit unit: Unit, fromDate from: Date, toDate to: Date) -> [(date: Date, value:Double)]{
+        let start = Date()
+        var result: [(date: Date, value: Double)] = []
+        let sortedDays = ascendingOrderedDays(fromDate: from, toDate: to)
+        if sortedDays.count > 0 {
+            for day in sortedDays{
+                result.append((date: day.date!, value: day.valueFor(period: period, activity: activity, activityType: ActivityType.All, unit: unit)))
+            }
+        }
+        print("Time taken to get diary values for \(activity):\(period.rawValue):\(unit) = \(Date().timeIntervalSince(start)) seconds")
         return result
     }
     
@@ -121,6 +126,34 @@ extension TrainingDiary{
         }
         
         print("Calc TSB for \(activity.rawValue) took \(Date().timeIntervalSince(start)) seconds")
+    }
+    
+    // this is focussed on the rolling periods. It is very time consuming to just loop through and ask each day for it's rolling period - by way of example. RollingYear for all days would require summing 365 days for every day - thats 5,000 x 365 sums - if we ask each day individually. If we run through the days and keep a total as we go there is ~ 2 sums per day. So should be ~ 180 times faster. Sacrifising generalisation for speed here.
+    private func optimisedCalculation(forActivity activity: Activity, andPeriod period: Period, andUnit unit: Unit) -> [(date: Date, value:Double)]?{
+        print("STARTING optimized calculation for \(activity):\(period.rawValue):\(unit)...")
+        let start = Date()
+        var result: [(date: Date, value:Double)] = []
+        var rSum: RollingPeriodSum
+        switch period{
+        case .rWeek:    rSum = RollingPeriodSum.init(size: 7)
+        case .rMonth:   rSum = RollingPeriodSum.init(size: 30)
+        case .rYear:    rSum = RollingPeriodSum.init(size: 365)
+        case .WeekToDate: rSum  = ToDateSum(size: 7, rule: {$0.isEndOfWeek()})
+        case .MonthToDate: rSum  = ToDateSum(size: 31, rule: {$0.isEndOfMonth()})
+        case .YearToDate: rSum  = ToDateSum(size: 366, rule: {$0.isEndOfYear()})
+        default:
+            print("... no need for period: \(period.rawValue)")
+            return nil
+        }
+        
+        for d in ascendingOrderedDays(){
+            let sum = rSum.addAndReturnSum(forDate: d.date!, value: d.valueFor(activity: activity, activityType: ActivityType.All, unit: unit))
+            result.append((d.date!, sum))
+        }
+        
+        print("Optimised took \(Date().timeIntervalSince(start)) seconds")
+        
+        return result
     }
 
     private func tsbFactors(forActivity activity: Activity) -> (ctlYDayFactor: Double,ctlDayFactor:Double, atlYDayFactor: Double, atlDayFactor: Double){
