@@ -17,8 +17,8 @@ class GraphViewController: NSViewController {
     
     //for the moment this is just to see if I can get table to work for the graphs
     @objc dynamic var dataArray: [ActivityGraphDefinition] = []
-    private var graphDataCache: [String: ActivityGraphDefinition] = [:]
-
+    //this cache is Training Diary specific so will need clearing if training diary is set different.
+    private var cache: [String:[(date:Date, value:Double)]] = [:]
     
     @objc dynamic var trainingDiary: TrainingDiary?{
         didSet{
@@ -36,8 +36,8 @@ class GraphViewController: NSViewController {
     
 
     @IBAction func activityChanged(_ sender: NSComboBox) {
-        for key in graphDataCache.keys{
-            graphDataCache[key]?.activityString = sender.stringValue
+        for graph in dataArray{
+            graph.activityString = sender.stringValue
         }
         updateGraphs()
         graphView.needsDisplay = true
@@ -166,22 +166,25 @@ class GraphViewController: NSViewController {
     }
     
     private func updateGraphs(){
-        for key in graphDataCache.keys{
-            updateData(forGraph: graphDataCache[key]!)
+        for graph in dataArray{
+            updateData(forGraph: graph)
         }
     }
     
     private func updateForDateChange(){
+        for g in dataArray{
+            updateForDateChange(forGraph: g)
+        }
+    }
+    
+    private func updateForDateChange(forGraph g: ActivityGraphDefinition){
         if let fdp = fromDatePicker{
             if let tdp = toDatePicker{
                 if let graph = graphView{
-                    for key in graphDataCache.keys{
-                        if let filteredData = graphDataCache[key]?.cache.filter({$0.date >= fdp.dateValue && $0.date <= tdp.dateValue}){
-                            graphDataCache[key]?.graph?.data = filteredData
-                            graph.xAxisLabelStrings = getXAxisLabels(fromDate: fdp.dateValue, toDate: tdp.dateValue)
-                            graph.needsDisplay = true
-                        }
-                    }
+                    let filteredData = g.cache.filter({$0.date >= fdp.dateValue && $0.date <= tdp.dateValue})
+                    g.graph?.data = filteredData
+                    graph.xAxisLabelStrings = getXAxisLabels(fromDate: fdp.dateValue, toDate: tdp.dateValue)
+                    graph.needsDisplay = true
                 }
             }
         }
@@ -231,7 +234,6 @@ class GraphViewController: NSViewController {
         addObservers(forGraph: g)
         //test for table
         dataArray.append(g)
-        graphDataCache[g.name] = g
         if let gv = graphView{
             gv.add(graph: g.graph!)
         }
@@ -244,22 +246,18 @@ class GraphViewController: NSViewController {
     
     private func updateData(forGraph g:  ActivityGraphDefinition){
         if let td = trainingDiary{
-            if let _ = g.graph{
+            //check cache first
+            if let cachedValues = cache[g.name]{
+                g.cache = cachedValues
+            }else{
                 let values = td.getValues(forActivity: g.activity, andPeriod: g.period, andUnit: g.unit)
                 g.cache = values
-                g.graph?.data = values
-            }
+                cache[g.name] = values
+            }            
+            updateForDateChange(forGraph: g)
         }
     }
 
-    
-    //this gets all data in the diary irrelevant of dates user selected. We will cache the data
- //   private func populate(graph: inout GraphView.GraphDefinition, forActivity a: Activity, unit u: Unit){
-   //     if let td = trainingDiary{
-     //       graph.data = td.getValues(forActivity: a, andUnit: u)
-       // }
-    //}
-    
     private func getXAxisLabels(fromDate from: Date, toDate to: Date) -> [String]{
         let gap = to.timeIntervalSince(from) / Double(Constants.numberOfXAxisLabels)
         var result: [String] = []
