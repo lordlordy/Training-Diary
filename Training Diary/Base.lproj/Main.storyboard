@@ -5817,7 +5817,7 @@ IA
                                                                     <rect key="frame" x="0.0" y="0.0" width="64" height="17"/>
                                                                     <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <connections>
-                                                                        <binding destination="Tx6-36-wk8" name="value" keyPath="objectValue.graph.colour" id="b3K-Kj-fzI"/>
+                                                                        <binding destination="Tx6-36-wk8" name="value" keyPath="objectValue.graph.colour" id="n8D-bk-CXc"/>
                                                                     </connections>
                                                                 </colorWell>
                                                             </subviews>
@@ -5856,7 +5856,7 @@ IA
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                     <connections>
-                                                                        <binding destination="Ycf-SS-Nwq" name="value" keyPath="objectValue.graph.size" id="GQx-i4-arf"/>
+                                                                        <binding destination="Ycf-SS-Nwq" name="value" keyPath="objectValue.graph.format.size" id="uay-iT-E0a"/>
                                                                     </connections>
                                                                 </textField>
                                                             </subviews>
@@ -5926,7 +5926,7 @@ IA
                                                                         <font key="font" metaFont="system"/>
                                                                     </buttonCell>
                                                                     <connections>
-                                                                        <binding destination="6NG-Sq-aAu" name="value" keyPath="objectValue.graph.fill" id="bGS-v5-jcZ"/>
+                                                                        <binding destination="6NG-Sq-aAu" name="value" keyPath="objectValue.graph.format.fill" id="ZPB-Im-hVG"/>
                                                                     </connections>
                                                                 </button>
                                                             </subviews>
@@ -5960,7 +5960,7 @@ IA
                                                                     <rect key="frame" x="0.0" y="0.0" width="64" height="17"/>
                                                                     <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <connections>
-                                                                        <binding destination="XrN-v8-FqH" name="value" keyPath="objectValue.graph.fillGradientStart" id="igR-ku-Qdx"/>
+                                                                        <binding destination="XrN-v8-FqH" name="value" keyPath="objectValue.graph.format.fillGradientStart" id="ufk-Ew-Bdg"/>
                                                                     </connections>
                                                                 </colorWell>
                                                             </subviews>
@@ -5994,7 +5994,7 @@ IA
                                                                     <rect key="frame" x="0.0" y="0.0" width="64" height="17"/>
                                                                     <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <connections>
-                                                                        <binding destination="oar-7K-AV4" name="value" keyPath="objectValue.graph.fillGradientEnd" id="ZJl-id-b6W"/>
+                                                                        <binding destination="oar-7K-AV4" name="value" keyPath="objectValue.graph.format.fillGradientEnd" id="hsh-BM-iyp"/>
                                                                     </connections>
                                                                 </colorWell>
                                                             </subviews>
@@ -6028,7 +6028,7 @@ IA
                                                                     <rect key="frame" x="-2" y="-2" width="68" height="19"/>
                                                                     <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="360" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="7rT-cP-Qs6"/>
                                                                     <connections>
-                                                                        <binding destination="tEf-TM-HhB" name="value" keyPath="objectValue.graph.gradientAngle" id="F3a-In-De6"/>
+                                                                        <binding destination="tEf-TM-HhB" name="value" keyPath="objectValue.graph.format.gradientAngle" id="bbb-fT-M2R"/>
                                                                     </connections>
                                                                 </slider>
                                                             </subviews>

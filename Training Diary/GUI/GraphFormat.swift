@@ -17,13 +17,16 @@ import Cocoa
     @objc var fillGradientEnd: NSColor
     @objc var gradientAngle: CGFloat
     @objc var size: CGFloat // used for line width and size of points.
+    
+    static let observerStrings: [String] = ["fill","colour","fillGradientStart","fillGradientEnd", "gradientAngle","size"]
 
-    init(fill f: Bool, colour c: NSColor, fillGradientStart fgs: NSColor, fillGradientEnd fge: NSColor, gradientAngle ga: CGFloat, size s: CGFloat){
-        fill = f
-        colour = c
-        fillGradientStart = fgs
-        fillGradientEnd = fgs
-        gradientAngle = ga
-        size = s
+
+    init(fill: Bool, colour: NSColor, fillGradientStart: NSColor, fillGradientEnd: NSColor, gradientAngle: CGFloat, size: CGFloat){
+        self.fill = fill
+        self.colour = colour
+        self.fillGradientStart = fillGradientStart
+        self.fillGradientEnd = fillGradientEnd
+        self.gradientAngle = gradientAngle
+        self.size = size
     }
 }
