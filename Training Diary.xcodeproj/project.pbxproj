@@ -47,6 +47,8 @@
         73C58CA71FA8EFD200F57BAE /* EddingtonNumber+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C58CA61FA8EFD200F57BAE /* EddingtonNumber+Extension.swift */; };
         73C58CA91FA8FEB200F57BAE /* BaseDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C58CA81FA8FEB200F57BAE /* BaseDataViewController.swift */; };
         73D6CC711FC80A75006830DA /* GraphFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D6CC701FC80A75006830DA /* GraphFormat.swift */; };
+        73D6CC771FC86CBE006830DA /* RollingPeriodSum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D6CC761FC86CBE006830DA /* RollingPeriodSum.swift */; };
+        73D6CC791FC86E5D006830DA /* ToDateSum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D6CC781FC86E5D006830DA /* ToDateSum.swift */; };
         73D8D7151FB5E26700FAB8A3 /* BaseData+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D8D7141FB5E26700FAB8A3 /* BaseData+Extension.swift */; };
         73E25E191FBEA9150081FC62 /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E25E181FBEA9150081FC62 /* GraphView.swift */; };
         73E25E1B1FC038FC0081FC62 /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E25E1A1FC038FC0081FC62 /* GraphViewController.swift */; };
@@ -99,6 +101,8 @@
         73C58CA61FA8EFD200F57BAE /* EddingtonNumber+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EddingtonNumber+Extension.swift"; sourceTree = "<group>"; };
         73C58CA81FA8FEB200F57BAE /* BaseDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDataViewController.swift; sourceTree = "<group>"; };
         73D6CC701FC80A75006830DA /* GraphFormat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphFormat.swift; sourceTree = "<group>"; };
+        73D6CC761FC86CBE006830DA /* RollingPeriodSum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollingPeriodSum.swift; sourceTree = "<group>"; };
+        73D6CC781FC86E5D006830DA /* ToDateSum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDateSum.swift; sourceTree = "<group>"; };
         73D8D7141FB5E26700FAB8A3 /* BaseData+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BaseData+Extension.swift"; sourceTree = "<group>"; };
         73E25E181FBEA9150081FC62 /* GraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
         73E25E1A1FC038FC0081FC62 /* GraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
@@ -145,9 +149,7 @@
                 73B2B9E91F894CC00044DD4E /* Assets.xcassets */,
                 73B2B9EE1F894CC00044DD4E /* Info.plist */,
                 73B2B9EB1F894CC00044DD4E /* Main.storyboard */,
-                731CF8041F981C3300C59AA8 /* RollingSum.swift */,
                 73B2B9EF1F894CC00044DD4E /* Training_Diary.entitlements */,
-                731CF8061F98467A00C59AA8 /* TSBCalculator.swift */,
             );
             path = "Training Diary";
             sourceTree = "<group>";
@@ -160,6 +162,8 @@
                 732807081FACBBF100658833 /* LinkedList.swift */,
                 7328070A1FACBC2900658833 /* Queue.swift */,
                 73AF13FE1FB064D2002A1B9E /* RollingSumQueue.swift */,
+                73D6CC781FC86E5D006830DA /* ToDateSum.swift */,
+                73D6CC761FC86CBE006830DA /* RollingPeriodSum.swift */,
             );
             path = "Type Extensions";
             sourceTree = "<group>";
@@ -217,6 +221,8 @@
                 73C3B37C1F97AC1400ED6108 /* EddingtonNumberCalculator.swift */,
                 73BF51A41FAC7F4400390D65 /* BaseDataCalculator.swift */,
                 73AF14021FB06A1E002A1B9E /* BaseDataCreatorFactory.swift */,
+                731CF8041F981C3300C59AA8 /* RollingSum.swift */,
+                731CF8061F98467A00C59AA8 /* TSBCalculator.swift */,
             );
             path = "Data Model";
             sourceTree = "<group>";
@@ -309,6 +315,7 @@
                 7385C4791FAA600A00F48685 /* DaysViewController.swift in Sources */,
                 7369D9F81FB25B7600ECAA1E /* SleepQualityComboBox.swift in Sources */,
                 73444C3F1F96AB9B00B3E84D /* Enumerations.swift in Sources */,
+                73D6CC791FC86E5D006830DA /* ToDateSum.swift in Sources */,
                 73E25E191FBEA9150081FC62 /* GraphView.swift in Sources */,
                 7369D9F01FB24EEE00ECAA1E /* BikeComboBox.swift in Sources */,
                 7333B9F61FB6F199005F424E /* PhysiologicalsArrayController.swift in Sources */,
@@ -319,6 +326,7 @@
                 73C58CA71FA8EFD200F57BAE /* EddingtonNumber+Extension.swift in Sources */,
                 7333B8631FA76F3A00E93BF0 /* EddingtonNumbersViewController.swift in Sources */,
                 730AE25E1FC732DB00348A63 /* ChartTypeComboBox.swift in Sources */,
+                73D6CC771FC86CBE006830DA /* RollingPeriodSum.swift in Sources */,
                 73B3188D1FAB78D000B75550 /* String+Extension.swift in Sources */,
                 73E582631F8A12A500B6E25D /* DaysArrayController.swift in Sources */,
                 7369D9FA1FB2C97400ECAA1E /* TrainingDiary+Extension.swift in Sources */,
