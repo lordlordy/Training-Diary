@@ -16,7 +16,8 @@ class DaysArrayController: NSArrayController {
         day.setValue(Date().startOfDay(), forKey: "date")
         return day
     }
-
+    
+    
 
 
 }

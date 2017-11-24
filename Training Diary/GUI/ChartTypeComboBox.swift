@@ -18,7 +18,5 @@ class ChartTypeComboBox: NSComboBox {
     func selectedChartType() -> GraphView.ChartType?{
         return GraphView.ChartType(rawValue: self.stringValue)
     }
-    
-    
-    
+
 }

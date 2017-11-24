@@ -50,6 +50,7 @@ import Foundation
     
     override convenience init(){
         self.init(activity: .All, unit: .KM, period: .Day)
+        graph = GraphView.GraphDefinition(name: self.name, axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .black, fillGradientStart: .black, fillGradientEnd: .black, gradientAngle: 0.0, size: 1.0), priority: 1)
     }
     
     convenience init(graph: GraphView.GraphDefinition,activity a: Activity, unit u: Unit, period p: Period) {

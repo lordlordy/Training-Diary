@@ -11,12 +11,12 @@ import Cocoa
 //this is intentionally set up as a class rather than struct so that it is passed by reference.
 
 @objc class GraphFormat: NSObject{
-    @objc var fill: Bool
+    @objc var fill: Bool = false
     @objc var colour: NSColor
     @objc var fillGradientStart: NSColor
     @objc var fillGradientEnd: NSColor
     @objc var gradientAngle: CGFloat
-    @objc var size: CGFloat // used for line width and size of points.
+    @objc var size: CGFloat = 1.0 // used for line width and size of points.
     
     static let observerStrings: [String] = ["fill","colour","fillGradientStart","fillGradientEnd", "gradientAngle","size"]
 

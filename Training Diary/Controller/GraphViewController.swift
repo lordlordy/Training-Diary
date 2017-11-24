@@ -16,7 +16,11 @@ class GraphViewController: NSViewController {
     }
     
     //for the moment this is just to see if I can get table to work for the graphs
-    @objc dynamic var dataArray: [ActivityGraphDefinition] = []
+    @objc dynamic var dataArray: [ActivityGraphDefinition] = []{
+        willSet{ oldArray = dataArray}
+        didSet{ dataArrayChanged() }
+    }
+    private var oldArray: [ActivityGraphDefinition]?
     //this cache is Training Diary specific so will need clearing if training diary is set different.
     private var cache: [String:[(date:Date, value:Double)]] = [:]
     
@@ -34,7 +38,6 @@ class GraphViewController: NSViewController {
     @IBOutlet weak var toDateSlider: NSSlider!
     @IBOutlet weak var activityComboBox: NSComboBox!
     
-
     @IBAction func activityChanged(_ sender: NSComboBox) {
         for graph in dataArray{
             graph.activityString = sender.stringValue
@@ -208,10 +211,11 @@ class GraphViewController: NSViewController {
                         let atlGraph = createGraphDefinition(forActivity: .All, period: .Day, unit: .ATL, type: .Line, axis: .Primary, priority: 2, format: GraphFormat(fill: false, colour: .green, fillGradientStart: .green, fillGradientEnd: .green, gradientAngle: 0.0, size: 1.0))
                         let tssGraph = createGraphDefinition(forActivity: .All, period: .Day, unit: .TSS, type: .Point, axis: .Secondary, priority: 1, format: GraphFormat(fill: true, colour: .yellow, fillGradientStart: .yellow, fillGradientEnd: .yellow, gradientAngle: 0.0, size: 1.0))
                         
-                        add(graph: tsbGraph)
-                        add(graph: ctlGraph)
-                        add(graph: atlGraph)
-                        add(graph: tssGraph)
+                        
+                        dataArray.append(tsbGraph)
+                        dataArray.append(ctlGraph)
+                        dataArray.append(atlGraph)
+                        dataArray.append(tssGraph)
                         
                     }
                 }
@@ -230,18 +234,58 @@ class GraphViewController: NSViewController {
         
     }
     
+    // this is called when the dataArray is changed. So need to update our set of graphs
+    private func dataArrayChanged(){
+        print("Array of graphs has changed. There were \(String(describing: oldArray?.count)) graphs")
+        print("there are now \(dataArray.count) graphs")
+        if (oldArray?.count)! > dataArray.count{
+            //item removed
+            for old in oldArray!{
+                if !dataArray.contains(old){
+                    print("\(old.name) removed")
+                    remove(graph: old)
+                    if let gv = graphView{
+                        gv.needsDisplay = true
+                    }
+                }
+            }
+        }else{
+            //item added
+            for new in dataArray{
+                if !(oldArray?.contains(new))!{
+                    print("\(new.name) added")
+                    add(graph: new)
+                    updateData(forGraph: new)
+                }
+            }
+        }
+        
+        //need to keep graphs in graphView inline.
+     }
+    
     private func add(graph g: ActivityGraphDefinition){
         addObservers(forGraph: g)
         //test for table
-        dataArray.append(g)
         if let gv = graphView{
             gv.add(graph: g.graph!)
         }
     }
     
+    private func remove(graph g: ActivityGraphDefinition){
+        removeObservers(forGraph: g)
+        if let gv = graphView{
+            gv.remove(graph: g.graph!)
+        }
+        
+    }
+    
     private func addObservers(forGraph g: ActivityGraphDefinition){
         //if name changes we need to get new data
         g.addObserver(self, forKeyPath: "name", options: .new, context: nil)
+    }
+    
+    private func removeObservers(forGraph g: ActivityGraphDefinition){
+        g.removeObserver(self, forKeyPath: "name")
     }
     
     private func updateData(forGraph g:  ActivityGraphDefinition){
