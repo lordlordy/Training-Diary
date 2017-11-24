@@ -16,6 +16,7 @@ class AxisComboBox: NSComboBox {
     }
     
     func selectedChartType() -> GraphView.Axis?{
+        print("returning chart type")
         return GraphView.Axis(rawValue: self.stringValue)
     }
      

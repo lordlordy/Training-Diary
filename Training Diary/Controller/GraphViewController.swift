@@ -20,6 +20,7 @@ class GraphViewController: NSViewController {
         willSet{ oldArray = dataArray}
         didSet{ dataArrayChanged() }
     }
+    //this is here for want of a better way to react to additions and removals from the data array.
     private var oldArray: [ActivityGraphDefinition]?
     //this cache is Training Diary specific so will need clearing if training diary is set different.
     private var cache: [String:[(date:Date, value:Double)]] = [:]

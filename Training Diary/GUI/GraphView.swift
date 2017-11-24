@@ -65,7 +65,14 @@ class GraphView: NSView {
         }
     }
     
-    private var graphs: [String:GraphDefinition]                 = [:]
+    private var graphs: [String:GraphDefinition]                 = [:]{
+        didSet{
+            print("didSet on graph dictionary in Graphview")
+            print(graphs)
+            
+        }
+        
+    }
    // note the order here. High priority graphs will show on top ... so are drawn last. So this order descending
     private var priorityOrderedGraphs: [GraphDefinition]{ return graphs.values.sorted(by: {$0.priority > $1.priority}) }
 

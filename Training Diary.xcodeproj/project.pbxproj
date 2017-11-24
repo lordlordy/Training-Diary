@@ -1,537 +1,541 @@
 // !$*UTF8*$!
 {
-    archiveVersion = 1;
-    classes = {
-    };
-    objectVersion = 48;
-    objects = {
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
 
 /* Begin PBXBuildFile section */
-        7309AED61FC6CCC100054A6B /* ActivityGraphDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7309AED51FC6CCC100054A6B /* ActivityGraphDefinition.swift */; };
-        730AE25E1FC732DB00348A63 /* ChartTypeComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730AE25D1FC732DB00348A63 /* ChartTypeComboBox.swift */; };
-        731CF8051F981C3300C59AA8 /* RollingSum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731CF8041F981C3300C59AA8 /* RollingSum.swift */; };
-        731CF8071F98467A00C59AA8 /* TSBCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731CF8061F98467A00C59AA8 /* TSBCalculator.swift */; };
-        73265B641FB471A00081D3F9 /* WeightHRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73265B631FB471A00081D3F9 /* WeightHRViewController.swift */; };
-        73265B661FB47D240081D3F9 /* Weight+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73265B651FB47D240081D3F9 /* Weight+Extension.swift */; };
-        732807091FACBBF100658833 /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732807081FACBBF100658833 /* LinkedList.swift */; };
-        7328070B1FACBC2900658833 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7328070A1FACBC2900658833 /* Queue.swift */; };
-        7333B8631FA76F3A00E93BF0 /* EddingtonNumbersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7333B8621FA76F3A00E93BF0 /* EddingtonNumbersViewController.swift */; };
-        7333B9F21FB613CA005F424E /* UnitComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7333B9F11FB613CA005F424E /* UnitComboBox.swift */; };
-        7333B9F41FB6E04C005F424E /* WeightsArrayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7333B9F31FB6E04C005F424E /* WeightsArrayController.swift */; };
-        7333B9F61FB6F199005F424E /* PhysiologicalsArrayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7333B9F51FB6F199005F424E /* PhysiologicalsArrayController.swift */; };
-        733990C31FB34BD200E80D4A /* PeriodComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733990C21FB34BD200E80D4A /* PeriodComboBox.swift */; };
-        73444C3F1F96AB9B00B3E84D /* Enumerations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73444C3E1F96AB9B00B3E84D /* Enumerations.swift */; };
-        7369D9EE1FB23DBC00ECAA1E /* DayTypeComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7369D9ED1FB23DBC00ECAA1E /* DayTypeComboBox.swift */; };
-        7369D9F01FB24EEE00ECAA1E /* BikeComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7369D9EF1FB24EEE00ECAA1E /* BikeComboBox.swift */; };
-        7369D9F21FB24F2B00ECAA1E /* ActivityComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7369D9F11FB24F2B00ECAA1E /* ActivityComboBox.swift */; };
-        7369D9F41FB24F5000ECAA1E /* ActivityTypeComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7369D9F31FB24F5000ECAA1E /* ActivityTypeComboBox.swift */; };
-        7369D9F61FB24F8C00ECAA1E /* TSSMethodComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7369D9F51FB24F8C00ECAA1E /* TSSMethodComboBox.swift */; };
-        7369D9F81FB25B7600ECAA1E /* SleepQualityComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7369D9F71FB25B7600ECAA1E /* SleepQualityComboBox.swift */; };
-        7369D9FA1FB2C97400ECAA1E /* TrainingDiary+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7369D9F91FB2C97400ECAA1E /* TrainingDiary+Extension.swift */; };
-        7385C4791FAA600A00F48685 /* DaysViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7385C4781FAA600A00F48685 /* DaysViewController.swift */; };
-        73AF13FF1FB064D2002A1B9E /* RollingSumQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AF13FE1FB064D2002A1B9E /* RollingSumQueue.swift */; };
-        73AF14031FB06A1E002A1B9E /* BaseDataCreatorFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AF14021FB06A1E002A1B9E /* BaseDataCreatorFactory.swift */; };
-        73B2B9E31F894CC00044DD4E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B2B9E21F894CC00044DD4E /* AppDelegate.swift */; };
-        73B2B9E51F894CC00044DD4E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B2B9E41F894CC00044DD4E /* ViewController.swift */; };
-        73B2B9E81F894CC00044DD4E /* Training_Diary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 73B2B9E61F894CC00044DD4E /* Training_Diary.xcdatamodeld */; };
-        73B2B9EA1F894CC00044DD4E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 73B2B9E91F894CC00044DD4E /* Assets.xcassets */; };
-        73B2B9ED1F894CC00044DD4E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 73B2B9EB1F894CC00044DD4E /* Main.storyboard */; };
-        73B2B9F81F894E870044DD4E /* CoreDataStackSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B2B9F71F894E870044DD4E /* CoreDataStackSingleton.swift */; };
-        73B2B9FC1F896F920044DD4E /* TransformerNSNumberToTimeFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B2B9FB1F896F920044DD4E /* TransformerNSNumberToTimeFormat.swift */; };
-        73B2BA001F898BF30044DD4E /* Workout+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B2B9FF1F898BF30044DD4E /* Workout+Extension.swift */; };
-        73B2BA021F898C060044DD4E /* Day+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B2BA011F898C060044DD4E /* Day+Extension.swift */; };
-        73B3188D1FAB78D000B75550 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B3188C1FAB78D000B75550 /* String+Extension.swift */; };
-        73BF51A51FAC7F4400390D65 /* BaseDataCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73BF51A41FAC7F4400390D65 /* BaseDataCalculator.swift */; };
-        73C3B37D1F97AC1400ED6108 /* EddingtonNumberCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C3B37C1F97AC1400ED6108 /* EddingtonNumberCalculator.swift */; };
-        73C3B37F1F97DC5A00ED6108 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C3B37E1F97DC5A00ED6108 /* Date+Extension.swift */; };
-        73C58CA71FA8EFD200F57BAE /* EddingtonNumber+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C58CA61FA8EFD200F57BAE /* EddingtonNumber+Extension.swift */; };
-        73C58CA91FA8FEB200F57BAE /* BaseDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C58CA81FA8FEB200F57BAE /* BaseDataViewController.swift */; };
-        73D6CC711FC80A75006830DA /* GraphFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D6CC701FC80A75006830DA /* GraphFormat.swift */; };
-        73D6CC771FC86CBE006830DA /* RollingPeriodSum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D6CC761FC86CBE006830DA /* RollingPeriodSum.swift */; };
-        73D6CC791FC86E5D006830DA /* ToDateSum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D6CC781FC86E5D006830DA /* ToDateSum.swift */; };
-        73D8D7151FB5E26700FAB8A3 /* BaseData+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D8D7141FB5E26700FAB8A3 /* BaseData+Extension.swift */; };
-        73E25E191FBEA9150081FC62 /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E25E181FBEA9150081FC62 /* GraphView.swift */; };
-        73E25E1B1FC038FC0081FC62 /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E25E1A1FC038FC0081FC62 /* GraphViewController.swift */; };
-        73E582631F8A12A500B6E25D /* DaysArrayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E582621F8A12A500B6E25D /* DaysArrayController.swift */; };
-        73F2119F1FB4A06900062DAE /* JSONImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F2119E1FB4A06900062DAE /* JSONImporter.swift */; };
-        73F270621FAB0CC400D36156 /* TableViewWithColumnSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F270611FAB0CC400D36156 /* TableViewWithColumnSort.swift */; };
+		7309AED61FC6CCC100054A6B /* ActivityGraphDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7309AED51FC6CCC100054A6B /* ActivityGraphDefinition.swift */; };
+		730AE25E1FC732DB00348A63 /* ChartTypeComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730AE25D1FC732DB00348A63 /* ChartTypeComboBox.swift */; };
+		731CF8051F981C3300C59AA8 /* RollingSum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731CF8041F981C3300C59AA8 /* RollingSum.swift */; };
+		731CF8071F98467A00C59AA8 /* TSBCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731CF8061F98467A00C59AA8 /* TSBCalculator.swift */; };
+		73265B641FB471A00081D3F9 /* WeightHRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73265B631FB471A00081D3F9 /* WeightHRViewController.swift */; };
+		73265B661FB47D240081D3F9 /* Weight+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73265B651FB47D240081D3F9 /* Weight+Extension.swift */; };
+		732807091FACBBF100658833 /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732807081FACBBF100658833 /* LinkedList.swift */; };
+		7328070B1FACBC2900658833 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7328070A1FACBC2900658833 /* Queue.swift */; };
+		7333B8631FA76F3A00E93BF0 /* EddingtonNumbersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7333B8621FA76F3A00E93BF0 /* EddingtonNumbersViewController.swift */; };
+		7333B9F21FB613CA005F424E /* UnitComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7333B9F11FB613CA005F424E /* UnitComboBox.swift */; };
+		7333B9F41FB6E04C005F424E /* WeightsArrayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7333B9F31FB6E04C005F424E /* WeightsArrayController.swift */; };
+		7333B9F61FB6F199005F424E /* PhysiologicalsArrayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7333B9F51FB6F199005F424E /* PhysiologicalsArrayController.swift */; };
+		733990C31FB34BD200E80D4A /* PeriodComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733990C21FB34BD200E80D4A /* PeriodComboBox.swift */; };
+		73444C3F1F96AB9B00B3E84D /* Enumerations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73444C3E1F96AB9B00B3E84D /* Enumerations.swift */; };
+		7369D9EE1FB23DBC00ECAA1E /* DayTypeComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7369D9ED1FB23DBC00ECAA1E /* DayTypeComboBox.swift */; };
+		7369D9F01FB24EEE00ECAA1E /* BikeComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7369D9EF1FB24EEE00ECAA1E /* BikeComboBox.swift */; };
+		7369D9F21FB24F2B00ECAA1E /* ActivityComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7369D9F11FB24F2B00ECAA1E /* ActivityComboBox.swift */; };
+		7369D9F41FB24F5000ECAA1E /* ActivityTypeComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7369D9F31FB24F5000ECAA1E /* ActivityTypeComboBox.swift */; };
+		7369D9F61FB24F8C00ECAA1E /* TSSMethodComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7369D9F51FB24F8C00ECAA1E /* TSSMethodComboBox.swift */; };
+		7369D9F81FB25B7600ECAA1E /* SleepQualityComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7369D9F71FB25B7600ECAA1E /* SleepQualityComboBox.swift */; };
+		7369D9FA1FB2C97400ECAA1E /* TrainingDiary+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7369D9F91FB2C97400ECAA1E /* TrainingDiary+Extension.swift */; };
+		7385C4791FAA600A00F48685 /* DaysViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7385C4781FAA600A00F48685 /* DaysViewController.swift */; };
+		73920AB31FC8D2CB00A9686F /* AxisComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73920AB21FC8D2CA00A9686F /* AxisComboBox.swift */; };
+		73AF13FF1FB064D2002A1B9E /* RollingSumQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AF13FE1FB064D2002A1B9E /* RollingSumQueue.swift */; };
+		73AF14031FB06A1E002A1B9E /* BaseDataCreatorFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AF14021FB06A1E002A1B9E /* BaseDataCreatorFactory.swift */; };
+		73B2B9E31F894CC00044DD4E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B2B9E21F894CC00044DD4E /* AppDelegate.swift */; };
+		73B2B9E51F894CC00044DD4E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B2B9E41F894CC00044DD4E /* ViewController.swift */; };
+		73B2B9E81F894CC00044DD4E /* Training_Diary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 73B2B9E61F894CC00044DD4E /* Training_Diary.xcdatamodeld */; };
+		73B2B9EA1F894CC00044DD4E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 73B2B9E91F894CC00044DD4E /* Assets.xcassets */; };
+		73B2B9ED1F894CC00044DD4E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 73B2B9EB1F894CC00044DD4E /* Main.storyboard */; };
+		73B2B9F81F894E870044DD4E /* CoreDataStackSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B2B9F71F894E870044DD4E /* CoreDataStackSingleton.swift */; };
+		73B2B9FC1F896F920044DD4E /* TransformerNSNumberToTimeFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B2B9FB1F896F920044DD4E /* TransformerNSNumberToTimeFormat.swift */; };
+		73B2BA001F898BF30044DD4E /* Workout+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B2B9FF1F898BF30044DD4E /* Workout+Extension.swift */; };
+		73B2BA021F898C060044DD4E /* Day+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B2BA011F898C060044DD4E /* Day+Extension.swift */; };
+		73B3188D1FAB78D000B75550 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B3188C1FAB78D000B75550 /* String+Extension.swift */; };
+		73BF51A51FAC7F4400390D65 /* BaseDataCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73BF51A41FAC7F4400390D65 /* BaseDataCalculator.swift */; };
+		73C3B37D1F97AC1400ED6108 /* EddingtonNumberCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C3B37C1F97AC1400ED6108 /* EddingtonNumberCalculator.swift */; };
+		73C3B37F1F97DC5A00ED6108 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C3B37E1F97DC5A00ED6108 /* Date+Extension.swift */; };
+		73C58CA71FA8EFD200F57BAE /* EddingtonNumber+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C58CA61FA8EFD200F57BAE /* EddingtonNumber+Extension.swift */; };
+		73C58CA91FA8FEB200F57BAE /* BaseDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C58CA81FA8FEB200F57BAE /* BaseDataViewController.swift */; };
+		73D6CC711FC80A75006830DA /* GraphFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D6CC701FC80A75006830DA /* GraphFormat.swift */; };
+		73D6CC771FC86CBE006830DA /* RollingPeriodSum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D6CC761FC86CBE006830DA /* RollingPeriodSum.swift */; };
+		73D6CC791FC86E5D006830DA /* ToDateSum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D6CC781FC86E5D006830DA /* ToDateSum.swift */; };
+		73D8D7151FB5E26700FAB8A3 /* BaseData+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D8D7141FB5E26700FAB8A3 /* BaseData+Extension.swift */; };
+		73E25E191FBEA9150081FC62 /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E25E181FBEA9150081FC62 /* GraphView.swift */; };
+		73E25E1B1FC038FC0081FC62 /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E25E1A1FC038FC0081FC62 /* GraphViewController.swift */; };
+		73E582631F8A12A500B6E25D /* DaysArrayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E582621F8A12A500B6E25D /* DaysArrayController.swift */; };
+		73F2119F1FB4A06900062DAE /* JSONImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F2119E1FB4A06900062DAE /* JSONImporter.swift */; };
+		73F270621FAB0CC400D36156 /* TableViewWithColumnSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F270611FAB0CC400D36156 /* TableViewWithColumnSort.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-        7309AED51FC6CCC100054A6B /* ActivityGraphDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityGraphDefinition.swift; sourceTree = "<group>"; };
-        730AE25D1FC732DB00348A63 /* ChartTypeComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartTypeComboBox.swift; sourceTree = "<group>"; };
-        731CF8041F981C3300C59AA8 /* RollingSum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollingSum.swift; sourceTree = "<group>"; };
-        731CF8061F98467A00C59AA8 /* TSBCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSBCalculator.swift; sourceTree = "<group>"; };
-        73265B631FB471A00081D3F9 /* WeightHRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightHRViewController.swift; sourceTree = "<group>"; };
-        73265B651FB47D240081D3F9 /* Weight+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Weight+Extension.swift"; sourceTree = "<group>"; };
-        732807081FACBBF100658833 /* LinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
-        7328070A1FACBC2900658833 /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
-        7333B8621FA76F3A00E93BF0 /* EddingtonNumbersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EddingtonNumbersViewController.swift; sourceTree = "<group>"; };
-        7333B9F11FB613CA005F424E /* UnitComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitComboBox.swift; sourceTree = "<group>"; };
-        7333B9F31FB6E04C005F424E /* WeightsArrayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightsArrayController.swift; sourceTree = "<group>"; };
-        7333B9F51FB6F199005F424E /* PhysiologicalsArrayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysiologicalsArrayController.swift; sourceTree = "<group>"; };
-        733990C21FB34BD200E80D4A /* PeriodComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodComboBox.swift; sourceTree = "<group>"; };
-        73444C3E1F96AB9B00B3E84D /* Enumerations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enumerations.swift; sourceTree = "<group>"; };
-        7369D9ED1FB23DBC00ECAA1E /* DayTypeComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTypeComboBox.swift; sourceTree = "<group>"; };
-        7369D9EF1FB24EEE00ECAA1E /* BikeComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BikeComboBox.swift; sourceTree = "<group>"; };
-        7369D9F11FB24F2B00ECAA1E /* ActivityComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityComboBox.swift; sourceTree = "<group>"; };
-        7369D9F31FB24F5000ECAA1E /* ActivityTypeComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTypeComboBox.swift; sourceTree = "<group>"; };
-        7369D9F51FB24F8C00ECAA1E /* TSSMethodComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSSMethodComboBox.swift; sourceTree = "<group>"; };
-        7369D9F71FB25B7600ECAA1E /* SleepQualityComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepQualityComboBox.swift; sourceTree = "<group>"; };
-        7369D9F91FB2C97400ECAA1E /* TrainingDiary+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrainingDiary+Extension.swift"; sourceTree = "<group>"; };
-        7385C4781FAA600A00F48685 /* DaysViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaysViewController.swift; sourceTree = "<group>"; };
-        73AF13FE1FB064D2002A1B9E /* RollingSumQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollingSumQueue.swift; sourceTree = "<group>"; };
-        73AF14021FB06A1E002A1B9E /* BaseDataCreatorFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDataCreatorFactory.swift; sourceTree = "<group>"; };
-        73B2B9DF1F894CC00044DD4E /* Training Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Training Diary.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-        73B2B9E21F894CC00044DD4E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-        73B2B9E41F894CC00044DD4E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-        73B2B9E71F894CC00044DD4E /* Training_Diary.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Training_Diary.xcdatamodel; sourceTree = "<group>"; };
-        73B2B9E91F894CC00044DD4E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-        73B2B9EC1F894CC00044DD4E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-        73B2B9EE1F894CC00044DD4E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-        73B2B9EF1F894CC00044DD4E /* Training_Diary.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Training_Diary.entitlements; sourceTree = "<group>"; };
-        73B2B9F71F894E870044DD4E /* CoreDataStackSingleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStackSingleton.swift; sourceTree = "<group>"; };
-        73B2B9FB1F896F920044DD4E /* TransformerNSNumberToTimeFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransformerNSNumberToTimeFormat.swift; sourceTree = "<group>"; };
-        73B2B9FF1F898BF30044DD4E /* Workout+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Workout+Extension.swift"; sourceTree = "<group>"; };
-        73B2BA011F898C060044DD4E /* Day+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Day+Extension.swift"; sourceTree = "<group>"; };
-        73B3188C1FAB78D000B75550 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
-        73BF51A41FAC7F4400390D65 /* BaseDataCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDataCalculator.swift; sourceTree = "<group>"; };
-        73C3B37C1F97AC1400ED6108 /* EddingtonNumberCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EddingtonNumberCalculator.swift; sourceTree = "<group>"; };
-        73C3B37E1F97DC5A00ED6108 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
-        73C58CA61FA8EFD200F57BAE /* EddingtonNumber+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EddingtonNumber+Extension.swift"; sourceTree = "<group>"; };
-        73C58CA81FA8FEB200F57BAE /* BaseDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDataViewController.swift; sourceTree = "<group>"; };
-        73D6CC701FC80A75006830DA /* GraphFormat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphFormat.swift; sourceTree = "<group>"; };
-        73D6CC761FC86CBE006830DA /* RollingPeriodSum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollingPeriodSum.swift; sourceTree = "<group>"; };
-        73D6CC781FC86E5D006830DA /* ToDateSum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDateSum.swift; sourceTree = "<group>"; };
-        73D8D7141FB5E26700FAB8A3 /* BaseData+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BaseData+Extension.swift"; sourceTree = "<group>"; };
-        73E25E181FBEA9150081FC62 /* GraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
-        73E25E1A1FC038FC0081FC62 /* GraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
-        73E582621F8A12A500B6E25D /* DaysArrayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaysArrayController.swift; sourceTree = "<group>"; };
-        73F2119E1FB4A06900062DAE /* JSONImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONImporter.swift; sourceTree = "<group>"; };
-        73F270611FAB0CC400D36156 /* TableViewWithColumnSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewWithColumnSort.swift; sourceTree = "<group>"; };
+		7309AED51FC6CCC100054A6B /* ActivityGraphDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityGraphDefinition.swift; sourceTree = "<group>"; };
+		730AE25D1FC732DB00348A63 /* ChartTypeComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartTypeComboBox.swift; sourceTree = "<group>"; };
+		731CF8041F981C3300C59AA8 /* RollingSum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollingSum.swift; sourceTree = "<group>"; };
+		731CF8061F98467A00C59AA8 /* TSBCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSBCalculator.swift; sourceTree = "<group>"; };
+		73265B631FB471A00081D3F9 /* WeightHRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightHRViewController.swift; sourceTree = "<group>"; };
+		73265B651FB47D240081D3F9 /* Weight+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Weight+Extension.swift"; sourceTree = "<group>"; };
+		732807081FACBBF100658833 /* LinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
+		7328070A1FACBC2900658833 /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
+		7333B8621FA76F3A00E93BF0 /* EddingtonNumbersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EddingtonNumbersViewController.swift; sourceTree = "<group>"; };
+		7333B9F11FB613CA005F424E /* UnitComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitComboBox.swift; sourceTree = "<group>"; };
+		7333B9F31FB6E04C005F424E /* WeightsArrayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightsArrayController.swift; sourceTree = "<group>"; };
+		7333B9F51FB6F199005F424E /* PhysiologicalsArrayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysiologicalsArrayController.swift; sourceTree = "<group>"; };
+		733990C21FB34BD200E80D4A /* PeriodComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodComboBox.swift; sourceTree = "<group>"; };
+		73444C3E1F96AB9B00B3E84D /* Enumerations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enumerations.swift; sourceTree = "<group>"; };
+		7369D9ED1FB23DBC00ECAA1E /* DayTypeComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTypeComboBox.swift; sourceTree = "<group>"; };
+		7369D9EF1FB24EEE00ECAA1E /* BikeComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BikeComboBox.swift; sourceTree = "<group>"; };
+		7369D9F11FB24F2B00ECAA1E /* ActivityComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityComboBox.swift; sourceTree = "<group>"; };
+		7369D9F31FB24F5000ECAA1E /* ActivityTypeComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTypeComboBox.swift; sourceTree = "<group>"; };
+		7369D9F51FB24F8C00ECAA1E /* TSSMethodComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSSMethodComboBox.swift; sourceTree = "<group>"; };
+		7369D9F71FB25B7600ECAA1E /* SleepQualityComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepQualityComboBox.swift; sourceTree = "<group>"; };
+		7369D9F91FB2C97400ECAA1E /* TrainingDiary+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrainingDiary+Extension.swift"; sourceTree = "<group>"; };
+		7385C4781FAA600A00F48685 /* DaysViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaysViewController.swift; sourceTree = "<group>"; };
+		73920AB21FC8D2CA00A9686F /* AxisComboBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AxisComboBox.swift; sourceTree = "<group>"; };
+		73AF13FE1FB064D2002A1B9E /* RollingSumQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollingSumQueue.swift; sourceTree = "<group>"; };
+		73AF14021FB06A1E002A1B9E /* BaseDataCreatorFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDataCreatorFactory.swift; sourceTree = "<group>"; };
+		73B2B9DF1F894CC00044DD4E /* Training Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Training Diary.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		73B2B9E21F894CC00044DD4E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		73B2B9E41F894CC00044DD4E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		73B2B9E71F894CC00044DD4E /* Training_Diary.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Training_Diary.xcdatamodel; sourceTree = "<group>"; };
+		73B2B9E91F894CC00044DD4E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		73B2B9EC1F894CC00044DD4E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		73B2B9EE1F894CC00044DD4E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		73B2B9EF1F894CC00044DD4E /* Training_Diary.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Training_Diary.entitlements; sourceTree = "<group>"; };
+		73B2B9F71F894E870044DD4E /* CoreDataStackSingleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStackSingleton.swift; sourceTree = "<group>"; };
+		73B2B9FB1F896F920044DD4E /* TransformerNSNumberToTimeFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransformerNSNumberToTimeFormat.swift; sourceTree = "<group>"; };
+		73B2B9FF1F898BF30044DD4E /* Workout+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Workout+Extension.swift"; sourceTree = "<group>"; };
+		73B2BA011F898C060044DD4E /* Day+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Day+Extension.swift"; sourceTree = "<group>"; };
+		73B3188C1FAB78D000B75550 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		73BF51A41FAC7F4400390D65 /* BaseDataCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDataCalculator.swift; sourceTree = "<group>"; };
+		73C3B37C1F97AC1400ED6108 /* EddingtonNumberCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EddingtonNumberCalculator.swift; sourceTree = "<group>"; };
+		73C3B37E1F97DC5A00ED6108 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		73C58CA61FA8EFD200F57BAE /* EddingtonNumber+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EddingtonNumber+Extension.swift"; sourceTree = "<group>"; };
+		73C58CA81FA8FEB200F57BAE /* BaseDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDataViewController.swift; sourceTree = "<group>"; };
+		73D6CC701FC80A75006830DA /* GraphFormat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphFormat.swift; sourceTree = "<group>"; };
+		73D6CC761FC86CBE006830DA /* RollingPeriodSum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollingPeriodSum.swift; sourceTree = "<group>"; };
+		73D6CC781FC86E5D006830DA /* ToDateSum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDateSum.swift; sourceTree = "<group>"; };
+		73D8D7141FB5E26700FAB8A3 /* BaseData+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BaseData+Extension.swift"; sourceTree = "<group>"; };
+		73E25E181FBEA9150081FC62 /* GraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
+		73E25E1A1FC038FC0081FC62 /* GraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
+		73E582621F8A12A500B6E25D /* DaysArrayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaysArrayController.swift; sourceTree = "<group>"; };
+		73F2119E1FB4A06900062DAE /* JSONImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONImporter.swift; sourceTree = "<group>"; };
+		73F270611FAB0CC400D36156 /* TableViewWithColumnSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewWithColumnSort.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-        73B2B9DC1F894CC00044DD4E /* Frameworks */ = {
-            isa = PBXFrameworksBuildPhase;
-            buildActionMask = 2147483647;
-            files = (
-            );
-            runOnlyForDeploymentPostprocessing = 0;
-        };
+		73B2B9DC1F894CC00044DD4E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-        73B2B9D61F894CC00044DD4E = {
-            isa = PBXGroup;
-            children = (
-                73B2B9E11F894CC00044DD4E /* Training Diary */,
-                73B2B9E01F894CC00044DD4E /* Products */,
-            );
-            sourceTree = "<group>";
-        };
-        73B2B9E01F894CC00044DD4E /* Products */ = {
-            isa = PBXGroup;
-            children = (
-                73B2B9DF1F894CC00044DD4E /* Training Diary.app */,
-            );
-            name = Products;
-            sourceTree = "<group>";
-        };
-        73B2B9E11F894CC00044DD4E /* Training Diary */ = {
-            isa = PBXGroup;
-            children = (
-                73B3188B1FAB78AD00B75550 /* Type Extensions */,
-                73E1216E1F98F8F700037DAF /* Data Model */,
-                73E1216D1F98F89400037DAF /* Controller */,
-                73D8D7181FB5F3CE00FAB8A3 /* GUI */,
-                73B2B9E21F894CC00044DD4E /* AppDelegate.swift */,
-                73B2B9E91F894CC00044DD4E /* Assets.xcassets */,
-                73B2B9EE1F894CC00044DD4E /* Info.plist */,
-                73B2B9EB1F894CC00044DD4E /* Main.storyboard */,
-                73B2B9EF1F894CC00044DD4E /* Training_Diary.entitlements */,
-            );
-            path = "Training Diary";
-            sourceTree = "<group>";
-        };
-        73B3188B1FAB78AD00B75550 /* Type Extensions */ = {
-            isa = PBXGroup;
-            children = (
-                73C3B37E1F97DC5A00ED6108 /* Date+Extension.swift */,
-                73B3188C1FAB78D000B75550 /* String+Extension.swift */,
-                732807081FACBBF100658833 /* LinkedList.swift */,
-                7328070A1FACBC2900658833 /* Queue.swift */,
-                73AF13FE1FB064D2002A1B9E /* RollingSumQueue.swift */,
-                73D6CC781FC86E5D006830DA /* ToDateSum.swift */,
-                73D6CC761FC86CBE006830DA /* RollingPeriodSum.swift */,
-            );
-            path = "Type Extensions";
-            sourceTree = "<group>";
-        };
-        73D8D7181FB5F3CE00FAB8A3 /* GUI */ = {
-            isa = PBXGroup;
-            children = (
-                7369D9F51FB24F8C00ECAA1E /* TSSMethodComboBox.swift */,
-                7369D9ED1FB23DBC00ECAA1E /* DayTypeComboBox.swift */,
-                7369D9EF1FB24EEE00ECAA1E /* BikeComboBox.swift */,
-                7369D9F71FB25B7600ECAA1E /* SleepQualityComboBox.swift */,
-                7369D9F11FB24F2B00ECAA1E /* ActivityComboBox.swift */,
-                7333B9F11FB613CA005F424E /* UnitComboBox.swift */,
-                730AE25D1FC732DB00348A63 /* ChartTypeComboBox.swift */,
-                7369D9F31FB24F5000ECAA1E /* ActivityTypeComboBox.swift */,
-                733990C21FB34BD200E80D4A /* PeriodComboBox.swift */,
-                73E25E181FBEA9150081FC62 /* GraphView.swift */,
-                73D6CC701FC80A75006830DA /* GraphFormat.swift */,
-            );
-            path = GUI;
-            sourceTree = "<group>";
-        };
-        73E1216D1F98F89400037DAF /* Controller */ = {
-            isa = PBXGroup;
-            children = (
-                73B2B9E41F894CC00044DD4E /* ViewController.swift */,
-                73E582621F8A12A500B6E25D /* DaysArrayController.swift */,
-                7333B9F31FB6E04C005F424E /* WeightsArrayController.swift */,
-                7333B9F51FB6F199005F424E /* PhysiologicalsArrayController.swift */,
-                7385C4781FAA600A00F48685 /* DaysViewController.swift */,
-                73E25E1A1FC038FC0081FC62 /* GraphViewController.swift */,
-                7309AED51FC6CCC100054A6B /* ActivityGraphDefinition.swift */,
-                7333B8621FA76F3A00E93BF0 /* EddingtonNumbersViewController.swift */,
-                73265B631FB471A00081D3F9 /* WeightHRViewController.swift */,
-                73C58CA81FA8FEB200F57BAE /* BaseDataViewController.swift */,
-                73B2B9FB1F896F920044DD4E /* TransformerNSNumberToTimeFormat.swift */,
-                73F270611FAB0CC400D36156 /* TableViewWithColumnSort.swift */,
-            );
-            path = Controller;
-            sourceTree = "<group>";
-        };
-        73E1216E1F98F8F700037DAF /* Data Model */ = {
-            isa = PBXGroup;
-            children = (
-                73B2B9E61F894CC00044DD4E /* Training_Diary.xcdatamodeld */,
-                73D8D7141FB5E26700FAB8A3 /* BaseData+Extension.swift */,
-                73F2119E1FB4A06900062DAE /* JSONImporter.swift */,
-                73B2BA011F898C060044DD4E /* Day+Extension.swift */,
-                73265B651FB47D240081D3F9 /* Weight+Extension.swift */,
-                73B2B9FF1F898BF30044DD4E /* Workout+Extension.swift */,
-                7369D9F91FB2C97400ECAA1E /* TrainingDiary+Extension.swift */,
-                73B2B9F71F894E870044DD4E /* CoreDataStackSingleton.swift */,
-                73444C3E1F96AB9B00B3E84D /* Enumerations.swift */,
-                73C58CA61FA8EFD200F57BAE /* EddingtonNumber+Extension.swift */,
-                73C3B37C1F97AC1400ED6108 /* EddingtonNumberCalculator.swift */,
-                73BF51A41FAC7F4400390D65 /* BaseDataCalculator.swift */,
-                73AF14021FB06A1E002A1B9E /* BaseDataCreatorFactory.swift */,
-                731CF8041F981C3300C59AA8 /* RollingSum.swift */,
-                731CF8061F98467A00C59AA8 /* TSBCalculator.swift */,
-            );
-            path = "Data Model";
-            sourceTree = "<group>";
-        };
+		73B2B9D61F894CC00044DD4E = {
+			isa = PBXGroup;
+			children = (
+				73B2B9E11F894CC00044DD4E /* Training Diary */,
+				73B2B9E01F894CC00044DD4E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		73B2B9E01F894CC00044DD4E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				73B2B9DF1F894CC00044DD4E /* Training Diary.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		73B2B9E11F894CC00044DD4E /* Training Diary */ = {
+			isa = PBXGroup;
+			children = (
+				73B3188B1FAB78AD00B75550 /* Type Extensions */,
+				73E1216E1F98F8F700037DAF /* Data Model */,
+				73E1216D1F98F89400037DAF /* Controller */,
+				73D8D7181FB5F3CE00FAB8A3 /* GUI */,
+				73B2B9E21F894CC00044DD4E /* AppDelegate.swift */,
+				73B2B9E91F894CC00044DD4E /* Assets.xcassets */,
+				73B2B9EE1F894CC00044DD4E /* Info.plist */,
+				73B2B9EB1F894CC00044DD4E /* Main.storyboard */,
+				73B2B9EF1F894CC00044DD4E /* Training_Diary.entitlements */,
+			);
+			path = "Training Diary";
+			sourceTree = "<group>";
+		};
+		73B3188B1FAB78AD00B75550 /* Type Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				73C3B37E1F97DC5A00ED6108 /* Date+Extension.swift */,
+				73B3188C1FAB78D000B75550 /* String+Extension.swift */,
+				732807081FACBBF100658833 /* LinkedList.swift */,
+				7328070A1FACBC2900658833 /* Queue.swift */,
+				73AF13FE1FB064D2002A1B9E /* RollingSumQueue.swift */,
+				73D6CC781FC86E5D006830DA /* ToDateSum.swift */,
+				73D6CC761FC86CBE006830DA /* RollingPeriodSum.swift */,
+			);
+			path = "Type Extensions";
+			sourceTree = "<group>";
+		};
+		73D8D7181FB5F3CE00FAB8A3 /* GUI */ = {
+			isa = PBXGroup;
+			children = (
+				7369D9F51FB24F8C00ECAA1E /* TSSMethodComboBox.swift */,
+				7369D9ED1FB23DBC00ECAA1E /* DayTypeComboBox.swift */,
+				7369D9EF1FB24EEE00ECAA1E /* BikeComboBox.swift */,
+				7369D9F71FB25B7600ECAA1E /* SleepQualityComboBox.swift */,
+				7369D9F11FB24F2B00ECAA1E /* ActivityComboBox.swift */,
+				7333B9F11FB613CA005F424E /* UnitComboBox.swift */,
+				730AE25D1FC732DB00348A63 /* ChartTypeComboBox.swift */,
+				7369D9F31FB24F5000ECAA1E /* ActivityTypeComboBox.swift */,
+				733990C21FB34BD200E80D4A /* PeriodComboBox.swift */,
+				73E25E181FBEA9150081FC62 /* GraphView.swift */,
+				73920AB21FC8D2CA00A9686F /* AxisComboBox.swift */,
+				73D6CC701FC80A75006830DA /* GraphFormat.swift */,
+			);
+			path = GUI;
+			sourceTree = "<group>";
+		};
+		73E1216D1F98F89400037DAF /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				73B2B9E41F894CC00044DD4E /* ViewController.swift */,
+				73E582621F8A12A500B6E25D /* DaysArrayController.swift */,
+				7333B9F31FB6E04C005F424E /* WeightsArrayController.swift */,
+				7333B9F51FB6F199005F424E /* PhysiologicalsArrayController.swift */,
+				7385C4781FAA600A00F48685 /* DaysViewController.swift */,
+				73E25E1A1FC038FC0081FC62 /* GraphViewController.swift */,
+				7309AED51FC6CCC100054A6B /* ActivityGraphDefinition.swift */,
+				7333B8621FA76F3A00E93BF0 /* EddingtonNumbersViewController.swift */,
+				73265B631FB471A00081D3F9 /* WeightHRViewController.swift */,
+				73C58CA81FA8FEB200F57BAE /* BaseDataViewController.swift */,
+				73B2B9FB1F896F920044DD4E /* TransformerNSNumberToTimeFormat.swift */,
+				73F270611FAB0CC400D36156 /* TableViewWithColumnSort.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		73E1216E1F98F8F700037DAF /* Data Model */ = {
+			isa = PBXGroup;
+			children = (
+				73B2B9E61F894CC00044DD4E /* Training_Diary.xcdatamodeld */,
+				73D8D7141FB5E26700FAB8A3 /* BaseData+Extension.swift */,
+				73F2119E1FB4A06900062DAE /* JSONImporter.swift */,
+				73B2BA011F898C060044DD4E /* Day+Extension.swift */,
+				73265B651FB47D240081D3F9 /* Weight+Extension.swift */,
+				73B2B9FF1F898BF30044DD4E /* Workout+Extension.swift */,
+				7369D9F91FB2C97400ECAA1E /* TrainingDiary+Extension.swift */,
+				73B2B9F71F894E870044DD4E /* CoreDataStackSingleton.swift */,
+				73444C3E1F96AB9B00B3E84D /* Enumerations.swift */,
+				73C58CA61FA8EFD200F57BAE /* EddingtonNumber+Extension.swift */,
+				73C3B37C1F97AC1400ED6108 /* EddingtonNumberCalculator.swift */,
+				73BF51A41FAC7F4400390D65 /* BaseDataCalculator.swift */,
+				73AF14021FB06A1E002A1B9E /* BaseDataCreatorFactory.swift */,
+				731CF8041F981C3300C59AA8 /* RollingSum.swift */,
+				731CF8061F98467A00C59AA8 /* TSBCalculator.swift */,
+			);
+			path = "Data Model";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-        73B2B9DE1F894CC00044DD4E /* Training Diary */ = {
-            isa = PBXNativeTarget;
-            buildConfigurationList = 73B2B9F21F894CC00044DD4E /* Build configuration list for PBXNativeTarget "Training Diary" */;
-            buildPhases = (
-                73B2B9DB1F894CC00044DD4E /* Sources */,
-                73B2B9DC1F894CC00044DD4E /* Frameworks */,
-                73B2B9DD1F894CC00044DD4E /* Resources */,
-            );
-            buildRules = (
-            );
-            dependencies = (
-            );
-            name = "Training Diary";
-            productName = "Training Diary";
-            productReference = 73B2B9DF1F894CC00044DD4E /* Training Diary.app */;
-            productType = "com.apple.product-type.application";
-        };
+		73B2B9DE1F894CC00044DD4E /* Training Diary */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 73B2B9F21F894CC00044DD4E /* Build configuration list for PBXNativeTarget "Training Diary" */;
+			buildPhases = (
+				73B2B9DB1F894CC00044DD4E /* Sources */,
+				73B2B9DC1F894CC00044DD4E /* Frameworks */,
+				73B2B9DD1F894CC00044DD4E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Training Diary";
+			productName = "Training Diary";
+			productReference = 73B2B9DF1F894CC00044DD4E /* Training Diary.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-        73B2B9D71F894CC00044DD4E /* Project object */ = {
-            isa = PBXProject;
-            attributes = {
-                LastSwiftUpdateCheck = 0900;
-                LastUpgradeCheck = 0900;
-                ORGANIZATIONNAME = "Steven Lord";
-                TargetAttributes = {
-                    73B2B9DE1F894CC00044DD4E = {
-                        CreatedOnToolsVersion = 9.0;
-                        ProvisioningStyle = Automatic;
-                    };
-                };
-            };
-            buildConfigurationList = 73B2B9DA1F894CC00044DD4E /* Build configuration list for PBXProject "Training Diary" */;
-            compatibilityVersion = "Xcode 8.0";
-            developmentRegion = en;
-            hasScannedForEncodings = 0;
-            knownRegions = (
-                en,
-                Base,
-            );
-            mainGroup = 73B2B9D61F894CC00044DD4E;
-            productRefGroup = 73B2B9E01F894CC00044DD4E /* Products */;
-            projectDirPath = "";
-            projectRoot = "";
-            targets = (
-                73B2B9DE1F894CC00044DD4E /* Training Diary */,
-            );
-        };
+		73B2B9D71F894CC00044DD4E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0900;
+				LastUpgradeCheck = 0900;
+				ORGANIZATIONNAME = "Steven Lord";
+				TargetAttributes = {
+					73B2B9DE1F894CC00044DD4E = {
+						CreatedOnToolsVersion = 9.0;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 73B2B9DA1F894CC00044DD4E /* Build configuration list for PBXProject "Training Diary" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 73B2B9D61F894CC00044DD4E;
+			productRefGroup = 73B2B9E01F894CC00044DD4E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				73B2B9DE1F894CC00044DD4E /* Training Diary */,
+			);
+		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-        73B2B9DD1F894CC00044DD4E /* Resources */ = {
-            isa = PBXResourcesBuildPhase;
-            buildActionMask = 2147483647;
-            files = (
-                73B2B9EA1F894CC00044DD4E /* Assets.xcassets in Resources */,
-                73B2B9ED1F894CC00044DD4E /* Main.storyboard in Resources */,
-            );
-            runOnlyForDeploymentPostprocessing = 0;
-        };
+		73B2B9DD1F894CC00044DD4E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				73B2B9EA1F894CC00044DD4E /* Assets.xcassets in Resources */,
+				73B2B9ED1F894CC00044DD4E /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-        73B2B9DB1F894CC00044DD4E /* Sources */ = {
-            isa = PBXSourcesBuildPhase;
-            buildActionMask = 2147483647;
-            files = (
-                73D8D7151FB5E26700FAB8A3 /* BaseData+Extension.swift in Sources */,
-                73B2B9E51F894CC00044DD4E /* ViewController.swift in Sources */,
-                73265B661FB47D240081D3F9 /* Weight+Extension.swift in Sources */,
-                73AF14031FB06A1E002A1B9E /* BaseDataCreatorFactory.swift in Sources */,
-                7309AED61FC6CCC100054A6B /* ActivityGraphDefinition.swift in Sources */,
-                73F270621FAB0CC400D36156 /* TableViewWithColumnSort.swift in Sources */,
-                7369D9EE1FB23DBC00ECAA1E /* DayTypeComboBox.swift in Sources */,
-                73F2119F1FB4A06900062DAE /* JSONImporter.swift in Sources */,
-                732807091FACBBF100658833 /* LinkedList.swift in Sources */,
-                731CF8051F981C3300C59AA8 /* RollingSum.swift in Sources */,
-                73B2B9E81F894CC00044DD4E /* Training_Diary.xcdatamodeld in Sources */,
-                73B2B9E31F894CC00044DD4E /* AppDelegate.swift in Sources */,
-                73265B641FB471A00081D3F9 /* WeightHRViewController.swift in Sources */,
-                73E25E1B1FC038FC0081FC62 /* GraphViewController.swift in Sources */,
-                7385C4791FAA600A00F48685 /* DaysViewController.swift in Sources */,
-                7369D9F81FB25B7600ECAA1E /* SleepQualityComboBox.swift in Sources */,
-                73444C3F1F96AB9B00B3E84D /* Enumerations.swift in Sources */,
-                73D6CC791FC86E5D006830DA /* ToDateSum.swift in Sources */,
-                73E25E191FBEA9150081FC62 /* GraphView.swift in Sources */,
-                7369D9F01FB24EEE00ECAA1E /* BikeComboBox.swift in Sources */,
-                7333B9F61FB6F199005F424E /* PhysiologicalsArrayController.swift in Sources */,
-                73C3B37F1F97DC5A00ED6108 /* Date+Extension.swift in Sources */,
-                73C3B37D1F97AC1400ED6108 /* EddingtonNumberCalculator.swift in Sources */,
-                73BF51A51FAC7F4400390D65 /* BaseDataCalculator.swift in Sources */,
-                73B2BA001F898BF30044DD4E /* Workout+Extension.swift in Sources */,
-                73C58CA71FA8EFD200F57BAE /* EddingtonNumber+Extension.swift in Sources */,
-                7333B8631FA76F3A00E93BF0 /* EddingtonNumbersViewController.swift in Sources */,
-                730AE25E1FC732DB00348A63 /* ChartTypeComboBox.swift in Sources */,
-                73D6CC771FC86CBE006830DA /* RollingPeriodSum.swift in Sources */,
-                73B3188D1FAB78D000B75550 /* String+Extension.swift in Sources */,
-                73E582631F8A12A500B6E25D /* DaysArrayController.swift in Sources */,
-                7369D9FA1FB2C97400ECAA1E /* TrainingDiary+Extension.swift in Sources */,
-                7333B9F41FB6E04C005F424E /* WeightsArrayController.swift in Sources */,
-                7369D9F61FB24F8C00ECAA1E /* TSSMethodComboBox.swift in Sources */,
-                73B2B9FC1F896F920044DD4E /* TransformerNSNumberToTimeFormat.swift in Sources */,
-                73C58CA91FA8FEB200F57BAE /* BaseDataViewController.swift in Sources */,
-                7328070B1FACBC2900658833 /* Queue.swift in Sources */,
-                73B2B9F81F894E870044DD4E /* CoreDataStackSingleton.swift in Sources */,
-                731CF8071F98467A00C59AA8 /* TSBCalculator.swift in Sources */,
-                73AF13FF1FB064D2002A1B9E /* RollingSumQueue.swift in Sources */,
-                733990C31FB34BD200E80D4A /* PeriodComboBox.swift in Sources */,
-                73D6CC711FC80A75006830DA /* GraphFormat.swift in Sources */,
-                7333B9F21FB613CA005F424E /* UnitComboBox.swift in Sources */,
-                7369D9F21FB24F2B00ECAA1E /* ActivityComboBox.swift in Sources */,
-                7369D9F41FB24F5000ECAA1E /* ActivityTypeComboBox.swift in Sources */,
-                73B2BA021F898C060044DD4E /* Day+Extension.swift in Sources */,
-            );
-            runOnlyForDeploymentPostprocessing = 0;
-        };
+		73B2B9DB1F894CC00044DD4E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				73D8D7151FB5E26700FAB8A3 /* BaseData+Extension.swift in Sources */,
+				73B2B9E51F894CC00044DD4E /* ViewController.swift in Sources */,
+				73265B661FB47D240081D3F9 /* Weight+Extension.swift in Sources */,
+				73AF14031FB06A1E002A1B9E /* BaseDataCreatorFactory.swift in Sources */,
+				7309AED61FC6CCC100054A6B /* ActivityGraphDefinition.swift in Sources */,
+				73F270621FAB0CC400D36156 /* TableViewWithColumnSort.swift in Sources */,
+				7369D9EE1FB23DBC00ECAA1E /* DayTypeComboBox.swift in Sources */,
+				73F2119F1FB4A06900062DAE /* JSONImporter.swift in Sources */,
+				732807091FACBBF100658833 /* LinkedList.swift in Sources */,
+				731CF8051F981C3300C59AA8 /* RollingSum.swift in Sources */,
+				73B2B9E81F894CC00044DD4E /* Training_Diary.xcdatamodeld in Sources */,
+				73B2B9E31F894CC00044DD4E /* AppDelegate.swift in Sources */,
+				73265B641FB471A00081D3F9 /* WeightHRViewController.swift in Sources */,
+				73E25E1B1FC038FC0081FC62 /* GraphViewController.swift in Sources */,
+				7385C4791FAA600A00F48685 /* DaysViewController.swift in Sources */,
+				7369D9F81FB25B7600ECAA1E /* SleepQualityComboBox.swift in Sources */,
+				73444C3F1F96AB9B00B3E84D /* Enumerations.swift in Sources */,
+				73D6CC791FC86E5D006830DA /* ToDateSum.swift in Sources */,
+				73E25E191FBEA9150081FC62 /* GraphView.swift in Sources */,
+				7369D9F01FB24EEE00ECAA1E /* BikeComboBox.swift in Sources */,
+				7333B9F61FB6F199005F424E /* PhysiologicalsArrayController.swift in Sources */,
+				73C3B37F1F97DC5A00ED6108 /* Date+Extension.swift in Sources */,
+				73C3B37D1F97AC1400ED6108 /* EddingtonNumberCalculator.swift in Sources */,
+				73BF51A51FAC7F4400390D65 /* BaseDataCalculator.swift in Sources */,
+				73B2BA001F898BF30044DD4E /* Workout+Extension.swift in Sources */,
+				73C58CA71FA8EFD200F57BAE /* EddingtonNumber+Extension.swift in Sources */,
+				7333B8631FA76F3A00E93BF0 /* EddingtonNumbersViewController.swift in Sources */,
+				730AE25E1FC732DB00348A63 /* ChartTypeComboBox.swift in Sources */,
+				73D6CC771FC86CBE006830DA /* RollingPeriodSum.swift in Sources */,
+				73B3188D1FAB78D000B75550 /* String+Extension.swift in Sources */,
+				73E582631F8A12A500B6E25D /* DaysArrayController.swift in Sources */,
+				7369D9FA1FB2C97400ECAA1E /* TrainingDiary+Extension.swift in Sources */,
+				7333B9F41FB6E04C005F424E /* WeightsArrayController.swift in Sources */,
+				7369D9F61FB24F8C00ECAA1E /* TSSMethodComboBox.swift in Sources */,
+				73B2B9FC1F896F920044DD4E /* TransformerNSNumberToTimeFormat.swift in Sources */,
+				73C58CA91FA8FEB200F57BAE /* BaseDataViewController.swift in Sources */,
+				7328070B1FACBC2900658833 /* Queue.swift in Sources */,
+				73B2B9F81F894E870044DD4E /* CoreDataStackSingleton.swift in Sources */,
+				731CF8071F98467A00C59AA8 /* TSBCalculator.swift in Sources */,
+				73AF13FF1FB064D2002A1B9E /* RollingSumQueue.swift in Sources */,
+				73920AB31FC8D2CB00A9686F /* AxisComboBox.swift in Sources */,
+				733990C31FB34BD200E80D4A /* PeriodComboBox.swift in Sources */,
+				73D6CC711FC80A75006830DA /* GraphFormat.swift in Sources */,
+				7333B9F21FB613CA005F424E /* UnitComboBox.swift in Sources */,
+				7369D9F21FB24F2B00ECAA1E /* ActivityComboBox.swift in Sources */,
+				7369D9F41FB24F5000ECAA1E /* ActivityTypeComboBox.swift in Sources */,
+				73B2BA021F898C060044DD4E /* Day+Extension.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-        73B2B9EB1F894CC00044DD4E /* Main.storyboard */ = {
-            isa = PBXVariantGroup;
-            children = (
-                73B2B9EC1F894CC00044DD4E /* Base */,
-            );
-            name = Main.storyboard;
-            sourceTree = "<group>";
-        };
+		73B2B9EB1F894CC00044DD4E /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				73B2B9EC1F894CC00044DD4E /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-        73B2B9F01F894CC00044DD4E /* Debug */ = {
-            isa = XCBuildConfiguration;
-            buildSettings = {
-                ALWAYS_SEARCH_USER_PATHS = NO;
-                CLANG_ANALYZER_NONNULL = YES;
-                CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-                CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-                CLANG_CXX_LIBRARY = "libc++";
-                CLANG_ENABLE_MODULES = YES;
-                CLANG_ENABLE_OBJC_ARC = YES;
-                CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-                CLANG_WARN_BOOL_CONVERSION = YES;
-                CLANG_WARN_COMMA = YES;
-                CLANG_WARN_CONSTANT_CONVERSION = YES;
-                CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-                CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-                CLANG_WARN_EMPTY_BODY = YES;
-                CLANG_WARN_ENUM_CONVERSION = YES;
-                CLANG_WARN_INFINITE_RECURSION = YES;
-                CLANG_WARN_INT_CONVERSION = YES;
-                CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-                CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-                CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-                CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-                CLANG_WARN_STRICT_PROTOTYPES = YES;
-                CLANG_WARN_SUSPICIOUS_MOVE = YES;
-                CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-                CLANG_WARN_UNREACHABLE_CODE = YES;
-                CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-                CODE_SIGN_IDENTITY = "-";
-                COPY_PHASE_STRIP = NO;
-                DEBUG_INFORMATION_FORMAT = dwarf;
-                ENABLE_STRICT_OBJC_MSGSEND = YES;
-                ENABLE_TESTABILITY = YES;
-                GCC_C_LANGUAGE_STANDARD = gnu11;
-                GCC_DYNAMIC_NO_PIC = NO;
-                GCC_NO_COMMON_BLOCKS = YES;
-                GCC_OPTIMIZATION_LEVEL = 0;
-                GCC_PREPROCESSOR_DEFINITIONS = (
-                    "DEBUG=1",
-                    "$(inherited)",
-                );
-                GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-                GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-                GCC_WARN_UNDECLARED_SELECTOR = YES;
-                GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-                GCC_WARN_UNUSED_FUNCTION = YES;
-                GCC_WARN_UNUSED_VARIABLE = YES;
-                MACOSX_DEPLOYMENT_TARGET = 10.12;
-                MTL_ENABLE_DEBUG_INFO = YES;
-                ONLY_ACTIVE_ARCH = YES;
-                SDKROOT = macosx;
-                SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-                SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-            };
-            name = Debug;
-        };
-        73B2B9F11F894CC00044DD4E /* Release */ = {
-            isa = XCBuildConfiguration;
-            buildSettings = {
-                ALWAYS_SEARCH_USER_PATHS = NO;
-                CLANG_ANALYZER_NONNULL = YES;
-                CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-                CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-                CLANG_CXX_LIBRARY = "libc++";
-                CLANG_ENABLE_MODULES = YES;
-                CLANG_ENABLE_OBJC_ARC = YES;
-                CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-                CLANG_WARN_BOOL_CONVERSION = YES;
-                CLANG_WARN_COMMA = YES;
-                CLANG_WARN_CONSTANT_CONVERSION = YES;
-                CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-                CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-                CLANG_WARN_EMPTY_BODY = YES;
-                CLANG_WARN_ENUM_CONVERSION = YES;
-                CLANG_WARN_INFINITE_RECURSION = YES;
-                CLANG_WARN_INT_CONVERSION = YES;
-                CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-                CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-                CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-                CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-                CLANG_WARN_STRICT_PROTOTYPES = YES;
-                CLANG_WARN_SUSPICIOUS_MOVE = YES;
-                CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-                CLANG_WARN_UNREACHABLE_CODE = YES;
-                CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-                CODE_SIGN_IDENTITY = "-";
-                COPY_PHASE_STRIP = NO;
-                DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-                ENABLE_NS_ASSERTIONS = NO;
-                ENABLE_STRICT_OBJC_MSGSEND = YES;
-                GCC_C_LANGUAGE_STANDARD = gnu11;
-                GCC_NO_COMMON_BLOCKS = YES;
-                GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-                GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-                GCC_WARN_UNDECLARED_SELECTOR = YES;
-                GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-                GCC_WARN_UNUSED_FUNCTION = YES;
-                GCC_WARN_UNUSED_VARIABLE = YES;
-                MACOSX_DEPLOYMENT_TARGET = 10.12;
-                MTL_ENABLE_DEBUG_INFO = NO;
-                SDKROOT = macosx;
-                SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-            };
-            name = Release;
-        };
-        73B2B9F31F894CC00044DD4E /* Debug */ = {
-            isa = XCBuildConfiguration;
-            buildSettings = {
-                ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-                CODE_SIGN_ENTITLEMENTS = "Training Diary/Training_Diary.entitlements";
-                CODE_SIGN_STYLE = Automatic;
-                COMBINE_HIDPI_IMAGES = YES;
-                INFOPLIST_FILE = "Training Diary/Info.plist";
-                LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-                PRODUCT_BUNDLE_IDENTIFIER = "uk.me.stevenlord.Training-Diary";
-                PRODUCT_NAME = "$(TARGET_NAME)";
-                SWIFT_VERSION = 4.0;
-            };
-            name = Debug;
-        };
-        73B2B9F41F894CC00044DD4E /* Release */ = {
-            isa = XCBuildConfiguration;
-            buildSettings = {
-                ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-                CODE_SIGN_ENTITLEMENTS = "Training Diary/Training_Diary.entitlements";
-                CODE_SIGN_STYLE = Automatic;
-                COMBINE_HIDPI_IMAGES = YES;
-                INFOPLIST_FILE = "Training Diary/Info.plist";
-                LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-                PRODUCT_BUNDLE_IDENTIFIER = "uk.me.stevenlord.Training-Diary";
-                PRODUCT_NAME = "$(TARGET_NAME)";
-                SWIFT_VERSION = 4.0;
-            };
-            name = Release;
-        };
+		73B2B9F01F894CC00044DD4E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		73B2B9F11F894CC00044DD4E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+			};
+			name = Release;
+		};
+		73B2B9F31F894CC00044DD4E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Training Diary/Training_Diary.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "Training Diary/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "uk.me.stevenlord.Training-Diary";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		73B2B9F41F894CC00044DD4E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Training Diary/Training_Diary.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "Training Diary/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "uk.me.stevenlord.Training-Diary";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-        73B2B9DA1F894CC00044DD4E /* Build configuration list for PBXProject "Training Diary" */ = {
-            isa = XCConfigurationList;
-            buildConfigurations = (
-                73B2B9F01F894CC00044DD4E /* Debug */,
-                73B2B9F11F894CC00044DD4E /* Release */,
-            );
-            defaultConfigurationIsVisible = 0;
-            defaultConfigurationName = Release;
-        };
-        73B2B9F21F894CC00044DD4E /* Build configuration list for PBXNativeTarget "Training Diary" */ = {
-            isa = XCConfigurationList;
-            buildConfigurations = (
-                73B2B9F31F894CC00044DD4E /* Debug */,
-                73B2B9F41F894CC00044DD4E /* Release */,
-            );
-            defaultConfigurationIsVisible = 0;
-            defaultConfigurationName = Release;
-        };
+		73B2B9DA1F894CC00044DD4E /* Build configuration list for PBXProject "Training Diary" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				73B2B9F01F894CC00044DD4E /* Debug */,
+				73B2B9F11F894CC00044DD4E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		73B2B9F21F894CC00044DD4E /* Build configuration list for PBXNativeTarget "Training Diary" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				73B2B9F31F894CC00044DD4E /* Debug */,
+				73B2B9F41F894CC00044DD4E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-        73B2B9E61F894CC00044DD4E /* Training_Diary.xcdatamodeld */ = {
-            isa = XCVersionGroup;
-            children = (
-                73B2B9E71F894CC00044DD4E /* Training_Diary.xcdatamodel */,
-            );
-            currentVersion = 73B2B9E71F894CC00044DD4E /* Training_Diary.xcdatamodel */;
-            path = Training_Diary.xcdatamodeld;
-            sourceTree = "<group>";
-            versionGroupType = wrapper.xcdatamodel;
-        };
+		73B2B9E61F894CC00044DD4E /* Training_Diary.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				73B2B9E71F894CC00044DD4E /* Training_Diary.xcdatamodel */,
+			);
+			currentVersion = 73B2B9E71F894CC00044DD4E /* Training_Diary.xcdatamodel */;
+			path = Training_Diary.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
 /* End XCVersionGroup section */
-    };
-    rootObject = 73B2B9D71F894CC00044DD4E /* Project object */;
+	};
+	rootObject = 73B2B9D71F894CC00044DD4E /* Project object */;
 }
