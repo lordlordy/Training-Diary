@@ -23,6 +23,8 @@ class GraphView: NSView {
         static var AllChartTypes = [Line, Bar, Point]
     }
     
+
+    
     //this is intentionally a class rather than struct as I want to pass it around by reference
     @objc class GraphDefinition: NSObject{
         var data: [(date: Date, value: Double)] = [] 
@@ -65,20 +67,14 @@ class GraphView: NSView {
         }
     }
     
-    private var graphs: [String:GraphDefinition]                 = [:]{
-        didSet{
-            print("didSet on graph dictionary in Graphview")
-            print(graphs)
-            
-        }
-        
-    }
+    private var graphs = Set<GraphDefinition>()
+    
    // note the order here. High priority graphs will show on top ... so are drawn last. So this order descending
-    private var priorityOrderedGraphs: [GraphDefinition]{ return graphs.values.sorted(by: {$0.priority > $1.priority}) }
+    private var priorityOrderedGraphs: [GraphDefinition]{ return graphs.sorted(by: {$0.priority > $1.priority}) }
 
     private func getPrimaryAxisGraphs() ->      [GraphDefinition]{
         var result: [GraphDefinition] = []
-        for graph in graphs.values{
+        for graph in graphs{
             if graph.axis == Axis.Primary{ result.append(graph) }
             
         }
@@ -87,7 +83,7 @@ class GraphView: NSView {
 
     private func getSecondaryAxisGraphs() ->   [GraphDefinition]{
         var result: [GraphDefinition] = []
-        for graph in graphs.values{
+        for graph in graphs{
             if graph.axis == Axis.Secondary{ result.append(graph) }
             
         }
@@ -95,12 +91,12 @@ class GraphView: NSView {
     }
     
     func add(graph: GraphDefinition){
-        graphs[graph.name] = graph
+        graphs.insert(graph)
         startObserving(graph)
     }
     func remove(graph: GraphDefinition){
         endObserving(graph)
-        graphs.removeValue(forKey: graph.name)
+        graphs.remove(graph)
     }
     
     private func startObserving(_ graph: GraphDefinition){
@@ -182,9 +178,6 @@ class GraphView: NSView {
     @IBInspectable var secondaryAxisLabelColour: NSColor        = .white
     @IBInspectable var yAxisColour: NSColor                     = .black
     @IBInspectable var yAxisLabelColour: NSColor                = .black
-    @IBInspectable var backgoundGradientStartColour: NSColor    = .gray
-    @IBInspectable var backgroundGradientEndColour: NSColor     = .lightGray
-    @IBInspectable var backgroundGradientAngle: CGFloat         = 45.0
 
     private var labelNumberFormat: NumberFormatter {
         let nf = NumberFormatter()
@@ -195,6 +188,9 @@ class GraphView: NSView {
     private var yLabels: [NSTextField] = []
     private var xLabels: [NSTextField] = []
 
+    @objc dynamic var backgroundGradientStartColour: NSColor    = .gray { didSet{ self.needsDisplay = true }}
+    @objc dynamic var backgroundGradientEndColour: NSColor     = .lightGray { didSet{ self.needsDisplay = true }}
+    @objc dynamic var backgroundGradientAngle: CGFloat         = 45.0 { didSet{ self.needsDisplay = true }}
     @objc var numberOfPrimaryAxisLines: Int = 6{ didSet{ self.needsDisplay = true }}
     @objc var numberOfSecondaryAxisLines: Int = 6{ didSet{ self.needsDisplay = true }}
     
@@ -226,7 +222,7 @@ class GraphView: NSView {
         yLabels = []
         xLabels = []
 
-        if let gradient = NSGradient(starting: backgoundGradientStartColour, ending: backgroundGradientEndColour){
+        if let gradient = NSGradient(starting: backgroundGradientStartColour, ending: backgroundGradientEndColour){
             gradient.draw(in: dirtyRect, angle: backgroundGradientAngle )
         }
 

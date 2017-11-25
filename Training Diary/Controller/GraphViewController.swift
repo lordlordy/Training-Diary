@@ -32,7 +32,7 @@ class GraphViewController: NSViewController {
         }
     }
     
-    @IBOutlet weak var graphView: GraphView!
+    @IBOutlet @objc weak var graphView: GraphView!
     @IBOutlet weak var fromDatePicker: NSDatePicker!
     @IBOutlet weak var toDatePicker: NSDatePicker!
     @IBOutlet weak var fromDateSlider: NSSlider!
@@ -87,9 +87,9 @@ class GraphViewController: NSViewController {
     }
     
     
-    override func viewWillAppear() {
-        trainingDiarySet()
-    }
+ //   override func viewWillAppear() {
+   //     trainingDiarySet()
+    //q}
     
     
     //this observing needs to be moved in to TrainingDiary itself. Not sure at what point the observer can be added.
