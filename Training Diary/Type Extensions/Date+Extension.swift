@@ -39,6 +39,15 @@ extension Date{
         }
     }
     
+    public func addDays(numberOfDays i: Int) -> Date{
+        
+        let dc = DateComponents.init(calendar: Calendar.current, day: i)
+        return Calendar.current.date(byAdding: dc, to: self)!
+        
+    }
+    
+
+    
     public func dateOnlyString() -> String{
         let dateFormatter = DateFormatter.init()
         dateFormatter.dateFormat = "yyyy-MM-dd"

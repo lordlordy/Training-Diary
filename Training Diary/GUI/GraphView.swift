@@ -31,6 +31,7 @@ class GraphView: NSView {
         var name: String
         var axis: Axis = Axis.Primary
         var type: ChartType = ChartType.Line
+        var drawZero: Bool = true
         
         @objc dynamic var axisString: String{
             get{ return axis.rawValue }
@@ -52,51 +53,52 @@ class GraphView: NSView {
         
         static var observerStrings: [String] = ["axisString","typeString","display","format","colour","priority"]
         
-        init(name: String,axis: Axis, type: ChartType, format: GraphFormat,  priority: Int){
+        init(name: String,axis: Axis, type: ChartType, format: GraphFormat, drawZeroes: Bool,  priority: Int){
             self.axis = axis
             self.type = type
             self.format = format
             self.name = name
+            self.drawZero = drawZeroes
             self.priority = priority
         }
         
-        convenience init(name: String, data: [(date: Date, value: Double)], axis: Axis, type: ChartType, format: GraphFormat, priority: Int){
+        convenience init(name: String, data: [(date: Date, value: Double)], axis: Axis, type: ChartType, format: GraphFormat, drawZeroes: Bool, priority: Int){
         
-            self.init(name: name, axis: axis, type: type, format: format, priority: priority)
+            self.init(name: name, axis: axis, type: type, format: format, drawZeroes: drawZeroes, priority: priority)
             self.data = data
         }
     }
     
-    private var graphs = Set<GraphDefinition>()
+    public var graphs = Set<GraphDefinition>()
     
    // note the order here. High priority graphs will show on top ... so are drawn last. So this order descending
     private var priorityOrderedGraphs: [GraphDefinition]{ return graphs.sorted(by: {$0.priority > $1.priority}) }
+    private var noData: Bool{
+        var count = 0
+        for graph in graphs{
+            count += graph.data.count
+        }
+        return (count == 0)
+    }
 
-    private func getPrimaryAxisGraphs() ->      [GraphDefinition]{
+    private func getGraphs(forAxis axis: Axis) -> [GraphDefinition]{
         var result: [GraphDefinition] = []
         for graph in graphs{
-            if graph.axis == Axis.Primary{ result.append(graph) }
-            
+            if graph.axis == axis{ result.append(graph) }
         }
         return result
     }
 
-    private func getSecondaryAxisGraphs() ->   [GraphDefinition]{
-        var result: [GraphDefinition] = []
-        for graph in graphs{
-            if graph.axis == Axis.Secondary{ result.append(graph) }
-            
-        }
-        return result
-    }
     
     func add(graph: GraphDefinition){
         graphs.insert(graph)
         startObserving(graph)
+        needsDisplay = true
     }
     func remove(graph: GraphDefinition){
         endObserving(graph)
         graphs.remove(graph)
+        needsDisplay = true
     }
     
     private func startObserving(_ graph: GraphDefinition){
@@ -119,14 +121,16 @@ class GraphView: NSView {
     }
     
     
-    
-    private func graphsMaximum(forAxis: Axis) -> Double{
-        var maximums: [Double] = [0.0] // ensure maximum is always at least zero
-        var graphs: [GraphDefinition] = []
-        switch forAxis{
-        case .Primary: graphs = getPrimaryAxisGraphs()
-        case .Secondary: graphs = getSecondaryAxisGraphs()
+    private func getMinimumOverride(forAxis axis: Axis) -> Double?{
+        switch axis{
+        case .Primary: return primaryAxisMinimumOverride
+        case .Secondary: return secondaryAxisMinimumOverride
         }
+    }
+    
+    private func graphsMaximum(forAxis axis: Axis) -> Double{
+        var maximums: [Double] = [0.0] // ensure maximum is always at least zero
+        let graphs = getGraphs(forAxis: axis)
         if graphs.count > 0{
             for graph in graphs{
                 if graph.data.count > 0{
@@ -137,13 +141,10 @@ class GraphView: NSView {
         return maximums.max()!
     }
 
-    private func graphsMinimum(forAxis: Axis) -> Double{
+    private func graphsMinimum(forAxis axis: Axis) -> Double{
+        if let override = getMinimumOverride(forAxis: axis){ return override }
         var minimums: [Double] = [0.0] //ensures minimum is always at least zero
-        var graphs: [GraphDefinition] = []
-        switch forAxis{
-        case .Primary: graphs = getPrimaryAxisGraphs()
-        case .Secondary: graphs = getSecondaryAxisGraphs()
-        }
+        let graphs = getGraphs(forAxis: axis)
         if graphs.count > 0{
             for graph in graphs{
                 if graph.data.count > 0{
@@ -161,6 +162,7 @@ class GraphView: NSView {
         static let pointDiameter: CGFloat = 3.0
         //how far in from the view edge the axes are
         static let axisPadding = 30.0
+        static let zero = 0.001
     }
     
     fileprivate struct LabelOffset{
@@ -195,10 +197,18 @@ class GraphView: NSView {
     @objc var numberOfSecondaryAxisLines: Int = 6{ didSet{ self.needsDisplay = true }}
     
     private var gapBetweenPrimaryAxisLines:     Double{ return calcAxisLineGap(forAxis: .Primary) }
-    private var gapBetweenSecondaryAxisLines:   Double{ return calcAxisLineGap(forAxis: .Primary) }
+    private var gapBetweenSecondaryAxisLines:   Double{ return calcAxisLineGap(forAxis: .Secondary) }
+    
+    var primaryAxisMinimumOverride: Double?
+    var secondaryAxisMinimumOverride: Double?
     
     var xAxisLabelStrings: [String] = ["1","2","3","4","5","6","7","8","9","10","11"]{
         didSet{ self.needsDisplay = true}
+    }
+    
+    override func prepareForInterfaceBuilder() {
+        let graph = GraphDefinition(name: "Test", data: [(date: Date(),23.5)], axis: .Primary, type: .Point, format: GraphFormat.init(fill: false, colour: .red, fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 0.0, size: 2.0), drawZeroes: false, priority: 1  )
+        graphs.insert(graph)
     }
     
     private func calcAxisLineGap(forAxis a: Axis) -> Double{
@@ -216,6 +226,8 @@ class GraphView: NSView {
 
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
+        
+        if noData { return }
         
         for l in yLabels{ l.removeFromSuperview() }
         for l in xLabels{ l.removeFromSuperview() }
@@ -340,22 +352,36 @@ class GraphView: NSView {
     
     private func drawLine(graph: GraphDefinition, inDirtyRect dirtyRect: NSRect ){
         
+        if graph.data.count == 0 { return } // no data
+        
         let path = NSBezierPath()
         let maxValue = graphsMaximum(forAxis: graph.axis)
         let minValue = graphsMinimum(forAxis: graph.axis)
         var count = 0.0
         
-        let origin = coordinatesInView(xValue: 0.0, maxX: Double(graph.data.count), minX: 0.0, yValue: 0.0, maxY: maxValue, minY: minValue, dirtyRect)
+        let startDate = graph.data[0].date
+        let maxX = graph.data[graph.data.count - 1].date.timeIntervalSince(startDate)
         
+        // this draws each point evenly across x axis. It assumes point for every day. Needs refactoring
+//        let origin = coordinatesInView(xValue: 0.0, maxX: Double(graph.data.count), minX: 0.0, yValue: 0.0, maxY: maxValue, minY: minValue, dirtyRect)
+        // refactored version - looks at date value
+        let origin = coordinatesInView(xValue: 0.0, maxX: maxX, minX: 0.0, yValue: 0.0, maxY: maxValue, minY: minValue, dirtyRect)
+
         path.move(to: origin)
-        for point in graph.data.map({$0.value}) {
-            let p = coordinatesInView(xValue:  count, maxX: Double(graph.data.count), minX: 0.0, yValue: point, maxY: maxValue, minY: minValue, dirtyRect)
-            path.line(to:p)
+        for point in graph.data {
+            let p = coordinatesInView(xValue:  point.date.timeIntervalSince(startDate), maxX: maxX, minX: 0.0, yValue: point.value, maxY: maxValue, minY: minValue, dirtyRect)
+            if graph.drawZero || abs(point.value) >= Constants.zero{
+                path.line(to:p)
+                if point.value < 1.0 && graph.name == "rollingFat%"{
+                    print("rolling fat value: \(point.value)")
+                }
+            }
+            
             count += 1.0
         }
         
         if graph.format.fill{
-            let endOfXAxis = coordinatesInView(xValue: Double(graph.data.count), maxX: Double(graph.data.count), minX: 0.0, yValue: 0.0, maxY: maxValue, minY: minValue, dirtyRect)
+            let endOfXAxis = coordinatesInView(xValue: Double(graph.data.count), maxX: maxX, minX: 0.0, yValue: 0.0, maxY: maxValue, minY: minValue, dirtyRect)
             path.line(to: endOfXAxis)
             if let gradient = NSGradient(starting: graph.format.fillGradientStart  , ending: graph.format.fillGradientEnd){
                 gradient.draw(in: path, angle: graph.format.gradientAngle)
@@ -370,13 +396,20 @@ class GraphView: NSView {
     
     private func drawPoints(graph: GraphDefinition, inDirtyRect dirtyRect: NSRect ){
         
+        if graph.data.count == 0 {return} // no data
+        
         let maxValue = graphsMaximum(forAxis: graph.axis)
         let minValue = graphsMinimum(forAxis: graph.axis)
         var count = 0.0
+        let startDate = graph.data[0].date
+        let maxX = graph.data[graph.data.count - 1].date.timeIntervalSince(startDate)
         
-        for point in graph.data.map({$0.value}) {
-            let p = coordinatesInView(xValue:  count, maxX: Double(graph.data.count), minX: 0.0, yValue: point, maxY: maxValue, minY: minValue, dirtyRect)
-            if point != 0.0{ drawPoint(at: p, graphDefinition: graph) }
+        for point in graph.data{
+            let p = coordinatesInView(xValue:  point.date.timeIntervalSince(startDate), maxX: maxX, minX: 0.0, yValue: point.value, maxY: maxValue, minY: minValue, dirtyRect)
+            if graph.drawZero || abs(point.value) >= Constants.zero {
+                drawPoint(at: p, graphDefinition: graph)
+                
+            }
             count += 1.0
         }
     }

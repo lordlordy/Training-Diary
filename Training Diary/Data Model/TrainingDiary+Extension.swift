@@ -15,6 +15,13 @@ extension TrainingDiary{
     @objc dynamic var totalRunKM:   Double{ return total(forKey: "runKM") }
     @objc dynamic var totalSeconds: Double{ return total(forKey: "allSeconds")}
     
+    var numberOfDays: Int{
+        if let daysSet = days{
+            return daysSet.count
+        }
+        return 0
+    }
+    
     //needs implementing properly
     @objc dynamic var firstDayOfDiary: Date?{
         let days = ascendingOrderedDays()
@@ -41,7 +48,72 @@ extension TrainingDiary{
     func lastYear() -> Int{
         return Calendar.current.dateComponents([.year], from: lastDayOfDiary!).year!
     }
+    
+    func weightsAscendingDateOrder() -> [Weight]?{
+        if let ws = self.weights{
+            let weightsArray = ws.allObjects as! [Weight]
+            return weightsArray.sorted(by: { $0.fromDate! < $1.fromDate! })
+        }
+        return nil
+    }
 
+    func physiologicalsAscendingDateOrder() -> [Physiological]?{
+        if let ps = self.physiologicals{
+            let physios = ps.allObjects as! [Physiological]
+            return physios.sorted(by: { $0.fromDate! < $1.fromDate! })
+        }
+        return nil
+    }
+    
+    func kgAscendingDateOrder() -> [(date: Date, value: Double)]{
+        var result: [(date: Date, value: Double)] = []
+        if let orderedWeights = weightsAscendingDateOrder(){
+            for w in orderedWeights{
+                result.append((w.fromDate!, w.kg))
+            }
+        }
+        return result
+    }
+    
+    func fatPercentageDateOrder() -> [(date: Date, value: Double)]{
+        var result: [(date: Date, value: Double)] = []
+        if let orderedWeights = weightsAscendingDateOrder(){
+            for w in orderedWeights{
+                result.append((w.fromDate!, w.fatPercent))
+            }
+        }
+        return result
+    }
+    
+    func hrPercentageDateOrder() -> [(date: Date, value: Double)]{
+        var result: [(date: Date, value: Double)] = []
+        if let orderedPhysios = physiologicalsAscendingDateOrder(){
+            for o in orderedPhysios{
+                result.append((o.fromDate!, Double(o.restingHR)))
+            }
+        }
+        return result
+    }
+    
+    func sdnnPercentageDateOrder() -> [(date: Date, value: Double)]{
+        var result: [(date: Date, value: Double)] = []
+        if let orderedPhysios = physiologicalsAscendingDateOrder(){
+            for o in orderedPhysios{
+                result.append((o.fromDate!, Double(o.restingSDNN)))
+            }
+        }
+        return result
+    }
+
+    func rmssdPercentageDateOrder() -> [(date: Date, value: Double)]{
+        var result: [(date: Date, value: Double)] = []
+        if let orderedPhysios = physiologicalsAscendingDateOrder(){
+            for o in orderedPhysios{
+                result.append((o.fromDate!, Double(o.restingRMSSD)))
+            }
+        }
+        return result
+    }
     
     private func total(forKey: String) ->Double{
         var result: Double = 0.0

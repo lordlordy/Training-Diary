@@ -24,6 +24,21 @@ class RollingSumQueue{
         return rollingSum
     }
     
+    func addAndReturnAverage(value v: Double) -> Double{
+        let sum  = addAndReturnSum(value: v)
+        let numberNonZeroOfItems = sumQueue.currentSize - numberOfZeroes()
+        
+
+        if numberNonZeroOfItems > 0{
+            return sum / Double(numberNonZeroOfItems)
+        }
+        return sum
+    }
+    
+    private func numberOfZeroes() -> Int{
+        return sumQueue.array().filter({$0 <= 0.0001}).count
+    }
+    
     func resetQueue(){
         sumQueue.resetQueue()
         rollingSum = 0.0

@@ -87,9 +87,12 @@ class GraphViewController: NSViewController {
     }
     
     
- //   override func viewWillAppear() {
-   //     trainingDiarySet()
-    //q}
+    override func viewWillAppear() {
+        // need to figure out the switching of tabs / switching of training diaries. For now this will do
+        if dataArray.count == 0{
+            trainingDiarySet()
+        }
+    }
     
     
     //this observing needs to be moved in to TrainingDiary itself. Not sure at what point the observer can be added.
@@ -141,11 +144,15 @@ class GraphViewController: NSViewController {
 
     private func trainingDiarySet(){
         if let td = trainingDiary{
-            if fromDatePicker!.dateValue < td.firstDayOfDiary! || fromDatePicker!.dateValue > td.lastDayOfDiary!{
-                fromDatePicker!.dateValue  = td.firstDayOfDiary!
-            }
-            if toDatePicker!.dateValue < td.firstDayOfDiary! || toDatePicker!.dateValue > td.lastDayOfDiary!{
-                toDatePicker!.dateValue  = td.lastDayOfDiary!
+            if let fdp = fromDatePicker{
+                if let tdp = toDatePicker{
+                    if fdp.dateValue < td.firstDayOfDiary! || fdp.dateValue > td.lastDayOfDiary!{
+                        fdp.dateValue  = td.firstDayOfDiary!
+                    }
+                    if tdp.dateValue < td.firstDayOfDiary! || tdp.dateValue > td.lastDayOfDiary!{
+                        tdp.dateValue  = td.lastDayOfDiary!
+                    }
+                }
             }
         }
         initialSetUp()
@@ -207,10 +214,10 @@ class GraphViewController: NSViewController {
                         gv.numberOfPrimaryAxisLines = 6
                         gv.numberOfSecondaryAxisLines = 8
 
-                        let tsbGraph = createGraphDefinition(forActivity: .All, period: .Day, unit: .TSB, type: .Line, axis: .Primary, priority: 4, format: GraphFormat(fill: true, colour: .blue, fillGradientStart: .red, fillGradientEnd: .blue, gradientAngle: 90.0, size: 1.0))
-                        let ctlGraph = createGraphDefinition(forActivity: .All, period: .Day, unit: .CTL, type: .Line, axis: .Primary, priority: 3, format: GraphFormat(fill: false, colour: .red, fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 0.0, size: 1.0))
-                        let atlGraph = createGraphDefinition(forActivity: .All, period: .Day, unit: .ATL, type: .Line, axis: .Primary, priority: 2, format: GraphFormat(fill: false, colour: .green, fillGradientStart: .green, fillGradientEnd: .green, gradientAngle: 0.0, size: 1.0))
-                        let tssGraph = createGraphDefinition(forActivity: .All, period: .Day, unit: .TSS, type: .Point, axis: .Secondary, priority: 1, format: GraphFormat(fill: true, colour: .yellow, fillGradientStart: .yellow, fillGradientEnd: .yellow, gradientAngle: 0.0, size: 1.0))
+                        let tsbGraph = createGraphDefinition(forActivity: .All, period: .Day, unit: .TSB, type: .Line, axis: .Primary, drawZeroes: true, priority: 4, format: GraphFormat(fill: true, colour: .blue, fillGradientStart: .red, fillGradientEnd: .blue, gradientAngle: 90.0, size: 1.0))
+                        let ctlGraph = createGraphDefinition(forActivity: .All, period: .Day, unit: .CTL, type: .Line, axis: .Primary, drawZeroes: true, priority: 3, format: GraphFormat(fill: false, colour: .red, fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 0.0, size: 1.0))
+                        let atlGraph = createGraphDefinition(forActivity: .All, period: .Day, unit: .ATL, type: .Line, axis: .Primary, drawZeroes: true, priority: 2, format: GraphFormat(fill: false, colour: .green, fillGradientStart: .green, fillGradientEnd: .green, gradientAngle: 0.0, size: 1.0))
+                        let tssGraph = createGraphDefinition(forActivity: .All, period: .Day, unit: .TSS, type: .Point, axis: .Secondary, drawZeroes: false, priority: 1, format: GraphFormat(fill: true, colour: .yellow, fillGradientStart: .yellow, fillGradientEnd: .yellow, gradientAngle: 0.0, size: 1.0))
                         
                         
                         dataArray.append(tsbGraph)
@@ -225,10 +232,10 @@ class GraphViewController: NSViewController {
     }
 
     
-    private func createGraphDefinition(forActivity a: Activity, period p: Period, unit u: Unit, type t: GraphView.ChartType, axis: GraphView.Axis, priority: Int,  format f: GraphFormat) -> ActivityGraphDefinition{
+    private func createGraphDefinition(forActivity a: Activity, period p: Period, unit u: Unit, type t: GraphView.ChartType, axis: GraphView.Axis, drawZeroes: Bool, priority: Int,  format f: GraphFormat) -> ActivityGraphDefinition{
         
         let graphDetails = ActivityGraphDefinition(activity: a, unit: u, period: p)
-        graphDetails.graph = GraphView.GraphDefinition(name: graphDetails.name, axis: axis, type: t, format: f, priority: priority)
+        graphDetails.graph = GraphView.GraphDefinition(name: graphDetails.name, axis: axis, type: t, format: f,drawZeroes: drawZeroes, priority: priority)
         //NOTE must sort out removing this observer when we remove the graph.
         updateData(forGraph: graphDetails)
         return graphDetails
@@ -245,9 +252,6 @@ class GraphViewController: NSViewController {
                 if !dataArray.contains(old){
                     print("\(old.name) removed")
                     remove(graph: old)
-                    if let gv = graphView{
-                        gv.needsDisplay = true
-                    }
                 }
             }
         }else{
@@ -260,8 +264,6 @@ class GraphViewController: NSViewController {
                 }
             }
         }
-        
-        //need to keep graphs in graphView inline.
      }
     
     private func add(graph g: ActivityGraphDefinition){
