@@ -11,13 +11,18 @@ import Foundation
 extension BaseData{
     
     @objc dynamic var eddingtonCode: String{
-        return EddingtonNumber.eddingtonCode(forActivity: activity!, activityType: activityType!, period: period!, unit: unit!)
+        var result = activity! + ":" + activityType!
+        result += ":" + period! + ":" + unit!
+        return result
+
     }
     
     @objc dynamic var annualEddingtonCode: String{
-        return EddingtonNumber.annualEddingtonCode(year: year, forActivity: activity!, activityType: activityType!, period: period!, unit: unit!)
+        let result = String(year) + ":" + eddingtonCode
+        return result
+        
     }
-    
+ 
     @objc dynamic var id: String{
         if let d = date{
             return d.dateOnlyString() + ":" + eddingtonCode

@@ -272,13 +272,10 @@ enum FPMJSONString: String, FileMakerProJSONString{
 //MARK: - Core Data Entities and Properties
 
 enum ENTITY: String{
-    case TrainingDiary      = "TrainingDiary"
-    case Day                = "Day"
-    case Workout            = "Workout"
-    case Weight             = "Weight"
-    case Physiological      = "Physiological"
-    case BaseData           = "BaseData"
-    case EddingtonNumber    = "EddingtonNumber"
+    case TrainingDiary, Day, Workout, Weight, Physiological
+    case BaseData
+    case EddingtonNumber, EddingtonAnnualContributor, EddingtonAnnualHistory
+    case EddingtonContributor, EddingtonHistory
 }
 
 enum WeightProperty: String, FileMakerProJSONString{
@@ -441,9 +438,10 @@ enum BaseDataProperty: String{
 }
 
 enum EddingtonNumberProperty: String{
-    case activity, activityType, eddingtonCode, annualEddingtonCode
-    case maturity, period, plusOne, unit, value, year
-    case lastUpdated, annual, annualPlusOne, annualMaturity
+    case activity, activityType, lastUpdated, maturity, period, plusOne, unit, value
+    case annualContributors, annualHistory, contributors, history, trainingDiary
+    //calculated:
+    case eddingtonCode
 }
 
 

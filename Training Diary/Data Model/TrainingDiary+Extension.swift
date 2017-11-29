@@ -148,7 +148,7 @@ extension TrainingDiary{
         return result
     }
 
-    // not this can be pretty time consuming if asking for things like RYear
+    // note this can be pretty time consuming if asking for things like RYear
     func getValues(forActivity activity: Activity, andPeriod period: Period, andUnit unit: Unit) -> [(date: Date, value:Double)]{
         if let results = optimisedCalculation(forActivity: activity, andPeriod: period, andUnit: unit){
             //optimized calculation available
@@ -157,12 +157,12 @@ extension TrainingDiary{
         return getValues(forActivity: activity, andPeriod: period, andUnit: unit, fromDate: firstDayOfDiary!)
     }
 
-    // not this can be pretty time consuming if asking for things like RYear
+    // note this can be pretty time consuming if asking for things like RYear
     func getValues(forActivity activity: Activity, andPeriod period: Period, andUnit unit: Unit, fromDate from: Date) -> [(date: Date, value:Double)]{
         return getValues(forActivity: activity, andPeriod: period, andUnit: unit, fromDate: from, toDate: lastDayOfDiary!)
     }
 
-    // not this can be pretty time consuming if asking for things like RYear
+    // note this can be pretty time consuming if asking for things like RYear
     func getValues(forActivity activity: Activity, andPeriod period: Period, andUnit unit: Unit, fromDate from: Date, toDate to: Date) -> [(date: Date, value:Double)]{
         let start = Date()
         var result: [(date: Date, value: Double)] = []

@@ -68,7 +68,43 @@ class CoreDataStackSingleton{
         print("Number of EddingtonNumbers:  \(baseData)")
         
     }
+    
+    
+    func save(){
+        do {
+            try trainingDiaryPC.viewContext.save()
+        } catch {
+            print(error)
+        }
+    }
+    
+    
+    func getDaysOrdered(byKey key: String, isAcending: Bool, trainingDiary td: TrainingDiary) -> [Day]{
+        let descriptor = NSSortDescriptor.init(key: key, ascending: isAcending)
+        return getDays(sortDescriptor: [descriptor], trainingDiary: td)
+    }
+    
+    
+    func getWeightAndFat(forDay day: Date) -> (weight: Double, fatPercentage: Double){
+        if let weight = getWeight(forDay: day){
+            return (weight.kg, weight.fatPercent)
+        }else{
+            return (0.0,0.0)
+        }
+    }
+    
+    func getRestingHeartRate(forDay day: Date) -> Int16{
+        if let physio = getPhysiological(forDay: day){
+            return physio.restingHR
+        }else{
+            return 0
+        }
+    }
+    
 
+
+    //MARK: - Base Data Support
+    
     func createBaseData(forTrainingDiary td: TrainingDiary){
 
         let start = Date()
@@ -108,78 +144,52 @@ class CoreDataStackSingleton{
         let myFetch = NSFetchRequest<NSFetchRequestResult>.init(entityName: "BaseData")
         
         myFetch.predicate = NSPredicate.init(format: "%@ == activity and %@ == activityType AND %@ == period AND %@ == unit AND year == %i AND trainingDiary == %@", argumentArray: [a.rawValue, at.rawValue,p.rawValue,u.rawValue, y, td])
-        var result = baseDataValuesFor(fetch: myFetch)
-        result.eddingtonCode = EddingtonNumber.annualEddingtonCode(forYear: y, activity: a, activityType: at, period: p, unit: u)
+        let result = baseDataValuesFor(fetch: myFetch)
+ //       result.eddingtonCode = EddingtonNumber.annualEddingtonCode(year: y, forActivity: a.rawValue, activityType: at.rawValue, period: p.rawValue, unit: u.rawValue)
         return result
     }
     
     
-    func save(){
-        do {
-            try trainingDiaryPC.viewContext.save()
-        } catch {
-            print(error)
-        }
-    }
-    
-
-
-    
-
-    func getDaysOrdered(byKey key: String, isAcending: Bool, trainingDiary td: TrainingDiary) -> [Day]{
-        let descriptor = NSSortDescriptor.init(key: key, ascending: isAcending)
-        return getDays(sortDescriptor: [descriptor], trainingDiary: td)
-    }
-    
-    
-    func getWeightAndFat(forDay day: Date) -> (weight: Double, fatPercentage: Double){
-        if let weight = getWeight(forDay: day){
-            return (weight.kg, weight.fatPercent)
-        }else{
-            return (0.0,0.0)
-        }
-    }
-    
-    func getRestingHeartRate(forDay day: Date) -> Int16{
-        if let physio = getPhysiological(forDay: day){
-            return physio.restingHR
-        }else{
-            return 0
-        }
-    }
-    
- 
-    
-    /*this checks if this Eddington number exists, if not creates a new one and adds to the training diary
+    /*returns number of base data added
+     checks if Base Data exists and returns it, otherwise creates a new one
      */
-    func getEddingtonNumber(forYear y: Int16, activity a: Activity, activityType at: ActivityType, period p: Period, unit u: Unit, trainingDiary td: TrainingDiary) -> EddingtonNumber{
-        
-        let myFetch = NSFetchRequest<NSFetchRequestResult>.init(entityName: ENTITY.EddingtonNumber.rawValue)
-        
-        myFetch.predicate = NSPredicate.init(format: "%@ == activity and %@ == activityType AND %@ == period AND %@ == unit AND %i == year AND trainingDiary == %@ ", argumentArray: [a.rawValue, at.rawValue,p.rawValue,u.rawValue, y, td])
-    
-        do{
-            let results = try trainingDiaryPC.viewContext.fetch(myFetch) as! [EddingtonNumber]
-            if results.count == 1{
-                return results[0]
-            }else if results.count > 1{
-                print("*** duplicates found (\(results.count) records returned) for eddington number \(String(describing: results[0].eddingtonCode))")
-                return results[0]
-            }
-        }catch{
-            print("Eddington number Fetch failed with error: \(error)")
-            let newEd =  createNewEddingtonNumber(forYear:y,activity:a,activityType:at,period:p,unit:u)
-            td.mutableSetValue(forKey: TrainingDiaryProperty.eddingtonNumbers.rawValue).add(newEd)
-            return newEd
+    func addBaseDataFor(date d: Date, activity a: Activity, activityType at: ActivityType, period p: Period, unit u: Unit, value v: Double, trainingDiary td: TrainingDiary) -> Int{
+        if v > 0.99{
+            let bd = getBaseData(date: d, activity: a, activityType: at, period: p, unit: u, value: v, trainingDiary: td)
+            bd.setValue(v, forKey: BaseDataProperty.value.rawValue)
+            return 1
         }
-    
-        //return newly created one
-        let newEd =  createNewEddingtonNumber(forYear:y,activity:a,activityType:at,period:p,unit:u)
-        td.mutableSetValue(forKey: TrainingDiaryProperty.eddingtonNumbers.rawValue).add(newEd)
-        return newEd
-
+        return 0
     }
     
+    
+
+    
+
+
+    
+    //MARK: - Eddington Number Support
+    
+    func newEddingtonHistory() -> EddingtonHistory{
+        let eh = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.EddingtonHistory.rawValue, in: trainingDiaryPC.viewContext)!, insertInto: trainingDiaryPC.viewContext)
+        return eh as! EddingtonHistory
+    }
+
+    func newEddingtonAnnualHistory() -> EddingtonAnnualHistory{
+        let eh = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.EddingtonAnnualHistory.rawValue, in: trainingDiaryPC.viewContext)!, insertInto: trainingDiaryPC.viewContext)
+        return eh as! EddingtonAnnualHistory
+    }
+    
+    func newEddingtonContributor() -> EddingtonContributor{
+        let eh = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.EddingtonContributor.rawValue, in: trainingDiaryPC.viewContext)!, insertInto: trainingDiaryPC.viewContext)
+        return eh as! EddingtonContributor
+    }
+    
+    func newEddingtonAnnualContributor() -> EddingtonAnnualContributor{
+        let eh = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.EddingtonAnnualContributor.rawValue, in: trainingDiaryPC.viewContext)!, insertInto: trainingDiaryPC.viewContext)
+        return eh as! EddingtonAnnualContributor
+    }
+
     func deleteAllEddingtonNumbers(forTrainingDiary td: TrainingDiary){
         
         let eddingtonNumberRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: ENTITY.EddingtonNumber.rawValue)
@@ -195,20 +205,6 @@ class CoreDataStackSingleton{
         }
     }
     
-    
-    /*returns number of base data added
-     checks if Base Data exists and returns it, otherwise creates a new one
-     */
-    func addBaseDataFor(date d: Date, activity a: Activity, activityType at: ActivityType, period p: Period, unit u: Unit, value v: Double, trainingDiary td: TrainingDiary) -> Int{
-        if v > 0.99{
-            let bd = getBaseData(date: d, activity: a, activityType: at, period: p, unit: u, value: v, trainingDiary: td)
-            bd.setValue(v, forKey: BaseDataProperty.value.rawValue)
-            return 1
-        }
-        return 0
-    }
-
-
     // MARK: - Private
     
     private func getPhysiological(forDay day: Date) -> Physiological?{
@@ -448,19 +444,6 @@ class CoreDataStackSingleton{
         }
     }
     
-    //CHECK- should this set the EddingtonNumber values via setValue(ForKey: ?
-    private func createNewEddingtonNumber(forYear y: Int16, activity a: Activity, activityType at: ActivityType, period p: Period, unit u: Unit) -> EddingtonNumber{
-        
-        let mo = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.EddingtonNumber.rawValue, in: trainingDiaryPC.viewContext)!, insertInto: trainingDiaryPC.viewContext)
-         let ed = mo as! EddingtonNumber
-        ed.year = y
-        ed.activity = a.rawValue
-        ed.activityType = at.rawValue
-        ed.period = p.rawValue
-        ed.unit = u.rawValue
-        
-        return ed
-    }
     
     private func getCount(forEntity entity: ENTITY, forTrainingDiary td: TrainingDiary) -> Int{
         switch entity{

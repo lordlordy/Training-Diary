@@ -101,6 +101,14 @@ class GraphView: NSView {
         needsDisplay = true
     }
     
+    func clearGraphs(){
+        for g in graphs{
+            endObserving(g)
+            graphs.remove(g)
+        }
+        needsDisplay = true
+    }
+    
     private func startObserving(_ graph: GraphDefinition){
         for keyPath in GraphFormat.observerStrings{ graph.format.addObserver(self, forKeyPath: keyPath, options: .new, context: nil)}
         for keyPath in GraphDefinition.observerStrings{ graph.addObserver(self, forKeyPath: keyPath, options: .new, context: nil)}

@@ -152,7 +152,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
     
     
 
-    
+/*
     @IBAction func calculateEddingtonNumbers(_ sender: Any){
         print("Calcing Eddington Numbers from base data...")
         let start = Date()
@@ -167,16 +167,15 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
         let nonZero = edNums.filter({$0.value > 0})
         print("Calculated \(edNums.count) Eddington Numbers (\(nonZero.count) non zero) in \(Date().timeIntervalSince(start)) seconds")
     }
-    
+*/
     @IBAction func deleteEddingtonNumbers(_ sender: Any){
         let start = Date()
         CoreDataStackSingleton.shared.deleteAllEddingtonNumbers(forTrainingDiary: getSelectedTrainingDiary())
         print("All eddington numbers deleted in \(Date().timeIntervalSince(start)) seconds")
     }
 
-    @IBAction func calculateHistoryForYear(_ sender: Any){
-        /* There has to be a better way that this
- */
+/*    @IBAction func calculateHistoryForYear(_ sender: Any){
+
         let dialog = NSAlert()
         dialog.alertStyle = .informational
         dialog.messageText = "Please select a year"
@@ -218,15 +217,15 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
         }
                 
     }
-    
+  */
     //MARK: - Testing
-    
+
     @IBAction func testFeature(_ sender: Any) {
         print("no feature being tested at the moment")
         let button: NSButton = sender as! NSButton
         print("\(button)")
     }
-    
+ 
     @IBAction func deleteALL(_ sender: Any) {
         
         let dialog = NSAlert()
