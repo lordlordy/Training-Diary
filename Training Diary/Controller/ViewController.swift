@@ -20,7 +20,6 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
     
     private var daysViewController: DaysViewController?
     private var eddingtonNumbersViewController: EddingtonNumbersViewController?
-    private var baseDataViewController: BaseDataViewController?
     private var weightHRViewController: WeightHRViewController?
     private var graphViewController: GraphViewController?
 
@@ -57,9 +56,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
             if let controller = controller as? EddingtonNumbersViewController{
                 eddingtonNumbersViewController = controller
             }
-            if let controller = controller as? BaseDataViewController{
-                baseDataViewController = controller
-            }
+
             if let controller = controller as? WeightHRViewController{
                 weightHRViewController = controller
             }
@@ -116,7 +113,6 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
         if let trainingDiary = trainingDiarysArrayController.selectedObjects[0] as? TrainingDiary{
             daysViewController?.setValue(trainingDiary, forKeyPath: "trainingDiary")
             eddingtonNumbersViewController?.setValue(trainingDiary, forKeyPath: "trainingDiary")
-            baseDataViewController?.setValue(trainingDiary, forKeyPath: "trainingDiary")
             weightHRViewController?.setValue(trainingDiary, forKeyPath: "trainingDiary")
             //by using the method I can insert code in that method to add obervers on the training diary
             graphViewController?.setTrainingDiary(trainingDiary)
@@ -150,74 +146,8 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
         CoreDataStackSingleton.shared.printEntityCounts(forDiary: getSelectedTrainingDiary())
     }
     
-    
 
-/*
-    @IBAction func calculateEddingtonNumbers(_ sender: Any){
-        print("Calcing Eddington Numbers from base data...")
-        let start = Date()
-        //need to check this defaults to local timezone
-        let cal = Calendar.init(identifier: Calendar.Identifier.gregorian)
-        let dc = cal.dateComponents([Calendar.Component.year], from: start)
-        //current year
-        let year = dc.value(for: Calendar.Component.year)!
-        //bit painful converting Int to Int16. Since this is a year it'll definitely be in range.
-        let y: Int16 = Int16.init(exactly:year)!
-        let edNums = EddingtonNumberCalculator.shared.calcEddingtonNumbersFromBaseData(forTrainingDiary: self.getSelectedTrainingDiary(), andYear: y)
-        let nonZero = edNums.filter({$0.value > 0})
-        print("Calculated \(edNums.count) Eddington Numbers (\(nonZero.count) non zero) in \(Date().timeIntervalSince(start)) seconds")
-    }
-*/
-    @IBAction func deleteEddingtonNumbers(_ sender: Any){
-        let start = Date()
-        CoreDataStackSingleton.shared.deleteAllEddingtonNumbers(forTrainingDiary: getSelectedTrainingDiary())
-        print("All eddington numbers deleted in \(Date().timeIntervalSince(start)) seconds")
-    }
 
-/*    @IBAction func calculateHistoryForYear(_ sender: Any){
-
-        let dialog = NSAlert()
-        dialog.alertStyle = .informational
-        dialog.messageText = "Please select a year"
-        dialog.informativeText = "Eddington numbers will be calculated LTD to the end of selected year and annualf or that year."
-        
-        // figure out current year
-        let cal = Calendar.init(identifier: Calendar.Identifier.gregorian)
-        let year = cal.dateComponents([Calendar.Component.year], from: Date()).value(for: Calendar.Component.year)!
-        
-        for i in 2004...year-9 {
-            dialog.addButton(withTitle: String(i))
-        }
-        
-        let r = dialog.runModal()
-        let selectedYear = r.rawValue + 1004
-        let start = Date()
-        switch selectedYear{
-        case 2004:
-        let ednums = EddingtonNumberCalculator.shared.calcEddingtonNumbersFromBaseData(forTrainingDiary: getSelectedTrainingDiary(), andYear: 2004)
-            print("History for \(selectedYear) produced \(ednums.count) EddingtonNumbers and took \(Date().timeIntervalSince(start)) seconds")
-
-        case 2005:
-            let ednums = EddingtonNumberCalculator.shared.calcEddingtonNumbersFromBaseData(forTrainingDiary: getSelectedTrainingDiary(), andYear: 2005)
-            print("History for \(selectedYear) produced \(ednums.count) EddingtonNumbers and took \(Date().timeIntervalSince(start)) seconds")
-
-        case 2006:
-            let ednums = EddingtonNumberCalculator.shared.calcEddingtonNumbersFromBaseData(forTrainingDiary: getSelectedTrainingDiary(), andYear: 2006)
-            print("History for \(selectedYear) produced \(ednums.count) EddingtonNumbers and took \(Date().timeIntervalSince(start)) seconds")
-
-        case 2007:
-            let ednums = EddingtonNumberCalculator.shared.calcEddingtonNumbersFromBaseData(forTrainingDiary: getSelectedTrainingDiary(), andYear: 2007)
-            print("History for \(selectedYear) produced \(ednums.count) EddingtonNumbers and took \(Date().timeIntervalSince(start)) seconds")
-
-        case 2008:
-            let ednums = EddingtonNumberCalculator.shared.calcEddingtonNumbersFromBaseData(forTrainingDiary: getSelectedTrainingDiary(), andYear: 2008)
-            print("History for \(selectedYear) produced \(ednums.count) EddingtonNumbers and took \(Date().timeIntervalSince(start)) seconds")
-
-        default: print("How on earth did you press that button? I thought it didn't exist")
-        }
-                
-    }
-  */
     //MARK: - Testing
 
     @IBAction func testFeature(_ sender: Any) {

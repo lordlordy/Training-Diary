@@ -24,33 +24,8 @@ class DaysViewController: NSViewController {
         }
     }
     
-    
-    @IBAction func createBaseDataForSelectionMethod2(_ sender: NSButton) {
-        let start = Date()
-        if let days = daysArrayController.selectedObjects{
-            print("\(days.count) days selected")
-            for d in days{
-                BaseDataCalculator.shared.createBaseDataMethod2(forDay: d as! Day)
-            }
-        }else{
-            print("No days selected")
-        }
-        print("Time take: \(Date().timeIntervalSince(start)) seconds")
-    }
-    
-    @IBAction func createBaseDataForSelection(_ sender: NSButton){
-        let start = Date()
-        if let days = daysArrayController.selectedObjects{
-            print("\(days.count) days selected")
-            for d in days{
-                BaseDataCalculator.shared.createBaseData(forDay: d as! Day)
-            }
-        }else{
-            print("No days selected")
-        }
-        print("Time take: \(Date().timeIntervalSince(start)) seconds")
-    }
-    
+
+
     @IBAction func periodComboBoxChanged(_ sender: NSComboBox) {
         var s: String = ""
         switch sender.stringValue.lowercased(){
@@ -136,13 +111,11 @@ class DaysViewController: NSViewController {
         super.viewDidLoad()
         daysArrayController.sortDescriptors.append(NSSortDescriptor.init(key: "date", ascending: false))
         
-   //     if let td = trainingDiary {
             print("Adding observer")
             // Add Observer
             let notificationCentre = NotificationCenter.default
         notificationCentre.addObserver(self, selector: #selector(DaysViewController.notificationReceived), name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: nil)
 
-    //   }
     }
     
 
@@ -152,16 +125,13 @@ class DaysViewController: NSViewController {
         if let moc = notification.object as! NSManagedObjectContext?{
             if let ui = notification.userInfo{
                 if let updates = ui[NSUpdatedObjectsKey] as? Set<NSManagedObject>, updates.count > 0 {
-             //       print("--- UPDATES ---")
                     for update in updates {
                         if let workout = moc.object(with: update.objectID) as? Workout{
                             if let day = workout.day{
                                 day.setValue(true, forKey: DayProperty.workoutChanged.rawValue)
                             }
                         }
-               //         print(update.changedValues())
                     }
-                   // print("+++++++++++++++")
                 }
             }
         }

@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13240" systemVersion="16G1036" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="BaseData" representedClassName="BaseData" syncable="YES" codeGenerationType="class">
-        <attribute name="activity" optional="YES" attributeType="String" defaultValueString="Swim" syncable="YES"/>
-        <attribute name="activityType" optional="YES" attributeType="String" defaultValueString="Squad" syncable="YES"/>
-        <attribute name="date" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="period" optional="YES" attributeType="String" defaultValueString="Day" syncable="YES"/>
-        <attribute name="unit" optional="YES" attributeType="String" defaultValueString="KM" syncable="YES"/>
-        <attribute name="value" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="year" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <relationship name="trainingDiary" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TrainingDiary" inverseName="baseData" inverseEntity="TrainingDiary" syncable="YES"/>
-    </entity>
     <entity name="Day" representedClassName="Day" syncable="YES" codeGenerationType="class">
         <attribute name="bikeATL" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="bikeCTL" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
@@ -99,7 +89,6 @@
         <attribute name="runCTLDays" optional="YES" attributeType="Double" defaultValueString="42" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="swimATLDays" optional="YES" attributeType="Double" defaultValueString="7" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="swimCTLDays" optional="YES" attributeType="Double" defaultValueString="42" usesScalarValueType="YES" syncable="YES"/>
-        <relationship name="baseData" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BaseData" inverseName="trainingDiary" inverseEntity="BaseData" syncable="YES"/>
         <relationship name="days" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Day" inverseName="trainingDiary" inverseEntity="Day" syncable="YES"/>
         <relationship name="eddingtonNumbers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="EddingtonNumber" inverseName="trainingDiary" inverseEntity="EddingtonNumber" syncable="YES"/>
         <relationship name="physiologicals" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Physiological" inverseName="trainingDiary" inverseEntity="Physiological" syncable="YES"/>
@@ -136,7 +125,6 @@
         <relationship name="day" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Day" inverseName="workouts" inverseEntity="Day" syncable="YES"/>
     </entity>
     <elements>
-        <element name="BaseData" positionX="-477" positionY="-504" width="128" height="165"/>
         <element name="Day" positionX="-279" positionY="-165" width="128" height="420"/>
         <element name="EddingtonAnnualContributor" positionX="-477" positionY="135" width="128" height="90"/>
         <element name="EddingtonAnnualHistory" positionX="-630" positionY="147" width="128" height="103"/>
@@ -144,7 +132,7 @@
         <element name="EddingtonHistory" positionX="-630" positionY="-42" width="128" height="103"/>
         <element name="EddingtonNumber" positionX="-486" positionY="-258" width="128" height="225"/>
         <element name="Physiological" positionX="52" positionY="-468" width="128" height="193"/>
-        <element name="TrainingDiary" positionX="-227" positionY="-531" width="128" height="315"/>
+        <element name="TrainingDiary" positionX="-227" positionY="-531" width="128" height="300"/>
         <element name="Weight" positionX="45" positionY="-243" width="128" height="133"/>
         <element name="Workout" positionX="-101" positionY="-9" width="128" height="345"/>
     </elements>

@@ -75,8 +75,7 @@ enum Period: String{
     case Lifetime       = "Lifetime"
     case Adhoc          = "Adhoc"
     
-    static var baseDataPeriods = [Day,Week,Month,Year, WeekToDate,MonthToDate, YearToDate,rWeek,rMonth,rYear]
-  //  static var baseDataPeriods = [Day,Week,Month]
+//    static var baseDataPeriods = [Day,Week,Month,Year, WeekToDate,MonthToDate, YearToDate,rWeek,rMonth,rYear]
     static var All = [Day,Week,Month,Year, WeekToDate,MonthToDate, YearToDate,rWeek,rMonth,rYear, Lifetime, Adhoc]
     
     
@@ -117,36 +116,11 @@ enum Activity: String{
     case All   // special case to indicate this is any and all activities
     
     static var allActivities = [Swim,Bike,Run,Gym,Walk,Other,All]
-    static var baseDataActivities = [Swim,Bike,Run,All]
-    
-    func unitsForEddingtonNumbers() -> [Unit]{
-        switch self{
-        case .Swim:
-            return [Unit.Hours, Unit.KJ, Unit.KM, Unit.Miles, Unit.Minutes, Unit.Seconds, Unit.TSS, Unit.Watts, Unit.ATL, Unit.CTL, Unit.TSB]
-        case .Bike, .Run, .Walk:
-            return [Unit.AscentMetres,Unit.AscentFeet, Unit.Cadence, Unit.Hours, Unit.HR, Unit.KJ, Unit.KM, Unit.Miles, Unit.Minutes, Unit.Seconds, Unit.TSS, Unit.Watts, Unit.ATL, Unit.CTL, Unit.TSB]
-        case .Gym:
-            return [Unit.Hours, Unit.KJ, Unit.Minutes, Unit.Reps, Unit.Seconds, Unit.TSS, Unit.ATL, Unit.CTL, Unit.TSB]
-        case .Other:
-            return [Unit.Hours, Unit.HR, Unit.KJ, Unit.Minutes, Unit.Seconds, Unit.TSS, Unit.ATL, Unit.CTL, Unit.TSB]
-        case .All:
-            return [Unit.AscentMetres,Unit.AscentFeet, Unit.Cadence, Unit.Hours, Unit.HR, Unit.KJ, Unit.KM, Unit.Miles, Unit.Minutes, Unit.Reps, Unit.Seconds, Unit.TSS, Unit.Watts, Unit.ATL, Unit.CTL, Unit.TSB]
-        }
-    }
     
     func keyString(forUnit unit: Unit) -> String{
         return self.rawValue.lowercased() + unit.rawValue
     }
     
-    func typesForEddingtonNumbers() -> [ActivityType]{
-        switch self{
-        case .Swim: return  [ActivityType.All]
-        case .Bike: return  [ActivityType.All]
-        case .Run: return   [ActivityType.All]
-        case .Gym: return   [ActivityType.All]
-        default: return [ActivityType.All]
-        }
-    }
 
 }
 
@@ -208,9 +182,8 @@ enum Unit: String{
         case .CTL:           return nil
         case .TSB:           return nil
         }
+ 
     }
-    
-    
     
     /* Responds if a unit is derived from another unit.
      */
@@ -273,7 +246,6 @@ enum FPMJSONString: String, FileMakerProJSONString{
 
 enum ENTITY: String{
     case TrainingDiary, Day, Workout, Weight, Physiological
-    case BaseData
     case EddingtonNumber, EddingtonAnnualContributor, EddingtonAnnualHistory
     case EddingtonContributor, EddingtonHistory
 }
@@ -327,7 +299,7 @@ enum TrainingDiaryProperty: String, FileMakerProJSONString{
     case swimATLDays, swimCTLDays, bikeATLDays, bikeCTLDays, runATLDays, runCTLDays, atlDays, ctlDays
 
     //relationships
-    case baseData, eddingtonNumbers
+    case eddingtonNumbers
     case days, physiologicals, weights
     
     func fmpString() -> String {
@@ -432,10 +404,7 @@ enum DayProperty: String, FileMakerProJSONString{
     }
 }
 
-enum BaseDataProperty: String{
-    case activity, activityType, date, eddingtonCode, annualEddingtonColde
-    case id, period, unit, value, year
-}
+
 
 enum EddingtonNumberProperty: String{
     case activity, activityType, lastUpdated, maturity, period, plusOne, unit, value

@@ -13,7 +13,7 @@ class PeriodComboBox: NSComboBox {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         //this excludes Adhoc and Lifetime
-        self.addItems(withObjectValues: Period.baseDataPeriods.map({$0.rawValue}))
+        self.addItems(withObjectValues: Period.All.map({$0.rawValue}))
         
     }
   

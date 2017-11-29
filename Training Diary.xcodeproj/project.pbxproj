@@ -31,7 +31,6 @@
 		7385C4791FAA600A00F48685 /* DaysViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7385C4781FAA600A00F48685 /* DaysViewController.swift */; };
 		73920AB31FC8D2CB00A9686F /* AxisComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73920AB21FC8D2CA00A9686F /* AxisComboBox.swift */; };
 		73AF13FF1FB064D2002A1B9E /* RollingSumQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AF13FE1FB064D2002A1B9E /* RollingSumQueue.swift */; };
-		73AF14031FB06A1E002A1B9E /* BaseDataCreatorFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AF14021FB06A1E002A1B9E /* BaseDataCreatorFactory.swift */; };
 		73B2B9E31F894CC00044DD4E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B2B9E21F894CC00044DD4E /* AppDelegate.swift */; };
 		73B2B9E51F894CC00044DD4E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B2B9E41F894CC00044DD4E /* ViewController.swift */; };
 		73B2B9E81F894CC00044DD4E /* Training_Diary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 73B2B9E61F894CC00044DD4E /* Training_Diary.xcdatamodeld */; };
@@ -42,15 +41,12 @@
 		73B2BA001F898BF30044DD4E /* Workout+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B2B9FF1F898BF30044DD4E /* Workout+Extension.swift */; };
 		73B2BA021F898C060044DD4E /* Day+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B2BA011F898C060044DD4E /* Day+Extension.swift */; };
 		73B3188D1FAB78D000B75550 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B3188C1FAB78D000B75550 /* String+Extension.swift */; };
-		73BF51A51FAC7F4400390D65 /* BaseDataCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73BF51A41FAC7F4400390D65 /* BaseDataCalculator.swift */; };
 		73C3B37D1F97AC1400ED6108 /* EddingtonNumberCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C3B37C1F97AC1400ED6108 /* EddingtonNumberCalculator.swift */; };
 		73C3B37F1F97DC5A00ED6108 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C3B37E1F97DC5A00ED6108 /* Date+Extension.swift */; };
 		73C58CA71FA8EFD200F57BAE /* EddingtonNumber+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C58CA61FA8EFD200F57BAE /* EddingtonNumber+Extension.swift */; };
-		73C58CA91FA8FEB200F57BAE /* BaseDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C58CA81FA8FEB200F57BAE /* BaseDataViewController.swift */; };
 		73D6CC711FC80A75006830DA /* GraphFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D6CC701FC80A75006830DA /* GraphFormat.swift */; };
 		73D6CC771FC86CBE006830DA /* RollingPeriodSum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D6CC761FC86CBE006830DA /* RollingPeriodSum.swift */; };
 		73D6CC791FC86E5D006830DA /* ToDateSum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D6CC781FC86E5D006830DA /* ToDateSum.swift */; };
-		73D8D7151FB5E26700FAB8A3 /* BaseData+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D8D7141FB5E26700FAB8A3 /* BaseData+Extension.swift */; };
 		73E25E191FBEA9150081FC62 /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E25E181FBEA9150081FC62 /* GraphView.swift */; };
 		73E25E1B1FC038FC0081FC62 /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E25E1A1FC038FC0081FC62 /* GraphViewController.swift */; };
 		73E582631F8A12A500B6E25D /* DaysArrayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E582621F8A12A500B6E25D /* DaysArrayController.swift */; };
@@ -83,7 +79,6 @@
 		7385C4781FAA600A00F48685 /* DaysViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaysViewController.swift; sourceTree = "<group>"; };
 		73920AB21FC8D2CA00A9686F /* AxisComboBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AxisComboBox.swift; sourceTree = "<group>"; };
 		73AF13FE1FB064D2002A1B9E /* RollingSumQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollingSumQueue.swift; sourceTree = "<group>"; };
-		73AF14021FB06A1E002A1B9E /* BaseDataCreatorFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDataCreatorFactory.swift; sourceTree = "<group>"; };
 		73B2B9DF1F894CC00044DD4E /* Training Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Training Diary.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		73B2B9E21F894CC00044DD4E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		73B2B9E41F894CC00044DD4E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -97,15 +92,12 @@
 		73B2B9FF1F898BF30044DD4E /* Workout+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Workout+Extension.swift"; sourceTree = "<group>"; };
 		73B2BA011F898C060044DD4E /* Day+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Day+Extension.swift"; sourceTree = "<group>"; };
 		73B3188C1FAB78D000B75550 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
-		73BF51A41FAC7F4400390D65 /* BaseDataCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDataCalculator.swift; sourceTree = "<group>"; };
 		73C3B37C1F97AC1400ED6108 /* EddingtonNumberCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EddingtonNumberCalculator.swift; sourceTree = "<group>"; };
 		73C3B37E1F97DC5A00ED6108 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		73C58CA61FA8EFD200F57BAE /* EddingtonNumber+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EddingtonNumber+Extension.swift"; sourceTree = "<group>"; };
-		73C58CA81FA8FEB200F57BAE /* BaseDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDataViewController.swift; sourceTree = "<group>"; };
 		73D6CC701FC80A75006830DA /* GraphFormat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphFormat.swift; sourceTree = "<group>"; };
 		73D6CC761FC86CBE006830DA /* RollingPeriodSum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollingPeriodSum.swift; sourceTree = "<group>"; };
 		73D6CC781FC86E5D006830DA /* ToDateSum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDateSum.swift; sourceTree = "<group>"; };
-		73D8D7141FB5E26700FAB8A3 /* BaseData+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BaseData+Extension.swift"; sourceTree = "<group>"; };
 		73E25E181FBEA9150081FC62 /* GraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
 		73E25E1A1FC038FC0081FC62 /* GraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
 		73E582621F8A12A500B6E25D /* DaysArrayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaysArrayController.swift; sourceTree = "<group>"; };
@@ -201,7 +193,6 @@
 				7309AED51FC6CCC100054A6B /* ActivityGraphDefinition.swift */,
 				7333B8621FA76F3A00E93BF0 /* EddingtonNumbersViewController.swift */,
 				73265B631FB471A00081D3F9 /* WeightHRViewController.swift */,
-				73C58CA81FA8FEB200F57BAE /* BaseDataViewController.swift */,
 				73B2B9FB1F896F920044DD4E /* TransformerNSNumberToTimeFormat.swift */,
 				73F270611FAB0CC400D36156 /* TableViewWithColumnSort.swift */,
 			);
@@ -212,7 +203,6 @@
 			isa = PBXGroup;
 			children = (
 				73B2B9E61F894CC00044DD4E /* Training_Diary.xcdatamodeld */,
-				73D8D7141FB5E26700FAB8A3 /* BaseData+Extension.swift */,
 				73F2119E1FB4A06900062DAE /* JSONImporter.swift */,
 				73B2BA011F898C060044DD4E /* Day+Extension.swift */,
 				73265B651FB47D240081D3F9 /* Weight+Extension.swift */,
@@ -222,8 +212,6 @@
 				73444C3E1F96AB9B00B3E84D /* Enumerations.swift */,
 				73C58CA61FA8EFD200F57BAE /* EddingtonNumber+Extension.swift */,
 				73C3B37C1F97AC1400ED6108 /* EddingtonNumberCalculator.swift */,
-				73BF51A41FAC7F4400390D65 /* BaseDataCalculator.swift */,
-				73AF14021FB06A1E002A1B9E /* BaseDataCreatorFactory.swift */,
 				731CF8041F981C3300C59AA8 /* RollingSum.swift */,
 				731CF8061F98467A00C59AA8 /* TSBCalculator.swift */,
 			);
@@ -301,10 +289,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				73D8D7151FB5E26700FAB8A3 /* BaseData+Extension.swift in Sources */,
 				73B2B9E51F894CC00044DD4E /* ViewController.swift in Sources */,
 				73265B661FB47D240081D3F9 /* Weight+Extension.swift in Sources */,
-				73AF14031FB06A1E002A1B9E /* BaseDataCreatorFactory.swift in Sources */,
 				7309AED61FC6CCC100054A6B /* ActivityGraphDefinition.swift in Sources */,
 				73F270621FAB0CC400D36156 /* TableViewWithColumnSort.swift in Sources */,
 				7369D9EE1FB23DBC00ECAA1E /* DayTypeComboBox.swift in Sources */,
@@ -324,7 +310,6 @@
 				7333B9F61FB6F199005F424E /* PhysiologicalsArrayController.swift in Sources */,
 				73C3B37F1F97DC5A00ED6108 /* Date+Extension.swift in Sources */,
 				73C3B37D1F97AC1400ED6108 /* EddingtonNumberCalculator.swift in Sources */,
-				73BF51A51FAC7F4400390D65 /* BaseDataCalculator.swift in Sources */,
 				73B2BA001F898BF30044DD4E /* Workout+Extension.swift in Sources */,
 				73C58CA71FA8EFD200F57BAE /* EddingtonNumber+Extension.swift in Sources */,
 				7333B8631FA76F3A00E93BF0 /* EddingtonNumbersViewController.swift in Sources */,
@@ -336,7 +321,6 @@
 				7333B9F41FB6E04C005F424E /* WeightsArrayController.swift in Sources */,
 				7369D9F61FB24F8C00ECAA1E /* TSSMethodComboBox.swift in Sources */,
 				73B2B9FC1F896F920044DD4E /* TransformerNSNumberToTimeFormat.swift in Sources */,
-				73C58CA91FA8FEB200F57BAE /* BaseDataViewController.swift in Sources */,
 				7328070B1FACBC2900658833 /* Queue.swift in Sources */,
 				73B2B9F81F894E870044DD4E /* CoreDataStackSingleton.swift in Sources */,
 				731CF8071F98467A00C59AA8 /* TSBCalculator.swift in Sources */,
