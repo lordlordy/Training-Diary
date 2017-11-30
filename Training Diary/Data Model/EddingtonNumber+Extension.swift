@@ -14,9 +14,8 @@ extension EddingtonNumber{
     var nextAnnualEddingtonNumber: Int16 { return annual + 1}
     @objc dynamic var plusOne: Int16 { return nextEddingtonNumber - Int16(contributorsToNext().count) }
     @objc dynamic var annualPlusOne: Int16 { return nextAnnualEddingtonNumber  - Int16(contributorsToAnnualNext().count) }
-    @objc dynamic var maturity: Double{
-        return 12.345
-    }
+    @objc dynamic var maturity: Double{ return calculateMaturity() }
+    @objc dynamic var daysSinceLastContributor: Double { return calculateDaysSinceLastContributor() }
 
     @objc dynamic var eddingtonCode: String{
         var result = ""
@@ -71,6 +70,10 @@ extension EddingtonNumber{
         return all.sorted(by: {$0.date! < $1.date!})
     }
     
+    public func getSortedContributors() -> [EddingtonContributor]{
+        return getContributors().sorted(by: {$0.date! < $1.date!})
+    }
+    
     public func getContributors() -> [EddingtonContributor]{
         if let c = self.contributors{
             return c.allObjects as! [EddingtonContributor]
@@ -87,6 +90,8 @@ extension EddingtonNumber{
             return keyPaths.union(Set(["activity","activityType","period","unit"]))
         case "annualEddingtonCode":
             return keyPaths.union(Set(["activity","activityType","period","unit","year"]))
+        case "maturity":
+            return keyPaths.union(Set(["lastUpdated"]))
         default:
             return keyPaths
         }
@@ -214,6 +219,26 @@ extension EddingtonNumber{
     private func setLastHistoryToEndOfYear(){
         let sortedHistory = getSortedAnnualHistory()
         sortedHistory[sortedHistory.count - 1].date = sortedHistory[sortedHistory.count - 1].date?.endOfYear()
+    }
+    
+
+    
+    private func calculateMaturity() -> Double{
+
+        let daysSinceLastContributor = calculateDaysSinceLastContributor()
+        return 1 - 1 / ( exp(daysSinceLastContributor/365))
+        
+    }
+    
+    private func calculateDaysSinceLastContributor() -> Double{
+        let sortedContributors = getSortedContributors()
+        if sortedContributors.count > 0{
+            if let now = trainingDiary?.lastDayOfDiary{
+                let seconds = now.timeIntervalSince(sortedContributors[sortedContributors.count - 1].date!)
+                return seconds / Constant.SecondsPerDay.rawValue
+            }
+        }
+        return 0.0
     }
     
     

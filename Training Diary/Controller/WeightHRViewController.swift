@@ -146,9 +146,7 @@ class WeightHRViewController: NSViewController {
             if let wgv = weightGraphView{
                 let kg = td.kgAscendingDateOrder()
                 let fatPercent = td.fatPercentageDateOrder()
-                print("Rolling KG" )
                 let rollingKG = createRollingData(fromData: kg, everyXDays: 30)
-                print("Rolling Fat%")
                 let rollingFat = createRollingData(fromData: fatPercent, everyXDays: 30)
                 let kgGraphDefinition = GraphView.GraphDefinition(name: CacheKey.kg.rawValue, data: kg, axis: .Primary, type: .Point, format: GraphFormat(fill: false, colour: .systemPink, fillGradientStart: .systemPink, fillGradientEnd: .systemPink, gradientAngle: 45, size: 1.0), drawZeroes: false, priority: 1)
                 let rollingKGGraphDefinition = GraphView.GraphDefinition(name: CacheKey.rollingKG.rawValue, data: rollingKG, axis: .Primary, type: .Line, format: GraphFormat(fill: false, colour: .red, fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 45, size: 1.0), drawZeroes: false, priority: 1)

@@ -29,6 +29,17 @@ public class EddingtonNumberCalculator{
                     
                     eddingtonNumber.lastUpdated = Date()
 
+                    if p == Period.Week{
+                        let nonZero = values.filter({$0.value > 0.0}).sorted(by: {$0.value > $1.value})
+                        var count = 1
+                        for v in nonZero{
+                            print("\(count): \(v.date) \(v.value)")
+                            count += 1
+                        }
+                        print("\(nonZero.count) values")
+
+                    }
+                    
                 }
             }
         }

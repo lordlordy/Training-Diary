@@ -211,10 +211,12 @@ class JSONImporter{
                                 workout.setValue(wp.value, forKey: WorkoutProperty.ascentMetres.rawValue)
                             case WorkoutProperty.bike.fmpString():
                                 workout.setValue(wp.value as! String, forKey: WorkoutProperty.bike.rawValue)
-                                //                            case WorkoutProperty.IsRace.fmpString():
+                            case WorkoutProperty.isRace.fmpString():
                                 // need to sort out conversion to boolean
-                                //                            case WorkoutProperty.Brick.fmpString():
-                            //                              workout.setValue(wp.value as! String, forKey: WorkoutProperty.Brick.rawValue)
+                                print("IsRace: \(wp.value)")
+                            case WorkoutProperty.brick.fmpString():
+                                print("Brick: \(wp.value)")
+                            //    workout.setValue(wp.value as! String, forKey: WorkoutProperty.Brick.rawValue)
                             case WorkoutProperty.cadence.fmpString():
                                 workout.setValue(wp.value, forKey: WorkoutProperty.cadence.rawValue)
                             case WorkoutProperty.comments.fmpString():

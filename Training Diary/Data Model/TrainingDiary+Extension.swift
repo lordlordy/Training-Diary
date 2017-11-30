@@ -148,7 +148,6 @@ extension TrainingDiary{
         return result
     }
 
-    // note this can be pretty time consuming if asking for things like RYear
     func getValues(forActivity activity: Activity, andPeriod period: Period, andUnit unit: Unit) -> [(date: Date, value:Double)]{
         if let results = optimisedCalculation(forActivity: activity, andPeriod: period, andUnit: unit){
             //optimized calculation available

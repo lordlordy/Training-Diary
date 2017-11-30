@@ -191,19 +191,22 @@ extension Date{
     }
     
     public func startOfRWeek() -> Date{
-        let dc  = DateComponents.init(day: -7 )
+        //note minus 6 as RWeek is inclusive - ie 7 days includes first and last day
+        let dc  = DateComponents.init(day: -6 )
         return calendar.date(byAdding: dc, to: self)!
     }
     
     //note just uses 30 days
     public func startOfRMonth() -> Date{
-        let dc  = DateComponents.init(day: -30 )
+        // note minus 29 as this is inclusive ... so period will be 30
+        let dc  = DateComponents.init(day: 29 )
         return calendar.date(byAdding: dc, to: self)!
     }
     
     //note just uses 365 days
     public func startOfRYear() -> Date{
-        let dc  = DateComponents.init(day: -365 )
+        //note minute 364 as this is inclusive... so period will be 365
+        let dc  = DateComponents.init(day: -364 )
         return calendar.date(byAdding: dc, to: self)!
     }
     

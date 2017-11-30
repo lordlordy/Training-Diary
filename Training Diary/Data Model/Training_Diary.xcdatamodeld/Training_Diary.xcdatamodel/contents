@@ -77,11 +77,9 @@
     </entity>
     <entity name="TrainingDiary" representedClassName="TrainingDiary" syncable="YES" codeGenerationType="class">
         <attribute name="atlDays" optional="YES" attributeType="Double" defaultValueString="7" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="baseDataLastUpdate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="bikeATLDays" optional="YES" attributeType="Double" defaultValueString="7" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="bikeCTLDays" optional="YES" attributeType="Double" defaultValueString="42" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="ctlDays" optional="YES" attributeType="Double" defaultValueString="42" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="eddingtonNumberLastUpdate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="filterDaysFrom" optional="YES" attributeType="Date" defaultDateTimeInterval="531833820" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="filterDaysTo" optional="YES" attributeType="Date" defaultDateTimeInterval="531833820" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="name" attributeType="String" defaultValueString="Training Diary" syncable="YES"/>
@@ -132,7 +130,7 @@
         <element name="EddingtonHistory" positionX="-630" positionY="-42" width="128" height="103"/>
         <element name="EddingtonNumber" positionX="-486" positionY="-258" width="128" height="225"/>
         <element name="Physiological" positionX="52" positionY="-468" width="128" height="193"/>
-        <element name="TrainingDiary" positionX="-227" positionY="-531" width="128" height="300"/>
+        <element name="TrainingDiary" positionX="-227" positionY="-531" width="128" height="270"/>
         <element name="Weight" positionX="45" positionY="-243" width="128" height="133"/>
         <element name="Workout" positionX="-101" positionY="-9" width="128" height="345"/>
     </elements>

@@ -195,6 +195,7 @@ class GraphViewController: NSViewController {
                     let filteredData = g.cache.filter({$0.date >= fdp.dateValue && $0.date <= tdp.dateValue})
                     g.graph?.data = filteredData
                     graph.xAxisLabelStrings = getXAxisLabels(fromDate: fdp.dateValue, toDate: tdp.dateValue)
+            //        graph.updatePlotBounds()
                     graph.needsDisplay = true
                 }
             }
