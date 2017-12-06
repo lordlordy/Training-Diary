@@ -22,6 +22,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
     private var eddingtonNumbersViewController: EddingtonNumbersViewController?
     private var weightHRViewController: WeightHRViewController?
     private var graphViewController: GraphViewController?
+    private var comparisonGraphViewController: CompareGraphViewController?
 
     //MARK: - @IBOutlets
     
@@ -62,6 +63,9 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
             }
             if let controller = controller as? GraphViewController{
                 graphViewController = controller
+            }
+            if let controller = controller as? CompareGraphViewController{
+                comparisonGraphViewController = controller
             }
         }
         
@@ -116,6 +120,8 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
             weightHRViewController?.setValue(trainingDiary, forKeyPath: "trainingDiary")
             //by using the method I can insert code in that method to add obervers on the training diary
             graphViewController?.setTrainingDiary(trainingDiary)
+            comparisonGraphViewController?.trainingDiary = trainingDiary
+            
             if let cb = tsbActivityComboBox{
                 cb.selectItem(at: 0)
                 tsbActivityChanges(cb)
@@ -129,18 +135,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
         printEntities()
     }
 
-    @IBAction func mergeFromFile(_ sender: NSMenuItem) {
-        let td: TrainingDiary = getSelectedTrainingDiary()
-        
-        let jsonImporter = JSONImporter()
-        
-        //this will bring up file choser for user to select file to merge and then
-        //parse the file returning top level json dictionary
-        //not this may return nil if user hits 'cancel' for instance
-        if let url = getPathFromModelDialogue(){
-            jsonImporter.merge(fromURL: url, intoDiary: td)
-        }
-    }
+
     
     @IBAction func printEntityCounts(_ sender: NSButton) {
         CoreDataStackSingleton.shared.printEntityCounts(forDiary: getSelectedTrainingDiary())
@@ -203,9 +198,22 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
     // MARK: -  JSON Support
     
     @IBAction func loadFromFile(_ sender: Any) {
-        if let url = getPathFromModelDialogue() {
+        if let url = getPathFromModelDialogue(withTitle: "chose .json file",andFileTypes: ["json"]) {
             let jsonImporter = JSONImporter()
             jsonImporter.importDiary(fromURL: url)
+        }
+    }
+    
+    @IBAction func mergeFromFile(_ sender: NSMenuItem) {
+        let td: TrainingDiary = getSelectedTrainingDiary()
+        
+        let jsonImporter = JSONImporter()
+        
+        //this will bring up file choser for user to select file to merge and then
+        //parse the file returning top level json dictionary
+        //not this may return nil if user hits 'cancel' for instance
+        if let url = getPathFromModelDialogue(withTitle: "chose .json file",andFileTypes: ["json"]){
+            jsonImporter.merge(fromURL: url, intoDiary: td)
         }
     }
     
@@ -226,6 +234,17 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
         
     }
     
+    //MARK: - CSV Support
+    
+    @IBAction func importCSV(_ sender: NSMenuItem){
+        if let url = getPathFromModelDialogue(withTitle: "chose .csv file to import", andFileTypes: ["csv"]) {
+            let start = Date()
+            let csvImporter = CSVImporter()
+            csvImporter.importDiary(fromURL: url)
+            print("\(Date().timeIntervalSince(start)) seconds to import from \(url.absoluteString) ")
+        }
+       
+    }
 
     
     //MARK: - Private functions
@@ -238,17 +257,17 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
     
 
 
-    private func getPathFromModelDialogue() -> URL?{
+    private func getPathFromModelDialogue(withTitle title: String, andFileTypes fileTypes: [String]) -> URL?{
         
-        let dialog = NSOpenPanel();
+        let dialog = NSOpenPanel()
         
-        dialog.title                   = "Choose a .json file";
-        dialog.showsResizeIndicator    = true;
-        dialog.showsHiddenFiles        = false;
-        dialog.canChooseDirectories    = true;
-        dialog.canCreateDirectories    = true;
-        dialog.allowsMultipleSelection = false;
-        dialog.allowedFileTypes        = ["json"];
+        dialog.title                   = title
+        dialog.showsResizeIndicator    = true
+        dialog.showsHiddenFiles        = false
+        dialog.canChooseDirectories    = true
+        dialog.canCreateDirectories    = true
+        dialog.allowsMultipleSelection = false
+        dialog.allowedFileTypes        = fileTypes
         
         if (dialog.runModal() == NSApplication.ModalResponse.OK) {
             return dialog.url // Pathname of the file

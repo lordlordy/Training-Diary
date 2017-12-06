@@ -79,6 +79,20 @@ class EddingtonNumbersViewController: NSViewController {
             print("adding observers to eddingtonNumberArrayController")
             eddNumAC.addObserver(self, forKeyPath: "selection", options: .new, context: nil)
         }
+        if let gv = graphView{
+            print("setting x axis labels on graph")
+            if let td = trainingDiary{
+                let range = td.lastDayOfDiary.timeIntervalSince(td.firstDayOfDiary)
+                let numberOfLabels = 10
+                let gap = range / Double(numberOfLabels - 1)
+                var labels: [String] = []
+                labels.append(td.firstDayOfDiary.dateOnlyShorterString())
+                for i in 1...(numberOfLabels-1){
+                    labels.append(td.firstDayOfDiary.addingTimeInterval(TimeInterval(gap*Double(i))).dateOnlyShorterString())
+                }
+                gv.xAxisLabelStrings = labels
+            }
+        }
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -162,7 +176,7 @@ class EddingtonNumbersViewController: NSViewController {
                 
                 
                 //start with zero for first day of diary - this ensures that scales line up.
-                let firstEntry = (date: trainingDiary!.firstDayOfDiary!, value: 0.0)
+                let firstEntry = (date: trainingDiary!.firstDayOfDiary,value: 0.0)
                 var history: [(date: Date, value: Double)] = [firstEntry]
                 var plusOneHistory: [(date: Date, value: Double)] = [firstEntry]
                 var contributors: [(date: Date, value: Double)] = [firstEntry]

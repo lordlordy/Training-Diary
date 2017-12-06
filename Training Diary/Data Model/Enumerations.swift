@@ -56,6 +56,7 @@ enum Constant: Double {
     case SecondsPerDay      = 86400.0
     case FeetPerMetre       = 3.28084
     case LbsPerKg           = 2.20462
+    case SecondsPer365Days  = 31_536_000
 }
 
 
@@ -155,6 +156,13 @@ enum Unit: String{
     
     static var allUnits = [AscentMetres,AscentFeet, Cadence, Hours, HR, KJ, KM, Miles, Minutes, Reps, RPETSS, Seconds, TSS, Watts, ATL, CTL, TSB]
     static var metrics = [ATL, CTL, TSB]
+    
+    var summable: Bool{
+        switch self{
+        case .Cadence, .HR, .Watts: return false
+        default: return true
+        }
+    }
     
     var isMetric: Bool{
         return Unit.metrics.contains(self)
@@ -369,7 +377,7 @@ enum WorkoutProperty: String, FileMakerProJSONString{
 /* These are properties where a calculated property is defined in Day+Extension
  */
 enum DayCalculatedProperty: String{
-    case allKM, allAscentFeet, allAscentMetres, allHours, allKJ, allMinutes, allSeconds, allTSS, allTSB
+    case allKM, allAscentFeet, allAscentMetres, allHours, allKJ, allMinutes, allSeconds, allTSS, allTSB, allATL, allCTL
     case bikeKM, bikeAscentFeet, bikeAscentMetres, bikeHours, BikeHR, bikeKJ, bikeMinutes, bikeSeconds, bikeTSS, bikeTSB, bikeWatts
     case runKM, runAscentFeet, runAscentMetres, runHours, runHR, runKJ, runMinutes, runSeconds, runTSS, runTSB, runWatts
     case swimKM, swimHours, swimKJ, swimMinutes, swimSeconds, swimTSS, swimTSB, swimWatts
@@ -377,7 +385,7 @@ enum DayCalculatedProperty: String{
     
     case numberOfWorkouts
 
-    static let ALL = [ allKM, allAscentFeet, allAscentMetres, allHours, allKJ, allMinutes, allSeconds, allTSS, bikeKM, bikeAscentFeet, bikeAscentMetres, bikeHours, BikeHR, bikeKJ, bikeMinutes, bikeSeconds, bikeTSS, bikeWatts, runKM, runAscentFeet, runAscentMetres, runHours, runHR, runKJ, runMinutes, runSeconds, runTSS, runWatts, swimKM, swimHours, swimKJ, swimMinutes, swimSeconds, swimTSS, swimWatts,allTSB, swimTSB, bikeTSB, runTSB, gymTSB, walkTSB, otherTSB, numberOfWorkouts]
+    static let ALL = [ allKM, allAscentFeet, allAscentMetres, allHours, allKJ, allMinutes, allSeconds, allTSS, allATL, allCTL, bikeKM, bikeAscentFeet, bikeAscentMetres, bikeHours, BikeHR, bikeKJ, bikeMinutes, bikeSeconds, bikeTSS, bikeWatts, runKM, runAscentFeet, runAscentMetres, runHours, runHR, runKJ, runMinutes, runSeconds, runTSS, runWatts, swimKM, swimHours, swimKJ, swimMinutes, swimSeconds, swimTSS, swimWatts,allTSB, swimTSB, bikeTSB, runTSB, gymTSB, walkTSB, otherTSB, numberOfWorkouts]
 }
 
 enum DayProperty: String, FileMakerProJSONString{

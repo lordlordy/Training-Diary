@@ -8,21 +8,39 @@
 
 import Foundation
 
-class DatedActivityGraphDefinition: ActivityGraphDefinition{
+
+@objc class DatedActivityGraphDefinition: ActivityGraphDefinition{
     
-    private var from: Date
-    private var to: Date
+    enum ObserveKey: String{
+        case to, from
+    }
     
-    init(activity a: Activity, unit u: Unit, period p: Period, fromDate f: Date, toDate t: Date) {
+    @objc dynamic var from: Date
+    @objc dynamic var to: Date
+    
+    override init(){
+        self.to = Date()
+        self.from = to.addingTimeInterval(TimeInterval(-Constant.SecondsPer365Days.rawValue))
+        super.init()
+    }
+    
+    convenience init(activity a: Activity, unit u: Unit, period p: Period, fromDate f: Date, toDate t: Date) {
+        self.init()
+        self.activity = a
+        self.unit = u
+        self.period = p
         self.from = f
         self.to = t
-        super.init(activity: a, unit: u, period: p)
     }
     
     convenience init(graph: GraphView.GraphDefinition,activity a: Activity, unit u: Unit, period p: Period, fromDate f: Date, toDate t: Date) {
         self.init(activity: a, unit: u, period: p, fromDate: f, toDate: t)
         self.graph = graph
     }
+    
+
+
+
     
     
 }

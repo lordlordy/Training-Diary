@@ -16,8 +16,8 @@ class GraphViewController: NSViewController {
     }
     
     //for the moment this is just to see if I can get table to work for the graphs
-    @objc dynamic var dataArray: [ActivityGraphDefinition] = []{
-        willSet{ oldArray = dataArray}
+    @objc dynamic var graphArray: [ActivityGraphDefinition] = []{
+        willSet{ oldArray = graphArray}
         didSet{ dataArrayChanged() }
     }
     //this is here for want of a better way to react to additions and removals from the data array.
@@ -32,7 +32,7 @@ class GraphViewController: NSViewController {
         }
     }
     
-    @IBOutlet @objc weak var graphView: GraphView!
+    @IBOutlet weak var graphView: GraphView!
     @IBOutlet weak var fromDatePicker: NSDatePicker!
     @IBOutlet weak var toDatePicker: NSDatePicker!
     @IBOutlet weak var fromDateSlider: NSSlider!
@@ -40,7 +40,7 @@ class GraphViewController: NSViewController {
     @IBOutlet weak var activityComboBox: NSComboBox!
     
     @IBAction func activityChanged(_ sender: NSComboBox) {
-        for graph in dataArray{
+        for graph in graphArray{
             graph.activityString = sender.stringValue
         }
         updateGraphs()
@@ -89,7 +89,7 @@ class GraphViewController: NSViewController {
     
     override func viewWillAppear() {
         // need to figure out the switching of tabs / switching of training diaries. For now this will do
-        if dataArray.count == 0{
+        if graphArray.count == 0{
             trainingDiarySet()
         }
     }
@@ -112,21 +112,21 @@ class GraphViewController: NSViewController {
         
         switch keyPath{
         case TrainingDiaryProperty.ctlDays.rawValue?, TrainingDiaryProperty.atlDays.rawValue?:
-            trainingDiary?.calcTSB(forActivity: Activity.Gym, fromDate: (trainingDiary?.firstDayOfDiary!)!)
-            trainingDiary?.calcTSB(forActivity: Activity.Walk, fromDate: (trainingDiary?.firstDayOfDiary!)!)
-            trainingDiary?.calcTSB(forActivity: Activity.Other, fromDate: (trainingDiary?.firstDayOfDiary!)!)
+            trainingDiary?.calcTSB(forActivity: Activity.Gym, fromDate: (trainingDiary?.firstDayOfDiary)!)
+            trainingDiary?.calcTSB(forActivity: Activity.Walk, fromDate: (trainingDiary?.firstDayOfDiary)!)
+            trainingDiary?.calcTSB(forActivity: Activity.Other, fromDate: (trainingDiary?.firstDayOfDiary)!)
             updateGraphs()
             graphView.needsDisplay = true
         case TrainingDiaryProperty.swimCTLDays.rawValue?, TrainingDiaryProperty.swimATLDays.rawValue?:
-            trainingDiary?.calcTSB(forActivity: Activity.Swim, fromDate: (trainingDiary?.firstDayOfDiary!)!)
+            trainingDiary?.calcTSB(forActivity: Activity.Swim, fromDate: (trainingDiary?.firstDayOfDiary)!)
             updateGraphs()
             graphView.needsDisplay = true
         case TrainingDiaryProperty.bikeCTLDays.rawValue?, TrainingDiaryProperty.bikeATLDays.rawValue?:
-            trainingDiary?.calcTSB(forActivity: Activity.Bike, fromDate: (trainingDiary?.firstDayOfDiary!)!)
+            trainingDiary?.calcTSB(forActivity: Activity.Bike, fromDate: (trainingDiary?.firstDayOfDiary)!)
             updateGraphs()
             graphView.needsDisplay = true
         case TrainingDiaryProperty.runCTLDays.rawValue?, TrainingDiaryProperty.runATLDays.rawValue?:
-            trainingDiary?.calcTSB(forActivity: Activity.Run, fromDate: (trainingDiary?.firstDayOfDiary!)!)
+            trainingDiary?.calcTSB(forActivity: Activity.Run, fromDate: (trainingDiary?.firstDayOfDiary)!)
             updateGraphs()
             graphView.needsDisplay = true
         case "name"?:
@@ -146,11 +146,11 @@ class GraphViewController: NSViewController {
         if let td = trainingDiary{
             if let fdp = fromDatePicker{
                 if let tdp = toDatePicker{
-                    if fdp.dateValue < td.firstDayOfDiary! || fdp.dateValue > td.lastDayOfDiary!{
-                        fdp.dateValue  = td.firstDayOfDiary!
+                    if fdp.dateValue < td.firstDayOfDiary || fdp.dateValue > td.lastDayOfDiary{
+                        fdp.dateValue  = td.firstDayOfDiary
                     }
-                    if tdp.dateValue < td.firstDayOfDiary! || tdp.dateValue > td.lastDayOfDiary!{
-                        tdp.dateValue  = td.lastDayOfDiary!
+                    if tdp.dateValue < td.firstDayOfDiary || tdp.dateValue > td.lastDayOfDiary{
+                        tdp.dateValue  = td.lastDayOfDiary
                     }
                 }
             }
@@ -177,13 +177,13 @@ class GraphViewController: NSViewController {
     }
     
     private func updateGraphs(){
-        for graph in dataArray{
+        for graph in graphArray{
             updateData(forGraph: graph)
         }
     }
     
     private func updateForDateChange(){
-        for g in dataArray{
+        for g in graphArray{
             updateForDateChange(forGraph: g)
         }
     }
@@ -195,7 +195,6 @@ class GraphViewController: NSViewController {
                     let filteredData = g.cache.filter({$0.date >= fdp.dateValue && $0.date <= tdp.dateValue})
                     g.graph?.data = filteredData
                     graph.xAxisLabelStrings = getXAxisLabels(fromDate: fdp.dateValue, toDate: tdp.dateValue)
-            //        graph.updatePlotBounds()
                     graph.needsDisplay = true
                 }
             }
@@ -220,11 +219,14 @@ class GraphViewController: NSViewController {
                         let atlGraph = createGraphDefinition(forActivity: .All, period: .Day, unit: .ATL, type: .Line, axis: .Primary, drawZeroes: true, priority: 2, format: GraphFormat(fill: false, colour: .green, fillGradientStart: .green, fillGradientEnd: .green, gradientAngle: 0.0, size: 1.0))
                         let tssGraph = createGraphDefinition(forActivity: .All, period: .Day, unit: .TSS, type: .Point, axis: .Secondary, drawZeroes: false, priority: 1, format: GraphFormat(fill: true, colour: .yellow, fillGradientStart: .yellow, fillGradientEnd: .yellow, gradientAngle: 0.0, size: 1.0))
                         
+                        tsbGraph.graph!.startFromOrigin = true
+                        ctlGraph.graph!.startFromOrigin = true
+                        atlGraph.graph!.startFromOrigin = true
                         
-                        dataArray.append(tsbGraph)
-                        dataArray.append(ctlGraph)
-                        dataArray.append(atlGraph)
-                        dataArray.append(tssGraph)
+                        graphArray.append(tsbGraph)
+                        graphArray.append(ctlGraph)
+                        graphArray.append(atlGraph)
+                        graphArray.append(tssGraph)
                         
                     }
                 }
@@ -245,19 +247,17 @@ class GraphViewController: NSViewController {
     
     // this is called when the dataArray is changed. So need to update our set of graphs
     private func dataArrayChanged(){
-        print("Array of graphs has changed. There were \(String(describing: oldArray?.count)) graphs")
-        print("there are now \(dataArray.count) graphs")
-        if (oldArray?.count)! > dataArray.count{
+        if (oldArray?.count)! > graphArray.count{
             //item removed
             for old in oldArray!{
-                if !dataArray.contains(old){
+                if !graphArray.contains(old){
                     print("\(old.name) removed")
                     remove(graph: old)
                 }
             }
         }else{
             //item added
-            for new in dataArray{
+            for new in graphArray{
                 if !(oldArray?.contains(new))!{
                     print("\(new.name) added")
                     add(graph: new)
@@ -269,7 +269,6 @@ class GraphViewController: NSViewController {
     
     private func add(graph g: ActivityGraphDefinition){
         addObservers(forGraph: g)
-        //test for table
         if let gv = graphView{
             gv.add(graph: g.graph!)
         }

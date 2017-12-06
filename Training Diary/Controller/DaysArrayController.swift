@@ -11,13 +11,12 @@ import Cocoa
 class DaysArrayController: NSArrayController {
 
     override func newObject() -> Any {
-        print("adding Day")
         let day = super.newObject() as! Day
         day.setValue(Date().startOfDay(), forKey: "date")
         return day
     }
     
-    
+
 
 
 }

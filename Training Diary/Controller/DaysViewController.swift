@@ -19,7 +19,7 @@ class DaysViewController: NSViewController {
     @IBAction func calcAllTSB(_ sender: NSButton) {
         if let td = trainingDiary{
             for a in Activity.allActivities{
-                td.calcTSB(forActivity: a, fromDate: td.firstDayOfDiary!)
+                td.calcTSB(forActivity: a, fromDate: td.firstDayOfDiary)
             }
         }
     }

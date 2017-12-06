@@ -10,7 +10,6 @@ import Cocoa
 
 class JSONImporter{
     
-    //MARK: - called from ViewController
     
     public func importDiary(fromURL url: URL){
         if let json = importJSON(fromURL: url) {
@@ -19,11 +18,8 @@ class JSONImporter{
     }
     
     public func merge(fromURL url: URL, intoDiary td: TrainingDiary){
-        
-        let json: [String:Any]? = importJSON(fromURL: url)
-        
-        if(json != nil){
-            addDaysAndWorkouts(fromJSON: json!, toTrainingDiary: td)
+        if let json = importJSON(fromURL: url){
+            addDaysAndWorkouts(fromJSON: json, toTrainingDiary: td)
         }
     }
     
@@ -212,11 +208,25 @@ class JSONImporter{
                             case WorkoutProperty.bike.fmpString():
                                 workout.setValue(wp.value as! String, forKey: WorkoutProperty.bike.rawValue)
                             case WorkoutProperty.isRace.fmpString():
-                                // need to sort out conversion to boolean
-                                print("IsRace: \(wp.value)")
+                                if let isRace = wp.value as? String{
+                                    if isRace == "1" || isRace.uppercased() == "YES" || isRace.uppercased() == "Y"{
+                                        workout.setValue(true, forKey: WorkoutProperty.isRace.rawValue)
+                                    }else{
+                                        workout.setValue(false, forKey: WorkoutProperty.isRace.rawValue)
+                                    }
+                                }else{
+                                    print("could not set isRace: \(wp.value)")
+                                }
                             case WorkoutProperty.brick.fmpString():
-                                print("Brick: \(wp.value)")
-                            //    workout.setValue(wp.value as! String, forKey: WorkoutProperty.Brick.rawValue)
+                                if let brick = wp.value as? String{
+                                    if brick == "1" || brick.uppercased() == "YES" || brick.uppercased() == "Y"{
+                                        workout.setValue(true, forKey: WorkoutProperty.brick.rawValue)
+                                    }else{
+                                        workout.setValue(false, forKey: WorkoutProperty.brick.rawValue)
+                                    }
+                                }else{
+                                    print("could not set Brick: \(wp.value)")
+                                }
                             case WorkoutProperty.cadence.fmpString():
                                 workout.setValue(wp.value, forKey: WorkoutProperty.cadence.rawValue)
                             case WorkoutProperty.comments.fmpString():
@@ -241,6 +251,16 @@ class JSONImporter{
                                 workout.setValue(wp.value, forKey: WorkoutProperty.tssMethod.rawValue)
                             case WorkoutProperty.watts.fmpString():
                                 workout.setValue(wp.value, forKey: WorkoutProperty.watts.rawValue)
+                            case WorkoutProperty.wattsEstimated.fmpString():
+                                if let estimate = wp.value as? String{
+                                    if estimate == "1" || estimate.uppercased() == "YES" || estimate.uppercased() == "Y"{
+                                        workout.setValue(true, forKey: WorkoutProperty.wattsEstimated.rawValue)
+                                    }else{
+                                        workout.setValue(false, forKey: WorkoutProperty.wattsEstimated.rawValue)
+                                    }
+                                }else{
+                                    print("could not set Brick: \(wp.value)")
+                                }
                             default:
                                 if wp.key == FPMJSONString.Date.fmpString(){
                                     //we're ok. Don't need to import date. In DB model this is used for a relationship

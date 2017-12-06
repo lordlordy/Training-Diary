@@ -21,11 +21,10 @@ extension Day{
                 return value as! Double
             }
         }
-        if let wos = self.workouts{
-            for workout in wos{
-                let w = workout as! Workout
-                result += w.valueFor([activity], [activityType], unit)
-            }
+        if unit.summable{
+            result = sumOverWorkouts(forActivities: [activity], andTypes: [activityType], andUnit: unit)
+        }else{
+            result = weightedAverageOverWorkouts(forActivities: [activity], andTypes: [activityType], andUnit: unit)
         }
         return result
     }
@@ -72,7 +71,7 @@ extension Day{
         case .rYear:
             return recursiveAdd(toDate: self.date!.startOfRYear(), activity: a, activityType: at, unit: u)
         case .Lifetime:
-            return recursiveAdd(toDate: self.trainingDiary!.firstDayOfDiary!, activity: a, activityType: at, unit: u)
+            return recursiveAdd(toDate: self.trainingDiary!.firstDayOfDiary, activity: a, activityType: at, unit: u)
         case .Adhoc:
             return 0.0
         }
@@ -96,6 +95,10 @@ extension Day{
             return keyPaths.union(Set([DayProperty.runATL.rawValue, DayProperty.runCTL.rawValue]))
         case DayCalculatedProperty.allTSB.rawValue:
             return keyPaths.union(Set([DayProperty.allATL.rawValue, DayProperty.allCTL.rawValue]))
+        case DayCalculatedProperty.allCTL.rawValue:
+            return keyPaths.union(Set([DayProperty.swimCTL.rawValue, DayProperty.bikeCTL.rawValue, DayProperty.runCTL.rawValue, DayProperty.gymCTL.rawValue, DayProperty.walkCTL.rawValue, DayProperty.otherCTL.rawValue]))
+        case DayCalculatedProperty.allATL.rawValue:
+            return keyPaths.union(Set([DayProperty.swimATL.rawValue, DayProperty.bikeATL.rawValue, DayProperty.runATL.rawValue, DayProperty.gymATL.rawValue, DayProperty.walkATL.rawValue, DayProperty.otherATL.rawValue]))
         case _ where DayCalculatedProperty.ALL.map{$0.rawValue}.contains(key):
             return keyPaths.union(Set([DayProperty.workoutChanged.rawValue]))
         default:

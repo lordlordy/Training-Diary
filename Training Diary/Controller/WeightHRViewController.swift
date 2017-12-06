@@ -31,7 +31,7 @@ class WeightHRViewController: NSViewController {
     @IBAction func fromDatePickerChanged(_ sender: NSDatePicker) {
         if let fds = fromDateSlider{
             if let td = trainingDiary{
-                fds.doubleValue = sender.dateValue.timeIntervalSince(td.firstDayOfDiary!)
+                fds.doubleValue = sender.dateValue.timeIntervalSince(td.firstDayOfDiary)
             }
         }
         updateForDateChange()
@@ -40,7 +40,7 @@ class WeightHRViewController: NSViewController {
     @IBAction func fromDateSliderChanged(_ sender: NSSlider) {
         if let fdp = fromDatePicker{
             if let td = trainingDiary{
-                fdp.dateValue = (td.firstDayOfDiary?.addingTimeInterval(TimeInterval(sender.doubleValue)))!
+                fdp.dateValue = (td.firstDayOfDiary.addingTimeInterval(TimeInterval(sender.doubleValue)))
             }
         }
         updateForDateChange()
@@ -49,7 +49,7 @@ class WeightHRViewController: NSViewController {
     @IBAction func toDatePickerChanged(_ sender: NSDatePicker) {
         if let tds = toDateSlider{
             if let td = trainingDiary{
-                tds.doubleValue = sender.dateValue.timeIntervalSince(td.firstDayOfDiary!)
+                tds.doubleValue = sender.dateValue.timeIntervalSince(td.firstDayOfDiary)
             }
         }
         updateForDateChange()
@@ -58,7 +58,7 @@ class WeightHRViewController: NSViewController {
     @IBAction func toDateSliderChanged(_ sender: NSSlider) {
         if let tdp = toDatePicker{
             if let td = trainingDiary{
-                tdp.dateValue = (td.firstDayOfDiary?.addingTimeInterval(TimeInterval(sender.doubleValue)))!
+                tdp.dateValue = (td.firstDayOfDiary.addingTimeInterval(TimeInterval(sender.doubleValue)))
             }
         }
         updateForDateChange()
@@ -93,11 +93,13 @@ class WeightHRViewController: NSViewController {
                     for g in graphView.graphs{
                         g.data = (cache[g.name]?.filter({$0.date >= from && $0.date <= to }))!
                     }
+                    graphView.xAxisLabelStrings = getXAxisLabels(fromDate: from, toDate: to )
                 }
                 if let graphView = hrGraphView{
                     for g in graphView.graphs{
                         g.data = (cache[g.name]?.filter({$0.date >= from && $0.date <= to }))!
                     }
+                    graphView.xAxisLabelStrings = getXAxisLabels(fromDate: from, toDate: to )
                 }
             }
         }
@@ -116,29 +118,21 @@ class WeightHRViewController: NSViewController {
     }
     
     private func setUpPickers(forTrainingDiary td: TrainingDiary){
-        if let from = td.firstDayOfDiary{
-            if let fdp = fromDatePicker{
-                fdp.dateValue = from
-            }
-        }
-        if let to = td.lastDayOfDiary{
-            if let tdp = toDatePicker{
-                tdp.dateValue = to
-            }
-        }
+        if let fdp = fromDatePicker{ fdp.dateValue = td.firstDayOfDiary }
+        if let tdp = toDatePicker{ tdp.dateValue = td.lastDayOfDiary }
     }
     
     private func setUpSliders(forTrainingDiary td: TrainingDiary){
-        let range = td.lastDayOfDiary?.timeIntervalSince(td.firstDayOfDiary!)
+        let range = td.lastDayOfDiary.timeIntervalSince(td.firstDayOfDiary)
         if let fds = fromDateSlider{
             fds.minValue = 0.0
-            fds.maxValue = range!
+            fds.maxValue = range
             fds.doubleValue = 0.0
         }
         if let tds = toDateSlider{
             tds.minValue = 0.0
-            tds.maxValue = range!
-            tds.doubleValue = range!
+            tds.maxValue = range
+            tds.doubleValue = range
         }
     }
     
@@ -166,14 +160,16 @@ class WeightHRViewController: NSViewController {
                 
                 wgv.primaryAxisMinimumOverride = 68.0
                 wgv.secondaryAxisMinimumOverride = 4.9
+                
+                wgv.xAxisLabelStrings = getXAxisLabels(fromDate: td.firstDayOfDiary, toDate: td.lastDayOfDiary)
             }
         
             if let hrgv = hrGraphView{
-                let hr = td.hrPercentageDateOrder()
+                let hr = td.hrDateOrder()
                 let rollingHR = createRollingData(fromData: hr, everyXDays: 7)
-                let sdnn = td.sdnnPercentageDateOrder()
+                let sdnn = td.sdnnDateOrder()
                 let rollingSDNN = createRollingData(fromData: sdnn, everyXDays: 7)
-                let rmssd = td.rmssdPercentageDateOrder()
+                let rmssd = td.rmssdDateOrder()
                 let rollingRMSSD = createRollingData(fromData: rmssd, everyXDays: 7)
 
                 let hrGraphDefinition = GraphView.GraphDefinition(name: CacheKey.hr.rawValue, data: hr, axis: .Primary, type: .Point, format: GraphFormat(fill: false, colour: .blue, fillGradientStart: .blue, fillGradientEnd: .blue, gradientAngle: 0.0, size: 1.0),drawZeroes: false, priority: 1  )
@@ -199,6 +195,9 @@ class WeightHRViewController: NSViewController {
                 hrgv.add(graph: rmssdGraphDefinition)
                 hrgv.add(graph: rollingRMSSDGraphDefinition)
                 
+                hrgv.xAxisLabelStrings = getXAxisLabels(fromDate: td.firstDayOfDiary, toDate: td.lastDayOfDiary)
+
+                
         }
     
     }
@@ -211,6 +210,16 @@ class WeightHRViewController: NSViewController {
             result.append((d.date, rollingSum.addAndReturnAverage(value: d.value)))
         }
         
+        return result
+    }
+    
+    private func getXAxisLabels(fromDate from: Date, toDate to: Date) -> [String]{
+        let gap = to.timeIntervalSince(from) / 9.0 // doing 10 labels total
+        var result: [String] = []
+        result.append(from.dateOnlyShorterString())
+        for i in 1...9{
+            result.append(from.addingTimeInterval(TimeInterval.init(gap*Double(i))).dateOnlyShorterString())
+        }
         return result
     }
     

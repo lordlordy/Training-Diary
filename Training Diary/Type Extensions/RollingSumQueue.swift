@@ -44,4 +44,8 @@ class RollingSumQueue{
         rollingSum = 0.0
     }
     
+    func size() -> Int{
+        return sumQueue.maxSize
+    }
+    
 }

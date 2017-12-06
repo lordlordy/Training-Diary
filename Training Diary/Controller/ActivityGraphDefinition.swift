@@ -11,6 +11,10 @@ import Foundation
 //this is intentionally set up as a class rather than struct so that it is passed by reference.
 @objc class ActivityGraphDefinition: NSObject{
     
+    enum ObserveKey: String{
+        case name
+    }
+    
     var cache: [(date: Date, value: Double)] = [] // this is ALL the data. When dates change we just filter this
     @objc var graph: GraphView.GraphDefinition?
     
@@ -38,21 +42,26 @@ import Foundation
         }
     }
     // not sure we need to set the name in Graph as that name is 'probably' redundant and should probably be removed
-    @objc dynamic var name: String = ""{didSet{ graph?.name = name } }
+    //@objc dynamic var name: String = ""{didSet{ graph?.name = name } }
+    @objc dynamic var name: String = ""
     
-    init(activity a: Activity, unit u: Unit, period p: Period) {
-        activity = a
-        unit = u
-        period = p
+    override init(){
+        self.activity = Activity.Bike
+        self.unit = Unit.KM
+        self.period = Period.Day
+        graph = GraphView.GraphDefinition(name: "new", axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .black, fillGradientStart: .black, fillGradientEnd: .black, gradientAngle: 0.0, size: 1.0), drawZeroes: true, priority: 1)
         super.init()
         updateName()
     }
     
-    override convenience init(){
-        self.init(activity: .All, unit: .KM, period: .Day)
-        graph = GraphView.GraphDefinition(name: self.name, axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .black, fillGradientStart: .black, fillGradientEnd: .black, gradientAngle: 0.0, size: 1.0), drawZeroes: true, priority: 1)
+    convenience init(activity a: Activity, unit u: Unit, period p: Period) {
+        self.init()
+        activity = a
+        unit = u
+        period = p
+        updateName()
     }
-    
+
     convenience init(graph: GraphView.GraphDefinition,activity a: Activity, unit u: Unit, period p: Period) {
         self.init(activity: a, unit: u, period: p)
         self.graph = graph

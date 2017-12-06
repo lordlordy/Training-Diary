@@ -13,18 +13,20 @@ import Foundation
  current sum */
 class ToDateSum: RollingPeriodSum{
     
-    private var resetRule: (Date) -> Bool
+    var resetRule: (Date) -> Bool
     
     init(size: Int, rule: @escaping (Date) -> Bool){
         resetRule = rule
         super.init(size: size)
     }
     
-    override func addAndReturnSum(forDate date: Date, value v: Double) -> Double {
+    override func addAndReturnSum(forDate date: Date, value v: Double) -> Double? {
         let sum = super.addAndReturnSum(forDate: date, value: v)
         if resetRule(date){
             resetQueue()
         }
         return sum
     }
+    
+    
 }
