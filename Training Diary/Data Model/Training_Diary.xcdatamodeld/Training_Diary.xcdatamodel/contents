@@ -5,20 +5,20 @@
         <attribute name="bikeCTL" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="comments" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="date" attributeType="Date" defaultDateTimeInterval="529099260" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="fatigue" attributeType="Integer 16" minValueString="0" maxValueString="10" defaultValueString="5" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="fatigue" optional="YES" attributeType="Integer 16" minValueString="0" maxValueString="10" defaultValueString="5" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="gymATL" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="gymCTL" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="motivation" attributeType="Integer 16" minValueString="0" maxValueString="10" defaultValueString="5" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="motivation" optional="YES" attributeType="Integer 16" minValueString="0" maxValueString="10" defaultValueString="5" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="otherATL" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="otherCTL" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="runATL" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="runCTL" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="sleep" attributeType="Double" minValueString="0" defaultValueString="8" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="sleepQuality" attributeType="String" defaultValueString="Average" syncable="YES"/>
+        <attribute name="sleep" optional="YES" attributeType="Double" minValueString="0" defaultValueString="8" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="sleepQuality" optional="YES" attributeType="String" defaultValueString="Average" syncable="YES"/>
         <attribute name="swimATL" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="swimCTL" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="test" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="type" attributeType="String" defaultValueString="Normal" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" defaultValueString="Normal" syncable="YES"/>
         <attribute name="walkATL" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="walkCTL" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="workoutChanged" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
@@ -114,7 +114,7 @@
         <attribute name="kj" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="km" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="reps" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="rpe" attributeType="Double" minValueString="0" maxValueString="10" defaultValueString="5" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="rpe" optional="YES" attributeType="Double" minValueString="0" maxValueString="10" defaultValueString="5" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="seconds" attributeType="Double" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="tss" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="tssMethod" optional="YES" attributeType="String" syncable="YES"/>

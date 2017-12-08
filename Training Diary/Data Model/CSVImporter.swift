@@ -73,19 +73,20 @@ class CSVImporter{
 
     
     private func parseCSV(data: String){
+
         let rowsAndColumns = splitUpCSV(data)
         if rowsAndColumns.count == 0 { return }
-        
+
         columnHeaders = rowsAndColumns[0]
         setUpIndexes()
-        printCSV(data: rowsAndColumns)
+    //    printCSV(data: rowsAndColumns)
         createManagedObjectModelFrom(csv: rowsAndColumns)
         
 
         
     }
     
-    private func printCSV(data: [[String]]){
+/*    private func printCSV(data: [[String]]){
         for row in data{
             if row[0].count > 0{
                 var dayString = ""
@@ -116,7 +117,7 @@ class CSVImporter{
             
         }
     }
-    
+ */
     
     private func createManagedObjectModelFrom(csv: [[String]]){
         //create the base Object - TrainingDiary
@@ -479,7 +480,11 @@ class CSVImporter{
     
     private func splitUpCSV(_ data: String) -> [[String]] {
         var result: [[String]] = []
-        let rows = data.components(separatedBy: "\n")
+        var rows = data.components(separatedBy: "\n")
+        if rows.count == 1{
+            //bug in CSV from excel
+            rows = data.components(separatedBy: "\r")
+        }
         for row in rows {
             let columns = row.components(separatedBy: ",")
             result.append(columns)
@@ -490,16 +495,17 @@ class CSVImporter{
     private func setUpIndexes(){
         var index: Int = 0
         for item in columnHeaders{
-            if item.contains("swim")        { swimIndexes.append(index)     }
-            else if item.contains("bike")   { bikeIndexes.append(index)     }
-            else if item.contains("run")    { runIndexes.append(index)      }
-            else if item.contains("other")  { otherIndexes.append(index)    }
-            else if item.contains("resting"){ physioIndexes.append(index)   }
-            else if item.contains("kg")     { weightIndexes.append(index)   }
-            else if item.contains("fat%")   { weightIndexes.append(index)   }
-            else                            { dayIndexes.append(index)      }
-            if item == "date" { dateIndex = index }
-            columnDictionary[item] = index
+   //         if item.contains("swim")        { swimIndexes.append(index)     }
+     //       else if item.contains("bike")   { bikeIndexes.append(index)     }
+       //     else if item.contains("run")    { runIndexes.append(index)      }
+         //   else if item.contains("other")  { otherIndexes.append(index)    }
+           // else if item.contains("resting"){ physioIndexes.append(index)   }
+        //    else if item.contains("kg")     { weightIndexes.append(index)   }
+          //  else if item.contains("fat%")   { weightIndexes.append(index)   }
+         //   else                            { dayIndexes.append(index)      }
+      //      if item == "date" { dateIndex = index }
+            let trimmedItem = item.trimmingCharacters(in: .whitespaces)
+            columnDictionary[trimmedItem] = index
             index += 1
         }
         

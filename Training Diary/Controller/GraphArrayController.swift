@@ -17,11 +17,12 @@ class GraphArrayController: NSArrayController {
     }
     
     override func newObject() -> Any {
-        let a = super.newObject() as! DatedActivityGraphDefinition
+        let g = super.newObject() as! DatedActivityGraphDefinition
         if let gmd = graphManagementDelegate{
-            gmd.add(graph: a)
+            gmd.setDefaults(forGraph: g)
+            gmd.add(graph: g)
         }
-        return a
+        return g
     }
     
     override func remove(_ sender: Any?) {

@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class DaysViewController: NSViewController {
+class DaysViewController: NSViewController, TrainingDiaryViewController {
 
     @objc dynamic var trainingDiary: TrainingDiary?
     
@@ -140,20 +140,24 @@ class DaysViewController: NSViewController {
         
     }
     
+
     func managedObjectContextObjectsDidChange(notification: NSNotification) {
         print("********************change with notification: \(notification)")
     }
 
     
-
-
-
-    @IBAction func rebuildBaseDataDaysVC(_ sender: Any?){
-        print("About to rebuild for \(String(describing: trainingDiary?.name))")
-    
+    func set(trainingDiary td: TrainingDiary){
+        self.trainingDiary = td
     }
-    
 
+
+//    @IBAction func rebuildBaseDataDaysVC(_ sender: Any?){
+  //      print("About to rebuild for \(String(describing: trainingDiary?.name))")
+    
+    //}
+    
+    //MARK: - Private
+    
     private func setFilterPredicate(){
         if let from = trainingDiary?.filterDaysFrom{
             if let to = trainingDiary?.filterDaysTo{

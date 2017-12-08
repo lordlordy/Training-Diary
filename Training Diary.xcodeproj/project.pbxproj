@@ -22,6 +22,7 @@
 		7333B9F21FB613CA005F424E /* UnitComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7333B9F11FB613CA005F424E /* UnitComboBox.swift */; };
 		7333B9F41FB6E04C005F424E /* WeightsArrayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7333B9F31FB6E04C005F424E /* WeightsArrayController.swift */; };
 		7333B9F61FB6F199005F424E /* PhysiologicalsArrayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7333B9F51FB6F199005F424E /* PhysiologicalsArrayController.swift */; };
+		733837D71FD99BDD0082C45B /* TrainingDiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733837D61FD99BDD0082C45B /* TrainingDiaryViewController.swift */; };
 		733990C31FB34BD200E80D4A /* PeriodComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733990C21FB34BD200E80D4A /* PeriodComboBox.swift */; };
 		73444C3F1F96AB9B00B3E84D /* Enumerations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73444C3E1F96AB9B00B3E84D /* Enumerations.swift */; };
 		7369D9EE1FB23DBC00ECAA1E /* DayTypeComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7369D9ED1FB23DBC00ECAA1E /* DayTypeComboBox.swift */; };
@@ -79,6 +80,7 @@
 		7333B9F11FB613CA005F424E /* UnitComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitComboBox.swift; sourceTree = "<group>"; };
 		7333B9F31FB6E04C005F424E /* WeightsArrayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightsArrayController.swift; sourceTree = "<group>"; };
 		7333B9F51FB6F199005F424E /* PhysiologicalsArrayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysiologicalsArrayController.swift; sourceTree = "<group>"; };
+		733837D61FD99BDD0082C45B /* TrainingDiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingDiaryViewController.swift; sourceTree = "<group>"; };
 		733990C21FB34BD200E80D4A /* PeriodComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodComboBox.swift; sourceTree = "<group>"; };
 		73444C3E1F96AB9B00B3E84D /* Enumerations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enumerations.swift; sourceTree = "<group>"; };
 		7369D9ED1FB23DBC00ECAA1E /* DayTypeComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTypeComboBox.swift; sourceTree = "<group>"; };
@@ -207,6 +209,7 @@
 			isa = PBXGroup;
 			children = (
 				73B2B9E41F894CC00044DD4E /* ViewController.swift */,
+				733837D61FD99BDD0082C45B /* TrainingDiaryViewController.swift */,
 				73E582621F8A12A500B6E25D /* DaysArrayController.swift */,
 				73C2E4941FD7B29800C30316 /* GraphArrayController.swift */,
 				73C2E4981FD8967900C30316 /* GraphManagementDelegate.swift */,
@@ -340,6 +343,7 @@
 				7369D9F01FB24EEE00ECAA1E /* BikeComboBox.swift in Sources */,
 				7333B9F61FB6F199005F424E /* PhysiologicalsArrayController.swift in Sources */,
 				73C3B37F1F97DC5A00ED6108 /* Date+Extension.swift in Sources */,
+				733837D71FD99BDD0082C45B /* TrainingDiaryViewController.swift in Sources */,
 				73C3B37D1F97AC1400ED6108 /* EddingtonNumberCalculator.swift in Sources */,
 				73B2BA001F898BF30044DD4E /* Workout+Extension.swift in Sources */,
 				732103AE1FCFFB570020F365 /* CSVImporter.swift in Sources */,

@@ -10,5 +10,6 @@ import Foundation
 
 protocol GraphManagementDelegate{
     func add(graph: ActivityGraphDefinition)
+    func setDefaults(forGraph graph: ActivityGraphDefinition)
     func remove(graph: ActivityGraphDefinition)
 }

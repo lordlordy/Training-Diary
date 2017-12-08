@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class EddingtonNumbersViewController: NSViewController {
+class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewController {
 
     @objc dynamic var trainingDiary: TrainingDiary?
     
@@ -72,6 +72,9 @@ class EddingtonNumbersViewController: NSViewController {
     }
     
 
+    func set(trainingDiary td: TrainingDiary){
+        self.trainingDiary = td
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

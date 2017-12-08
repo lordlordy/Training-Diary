@@ -220,6 +220,7 @@ class GraphView: NSView {
     private var _maxYSecondary: Double = 0.0
     // note the order here. High priority graphs will show on top ... so are drawn last. So this order descending
     private var priorityOrderedGraphs: [GraphDefinition]{ return graphs.sorted(by: {$0.priority > $1.priority}) }
+    
     private var noData: Bool{
         var count = 0
         for graph in graphs{
@@ -227,6 +228,7 @@ class GraphView: NSView {
         }
         return (count == 0)
     }
+    
     private var labelNumberFormat: NumberFormatter {
         let nf = NumberFormatter()
         nf.numberStyle = NumberFormatter.Style.none
@@ -246,7 +248,7 @@ class GraphView: NSView {
         static let pointDiameter: CGFloat = 3.0
         //how far in from the view edge the axes are
         static let axisPadding = 30.0
-        static let zero = 0.001
+        static let zero = 0.1
     }
     
     private struct LabelOffset{

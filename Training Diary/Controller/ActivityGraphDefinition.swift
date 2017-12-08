@@ -18,9 +18,10 @@ import Foundation
     var cache: [(date: Date, value: Double)] = [] // this is ALL the data. When dates change we just filter this
     @objc var graph: GraphView.GraphDefinition?
     
-    var activity:   Activity{ didSet{ updateName() } }
-    var unit:       Unit{ didSet{ updateName() } }
-    var period:     Period { didSet{ updateName() } }
+    var activity:   Activity    { didSet{ updateName() } }
+    var unit:       Unit        { didSet{ updateName() } }
+    var period:     Period      { didSet{ updateName() } }
+    
     @objc dynamic var activityString: String{
         get{ return activity.rawValue}
         set{

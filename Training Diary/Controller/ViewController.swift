@@ -23,6 +23,8 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
     private var weightHRViewController: WeightHRViewController?
     private var graphViewController: GraphViewController?
     private var comparisonGraphViewController: CompareGraphViewController?
+    
+    private var trainingDiaryVCs: [TrainingDiaryViewController] = []
 
     //MARK: - @IBOutlets
     
@@ -50,6 +52,9 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
         guard let tabViewController = segue.destinationController as? NSTabViewController else {return}
         
         for controller in tabViewController.childViewControllers{
+            if let c = controller as? TrainingDiaryViewController{
+                trainingDiaryVCs.append(c)
+            }
             if let controller = controller as? DaysViewController{
                 daysViewController = controller
                 
@@ -115,13 +120,12 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
     
     func tableViewSelectionDidChange(_ notification: Notification) {
         if let trainingDiary = trainingDiarysArrayController.selectedObjects[0] as? TrainingDiary{
-            daysViewController?.setValue(trainingDiary, forKeyPath: "trainingDiary")
-            eddingtonNumbersViewController?.setValue(trainingDiary, forKeyPath: "trainingDiary")
-            weightHRViewController?.setValue(trainingDiary, forKeyPath: "trainingDiary")
-            //by using the method I can insert code in that method to add obervers on the training diary
-            graphViewController?.setTrainingDiary(trainingDiary)
-            comparisonGraphViewController?.trainingDiary = trainingDiary
             
+            for c in trainingDiaryVCs{
+                c.set(trainingDiary: trainingDiary)
+            }
+            
+            // not sure what this is for !
             if let cb = tsbActivityComboBox{
                 cb.selectItem(at: 0)
                 tsbActivityChanges(cb)

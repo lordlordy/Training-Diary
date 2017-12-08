@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class WeightHRViewController: NSViewController {
+class WeightHRViewController: NSViewController, TrainingDiaryViewController {
 
     @objc dynamic var trainingDiary: TrainingDiary?{
         didSet{ trainingDiarySet() }
@@ -80,6 +80,9 @@ class WeightHRViewController: NSViewController {
         }
     }
     
+    func set(trainingDiary td: TrainingDiary){
+        self.trainingDiary = td
+    }
     
     override func viewDidLoad() {
             trainingDiarySet()
