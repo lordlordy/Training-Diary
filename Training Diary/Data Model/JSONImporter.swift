@@ -20,6 +20,8 @@ class JSONImporter{
     public func merge(fromURL url: URL, intoDiary td: TrainingDiary){
         if let json = importJSON(fromURL: url){
             addDaysAndWorkouts(fromJSON: json, toTrainingDiary: td)
+            addWeight(fromJSON: json, toTrainingDiary: td)
+            addPhysiological(fromJSON: json, toTrainingDiary: td)
         }
     }
     
@@ -297,10 +299,6 @@ class JSONImporter{
             }
             previousDay = s
         }
-        for s in sortedDays{
-            print("\(String(describing: s.yesterday?.date)) - \(String(describing: s.date)) -\(String(describing: s.tomorrow?.date))")
-        }
-        
     }
     
     private func createManagedObjectModelFrom(json: [String: Any]){

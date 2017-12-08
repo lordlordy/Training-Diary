@@ -28,6 +28,7 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
             for e in td.eddingtonNumbers! {
                 let edNum = e as! EddingtonNumber
                 EddingtonNumberCalculator.shared.updateEddingtonNumber(forEddingtonNumber: edNum)
+                prod(eddingtonNumber: edNum)
             }
         }
         print("Time taken to update ALL eddington numbers: \(Date().timeIntervalSince(start)) seconds")
@@ -38,6 +39,7 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
         let start = Date()
         for edNum in selectedRows(){
             EddingtonNumberCalculator.shared.updateEddingtonNumber(forEddingtonNumber: edNum)
+            prod(eddingtonNumber: edNum)
         }
         print("Time taken for Core data Ed num update: \(Date().timeIntervalSince(start)) seconds")
         updateGraph()
@@ -219,4 +221,21 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
     }
     
     
+    /* There must be a better way to do this. once an eddington number is calculated we don't want the
+     user changing the type - ie Activity, Unit or Period. The Combo Boxes enable is bound to eddington
+     number 'requiresCalculation' property. When the last updated field is set the Combo Boxes are
+     re-displayed as disabled. This method prods them
+ */
+    private func prod(eddingtonNumber ed: EddingtonNumber){
+        let a = ed.activity
+        let at = ed.activityType
+        let p = ed.period
+        let u = ed.unit
+        
+        ed.activity = a
+        ed.activityType = at
+        ed.period = p
+        ed.unit = u
+        
+    }
 }

@@ -10,11 +10,7 @@ import Cocoa
 
 class CompareGraphViewController: NSViewController, GraphManagementDelegate, TrainingDiaryViewController {
 
-    @objc dynamic var trainingDiary: TrainingDiary?{
-        didSet{
-     //       initialSetUp()
-        }
-    }
+    @objc dynamic var trainingDiary: TrainingDiary?
     
     @IBOutlet weak var graphView: GraphView!
     @IBOutlet var graphArrayController: GraphArrayController!
@@ -55,6 +51,9 @@ class CompareGraphViewController: NSViewController, GraphManagementDelegate, Tra
     override func viewDidLoad() {
         if let gac = graphArrayController{
             gac.graphManagementDelegate = self
+        }
+        if graphs().count == 0{
+            initialSetUp()
         }
     }
     
@@ -251,5 +250,6 @@ class CompareGraphViewController: NSViewController, GraphManagementDelegate, Tra
         print(r)
         return r
     }
+    
     
 }

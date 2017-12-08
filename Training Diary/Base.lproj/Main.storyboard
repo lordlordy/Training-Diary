@@ -804,8 +804,8 @@
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="center" drawsBackground="YES" id="Jdk-co-NaF">
                                                 <numberFormatter key="formatter" formatterBehavior="custom10_4" positiveFormat="#,###" numberStyle="decimal" minimumIntegerDigits="0" maximumIntegerDigits="2000000000" id="DSl-kS-J9u"/>
                                                 <font key="font" metaFont="smallSystem"/>
-                                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" red="0.0" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="textColor" red="0.032188563140000001" green="0.18795691449999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <color key="backgroundColor" red="0.10570669420000001" green="0.0310975062" blue="0.040409527110000003" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
                                             </textFieldCell>
                                             <connections>
                                                 <binding destination="uvq-jO-DuA" name="value" keyPath="selection.totalSwimKM" id="UZa-ww-XVy"/>
@@ -817,8 +817,8 @@
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="center" drawsBackground="YES" id="qt4-an-5w1">
                                                 <numberFormatter key="formatter" formatterBehavior="custom10_4" positiveFormat="#,###" numberStyle="decimal" minimumIntegerDigits="0" maximumIntegerDigits="2000000000" id="gTt-Ua-Vjp"/>
                                                 <font key="font" metaFont="smallSystem"/>
-                                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="textColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" red="0.10570669420000001" green="0.0310975062" blue="0.040409527110000003" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
                                             </textFieldCell>
                                             <connections>
                                                 <binding destination="uvq-jO-DuA" name="value" keyPath="selection.totalBikeKM" id="KrY-pf-rs5"/>
@@ -830,8 +830,8 @@
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="center" drawsBackground="YES" id="deo-UT-d4W">
                                                 <numberFormatter key="formatter" formatterBehavior="custom10_4" positiveFormat="#,###" numberStyle="decimal" minimumIntegerDigits="0" maximumIntegerDigits="2000000000" id="zGF-oW-76b"/>
                                                 <font key="font" metaFont="smallSystem"/>
-                                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" red="0.92935490610000004" green="0.60008952500000001" blue="0.56910034359999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <color key="textColor" red="1" green="0.027873647870000001" blue="0.14776716770000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <color key="backgroundColor" red="0.10570669420000001" green="0.0310975062" blue="0.040409527110000003" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
                                             </textFieldCell>
                                             <connections>
                                                 <binding destination="uvq-jO-DuA" name="value" keyPath="selection.totalRunKM" id="laZ-8N-CWQ"/>
@@ -1067,7 +1067,7 @@
         <!--Tab View Controller-->
         <scene sceneID="8vb-xO-7b5">
             <objects>
-                <tabViewController selectedTabViewItemIndex="3" id="qdR-OF-74A" sceneMemberID="viewController">
+                <tabViewController selectedTabViewItemIndex="0" id="qdR-OF-74A" sceneMemberID="viewController">
                     <tabViewItems>
                         <tabViewItem label="Days" identifier="" id="dJW-xM-nRn"/>
                         <tabViewItem label="Weight HR" id="Yi5-T8-zsF"/>
@@ -1143,7 +1143,7 @@
                                                                         <date key="date" timeIntervalSinceReferenceDate="-595929600">
                                                                             <!--1982-02-12 16:00:00 +0000-->
                                                                         </date>
-                                                                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" red="0.10570669420000001" green="0.0310975062" blue="0.040409527110000003" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <datePickerElements key="datePickerElements" year="YES" month="YES" day="YES" hour="YES" minute="YES" second="YES"/>
                                                                     </datePickerCell>
@@ -1220,7 +1220,7 @@
                                                                     <rect key="frame" x="0.0" y="23" width="21" height="17"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" title="Table View Cell" id="awt-st-HNG">
-                                                                        <numberFormatter key="formatter" formatterBehavior="default10_4" usesGroupingSeparator="NO" groupingSize="0" minimumIntegerDigits="0" maximumIntegerDigits="42" id="eAT-NU-mxJ"/>
+                                                                        <numberFormatter key="formatter" formatterBehavior="custom10_4" positiveFormat="0.0" numberStyle="decimal" usesGroupingSeparator="NO" groupingSize="0" minimumIntegerDigits="0" maximumIntegerDigits="42" id="eAT-NU-mxJ"/>
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -1443,8 +1443,8 @@
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" drawsBackground="YES" id="20L-8X-N9z">
                                                                         <font key="font" metaFont="system"/>
-                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                        <color key="backgroundColor" red="0.0" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <color key="textColor" red="0.032188563140310489" green="0.18795691450643137" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                                        <color key="backgroundColor" red="0.10570669420000001" green="0.0310975062" blue="0.040409527110000003" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
                                                                     </textFieldCell>
                                                                     <connections>
                                                                         <binding destination="imW-di-ldZ" name="value" keyPath="objectValue.swimSeconds" id="D4B-ne-5kl">
@@ -1483,8 +1483,8 @@
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" drawsBackground="YES" id="FD3-Bl-yC3">
                                                                         <font key="font" metaFont="system"/>
-                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                        <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <color key="textColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <color key="backgroundColor" red="0.10570669420000001" green="0.0310975062" blue="0.040409527110000003" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
                                                                     </textFieldCell>
                                                                     <connections>
                                                                         <binding destination="soT-wn-Wr2" name="value" keyPath="objectValue.bikeSeconds" id="iXg-Kc-0EP">
@@ -1523,8 +1523,8 @@
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" drawsBackground="YES" id="A74-Wi-4rl">
                                                                         <font key="font" metaFont="system"/>
-                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                        <color key="backgroundColor" red="0.92935490610000004" green="0.60008952500000001" blue="0.56910034359999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                                        <color key="textColor" red="1" green="0.027873647870000001" blue="0.14776716770000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                                        <color key="backgroundColor" red="0.10570669420000001" green="0.0310975062" blue="0.040409527110000003" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
                                                                     </textFieldCell>
                                                                     <connections>
                                                                         <binding destination="M9b-1V-4w8" name="value" keyPath="objectValue.runSeconds" id="f4r-71-Nkj">
@@ -1673,8 +1673,8 @@
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" drawsBackground="YES" id="yjd-oL-81H">
                                                                         <numberFormatter key="formatter" formatterBehavior="custom10_4" positiveFormat="#,###" numberStyle="decimal" minimumIntegerDigits="0" maximumIntegerDigits="2000000000" id="ixV-T9-JGM"/>
                                                                         <font key="font" metaFont="system"/>
-                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                        <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <color key="textColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <color key="backgroundColor" red="0.10570669420000001" green="0.0310975062" blue="0.040409527110000003" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
                                                                     </textFieldCell>
                                                                     <connections>
                                                                         <binding destination="Z48-9Z-Mi0" name="value" keyPath="objectValue.bikeKM" id="vJZ-gk-mEg"/>
@@ -1710,8 +1710,8 @@
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" drawsBackground="YES" id="OJX-Fa-Uaq">
                                                                         <numberFormatter key="formatter" formatterBehavior="custom10_4" positiveFormat="#,##0.0" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" minimumFractionDigits="1" maximumFractionDigits="1" decimalSeparator="." groupingSeparator="," id="jn8-au-K0g"/>
                                                                         <font key="font" metaFont="system"/>
-                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                        <color key="backgroundColor" red="0.0" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <color key="textColor" red="0.032188563140000001" green="0.18795691449999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                                        <color key="backgroundColor" red="0.10570669420000001" green="0.0310975062" blue="0.040409527110000003" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
                                                                     </textFieldCell>
                                                                     <connections>
                                                                         <binding destination="ZmS-zk-kHP" name="value" keyPath="objectValue.swimKM" id="HQG-Yv-9fP"/>
@@ -1747,8 +1747,8 @@
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" drawsBackground="YES" id="BiU-9u-JJK">
                                                                         <numberFormatter key="formatter" formatterBehavior="custom10_4" positiveFormat="#,##0.0" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" minimumFractionDigits="1" maximumFractionDigits="1" id="6GB-hk-eFS"/>
                                                                         <font key="font" metaFont="system"/>
-                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                        <color key="backgroundColor" red="0.92935490608215332" green="0.60008952496504164" blue="0.56910034364399209" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                                        <color key="textColor" red="1" green="0.027873647870000001" blue="0.14776716770000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                                        <color key="backgroundColor" red="0.10570669420000001" green="0.0310975062" blue="0.040409527110000003" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
                                                                     </textFieldCell>
                                                                     <connections>
                                                                         <binding destination="Lhd-fJ-WSI" name="value" keyPath="objectValue.runKM" id="VPc-GN-EWd"/>
@@ -2271,8 +2271,8 @@
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="hrI-NW-JiF">
                                     <numberFormatter key="formatter" formatterBehavior="custom10_4" positiveFormat="#,###" numberStyle="decimal" minimumIntegerDigits="0" maximumIntegerDigits="2000000000" id="pd4-f7-gsC"/>
                                     <font key="font" metaFont="smallSystem"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="textColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" red="0.10570669420000001" green="0.0310975062" blue="0.040409527110000003" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
                                 </textFieldCell>
                                 <connections>
                                     <binding destination="dVH-vU-HFh" name="value" keyPath="selection.@sum.bikeKM" id="VFT-kP-WQh"/>
@@ -3085,8 +3085,8 @@ IA
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="qPJ-Yq-lpw">
                                     <numberFormatter key="formatter" formatterBehavior="custom10_4" positiveFormat="#,###" numberStyle="decimal" minimumIntegerDigits="0" maximumIntegerDigits="2000000000" id="LBA-xc-62q"/>
                                     <font key="font" metaFont="smallSystem"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" red="0.0" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="textColor" red="0.032188563140000001" green="0.18795691449999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    <color key="backgroundColor" red="0.10570669420000001" green="0.0310975062" blue="0.040409527110000003" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
                                 </textFieldCell>
                                 <connections>
                                     <binding destination="dVH-vU-HFh" name="value" keyPath="selection.@sum.swimKM" id="Yx5-ZP-8uP"/>
@@ -3098,8 +3098,8 @@ IA
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="fz0-6x-cx2">
                                     <numberFormatter key="formatter" formatterBehavior="custom10_4" positiveFormat="#,###" numberStyle="decimal" minimumIntegerDigits="0" maximumIntegerDigits="2000000000" id="PhV-Yi-WJf"/>
                                     <font key="font" metaFont="smallSystem"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" red="0.92935490610000004" green="0.60008952500000001" blue="0.56910034359999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    <color key="textColor" red="1" green="0.027873647870000001" blue="0.14776716770000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    <color key="backgroundColor" red="0.10570669420000001" green="0.0310975062" blue="0.040409527110000003" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
                                 </textFieldCell>
                                 <connections>
                                     <binding destination="dVH-vU-HFh" name="value" keyPath="selection.@sum.runKM" id="bF2-BH-1e9"/>
@@ -3128,7 +3128,7 @@ IA
                                 </textFieldCell>
                             </textField>
                             <datePicker verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pNI-0D-y0k">
-                                <rect key="frame" x="16" y="559" width="94" height="27"/>
+                                <rect key="frame" x="151" y="533" width="94" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <datePickerCell key="cell" borderStyle="bezel" alignment="left" id="ene-Tz-qw8">
                                     <font key="font" metaFont="smallSystem"/>
@@ -3143,7 +3143,7 @@ IA
                                 </connections>
                             </datePicker>
                             <datePicker verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mce-pZ-o9E">
-                                <rect key="frame" x="126" y="559" width="89" height="27"/>
+                                <rect key="frame" x="261" y="533" width="89" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <datePickerCell key="cell" borderStyle="bezel" alignment="left" id="HjV-p9-AFJ">
                                     <font key="font" metaFont="smallSystem"/>
@@ -3157,17 +3157,6 @@ IA
                                     <binding destination="Caw-xw-GMI" name="value" keyPath="trainingDiary.filterDaysTo" id="h9h-eV-vF8"/>
                                 </connections>
                             </datePicker>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ula-pV-8Kb">
-                                <rect key="frame" x="117" y="534" width="50" height="19"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="roundRect" title="Filter" bezelStyle="roundedRect" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="5zC-S8-mmp">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="cellTitle"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="filterDays:" target="Caw-xw-GMI" id="Kjs-6B-CFP"/>
-                                </connections>
-                            </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xm9-ZI-tXq">
                                 <rect key="frame" x="37" y="534" width="20" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -3252,7 +3241,7 @@ IA
                                 </connections>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VcC-Vk-nR6">
-                                <rect key="frame" x="106" y="562" width="20" height="17"/>
+                                <rect key="frame" x="241" y="536" width="20" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="to:" id="6Eb-3s-igK">
                                     <font key="font" metaFont="system"/>
@@ -3266,8 +3255,8 @@ IA
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="akr-FE-GyY">
                                     <numberFormatter key="formatter" formatterBehavior="custom10_4" positiveFormat="#,###" numberStyle="decimal" minimumIntegerDigits="0" maximumIntegerDigits="2000000000" id="FGv-Yb-6zy"/>
                                     <font key="font" metaFont="smallSystem"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="textColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" red="0.10570669420000001" green="0.0310975062" blue="0.040409527110000003" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
                                 </textFieldCell>
                                 <connections>
                                     <binding destination="dVH-vU-HFh" name="value" keyPath="arrangedObjects.@sum.bikeKM" id="IVg-DW-pup"/>
@@ -3279,8 +3268,8 @@ IA
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="hni-GY-VOK">
                                     <numberFormatter key="formatter" formatterBehavior="custom10_4" positiveFormat="#,###" numberStyle="decimal" minimumIntegerDigits="0" maximumIntegerDigits="2000000000" id="vn0-Ug-spr"/>
                                     <font key="font" metaFont="smallSystem"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" red="0.0" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="textColor" red="0.032188563140000001" green="0.18795691449999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    <color key="backgroundColor" red="0.10570669420000001" green="0.0310975062" blue="0.040409527110000003" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
                                 </textFieldCell>
                                 <connections>
                                     <binding destination="dVH-vU-HFh" name="value" keyPath="arrangedObjects.@sum.swimKM" id="cwx-Re-W2K"/>
@@ -3292,8 +3281,8 @@ IA
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="sao-Zx-4fP">
                                     <numberFormatter key="formatter" formatterBehavior="custom10_4" positiveFormat="#,###" numberStyle="decimal" minimumIntegerDigits="0" maximumIntegerDigits="2000000000" id="1Pf-n1-1yp"/>
                                     <font key="font" metaFont="smallSystem"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" red="0.92935490610000004" green="0.60008952500000001" blue="0.56910034359999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    <color key="textColor" red="1" green="0.027873647870000001" blue="0.14776716770000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    <color key="backgroundColor" red="0.10570669420000001" green="0.0310975062" blue="0.040409527110000003" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
                                 </textFieldCell>
                                 <connections>
                                     <binding destination="dVH-vU-HFh" name="value" keyPath="arrangedObjects.@sum.runKM" id="5yr-yu-lJR"/>
@@ -3313,7 +3302,7 @@ IA
                                 </connections>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PKk-WL-xS9">
-                                <rect key="frame" x="510" y="554" width="65" height="17"/>
+                                <rect key="frame" x="526" y="554" width="49" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Filter" id="3Bp-0Y-6hC">
                                     <font key="font" metaFont="smallSystem"/>
@@ -3337,17 +3326,6 @@ IA
                                     </binding>
                                 </connections>
                             </textField>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RUs-CM-i4Y">
-                                <rect key="frame" x="65" y="534" width="50" height="19"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="roundRect" title="ALL" bezelStyle="roundedRect" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0JX-eJ-Bg8">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="cellTitle"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="showAllDaysWith_sender:" target="Caw-xw-GMI" id="gOr-y4-2ef"/>
-                                </connections>
-                            </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mGx-tK-Sfe">
                                 <rect key="frame" x="20" y="183" width="20" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -3371,7 +3349,7 @@ IA
                                 </connections>
                             </button>
                             <comboBox verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ibV-AY-4DU" customClass="PeriodComboBox" customModule="Training_Diary" customModuleProvider="target">
-                                <rect key="frame" x="175" y="532" width="81" height="23"/>
+                                <rect key="frame" x="65" y="531" width="81" height="23"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" numberOfVisibleItems="5" id="1V3-nJ-a1Z">
                                     <font key="font" metaFont="system" size="10"/>
@@ -3379,11 +3357,11 @@ IA
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </comboBoxCell>
                                 <connections>
-                                    <action selector="periodComboBoxChanged:" target="Caw-xw-GMI" id="IvY-pR-wf8"/>
+                                    <action selector="periodCBChanged:" target="Caw-xw-GMI" id="gyC-5Q-wXc"/>
                                 </connections>
                             </comboBox>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2MS-96-0Lm">
-                                <rect key="frame" x="213" y="560" width="40" height="19"/>
+                                <rect key="frame" x="348" y="534" width="40" height="19"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="roundRect" title="Now" bezelStyle="roundedRect" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Dd7-rK-mr8">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -3456,8 +3434,19 @@ IA
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ula-pV-8Kb">
+                                <rect key="frame" x="390" y="534" width="50" height="19"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="roundRect" title="Filter" bezelStyle="roundedRect" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="5zC-S8-mmp">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="cellTitle"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="filterDays:" target="Caw-xw-GMI" id="Kjs-6B-CFP"/>
+                                </connections>
+                            </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="I9K-wg-AKi">
-                                <rect key="frame" x="255" y="527" width="84" height="32"/>
+                                <rect key="frame" x="9" y="556" width="84" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="All TSB" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="JyN-lh-UJa">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -3468,7 +3457,7 @@ IA
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vIT-C2-3eO">
-                                <rect key="frame" x="417" y="527" width="69" height="32"/>
+                                <rect key="frame" x="171" y="556" width="69" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="print" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="BGA-mW-u5z">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -3479,7 +3468,7 @@ IA
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fHP-oG-BQU">
-                                <rect key="frame" x="339" y="527" width="90" height="32"/>
+                                <rect key="frame" x="93" y="556" width="90" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="duplicates" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="XVd-Gu-cai">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -3560,6 +3549,7 @@ IA
                                                                     </comboBoxCell>
                                                                     <connections>
                                                                         <binding destination="hcz-Bd-ojL" name="value" keyPath="objectValue.activity" id="uMG-FV-Hf5"/>
+                                                                        <binding destination="hcz-Bd-ojL" name="enabled" keyPath="objectValue.requiresCalculation" id="qgT-Ff-4Sj"/>
                                                                     </connections>
                                                                 </comboBox>
                                                             </subviews>
@@ -3598,6 +3588,7 @@ IA
                                                                     </comboBoxCell>
                                                                     <connections>
                                                                         <binding destination="EoX-AE-ed3" name="value" keyPath="objectValue.activityType" id="rcB-eF-w4N"/>
+                                                                        <binding destination="EoX-AE-ed3" name="enabled" keyPath="objectValue.requiresCalculation" id="84Q-qs-smI"/>
                                                                     </connections>
                                                                 </comboBox>
                                                             </subviews>
@@ -3636,6 +3627,7 @@ IA
                                                                     </comboBoxCell>
                                                                     <connections>
                                                                         <binding destination="dDA-aH-zlU" name="value" keyPath="objectValue.period" id="D9X-ta-Zn6"/>
+                                                                        <binding destination="dDA-aH-zlU" name="enabled" keyPath="objectValue.requiresCalculation" id="ENa-1D-wlx"/>
                                                                     </connections>
                                                                 </comboBox>
                                                             </subviews>
@@ -3673,6 +3665,7 @@ IA
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </comboBoxCell>
                                                                     <connections>
+                                                                        <binding destination="vPD-42-EcN" name="enabled" keyPath="objectValue.requiresCalculation" id="yBv-8n-zXI"/>
                                                                         <binding destination="vPD-42-EcN" name="value" keyPath="objectValue.unit" id="Eln-SS-Avg"/>
                                                                     </connections>
                                                                 </comboBox>
@@ -4642,7 +4635,7 @@ IA
                     </connections>
                 </viewController>
                 <customObject id="jkj-MS-fG0" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <arrayController mode="entity" entityName="EddingtonNumber" automaticallyPreparesContent="YES" id="Jua-rk-M36" userLabel="Eddington Number AC">
+                <arrayController mode="entity" entityName="EddingtonNumber" automaticallyPreparesContent="YES" automaticallyRearrangesObjects="YES" id="Jua-rk-M36" userLabel="Eddington Number AC">
                     <connections>
                         <binding destination="e7J-kp-njl" name="contentSet" keyPath="trainingDiary.eddingtonNumbers" id="pf3-FA-6dy"/>
                         <binding destination="e7J-kp-njl" name="managedObjectContext" keyPath="trainingDiary.managedObjectContext" id="lfQ-Cy-VzM"/>
@@ -6018,17 +6011,14 @@ IA
                         <outlet property="activityComboBox" destination="OiW-9l-kR5" id="3wM-Bd-w8F"/>
                         <outlet property="fromDatePicker" destination="3uB-Mf-Dq8" id="lm5-r2-8hi"/>
                         <outlet property="fromDateSlider" destination="Vh8-sq-h7X" id="Rrd-6R-XJl"/>
+                        <outlet property="graphArrayController" destination="xw6-0s-blv" id="ljr-Nh-TPi"/>
                         <outlet property="graphView" destination="XUz-2c-78g" id="Sgl-Mj-UPp"/>
                         <outlet property="toDatePicker" destination="GPT-EG-pZt" id="Xs0-KK-Lc7"/>
                         <outlet property="toDateSlider" destination="nIJ-af-fSz" id="jd9-3l-qgU"/>
                     </connections>
                 </viewController>
                 <customObject id="WBV-QA-uww" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <arrayController objectClassName="Training_Diary.ActivityGraphDefinition" automaticallyPreparesContent="YES" id="xw6-0s-blv" userLabel="Graph AC">
-                    <connections>
-                        <binding destination="QuH-HA-I4x" name="contentArray" keyPath="self.graphArray" id="IUL-fw-ovS"/>
-                    </connections>
-                </arrayController>
+                <arrayController objectClassName="Training_Diary.ActivityGraphDefinition" id="xw6-0s-blv" userLabel="Graph AC" customClass="GraphArrayController" customModule="Training_Diary" customModuleProvider="target"/>
             </objects>
             <point key="canvasLocation" x="2512" y="615.5"/>
         </scene>
@@ -6120,8 +6110,8 @@ IA
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                     <connections>
-                                                                        <binding destination="QWr-Ar-BqF" name="value" keyPath="objectValue.graph.name" id="w7P-pG-uAH"/>
                                                                         <binding destination="QWr-Ar-BqF" name="textColor" keyPath="objectValue.graph.colour" id="uA7-9Q-Y8E"/>
+                                                                        <binding destination="QWr-Ar-BqF" name="value" keyPath="objectValue.graph.name" id="w7P-pG-uAH"/>
                                                                     </connections>
                                                                 </textField>
                                                             </subviews>
@@ -6551,8 +6541,8 @@ IA
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView misplaced="YES" id="HLG-Ix-AvS">
-                                                            <rect key="frame" x="540" y="1" width="35" height="17"/>
+                                                        <tableCellView id="HLG-Ix-AvS">
+                                                            <rect key="frame" x="540" y="1" width="35" height="15"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Tzr-CF-Hrf">
@@ -6629,7 +6619,7 @@ IA
                                                                 <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vOx-Jp-PQp" customClass="ChartTypeComboBox" customModule="Training_Diary" customModuleProvider="target">
                                                                     <rect key="frame" x="0.0" y="-4" width="43" height="23"/>
                                                                     <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="d1C-cu-juS">
-                                                                        <font key="font" metaFont="system" size="11"/>
+                                                                        <font key="font" metaFont="smallSystem"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </comboBoxCell>
@@ -6656,7 +6646,7 @@ IA
                                     </subviews>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="Q16-xP-N11">
-                                    <rect key="frame" x="1" y="64" width="883" height="16"/>
+                                    <rect key="frame" x="1" y="-16" width="0.0" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="MGC-tx-te1">

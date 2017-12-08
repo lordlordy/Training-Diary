@@ -17,6 +17,8 @@ extension EddingtonNumber{
     @objc dynamic var maturity: Double{ return calculateMaturity() }
     @objc dynamic var daysSinceLastContributor: Double { return calculateDaysSinceLastContributor() }
 
+    @objc dynamic var requiresCalculation: Bool{ return lastUpdated == nil}
+    
     @objc dynamic var eddingtonCode: String{
         var result = ""
         if let a = activity {

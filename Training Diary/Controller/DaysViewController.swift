@@ -25,33 +25,20 @@ class DaysViewController: NSViewController, TrainingDiaryViewController {
     }
     
 
-
-    @IBAction func periodComboBoxChanged(_ sender: NSComboBox) {
-        var s: String = ""
-        switch sender.stringValue.lowercased(){
-        case "day":     s = "Day"
-        case "week":    s = "Week"
-        case "month":   s = "Month"
-        case "rweek":   s = "RWeek"
-        case "rmonth":  s = "RMonth"
-        case "ryear":   s = "RYear"
-        case "wtd":     s = "WTD"
-        case "mtd":     s = "MTD"
-        case "ytd":     s = "YTD"
-        default:        s = sender.stringValue
-        }
-        sender.stringValue = s
-        if let p = Period(rawValue: s){
-            if let d = trainingDiary?.filterDaysTo{
-                let range = p.periodRange(forDate: d)
+    @IBAction func periodCBChanged(_ sender: PeriodComboBox) {
+        if let p = sender.selectedPeriod(){
+            if let d = latestSelectedDate(){
+                var range = p.periodRange(forDate: d)
+                if p == Period.Lifetime{
+                    range = (from: trainingDiary!.firstDayOfDiary, to: trainingDiary!.lastDayOfDiary)
+                }
                 trainingDiary?.setValue(range.from, forKey: TrainingDiaryProperty.filterDaysFrom.rawValue)
                 trainingDiary?.setValue(range.to, forKey: TrainingDiaryProperty.filterDaysTo.rawValue)
                 setFilterPredicate()
             }
-        }else{
-            sender.stringValue = ""
         }
     }
+    
     
     @IBAction func findDuplicateDates(_ sender: NSButton){
         var results: [Date] = []
@@ -103,9 +90,6 @@ class DaysViewController: NSViewController, TrainingDiaryViewController {
         setFilterPredicate()
     }
     
-    @IBAction func showAllDays(_sender: NSButton){
-        clearFilterPredicate()
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -140,22 +124,12 @@ class DaysViewController: NSViewController, TrainingDiaryViewController {
         
     }
     
-
-    func managedObjectContextObjectsDidChange(notification: NSNotification) {
-        print("********************change with notification: \(notification)")
-    }
-
     
     func set(trainingDiary td: TrainingDiary){
         self.trainingDiary = td
     }
 
 
-//    @IBAction func rebuildBaseDataDaysVC(_ sender: Any?){
-  //      print("About to rebuild for \(String(describing: trainingDiary?.name))")
-    
-    //}
-    
     //MARK: - Private
     
     private func setFilterPredicate(){
@@ -168,6 +142,29 @@ class DaysViewController: NSViewController, TrainingDiaryViewController {
     
     private func clearFilterPredicate(){
         daysArrayController.filterPredicate = nil
+    }
+    
+    private func selectedDays() -> [Day]{
+        if let dac = daysArrayController{
+            return dac.selectedObjects as! [Day]
+        }else{
+            return []
+        }
+    }
+    
+    private func latestSelectedDate() -> Date?{
+        var latestDate: Date?
+        for d in selectedDays(){
+            if let latest = latestDate{
+                if d.date! > latest{
+                    latestDate = d.date
+                }
+            }else{
+                latestDate = d.date
+            }
+        }
+        
+        return latestDate
     }
     
 }

@@ -199,7 +199,7 @@ extension Date{
     //note just uses 30 days
     public func startOfRMonth() -> Date{
         // note minus 29 as this is inclusive ... so period will be 30
-        let dc  = DateComponents.init(day: 29 )
+        let dc  = DateComponents.init(day: -29 )
         return calendar.date(byAdding: dc, to: self)!
     }
     
