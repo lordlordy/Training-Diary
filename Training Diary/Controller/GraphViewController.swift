@@ -147,7 +147,7 @@ class GraphViewController: NSViewController, TrainingDiaryViewController, GraphM
         
         if let gv = graphView{
             switch keyPath{
- /*           case TrainingDiaryProperty.ctlDays.rawValue?, TrainingDiaryProperty.atlDays.rawValue?:
+            case TrainingDiaryProperty.ctlDays.rawValue?, TrainingDiaryProperty.atlDays.rawValue?:
                 trainingDiary?.calcTSB(forActivity: Activity.Gym, fromDate: (trainingDiary?.firstDayOfDiary)!)
                 trainingDiary?.calcTSB(forActivity: Activity.Walk, fromDate: (trainingDiary?.firstDayOfDiary)!)
                 trainingDiary?.calcTSB(forActivity: Activity.Other, fromDate: (trainingDiary?.firstDayOfDiary)!)
@@ -165,7 +165,6 @@ class GraphViewController: NSViewController, TrainingDiaryViewController, GraphM
                 trainingDiary?.calcTSB(forActivity: Activity.Run, fromDate: (trainingDiary?.firstDayOfDiary)!)
                 updateGraphs()
                 gv.needsDisplay = true
- */
             case "name"?:
                 if let graphDefinition = object as? ActivityGraphDefinition{
                     updateData(forGraph: graphDefinition)

@@ -26,13 +26,14 @@ extension Workout{
         return (100/49)*rpe*rpe*Double(seconds)/3600
     }
     
-
     
     override public class func keyPathsForValuesAffectingValue(forKey key: String) -> Set<String>{
         let keyPaths = super.keyPathsForValuesAffectingValue(forKey: key)
         switch key {
+        case "day.runKM":
+            return keyPaths.union(Set([WorkoutProperty.km.rawValue]))
         case "rpeTSS":
-            return keyPaths.union(Set(["seconds","rpe"]))
+            return keyPaths.union(Set([WorkoutProperty.seconds.rawValue,WorkoutProperty.rpe.rawValue]))
         default:
             return keyPaths
         }

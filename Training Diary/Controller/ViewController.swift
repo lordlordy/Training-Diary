@@ -41,6 +41,9 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
         super.init(coder: coder)
         
         ValueTransformer.setValueTransformer(TransformerNSNumberToTimeFormat(), forName: NSValueTransformerName(rawValue: "TransformerNSNumberToTimeFormat"))
+        ValueTransformer.setValueTransformer(NumberToDetailedTimeTransformer(), forName: NSValueTransformerName(rawValue: "NumberToDetailedTimeTransformer"))
+        ValueTransformer.setValueTransformer(NumberToSummaryTimeFormatter(), forName: NSValueTransformerName(rawValue: "NumberToSummaryTimeFormatter"))
+        
     }
 
     
@@ -78,7 +81,6 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
     }
     
     @IBAction func tsbActivityChanges(_ sender: NSComboBox) {
-        print("Activity changed for TSB to \(sender.stringValue)")
         if let td = selectedTrainingDiary(){
             switch sender.stringValue{
             case Activity.Swim.rawValue:
@@ -98,23 +100,44 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
         }
     }
     
+    @IBAction func recalcAllTSB(_ sender: NSButton) {
+        let start = Date()
+        if let td = selectedTrainingDiary(){
+      //      for a in Activity.allActivities{
+        //        td.calcTSB(forActivity: a, fromDate: td.firstDayOfDiary)
+          //  }
+            td.calcTSB(forActivity: Activity.Bike, fromDate: td.firstDayOfDiary)
+            td.calcTSB(forActivity: Activity.Swim, fromDate: td.firstDayOfDiary)
+        }
+        print("TSB calculation for all activities took \(Date().timeIntervalSince(start)) seconds")
+    }
+    
+    @IBAction func recalcFromTSB(_ sender: NSButton) {
+        if let td = selectedTrainingDiary(){
+            if let d = latestSelectedDate(){
+//                for a in Activity.allActivities{
+  //                  td.calcTSB(forActivity: a, fromDate: d)
+    //            }
+                td.calcTSB(forActivity: Activity.Bike, fromDate: d)
+                td.calcTSB(forActivity: Activity.Swim, fromDate: d  )
+            }
+        }
+    }
+    
+    
     @IBAction func atlDaysChanged(_ sender: NSTextField) {
-        print("atl days changed to: \(sender.doubleValue)")
         setSelectedATLDays(toValue: sender.doubleValue)
     }
     
     @IBAction func ctlDaysChanged(_ sender: NSTextField) {
-        print("ctl days changed to: \(sender.doubleValue)")
         setSelectedCTLDays(toValue: sender.doubleValue)
     }
     
     @IBAction func newDiary(_ sender: Any){
-        print("Adding a new Training Diary")
         trainingDiarysArrayController.add(sender)
     }
     
     @IBAction func removeDiary(_ sender: Any){
-        print("Removing Training Diary: \(getSelectedTrainingDiary())")
         trainingDiarysArrayController.remove(sender)
     }
     
@@ -360,6 +383,31 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
                 }
             }
         }
+    }
+    
+    
+    private func selectedDays() -> [Day]{
+        if let dvc = daysViewController{
+            if let dac = dvc.daysArrayController{
+                return dac.selectedObjects as! [Day]
+            }
+        }
+        return []
+    }
+    
+    private func latestSelectedDate() -> Date?{
+        var latestDate: Date?
+        for d in selectedDays(){
+            if let latest = latestDate{
+                if d.date! > latest{
+                    latestDate = d.date
+                }
+            }else{
+                latestDate = d.date
+            }
+        }
+        
+        return latestDate
     }
 
 }

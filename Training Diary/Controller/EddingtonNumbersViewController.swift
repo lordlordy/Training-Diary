@@ -221,11 +221,7 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
     }
     
     
-    /* There must be a better way to do this. once an eddington number is calculated we don't want the
-     user changing the type - ie Activity, Unit or Period. The Combo Boxes enable is bound to eddington
-     number 'requiresCalculation' property. When the last updated field is set the Combo Boxes are
-     re-displayed as disabled. This method prods them
- */
+    // There must be a better way to do this. once an eddington number is calculated we don't want the user changing the type - ie Activity, Unit or Period. The Combo Boxes enable is bound to eddington number 'requiresCalculation' property. When the last updated field is set the Combo Boxes are re-displayed as disabled. This method prods them
     private func prod(eddingtonNumber ed: EddingtonNumber){
         let a = ed.activity
         let at = ed.activityType

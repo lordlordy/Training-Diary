@@ -153,8 +153,10 @@ enum Unit: String{
     case AscentFeet, AscentMetres, Brick, Cadence, Hours
     case HR, KJ, KM, Miles, Minutes, Reps, RPETSS, Seconds
     case TSS, Watts, ATL, CTL, TSB
+    //do we want these here. They're day based units - not activity based units
+    case fatigue, fatPercent, kg, lbs, motivation, restingHR, sleep
     
-    static var allUnits = [AscentMetres,AscentFeet, Cadence, Hours, HR, KJ, KM, Miles, Minutes, Reps, RPETSS, Seconds, TSS, Watts, ATL, CTL, TSB]
+    static var allActivityUnits = [AscentMetres,AscentFeet, Cadence, Hours, HR, KJ, KM, Miles, Minutes, Reps, RPETSS, Seconds, TSS, Watts, ATL, CTL, TSB]
     static var metrics = [ATL, CTL, TSB]
     
     var summable: Bool{
@@ -189,6 +191,14 @@ enum Unit: String{
         case .ATL:           return nil
         case .CTL:           return nil
         case .TSB:           return nil
+        //Day units
+        case .fatigue:       return nil
+        case .fatPercent:    return nil
+        case .kg:            return nil
+        case .lbs:           return nil
+        case .motivation:    return nil
+        case .restingHR:     return nil
+        case .sleep:         return nil
         }
  
     }

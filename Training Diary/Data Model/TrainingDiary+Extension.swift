@@ -10,19 +10,14 @@ import Foundation
 
 extension TrainingDiary{
     
+    //MARK: - for display in GUI summary
     @objc dynamic var totalBikeKM:  Double{ return total(forKey: "bikeKM") }
     @objc dynamic var totalSwimKM:  Double{ return total(forKey: "swimKM") }
     @objc dynamic var totalRunKM:   Double{ return total(forKey: "runKM") }
     @objc dynamic var totalSeconds: Double{ return total(forKey: "allSeconds")}
+    @objc dynamic var totalTime: TimeInterval{ return TimeInterval(totalSeconds)}
     
-    
-    var numberOfDays: Int{
-        if let daysSet = days{
-            return daysSet.count
-        }
-        return 0
-    }
-    
+    // don't think this really need @objc dynamic - check and remove
     @objc dynamic var firstDayOfDiary: Date{
         let days = ascendingOrderedDays()
         if days.count > 0{
@@ -31,39 +26,19 @@ extension TrainingDiary{
         return Date()
     }
     
+    // don't think this really need @objc dynamic - check and remove
     @objc dynamic var lastDayOfDiary: Date{
+        return latestDay()?.date ?? Date()
+    }
+    
+    func latestDay() -> Day?{
         let days = ascendingOrderedDays()
-        if days.count > 0{
-            if let day = days[days.count-1].date{ return day }
-        }
-        return Date()
-    }
-    
-    func firstYear() -> Int{
-        return Calendar.current.dateComponents([.year], from: firstDayOfDiary).year!
-    }
-    
-
-    
-    func lastYear() -> Int{
-        return Calendar.current.dateComponents([.year], from: lastDayOfDiary).year!
-    }
-    
-    func weightsAscendingDateOrder() -> [Weight]?{
-        if let ws = self.weights{
-            let weightsArray = ws.allObjects as! [Weight]
-            return weightsArray.sorted(by: { $0.fromDate! < $1.fromDate! })
-        }
+        if days.count > 0{ return days[days.count-1] }
         return nil
     }
-
-    func physiologicalsAscendingDateOrder() -> [Physiological]?{
-        if let ps = self.physiologicals{
-            let physios = ps.allObjects as! [Physiological]
-            return physios.sorted(by: { $0.fromDate! < $1.fromDate! })
-        }
-        return nil
-    }
+    
+    func firstYear() -> Int{ return Calendar.current.dateComponents([.year], from: firstDayOfDiary).year! }
+    func lastYear() -> Int{ return Calendar.current.dateComponents([.year], from: lastDayOfDiary).year! }
     
     func kgAscendingDateOrder() -> [(date: Date, value: Double)]{
         var result: [(date: Date, value: Double)] = []
@@ -116,15 +91,15 @@ extension TrainingDiary{
     }
     
 
-    func getValues(forActivity activity: Activity, andUnit unit: Unit) -> [(date: Date, value:Double)]{
-        return getValues(forActivity: activity, andUnit: unit, fromDate: firstDayOfDiary, toDate: lastDayOfDiary)
-    }
+ //   func getValues(forActivity activity: Activity, andUnit unit: Unit) -> [(date: Date, value:Double)]{
+   //     return getValues(forActivity: activity, andUnit: unit, fromDate: firstDayOfDiary, toDate: lastDayOfDiary)
+    //}
 
-    func getValues(forActivity activity: Activity, andUnit unit: Unit, fromDate from: Date) -> [(date: Date, value:Double)]{
-        return getValues(forActivity: activity, andUnit: unit, fromDate: from, toDate: lastDayOfDiary)
-    }
+ //   func getValues(forActivity activity: Activity, andUnit unit: Unit, fromDate from: Date) -> [(date: Date, value:Double)]{
+   //     return getValues(forActivity: activity, andUnit: unit, fromDate: from, toDate: lastDayOfDiary)
+   // }
 
-    func getValues(forActivity activity: Activity, andUnit unit: Unit, fromDate from: Date, toDate to: Date) -> [(date: Date, value:Double)]{
+/*    func getValues(forActivity activity: Activity, andUnit unit: Unit, fromDate from: Date, toDate to: Date) -> [(date: Date, value:Double)]{
         let start = Date()
         var result: [(date: Date, value: Double)] = []
         let sortedDays = ascendingOrderedDays(fromDate: from, toDate: to)
@@ -136,7 +111,9 @@ extension TrainingDiary{
         print("Time taken to get diary values for \(activity):\(unit) = \(Date().timeIntervalSince(start)) seconds")
         return result
     }
-
+*/
+    
+    //MARK: - Getting values
     func getValues(forActivity activity: Activity, andPeriod period: Period, andUnit unit: Unit) -> [(date: Date, value:Double)]{
         return getValues(forActivity: activity, andPeriod: period, andUnit: unit, fromDate: firstDayOfDiary)
     }
@@ -154,6 +131,9 @@ extension TrainingDiary{
             return optimizedResults
         }
         
+        //if we get to this point it means optimization calculation hasn't worked.
+        //This will then sum through days / workouts recursively. This can be slow
+        //it also means averaging is rather tricky and hasn't been implemented (yet?)
         var result: [(date: Date, value: Double)] = []
         
         if period != Period.Day && !unit.summable{
@@ -175,6 +155,7 @@ extension TrainingDiary{
         let start = Date()
         
         if !(activity == Activity.All){ // all is a calculated property
+ //       if !(activity == Activity.All || activity == Activity.Swim || activity == Activity.Run){ // all is a calculated property
             let factors = tsbFactors(forActivity: activity)
             for day in ascendingOrderedDays(fromDate: d){
                 let tss = day.valueFor(activity: activity, activityType: ActivityType.All, unit: Unit.TSS)
@@ -187,15 +168,34 @@ extension TrainingDiary{
                     atl += yATL * factors.atlYDayFactor
                     ctl += yCTL * factors.ctlYDayFactor
                 }
+//                print("setting for \(day.date!) ATL: \(atl) - CTL: \(ctl) using KEY: \(activity.keyString(forUnit: Unit.ATL))")
+     //           day.setValue(atl, forKey: "test")
+       //         day.setValue(ctl, forKey: "test")
                 day.setValue(atl, forKey: activity.keyString(forUnit: Unit.ATL))
                 day.setValue(ctl, forKey: activity.keyString(forUnit: Unit.CTL))
             }
+            print("Calc TSB for \(activity.rawValue) took \(Date().timeIntervalSince(start)) seconds")
         }
         
-        print("Calc TSB for \(activity.rawValue) took \(Date().timeIntervalSince(start)) seconds")
     }
     
     //MARK: - Private
+    
+    private func weightsAscendingDateOrder() -> [Weight]?{
+        if let ws = self.weights{
+            let weightsArray = ws.allObjects as! [Weight]
+            return weightsArray.sorted(by: { $0.fromDate! < $1.fromDate! })
+        }
+        return nil
+    }
+    
+    private func physiologicalsAscendingDateOrder() -> [Physiological]?{
+        if let ps = self.physiologicals{
+            let physios = ps.allObjects as! [Physiological]
+            return physios.sorted(by: { $0.fromDate! < $1.fromDate! })
+        }
+        return nil
+    }
     
     private func total(forKey: String) ->Double{
         var result: Double = 0.0
@@ -210,7 +210,7 @@ extension TrainingDiary{
     
 
     
-    // this is focussed on the rolling periods. It is very time consuming to just loop through and ask each day for it's rolling period - by way of example. RollingYear for all days would require summing 365 days for every day - thats 5,000 x 365 sums - if we ask each day individually. If we run through the days and keep a total as we go there is ~ 2 sums per day. So should be ~ 180 times faster. Sacrifising generalisation for speed here. A second benefit is this method makes it easier to average units rather than just sum them.
+    // this is focussed on the rolling periods. It is very time consuming to just loop through and ask each day for it's rolling period - by way of example. RollingYear for all days would require summing 365 days for every day - thats 5,000 x 365 sums - if we ask each day individually. If we run through the days and keep a total as we go there are ~ 2 sums per day. So should be ~ 180 times faster. Sacrifising generalisation for speed here. A second benefit is this method makes it easier to average units rather than just sum them.
     private func optimisedCalculation(forActivity activity: Activity, andPeriod period: Period, andUnit unit: Unit, fromDate from: Date, toDate to: Date) -> [(date: Date, value:Double)]?{
         print("STARTING optimized calculation for \(activity):\(period.rawValue):\(unit)...")
         let start = Date()

@@ -83,8 +83,8 @@ class CoreDataStackSingleton{
     }
     
     
-    func getWeightAndFat(forDay day: Date) -> (weight: Double, fatPercentage: Double){
-        if let weight = getWeight(forDay: day){
+    func getWeightAndFat(forDay day: Date, andTrainingDiary td: TrainingDiary) -> (weight: Double, fatPercentage: Double){
+        if let weight = getWeight(forDay: day, andTrainingDiary: td){
             return (weight.kg, weight.fatPercent)
         }else{
             return (0.0,0.0)
@@ -157,9 +157,9 @@ class CoreDataStackSingleton{
         return nil
     }
     
-    private func getWeight(forDay day: Date) -> Weight?{
+    private func getWeight(forDay day: Date, andTrainingDiary td: TrainingDiary) -> Weight?{
         let myFetch = NSFetchRequest<NSFetchRequestResult>.init(entityName: "Weight")
-        myFetch.predicate = NSPredicate.init(format: "%@ >= fromDate AND %@ <= toDate", argumentArray: [day,day])
+        myFetch.predicate = NSPredicate.init(format: "%@ >= fromDate AND %@ <= toDate and %@ == trainingDiary", argumentArray: [day,day,td])
         
         do{
             let results = try trainingDiaryPC.viewContext.fetch(myFetch)

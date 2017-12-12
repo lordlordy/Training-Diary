@@ -90,8 +90,6 @@ extension EddingtonNumber{
         switch key {
         case "eddingtonCode":
             return keyPaths.union(Set(["activity","activityType","period","unit"]))
-        case "annualEddingtonCode":
-            return keyPaths.union(Set(["activity","activityType","period","unit","year"]))
         case "maturity":
             return keyPaths.union(Set(["lastUpdated"]))
         default:

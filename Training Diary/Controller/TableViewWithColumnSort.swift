@@ -16,6 +16,8 @@ class TableViewWithColumnSort: NSTableView {
         for t in tableColumns{
             createColumnSortFor(key: t.identifier.rawValue)
         }
+        
+        createTableHeaderContextMenu()
     }
     
     // assumes the the column ID and the key for the data are the same
@@ -23,5 +25,32 @@ class TableViewWithColumnSort: NSTableView {
         let c = tableColumns[column(withIdentifier: NSUserInterfaceItemIdentifier.init(k))]
             c.sortDescriptorPrototype = NSSortDescriptor.init(key: k, ascending: false)
     }
+    
+    @objc func contextMenuSelected(_ item: NSMenuItem){
+        if let col = item.representedObject as? NSTableColumn{
+            col.isHidden = !col.isHidden
+            item.state = col.isHidden ? .off : .on
+        }
+    }
+    
+    /// set up the table header context menu for choosing the columns.
+    private func createTableHeaderContextMenu() {
+        
+        let tableHeaderContextMenu = NSMenu(title:"Select Columns")
+        let tableColumns = self.tableColumns
+        for column in tableColumns {
+            let title = column.headerCell.title
+            
+            let item = tableHeaderContextMenu.addItem(withTitle: title, action: #selector(TableViewWithColumnSort.contextMenuSelected), keyEquivalent: "")
+            
+            item.target = self
+            item.representedObject = column
+            item.state = column.isHidden ? .off : .on
+            
+        }
+        self.headerView?.menu = tableHeaderContextMenu
+    }
+    
+
     
 }

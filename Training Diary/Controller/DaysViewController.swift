@@ -14,17 +14,28 @@ class DaysViewController: NSViewController, TrainingDiaryViewController {
     
     @IBOutlet var daysArrayController: DaysArrayController!
     
-
+    @IBOutlet weak var dayTableView: TableViewWithColumnSort!
+    
 
     @IBAction func calcAllTSB(_ sender: NSButton) {
         if let td = trainingDiary{
             for a in Activity.allActivities{
+                print(a)
                 td.calcTSB(forActivity: a, fromDate: td.firstDayOfDiary)
             }
         }
     }
     
-
+    @IBAction func calcTSBFrom(_ sender: NSButton) {
+        if let td = trainingDiary{
+            if let d = latestSelectedDate(){
+                for a in Activity.allActivities{
+                    td.calcTSB(forActivity: a, fromDate: d)
+                }
+            }
+        }
+    }
+    
     @IBAction func periodCBChanged(_ sender: PeriodComboBox) {
         if let p = sender.selectedPeriod(){
             if let d = latestSelectedDate(){
@@ -94,18 +105,19 @@ class DaysViewController: NSViewController, TrainingDiaryViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         daysArrayController.sortDescriptors.append(NSSortDescriptor.init(key: "date", ascending: false))
+    
+        // Add Observer
+  //      let notificationCentre = NotificationCenter.default
+ //       notificationCentre.addObserver(self, selector: #selector(DaysViewController.notificationReceived), name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: nil)
         
-            print("Adding observer")
-            // Add Observer
-            let notificationCentre = NotificationCenter.default
-        notificationCentre.addObserver(self, selector: #selector(DaysViewController.notificationReceived), name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: nil)
-
+       
     }
     
 
 
     @objc func notificationReceived(notification:Notification){
-        
+        print("notification received called in DayViewController")
+        let start = Date()
         if let moc = notification.object as! NSManagedObjectContext?{
             if let ui = notification.userInfo{
                 if let updates = ui[NSUpdatedObjectsKey] as? Set<NSManagedObject>, updates.count > 0 {
@@ -120,13 +132,16 @@ class DaysViewController: NSViewController, TrainingDiaryViewController {
             }
         }
         
-        
+        print("leaving notification receieved after \(Date().timeIntervalSince(start)) seconds")
         
     }
     
     
     func set(trainingDiary td: TrainingDiary){
         self.trainingDiary = td
+        if let dac = daysArrayController{
+            dac.trainingDiary = td
+        }
     }
 
 
@@ -167,4 +182,5 @@ class DaysViewController: NSViewController, TrainingDiaryViewController {
         return latestDate
     }
     
+
 }

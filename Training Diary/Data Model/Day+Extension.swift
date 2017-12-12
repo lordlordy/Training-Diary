@@ -11,12 +11,14 @@ import Foundation
 extension Day{
     
     
-    /* Used when creating base data. We do not want this to fail as when requesting a value for a particular combination of activity, type and unit a valid answer is zero. For example: if this gets asked what the swim squad ascent is then the correct answer is zero. 
+    /* We do not want this to fail as when requesting a value for a particular combination of activity, type and unit a valid answer is zero. For example: if this gets asked what the swim squad ascent is then the correct answer is zero.
     */
 
     func valueFor(activity: Activity, activityType: ActivityType, unit: Unit) -> Double{
         var result = 0.0
         if activityType == ActivityType.All{
+            //this is small optimisation in case a simple calculated propery is available for this.
+            //Note that if no value is available we'll drop through this to the generic method
             if let value = self.value(forKey: activity.keyString(forUnit: unit)){
                 return value as! Double
             }
@@ -80,7 +82,7 @@ extension Day{
     }
     
     /*This is the method that needs implementing to ensure calculated properties update when the properties
-    they depend on update.
+    they depend on change.
      */
     override public class func keyPathsForValuesAffectingValue(forKey key: String) -> Set<String>{
         let keyPaths = super.keyPathsForValuesAffectingValue(forKey: key)
@@ -254,10 +256,15 @@ extension Day{
     }
     
     @objc dynamic var kg: Double{
-        return CoreDataStackSingleton.shared.getWeightAndFat(forDay: self.date!).weight
+        return CoreDataStackSingleton.shared.getWeightAndFat(forDay: self.date!, andTrainingDiary: self.trainingDiary! ).weight
     }
+    
+    @objc dynamic var lbs: Double{
+        return kg * Constant.LbsPerKg.rawValue
+    }
+    
     @objc dynamic var fatPercent: Double{
-        return CoreDataStackSingleton.shared.getWeightAndFat(forDay: self.date!).fatPercentage
+        return CoreDataStackSingleton.shared.getWeightAndFat(forDay: self.date!, andTrainingDiary: self.trainingDiary!).fatPercentage
     }
     @objc dynamic var restingHR: Int16{
         return CoreDataStackSingleton.shared.getRestingHeartRate(forDay: self.date!)
@@ -272,6 +279,8 @@ extension Day{
     @objc dynamic var pressUpReps: Double{
         return sumOverWorkouts(forActivities: [Activity.Gym], andTypes: [ActivityType.PressUp], andUnit: WorkoutProperty.reps.unit()!)
     }
+    
+    //MARK: - utility functions
     
     public func isTomorrow(day: Day) -> Bool{
         if let thisDaysDate = date{
