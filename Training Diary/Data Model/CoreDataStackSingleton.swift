@@ -99,6 +99,25 @@ class CoreDataStackSingleton{
         }
     }
     
+    //inserts fields for metrics if they don't already exist
+    func populateMetricPlaceholders(forDay d: Day){
+        let metricsMOSet = d.mutableSetValue(forKey: DayProperty.metrics.rawValue)
+        let metricKeys: [String] = (metricsMOSet.allObjects as! [Metric]).map({$0.uniqueKey})
+        for metric in Unit.metrics{
+            for a in Activity.allActivities{
+                if a != Activity.All{ // All is calculated
+                    if !metricKeys.contains(Metric.key(forActivity: a, andUnit: metric)){
+                        //add metric
+                        let m = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.Metric.rawValue, in: trainingDiaryPC.viewContext)!, insertInto: trainingDiaryPC.viewContext)
+                        m.setValue(metric.rawValue, forKey: MetricProperty.name.rawValue)
+                        m.setValue(a.rawValue, forKey: MetricProperty.activity.rawValue)
+                        metricsMOSet.add(m)
+                    }
+                }
+            }
+        }
+    }
+    
  
     //MARK: - Eddington Number Support
     

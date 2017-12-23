@@ -47,8 +47,13 @@ extension EddingtonNumber{
     }
     
     public func updateFor(date d: Date, value v: Double){
-        updateLTDFor(date: d, value: v)
+        let start = Date()
+        if (v >= Double(nextEddingtonNumber)){
+            updateLTDFor(date: d, value: v)
+        }
+        let s2 = Date()
         updateAnnualFor(date: d, value: v)
+        print("LTD update took: \(s2.timeIntervalSince(start)) seconds, Annual: \(Date().timeIntervalSince(s2)) seconds")
     }
     
     //this removes all history and contributors
@@ -59,6 +64,52 @@ extension EddingtonNumber{
         mutableSetValue(forKey: EddingtonNumberProperty.history.rawValue).removeAllObjects()
         //effectively no calculation now done ... so remove lastUpdated
         self.lastUpdated = nil
+    }
+    
+    public func setContributors(to newContributors: [(date: Date, value: Double)]){
+        let contributors = mutableSetValue(forKey: EddingtonNumberProperty.contributors.rawValue)
+        contributors.removeAllObjects()
+        for c in newContributors{
+            let contributor = CoreDataStackSingleton.shared.newEddingtonContributor()
+            contributor.date = c.date
+            contributor.value = c.value
+            contributors.add(contributor)
+        }
+    }
+    
+    public func setHistory(to newHistory: [(date: Date, value: Int, plusOne: Int)]){
+        let history = mutableSetValue(forKey: EddingtonNumberProperty.history.rawValue)
+        history.removeAllObjects()
+        for h in newHistory{
+            let hist = CoreDataStackSingleton.shared.newEddingtonHistory()
+            hist.date = h.date
+            hist.value = Int16(h.value)
+            hist.plusOne = Int16(h.plusOne)
+            history.add(hist)
+        }
+    }
+    
+    public func setAnnualContributors(to newContributors: [(date: Date, value: Double)]){
+        let contributors = mutableSetValue(forKey: EddingtonNumberProperty.annualContributors.rawValue)
+        contributors.removeAllObjects()
+        for c in newContributors{
+            let contributor = CoreDataStackSingleton.shared.newEddingtonAnnualContributor()
+            contributor.date = c.date
+            contributor.value = c.value
+            contributors.add(contributor)
+        }
+    }
+    
+    public func setAnnualHistory(to newHistory: [(date: Date, value: Int, plusOne: Int)]){
+       let annualHistory = mutableSetValue(forKey: EddingtonNumberProperty.annualHistory.rawValue)
+        annualHistory.removeAllObjects()
+        for h in newHistory{
+            let hist = CoreDataStackSingleton.shared.newEddingtonAnnualHistory()
+            hist.date = h.date
+            hist.value = Int16(h.value)
+            hist.plusOne = Int16(h.plusOne)
+            annualHistory.add(hist)
+        }
     }
     
 
@@ -101,7 +152,7 @@ extension EddingtonNumber{
     
     private func updateLTDFor(date d: Date, value v: Double){
         if v < Double(nextEddingtonNumber) { return } // doesn't contribute
-        
+        print("\(v) contributes to edNum: \(value)")
         //value at least the next eddington number - this means it contributes so add it
         // it also means at least one of eddington number or plusOne count as changed so add history
         

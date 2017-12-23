@@ -89,29 +89,36 @@ extension Day{
         switch key {
         case DayCalculatedProperty.numberOfWorkouts.rawValue:
             return keyPaths.union(Set([DayProperty.workouts.rawValue]))
-        case DayCalculatedProperty.swimTSB.rawValue:
-            return keyPaths.union(Set([DayProperty.swimATL.rawValue, DayProperty.swimCTL.rawValue]))
-        case DayCalculatedProperty.bikeTSB.rawValue:
-            return keyPaths.union(Set([DayProperty.bikeATL.rawValue, DayProperty.bikeCTL.rawValue]))
-        case DayCalculatedProperty.runTSB.rawValue:
-            return keyPaths.union(Set([DayProperty.runATL.rawValue, DayProperty.runCTL.rawValue]))
-        case DayCalculatedProperty.allTSB.rawValue:
-            return keyPaths.union(Set([DayProperty.allATL.rawValue, DayProperty.allCTL.rawValue]))
-        case DayCalculatedProperty.allCTL.rawValue:
-            return keyPaths.union(Set([DayProperty.swimCTL.rawValue, DayProperty.bikeCTL.rawValue, DayProperty.runCTL.rawValue, DayProperty.gymCTL.rawValue, DayProperty.walkCTL.rawValue, DayProperty.otherCTL.rawValue]))
-        case DayCalculatedProperty.allATL.rawValue:
-            return keyPaths.union(Set([DayProperty.swimATL.rawValue, DayProperty.bikeATL.rawValue, DayProperty.runATL.rawValue, DayProperty.gymATL.rawValue, DayProperty.walkATL.rawValue, DayProperty.otherATL.rawValue]))
-        case _ where DayCalculatedProperty.ALL.map{$0.rawValue}.contains(key):
-            return keyPaths.union(Set([DayProperty.workoutChanged.rawValue]))
+//        case DayCalculatedProperty.swimTSB.rawValue:
+  //          return keyPaths.union(Set([DayProperty.swimATL.rawValue, DayProperty.swimCTL.rawValue]))
+    //    case DayCalculatedProperty.bikeTSB.rawValue:
+      //      return keyPaths.union(Set([DayProperty.bikeATL.rawValue, DayProperty.bikeCTL.rawValue]))
+//        case DayCalculatedProperty.runTSB.rawValue:
+  //          return keyPaths.union(Set([DayProperty.runATL.rawValue, DayProperty.runCTL.rawValue]))
+    //    case DayCalculatedProperty.allTSB.rawValue:
+      //      return keyPaths.union(Set([DayProperty.allATL.rawValue, DayProperty.allCTL.rawValue]))
+  //      case DayCalculatedProperty.allCTL.rawValue:
+    //        return keyPaths.union(Set([DayProperty.swimCTL.rawValue, DayProperty.bikeCTL.rawValue, DayProperty.runCTL.rawValue, DayProperty.gymCTL.rawValue, DayProperty.walkCTL.rawValue, DayProperty.otherCTL.rawValue]))
+  //      case DayCalculatedProperty.allATL.rawValue:
+    //        return keyPaths.union(Set([DayProperty.swimATL.rawValue, DayProperty.bikeATL.rawValue, DayProperty.runATL.rawValue, DayProperty.gymATL.rawValue, DayProperty.walkATL.rawValue, DayProperty.otherATL.rawValue]))
+//        case _ where DayCalculatedProperty.ALL.map{$0.rawValue}.contains(key):
+  //          return keyPaths.union(Set([DayProperty.workoutChanged.rawValue]))
         default:
             return keyPaths
         }
     }
- 
+
     
     //MARK: - Calculated properties - these are for display in GUI
 
-    
+    @objc dynamic var swimATL: Double{
+        return metricValue(forActivity: Activity.Swim, andMetric: Unit.ATL)
+    }
+
+    @objc dynamic var swimCTL: Double{
+        return metricValue(forActivity: Activity.Swim, andMetric: Unit.CTL)
+    }
+
     @objc dynamic var swimHours: Double{
         return swimSeconds / Constant.SecondsPerHour.rawValue
     }
@@ -129,13 +136,21 @@ extension Day{
         return sumOverWorkouts(forActivities: [Activity.Swim], andTypes: [ActivityType.All], andUnit: WorkoutProperty.seconds.unit()!)
     }
     @objc dynamic var swimTSB: Double{
-        return swimCTL - swimATL
+        return metricValue(forActivity: Activity.Swim, andMetric: Unit.TSB)
     }
     @objc dynamic var swimTSS: Double{
         return sumOverWorkouts(forActivities: [Activity.Swim], andTypes: [ActivityType.All], andUnit: WorkoutProperty.tss.unit()!)
     }
     @objc dynamic var swimWatts: Double{
         return weightedAverageOverWorkouts(forActivities: [Activity.Swim], andTypes: [ActivityType.All], andUnit: WorkoutProperty.watts.unit()!)
+    }
+    
+    @objc dynamic var bikeATL: Double{
+        return metricValue(forActivity: Activity.Bike, andMetric: Unit.ATL)
+    }
+    
+    @objc dynamic var bikeCTL: Double{
+        return metricValue(forActivity: Activity.Bike, andMetric: Unit.CTL)
     }
     
     @objc dynamic var bikeAscentFeet: Double{
@@ -166,10 +181,19 @@ extension Day{
         return sumOverWorkouts(forActivities: [Activity.Bike], andTypes: [ActivityType.All], andUnit: WorkoutProperty.tss.unit()!)
     }
     @objc dynamic var bikeTSB: Double{
-        return bikeCTL - bikeATL
+        return metricValue(forActivity: Activity.Bike, andMetric: Unit.TSB)
     }
+
     @objc dynamic var bikeWatts: Double{
         return weightedAverageOverWorkouts(forActivities: [Activity.Bike], andTypes: [ActivityType.All], andUnit: WorkoutProperty.watts.unit()!)
+    }
+    
+    @objc dynamic var runATL: Double{
+        return metricValue(forActivity: Activity.Run, andMetric: Unit.ATL)
+    }
+    
+    @objc dynamic var runCTL: Double{
+        return metricValue(forActivity: Activity.Run, andMetric: Unit.CTL)
     }
     
     @objc dynamic var runAscentFeet: Double{
@@ -200,7 +224,7 @@ extension Day{
         return sumOverWorkouts(forActivities: [Activity.Run], andTypes: [ActivityType.All], andUnit: WorkoutProperty.tss.unit()!)
     }
     @objc dynamic var runTSB: Double{
-        return runCTL - runATL
+        return metricValue(forActivity: Activity.Run, andMetric: Unit.TSB)
     }
     @objc dynamic var runWatts: Double{
         return weightedAverageOverWorkouts(forActivities: [Activity.Run], andTypes: [ActivityType.All], andUnit: WorkoutProperty.watts.unit()!)
@@ -243,16 +267,40 @@ extension Day{
         return allCTL - allATL
     }
     
+    @objc dynamic var gymATL: Double{
+        return metricValue(forActivity: Activity.Gym, andMetric: Unit.ATL)
+    }
+    
+    @objc dynamic var gymCTL: Double{
+        return metricValue(forActivity: Activity.Gym, andMetric: Unit.CTL)
+    }
+    
     @objc dynamic var gymTSB: Double{
-        return gymCTL - gymATL
+        return metricValue(forActivity: Activity.Gym, andMetric: Unit.TSB)
+    }
+    
+    @objc dynamic var walkATL: Double{
+        return metricValue(forActivity: Activity.Walk, andMetric: Unit.ATL)
+    }
+    
+    @objc dynamic var walkCTL: Double{
+        return metricValue(forActivity: Activity.Walk, andMetric: Unit.CTL)
     }
     
     @objc dynamic var walkTSB: Double{
-        return walkCTL - walkATL
+        return metricValue(forActivity: Activity.Walk, andMetric: Unit.TSB)
+    }
+    
+    @objc dynamic var otherATL: Double{
+        return metricValue(forActivity: Activity.Other, andMetric: Unit.ATL)
+    }
+    
+    @objc dynamic var otherCTL: Double{
+        return metricValue(forActivity: Activity.Other, andMetric: Unit.CTL)
     }
     
     @objc dynamic var otherTSB: Double{
-        return otherCTL - otherATL
+        return metricValue(forActivity: Activity.Other, andMetric: Unit.TSB)
     }
     
     @objc dynamic var kg: Double{
@@ -281,7 +329,7 @@ extension Day{
     }
     
     //MARK: - utility functions
-    
+
     public func isTomorrow(day: Day) -> Bool{
         if let thisDaysDate = date{
             if let compareDate = day.date{
@@ -301,9 +349,48 @@ extension Day{
     }
 
 
-
+    func setMetricValue(forActivity a: Activity, andMetric m: Unit, toValue v:Double){
+        if let metric = metric(forActivity: a, andMetric: m){
+            metric.value = v
+        }
+    }
 
     //MARK:- private
+    
+    private func metricValue(forActivity a: Activity, andMetric m: Unit ) -> Double{
+        if let result = metricValuesDictionary()[Metric.key(forActivity: a, andUnit: m)]{
+            return result
+        }
+        return 0.0
+    }
+    
+    private func metric(forActivity a: Activity, andMetric m: Unit) -> Metric?{
+        return metricDictionary()[Metric.key(forActivity: a, andUnit: m)]
+    }
+
+    private func metricDictionary() -> [String:Metric]{
+        var result: [String:Metric] = [:]
+        if let metricSet = metrics{
+            for e in metricSet{
+                if let element = e as? Metric{
+                    result[element.uniqueKey] = element
+                }
+            }
+        }
+        return result
+    }
+    
+    private func metricValuesDictionary() -> [String:Double]{
+        var result: [String:Double] = [:]
+        if let metricSet = metrics{
+            for e in metricSet{
+                if let element = e as? Metric{
+                    result[element.uniqueKey] = element.value
+                }
+            }
+        }
+        return result
+    }
     
     private func sumOverWorkouts(forActivities activities: [Activity], andTypes types: [ActivityType], andUnit unit: Unit) -> Double{
         var sum = 0.0

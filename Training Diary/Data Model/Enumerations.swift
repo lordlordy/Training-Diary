@@ -263,9 +263,13 @@ enum FPMJSONString: String, FileMakerProJSONString{
 //MARK: - Core Data Entities and Properties
 
 enum ENTITY: String{
-    case TrainingDiary, Day, Workout, Weight, Physiological
+    case TrainingDiary, Day, Workout, Weight, Physiological, Metric
     case EddingtonNumber, EddingtonAnnualContributor, EddingtonAnnualHistory
     case EddingtonContributor, EddingtonHistory
+}
+
+enum MetricProperty: String{
+    case activity, name, value, uniqueKey
 }
 
 enum WeightProperty: String, FileMakerProJSONString{
@@ -405,7 +409,7 @@ enum DayProperty: String, FileMakerProJSONString{
     case swimATL, bikeATL, runATL, gymATL, walkATL, otherATL, allATL
     
     //relationships
-    case trainingDiary, workouts
+    case trainingDiary, workouts, metrics
     
     func fmpString() -> String {
         switch self{

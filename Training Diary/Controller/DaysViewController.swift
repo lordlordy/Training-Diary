@@ -17,7 +17,7 @@ class DaysViewController: NSViewController, TrainingDiaryViewController {
     @IBOutlet weak var dayTableView: TableViewWithColumnSort!
     
 
-    @IBAction func calcAllTSB(_ sender: NSButton) {
+ /*   @IBAction func calcAllTSB(_ sender: NSButton) {
         if let td = trainingDiary{
             for a in Activity.allActivities{
                 print(a)
@@ -35,7 +35,7 @@ class DaysViewController: NSViewController, TrainingDiaryViewController {
             }
         }
     }
-    
+   */
     @IBAction func periodCBChanged(_ sender: PeriodComboBox) {
         if let p = sender.selectedPeriod(){
             if let d = latestSelectedDate(){
@@ -81,7 +81,7 @@ class DaysViewController: NSViewController, TrainingDiaryViewController {
         for d in selectedDays{
             print(d.date!.dateOnlyString())
             print(d)
-            print("---------------------- WORKOUTS --------------------")
+            print("-- WORKOUTS:")
             if let workouts = d.workouts{
                 for w in workouts{
                     print(w)
@@ -115,7 +115,7 @@ class DaysViewController: NSViewController, TrainingDiaryViewController {
     
 
 
-    @objc func notificationReceived(notification:Notification){
+/*    @objc func notificationReceived(notification:Notification){
         print("notification received called in DayViewController")
         let start = Date()
         if let moc = notification.object as! NSManagedObjectContext?{
@@ -136,7 +136,7 @@ class DaysViewController: NSViewController, TrainingDiaryViewController {
         
     }
     
-    
+ */
     func set(trainingDiary td: TrainingDiary){
         self.trainingDiary = td
         if let dac = daysArrayController{

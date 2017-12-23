@@ -22,12 +22,16 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
     
     @IBOutlet var eddingtonNumberArrayController: NSArrayController!
     
+    @IBOutlet weak var edCalcProgressBar: NSProgressIndicator!
+    @IBOutlet weak var calcProgressTextField: NSTextField!
+    
     @IBAction func updateAllEddingtonNumbers(_ sender: NSButton){
         let start = Date()
         if let td = trainingDiary{
             for e in td.eddingtonNumbers! {
                 let edNum = e as! EddingtonNumber
-                EddingtonNumberCalculator.shared.updateEddingtonNumber(forEddingtonNumber: edNum)
+                let calculator = EddingtonNumberCalculator()
+                calculator.updateEddingtonNumber(forEddingtonNumber: edNum)
                 prod(eddingtonNumber: edNum)
             }
         }
@@ -35,11 +39,70 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
         updateGraph()
     }
     
+    @IBAction func calculateSelection(_ sender: NSButton) {
+        
+        let start = Date()
+        var slowCalcs: [(code: String, seconds: TimeInterval)] = []
+        calcProgressTextField!.stringValue = "starting..."
+        DispatchQueue.global(qos: .userInitiated).async {
+            var count: Double = 0.0
+            let total: Double = Double(self.selectedRows().count)
+            for edNum in self.selectedRows(){
+                count += 1
+                DispatchQueue.main.sync {
+                    self.calcProgressTextField!.stringValue = "\(Int(count)) of \(Int(total)) : \(edNum.eddingtonCode) ..."
+                }
+                let subStart = Date()
+                let calculator = EddingtonNumberCalculator()
+                calculator.calculate(eddingtonNumber: edNum)
+                DispatchQueue.main.async {
+                    
+                    edNum.setContributors(to: calculator.contributors)
+                    edNum.setHistory(to: calculator.history)
+                    edNum.value = Int16(calculator.eddingtonNumber)
+                    
+                    edNum.setAnnualContributors(to: calculator.annualContributors)
+                    edNum.setAnnualHistory(to: calculator.annualHistory)
+                    edNum.annual = Int16(calculator.annualEddingtonNumber)
+                    
+                    edNum.lastUpdated = Date()
+                    self.prod(eddingtonNumber: edNum)
+                    self.edCalcProgressBar!.doubleValue = 100.0 * count / total
+                }
+                let timeTaken = Date().timeIntervalSince(subStart)
+                if timeTaken > 1.0{
+                    slowCalcs.append((edNum.eddingtonCode, timeTaken))
+                }
+                print("Time taken for \(edNum.eddingtonCode): \(timeTaken) seconds")
+            }
+            print("Slow calculations:")
+            var totalSlowSeconds = 0.0
+            for s in slowCalcs.sorted(by: {$0.seconds > $1.seconds}) {
+                print(s)
+                totalSlowSeconds += s.seconds
+            }
+            print("Slow calculations totaled \(totalSlowSeconds) seconds")
+            let slowAverage = totalSlowSeconds / Double(slowCalcs.count)
+            let totalSeconds = Date().timeIntervalSince(start)
+            let otherAverage = (totalSeconds - totalSlowSeconds) / (total - Double(slowCalcs.count))
+            print("Slow average = \(slowAverage) other average = \(otherAverage)")
+            print("Time taken for new Ed num update: \(totalSeconds) seconds.")
+            DispatchQueue.main.async {
+                self.calcProgressTextField!.stringValue = "Complete"
+            }
+        }
+
+        updateGraph()
+    }
+    
+    
     @IBAction func updateEdNumber(_ sender: NSButton){
         let start = Date()
         for edNum in selectedRows(){
-            EddingtonNumberCalculator.shared.updateEddingtonNumber(forEddingtonNumber: edNum)
+            let calculator = EddingtonNumberCalculator()
+            calculator.updateEddingtonNumber(forEddingtonNumber: edNum)
             prod(eddingtonNumber: edNum)
+ 
         }
         print("Time taken for Core data Ed num update: \(Date().timeIntervalSince(start)) seconds")
         updateGraph()
@@ -78,6 +141,7 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
         self.trainingDiary = td
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         if let eddNumAC = eddingtonNumberArrayController{
@@ -101,7 +165,20 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if keyPath == "selection"{ updateGraph() }
+        switch keyPath!{
+        case "selection":
+            updateGraph()
+
+        default:
+            print("why am I observing \(String(describing: keyPath))")
+        }
+    }
+    
+    private func setProgress(_ value: Double){
+        if let pb = edCalcProgressBar{
+            pb.increment(by: value)
+            pb.display()
+        }
     }
 
     private func updatePredicate(){

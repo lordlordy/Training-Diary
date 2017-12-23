@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7309AED61FC6CCC100054A6B /* ActivityGraphDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7309AED51FC6CCC100054A6B /* ActivityGraphDefinition.swift */; };
 		730AE25E1FC732DB00348A63 /* ChartTypeComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730AE25D1FC732DB00348A63 /* ChartTypeComboBox.swift */; };
+		730DB7571FE132F500579A81 /* Metric+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730DB7561FE132F500579A81 /* Metric+Extension.swift */; };
 		731CF8051F981C3300C59AA8 /* RollingSum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731CF8041F981C3300C59AA8 /* RollingSum.swift */; };
 		731CF8071F98467A00C59AA8 /* TSBCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731CF8061F98467A00C59AA8 /* TSBCalculator.swift */; };
 		732103AE1FCFFB570020F365 /* CSVImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732103AD1FCFFB570020F365 /* CSVImporter.swift */; };
@@ -69,6 +70,7 @@
 /* Begin PBXFileReference section */
 		7309AED51FC6CCC100054A6B /* ActivityGraphDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityGraphDefinition.swift; sourceTree = "<group>"; };
 		730AE25D1FC732DB00348A63 /* ChartTypeComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartTypeComboBox.swift; sourceTree = "<group>"; };
+		730DB7561FE132F500579A81 /* Metric+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Metric+Extension.swift"; sourceTree = "<group>"; };
 		731CF8041F981C3300C59AA8 /* RollingSum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollingSum.swift; sourceTree = "<group>"; };
 		731CF8061F98467A00C59AA8 /* TSBCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSBCalculator.swift; sourceTree = "<group>"; };
 		732103AD1FCFFB570020F365 /* CSVImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVImporter.swift; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 				73B2B9FF1F898BF30044DD4E /* Workout+Extension.swift */,
 				7369D9F91FB2C97400ECAA1E /* TrainingDiary+Extension.swift */,
 				73B2B9F71F894E870044DD4E /* CoreDataStackSingleton.swift */,
+				730DB7561FE132F500579A81 /* Metric+Extension.swift */,
 				73444C3E1F96AB9B00B3E84D /* Enumerations.swift */,
 				73C58CA61FA8EFD200F57BAE /* EddingtonNumber+Extension.swift */,
 				73C3B37C1F97AC1400ED6108 /* EddingtonNumberCalculator.swift */,
@@ -354,6 +357,7 @@
 				733837D71FD99BDD0082C45B /* TrainingDiaryViewController.swift in Sources */,
 				73C3B37D1F97AC1400ED6108 /* EddingtonNumberCalculator.swift in Sources */,
 				73B2BA001F898BF30044DD4E /* Workout+Extension.swift in Sources */,
+				730DB7571FE132F500579A81 /* Metric+Extension.swift in Sources */,
 				732103AE1FCFFB570020F365 /* CSVImporter.swift in Sources */,
 				73C58CA71FA8EFD200F57BAE /* EddingtonNumber+Extension.swift in Sources */,
 				7333B8631FA76F3A00E93BF0 /* EddingtonNumbersViewController.swift in Sources */,

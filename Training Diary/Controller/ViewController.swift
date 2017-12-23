@@ -103,23 +103,25 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
     @IBAction func recalcAllTSB(_ sender: NSButton) {
         let start = Date()
         if let td = selectedTrainingDiary(){
-      //      for a in Activity.allActivities{
-        //        td.calcTSB(forActivity: a, fromDate: td.firstDayOfDiary)
-          //  }
-            td.calcTSB(forActivity: Activity.Bike, fromDate: td.firstDayOfDiary)
-            td.calcTSB(forActivity: Activity.Swim, fromDate: td.firstDayOfDiary)
+            for a in Activity.allActivities{
+                td.calcTSB(forActivity: a, fromDate: td.firstDayOfDiary)
+            }
         }
         print("TSB calculation for all activities took \(Date().timeIntervalSince(start)) seconds")
+        if let dvc = daysViewController{
+            if let dac = dvc.daysArrayController{
+                
+            }
+        }
+        
     }
     
     @IBAction func recalcFromTSB(_ sender: NSButton) {
         if let td = selectedTrainingDiary(){
             if let d = latestSelectedDate(){
-//                for a in Activity.allActivities{
-  //                  td.calcTSB(forActivity: a, fromDate: d)
-    //            }
-                td.calcTSB(forActivity: Activity.Bike, fromDate: d)
-                td.calcTSB(forActivity: Activity.Swim, fromDate: d  )
+                for a in Activity.allActivities{
+                    td.calcTSB(forActivity: a, fromDate: d)
+                }
             }
         }
     }
@@ -240,7 +242,9 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
         //parse the file returning top level json dictionary
         //not this may return nil if user hits 'cancel' for instance
         if let url = getPathFromModelDialogue(withTitle: "chose .json file",andFileTypes: ["json"]){
+            let s = Date()
             jsonImporter.merge(fromURL: url, intoDiary: td)
+            print("Merge took \(Date().timeIntervalSince(s)) seconds")
         }
     }
     

@@ -155,7 +155,6 @@ extension TrainingDiary{
         let start = Date()
         
         if !(activity == Activity.All){ // all is a calculated property
- //       if !(activity == Activity.All || activity == Activity.Swim || activity == Activity.Run){ // all is a calculated property
             let factors = tsbFactors(forActivity: activity)
             for day in ascendingOrderedDays(fromDate: d){
                 let tss = day.valueFor(activity: activity, activityType: ActivityType.All, unit: Unit.TSS)
@@ -168,13 +167,38 @@ extension TrainingDiary{
                     atl += yATL * factors.atlYDayFactor
                     ctl += yCTL * factors.ctlYDayFactor
                 }
-//                print("setting for \(day.date!) ATL: \(atl) - CTL: \(ctl) using KEY: \(activity.keyString(forUnit: Unit.ATL))")
-     //           day.setValue(atl, forKey: "test")
-       //         day.setValue(ctl, forKey: "test")
-                day.setValue(atl, forKey: activity.keyString(forUnit: Unit.ATL))
-                day.setValue(ctl, forKey: activity.keyString(forUnit: Unit.CTL))
+               // print("calc for \(day.date!) ATL: \(atl) - CTL: \(ctl) using KEY: \(activity.keyString(forUnit: Unit.ATL))")
+                let s = Date()
+                day.setMetricValue(forActivity: activity, andMetric: Unit.ATL, toValue: atl)
+       /*         if activity == Activity.Run{
+                    day.setValue(atl, forKey: "test")
+                }else{
+                    day.setValue(atl, forKey: activity.keyString(forUnit: Unit.ATL))
+                }
+ */
+                let s2 = Date()
+                day.setMetricValue(forActivity: activity, andMetric: Unit.CTL, toValue: ctl)
+   /*             if activity == Activity.Bike{
+                    day.setValue(ctl, forKey: "testCTL")
+                }else{
+                    day.setValue(ctl, forKey: activity.keyString(forUnit: Unit.CTL))
+                }
+ */
+                 let finish = Date()
+                day.setMetricValue(forActivity: activity, andMetric: Unit.TSB, toValue: ctl - atl)
+                if s2.timeIntervalSince(s) > TimeInterval(0.1){ print("ATL for \(activity) took \(s2.timeIntervalSince(s)) seconds") }
+                if finish.timeIntervalSince(s2) > TimeInterval(0.1){ print("CTL for \(activity) took \(finish.timeIntervalSince(s2)) seconds") }
+
+                
+                if Date().timeIntervalSince(start) > TimeInterval(5.0){
+                    print("exiting TSB calc for \(activity) as taking too long (ie more than 5s)")
+                    return
+                }
+                
             }
             print("Calc TSB for \(activity.rawValue) took \(Date().timeIntervalSince(start)) seconds")
+            
+            
         }
         
     }

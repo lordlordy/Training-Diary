@@ -219,7 +219,7 @@ class CompareGraphViewController: NSViewController, GraphManagementDelegate, Tra
             // add to ArrayController first so they are here when we add into plot - this is needed to adjust dates to
             // same axis.
             if let gac = graphArrayController{
-                gac.add(contentsOf: [runGraph2016, runGraph2017])
+                gac.add(contentsOf: [runGraph2017, runGraph2016 ])
             }
             
             add(graph: runGraph2017)

@@ -13,15 +13,16 @@ class JSONImporter{
     
     public func importDiary(fromURL url: URL){
         if let json = importJSON(fromURL: url) {
-            createManagedObjectModelFrom(json: json)
+            let td = newTrainingDiary()
+            td.setValue(json["Created"], forKey: "name")
+            add(json, toTrainingDiary: td )
+
         }
     }
     
     public func merge(fromURL url: URL, intoDiary td: TrainingDiary){
         if let json = importJSON(fromURL: url){
-            addDaysAndWorkouts(fromJSON: json, toTrainingDiary: td)
-            addWeight(fromJSON: json, toTrainingDiary: td)
-            addPhysiological(fromJSON: json, toTrainingDiary: td)
+            add(json, toTrainingDiary: td)
         }
     }
     
@@ -167,10 +168,12 @@ class JSONImporter{
         for d in days{
             // we have a day. So create a Day ManagedObject
             let day = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.Day.rawValue, in: persistentContainer.viewContext)!, insertInto: persistentContainer.viewContext)
+            
             daysMOSet.add(day)
             let workoutsMOSet = day.mutableSetValue(forKey: DayProperty.workouts.rawValue)
             let pairs = d as! [String: Any]
             for p in pairs{
+                let start = Date()
                 switch p.key{
                 case DayProperty.date.fmpString():
                     day.setValue(dateFormatter.date(from: p.value as! String), forKey: DayProperty.date.rawValue)
@@ -179,7 +182,8 @@ class JSONImporter{
                 case DayProperty.sleepQuality.fmpString():
                     day.setValue(p.value, forKey: DayProperty.sleepQuality.rawValue)
                 case DayProperty.type.fmpString():
-                    day.setValue(p.value, forKey: DayProperty.type.rawValue)
+//                    day.setValue(p.value, forKey: DayProperty.type.rawValue)
+                    day.setValue(p.value, forKey: "test")
                 case DayProperty.motivation.fmpString():
                     day.setValue(p.value, forKey: DayProperty.motivation.rawValue)
                 case DayProperty.fatigue.fmpString():
@@ -279,7 +283,11 @@ class JSONImporter{
                         print("JSON not added for Key: *\(p.key)* with value: \(p.value)")
                     }
                 }
+                print("Pair \(p) took \(Date().timeIntervalSince(start)) seconds" )
             }
+            let start = Date()
+            CoreDataStackSingleton.shared.populateMetricPlaceholders(forDay: day as! Day)
+            print("populating metric placeholders \(Date().timeIntervalSince(start)) seconds")
         }
         let addedDays: [Day] = daysMOSet.allObjects as! [Day]
         insertYesterdayAndTomorrow(forDays: addedDays)
@@ -301,13 +309,16 @@ class JSONImporter{
         }
     }
     
-    private func createManagedObjectModelFrom(json: [String: Any]){
+    private func newTrainingDiary() -> TrainingDiary{
         //create the base Object - TrainingDiary
         let trainingDiary: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "TrainingDiary", into: CoreDataStackSingleton.shared.trainingDiaryPC.viewContext)
+
+
+        return trainingDiary as! TrainingDiary
         
-        trainingDiary.setValue(json["Created"], forKey: "name")
         
-        print("Adding days and workouts to managed object model...")
+        
+ /*       print("Adding days and workouts to managed object model...")
         addDaysAndWorkouts(fromJSON: json, toTrainingDiary: trainingDiary)
         print("days and workouts added")
         print("Adding weights to managed object model...")
@@ -317,9 +328,24 @@ class JSONImporter{
         addPhysiological(fromJSON: json, toTrainingDiary: trainingDiary)
         print("physiologicals added")
         //     printEntities()
-        print("Added:")
+        print("Entities in training diary:")
         CoreDataStackSingleton.shared.printEntityCounts(forDiary: trainingDiary as! TrainingDiary)
-        
+    */
+    }
+    
+    private func add(_ json: [String: Any], toTrainingDiary td: NSManagedObject){
+        print("Adding days and workouts to managed object model...")
+        addDaysAndWorkouts(fromJSON: json, toTrainingDiary: td)
+        print("days and workouts added")
+        print("Adding weights to managed object model...")
+        addWeight(fromJSON: json, toTrainingDiary: td)
+        print("weights added")
+        print("Adding physiologicals to managed object model...")
+        addPhysiological(fromJSON: json, toTrainingDiary: td)
+        print("physiologicals added")
+        //     printEntities()
+        print("Entities in training diary:")
+        CoreDataStackSingleton.shared.printEntityCounts(forDiary: td as! TrainingDiary)
     }
     
     
