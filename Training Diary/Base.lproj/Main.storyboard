@@ -3678,10 +3678,10 @@ IA
                                                             <subviews>
                                                                 <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="771-yo-ihO" customClass="UnitComboBox" customModule="Training_Diary" customModuleProvider="target">
                                                                     <rect key="frame" x="0.0" y="-4" width="59" height="23"/>
-                                                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" numberOfVisibleItems="5" id="DY8-fh-C0d">
+                                                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" numberOfVisibleItems="5" id="DY8-fh-C0d">
                                                                         <font key="font" metaFont="smallSystem"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" red="0.10570669420000001" green="0.0310975062" blue="0.040409527110000003" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
                                                                     </comboBoxCell>
                                                                     <connections>
                                                                         <binding destination="vPD-42-EcN" name="enabled" keyPath="objectValue.requiresCalculation" id="yBv-8n-zXI"/>
@@ -4011,7 +4011,7 @@ IA
                                 </tableHeaderView>
                             </scrollView>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5By-xd-gGs">
-                                <rect key="frame" x="277" y="544" width="51" height="21"/>
+                                <rect key="frame" x="346" y="541" width="38" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="kEK-L1-MMn">
                                     <font key="font" metaFont="smallSystem"/>
@@ -4023,7 +4023,7 @@ IA
                                 </connections>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wSG-R2-sVj">
-                                <rect key="frame" x="238" y="546" width="41" height="17"/>
+                                <rect key="frame" x="307" y="544" width="41" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Count" id="paF-9j-M6A">
                                     <font key="font" metaFont="smallSystem"/>
@@ -4138,7 +4138,7 @@ IA
                                 </connections>
                             </button>
                             <searchField wantsLayer="YES" verticalHuggingPriority="750" fixedFrame="YES" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D81-j4-NYp">
-                                <rect key="frame" x="417" y="543" width="134" height="22"/>
+                                <rect key="frame" x="392" y="541" width="159" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" usesSingleLineMode="YES" bezelStyle="round" id="Vb6-2u-ys9">
                                     <font key="font" metaFont="system"/>
@@ -4453,28 +4453,6 @@ IA
                                     <binding destination="NHK-0H-j94" name="value" keyPath="arrangedObjects.@count" id="vrt-9n-Xax"/>
                                 </connections>
                             </textField>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pNk-2u-eBU">
-                                <rect key="frame" x="153" y="537" width="85" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Update" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="g4z-fR-Rvf">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="updateEdNumber:" target="e7J-kp-njl" id="toR-Bq-0sW"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3ql-4X-Bjz">
-                                <rect key="frame" x="64" y="537" width="98" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Update ALL" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="xKu-wj-zqN">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="updateAllEddingtonNumbers:" target="e7J-kp-njl" id="xKJ-od-AT0"/>
-                                </connections>
-                            </button>
                             <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XDK-8h-5Dh" customClass="GraphView" customModule="Training_Diary" customModuleProvider="target">
                                 <rect key="frame" x="20" y="20" width="956" height="329"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -4647,13 +4625,13 @@ IA
                                 </connections>
                             </textField>
                             <progressIndicator wantsLayer="YES" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="Itz-eW-ACb">
-                                <rect key="frame" x="203" y="347" width="773" height="20"/>
+                                <rect key="frame" x="246" y="347" width="730" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </progressIndicator>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C9I-8m-CVE">
-                                <rect key="frame" x="326" y="538" width="98" height="32"/>
+                                <rect key="frame" x="58" y="538" width="110" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="New Calc" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="AEH-zA-o8Z">
+                                <buttonCell key="cell" type="push" title="Recalculate" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="AEH-zA-o8Z">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -4662,7 +4640,7 @@ IA
                                 </connections>
                             </button>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yC0-3X-IBR">
-                                <rect key="frame" x="20" y="350" width="175" height="14"/>
+                                <rect key="frame" x="20" y="350" width="224" height="14"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" alignment="right" placeholderString="Complete" drawsBackground="YES" id="lb0-gj-ve4">
                                     <font key="font" metaFont="system" size="11"/>
@@ -4670,6 +4648,17 @@ IA
                                     <color key="backgroundColor" red="0.10570669420000001" green="0.0310975062" blue="0.040409527110000003" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
                                 </textFieldCell>
                             </textField>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jap-T6-2sr">
+                                <rect key="frame" x="175" y="538" width="85" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Update" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="9Vk-nE-HVs">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="updateSelection:" target="e7J-kp-njl" id="Htc-Oo-LAr"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
                     <connections>

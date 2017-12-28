@@ -8,7 +8,7 @@
 
 import Foundation
 
-//probably don't need this class anymore. Methods can be placed in EddingtonNumber directly
+//Seperate out the eddington calculation so it can be run in a seperate thread.
 public class EddingtonNumberCalculator: NSObject{
 
     var eddingtonNumber: Int = 0
@@ -45,11 +45,33 @@ public class EddingtonNumberCalculator: NSObject{
                 }
             }
         }
-        
-        
     }
     
-    func calculateEddingtonNumber(forEddingtonNumber eddingtonNumber: EddingtonNumber){
+    // updates from last updateded date
+    func update(eddingtonNumber: EddingtonNumber){
+        if let from = eddingtonNumber.lastUpdated{
+            if let a = Activity(rawValue: eddingtonNumber.activity!){
+                if let p = Period(rawValue: eddingtonNumber.period!){
+                    if let u = Unit(rawValue: eddingtonNumber.unit!){
+                        
+                        populateCalc(forEddingtonNumber: eddingtonNumber)
+                        
+                        let values = eddingtonNumber.trainingDiary!.getValues(forActivity: a, andPeriod: p, andUnit: u, fromDate: from.startOfDay())
+                        
+                        eddingtonCalculation(forValues: values, from: from)
+                        
+                        
+                    }
+                }
+            }
+        }else{
+            //never updated so do the calc from scratch
+            calculate(eddingtonNumber: eddingtonNumber)
+        }
+    }
+    
+    
+/*    func calculateEddingtonNumber(forEddingtonNumber eddingtonNumber: EddingtonNumber){
 
         if let a = Activity(rawValue: eddingtonNumber.activity!){
             if let p = Period(rawValue: eddingtonNumber.period!){
@@ -73,8 +95,8 @@ public class EddingtonNumberCalculator: NSObject{
         
         
     }
-
-    func updateEddingtonNumber(forEddingtonNumber eddingtonNumber: EddingtonNumber){
+*/
+ /*   func updateEddingtonNumber(forEddingtonNumber eddingtonNumber: EddingtonNumber){
         if let lastUpdated = eddingtonNumber.lastUpdated{
             if let a = Activity(rawValue: eddingtonNumber.activity!){
                 if let p = Period(rawValue: eddingtonNumber.period!){
@@ -92,31 +114,39 @@ public class EddingtonNumberCalculator: NSObject{
             }
 
         }else{
-            // never been updated so calculated
-            calculateEddingtonNumber(forEddingtonNumber: eddingtonNumber)
+            //never been calculated. so should recalc not update
+            print("\(eddingtonNumber.eddingtonCode) has never been calculated. Please recalc rather than update")
         }
     }
-    
+*/
 
 
     
 
     //MARK: - Private
+
+    private func eddingtonCalculation(forValues values: [(date: Date, value: Double)]){
+        // need to make sure we doa  from date thats prior to start of the dates
+        //is it worth changing this to sort through the dates, find the earliest and go to the year before ?
+        let veryEarlyDate: Date = Calendar.current.date(from: DateComponents(year: 1899, month: 12, day: 31))!
+        eddingtonCalculation(forValues: values, from: veryEarlyDate)
+
+    }
     
     /* This isn't as quick as the "quick calc" as it creates a history so it needs to run through the
      values in date order.
  */
-    private func eddingtonCalculation(forValues values: [(date: Date, value: Double)]){
+    private func eddingtonCalculation(forValues values: [(date: Date, value: Double)], from: Date ){
         
         //sort ascending
         let sortedValues = values.sorted(by: {$0.date < $1.date})
         
         // initialise to a date before any date that will be in the diary
-        var previousYearEnd: Date = Calendar.current.date(from: DateComponents(year: 1899, month: 12, day: 31))!
+        var previousYearEnd: Date = from.endOfYear()
         
         for v in sortedValues{
             //start LTD calc
-            if v.value > Double(eddingtonNumber){
+            if v.value > Double(nextEddingtonNumber){
                 // new contributor
                 contributors.append(v)
                 
@@ -139,7 +169,7 @@ public class EddingtonNumberCalculator: NSObject{
                 //add new entry to history
                 
             }
-            if v.value > Double(annualEddingtonNumber){
+            if v.value > Double(nextAnnualEddingtonNumber){
                 annualContributors.append(v)
                 
                 if annualContributorsToNext.count >= nextAnnualEddingtonNumber{
@@ -155,6 +185,53 @@ public class EddingtonNumberCalculator: NSObject{
         //finally remove contributors less than final eddington number
         contributors = contributors.filter({$0.value >= Double(eddingtonNumber)})
     }
+    
+    //not remove anything from the lastUpdated date. Reason is any update will include that date
+    private func populateCalc(forEddingtonNumber edNum: EddingtonNumber){
+        eddingtonNumber = Int(edNum.value)
+        annualEddingtonNumber = Int(edNum.annual)
+        
+        if let contribs = edNum.contributors{
+            let array = contribs.allObjects as! [EddingtonContributor]
+            for i in array.sorted(by: {$0.date! < $1.date!}){
+                contributors.append((i.date!, i.value))
+
+            }
+
+        }
+        
+        if let annContribs = edNum.annualContributors{
+            let array = annContribs.allObjects as! [EddingtonAnnualContributor]
+            for i in array.sorted(by: {$0.date! < $1.date!}){
+                annualContributors.append((i.date!, i.value))
+            }
+        }
+        
+        if let hist = edNum.history{
+            let array = hist.allObjects as! [EddingtonHistory]
+            for i in array.sorted(by: {$0.date! < $1.date!}){
+                history.append((i.date!, Int(i.value), Int(i.plusOne)))
+            }
+        }
+        
+        if let annHist = edNum.annualHistory{
+            let array = annHist.allObjects as! [EddingtonAnnualHistory]
+            for i in array.sorted(by: {$0.date! < $1.date!}){
+                annualHistory.append((i.date!, Int(i.value), Int(i.plusOne)))
+            }
+        }
+        
+        if let lastUpdate = edNum.lastUpdated{
+            contributors = contributors.filter({$0.date < lastUpdate.startOfDay()})
+            annualContributors = annualContributors.filter({$0.date < lastUpdate.startOfDay()})
+            history = history.filter({$0.date < lastUpdate.startOfDay()})
+            annualHistory = annualHistory.filter({$0.date < lastUpdate.startOfDay()})
+
+        }
+        
+    }
+    
+    //MARK: - OLD QUICK CALC - keeping just in case
     
     //check this = can't we overload and name this quickEddingtonNumberCalc(values: [Double])  ???
     private func quickEddingNumberCalc(forDoubleValues values: [Double]) -> (ednum: Int,plusOne: Int, maturity: Double ){

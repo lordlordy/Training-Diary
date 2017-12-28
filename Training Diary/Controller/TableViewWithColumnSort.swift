@@ -20,6 +20,8 @@ class TableViewWithColumnSort: NSTableView {
         createTableHeaderContextMenu()
     }
     
+
+    
     // assumes the the column ID and the key for the data are the same
     private func createColumnSortFor(key k: String){
         let c = tableColumns[column(withIdentifier: NSUserInterfaceItemIdentifier.init(k))]
@@ -46,7 +48,7 @@ class TableViewWithColumnSort: NSTableView {
             item.target = self
             item.representedObject = column
             item.state = column.isHidden ? .off : .on
-            
+
         }
         self.headerView?.menu = tableHeaderContextMenu
     }

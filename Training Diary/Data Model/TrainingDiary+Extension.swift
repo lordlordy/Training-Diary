@@ -257,7 +257,7 @@ extension TrainingDiary{
                 return nil
             }
             
-            for d in ascendingOrderedDays(fromDate: rSum.preLoadDate(forDate: from), toDate: to){
+            for d in ascendingOrderedDays(fromDate: rSum.preLoadData(forDate: from), toDate: to){
                 let sum = rSum.addAndReturnSum(forDate: d.date!, value: d.valueFor(activity: activity, activityType: ActivityType.All, unit: unit))
                 if d.date! >= from{
                     if let s = sum{
@@ -284,7 +284,7 @@ extension TrainingDiary{
             }
             
             
-            for d in ascendingOrderedDays(fromDate: rAverage.preLoadDate(forDate: from), toDate: to){
+            for d in ascendingOrderedDays(fromDate: rAverage.preLoadData(forDate: from), toDate: to){
                 let sum = rAverage.addAndReturnAverage(forDate: d.date!, value: d.valueFor(activity: activity, activityType: ActivityType.All, unit: unit), wieghting: d.valueFor(activity: activity, activityType: ActivityType.All, unit: Unit.Seconds))
                 if d.date! >= from{
                     if let s = sum{

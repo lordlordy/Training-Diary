@@ -66,6 +66,19 @@ extension EddingtonNumber{
         self.lastUpdated = nil
     }
     
+    func update(forCalculator calculator: EddingtonNumberCalculator){
+        setContributors(to: calculator.contributors)
+        setHistory(to: calculator.history)
+        value = Int16(calculator.eddingtonNumber)
+        
+        setAnnualContributors(to: calculator.annualContributors)
+        setAnnualHistory(to: calculator.annualHistory)
+        annual = Int16(calculator.annualEddingtonNumber)
+        
+        lastUpdated = Date()
+
+    }
+    
     public func setContributors(to newContributors: [(date: Date, value: Double)]){
         let contributors = mutableSetValue(forKey: EddingtonNumberProperty.contributors.rawValue)
         contributors.removeAllObjects()

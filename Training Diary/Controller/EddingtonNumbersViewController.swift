@@ -25,7 +25,7 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
     @IBOutlet weak var edCalcProgressBar: NSProgressIndicator!
     @IBOutlet weak var calcProgressTextField: NSTextField!
     
-    @IBAction func updateAllEddingtonNumbers(_ sender: NSButton){
+/*    @IBAction func updateAllEddingtonNumbers(_ sender: NSButton){
         let start = Date()
         if let td = trainingDiary{
             for e in td.eddingtonNumbers! {
@@ -36,6 +36,41 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
             }
         }
         print("Time taken to update ALL eddington numbers: \(Date().timeIntervalSince(start)) seconds")
+        updateGraph()
+    }
+ */
+    @IBAction func updateSelection(_ sender: NSButton) {
+        let start = Date()
+        calcProgressTextField!.stringValue = "starting..."
+        DispatchQueue.global(qos: .userInitiated).async {
+            var count: Double = 0.0
+            let total: Double = Double(self.selectedRows().count)
+            for edNum in self.selectedRows(){
+                count += 1
+                let secs = Int(Date().timeIntervalSince(start))
+                DispatchQueue.main.sync {
+                    self.calcProgressTextField!.stringValue = "\(Int(count)) of \(Int(total)) : \(edNum.eddingtonCode) (\(secs)s) ..."
+                }
+                let subStart = Date()
+                let calculator = EddingtonNumberCalculator()
+                calculator.update(eddingtonNumber: edNum)
+                DispatchQueue.main.async {
+                    
+                    edNum.update(forCalculator: calculator)
+                    
+                    //         self.prod(eddingtonNumber: edNum)
+                    self.edCalcProgressBar!.doubleValue = 100.0 * count / total
+                }
+                let timeTaken = Date().timeIntervalSince(subStart)
+                print("Time taken for \(edNum.eddingtonCode): \(timeTaken) seconds")
+            }
+            let seconds = Date().timeIntervalSince(start)
+            print("Time taken for new Ed num update: \(seconds) seconds.")
+            DispatchQueue.main.async {
+                self.calcProgressTextField!.stringValue = "Update complete in \(Int(seconds))s"
+            }
+        }
+        
         updateGraph()
     }
     
@@ -49,24 +84,18 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
             let total: Double = Double(self.selectedRows().count)
             for edNum in self.selectedRows(){
                 count += 1
+                let secs = Int(Date().timeIntervalSince(start))
                 DispatchQueue.main.sync {
-                    self.calcProgressTextField!.stringValue = "\(Int(count)) of \(Int(total)) : \(edNum.eddingtonCode) ..."
+                    self.calcProgressTextField!.stringValue = "\(Int(count)) of \(Int(total)) : \(edNum.eddingtonCode) (\(secs)s) ..."
                 }
                 let subStart = Date()
                 let calculator = EddingtonNumberCalculator()
                 calculator.calculate(eddingtonNumber: edNum)
                 DispatchQueue.main.async {
                     
-                    edNum.setContributors(to: calculator.contributors)
-                    edNum.setHistory(to: calculator.history)
-                    edNum.value = Int16(calculator.eddingtonNumber)
+                    edNum.update(forCalculator: calculator)
                     
-                    edNum.setAnnualContributors(to: calculator.annualContributors)
-                    edNum.setAnnualHistory(to: calculator.annualHistory)
-                    edNum.annual = Int16(calculator.annualEddingtonNumber)
-                    
-                    edNum.lastUpdated = Date()
-                    self.prod(eddingtonNumber: edNum)
+           //         self.prod(eddingtonNumber: edNum)
                     self.edCalcProgressBar!.doubleValue = 100.0 * count / total
                 }
                 let timeTaken = Date().timeIntervalSince(subStart)
@@ -86,16 +115,16 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
             let totalSeconds = Date().timeIntervalSince(start)
             let otherAverage = (totalSeconds - totalSlowSeconds) / (total - Double(slowCalcs.count))
             print("Slow average = \(slowAverage) other average = \(otherAverage)")
-            print("Time taken for new Ed num update: \(totalSeconds) seconds.")
+            print("Time taken for new Ed num calculation: \(totalSeconds) seconds.")
             DispatchQueue.main.async {
-                self.calcProgressTextField!.stringValue = "Complete"
+                self.calcProgressTextField!.stringValue = "Calc complete in \(Int(totalSeconds))s"
             }
         }
 
         updateGraph()
     }
     
-    
+ /*
     @IBAction func updateEdNumber(_ sender: NSButton){
         let start = Date()
         for edNum in selectedRows(){
@@ -107,7 +136,7 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
         print("Time taken for Core data Ed num update: \(Date().timeIntervalSince(start)) seconds")
         updateGraph()
     }
-    
+ */
     
     @IBAction func activityField(_ sender: NSTextField) {
         print("Activity set to \(sender.stringValue)")

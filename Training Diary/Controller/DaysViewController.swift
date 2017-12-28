@@ -16,6 +16,7 @@ class DaysViewController: NSViewController, TrainingDiaryViewController {
     
     @IBOutlet weak var dayTableView: TableViewWithColumnSort!
     
+    
 
  /*   @IBAction func calcAllTSB(_ sender: NSButton) {
         if let td = trainingDiary{

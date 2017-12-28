@@ -24,7 +24,7 @@ class RollingPeriodSum{
         rollingSumQueue.resetQueue()
     }
 
-    func preLoadDate(forDate d: Date) -> Date{
+    func preLoadData(forDate d: Date) -> Date{
         return d.addDays(numberOfDays: -rollingSumQueue.size())
     }
     
