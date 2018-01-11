@@ -114,20 +114,20 @@ extension TrainingDiary{
 */
     
     //MARK: - Getting values
-    func getValues(forActivity activity: Activity, andPeriod period: Period, andUnit unit: Unit) -> [(date: Date, value:Double)]{
-        return getValues(forActivity: activity, andPeriod: period, andUnit: unit, fromDate: firstDayOfDiary)
+    func getValues(forActivity activity: Activity, andActivityType activityType: ActivityType, andPeriod period: Period, andUnit unit: Unit) -> [(date: Date, value:Double)]{
+        return getValues(forActivity: activity, andActivityType: activityType, andPeriod: period, andUnit: unit, fromDate: firstDayOfDiary)
     }
 
     // note this can be pretty time consuming if asking for things like RYear
-    func getValues(forActivity activity: Activity, andPeriod period: Period, andUnit unit: Unit, fromDate from: Date) -> [(date: Date, value:Double)]{
-        return getValues(forActivity: activity, andPeriod: period, andUnit: unit, fromDate: from, toDate: lastDayOfDiary)
+    func getValues(forActivity activity: Activity, andActivityType activityType: ActivityType, andPeriod period: Period, andUnit unit: Unit, fromDate from: Date) -> [(date: Date, value:Double)]{
+        return getValues(forActivity: activity, andActivityType: activityType, andPeriod: period, andUnit: unit, fromDate: from, toDate: lastDayOfDiary)
     }
 
     // note this can be pretty time consuming if asking for things like RYear
-    func getValues(forActivity activity: Activity, andPeriod period: Period, andUnit unit: Unit, fromDate from: Date, toDate to: Date) -> [(date: Date, value:Double)]{
+    func getValues(forActivity activity: Activity, andActivityType activityType: ActivityType, andPeriod period: Period, andUnit unit: Unit, fromDate from: Date, toDate to: Date) -> [(date: Date, value:Double)]{
         let start = Date()
         
-        if let optimizedResults = optimisedCalculation(forActivity: activity, andPeriod: period, andUnit: unit, fromDate: from, toDate: to){
+        if let optimizedResults = optimisedCalculation(forActivity: activity, andActivityType: activityType, andPeriod: period, andUnit: unit, fromDate: from, toDate: to){
             return optimizedResults
         }
         
@@ -144,7 +144,7 @@ extension TrainingDiary{
         let sortedDays = ascendingOrderedDays(fromDate: from, toDate: to)
         if sortedDays.count > 0 {
             for day in sortedDays{
-                result.append((date: day.date!, value: day.valueFor(period: period, activity: activity, activityType: ActivityType.All, unit: unit)))
+                result.append((date: day.date!, value: day.valueFor(period: period, activity: activity, activityType: activityType, unit: unit)))
             }
         }
         print("Time taken to get diary values for \(activity):\(period.rawValue):\(unit) = \(Date().timeIntervalSince(start)) seconds")
@@ -167,23 +167,11 @@ extension TrainingDiary{
                     atl += yATL * factors.atlYDayFactor
                     ctl += yCTL * factors.ctlYDayFactor
                 }
-               // print("calc for \(day.date!) ATL: \(atl) - CTL: \(ctl) using KEY: \(activity.keyString(forUnit: Unit.ATL))")
+
                 let s = Date()
                 day.setMetricValue(forActivity: activity, andMetric: Unit.ATL, toValue: atl)
-       /*         if activity == Activity.Run{
-                    day.setValue(atl, forKey: "test")
-                }else{
-                    day.setValue(atl, forKey: activity.keyString(forUnit: Unit.ATL))
-                }
- */
                 let s2 = Date()
                 day.setMetricValue(forActivity: activity, andMetric: Unit.CTL, toValue: ctl)
-   /*             if activity == Activity.Bike{
-                    day.setValue(ctl, forKey: "testCTL")
-                }else{
-                    day.setValue(ctl, forKey: activity.keyString(forUnit: Unit.CTL))
-                }
- */
                  let finish = Date()
                 day.setMetricValue(forActivity: activity, andMetric: Unit.TSB, toValue: ctl - atl)
                 if s2.timeIntervalSince(s) > TimeInterval(0.1){ print("ATL for \(activity) took \(s2.timeIntervalSince(s)) seconds") }
@@ -198,12 +186,53 @@ extension TrainingDiary{
             }
             print("Calc TSB for \(activity.rawValue) took \(Date().timeIntervalSince(start)) seconds")
             
-            
         }
         
     }
     
+    
+    public func kg(forDate d: Date) -> Double{
+        if let w = weight(forDate: d){ return w.kg }
+        return 0.0
+    }
+
+    public func fatPercentage(forDate d: Date) -> Double{
+        if let w = weight(forDate: d){ return w.fatPercent }
+        return 0.0
+    }
+    
+    public func restingHeartRate(forDate d: Date) -> Int{
+        if let physio = physiological(forDate: d){
+            return Int(physio.restingHR)
+        }
+        return 0
+    }
+    
+
+    
     //MARK: - Private
+    
+    private func weight(forDate d: Date) -> Weight?{
+        if let ws = self.weights{
+            let weightsArray = ws.allObjects as! [Weight]
+            let weights = weightsArray.filter({$0.fromDate! <= d && d <= $0.toDate!})
+            if weights.count > 0{
+                return weights[0]
+            }
+        }
+        return nil
+    }
+    
+    private func physiological(forDate d: Date) -> Physiological?{
+        if let ps = self.physiologicals{
+            let physioArray = ps.allObjects as! [Physiological]
+            let physios = physioArray.filter({$0.fromDate! <= d && d <= $0.toDate!})
+            if physios.count > 0{
+                return physios[0]
+            }
+        }
+        return nil
+    }
     
     private func weightsAscendingDateOrder() -> [Weight]?{
         if let ws = self.weights{
@@ -235,8 +264,8 @@ extension TrainingDiary{
 
     
     // this is focussed on the rolling periods. It is very time consuming to just loop through and ask each day for it's rolling period - by way of example. RollingYear for all days would require summing 365 days for every day - thats 5,000 x 365 sums - if we ask each day individually. If we run through the days and keep a total as we go there are ~ 2 sums per day. So should be ~ 180 times faster. Sacrifising generalisation for speed here. A second benefit is this method makes it easier to average units rather than just sum them.
-    private func optimisedCalculation(forActivity activity: Activity, andPeriod period: Period, andUnit unit: Unit, fromDate from: Date, toDate to: Date) -> [(date: Date, value:Double)]?{
-        print("STARTING optimized calculation for \(activity):\(period.rawValue):\(unit)...")
+    private func optimisedCalculation(forActivity activity: Activity, andActivityType activityType: ActivityType, andPeriod period: Period, andUnit unit: Unit, fromDate from: Date, toDate to: Date) -> [(date: Date, value:Double)]?{
+        print("STARTING optimized calculation for \(activity):\(activityType.rawValue):\(period.rawValue):\(unit)...")
         let start = Date()
         var result: [(date: Date, value:Double)] = []
         
@@ -258,7 +287,7 @@ extension TrainingDiary{
             }
             
             for d in ascendingOrderedDays(fromDate: rSum.preLoadData(forDate: from), toDate: to){
-                let sum = rSum.addAndReturnSum(forDate: d.date!, value: d.valueFor(activity: activity, activityType: ActivityType.All, unit: unit))
+                let sum = rSum.addAndReturnSum(forDate: d.date!, value: d.valueFor(activity: activity, activityType: activityType, unit: unit))
                 if d.date! >= from{
                     if let s = sum{
                         result.append((d.date!, s))
@@ -285,7 +314,7 @@ extension TrainingDiary{
             
             
             for d in ascendingOrderedDays(fromDate: rAverage.preLoadData(forDate: from), toDate: to){
-                let sum = rAverage.addAndReturnAverage(forDate: d.date!, value: d.valueFor(activity: activity, activityType: ActivityType.All, unit: unit), wieghting: d.valueFor(activity: activity, activityType: ActivityType.All, unit: Unit.Seconds))
+                let sum = rAverage.addAndReturnAverage(forDate: d.date!, value: d.valueFor(activity: activity, activityType: activityType, unit: unit), wieghting: d.valueFor(activity: activity, activityType: activityType, unit: Unit.Seconds))
                 if d.date! >= from{
                     if let s = sum{
                         result.append((d.date!, s))

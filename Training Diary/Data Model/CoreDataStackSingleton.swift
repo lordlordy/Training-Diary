@@ -83,7 +83,7 @@ class CoreDataStackSingleton{
     }
     
     
-    func getWeightAndFat(forDay day: Date, andTrainingDiary td: TrainingDiary) -> (weight: Double, fatPercentage: Double){
+/*    func getWeightAndFat(forDay day: Date, andTrainingDiary td: TrainingDiary) -> (weight: Double, fatPercentage: Double){
         if let weight = getWeight(forDay: day, andTrainingDiary: td){
             return (weight.kg, weight.fatPercent)
         }else{
@@ -98,7 +98,7 @@ class CoreDataStackSingleton{
             return 0
         }
     }
-    
+  */
     //inserts fields for metrics if they don't already exist
     func populateMetricPlaceholders(forDay d: Day){
         let metricsMOSet = d.mutableSetValue(forKey: DayProperty.metrics.rawValue)
@@ -158,7 +158,7 @@ class CoreDataStackSingleton{
  
     // MARK: - Private
     
-    private func getPhysiological(forDay day: Date) -> Physiological?{
+/*    private func getPhysiological(forDay day: Date) -> Physiological?{
         let myFetch = NSFetchRequest<NSFetchRequestResult>.init(entityName: "Physiological")
         myFetch.predicate = NSPredicate.init(format: "%@ >= fromDate AND %@ <= toDate", argumentArray: [day,day])
         
@@ -175,8 +175,8 @@ class CoreDataStackSingleton{
         }
         return nil
     }
-    
-    private func getWeight(forDay day: Date, andTrainingDiary td: TrainingDiary) -> Weight?{
+ */
+/*    private func getWeight(forDay day: Date, andTrainingDiary td: TrainingDiary) -> Weight?{
         let myFetch = NSFetchRequest<NSFetchRequestResult>.init(entityName: "Weight")
         myFetch.predicate = NSPredicate.init(format: "%@ >= fromDate AND %@ <= toDate and %@ == trainingDiary", argumentArray: [day,day,td])
         
@@ -193,7 +193,7 @@ class CoreDataStackSingleton{
         }
         return nil
     }
-    
+*/
     private func getDays(sortDescriptor : [NSSortDescriptor]?, trainingDiary td: TrainingDiary) -> [Day]{
         let results = getEntitiesFor(entityName: "Day",predicate: NSPredicate.init(format: "trainingDiary == %@", argumentArray: [td]), sortDescriptor: sortDescriptor, trainingDiary: td)
         return results as! [Day]

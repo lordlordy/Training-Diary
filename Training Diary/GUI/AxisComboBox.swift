@@ -12,12 +12,12 @@ class AxisComboBox: NSComboBox {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        self.addItems(withObjectValues: GraphView.Axis.AllAxes.map({$0.rawValue}))
+        self.addItems(withObjectValues: Axis.AllAxes.map({$0.rawValue}))
     }
     
-    func selectedChartType() -> GraphView.Axis?{
+    func selectedChartType() -> Axis?{
         print("returning chart type")
-        return GraphView.Axis(rawValue: self.stringValue)
+        return Axis(rawValue: self.stringValue)
     }
      
 }

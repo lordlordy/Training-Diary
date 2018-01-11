@@ -16,6 +16,11 @@ extension Day{
 
     func valueFor(activity: Activity, activityType: ActivityType, unit: Unit) -> Double{
         var result = 0.0
+        if !unit.isActivityBased{
+            //have a day based unit (eg fatigue, sleep, restingHR
+            return value(forKey: unit.rawValue) as! Double
+        }
+        
         if activityType == ActivityType.All{
             //this is small optimisation in case a simple calculated propery is available for this.
             //Note that if no value is available we'll drop through this to the generic method
@@ -304,7 +309,10 @@ extension Day{
     }
     
     @objc dynamic var kg: Double{
-        return CoreDataStackSingleton.shared.getWeightAndFat(forDay: self.date!, andTrainingDiary: self.trainingDiary! ).weight
+        if let td = trainingDiary{
+            return td.kg(forDate: self.date!)
+        }
+        return 0.0
     }
     
     @objc dynamic var lbs: Double{
@@ -312,11 +320,18 @@ extension Day{
     }
     
     @objc dynamic var fatPercent: Double{
-        return CoreDataStackSingleton.shared.getWeightAndFat(forDay: self.date!, andTrainingDiary: self.trainingDiary!).fatPercentage
+        if let td = trainingDiary{
+            return td.fatPercentage(forDate: self.date!)
+        }
+        return 0.0
     }
-    @objc dynamic var restingHR: Int16{
-        return CoreDataStackSingleton.shared.getRestingHeartRate(forDay: self.date!)
+    @objc dynamic var restingHR: Int{
+        if let td = trainingDiary{
+            return td.restingHeartRate(forDate: self.date!)
+        }
+        return 0
     }
+    
     @objc dynamic var numberOfWorkouts: Int{
         if let w = workouts{
             return (w.count)

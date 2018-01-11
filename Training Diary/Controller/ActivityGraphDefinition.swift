@@ -9,6 +9,7 @@
 import Foundation
 
 //this is intentionally set up as a class rather than struct so that it is passed by reference.
+//TO DO - should consolidate these definitions. This should extend GraphDefinition not contain it
 @objc class ActivityGraphDefinition: NSObject{
     
     enum ObserveKey: String{
@@ -16,7 +17,7 @@ import Foundation
     }
     
     var cache: [(date: Date, value: Double)] = [] // this is ALL the data. When dates change we just filter this
-    @objc var graph: GraphView.GraphDefinition?
+    @objc var graph: GraphDefinition?
     
     var activity:   Activity    { didSet{ updateName() } }
     var unit:       Unit        { didSet{ updateName() } }
@@ -50,7 +51,7 @@ import Foundation
         self.activity = Activity.Bike
         self.unit = Unit.KM
         self.period = Period.Day
-        graph = GraphView.GraphDefinition(name: "new", axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .black, fillGradientStart: .black, fillGradientEnd: .black, gradientAngle: 0.0, size: 1.0), drawZeroes: true, priority: 1)
+        graph = GraphDefinition(name: "new", axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .black, fillGradientStart: .black, fillGradientEnd: .black, gradientAngle: 0.0, size: 1.0), drawZeroes: true, priority: 1)
         super.init()
         updateName()
     }
@@ -63,7 +64,7 @@ import Foundation
         updateName()
     }
 
-    convenience init(graph: GraphView.GraphDefinition,activity a: Activity, unit u: Unit, period p: Period) {
+    convenience init(graph: GraphDefinition,activity a: Activity, unit u: Unit, period p: Period) {
         self.init(activity: a, unit: u, period: p)
         self.graph = graph
     }

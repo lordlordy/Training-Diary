@@ -8,74 +8,21 @@
 
 import Cocoa
 
+//MARK: - Enums
+
+enum Axis: String{
+    case Primary, Secondary
+    static var AllAxes = [Primary, Secondary]
+}
+enum ChartType: String{
+    case Line, Bar, Point
+    static var AllChartTypes = [Line, Bar, Point]
+}
 
 /* Refactor this - generalise this to add as many lines as you like.
  */
 @IBDesignable
 class GraphView: NSView {
-    
-    //MARK: - Enums
-    
-    enum Axis: String{
-        case Primary, Secondary
-        static var AllAxes = [Primary, Secondary]
-    }
-    enum ChartType: String{
-        case Line, Bar, Point
-        static var AllChartTypes = [Line, Bar, Point]
-    }
-    
-    //MARK: - Class Definitions
-    
-    //this is intentionally a class rather than struct as I want to pass it around by reference
-    @objc class GraphDefinition: NSObject{
-        var data: [(date: Date, value: Double)] = []
-        var axis: Axis = Axis.Primary
-        var type: ChartType = ChartType.Line
-        var drawZero: Bool = true
-        var startFromOrigin: Bool = false
-        
-        @objc dynamic var name: String
-        @objc dynamic var axisString: String{
-            get{ return axis.rawValue }
-            set{ if let a = Axis(rawValue: newValue){ axis = a } }
-        }
-        @objc dynamic var typeString: String{
-            get{ return type.rawValue }
-            set{ if let t = ChartType(rawValue: newValue){ type = t }}
-        }
-        @objc var display: Bool = true
-        @objc var format: GraphFormat
-        //need to figure this out. For some reason if I remove this and use colour in GraphFormat I get an uncaught exception.
-        @objc var colour: NSColor{
-            get{return format.colour}
-            set{format.colour = newValue}
-        }
-        @objc var priority: Int = 1 //This gives relative priority of drawing. Remember that things draw on top of each other
-        
-        static var observerStrings: [String] = ["axisString","typeString","display","format","colour","priority"]
-        
-        init(name: String,axis: Axis, type: ChartType, format: GraphFormat, drawZeroes: Bool,  priority: Int){
-            self.axis = axis
-            self.type = type
-            self.format = format
-            self.name = name
-            self.drawZero = drawZeroes
-            self.priority = priority
-        }
-        
-        convenience init(name: String, data: [(date: Date, value: Double)], axis: Axis, type: ChartType, format: GraphFormat, drawZeroes: Bool, priority: Int){
-        
-            self.init(name: name, axis: axis, type: type, format: format, drawZeroes: drawZeroes, priority: priority)
-            self.data = data
-        }
-    
-        override convenience init(){
-            self.init(name: "new", axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .black, fillGradientStart: .black, fillGradientEnd: .black, gradientAngle: 0.0, size: 2.0), drawZeroes: false, priority: 5)
-        }
-        
-    }
-    
     
     //MARK: - Inspectables - non user definable GUI formats
     
@@ -102,6 +49,7 @@ class GraphView: NSView {
         didSet{ self.needsDisplay = true}
     }
     public var graphs = Set<GraphDefinition>()
+    public var chartTitle: String?
     
     //MARK: - Graph management
     
@@ -129,7 +77,7 @@ class GraphView: NSView {
     //MARK: - Overrides
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-
+        print("CHANGED")
         //currently don't switch ... all observed values are assume to require a redraw. Keep an eye on this
         needsDisplay = true
     }
@@ -150,6 +98,9 @@ class GraphView: NSView {
         for l in xLabels{ l.removeFromSuperview() }
         yLabels = []
         xLabels = []
+        
+        titleLabel?.removeFromSuperview()
+        titleLabel = nil
 
         if let gradient = NSGradient(starting: backgroundGradientStartColour, ending: backgroundGradientEndColour){
             gradient.draw(in: dirtyRect, angle: backgroundGradientAngle )
@@ -175,10 +126,75 @@ class GraphView: NSView {
         for l in yLabels{ addSubview(l) }
         for l in xLabels{ addSubview(l) }
         
+        if let titleName = chartTitle{
+        
+            let titleXPosition = dirtyRect.maxX / 2.0
+            let titleYPosition = dirtyRect.maxY - CGFloat(Constants.axisPadding*0.75)
+        
+            titleLabel = createLabel(value: titleName, point: CGPoint(x: titleXPosition, y: titleYPosition), size: CGSize(width: Constants.labelWidth * 3, height: Constants.labelHeight), colour: .black)
+        
+            addSubview(titleLabel!)
+        }
     }
     
     
-    func coordinatesInView(xValue: Double, yValue: Double, forAxis axis: Axis, _ dirtyRect: NSRect) -> NSPoint{
+ 
+    
+    //MARK: - PRIVATE
+    
+    //MARK: - Private vars that set out plot bounds / scale
+    private var _minX = 0.0
+    private var _maxX: Double = 0.0
+    private var _minYPrimary: Double = 0.0
+    private var _maxYPrimary: Double = 0.0
+    private var _minYSecondary: Double = 0.0
+    private var _maxYSecondary: Double = 0.0
+    // note the order here. High priority graphs will show on top ... so are drawn last. So this order descending
+    private var priorityOrderedGraphs: [GraphDefinition]{ return graphs.sorted(by: {$0.priority > $1.priority}) }
+    
+    private var noData: Bool{
+        var count = 0
+        for graph in graphs{
+            count += graph.data.count
+        }
+        return (count == 0)
+    }
+    
+    private var labelNumberFormat: NumberFormatter {
+        let nf = NumberFormatter()
+        nf.numberStyle = NumberFormatter.Style.none
+        return nf
+    }
+    
+    private var yLabels: [NSTextField] = []
+    private var xLabels: [NSTextField] = []
+    private var titleLabel: NSTextField?
+    private var gapBetweenPrimaryAxisLines:     Double{ return calcAxisLineGap(forAxis: .Primary) }
+    private var gapBetweenSecondaryAxisLines:   Double{ return calcAxisLineGap(forAxis: .Secondary) }
+
+    
+    private struct Constants{
+        static let phaseFactorForFinalLine: Double = 0.2
+        static let labelWidth = 100.0
+        static let labelHeight = 15.0
+        static let pointDiameter: CGFloat = 3.0
+        //how far in from the view edge the axes are
+        static let axisPadding = 30.0
+        static let zero = 0.1
+    }
+    
+    private struct LabelOffset{
+        enum Position: String{
+            case Start, End
+        }
+        var position: Position  = Position.Start
+        var x: Double     = 10.0
+        var y: Double     = 10.0
+    }
+    
+    //MARK: - Private funcs
+    
+    private func coordinatesInView(xValue: Double, yValue: Double, forAxis axis: Axis, _ dirtyRect: NSRect) -> NSPoint{
         
         var _minY = 0.0
         var _maxY = 0.0
@@ -209,59 +225,6 @@ class GraphView: NSView {
         return NSPoint(x: x + Constants.axisPadding, y: y + Constants.axisPadding)
     }
     
-    //MARK: - PRIVATE
-    
-    //MARK: - Private vars that set out plot bounds / scale
-    private var _minX = 0.0
-    private var _maxX: Double = 0.0
-    private var _minYPrimary: Double = 0.0
-    private var _maxYPrimary: Double = 0.0
-    private var _minYSecondary: Double = 0.0
-    private var _maxYSecondary: Double = 0.0
-    // note the order here. High priority graphs will show on top ... so are drawn last. So this order descending
-    private var priorityOrderedGraphs: [GraphDefinition]{ return graphs.sorted(by: {$0.priority > $1.priority}) }
-    
-    private var noData: Bool{
-        var count = 0
-        for graph in graphs{
-            count += graph.data.count
-        }
-        return (count == 0)
-    }
-    
-    private var labelNumberFormat: NumberFormatter {
-        let nf = NumberFormatter()
-        nf.numberStyle = NumberFormatter.Style.none
-        return nf
-    }
-    
-    private var yLabels: [NSTextField] = []
-    private var xLabels: [NSTextField] = []
-    private var gapBetweenPrimaryAxisLines:     Double{ return calcAxisLineGap(forAxis: .Primary) }
-    private var gapBetweenSecondaryAxisLines:   Double{ return calcAxisLineGap(forAxis: .Secondary) }
-
-    
-    private struct Constants{
-        static let phaseFactorForFinalLine: Double = 0.2
-        static let labelWidth = 100.0
-        static let labelHeight = 15.0
-        static let pointDiameter: CGFloat = 3.0
-        //how far in from the view edge the axes are
-        static let axisPadding = 30.0
-        static let zero = 0.1
-    }
-    
-    private struct LabelOffset{
-        enum Position: String{
-            case Start, End
-        }
-        var position: Position  = Position.Start
-        var x: Double     = 10.0
-        var y: Double     = 10.0
-    }
-    
-    //MARK: - Private funcs
-    
     private func getGraphs(forAxis axis: Axis) -> [GraphDefinition]{
         var result: [GraphDefinition] = []
         for graph in graphs{
@@ -273,8 +236,14 @@ class GraphView: NSView {
 
     
     private func startObserving(_ graph: GraphDefinition){
-        for keyPath in GraphFormat.observerStrings{ graph.format.addObserver(self, forKeyPath: keyPath, options: .new, context: nil)}
-        for keyPath in GraphDefinition.observerStrings{ graph.addObserver(self, forKeyPath: keyPath, options: .new, context: nil)}
+        for keyPath in GraphFormat.observerStrings{
+            graph.format.addObserver(self, forKeyPath: keyPath, options: .new, context: nil)
+            
+        }
+        for keyPath in GraphDefinition.observerStrings{
+            graph.addObserver(self, forKeyPath: keyPath, options: .new, context: nil)
+            
+        }
     }
     
     private func endObserving(_ graph: GraphDefinition){
@@ -429,7 +398,7 @@ class GraphView: NSView {
             labelPosition  = NSPoint(x: to.x + CGFloat(labelOffset.x), y: to.y + CGFloat(labelOffset.y))
         }
         if let p = labelPosition{
-            let label = createLabel(value: labelString, point: p, colour: labelColour)
+            let label = createLabel(value: labelString, point: p, size: CGSize(width: Constants.labelWidth, height: Constants.labelHeight), colour: labelColour)
             xLabels.append(label)
         }
     }
@@ -522,8 +491,8 @@ class GraphView: NSView {
         path.stroke()
     }
     
-    private func createLabel(value: String, point: CGPoint, colour: NSColor) -> NSTextField {
-        let label = NSTextField(frame: NSRect(origin: point, size: CGSize(width: Constants.labelWidth, height: Constants.labelHeight)))
+    private func createLabel(value: String, point: CGPoint, size: CGSize, colour: NSColor) -> NSTextField {
+        let label = NSTextField(frame: NSRect(origin: point, size: size))
         label.stringValue = value
         label.textColor = colour
         label.backgroundColor = NSColor.clear

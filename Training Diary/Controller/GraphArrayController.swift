@@ -17,7 +17,7 @@ class GraphArrayController: NSArrayController {
     }
     
     override func newObject() -> Any {
-        let g = super.newObject() as! DatedActivityGraphDefinition
+        let g = super.newObject() as! ActivityGraphDefinition
         if let gmd = graphManagementDelegate{
             gmd.setDefaults(forGraph: g)
             gmd.add(graph: g)
@@ -26,7 +26,7 @@ class GraphArrayController: NSArrayController {
     }
     
     override func remove(_ sender: Any?) {
-        let graphs = self.selectedObjects as! [DatedActivityGraphDefinition]
+        let graphs = self.selectedObjects as! [ActivityGraphDefinition]
         if let gmd = graphManagementDelegate{
             for g in graphs{
                 gmd.remove(graph: g)

@@ -293,10 +293,10 @@ class GraphViewController: NSViewController, TrainingDiaryViewController, GraphM
         }
     }
     
-    private func createGraphDefinition(forActivity a: Activity, period p: Period, unit u: Unit, type t: GraphView.ChartType, axis: GraphView.Axis, drawZeroes: Bool, priority: Int,  format f: GraphFormat) -> ActivityGraphDefinition{
+    private func createGraphDefinition(forActivity a: Activity, period p: Period, unit u: Unit, type t: ChartType, axis: Axis, drawZeroes: Bool, priority: Int,  format f: GraphFormat) -> ActivityGraphDefinition{
         
         let graphDetails = ActivityGraphDefinition(activity: a, unit: u, period: p)
-        graphDetails.graph = GraphView.GraphDefinition(name: graphDetails.name, axis: axis, type: t, format: f,drawZeroes: drawZeroes, priority: priority)
+        graphDetails.graph = GraphDefinition(name: graphDetails.name, axis: axis, type: t, format: f,drawZeroes: drawZeroes, priority: priority)
         //NOTE must sort out removing this observer when we remove the graph.
         updateData(forGraph: graphDetails)
         return graphDetails
@@ -342,7 +342,7 @@ class GraphViewController: NSViewController, TrainingDiaryViewController, GraphM
             if let cachedValues = cache[g.name]{
                 g.cache = cachedValues
             }else{
-                let values = td.getValues(forActivity: g.activity, andPeriod: g.period, andUnit: g.unit)
+                let values = td.getValues(forActivity: g.activity, andActivityType: ActivityType.All, andPeriod: g.period, andUnit: g.unit)
                 g.cache = values
                 self.cache[g.name] = values
         

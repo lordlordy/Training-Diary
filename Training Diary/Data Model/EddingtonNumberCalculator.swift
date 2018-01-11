@@ -32,16 +32,18 @@ public class EddingtonNumberCalculator: NSObject{
     func calculate(eddingtonNumber: EddingtonNumber){
         
         if let a = Activity(rawValue: eddingtonNumber.activity!){
-            if let p = Period(rawValue: eddingtonNumber.period!){
-                if let u = Unit(rawValue: eddingtonNumber.unit!){
-                    
-                    
-                    let values = eddingtonNumber.trainingDiary!.getValues(forActivity: a, andPeriod: p, andUnit: u)
-                    let usefulValues = values.filter({$0.value >= 1.0})
-                    
-                    eddingtonCalculation(forValues: usefulValues)
-                    
-                    
+            if let at = ActivityType(rawValue: eddingtonNumber.activityType!){
+                if let p = Period(rawValue: eddingtonNumber.period!){
+                    if let u = Unit(rawValue: eddingtonNumber.unit!){
+                        
+                        
+                        let values = eddingtonNumber.trainingDiary!.getValues(forActivity: a, andActivityType: at, andPeriod: p, andUnit: u)
+                        let usefulValues = values.filter({$0.value >= 1.0})
+                        
+                        eddingtonCalculation(forValues: usefulValues)
+                        
+                        
+                    }
                 }
             }
         }
@@ -51,16 +53,18 @@ public class EddingtonNumberCalculator: NSObject{
     func update(eddingtonNumber: EddingtonNumber){
         if let from = eddingtonNumber.lastUpdated{
             if let a = Activity(rawValue: eddingtonNumber.activity!){
-                if let p = Period(rawValue: eddingtonNumber.period!){
-                    if let u = Unit(rawValue: eddingtonNumber.unit!){
-                        
-                        populateCalc(forEddingtonNumber: eddingtonNumber)
-                        
-                        let values = eddingtonNumber.trainingDiary!.getValues(forActivity: a, andPeriod: p, andUnit: u, fromDate: from.startOfDay())
-                        
-                        eddingtonCalculation(forValues: values, from: from)
-                        
-                        
+                if let at = ActivityType(rawValue: eddingtonNumber.activityType!){
+                    if let p = Period(rawValue: eddingtonNumber.period!){
+                        if let u = Unit(rawValue: eddingtonNumber.unit!){
+                            
+                            populateCalc(forEddingtonNumber: eddingtonNumber)
+                            
+                            let values = eddingtonNumber.trainingDiary!.getValues(forActivity: a, andActivityType: at, andPeriod: p, andUnit: u, fromDate: from.startOfDay())
+                            
+                            eddingtonCalculation(forValues: values, from: from)
+                            
+                            
+                        }
                     }
                 }
             }
@@ -146,7 +150,7 @@ public class EddingtonNumberCalculator: NSObject{
         
         for v in sortedValues{
             //start LTD calc
-            if v.value > Double(nextEddingtonNumber){
+            if v.value >= Double(nextEddingtonNumber){
                 // new contributor
                 contributors.append(v)
                 
@@ -169,7 +173,7 @@ public class EddingtonNumberCalculator: NSObject{
                 //add new entry to history
                 
             }
-            if v.value > Double(nextAnnualEddingtonNumber){
+            if v.value >= Double(nextAnnualEddingtonNumber){
                 annualContributors.append(v)
                 
                 if annualContributorsToNext.count >= nextAnnualEddingtonNumber{

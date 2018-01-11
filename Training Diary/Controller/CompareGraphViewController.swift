@@ -154,7 +154,7 @@ class CompareGraphViewController: NSViewController, GraphManagementDelegate, Tra
     private func updateData(forGraph graph: DatedActivityGraphDefinition){
         if let td = trainingDiary{
             if let g = graph.graph{
-                let values = td.getValues(forActivity: graph.activity, andPeriod: graph.period, andUnit: graph.unit, fromDate: graph.from, toDate: graph.to)
+                let values = td.getValues(forActivity: graph.activity, andActivityType: ActivityType.All, andPeriod: graph.period, andUnit: graph.unit, fromDate: graph.from, toDate: graph.to)
                 g.data = values
                 if values.count > baseDates.count{
                     baseDates =  values.map({$0.date})
@@ -204,26 +204,26 @@ class CompareGraphViewController: NSViewController, GraphManagementDelegate, Tra
 
             let start2017 = Calendar.current.date(from: DateComponents.init( year: 2017, month: 1, day: 1))
             let end2017 = Calendar.current.date(from: DateComponents.init( year: 2017, month: 12, day: 31))
-            let start2016 = Calendar.current.date(from: DateComponents.init( year: 2016, month: 1, day: 1))
-            let end2016 = Calendar.current.date(from: DateComponents.init( year: 2016, month: 12, day: 31))
+            let start2018 = Calendar.current.date(from: DateComponents.init( year: 2018, month: 1, day: 1))
+            let end2018 = Calendar.current.date(from: DateComponents.init( year: 2018, month: 12, day: 31))
 
-            let runGraph2017GD = GraphView.GraphDefinition(name: "2017", axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .blue, fillGradientStart: .blue, fillGradientEnd: .blue, gradientAngle: 0.0, size: 2.0), drawZeroes: true, priority: 1)
-            let runGraph2016GD = GraphView.GraphDefinition(name: "2016", axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .red, fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 0.0, size: 2.0), drawZeroes: true, priority: 2)
+            let runGraph2017GD = GraphDefinition(name: "2017", axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .blue, fillGradientStart: .blue, fillGradientEnd: .blue, gradientAngle: 0.0, size: 2.0), drawZeroes: true, priority: 1)
+            let runGraph2018GD = GraphDefinition(name: "2018", axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .red, fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 0.0, size: 2.0), drawZeroes: true, priority: 2)
 
-            let runGraph2017 = DatedActivityGraphDefinition(graph: runGraph2017GD, activity: .Run, unit: .Miles, period: .YearToDate, fromDate: start2017!, toDate: end2017!)
-            let runGraph2016 = DatedActivityGraphDefinition(graph: runGraph2016GD, activity: .Run, unit: .Miles, period: .YearToDate, fromDate: start2016!, toDate: end2016!)
+            let runGraph2017 = DatedActivityGraphDefinition(graph: runGraph2017GD, activity: .Run, unit: .KM, period: .YearToDate, fromDate: start2017!, toDate: end2017!)
+            let runGraph2018 = DatedActivityGraphDefinition(graph: runGraph2018GD, activity: .Run, unit: .KM, period: .YearToDate, fromDate: start2018!, toDate: end2018!)
             
-            runGraph2016.graph!.drawZero = false
+            runGraph2018.graph!.drawZero = false
             runGraph2017.graph!.drawZero = false
            
             // add to ArrayController first so they are here when we add into plot - this is needed to adjust dates to
             // same axis.
             if let gac = graphArrayController{
-                gac.add(contentsOf: [runGraph2017, runGraph2016 ])
+                gac.add(contentsOf: [runGraph2018, runGraph2017 ])
             }
             
+            add(graph: runGraph2018)
             add(graph: runGraph2017)
-            add(graph: runGraph2016)
             
             gv.xAxisLabelStrings = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
             

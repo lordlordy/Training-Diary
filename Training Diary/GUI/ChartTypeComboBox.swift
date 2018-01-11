@@ -12,11 +12,11 @@ class ChartTypeComboBox: NSComboBox {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        self.addItems(withObjectValues: GraphView.ChartType.AllChartTypes.map({$0.rawValue}))
+        self.addItems(withObjectValues: ChartType.AllChartTypes.map({$0.rawValue}))
     }
     
-    func selectedChartType() -> GraphView.ChartType?{
-        return GraphView.ChartType(rawValue: self.stringValue)
+    func selectedChartType() -> ChartType?{
+        return ChartType(rawValue: self.stringValue)
     }
 
 }

@@ -10,11 +10,12 @@ import Cocoa
 
 class WeightHRViewController: NSViewController, TrainingDiaryViewController {
 
-    @objc dynamic var trainingDiary: TrainingDiary?{
-        didSet{ trainingDiarySet() }
-    }
+    @objc dynamic var trainingDiary: TrainingDiary?
+    
     @IBOutlet var weightArrayController: NSArrayController!
     @IBOutlet var hrArrayController: NSArrayController!
+    @IBOutlet var graphsArrayController: NSArrayController!
+    
     @IBOutlet weak var hrGraphView: GraphView!
     @IBOutlet weak var weightGraphView: GraphView!
     @IBOutlet weak var fromDatePicker: NSDatePicker!
@@ -82,6 +83,7 @@ class WeightHRViewController: NSViewController, TrainingDiaryViewController {
     
     func set(trainingDiary td: TrainingDiary){
         self.trainingDiary = td
+        trainingDiarySet()
     }
     
     override func viewDidLoad() {
@@ -145,11 +147,11 @@ class WeightHRViewController: NSViewController, TrainingDiaryViewController {
                 let fatPercent = td.fatPercentageDateOrder()
                 let rollingKG = createRollingData(fromData: kg, everyXDays: 30)
                 let rollingFat = createRollingData(fromData: fatPercent, everyXDays: 30)
-                let kgGraphDefinition = GraphView.GraphDefinition(name: CacheKey.kg.rawValue, data: kg, axis: .Primary, type: .Point, format: GraphFormat(fill: false, colour: .systemPink, fillGradientStart: .systemPink, fillGradientEnd: .systemPink, gradientAngle: 45, size: 2.0), drawZeroes: false, priority: 1)
-                let rollingKGGraphDefinition = GraphView.GraphDefinition(name: CacheKey.rollingKG.rawValue, data: rollingKG, axis: .Primary, type: .Line, format: GraphFormat(fill: false, colour: .red, fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 45, size: 1.0), drawZeroes: false, priority: 1)
+                let kgGraphDefinition = GraphDefinition(name: CacheKey.kg.rawValue, data: kg, axis: .Primary, type: .Point, format: GraphFormat(fill: false, colour: .systemPink, fillGradientStart: .systemPink, fillGradientEnd: .systemPink, gradientAngle: 45, size: 2.0), drawZeroes: false, priority: 1)
+                let rollingKGGraphDefinition = GraphDefinition(name: CacheKey.rollingKG.rawValue, data: rollingKG, axis: .Primary, type: .Line, format: GraphFormat(fill: false, colour: .red, fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 45, size: 1.0), drawZeroes: false, priority: 1)
                 
-                let fatPercentGraphDefinition = GraphView.GraphDefinition(name: CacheKey.fatPercent.rawValue, data: fatPercent, axis: .Secondary  , type: .Point, format: GraphFormat(fill: false, colour: .green, fillGradientStart: .red, fillGradientEnd: .green, gradientAngle: 45, size: 2.0),drawZeroes: false, priority: 2)
-                let rollingFatPercentGraphDefinition = GraphView.GraphDefinition(name: CacheKey.rollingFat.rawValue, data: rollingFat, axis: .Secondary  , type: .Line, format: GraphFormat(fill: false, colour: .green, fillGradientStart: .red, fillGradientEnd: .green, gradientAngle: 45, size: 1.0),drawZeroes: false, priority: 2)
+                let fatPercentGraphDefinition = GraphDefinition(name: CacheKey.fatPercent.rawValue, data: fatPercent, axis: .Secondary  , type: .Point, format: GraphFormat(fill: false, colour: .green, fillGradientStart: .red, fillGradientEnd: .green, gradientAngle: 45, size: 2.0),drawZeroes: false, priority: 2)
+                let rollingFatPercentGraphDefinition = GraphDefinition(name: CacheKey.rollingFat.rawValue, data: rollingFat, axis: .Secondary  , type: .Line, format: GraphFormat(fill: false, colour: .green, fillGradientStart: .red, fillGradientEnd: .green, gradientAngle: 45, size: 1.0),drawZeroes: false, priority: 2)
 
                 cache[CacheKey.kg.rawValue] = kg
                 cache[CacheKey.rollingKG.rawValue] = rollingKG
@@ -175,13 +177,13 @@ class WeightHRViewController: NSViewController, TrainingDiaryViewController {
                 let rmssd = td.rmssdDateOrder()
                 let rollingRMSSD = createRollingData(fromData: rmssd, everyXDays: 7)
 
-                let hrGraphDefinition = GraphView.GraphDefinition(name: CacheKey.hr.rawValue, data: hr, axis: .Primary, type: .Point, format: GraphFormat(fill: false, colour: .blue, fillGradientStart: .blue, fillGradientEnd: .blue, gradientAngle: 0.0, size: 2.0),drawZeroes: false, priority: 1  )
-                let rollingHRGraphDefinition = GraphView.GraphDefinition(name: CacheKey.rollingHR.rawValue, data: rollingHR, axis: .Primary, type: .Line, format: GraphFormat(fill: false, colour: .blue, fillGradientStart: .blue, fillGradientEnd: .blue, gradientAngle: 0.0, size: 1.0),drawZeroes: false, priority: 1  )
+                let hrGraphDefinition = GraphDefinition(name: CacheKey.hr.rawValue, data: hr, axis: .Primary, type: .Point, format: GraphFormat(fill: false, colour: .blue, fillGradientStart: .blue, fillGradientEnd: .blue, gradientAngle: 0.0, size: 2.0),drawZeroes: false, priority: 1  )
+                let rollingHRGraphDefinition = GraphDefinition(name: CacheKey.rollingHR.rawValue, data: rollingHR, axis: .Primary, type: .Line, format: GraphFormat(fill: false, colour: .blue, fillGradientStart: .blue, fillGradientEnd: .blue, gradientAngle: 0.0, size: 1.0),drawZeroes: false, priority: 1  )
 
-                let sdnnGraphDefinition = GraphView.GraphDefinition(name: CacheKey.sdnn.rawValue, data: sdnn, axis: .Secondary, type: .Point, format: GraphFormat(fill: false, colour: .red , fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 0.0, size: 2.0),drawZeroes: false, priority: 3  )
-                let rollingSDNNGraphDefinition = GraphView.GraphDefinition(name: CacheKey.rollingSDNN.rawValue, data: rollingSDNN, axis: .Secondary, type: .Line, format: GraphFormat(fill: false, colour: .red , fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 0.0, size: 1.0),drawZeroes: false, priority: 3  )
-                let rmssdGraphDefinition = GraphView.GraphDefinition(name: CacheKey.rmssd.rawValue, data: rmssd, axis: .Secondary, type: .Point, format: GraphFormat(fill: false, colour: .green , fillGradientStart: .green, fillGradientEnd: .green, gradientAngle: 0.0, size: 2.0),drawZeroes: false, priority: 2  )
-                let rollingRMSSDGraphDefinition = GraphView.GraphDefinition(name: CacheKey.rollingRMSSD.rawValue, data: rollingRMSSD, axis: .Secondary, type: .Line, format: GraphFormat(fill: false, colour: .green , fillGradientStart: .green, fillGradientEnd: .green, gradientAngle: 0.0, size: 1.0),drawZeroes: false, priority: 2  )
+                let sdnnGraphDefinition = GraphDefinition(name: CacheKey.sdnn.rawValue, data: sdnn, axis: .Secondary, type: .Point, format: GraphFormat(fill: false, colour: .red , fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 0.0, size: 2.0),drawZeroes: false, priority: 3  )
+                let rollingSDNNGraphDefinition = GraphDefinition(name: CacheKey.rollingSDNN.rawValue, data: rollingSDNN, axis: .Secondary, type: .Line, format: GraphFormat(fill: false, colour: .red , fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 0.0, size: 1.0),drawZeroes: false, priority: 3  )
+                let rmssdGraphDefinition = GraphDefinition(name: CacheKey.rmssd.rawValue, data: rmssd, axis: .Secondary, type: .Point, format: GraphFormat(fill: false, colour: .green , fillGradientStart: .green, fillGradientEnd: .green, gradientAngle: 0.0, size: 2.0),drawZeroes: false, priority: 2  )
+                let rollingRMSSDGraphDefinition = GraphDefinition(name: CacheKey.rollingRMSSD.rawValue, data: rollingRMSSD, axis: .Secondary, type: .Line, format: GraphFormat(fill: false, colour: .green , fillGradientStart: .green, fillGradientEnd: .green, gradientAngle: 0.0, size: 1.0),drawZeroes: false, priority: 2  )
 
                 cache[CacheKey.hr.rawValue] = hr
                 cache[CacheKey.rollingHR.rawValue] = rollingHR
@@ -189,14 +191,21 @@ class WeightHRViewController: NSViewController, TrainingDiaryViewController {
                 cache[CacheKey.rollingSDNN.rawValue] = rollingSDNN
                 cache[CacheKey.rmssd.rawValue] = rmssd
                 cache[CacheKey.rollingRMSSD.rawValue] = rollingRMSSD
+
+                hrgv.primaryAxisMinimumOverride = 25.0
+
+                if let gac = graphsArrayController{
+                    gac.add(contentsOf: [hrGraphDefinition, rollingHRGraphDefinition, sdnnGraphDefinition, rollingSDNNGraphDefinition, rmssdGraphDefinition, rollingRMSSDGraphDefinition ])
+                }
                 
                 hrgv.add(graph: hrGraphDefinition)
                 hrgv.add(graph: rollingHRGraphDefinition)
-                hrgv.primaryAxisMinimumOverride = 25.0
                 hrgv.add(graph: sdnnGraphDefinition)
                 hrgv.add(graph: rollingSDNNGraphDefinition)
                 hrgv.add(graph: rmssdGraphDefinition)
                 hrgv.add(graph: rollingRMSSDGraphDefinition)
+                
+
                 
                 hrgv.xAxisLabelStrings = getXAxisLabels(fromDate: td.firstDayOfDiary, toDate: td.lastDayOfDiary)
 

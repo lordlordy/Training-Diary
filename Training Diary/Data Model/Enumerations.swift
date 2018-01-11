@@ -157,18 +157,18 @@ enum Unit: String{
     case fatigue, fatPercent, kg, lbs, motivation, restingHR, sleep
     
     static var allActivityUnits = [AscentMetres,AscentFeet, Cadence, Hours, HR, KJ, KM, Miles, Minutes, Reps, RPETSS, Seconds, TSS, Watts, ATL, CTL, TSB]
+    static var allUnits = [AscentMetres,AscentFeet, Cadence, Hours, HR, KJ, KM, Miles, Minutes, Reps, RPETSS, Seconds, TSS, Watts, ATL, CTL, TSB, fatigue, fatPercent, kg, lbs, motivation, restingHR, sleep]
     static var metrics = [ATL, CTL, TSB]
     
     var summable: Bool{
         switch self{
-        case .Cadence, .HR, .Watts: return false
+        case .Cadence, .HR, .Watts, .fatigue, .fatPercent, .kg, .lbs, .motivation, .restingHR, .sleep: return false
         default: return true
         }
     }
     
-    var isMetric: Bool{
-        return Unit.metrics.contains(self)
-    }
+    var isActivityBased:    Bool{ return Unit.allActivityUnits.contains(self) }
+    var isMetric:           Bool{ return Unit.metrics.contains(self) }
 
     func workoutPropertyName() -> String?{
         switch self{

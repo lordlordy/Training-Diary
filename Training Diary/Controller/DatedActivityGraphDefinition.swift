@@ -33,7 +33,7 @@ import Foundation
         self.to = t
     }
     
-    convenience init(graph: GraphView.GraphDefinition,activity a: Activity, unit u: Unit, period p: Period, fromDate f: Date, toDate t: Date) {
+    convenience init(graph: GraphDefinition,activity a: Activity, unit u: Unit, period p: Period, fromDate f: Date, toDate t: Date) {
         self.init(activity: a, unit: u, period: p, fromDate: f, toDate: t)
         self.graph = graph
     }
