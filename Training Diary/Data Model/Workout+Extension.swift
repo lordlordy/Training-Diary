@@ -26,18 +26,31 @@ extension Workout{
         return (100/49)*rpe*rpe*Double(seconds)/3600
     }
     
+    @objc dynamic var estimatedKJ: Double{
+        if watts > 0.0{
+            return watts * seconds / 1000.0
+        }else{
+            return rpeTSS * 5.0
+        }
+    }
+    
     
     override public class func keyPathsForValuesAffectingValue(forKey key: String) -> Set<String>{
         let keyPaths = super.keyPathsForValuesAffectingValue(forKey: key)
         switch key {
         case "day.runKM":
             return keyPaths.union(Set([WorkoutProperty.km.rawValue]))
-        case "rpeTSS":
+        case WorkoutProperty.rpeTSS.rawValue:
             return keyPaths.union(Set([WorkoutProperty.seconds.rawValue,WorkoutProperty.rpe.rawValue]))
+        case "estimatedKJ":
+            return keyPaths.union(Set([WorkoutProperty.watts.rawValue, WorkoutProperty.seconds.rawValue, WorkoutProperty.rpeTSS.rawValue]))
         default:
             return keyPaths
         }
     }
+    
+    
+    
     
     /* All workouts respond to requests for any combination of
          Activity
@@ -45,7 +58,13 @@ extension Workout{
          Unit
      Returning zero if it's not this type
      */
-    func valueFor(_ a: [Activity],_ t: [ActivityType], _ unit: Unit) -> Double{
+    func valueFor(_ a: [Activity],_ t: [ActivityType], _ unit: Unit, _ b: Bike? = nil) -> Double{
+        if let requestedBike = b{
+            //bike passed in. If this workout is on this bike then continue. If not return zero
+            if requestedBike.rawValue != bike{
+                return 0.0
+            }
+        }
         if (isOneOfTheseTypes(a, t) && !unit.isMetric){
             if(unit.isDerived()){
                 if let derivation = unit.dataForDerivation(){

@@ -300,6 +300,8 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
         dialog.allowsMultipleSelection = false
         dialog.allowedFileTypes        = fileTypes
         
+        
+        
         if (dialog.runModal() == NSApplication.ModalResponse.OK) {
             return dialog.url // Pathname of the file
         } else {

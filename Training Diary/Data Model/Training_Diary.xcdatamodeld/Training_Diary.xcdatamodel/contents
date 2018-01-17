@@ -42,6 +42,7 @@
         <attribute name="activity" attributeType="String" defaultValueString="Bike" syncable="YES"/>
         <attribute name="activityType" optional="YES" attributeType="String" defaultValueString="All" syncable="YES"/>
         <attribute name="annual" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="bike" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lastUpdated" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="period" attributeType="String" defaultValueString="Day" syncable="YES"/>
         <attribute name="unit" attributeType="String" defaultValueString="KM" syncable="YES"/>
@@ -51,6 +52,16 @@
         <relationship name="contributors" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="EddingtonContributor" inverseName="eddingtonNumber" inverseEntity="EddingtonContributor" syncable="YES"/>
         <relationship name="history" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="EddingtonHistory" inverseName="eddingtonNumber" inverseEntity="EddingtonHistory" syncable="YES"/>
         <relationship name="trainingDiary" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TrainingDiary" inverseName="eddingtonNumbers" inverseEntity="TrainingDiary" syncable="YES"/>
+    </entity>
+    <entity name="LTDEdNum" representedClassName="LTDEdNum" syncable="YES" codeGenerationType="class">
+        <attribute name="activity" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="activityType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastUpdated" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="period" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="plusOne" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="unit" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="value" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="trainingDiary" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TrainingDiary" inverseName="lTDEdNumbers" inverseEntity="TrainingDiary" syncable="YES"/>
     </entity>
     <entity name="Metric" representedClassName="Metric" syncable="YES" codeGenerationType="class">
         <attribute name="activity" optional="YES" attributeType="String" syncable="YES"/>
@@ -84,6 +95,7 @@
         <attribute name="swimCTLDays" optional="YES" attributeType="Double" defaultValueString="42" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="days" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Day" inverseName="trainingDiary" inverseEntity="Day" syncable="YES"/>
         <relationship name="eddingtonNumbers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="EddingtonNumber" inverseName="trainingDiary" inverseEntity="EddingtonNumber" syncable="YES"/>
+        <relationship name="lTDEdNumbers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="LTDEdNum" inverseName="trainingDiary" inverseEntity="LTDEdNum" syncable="YES"/>
         <relationship name="physiologicals" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Physiological" inverseName="trainingDiary" inverseEntity="Physiological" syncable="YES"/>
         <relationship name="weights" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Weight" inverseName="trainingDiary" inverseEntity="Weight" syncable="YES"/>
     </entity>
@@ -123,11 +135,12 @@
         <element name="EddingtonAnnualHistory" positionX="-630" positionY="147" width="128" height="103"/>
         <element name="EddingtonContributor" positionX="-621" positionY="-234" width="128" height="90"/>
         <element name="EddingtonHistory" positionX="-630" positionY="-42" width="128" height="103"/>
-        <element name="EddingtonNumber" positionX="-486" positionY="-258" width="128" height="225"/>
+        <element name="EddingtonNumber" positionX="-486" positionY="-249" width="128" height="240"/>
+        <element name="Metric" positionX="-389" positionY="-360" width="128" height="103"/>
         <element name="Physiological" positionX="52" positionY="-468" width="128" height="193"/>
-        <element name="TrainingDiary" positionX="-227" positionY="-531" width="128" height="270"/>
+        <element name="TrainingDiary" positionX="-227" positionY="-531" width="128" height="283"/>
         <element name="Weight" positionX="45" positionY="-243" width="128" height="133"/>
         <element name="Workout" positionX="-101" positionY="-9" width="128" height="345"/>
-        <element name="Metric" positionX="-389" positionY="-360" width="128" height="103"/>
+        <element name="LTDEdNum" positionX="-342" positionY="-306" width="128" height="165"/>
     </elements>
 </model>

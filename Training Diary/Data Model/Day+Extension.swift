@@ -13,7 +13,6 @@ extension Day{
     
     /* We do not want this to fail as when requesting a value for a particular combination of activity, type and unit a valid answer is zero. For example: if this gets asked what the swim squad ascent is then the correct answer is zero.
     */
-
     func valueFor(activity: Activity, activityType: ActivityType, unit: Unit) -> Double{
         var result = 0.0
         if !unit.isActivityBased{

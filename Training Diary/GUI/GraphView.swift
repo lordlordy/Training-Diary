@@ -115,10 +115,10 @@ class GraphView: NSView {
         
         //TO DO - should be able to tidy up creation of axis / labels.
         //axis 1
-        drawXAxes(forAxis: .Primary, maxValue: graphsYMaximum(forAxis: .Primary), minValue: graphsYMinimum(forAxis: .Primary), dirtyRect, colour: primaryAxisColour, lineGap: gapBetweenPrimaryAxisLines, labelOffset: LabelOffset(position: .Start, x: -(Constants.axisPadding - 2.0), y: 0.0), labelColour: primaryAxisLabelColour )
+        drawXAxes(forAxis: .Primary, maxValue: graphsYMaximum(forAxis: .Primary), minValue: graphsYMinimum(forAxis: .Primary) ?? 0.0, dirtyRect, colour: primaryAxisColour, lineGap: gapBetweenPrimaryAxisLines, labelOffset: LabelOffset(position: .Start, x: -(Constants.axisPadding - 2.0), y: 0.0), labelColour: primaryAxisLabelColour )
         //axis 2 -
         if getGraphs(forAxis: .Secondary).count > 0{
-            drawXAxes(forAxis: .Secondary, maxValue: graphsYMaximum(forAxis: .Secondary), minValue: graphsYMinimum(forAxis: .Secondary), dirtyRect, colour: secondaryAxisColour, lineGap: gapBetweenSecondaryAxisLines, labelOffset: LabelOffset(position: .End, x: 0.0, y: 0.0), labelColour: secondaryAxisLabelColour )
+            drawXAxes(forAxis: .Secondary, maxValue: graphsYMaximum(forAxis: .Secondary), minValue: graphsYMinimum(forAxis: .Secondary) ?? 0.0, dirtyRect, colour: secondaryAxisColour, lineGap: gapBetweenSecondaryAxisLines, labelOffset: LabelOffset(position: .End, x: 0.0, y: 0.0), labelColour: secondaryAxisLabelColour )
         }
 
         drawYAxes(dirtyRect, labelOffset: LabelOffset(position: .Start, x: -30.0, y: -(Constants.axisPadding - 10.0)) )
@@ -264,7 +264,7 @@ class GraphView: NSView {
     
     private func graphsYMaximum(forAxis axis: Axis) -> Double{
         var maximums: [Double] = [0.0] // ensure maximum is always at least zero
-        let graphs = getGraphs(forAxis: axis)
+        let graphs = getGraphs(forAxis: axis).filter({$0.display})
         if graphs.count > 0{
             for graph in graphs{
                 if graph.data.count > 0{
@@ -275,10 +275,10 @@ class GraphView: NSView {
         return maximums.max()!
     }
     
-    private func graphsYMinimum(forAxis axis: Axis) -> Double{
+    private func graphsYMinimum(forAxis axis: Axis) -> Double?{
         if let override = getMinimumOverride(forAxis: axis){ return override }
-        var minimums: [Double] = [0.0] //ensures minimum is always at least zero
-        let graphs = getGraphs(forAxis: axis)
+        var minimums: [Double] = []
+        let graphs = getGraphs(forAxis: axis).filter({$0.display})
         if graphs.count > 0{
             for graph in graphs{
                 if graph.data.count > 0{
@@ -286,7 +286,7 @@ class GraphView: NSView {
                 }
             }
         }
-        return minimums.min()!
+        return minimums.min()
     }
     
     private func graphsXMinimumDate() -> Date?{
@@ -319,7 +319,7 @@ class GraphView: NSView {
     private func calcAxisLineGap(forAxis a: Axis) -> Double{
         var result = 100.0
         
-        var range = graphsYMaximum(forAxis: a) - graphsYMinimum(forAxis: a)
+        var range = graphsYMaximum(forAxis: a) - (graphsYMinimum(forAxis: a)  ?? 0.0)
         if range == 0.0{ range = 10.0}
         switch a{
         case .Primary: result = range / Double(numberOfPrimaryAxisLines)
@@ -335,7 +335,7 @@ class GraphView: NSView {
             if let minDate = graphsXMinimumDate(){
                 let factor = maxDate.timeIntervalSince(minDate) / Double(xAxisLabelStrings.count - 1)
                 for label in xAxisLabelStrings{
-                    let axisStartPoint = coordinatesInView(xValue: count, yValue: graphsYMinimum(forAxis: .Primary), forAxis: .Primary, dirtyRect)
+                    let axisStartPoint = coordinatesInView(xValue: count, yValue: graphsYMinimum(forAxis: .Primary) ?? 0.0, forAxis: .Primary, dirtyRect)
                     let axisEndPoint = NSPoint(x: axisStartPoint.x, y: dirtyRect.maxY - CGFloat(Constants.axisPadding))
                     drawAxis(from: axisStartPoint, to: axisEndPoint, colour: yAxisColour, label, labelOffset: labelOffset, labelColour: yAxisLabelColour)
                     count += factor
@@ -509,9 +509,9 @@ class GraphView: NSView {
             if let maxXDate = graphsXMaximumDate(){
                 _minX = 0.0 //taking minimum date as zero
                 _maxX = maxXDate.timeIntervalSince(minXDate)
-                _minYPrimary = graphsYMinimum(forAxis: .Primary)
+                _minYPrimary = graphsYMinimum(forAxis: .Primary)  ?? 0.0
                 _maxYPrimary = graphsYMaximum(forAxis: .Primary)
-                _minYSecondary = graphsYMinimum(forAxis: .Secondary)
+                _minYSecondary = graphsYMinimum(forAxis: .Secondary) ?? 0.0
                 _maxYSecondary = graphsYMaximum(forAxis: .Secondary)
             }
         }

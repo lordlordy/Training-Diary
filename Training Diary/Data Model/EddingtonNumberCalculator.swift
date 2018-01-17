@@ -29,6 +29,13 @@ public class EddingtonNumberCalculator: NSObject{
         return annualContributors.filter({$0.value >= Double(nextAnnualEddingtonNumber)})
     }
 
+    func quickCaclulation(forActivity a: Activity, andType at: ActivityType, andPeriod p: Period, andUnit u: Unit, inTrainingDiary td: TrainingDiary) -> (ednum: Int,plusOne: Int, maturity: Double ){
+        
+        let values = td.getValues(forActivity: a, andActivityType: at, andPeriod: p, andUnit: u)
+        return quickEddingNumberCalc(forDoubleValues: values.map({$0.value}).filter({$0 >= 1.0}))
+        
+    }
+    
     func calculate(eddingtonNumber: EddingtonNumber){
         
         if let a = Activity(rawValue: eddingtonNumber.activity!){
@@ -74,59 +81,6 @@ public class EddingtonNumberCalculator: NSObject{
         }
     }
     
-    
-/*    func calculateEddingtonNumber(forEddingtonNumber eddingtonNumber: EddingtonNumber){
-
-        if let a = Activity(rawValue: eddingtonNumber.activity!){
-            if let p = Period(rawValue: eddingtonNumber.period!){
-                if let u = Unit(rawValue: eddingtonNumber.unit!){
-                    
-                    eddingtonNumber.clearData()
-                    
-                    let values = eddingtonNumber.trainingDiary!.getValues(forActivity: a, andPeriod: p, andUnit: u)
-                    let usefulValues = values.filter({$0.value >= 1.0})
-                    
-                    
-                    for v in usefulValues{
-                        eddingtonNumber.updateFor(date: v.date, value: v.value)
-                    }
-                    
-                    eddingtonNumber.lastUpdated = Date()
-                    
-                }
-            }
-        }
-        
-        
-    }
-*/
- /*   func updateEddingtonNumber(forEddingtonNumber eddingtonNumber: EddingtonNumber){
-        if let lastUpdated = eddingtonNumber.lastUpdated{
-            if let a = Activity(rawValue: eddingtonNumber.activity!){
-                if let p = Period(rawValue: eddingtonNumber.period!){
-                    if let u = Unit(rawValue: eddingtonNumber.unit!){
-                        
-                        let values = eddingtonNumber.trainingDiary!.getValues(forActivity: a, andPeriod: p, andUnit: u, fromDate: lastUpdated)
-                                                
-                        for v in values{
-                            eddingtonNumber.updateFor(date: v.date, value: v.value)
-                        }
-                        eddingtonNumber.lastUpdated = Date()
-                        
-                    }
-                }
-            }
-
-        }else{
-            //never been calculated. so should recalc not update
-            print("\(eddingtonNumber.eddingtonCode) has never been calculated. Please recalc rather than update")
-        }
-    }
-*/
-
-
-    
-
     //MARK: - Private
 
     private func eddingtonCalculation(forValues values: [(date: Date, value: Double)]){
@@ -235,7 +189,7 @@ public class EddingtonNumberCalculator: NSObject{
         
     }
     
-    //MARK: - OLD QUICK CALC - keeping just in case
+    //MARK: - QUICK CALC
     
     //check this = can't we overload and name this quickEddingtonNumberCalc(values: [Double])  ???
     private func quickEddingNumberCalc(forDoubleValues values: [Double]) -> (ednum: Int,plusOne: Int, maturity: Double ){

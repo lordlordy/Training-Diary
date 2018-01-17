@@ -17,6 +17,14 @@ extension TrainingDiary{
     @objc dynamic var totalSeconds: Double{ return total(forKey: "allSeconds")}
     @objc dynamic var totalTime: TimeInterval{ return TimeInterval(totalSeconds)}
     
+    @objc dynamic var ltdEdNumCount: Int{
+        return self.lTDEdNumbers?.count ?? 0
+    }
+    
+    @objc dynamic var edNumCount: Int{
+        return self.eddingtonNumbers?.count ?? 0
+    }
+    
     // don't think this really need @objc dynamic - check and remove
     @objc dynamic var firstDayOfDiary: Date{
         let days = ascendingOrderedDays()
@@ -60,6 +68,30 @@ extension TrainingDiary{
         return result
     }
     
+    func sleepDateOrder() -> [(date: Date, value: Double)]{
+        var result: [(date: Date, value: Double )] = []
+        for d in ascendingOrderedDays(){
+            result.append((d.date!, d.sleep))
+        }
+        return result
+    }
+
+    func motivationDateOrder() -> [(date: Date, value: Double)]{
+        var result: [(date: Date, value: Double )] = []
+        for d in ascendingOrderedDays(){
+            result.append((d.date!, Double(d.motivation)))
+        }
+        return result
+    }
+    
+    func fatigueDateOrder() -> [(date: Date, value: Double)]{
+        var result: [(date: Date, value: Double )] = []
+        for d in ascendingOrderedDays(){
+            result.append((d.date!, Double(d.fatigue)))
+        }
+        return result
+    }
+    
     func hrDateOrder() -> [(date: Date, value: Double)]{
         var result: [(date: Date, value: Double)] = []
         if let orderedPhysios = physiologicalsAscendingDateOrder(){
@@ -90,28 +122,6 @@ extension TrainingDiary{
         return result
     }
     
-
- //   func getValues(forActivity activity: Activity, andUnit unit: Unit) -> [(date: Date, value:Double)]{
-   //     return getValues(forActivity: activity, andUnit: unit, fromDate: firstDayOfDiary, toDate: lastDayOfDiary)
-    //}
-
- //   func getValues(forActivity activity: Activity, andUnit unit: Unit, fromDate from: Date) -> [(date: Date, value:Double)]{
-   //     return getValues(forActivity: activity, andUnit: unit, fromDate: from, toDate: lastDayOfDiary)
-   // }
-
-/*    func getValues(forActivity activity: Activity, andUnit unit: Unit, fromDate from: Date, toDate to: Date) -> [(date: Date, value:Double)]{
-        let start = Date()
-        var result: [(date: Date, value: Double)] = []
-        let sortedDays = ascendingOrderedDays(fromDate: from, toDate: to)
-        if sortedDays.count > 0 {
-            for day in sortedDays{
-                result.append((date: day.date!, value: day.valueFor(activity: activity, activityType: ActivityType.All, unit: unit)))
-            }
-        }
-        print("Time taken to get diary values for \(activity):\(unit) = \(Date().timeIntervalSince(start)) seconds")
-        return result
-    }
-*/
     
     //MARK: - Getting values
     func getValues(forActivity activity: Activity, andActivityType activityType: ActivityType, andPeriod period: Period, andUnit unit: Unit) -> [(date: Date, value:Double)]{
@@ -147,7 +157,7 @@ extension TrainingDiary{
                 result.append((date: day.date!, value: day.valueFor(period: period, activity: activity, activityType: activityType, unit: unit)))
             }
         }
-        print("Time taken to get diary values for \(activity):\(period.rawValue):\(unit) = \(Date().timeIntervalSince(start)) seconds")
+//        print("Time taken to get diary values for \(activity):\(period.rawValue):\(unit) = \(Date().timeIntervalSince(start)) seconds")
         return result
     }
     
@@ -208,6 +218,24 @@ extension TrainingDiary{
         return 0
     }
     
+    //MARK: - Eddington Number Support
+    func clearAllLTDEddingtonNumbers(){
+        mutableSetValue(forKey: TrainingDiaryProperty.lTDEdNumbers.rawValue).removeAllObjects()
+    }
+    
+    func addLTDEddingtonNumber(forActivity a: Activity, type at: ActivityType, period p: Period, unit u: Unit, value v: Int, plusOne: Int){
+        let len = CoreDataStackSingleton.shared.newLTDEdNum()
+        len.activity = a.rawValue
+        len.activityType = at.rawValue
+        len.period = p.rawValue
+        len.unit = u.rawValue
+        len.value = Int16(v)
+        len.plusOne = Int16(plusOne)
+        len.lastUpdated = Date()
+        self.addToLTDEdNumbers(len)
+//        mutableSetValue(forKey: TrainingDiaryProperty.lTDEdNumbers.rawValue).add(len)
+    }
+    
 
     
     //MARK: - Private
@@ -265,7 +293,7 @@ extension TrainingDiary{
     
     // this is focussed on the rolling periods. It is very time consuming to just loop through and ask each day for it's rolling period - by way of example. RollingYear for all days would require summing 365 days for every day - thats 5,000 x 365 sums - if we ask each day individually. If we run through the days and keep a total as we go there are ~ 2 sums per day. So should be ~ 180 times faster. Sacrifising generalisation for speed here. A second benefit is this method makes it easier to average units rather than just sum them.
     private func optimisedCalculation(forActivity activity: Activity, andActivityType activityType: ActivityType, andPeriod period: Period, andUnit unit: Unit, fromDate from: Date, toDate to: Date) -> [(date: Date, value:Double)]?{
-        print("STARTING optimized calculation for \(activity):\(activityType.rawValue):\(period.rawValue):\(unit)...")
+//        print("STARTING optimized calculation for \(activity):\(activityType.rawValue):\(period.rawValue):\(unit)...")
         let start = Date()
         var result: [(date: Date, value:Double)] = []
         
@@ -282,7 +310,6 @@ extension TrainingDiary{
             case .Month:        rSum  = PeriodSum(size: 31, rule: {$0.isEndOfMonth()})
             case .Year:         rSum  = PeriodSum(size: 366, rule: {$0.isEndOfYear()})
             default:
-                print("... no need for period: \(period.rawValue)")
                 return nil
             }
             
@@ -308,7 +335,6 @@ extension TrainingDiary{
             case .Month:        rAverage = PeriodWeightedAverage(size: 31, rule: {$0.isEndOfMonth()})
             case .Year:         rAverage = PeriodWeightedAverage(size: 366, rule: {$0.isEndOfYear()})
             default:
-                print("... no need for period: \(period.rawValue)")
                 return nil
             }
             
@@ -324,7 +350,7 @@ extension TrainingDiary{
         }
         
         
-        print("Optimised calculation returned \(result.count) results and took \(Date().timeIntervalSince(start)) seconds")
+ //       print("Optimised calculation returned \(result.count) results and took \(Date().timeIntervalSince(start)) seconds")
         
         return result
     }

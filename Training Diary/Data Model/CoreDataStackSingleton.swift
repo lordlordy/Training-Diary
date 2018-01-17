@@ -140,6 +140,11 @@ class CoreDataStackSingleton{
         let eh = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.EddingtonAnnualContributor.rawValue, in: trainingDiaryPC.viewContext)!, insertInto: trainingDiaryPC.viewContext)
         return eh as! EddingtonAnnualContributor
     }
+    
+    func newLTDEdNum() -> LTDEdNum{
+        let len = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.LTDEdNum.rawValue, in: trainingDiaryPC.viewContext)!, insertInto: trainingDiaryPC.viewContext)
+        return len as! LTDEdNum
+    }
 
     func deleteAllEddingtonNumbers(forTrainingDiary td: TrainingDiary){
         

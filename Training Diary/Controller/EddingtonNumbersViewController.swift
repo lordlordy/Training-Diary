@@ -17,28 +17,112 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
     private var period: String?
     private var unit: String?
     private var year: Int?
-        
+    
     @IBOutlet weak var graphView: GraphView!
     
     @IBOutlet var eddingtonNumberArrayController: NSArrayController!
+    @IBOutlet var ltdEdNumArrayController: NSArrayController!
     
     @IBOutlet weak var edCalcProgressBar: NSProgressIndicator!
     @IBOutlet weak var calcProgressTextField: NSTextField!
     
-/*    @IBAction func updateAllEddingtonNumbers(_ sender: NSButton){
-        let start = Date()
-        if let td = trainingDiary{
-            for e in td.eddingtonNumbers! {
-                let edNum = e as! EddingtonNumber
-                let calculator = EddingtonNumberCalculator()
-                calculator.updateEddingtonNumber(forEddingtonNumber: edNum)
-                prod(eddingtonNumber: edNum)
+    @IBAction func saveAll(_ sender: NSButton) {
+
+        var html: String = ""
+        if let tableStart = Bundle.main.url(forResource: "tableStart", withExtension: "txt"){
+            do{
+                let contents = try String.init(contentsOf: tableStart)
+                html += contents
+            }catch{
+                print("tableStart.txt not loaded")
             }
         }
-        print("Time taken to update ALL eddington numbers: \(Date().timeIntervalSince(start)) seconds")
-        updateGraph()
+        
+        if let edNumSet = trainingDiary?.lTDEdNumbers?.allObjects as! [LTDEdNum]?{
+            for e in edNumSet.sorted(by: {$0.edCode < $1.edCode}){
+                html += "<tr>\n"
+                html += "<td>\(e.activity!)</td>\n"
+                html += "<td>\(e.activityType!)</td>\n"
+                html += "<td>\(e.period!)</td>\n"
+                html += "<td>\(e.unit!)</td>\n"
+                html += "<td>\(e.value)</td>\n"
+                html += "<td>\(e.plusOne)</td>\n"
+                html += "</tr>"
+            }
+        }
+        
+        if let tableEnd = Bundle.main.url(forResource: "tableEnd", withExtension: "txt"){
+            do{
+                let contents = try String.init(contentsOf: tableEnd)
+                html += contents
+            }catch{
+                print("tableEnd.txt not loaded")
+            }
+        }
+        
+        let homeDir = FileManager.default.homeDirectoryForCurrentUser
+        let saveFileName = homeDir.appendingPathComponent("ltdEddingtonNumbers.html")
+        do{
+            try html.write(to: saveFileName, atomically: false, encoding: .ascii)
+        }catch let error as NSError{
+            print(error)
+        }
     }
- */
+    
+
+    
+    @IBAction func calculateAll(_ sender: NSButton) {
+        //this is a calculation of all possible ed nums
+        let start = Date()
+        //remove all ltd ed nums from training diary
+        if let ltdEdNumSet = trainingDiary?.mutableSetValue(forKey: TrainingDiaryProperty.lTDEdNumbers.rawValue){
+            ltdEdNumSet.removeAllObjects()
+        }
+
+        calcProgressTextField!.stringValue = "starting..."
+        DispatchQueue.global(qos: .userInitiated).async {
+            var totalPossible: Int = 0
+            for a in Activity.allActivities{
+                let validUnitsForActivity = a.validUnits()
+                for at in a.validTypes(){
+                    let validUnitsCount = validUnitsForActivity.intersection(at.validUnits()).count
+                    totalPossible += validUnitsCount
+                }
+            }
+            totalPossible = totalPossible * Period.eddingtonNumberPeriods.count
+            
+            var count: Int = 0
+            let calculator = EddingtonNumberCalculator()
+            var name: String = ""
+            
+            for a in Activity.allActivities{
+ //           for a in [Activity.Bike]{
+                for at in a.validTypes(){
+ //                       for at in [ActivityType.All]{
+                    for u in at.validUnits().intersection(a.validUnits()).sorted(by: {$0.rawValue < $1.rawValue}){
+                        for p in Period.eddingtonNumberPeriods{
+//                            for p in [Period.Day]{
+                            count += 1
+                            name = a.rawValue
+                            name += ":" + at.rawValue
+                            name += ":" + p.rawValue
+                            name += ":" + u.rawValue
+                            let result = calculator.quickCaclulation(forActivity: a, andType: at, andPeriod: p, andUnit: u, inTrainingDiary: self.trainingDiary!)
+                            DispatchQueue.main.sync {
+                                self.calcProgressTextField!.stringValue = "\(count) of \(totalPossible) : \(name) (\(Int(Date().timeIntervalSince(start)))s) ..."
+                                self.edCalcProgressBar!.doubleValue = 100.0 * Double(count) / Double(totalPossible)
+                                if result.ednum > 0{
+                                    self.trainingDiary!.addLTDEddingtonNumber(forActivity: a, type: at, period: p, unit: u, value: result.ednum, plusOne: result.plusOne)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    
     @IBAction func updateSelection(_ sender: NSButton) {
         let start = Date()
         calcProgressTextField!.stringValue = "starting..."
@@ -139,27 +223,23 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
  */
     
     @IBAction func activityField(_ sender: NSTextField) {
-        print("Activity set to \(sender.stringValue)")
         self.activity = sender.stringValue
         if self.activity == "" {self.activity = nil}
         updatePredicate()
     }
     @IBAction func activityTypeField(_ sender: NSTextField) {
-        print("ActivityType set to \(sender.stringValue)")
         self.activityType = sender.stringValue
         if self.activityType == "" {self.activityType = nil}
         updatePredicate()
     }
 
     @IBAction func periodField(_ sender: NSTextField) {
-        print("Period set to \(sender.stringValue)")
         self.period = sender.stringValue
         if self.period == "" {self.period = nil}
         updatePredicate()
     }
     
     @IBAction func unitField(_ sender: NSTextField) {
-        print("unit set to \(sender.stringValue)")
         self.unit = sender.stringValue
         if self.unit == "" {self.unit = nil}
         updatePredicate()
@@ -174,14 +254,12 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
     override func viewDidLoad() {
         super.viewDidLoad()
         if let eddNumAC = eddingtonNumberArrayController{
-            print("adding observers to eddingtonNumberArrayController")
             eddNumAC.addObserver(self, forKeyPath: "selection", options: .new, context: nil)
         }
         if let gv = graphView{
-            print("setting x axis labels on graph")
             if let td = trainingDiary{
                 let range = td.lastDayOfDiary.timeIntervalSince(td.firstDayOfDiary)
-                let numberOfLabels = 10
+                let numberOfLabels = 6
                 let gap = range / Double(numberOfLabels - 1)
                 var labels: [String] = []
                 labels.append(td.firstDayOfDiary.dateOnlyShorterString())
@@ -242,10 +320,11 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
         
         if predicateString != ""{
             let myPredicate = NSPredicate.init(format: predicateString, argumentArray: arguments)
-            print(myPredicate)
             eddingtonNumberArrayController.filterPredicate = myPredicate
+            ltdEdNumArrayController.filterPredicate = myPredicate
         }else{
             eddingtonNumberArrayController.filterPredicate = nil
+            ltdEdNumArrayController.filterPredicate = nil
             isFirstPredicate = true
         }
         

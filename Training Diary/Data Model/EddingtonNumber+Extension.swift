@@ -18,11 +18,19 @@ extension EddingtonNumber{
     @objc dynamic var daysSinceLastContributor: Double { return calculateDaysSinceLastContributor() }
 
     @objc dynamic var requiresCalculation: Bool{ return lastUpdated == nil}
+    @objc dynamic var bikeEditable: Bool{ return requiresCalculation && (activity == Activity.Bike.rawValue)}
     
     @objc dynamic var eddingtonCode: String{
         var result = ""
         if let a = activity {
             result += a
+            if a == Activity.Bike.rawValue{
+                if let bikeName = bike{
+                    if bikeName != Bike.All.rawValue{
+                        result += ":" + bikeName
+                    }
+                }
+            }
             if let at = activityType {
                 result += ":" + at
                 if let p = period {
@@ -153,7 +161,7 @@ extension EddingtonNumber{
         let keyPaths = super.keyPathsForValuesAffectingValue(forKey: key)
         switch key {
         case "eddingtonCode":
-            return keyPaths.union(Set(["activity","activityType","period","unit"]))
+            return keyPaths.union(Set(["activity","activityType","period","unit","bike"]))
         case "maturity":
             return keyPaths.union(Set(["lastUpdated"]))
         default:

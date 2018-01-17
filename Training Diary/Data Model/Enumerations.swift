@@ -76,7 +76,7 @@ enum Period: String{
     case Lifetime       = "Lifetime"
     case Adhoc          = "Adhoc"
     
-//    static var baseDataPeriods = [Day,Week,Month,Year, WeekToDate,MonthToDate, YearToDate,rWeek,rMonth,rYear]
+    static var eddingtonNumberPeriods = [Day,Week,Month,Year, WeekToDate,MonthToDate, YearToDate,rWeek,rMonth,rYear]
     static var All = [Day,Week,Month,Year, WeekToDate,MonthToDate, YearToDate,rWeek,rMonth,rYear, Lifetime, Adhoc]
     
     
@@ -122,11 +122,48 @@ enum Activity: String{
         return self.rawValue.lowercased() + unit.rawValue
     }
     
+    func validTypes() -> [ActivityType]{
+        switch self{
+        case .Swim:
+            return [ .Solo, .Squad, .OpenWater, .All ]
+        case .Bike:
+            return [ .Road, .OffRoad, .Turbo, .All ]
+        case .Run:
+            return [ .Road, .OffRoad, .Fell, .Treadmill, .All ]
+        case .Gym:
+            return [.General, .PressUp, .All ]
+        case .Walk:
+            return [.All ]
+        case .Other:
+            return [ .Stepper, .Aquajog, .Kayak, .All ]
+        case .All:
+            return [ .All ]
+        }
+    }
+    
+    func validUnits() -> Set<Unit>{
+        switch self{
+        case .Swim:
+            return [ .Hours, .KJ, .KM, .Miles, .Minutes, .RPETSS, .Seconds, .TSS, .Watts, .ATL, .CTL, .TSB ]
+        case .Bike:
+            return [ .AscentMetres, .AscentFeet,  .Cadence, .Hours, .HR, .KJ, .KM, .Miles, .Minutes, .RPETSS, .Seconds, .TSS, .Watts, .ATL, .CTL, .TSB ]
+        case .Run:
+            return [ .AscentMetres, .AscentFeet,  .Cadence, .Hours, .HR, .KJ, .KM, .Miles, .Minutes, .RPETSS, .Seconds, .TSS, .Watts, .ATL, .CTL, .TSB ]
+        case .Gym:
+            return [ .Hours, .KJ, .Minutes, .Reps, .RPETSS, .Seconds, .TSS, .ATL, .CTL, .TSB ]
+        case .Walk:
+            return [ .AscentMetres, .AscentFeet, .Hours, .HR, .KJ, .KM, .Miles, .Minutes, .RPETSS, .Seconds, .TSS, .ATL, .CTL, .TSB ]
+        case .Other:
+            return [ .Hours, .HR, .KJ, .Minutes, .RPETSS, .Seconds, .TSS, .ATL, .CTL, .TSB ]
+        case .All:
+            return [ .AscentMetres, .AscentFeet,  .Cadence, .Hours, .HR, .KJ, .KM, .Miles, .Minutes, .Reps, .RPETSS, .Seconds, .TSS, .Watts, .ATL, .CTL, .TSB ]
+        }
+    }
+    
 
 }
 
 enum ActivityType: String{
-    case Race
     case Solo
     case Squad
     case OpenWater
@@ -142,7 +179,41 @@ enum ActivityType: String{
     case Kayak
     case All
     
-    static var AllActivityTypes = [Race,Solo,Squad,OpenWater,Road,OffRoad,Turbo,Fell, Treadmill, General, PressUp, Stepper, Aquajog, Kayak, All]
+    static var AllActivityTypes = [Solo,Squad,OpenWater,Road,OffRoad,Turbo,Fell, Treadmill, General, PressUp, Stepper, Aquajog, Kayak, All]
+    
+    func validUnits() -> Set<Unit>{
+        switch self{
+        case .Solo:
+            return [ .Hours, .KJ, .KM, .Miles, .Minutes, .RPETSS, .Seconds, .TSS, .Watts]
+        case .Squad:
+            return [ .Hours, .KJ, .KM, .Miles, .Minutes, .RPETSS, .Seconds, .TSS, .Watts]
+        case .OpenWater:
+            return [ .Hours, .KJ, .KM, .Miles, .Minutes, .RPETSS, .Seconds, .TSS, .Watts]
+        case .Road:
+            return [ .AscentMetres, .AscentFeet, .Cadence, .Hours, .HR, .KJ, .KM, .Miles, .Minutes, .RPETSS, .Seconds, .TSS, .Watts]
+        case .OffRoad:
+            return [ .AscentMetres, .AscentFeet, .Cadence, .Hours, .HR, .KJ, .KM, .Miles, .Minutes, .RPETSS, .Seconds, .TSS, .Watts]
+        case .Turbo:
+            return [ .Cadence, .Hours, .HR, .KJ, .KM, .Miles, .Minutes, .RPETSS, .Seconds, .TSS, .Watts]
+        case .Fell:
+            return [ .AscentMetres, .AscentFeet, .Cadence, .Hours, .HR, .KJ, .KM, .Miles, .Minutes, .RPETSS, .Seconds, .TSS, .Watts]
+        case .Treadmill:
+            return [ .Cadence, .Hours, .HR, .KJ, .KM, .Miles, .Minutes, .RPETSS, .Seconds, .TSS, .Watts]
+        case .General:
+            return [ .Hours, .Minutes, .RPETSS, .Seconds, .TSS]
+        case .PressUp:
+            return [ .Hours, .KJ, .Minutes, .Reps, .RPETSS, .Seconds, .TSS]
+        case .Stepper:
+            return [ .AscentMetres, .AscentFeet, .Hours, .HR, .KJ, .Minutes, .RPETSS, .Seconds, .TSS]
+        case .Aquajog:
+            return [ .Hours, .HR, .KJ, .Minutes, .RPETSS, .Seconds, .TSS]
+        case .Kayak:
+            return [ .Hours, .HR, .KJ, .KM, .Miles, .Minutes, .RPETSS, .Seconds, .TSS]
+        case .All:
+            return [ .AscentMetres, .AscentFeet, .Cadence, .Hours, .HR, .KJ, .KM, .Miles, .Minutes, .Reps, .RPETSS, .Seconds, .TSS, .Watts, .ATL, .CTL, .TSB]
+        }
+    }
+    
     
 }
 
@@ -162,7 +233,7 @@ enum Unit: String{
     
     var summable: Bool{
         switch self{
-        case .Cadence, .HR, .Watts, .fatigue, .fatPercent, .kg, .lbs, .motivation, .restingHR, .sleep: return false
+        case .Cadence, .HR, .Watts, .fatigue, .fatPercent, .kg, .lbs, .motivation, .restingHR, .sleep, .ATL, .CTL, .TSB: return false
         default: return true
         }
     }
@@ -224,6 +295,7 @@ enum Unit: String{
 
 }
 
+//TO DO - This should not be an enum as the user needs to be able to set up bikes
 enum Bike: String{
     case IFXS       = "IF XS"
     case Merckx     = "Merckx"
@@ -240,8 +312,10 @@ enum Bike: String{
     case Cannondale = "Cannondale"
     case DEMO       = "Demo Bikes"
     case Moots      = "Moots"
+    case All        = "All"
     
     static var ActiveBikes = [IFXS, Merckx, P3C, Pista, Look576, Roberts, IFTiTT, IFSSX, Pretorius, DEMO]
+    static var AllBikes = [IFXS, Merckx, P3C, Pista, Look576, Roberts, IFTiTT, QRCD01, IFSSX, Giant, Pretorius, Soma, Cannondale, DEMO, Moots, All]
 }
 
 //MARK: - JSON Support
@@ -265,7 +339,7 @@ enum FPMJSONString: String, FileMakerProJSONString{
 enum ENTITY: String{
     case TrainingDiary, Day, Workout, Weight, Physiological, Metric
     case EddingtonNumber, EddingtonAnnualContributor, EddingtonAnnualHistory
-    case EddingtonContributor, EddingtonHistory
+    case EddingtonContributor, EddingtonHistory, LTDEdNum
 }
 
 enum MetricProperty: String{
@@ -321,7 +395,7 @@ enum TrainingDiaryProperty: String, FileMakerProJSONString{
     case swimATLDays, swimCTLDays, bikeATLDays, bikeCTLDays, runATLDays, runCTLDays, atlDays, ctlDays
 
     //relationships
-    case eddingtonNumbers
+    case eddingtonNumbers, lTDEdNumbers
     case days, physiologicals, weights
     
     func fmpString() -> String {
@@ -334,7 +408,7 @@ enum TrainingDiaryProperty: String, FileMakerProJSONString{
 
 enum WorkoutProperty: String, FileMakerProJSONString{
     case activity, activityType, ascentMetres, bike, brick, cadence, comments, hr
-    case isRace, keywords, kj, km, reps, rpe, seconds
+    case isRace, keywords, kj, km, reps, rpe, seconds, rpeTSS
     case tss, tssMethod, watts, wattsEstimated
     
     //this is the string used by Filemaker Pro DB as the marker in it's JSON
@@ -354,6 +428,7 @@ enum WorkoutProperty: String, FileMakerProJSONString{
         case .km:               return "KM"
         case .reps:             return "Reps"
         case .rpe:              return "RPE"
+        case .rpeTSS:           return "RPE TSS"
         case .seconds:          return "Seconds"
         case .tss:              return "TSS"
         case .tssMethod:        return "TSS Method"
@@ -378,6 +453,7 @@ enum WorkoutProperty: String, FileMakerProJSONString{
         case .km:               return Unit.KM
         case .reps:             return Unit.Reps
         case .rpe:              return nil
+        case .rpeTSS:           return nil
         case .seconds:          return Unit.Seconds
         case .tss:              return Unit.TSS
         case .tssMethod:        return nil
