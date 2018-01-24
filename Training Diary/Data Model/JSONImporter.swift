@@ -56,51 +56,53 @@ class JSONImporter{
         dateFormatter.dateFormat = "yyyy-MM-dd"
         dateFormatter.timeZone = TimeZone.init(secondsFromGMT: 0)
         
-        let physiological = json[FPMJSONString.Physiological.fmpString()] as! [String: Any]
-        let measurements = physiological[FPMJSONString.Measurement.fmpString()] as! [Any]
-        
-        for m in measurements{
-            // we have a weight record. So create a Weight ManagedObject
-            let physio = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.Physiological.rawValue, in: persistentContainer.viewContext)!, insertInto: persistentContainer.viewContext)
-            physiologicalMOSet.add(physio)
-            let pair = m as! [String: Any]
-            for p in pair{
-                switch p.key{
-                case PhysiologicalProperty.fromDate.fmpString():
-                    if let date = dateFormatter.date(from: p.value as! String){
-                        physio.setValue(date.startOfDay(), forKey: PhysiologicalProperty.fromDate.rawValue)
-                    }else{
-                        print("failed to import physio to date: \(p.key) : \(p.value)")
-                    }
-                case PhysiologicalProperty.toDate.fmpString():
-                    if let date = dateFormatter.date(from: p.value as! String){
-                        physio.setValue(date.endOfDay(), forKey: PhysiologicalProperty.toDate.rawValue)
-                    }else{
-                        print("failed to import physio from date: \(p.key) : \(p.value)")
-                    }
-                case PhysiologicalProperty.maxHR.fmpString():
-                    physio.setValue(p.value, forKey: PhysiologicalProperty.maxHR.rawValue)
-                case PhysiologicalProperty.restingHR.fmpString():
-                    physio.setValue(p.value, forKey: PhysiologicalProperty.restingHR.rawValue)
-                case PhysiologicalProperty.restingSDNN.fmpString():
-                    physio.setValue(p.value, forKey: PhysiologicalProperty.restingSDNN.rawValue)
-                case PhysiologicalProperty.restingRMSSD.fmpString():
-                    physio.setValue(p.value, forKey: PhysiologicalProperty.restingRMSSD.rawValue)
-                case PhysiologicalProperty.standingHR.fmpString():
-                    physio.setValue(p.value, forKey: PhysiologicalProperty.standingHR.rawValue)
-                case PhysiologicalProperty.standingSDNN.fmpString():
-                    physio.setValue(p.value, forKey: PhysiologicalProperty.standingSDNN.rawValue)
-                case PhysiologicalProperty.standingRMSSD.fmpString():
-                    physio.setValue(p.value, forKey: PhysiologicalProperty.standingRMSSD.rawValue)
-                default:
-                    if p.key == FPMJSONString.Created.rawValue{
-                        //do nothing as intentionally not importing this
-                    }else{
-                        //       print("PHYSIOLOGICAL JSON not added for Key: \(p.key) with value: \(p.value)")
+        if let physiological = json[FPMJSONString.Physiological.fmpString()] as? [String: Any]{
+            let measurements = physiological[FPMJSONString.Measurement.fmpString()] as! [Any]
+            
+            for m in measurements{
+                // we have a physio record. So create a Physiological ManagedObject
+                let physio = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.Physiological.rawValue, in: persistentContainer.viewContext)!, insertInto: persistentContainer.viewContext)
+                physiologicalMOSet.add(physio)
+                let pair = m as! [String: Any]
+                for p in pair{
+                    switch p.key{
+                    case PhysiologicalProperty.fromDate.fmpString():
+                        if let date = dateFormatter.date(from: p.value as! String){
+                            physio.setValue(date.startOfDay(), forKey: PhysiologicalProperty.fromDate.rawValue)
+                        }else{
+                            print("failed to import physio to date: \(p.key) : \(p.value)")
+                        }
+                    case PhysiologicalProperty.toDate.fmpString():
+                        if let date = dateFormatter.date(from: p.value as! String){
+                            physio.setValue(date.endOfDay(), forKey: PhysiologicalProperty.toDate.rawValue)
+                        }else{
+                            print("failed to import physio from date: \(p.key) : \(p.value)")
+                        }
+                    case PhysiologicalProperty.maxHR.fmpString():
+                        physio.setValue(p.value, forKey: PhysiologicalProperty.maxHR.rawValue)
+                    case PhysiologicalProperty.restingHR.fmpString():
+                        physio.setValue(p.value, forKey: PhysiologicalProperty.restingHR.rawValue)
+                    case PhysiologicalProperty.restingSDNN.fmpString():
+                        physio.setValue(p.value, forKey: PhysiologicalProperty.restingSDNN.rawValue)
+                    case PhysiologicalProperty.restingRMSSD.fmpString():
+                        physio.setValue(p.value, forKey: PhysiologicalProperty.restingRMSSD.rawValue)
+                    case PhysiologicalProperty.standingHR.fmpString():
+                        physio.setValue(p.value, forKey: PhysiologicalProperty.standingHR.rawValue)
+                    case PhysiologicalProperty.standingSDNN.fmpString():
+                        physio.setValue(p.value, forKey: PhysiologicalProperty.standingSDNN.rawValue)
+                    case PhysiologicalProperty.standingRMSSD.fmpString():
+                        physio.setValue(p.value, forKey: PhysiologicalProperty.standingRMSSD.rawValue)
+                    default:
+                        if p.key == FPMJSONString.Created.rawValue{
+                            //do nothing as intentionally not importing this
+                        }else{
+                            //       print("PHYSIOLOGICAL JSON not added for Key: \(p.key) with value: \(p.value)")
+                        }
                     }
                 }
             }
         }
+
     }
     
     private func addWeight(fromJSON json: [String: Any], toTrainingDiary trainingDiary: NSManagedObject){
@@ -114,40 +116,42 @@ class JSONImporter{
         dateFormatter.dateFormat = "yyyy-MM-dd"
         dateFormatter.timeZone = TimeZone.init(secondsFromGMT: 0)
         
-        let weights = json[FPMJSONString.Weight.fmpString()] as! [String: Any]
-        let measurements = weights[FPMJSONString.Measurement.fmpString()] as! [Any]
-        
-        for m in measurements{
-            // we have a weight record. So create a Weight ManagedObject
-            let weight = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.Weight.rawValue, in: persistentContainer.viewContext)!, insertInto: persistentContainer.viewContext)
-            weightMOSet.add(weight)
-            let pair = m as! [String: Any]
-            for p in pair{
-                switch p.key{
-                case WeightProperty.fromDate.fmpString():
-                    if let date = dateFormatter.date(from: p.value as! String){
-                        weight.setValue(date.startOfDay() , forKey: WeightProperty.fromDate.rawValue)
-                    }else{
-                        print("failed to import weight from date: \(p.key) : \(p.value)")
-                    }
-                case WeightProperty.toDate.fmpString():
-                    if let date = dateFormatter.date(from: p.value as! String){
-                        weight.setValue(date.endOfDay(), forKey: WeightProperty.toDate.rawValue)
-                    }else{
-                        print("failed to import weight to date: \(p.key) : \(p.value)")
-                    }
-                case WeightProperty.kg.fmpString():
-                    weight.setValue(p.value, forKey: WeightProperty.kg.rawValue)
-                case WeightProperty.fatPercent.fmpString():
-                    weight.setValue(p.value, forKey: WeightProperty.fatPercent.rawValue)
-                default:
-                    if p.key == FPMJSONString.Created.fmpString(){
-                        // do notihng - intentionally not importing this key
-                    }else{
-                        //     print("WEIGHT JSON not added for Key: \(p.key) with value: \(p.value)")
+        if let weights = json[FPMJSONString.Weight.fmpString()] as? [String: Any]{
+            let measurements = weights[FPMJSONString.Measurement.fmpString()] as! [Any]
+            
+            for m in measurements{
+                // we have a weight record. So create a Weight ManagedObject
+                let weight = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.Weight.rawValue, in: persistentContainer.viewContext)!, insertInto: persistentContainer.viewContext)
+                weightMOSet.add(weight)
+                let pair = m as! [String: Any]
+                for p in pair{
+                    switch p.key{
+                    case WeightProperty.fromDate.fmpString():
+                        if let date = dateFormatter.date(from: p.value as! String){
+                            weight.setValue(date.startOfDay() , forKey: WeightProperty.fromDate.rawValue)
+                        }else{
+                            print("failed to import weight from date: \(p.key) : \(p.value)")
+                        }
+                    case WeightProperty.toDate.fmpString():
+                        if let date = dateFormatter.date(from: p.value as! String){
+                            weight.setValue(date.endOfDay(), forKey: WeightProperty.toDate.rawValue)
+                        }else{
+                            print("failed to import weight to date: \(p.key) : \(p.value)")
+                        }
+                    case WeightProperty.kg.fmpString():
+                        weight.setValue(p.value, forKey: WeightProperty.kg.rawValue)
+                    case WeightProperty.fatPercent.fmpString():
+                        weight.setValue(p.value, forKey: WeightProperty.fatPercent.rawValue)
+                    default:
+                        if p.key == FPMJSONString.Created.fmpString(){
+                            // do notihng - intentionally not importing this key
+                        }else{
+                            //     print("WEIGHT JSON not added for Key: \(p.key) with value: \(p.value)")
+                        }
                     }
                 }
             }
+
         }
     }
     

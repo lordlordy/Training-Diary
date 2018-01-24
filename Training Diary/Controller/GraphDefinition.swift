@@ -12,9 +12,9 @@ class GraphDefinition: NSObject{
     var data: [(date: Date, value: Double)] = []
     var axis: Axis = Axis.Primary
     var type: ChartType = ChartType.Line
-    var drawZero: Bool = true
     var startFromOrigin: Bool = false
     
+    @objc dynamic var drawZero: Bool = true
     @objc dynamic var name: String
     @objc dynamic var axisString: String{
         get{ return axis.rawValue }
@@ -33,7 +33,7 @@ class GraphDefinition: NSObject{
     }
     @objc var priority: Int = 1 //This gives relative priority of drawing. Remember that things draw on top of each other
     
-    static var observerStrings: [String] = ["axisString","typeString","display","format","colour","priority"]
+    static var observerStrings: [String] = ["axisString","typeString","display","format","colour","priority","drawZero","data"]
     
     //MARK: - Initializers
     

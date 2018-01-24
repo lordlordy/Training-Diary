@@ -19,9 +19,10 @@ import Foundation
     var cache: [(date: Date, value: Double)] = [] // this is ALL the data. When dates change we just filter this
     @objc var graph: GraphDefinition?
     
-    var activity:   Activity    { didSet{ updateName() } }
-    var unit:       Unit        { didSet{ updateName() } }
-    var period:     Period      { didSet{ updateName() } }
+    var activity:       Activity        { didSet{ updateName() } }
+    var activityType:   ActivityType    { didSet{ updateName() } }
+    var unit:           Unit            { didSet{ updateName() } }
+    var period:         Period          { didSet{ updateName() } }
     
     @objc dynamic var activityString: String{
         get{ return activity.rawValue}
@@ -29,6 +30,14 @@ import Foundation
             if let a = Activity(rawValue: newValue){ activity = a}
         }
     }
+    
+    @objc dynamic var activityTypeString: String{
+        get{ return activityType.rawValue}
+        set{
+            if let at = ActivityType(rawValue: newValue){ activityType = at}
+        }
+    }
+    
     @objc dynamic var unitString: String{
         get{ return unit.rawValue}
         set{
@@ -49,6 +58,7 @@ import Foundation
     
     override init(){
         self.activity = Activity.Bike
+        self.activityType = ActivityType.All
         self.unit = Unit.KM
         self.period = Period.Day
         graph = GraphDefinition(name: "new", axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .black, fillGradientStart: .black, fillGradientEnd: .black, gradientAngle: 0.0, size: 1.0), drawZeroes: true, priority: 1)
@@ -70,7 +80,7 @@ import Foundation
     }
     
     private func updateName(){
-        name = activityString + ":" + periodString + ":" + unitString
+        name = activityString + ":" + activityTypeString + ":" + periodString + ":" + unitString
     }
     
 }

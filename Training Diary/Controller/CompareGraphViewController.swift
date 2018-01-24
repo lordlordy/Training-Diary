@@ -16,9 +16,35 @@ class CompareGraphViewController: NSViewController, GraphManagementDelegate, Tra
     @IBOutlet var graphArrayController: GraphArrayController!
     
     private var cache: [TrainingDiary: [DatedActivityGraphDefinition]] = [:]
+    private var advanceDateComponent: DateComponents?
+    private var retreatDateComponent: DateComponents?
     
     
     //MARK: - @IBActions
+    
+    @IBAction func retreatAPeriod(_ sender: NSButton) {
+        if let retreat = retreatDateComponent{
+            advanceGraphs(by: retreat)
+        }
+    }
+    
+    @IBAction func advanceAPeriod(_ sender: NSButton) {
+        if let advance = advanceDateComponent{
+            advanceGraphs(by: advance)
+        }
+    }
+    
+    @IBAction func graphLengthChange(_ sender: PeriodTextField) {
+
+        if let dateComp = sender.getDateComponentsEquivalent(){
+            updateGraphPeriodTo(dateComp)
+        }
+        advanceDateComponent = sender.getDateComponentsEquivalent()
+        retreatDateComponent = sender.getNegativeDateComponentsEquivalent()
+        
+    }
+    
+    
     
     @IBAction func activityChange(_ sender: ActivityComboBox) {
         if let a = sender.selectedActivity(){
@@ -27,6 +53,15 @@ class CompareGraphViewController: NSViewController, GraphManagementDelegate, Tra
             }
         }
     }
+    
+    @IBAction func activityTypeChange(_ sender: ActivityTypeComboBox) {
+        if let at = sender.selectedActivityType(){
+            for g in graphs(){
+                g.activityTypeString = at.rawValue
+            }
+        }
+    }
+    
     
     @IBAction func periodChange(_ sender: PeriodComboBox) {
         if let p = sender.selectedPeriod(){
@@ -69,20 +104,22 @@ class CompareGraphViewController: NSViewController, GraphManagementDelegate, Tra
     func setDefaults(forGraph graph: ActivityGraphDefinition) {
         let g = graph as! DatedActivityGraphDefinition
         g.from = earliestDate().addingTimeInterval(TimeInterval(-Constant.SecondsPer365Days.rawValue)).startOfYear()
-        g.to = g.from.endOfYear()
-        g.graph!.name = String(g.to.year())
+  //      g.to = g.from.endOfYear()
+        g.graph!.name = String(g.from.year())
         g.graph!.format.colour = randomColour()
         g.graph!.format.fillGradientStart = g.graph!.format.colour
         g.graph!.format.fillGradientEnd = g.graph!.format.colour
         //set activity and such like to one of the current graphs as most likely person wants to compare like with like
         if graphs().count > 0{
             g.activityString = graphs()[0].activityString
+            g.activityTypeString = graphs()[0].activityTypeString
             g.periodString = graphs()[0].periodString
             g.unitString = graphs()[0].unitString
             g.graph!.type = graphs()[0].graph!.type
             g.graph!.drawZero = graphs()[0].graph!.drawZero
             g.graph!.format.size = graphs()[0].graph!.format.size
             g.graph!.format.fill = graphs()[0].graph!.format.fill
+            g.to = g.from.addingTimeInterval(graphs()[0].to.timeIntervalSince(graphs()[0].from))
         }
     
     }
@@ -154,7 +191,7 @@ class CompareGraphViewController: NSViewController, GraphManagementDelegate, Tra
     private func updateData(forGraph graph: DatedActivityGraphDefinition){
         if let td = trainingDiary{
             if let g = graph.graph{
-                let values = td.getValues(forActivity: graph.activity, andActivityType: ActivityType.All, andPeriod: graph.period, andUnit: graph.unit, fromDate: graph.from, toDate: graph.to)
+                let values = td.getValues(forActivity: graph.activity, andActivityType: graph.activityType, andPeriod: graph.period, andUnit: graph.unit, fromDate: graph.from, toDate: graph.to)
                 g.data = values
                 if values.count > baseDates.count{
                     baseDates =  values.map({$0.date})
@@ -197,33 +234,49 @@ class CompareGraphViewController: NSViewController, GraphManagementDelegate, Tra
         }
     }
     
+    private func updateGraphPeriodTo(_ dc: DateComponents){
+        for g in graphs(){
+            g.to = Calendar.current.date(byAdding: dc, to: g.from) ?? g.to
+        }
+    }
+    
+    private func advanceGraphs(by dc: DateComponents){
+        for g in graphs(){
+            g.to = Calendar.current.date(byAdding: dc, to: g.to) ?? g.to
+            g.from = Calendar.current.date(byAdding: dc, to: g.from) ?? g.from
+        }
+    }
+    
     private func initialSetUp(){
         if let gv = graphView{
             // this shouldn't be here. Will refactor out when sort out creating axes in GraphView
             gv.numberOfPrimaryAxisLines = 6
 
-            let start2017 = Calendar.current.date(from: DateComponents.init( year: 2017, month: 1, day: 1))
-            let end2017 = Calendar.current.date(from: DateComponents.init( year: 2017, month: 12, day: 31))
-            let start2018 = Calendar.current.date(from: DateComponents.init( year: 2018, month: 1, day: 1))
-            let end2018 = Calendar.current.date(from: DateComponents.init( year: 2018, month: 12, day: 31))
-
-            let runGraph2017GD = GraphDefinition(name: "2017", axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .blue, fillGradientStart: .blue, fillGradientEnd: .blue, gradientAngle: 0.0, size: 2.0), drawZeroes: true, priority: 1)
-            let runGraph2018GD = GraphDefinition(name: "2018", axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .red, fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 0.0, size: 2.0), drawZeroes: true, priority: 2)
-
-            let runGraph2017 = DatedActivityGraphDefinition(graph: runGraph2017GD, activity: .Run, unit: .KM, period: .YearToDate, fromDate: start2017!, toDate: end2017!)
-            let runGraph2018 = DatedActivityGraphDefinition(graph: runGraph2018GD, activity: .Run, unit: .KM, period: .YearToDate, fromDate: start2018!, toDate: end2018!)
+            var end: Date = Date()
+            if let td = trainingDiary{
+                end = td.lastDayOfDiary
+            }
+            let start = end.startOfYear()
+            let end2 = Calendar.current.date(byAdding: DateComponents(year:-1), to: end)!
+            let start2 = end2.startOfYear()
             
-            runGraph2018.graph!.drawZero = false
-            runGraph2017.graph!.drawZero = false
+            let runGraph = GraphDefinition(name: String(end.year()), axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .red, fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 0.0, size: 2.0), drawZeroes: true, priority: 2)
+            let runGraph2 = GraphDefinition(name: String(end2.year()), axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .blue, fillGradientStart: .blue, fillGradientEnd: .blue, gradientAngle: 0.0, size: 2.0), drawZeroes: true, priority: 1)
+
+            let datedRunGraph = DatedActivityGraphDefinition(graph: runGraph, activity: .Run, unit: .KM, period: .YearToDate, fromDate: start, toDate: end)
+            let datedRunGraph2 = DatedActivityGraphDefinition(graph: runGraph2, activity: .Run, unit: .KM, period: .YearToDate, fromDate: start2, toDate: end2)
+
+            datedRunGraph.graph!.drawZero = false
+            datedRunGraph2.graph!.drawZero = false
            
             // add to ArrayController first so they are here when we add into plot - this is needed to adjust dates to
             // same axis.
             if let gac = graphArrayController{
-                gac.add(contentsOf: [runGraph2018, runGraph2017 ])
+                gac.add(contentsOf: [datedRunGraph, datedRunGraph2 ])
             }
             
-            add(graph: runGraph2018)
-            add(graph: runGraph2017)
+            add(graph: datedRunGraph)
+            add(graph: datedRunGraph2)
             
             gv.xAxisLabelStrings = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
             
@@ -247,7 +300,6 @@ class CompareGraphViewController: NSViewController, GraphManagementDelegate, Tra
     
     private func random() -> CGFloat{
         let r = CGFloat(arc4random()) / CGFloat(UInt32.max)
-        print(r)
         return r
     }
     

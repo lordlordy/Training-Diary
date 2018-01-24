@@ -26,7 +26,7 @@ extension EddingtonNumber{
             result += a
             if a == Activity.Bike.rawValue{
                 if let bikeName = bike{
-                    if bikeName != Bike.All.rawValue{
+                    if bikeName != BikeName.All.rawValue{
                         result += ":" + bikeName
                     }
                 }
@@ -75,12 +75,21 @@ extension EddingtonNumber{
     }
     
     func update(forCalculator calculator: EddingtonNumberCalculator){
+        var d = Date()
         setContributors(to: calculator.contributors)
+        print("setContributors took \(Date().timeIntervalSince(d))s")
+        d = Date()
         setHistory(to: calculator.history)
+        print("setHistory took \(Date().timeIntervalSince(d))s")
+        d = Date()
         value = Int16(calculator.eddingtonNumber)
         
         setAnnualContributors(to: calculator.annualContributors)
+        print("setAnnualContributors took \(Date().timeIntervalSince(d))s")
+        d = Date()
         setAnnualHistory(to: calculator.annualHistory)
+        print("setAnnualHistory took \(Date().timeIntervalSince(d))s")
+        d = Date()
         annual = Int16(calculator.annualEddingtonNumber)
         
         lastUpdated = Date()

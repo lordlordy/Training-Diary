@@ -12,11 +12,11 @@ class BikeComboBox: NSComboBox {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        self.addItems(withObjectValues: Bike.ActiveBikes.map({$0.rawValue}))
+        self.addItems(withObjectValues: BikeName.ActiveBikes.map({$0.rawValue}))
         
     }
-    func selectedBike() -> Bike?{
-        return Bike(rawValue: self.stringValue)
+    func selectedBike() -> BikeName?{
+        return BikeName(rawValue: self.stringValue)
     }
     
 }

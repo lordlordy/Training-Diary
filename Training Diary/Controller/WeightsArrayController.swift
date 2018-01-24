@@ -14,7 +14,7 @@ class WeightsArrayController: NSArrayController {
     override func newObject() -> Any {
         let weight = super.newObject() as! Weight
         weight.fromDate = Date().startOfDay()
-        weight.toDate = Calendar.current.date(byAdding: DateComponents(year: 100), to: Date())
+        weight.toDate = Calendar.current.date(byAdding: DateComponents(year: 99), to: Date())
         let weights = self.arrangedObjects as! [Weight]
         let sortedWeights = weights.sorted(by: {$0.fromDate! > $1.toDate!})
         if sortedWeights.count > 0{

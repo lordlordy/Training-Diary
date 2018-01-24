@@ -160,6 +160,46 @@ class CoreDataStackSingleton{
             print(error)
         }
     }
+    
+    func workouts(forActivity a: Activity, andTrainingDiary td: TrainingDiary) -> [Workout]{
+        
+        let workoutRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: ENTITY.Workout.rawValue)
+        workoutRequest.predicate = NSPredicate(format: "day.trainingDiary = %@ and activity = %@", argumentArray: [td, a.rawValue])
+        
+        do{
+            let workouts = try trainingDiaryPC.viewContext.fetch(workoutRequest)
+            print("\(workouts.count) \(a.rawValue) workouts found")
+            return workouts as! [Workout]
+            
+        }catch{
+            print("failed to get \(a.rawValue) workouts")
+            print("error")
+        }
+        
+        return []
+        
+    }
+    
+    func connectWorkouts(toBike bike: Bike){
+        
+        if let td = bike.trainingDiary{
+            let workoutRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: ENTITY.Workout.rawValue)
+            workoutRequest.predicate = NSPredicate(format: "day.trainingDiary = %@ and bike = %@", argumentArray: [td, bike.name!])
+            
+            do{
+                let workouts = try trainingDiaryPC.viewContext.fetch(workoutRequest)
+                let workoutSet = bike.mutableSetValue(forKey: BikeProperty.workouts.rawValue)
+                workoutSet.removeAllObjects()
+                workoutSet.addObjects(from: workouts)
+                
+            }catch{
+                print("failed to get \(bike) workouts")
+                print("error")
+            }        }
+
+        
+    }
+    
  
     // MARK: - Private
     

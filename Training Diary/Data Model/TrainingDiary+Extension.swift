@@ -8,6 +8,59 @@
 
 import Foundation
 
+class WorkoutHistory {
+    var date: Date
+    var workout: Workout
+    var kmTD: Double
+    var ascentMetresTD: Double
+    var kjTD: Double
+    var repsTD: Double
+    var secondsTD: Double
+    var tssTD: Double
+    
+    init(_ w: Workout){
+        date = w.day!.date!
+        workout = w
+        kmTD = w.km
+        ascentMetresTD = w.ascentMetres
+        kjTD = w.kj
+        repsTD = w.reps
+        secondsTD = w.seconds
+        tssTD = w.tss
+    }
+    
+    func incrementFrom(previous: WorkoutHistory){
+        kmTD = previous.kmTD + workout.km
+        ascentMetresTD = previous.ascentMetresTD + workout.ascentMetres
+        kjTD = previous.kjTD + workout.kj
+        repsTD = previous.repsTD + workout.reps
+        secondsTD = previous.secondsTD + workout.seconds
+        tssTD = previous.tssTD + workout.tss
+    }
+    
+    func printHistory(){
+        print("\(date): km:\(kmTD) metres:\(ascentMetresTD) kj:\(kjTD) reps:\(repsTD) seconds:\(secondsTD) tss: \(tssTD)")
+    }
+
+    
+}
+
+@objc class BikeHistory: NSObject{
+    @objc dynamic var name: String
+    @objc dynamic var isValid: Bool{
+        return BikeName(rawValue: name) != nil
+    }
+    @objc dynamic var history: NSSet?
+    
+    override convenience init(){
+        self.init(BikeName.IFSSX.rawValue)
+    }
+    
+    init(_ name: String){
+        self.name = name
+    }
+}
+
 extension TrainingDiary{
     
     //MARK: - for display in GUI summary
@@ -25,6 +78,14 @@ extension TrainingDiary{
         return self.eddingtonNumbers?.count ?? 0
     }
     
+    @objc dynamic var weightsCount: Int{
+        return self.weights?.count ?? 0
+    }
+    
+    @objc dynamic var physiologicalsCount: Int{
+        return self.physiologicals?.count ?? 0
+    }
+    
     // don't think this really need @objc dynamic - check and remove
     @objc dynamic var firstDayOfDiary: Date{
         let days = ascendingOrderedDays()
@@ -38,6 +99,91 @@ extension TrainingDiary{
     @objc dynamic var lastDayOfDiary: Date{
         return latestDay()?.date ?? Date()
     }
+    
+    //MARK: - Validation functions
+    func findDuplicates(){
+        var results: [Date] = []
+        if let allObjects = days?.allObjects{
+            let days = allObjects as! [Day]
+            let dates = days.map{$0.date!}.sorted(by: {$0 > $1})
+            print(dates.count)
+            var previousDate: Date?
+            for d in dates{
+                if previousDate != nil && d.isSameDate(asDate: previousDate!){
+                    results.append(d)
+                }
+                previousDate = d
+            }
+            
+        }
+        print("\(results.count) duplicates found.")
+        if results.count > 0{
+            print("Dates are:")
+            for r in results{
+                print(r)
+            }
+            
+        }
+    
+    }
+    
+    func findMissingYesterdayOrTomorrow(){
+        var yesterdays:[Date] = []
+        var tomorrows:[Date] = []
+        var yesterday: Day?
+        if let allDays = days?.allObjects as? [Day]{
+            for d in allDays.sorted(by: {$0.date! < $1.date!}){
+                if d.yesterday == nil{
+                    yesterdays.append(d.date!)
+                    if let y = yesterday{
+                        if d.date!.isYesterday(day: y.date!){
+                            print("Found yesterday for \(d.date!.dateOnlyString()) and its \(y.date!.dateOnlyString()). So fixing...")
+                            d.yesterday = y
+                            print("Fixed")
+                        }
+                    }
+                }
+                if d.tomorrow == nil{
+                    tomorrows.append(d.date!)
+                }
+                yesterday = d
+            }
+        }
+        print("\(yesterdays.count) days found without yesterday set")
+        for r in yesterdays.sorted(){ print(r) }
+        print("\(tomorrows.count) days found without tomorrow set")
+        for r in tomorrows.sorted(){ print(r) }
+
+    }
+    
+    
+    func calculateBikeHistory(){
+        let bikeWorkouts = CoreDataStackSingleton.shared.workouts(forActivity: Activity.Bike, andTrainingDiary: self)
+        var results: [String:[WorkoutHistory]] = [:]
+        for b in bikeWorkouts.sorted(by: {$0.day!.date! < $1.day!.date!}){
+            if results[b.bike!] != nil{
+                let lastHistory = results[b.bike!]![results[b.bike!]!.count - 1]
+                results[b.bike!]!.append(createNextHistory(previous: lastHistory, workout: b))
+            }else{
+                results[b.bike!] = [createNextHistory( workout: b)]
+            }
+        }
+        
+        for r in results{
+            print("\(r.key) workouts: \(r.value.count)")
+            for i in r.value{
+                print(i.printHistory())
+            }
+        }
+        
+    }
+    
+    func connectWorkouts(forBike bike: Bike){
+         CoreDataStackSingleton.shared.connectWorkouts(toBike: bike)
+    }
+    
+    
+    //MARK: -
     
     func latestDay() -> Day?{
         let days = ascendingOrderedDays()
@@ -79,7 +225,7 @@ extension TrainingDiary{
     func motivationDateOrder() -> [(date: Date, value: Double)]{
         var result: [(date: Date, value: Double )] = []
         for d in ascendingOrderedDays(){
-            result.append((d.date!, Double(d.motivation)))
+            result.append((d.date!, d.motivation))
         }
         return result
     }
@@ -87,7 +233,7 @@ extension TrainingDiary{
     func fatigueDateOrder() -> [(date: Date, value: Double)]{
         var result: [(date: Date, value: Double )] = []
         for d in ascendingOrderedDays(){
-            result.append((d.date!, Double(d.fatigue)))
+            result.append((d.date!, d.fatigue))
         }
         return result
     }
@@ -96,7 +242,7 @@ extension TrainingDiary{
         var result: [(date: Date, value: Double)] = []
         if let orderedPhysios = physiologicalsAscendingDateOrder(){
             for o in orderedPhysios{
-                result.append((o.fromDate!, Double(o.restingHR)))
+                result.append((o.fromDate!, o.restingHR))
             }
         }
         return result
@@ -106,7 +252,7 @@ extension TrainingDiary{
         var result: [(date: Date, value: Double)] = []
         if let orderedPhysios = physiologicalsAscendingDateOrder(){
             for o in orderedPhysios{
-                result.append((o.fromDate!, Double(o.restingSDNN)))
+                result.append((o.fromDate!, o.restingSDNN))
             }
         }
         return result
@@ -116,7 +262,7 @@ extension TrainingDiary{
         var result: [(date: Date, value: Double)] = []
         if let orderedPhysios = physiologicalsAscendingDateOrder(){
             for o in orderedPhysios{
-                result.append((o.fromDate!, Double(o.restingRMSSD)))
+                result.append((o.fromDate!, o.restingRMSSD))
             }
         }
         return result
@@ -135,7 +281,6 @@ extension TrainingDiary{
 
     // note this can be pretty time consuming if asking for things like RYear
     func getValues(forActivity activity: Activity, andActivityType activityType: ActivityType, andPeriod period: Period, andUnit unit: Unit, fromDate from: Date, toDate to: Date) -> [(date: Date, value:Double)]{
-        let start = Date()
         
         if let optimizedResults = optimisedCalculation(forActivity: activity, andActivityType: activityType, andPeriod: period, andUnit: unit, fromDate: from, toDate: to){
             return optimizedResults
@@ -157,7 +302,6 @@ extension TrainingDiary{
                 result.append((date: day.date!, value: day.valueFor(period: period, activity: activity, activityType: activityType, unit: unit)))
             }
         }
-//        print("Time taken to get diary values for \(activity):\(period.rawValue):\(unit) = \(Date().timeIntervalSince(start)) seconds")
         return result
     }
     
@@ -294,7 +438,6 @@ extension TrainingDiary{
     // this is focussed on the rolling periods. It is very time consuming to just loop through and ask each day for it's rolling period - by way of example. RollingYear for all days would require summing 365 days for every day - thats 5,000 x 365 sums - if we ask each day individually. If we run through the days and keep a total as we go there are ~ 2 sums per day. So should be ~ 180 times faster. Sacrifising generalisation for speed here. A second benefit is this method makes it easier to average units rather than just sum them.
     private func optimisedCalculation(forActivity activity: Activity, andActivityType activityType: ActivityType, andPeriod period: Period, andUnit unit: Unit, fromDate from: Date, toDate to: Date) -> [(date: Date, value:Double)]?{
 //        print("STARTING optimized calculation for \(activity):\(activityType.rawValue):\(period.rawValue):\(unit)...")
-        let start = Date()
         var result: [(date: Date, value:Double)] = []
         
         if unit.summable{
@@ -340,7 +483,11 @@ extension TrainingDiary{
             
             
             for d in ascendingOrderedDays(fromDate: rAverage.preLoadData(forDate: from), toDate: to){
-                let sum = rAverage.addAndReturnAverage(forDate: d.date!, value: d.valueFor(activity: activity, activityType: activityType, unit: unit), wieghting: d.valueFor(activity: activity, activityType: activityType, unit: Unit.Seconds))
+                var weight: Double = 1.0
+                if unit.type() == UnitType.Activity{
+                    weight = d.valueFor(activity: activity, activityType: activityType, unit: Unit.Seconds)
+                }
+                let sum = rAverage.addAndReturnAverage(forDate: d.date!, value: d.valueFor(activity: activity, activityType: activityType, unit: unit), wieghting: weight)
                 if d.date! >= from{
                     if let s = sum{
                         result.append((d.date!, s))
@@ -349,9 +496,7 @@ extension TrainingDiary{
             }
         }
         
-        
- //       print("Optimised calculation returned \(result.count) results and took \(Date().timeIntervalSince(start)) seconds")
-        
+
         return result
     }
     
@@ -394,5 +539,15 @@ extension TrainingDiary{
             return days.sorted(by: {$0.date! < $1.date!})
         }
         return []
+    }
+    
+    private func createNextHistory(previous: WorkoutHistory? = nil, workout w: Workout) -> WorkoutHistory{
+
+        let result = WorkoutHistory.init(w)
+        if let p = previous{
+            result.incrementFrom(previous: p)
+        }
+        return result
+        
     }
 }

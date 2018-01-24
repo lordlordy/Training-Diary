@@ -19,69 +19,132 @@ class WeightHRViewController: NSViewController, TrainingDiaryViewController {
     @IBOutlet weak var graphView: GraphView!
     @IBOutlet weak var fromDatePicker: NSDatePicker!
     @IBOutlet weak var toDatePicker: NSDatePicker!
-    @IBOutlet weak var fromDateSlider: NSSlider!
-    @IBOutlet weak var toDateSlider: NSSlider!
+    @IBOutlet weak var graphsTableView: TableViewWithColumnSort!
+    
+    @objc dynamic var rollingDays: Int = 7{
+        didSet{
+            updateRollingDataCache()
+            updateGraphData()
+            updateForDateChange()
+            graphView!.needsDisplay = true
+        }
+    }
     
     private var cache: [String: [(date: Date, value: Double)]] = [:]
     private var currentGraphs: [GraphDefinition] = []
-
+    private var advanceDateComponent: DateComponents?
+    private var retreatDateComponent: DateComponents?
+    
     
     private enum CacheKey: String{
-        case kg, fatPercent, hr, sdnn, rmssd, rollingKG, rollingFat, rollingHR, rollingSDNN, rollingRMSSD
-        case sleep, motivation, fatigue, rollingSleep, rollingMotivation, rollingFatigue
+        case kg, fatPercent, hr, sdnn, rmssd, sleep, motivation, fatigue
+        static let AllKeys = [kg, fatPercent, hr, sdnn, rmssd, sleep, motivation, fatigue]
+        
+        func rollingCacheKey() -> String{
+            return "rolling" + self.rawValue
+        }
+        
+        func graphColour() -> NSColor{
+            switch self{
+            case .fatigue:      return NSColor.purple
+            case .fatPercent:   return NSColor.magenta
+            case .hr:           return NSColor.blue
+            case .kg:           return NSColor.black
+            case .motivation:   return NSColor.orange
+            case .rmssd:        return NSColor.green
+            case .sdnn:         return NSColor.red
+            case .sleep:        return NSColor.white
+            }
+        }
+        
+        func axis() -> Axis{
+            switch self{
+            case .fatigue:      return Axis.Secondary
+            case .fatPercent:   return Axis.Secondary
+            case .hr:           return Axis.Primary
+            case .kg:           return Axis.Primary
+            case .motivation:   return Axis.Secondary
+            case .rmssd:        return Axis.Primary
+            case .sdnn:         return Axis.Primary
+            case .sleep:        return Axis.Secondary
+            }
+        }
+        
     }
+    
+    @IBAction func advanceAPeriod(_ sender: NSButton) {
+        if let advance = advanceDateComponent{
+            advanceDates(byDateComponent: advance)
+        }
+    }
+    
+    @IBAction func retreatAPeriod(_ sender: NSButton) {
+        if let retreat = retreatDateComponent{
+            advanceDates(byDateComponent: retreat)
+        }
+    }
+    
+    
+    @IBAction func graphSetComboxBoxChanged(_ sender: NSComboBox) {
+        switch sender.stringValue{
+        case "All":
+            for g in currentGraphs{
+                g.display = true
+            }
+        case "HR":
+            for g in currentGraphs{
+                switch g.name{
+                case CacheKey.hr.rawValue, CacheKey.hr.rollingCacheKey(), CacheKey.sdnn.rawValue, CacheKey.sdnn.rollingCacheKey(), CacheKey.rmssd.rawValue, CacheKey.rmssd.rollingCacheKey():
+                    g.display = true
+                default:
+                    g.display = false
+                }
+            }
+        case "Weight":
+            for g in currentGraphs{
+                switch g.name{
+                case CacheKey.kg.rawValue, CacheKey.kg.rollingCacheKey(), CacheKey.fatPercent.rawValue, CacheKey.fatPercent.rollingCacheKey():
+                    g.display = true
+                default:
+                    g.display = false
+                }
+            }
+        case "Sleep":
+            for g in currentGraphs{
+                switch g.name{
+                case CacheKey.sleep.rawValue, CacheKey.sleep.rollingCacheKey(), CacheKey.fatigue.rawValue, CacheKey.fatigue.rollingCacheKey(), CacheKey.motivation.rawValue, CacheKey.motivation.rollingCacheKey():
+                    g.display = true
+                default:
+                    g.display = false
+                }
+            }
+        default:
+            sender.stringValue = ""
+        }
+        graphView!.needsDisplay = true
+        graphsTableView.reloadData()
+    }
+    
+    @IBAction func periodChanged(_ sender: PeriodTextField) {
+        if let dc = sender.getNegativeDateComponentsEquivalent(){
+            fromDatePicker!.dateValue = Calendar.current.date(byAdding: dc, to: toDatePicker!.dateValue)!
+            updateForDateChange()
+        }
+        advanceDateComponent = sender.getDateComponentsEquivalent()
+        retreatDateComponent = sender.getNegativeDateComponentsEquivalent()
+    }
+    
+
     
     @IBAction func fromDatePickerChanged(_ sender: NSDatePicker) {
-        if let fds = fromDateSlider{
-            if let td = trainingDiary{
-                fds.doubleValue = sender.dateValue.timeIntervalSince(td.firstDayOfDiary)
-            }
-        }
         updateForDateChange()
     }
     
-    @IBAction func fromDateSliderChanged(_ sender: NSSlider) {
-        if let fdp = fromDatePicker{
-            if let td = trainingDiary{
-                fdp.dateValue = (td.firstDayOfDiary.addingTimeInterval(TimeInterval(sender.doubleValue)))
-            }
-        }
-        updateForDateChange()
-    }
-    
+
     @IBAction func toDatePickerChanged(_ sender: NSDatePicker) {
-        if let tds = toDateSlider{
-            if let td = trainingDiary{
-                tds.doubleValue = sender.dateValue.timeIntervalSince(td.firstDayOfDiary)
-            }
-        }
         updateForDateChange()
     }
     
-    @IBAction func toDateSliderChanged(_ sender: NSSlider) {
-        if let tdp = toDatePicker{
-            if let td = trainingDiary{
-                tdp.dateValue = (td.firstDayOfDiary.addingTimeInterval(TimeInterval(sender.doubleValue)))
-            }
-        }
-        updateForDateChange()
-    }
-    
-    @IBAction func printWeights(_ sender: NSButton){
-        if let weights = weightArrayController.selectedObjects{
-            for w in weights{
-                print(w)
-            }
-        }
-    }
-    
-    @IBAction func printPhysiologicals(_ sender: NSButton){
-        if let physiologicals = hrArrayController.selectedObjects{
-            for p in physiologicals{
-                print(p)
-            }
-        }
-    }
     
     func set(trainingDiary td: TrainingDiary){
         self.trainingDiary = td
@@ -93,6 +156,11 @@ class WeightHRViewController: NSViewController, TrainingDiaryViewController {
     
     override func viewDidLoad() {
             trainingDiarySet()
+        if let gv = graphView{
+            gv.backgroundGradientStartColour = .lightGray
+            gv.backgroundGradientEndColour = .darkGray
+            gv.backgroundGradientAngle = CGFloat(70)
+        }
     }
     
     private func updateForDateChange(){
@@ -106,6 +174,11 @@ class WeightHRViewController: NSViewController, TrainingDiaryViewController {
                     }
                     graphView.xAxisLabelStrings = getXAxisLabels(fromDate: from, toDate: to )
                 }
+                
+                let predicate = NSPredicate(format: "fromDate >= %@ AND fromDate <= %@", argumentArray: [from.startOfDay(),to.endOfDay()])
+                weightArrayController!.filterPredicate = predicate
+                hrArrayController!.filterPredicate = predicate
+
             }
         }
         
@@ -116,7 +189,6 @@ class WeightHRViewController: NSViewController, TrainingDiaryViewController {
     private func trainingDiarySet(){
         if let td = trainingDiary{
             createGraphs(forTrainingDiary: td)
-            setUpSliders(forTrainingDiary: td)
             setUpPickers(forTrainingDiary: td)
             updateForDateChange()
         }
@@ -124,23 +196,8 @@ class WeightHRViewController: NSViewController, TrainingDiaryViewController {
     
     private func setUpPickers(forTrainingDiary td: TrainingDiary){
         if let tdp = toDatePicker{ tdp.dateValue = td.lastDayOfDiary }
-        let fromDate = td.lastDayOfDiary.addDays(numberOfDays: -365)
+        let fromDate = td.lastDayOfDiary.addDays(numberOfDays: -31)
         if let fdp = fromDatePicker{ fdp.dateValue = fromDate }
-    }
-    
-    private func setUpSliders(forTrainingDiary td: TrainingDiary){
-        let range = td.lastDayOfDiary.timeIntervalSince(td.firstDayOfDiary)
-        let fromDate = td.lastDayOfDiary.addDays(numberOfDays: -365)
-        if let fds = fromDateSlider{
-            fds.minValue = 0.0
-            fds.maxValue = range
-            fds.doubleValue = fromDate.timeIntervalSince(td.firstDayOfDiary)
-        }
-        if let tds = toDateSlider{
-            tds.minValue = 0.0
-            tds.maxValue = range
-            tds.doubleValue = range
-        }
     }
     
     private func createGraphs(forTrainingDiary td: TrainingDiary){
@@ -163,68 +220,48 @@ class WeightHRViewController: NSViewController, TrainingDiaryViewController {
     
     private func createGraphDefinitions(forTrainingDiary td: TrainingDiary) -> [GraphDefinition]{
 
-        var graphs: [GraphDefinition] = []
         
-        cache[CacheKey.hr.rawValue] = td.hrDateOrder()
-        graphs.append(GraphDefinition(name: CacheKey.hr.rawValue, data: cache[CacheKey.hr.rawValue]!, axis: .Primary, type: .Point, format: GraphFormat(fill: false, colour: .blue, fillGradientStart: .blue, fillGradientEnd: .blue, gradientAngle: 0.0, size: 2.0),drawZeroes: false, priority: 1  ))
-        
-        cache[CacheKey.rollingHR.rawValue] = createRollingData(fromData: cache[CacheKey.hr.rawValue]!, everyXDays: 7)
-        graphs.append(GraphDefinition(name: CacheKey.rollingHR.rawValue, data: cache[CacheKey.rollingHR.rawValue]!, axis: .Primary, type: .Line, format: GraphFormat(fill: false, colour: .blue, fillGradientStart: .blue, fillGradientEnd: .blue, gradientAngle: 0.0, size: 2.0),drawZeroes: false, priority: 1  ))
-        
-        cache[CacheKey.sdnn.rawValue] = td.sdnnDateOrder()
-        graphs.append(GraphDefinition(name: CacheKey.sdnn.rawValue, data: cache[CacheKey.sdnn.rawValue]!, axis: .Primary, type: .Point, format: GraphFormat(fill: false, colour: .red , fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 0.0, size: 2.0),drawZeroes: false, priority: 3  ))
-        
-        cache[CacheKey.rollingSDNN.rawValue] = createRollingData(fromData: cache[CacheKey.sdnn.rawValue]!, everyXDays: 7)
-        graphs.append(GraphDefinition(name: CacheKey.rollingSDNN.rawValue, data: cache[CacheKey.rollingSDNN.rawValue]!, axis: .Primary, type: .Line, format: GraphFormat(fill: false, colour: .red , fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 0.0, size: 2.0),drawZeroes: false, priority: 3  ))
-        
-        cache[CacheKey.rmssd.rawValue] = td.rmssdDateOrder()
-        graphs.append(GraphDefinition(name: CacheKey.rmssd.rawValue, data: cache[CacheKey.rmssd.rawValue]!, axis: .Primary, type: .Point, format: GraphFormat(fill: false, colour: .green , fillGradientStart: .green, fillGradientEnd: .green, gradientAngle: 0.0, size: 2.0),drawZeroes: false, priority: 2  ))
-        
-        cache[CacheKey.rollingRMSSD.rawValue] = createRollingData(fromData: cache[CacheKey.rmssd.rawValue]!, everyXDays: 7)
-        graphs.append(GraphDefinition(name: CacheKey.rollingRMSSD.rawValue, data: cache[CacheKey.rollingRMSSD.rawValue]!, axis: .Primary, type: .Line, format: GraphFormat(fill: false, colour: .green , fillGradientStart: .green, fillGradientEnd: .green, gradientAngle: 0.0, size: 2.0),drawZeroes: false, priority: 2  ))
-        
-        cache[CacheKey.kg.rawValue] = td.kgAscendingDateOrder()
-        graphs.append(GraphDefinition(name: CacheKey.kg.rawValue, data: cache[CacheKey.kg.rawValue]!, axis: .Primary, type: .Point, format: GraphFormat(fill: false, colour: .black, fillGradientStart: .black, fillGradientEnd: .black, gradientAngle: 45, size: 2.0), drawZeroes: false, priority: 1))
-        
-        cache[CacheKey.rollingKG.rawValue] = createRollingData(fromData: cache[CacheKey.kg.rawValue]!, everyXDays: 30)
-        graphs.append(GraphDefinition(name: CacheKey.rollingKG.rawValue, data: cache[CacheKey.rollingKG.rawValue]!, axis: .Primary, type: .Line, format: GraphFormat(fill: false, colour: .black, fillGradientStart: .black, fillGradientEnd: .black, gradientAngle: 45, size: 2.0), drawZeroes: false, priority: 1))
-        
+        cache[CacheKey.hr.rawValue]         = td.hrDateOrder()
+        cache[CacheKey.sdnn.rawValue]       = td.sdnnDateOrder()
+        cache[CacheKey.rmssd.rawValue]      = td.rmssdDateOrder()
+        cache[CacheKey.kg.rawValue]         = td.kgAscendingDateOrder()
         cache[CacheKey.fatPercent.rawValue] = td.fatPercentageDateOrder()
-        graphs.append(GraphDefinition(name: CacheKey.fatPercent.rawValue, data: cache[CacheKey.fatPercent.rawValue]!, axis: .Secondary  , type: .Point, format: GraphFormat(fill: false, colour: .magenta, fillGradientStart: .magenta, fillGradientEnd: .magenta, gradientAngle: 45, size: 2.0),drawZeroes: false, priority: 2))
-        
-        cache[CacheKey.rollingFat.rawValue] = createRollingData(fromData: cache[CacheKey.fatPercent.rawValue]!, everyXDays: 30)
-        graphs.append(GraphDefinition(name: CacheKey.rollingFat.rawValue, data: cache[CacheKey.rollingFat.rawValue]!, axis: .Secondary  , type: .Line, format: GraphFormat(fill: false, colour: .magenta, fillGradientStart: .magenta, fillGradientEnd: .magenta, gradientAngle: 45, size: 2.0),drawZeroes: false, priority: 2))
-        
-        cache[CacheKey.sleep.rawValue] = td.sleepDateOrder()
-        graphs.append(GraphDefinition(name: CacheKey.sleep.rawValue, data: cache[CacheKey.sleep.rawValue]!, axis: .Secondary  , type: .Point, format: GraphFormat(fill: false, colour: .cyan, fillGradientStart: .cyan, fillGradientEnd: .cyan, gradientAngle: 45, size: 2.0),drawZeroes: false, priority: 2))
-        
-        cache[CacheKey.rollingSleep.rawValue] = createRollingData(fromData: cache[CacheKey.sleep.rawValue]!, everyXDays: 7)
-        graphs.append(GraphDefinition(name: CacheKey.rollingSleep.rawValue, data: cache[CacheKey.rollingSleep.rawValue]!, axis: .Secondary  , type: .Line, format: GraphFormat(fill: false, colour: .cyan, fillGradientStart: .cyan, fillGradientEnd: .cyan, gradientAngle: 45, size: 2.0),drawZeroes: false, priority: 2))
-
+        cache[CacheKey.sleep.rawValue]      = td.sleepDateOrder()
         cache[CacheKey.motivation.rawValue] = td.motivationDateOrder()
-        graphs.append(GraphDefinition(name: CacheKey.motivation.rawValue, data: cache[CacheKey.motivation.rawValue]!, axis: .Secondary  , type: .Point, format: GraphFormat(fill: false, colour: .orange, fillGradientStart: .orange, fillGradientEnd: .orange, gradientAngle: 45, size: 2.0),drawZeroes: false, priority: 2))
+        cache[CacheKey.fatigue.rawValue]    = td.fatigueDateOrder()
+
+        updateRollingDataCache()
         
-        cache[CacheKey.rollingMotivation.rawValue] = createRollingData(fromData: cache[CacheKey.motivation.rawValue]!, everyXDays: 7)
-        graphs.append(GraphDefinition(name: CacheKey.rollingMotivation.rawValue, data: cache[CacheKey.rollingMotivation.rawValue]!, axis: .Secondary  , type: .Line, format: GraphFormat(fill: false, colour: .orange, fillGradientStart: .orange, fillGradientEnd: .orange, gradientAngle: 45, size: 2.0),drawZeroes: false, priority: 2))
-
-        cache[CacheKey.fatigue.rawValue] = td.fatigueDateOrder()
-        graphs.append(GraphDefinition(name: CacheKey.fatigue.rawValue, data: cache[CacheKey.fatigue.rawValue]!, axis: .Secondary  , type: .Point, format: GraphFormat(fill: false, colour: .purple, fillGradientStart: .purple, fillGradientEnd: .purple, gradientAngle: 45, size: 2.0),drawZeroes: false, priority: 2))
-        
-        cache[CacheKey.rollingFatigue.rawValue] = createRollingData(fromData: cache[CacheKey.fatigue.rawValue]!, everyXDays: 7)
-        graphs.append(GraphDefinition(name: CacheKey.rollingFatigue.rawValue, data: cache[CacheKey.rollingFatigue.rawValue]!, axis: .Secondary  , type: .Line, format: GraphFormat(fill: false, colour: .purple, fillGradientStart: .purple, fillGradientEnd: .purple, gradientAngle: 45, size: 2.0),drawZeroes: false, priority: 2))
-
-
-        return graphs
+        for key in CacheKey.AllKeys{
+            currentGraphs.append(createGraph(forKey: key, type: .Point))
+            currentGraphs.append(createGraph(forKey: key.rollingCacheKey(), type: .Line, colour: key.graphColour(), axis: key.axis(), size:3.0))
+        }
+    
+        return currentGraphs
         
     }
     
+    private func createGraph(forKey key: CacheKey, type: ChartType) -> GraphDefinition{
+        return createGraph(forKey: key.rawValue, type: type, colour: key.graphColour(), axis: key.axis())
+    }
     
-    private func createRollingData(fromData data: [(date: Date, value: Double)], everyXDays x: Int) -> [(date:Date, value:Double)]{
-        var result: [(date:Date, value:Double)] = []
-        let rollingSum = RollingSumQueue(size: x)
+    private func createGraph(forKey key: String, type: ChartType, colour: NSColor, axis: Axis ) -> GraphDefinition{
+        return createGraph(forKey: key, type: type, colour: colour, axis: axis, size: 1.0)
         
-        for d in data{
-            result.append((d.date, rollingSum.addAndReturnAverage(value: d.value)))
+    }
+
+    private func createGraph(forKey key: String, type: ChartType, colour: NSColor, axis: Axis, size: CGFloat ) -> GraphDefinition{
+        return GraphDefinition(name: key, data: cache[key]!, axis: axis  , type: type, format: GraphFormat(fill: false, colour: colour, fillGradientStart: colour, fillGradientEnd: colour, gradientAngle: 45, size: size),drawZeroes: false, priority: 2)
+        
+    }
+    
+    private func createRollingData(forKey key: CacheKey) -> [(date:Date, value:Double)]{
+        var result: [(date:Date, value:Double)] = []
+        let rollingSum = RollingSumQueue(size: rollingDays)
+        if let data = cache[key.rawValue]{
+            for d in data{
+                result.append((d.date, rollingSum.addAndReturnAverage(value: d.value)))
+            }
         }
         
         return result
@@ -240,5 +277,40 @@ class WeightHRViewController: NSViewController, TrainingDiaryViewController {
         return result
     }
     
+    private func updateRollingDataCache(){
+        for key in CacheKey.AllKeys{
+            cache[key.rollingCacheKey()] = createRollingData(forKey: key)
+        }
+    }
+    
+    private func updateGraphData(){
+        for g in currentGraphs{
+            if let data = cache[g.name]{
+                g.data = data
+            }
+        }
+    }
+    
+    private func createPredicate() -> NSPredicate?{
+        var predicate: NSPredicate?
+        if let fdp = fromDatePicker{
+            if let tdp = toDatePicker{
+                let fromDate = fdp.dateValue.startOfDay()
+                let toDate = tdp.dateValue.endOfDay()
+                predicate = NSPredicate.init(format: "%@ >= fromDate AND %@ <= toDate", argumentArray: [fromDate,toDate])
+            }
+        }
+        return predicate
+    }
+    
+    private func advanceDates(byDateComponent dc: DateComponents){
+        if let fdp = fromDatePicker{
+            if let tdp = toDatePicker{
+                fdp.dateValue = Calendar.current.date(byAdding: dc, to: fdp.dateValue)!
+                tdp.dateValue = Calendar.current.date(byAdding: dc, to: tdp.dateValue)!
+                updateForDateChange()
+            }
+        }
+    }
     
 }

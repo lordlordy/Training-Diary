@@ -15,9 +15,16 @@ class DaysViewController: NSViewController, TrainingDiaryViewController {
     @IBOutlet var daysArrayController: DaysArrayController!
     
     @IBOutlet weak var dayTableView: TableViewWithColumnSort!
+    @IBOutlet weak var fromDatePicker: NSDatePicker!
+    @IBOutlet weak var toDatePicker: NSDatePicker!
+    
+    private var advanceDateComponent: DateComponents?
+    private var retreatDateComponent: DateComponents?
     
     
 
+    //MARK: - Actions
+    
  /*   @IBAction func calcAllTSB(_ sender: NSButton) {
         if let td = trainingDiary{
             for a in Activity.allActivities{
@@ -37,43 +44,62 @@ class DaysViewController: NSViewController, TrainingDiaryViewController {
         }
     }
    */
+    
+    @IBAction func testFeature(_ sender: NSButton) {
+        let start = Date()
+        for e in trainingDiary!.eddingtonNumbers!{
+            let s = Date()
+            var edNum = e as! EddingtonNumber
+            let calculator = EddingtonNumberCalculator()
+            calculator.calculate(eddingtonNumber: edNum)
+            edNum.update(forCalculator: calculator)
+            print("\(edNum.eddingtonCode) - \(Date().timeIntervalSince(s))s")
+        }
+        print("Recalc took \(Date().timeIntervalSince(start))s")
+    }
+    
+    
     @IBAction func periodCBChanged(_ sender: PeriodComboBox) {
+
         if let p = sender.selectedPeriod(){
-            if let d = latestSelectedDate(){
-                var range = p.periodRange(forDate: d)
-                if p == Period.Lifetime{
-                    range = (from: trainingDiary!.firstDayOfDiary, to: trainingDiary!.lastDayOfDiary)
-                }
-                trainingDiary?.setValue(range.from, forKey: TrainingDiaryProperty.filterDaysFrom.rawValue)
-                trainingDiary?.setValue(range.to, forKey: TrainingDiaryProperty.filterDaysTo.rawValue)
+            if p == Period.Lifetime{
+                fromDatePicker!.dateValue = trainingDiary!.firstDayOfDiary
+                toDatePicker!.dateValue = trainingDiary!.lastDayOfDiary
                 setFilterPredicate()
+            }else{
+                if let d = latestSelectedDate(){
+                    let range = p.periodRange(forDate: d)
+                    fromDatePicker!.dateValue = range.from
+                    toDatePicker!.dateValue = range.to
+                    setFilterPredicate()
+                }
             }
         }
     }
     
-    
-    @IBAction func findDuplicateDates(_ sender: NSButton){
-        var results: [Date] = []
-        if let allObjects = trainingDiary?.days?.allObjects{
-            let days = allObjects as! [Day]
-            let dates = days.map{$0.date!}.sorted(by: {$0 > $1})
-            print(dates.count)
-            var previousDate: Date?
-            for d in dates{
-                if previousDate != nil && d.isSameDate(asDate: previousDate!){
-                    results.append(d)
-                }
-                previousDate = d
-            }
-
+    @IBAction func periodTextFieldChange(_ sender: PeriodTextField) {
+        
+        if let dc = sender.getNegativeDateComponentsEquivalent(){
+            fromDatePicker!.dateValue = Calendar.current.date(byAdding: dc, to: toDatePicker!.dateValue)!
+            setFilterPredicate()
         }
-        print("\(results.count) duplicates found.")
-        if results.count > 0{
-            print("Dates are:")
-            for r in results{
-                print(r)
-            }
-
+        
+        advanceDateComponent = sender.getDateComponentsEquivalent()
+        retreatDateComponent = sender.getNegativeDateComponentsEquivalent()
+    }
+    
+    @IBAction func retreatClicked(_ sender: NSButton) {
+        advanceDates(by: retreatDateComponent)
+    }
+    
+    @IBAction func advanceClicked(_ sender: NSButton) {
+        advanceDates(by: advanceDateComponent)
+    }
+    
+    @IBAction func validate(_ sender: NSButton){
+        if let td = trainingDiary{
+            td.findDuplicates()
+            td.findMissingYesterdayOrTomorrow()
         }
     }
     
@@ -91,28 +117,45 @@ class DaysViewController: NSViewController, TrainingDiaryViewController {
         }        
     }
     
-    @IBAction func setFilterToToToday(_ sender: NSButton){
-        trainingDiary?.setValue(Date().startOfDay(), forKey: TrainingDiaryProperty.filterDaysTo.rawValue)
+    @IBAction func exportCSV(_ sender: NSButton) {
+        let exporter = CSVExporter()
+        let csv = exporter.convertToCVS(forDays: arrangedDays())
+        
+        let homeDir = FileManager.default.homeDirectoryForCurrentUser
+        var saveFileName = homeDir.appendingPathComponent("workouts.csv")
+        do{
+            try csv.workoutCSV.write(to: saveFileName, atomically: false, encoding: .ascii)
+        }catch let error as NSError{
+            print(error)
+        }
+        saveFileName = homeDir.appendingPathComponent("days.csv")
+        do{
+            try csv.dayCSV.write(to: saveFileName, atomically: false, encoding: .ascii)
+        }catch let error as NSError{
+            print(error)
+        }
     }
     
-
+    @IBAction func fromDateChange(_ sender: NSDatePicker)   { setFilterPredicate() }
+    @IBAction func toDateChange(_ sender: NSDatePicker)     { setFilterPredicate() }
+    
     @IBAction func filterDays(_ sender: NSButton){
-        trainingDiary?.setValue(trainingDiary?.filterDaysFrom?.startOfDay(), forKey: TrainingDiaryProperty.filterDaysFrom.rawValue)
-        trainingDiary?.setValue(trainingDiary?.filterDaysTo?.endOfDay(), forKey: TrainingDiaryProperty.filterDaysTo.rawValue)
         setFilterPredicate()
     }
     
+    //MARK: - Overrides
     
     override func viewDidLoad() {
         super.viewDidLoad()
         daysArrayController.sortDescriptors.append(NSSortDescriptor.init(key: "date", ascending: false))
-    
         // Add Observer
   //      let notificationCentre = NotificationCenter.default
  //       notificationCentre.addObserver(self, selector: #selector(DaysViewController.notificationReceived), name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: nil)
         
        
     }
+    
+    
     
 
 
@@ -138,20 +181,26 @@ class DaysViewController: NSViewController, TrainingDiaryViewController {
     }
     
  */
+    
+    //MARK: -
+    
     func set(trainingDiary td: TrainingDiary){
         self.trainingDiary = td
         if let dac = daysArrayController{
             dac.trainingDiary = td
         }
+        toDatePicker!.dateValue = td.lastDayOfDiary
+        fromDatePicker!.dateValue = td.lastDayOfDiary.addDays(numberOfDays: -365)
+        setFilterPredicate()
     }
 
 
     //MARK: - Private
     
     private func setFilterPredicate(){
-        if let from = trainingDiary?.filterDaysFrom{
-            if let to = trainingDiary?.filterDaysTo{
-                daysArrayController.filterPredicate = NSPredicate(format: "date >= %@ AND date <= %@", argumentArray: [from,to])
+        if let from = fromDatePicker?.dateValue{
+            if let to = toDatePicker?.dateValue{
+                daysArrayController.filterPredicate = NSPredicate(format: "date >= %@ AND date <= %@", argumentArray: [from.startOfDay(),to.endOfDay()])
             }
         }
     }
@@ -163,6 +212,14 @@ class DaysViewController: NSViewController, TrainingDiaryViewController {
     private func selectedDays() -> [Day]{
         if let dac = daysArrayController{
             return dac.selectedObjects as! [Day]
+        }else{
+            return []
+        }
+    }
+    
+    private func arrangedDays() -> [Day]{
+        if let dac = daysArrayController{
+            return dac.arrangedObjects as! [Day]
         }else{
             return []
         }
@@ -183,5 +240,12 @@ class DaysViewController: NSViewController, TrainingDiaryViewController {
         return latestDate
     }
     
+    private func advanceDates(by: DateComponents?){
+        if let dc = by{
+            fromDatePicker!.dateValue = Calendar.current.date(byAdding: dc, to: fromDatePicker!.dateValue)!
+            toDatePicker!.dateValue = Calendar.current.date(byAdding: dc, to: toDatePicker!.dateValue)!
+            setFilterPredicate()
+        }
+    }
 
 }

@@ -22,6 +22,10 @@ extension Workout{
         return km * Constant.MilesPerKM.rawValue
     }
     
+    @objc dynamic var ascentFeet: Double{
+        return ascentMetres * Constant.FeetPerMetre.rawValue
+    }
+    
     @objc dynamic var rpeTSS: Double{
         return (100/49)*rpe*rpe*Double(seconds)/3600
     }
@@ -58,7 +62,7 @@ extension Workout{
          Unit
      Returning zero if it's not this type
      */
-    func valueFor(_ a: [Activity],_ t: [ActivityType], _ unit: Unit, _ b: Bike? = nil) -> Double{
+    func valueFor(_ a: [Activity],_ t: [ActivityType], _ unit: Unit, _ b: BikeName? = nil) -> Double{
         if let requestedBike = b{
             //bike passed in. If this workout is on this bike then continue. If not return zero
             if requestedBike.rawValue != bike{

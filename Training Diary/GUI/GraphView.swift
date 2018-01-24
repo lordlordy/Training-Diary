@@ -30,8 +30,8 @@ class GraphView: NSView {
     @IBInspectable var primaryAxisLabelColour: NSColor          = .black
     @IBInspectable var secondaryAxisColour: NSColor             = .white
     @IBInspectable var secondaryAxisLabelColour: NSColor        = .white
-    @IBInspectable var yAxisColour: NSColor                     = .black
-    @IBInspectable var yAxisLabelColour: NSColor                = .black
+    @IBInspectable var xAxisColour: NSColor                     = .black
+    @IBInspectable var xAxisLabelColour: NSColor                = .black
     
     //MARK: - User settable GUI formats
     
@@ -77,7 +77,6 @@ class GraphView: NSView {
     //MARK: - Overrides
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        print("CHANGED")
         //currently don't switch ... all observed values are assume to require a redraw. Keep an eye on this
         needsDisplay = true
     }
@@ -94,10 +93,10 @@ class GraphView: NSView {
         
         updatePlotBounds()
         
-        for l in yLabels{ l.removeFromSuperview() }
         for l in xLabels{ l.removeFromSuperview() }
-        yLabels = []
+        for l in yLabels{ l.removeFromSuperview() }
         xLabels = []
+        yLabels = []
         
         titleLabel?.removeFromSuperview()
         titleLabel = nil
@@ -115,16 +114,16 @@ class GraphView: NSView {
         
         //TO DO - should be able to tidy up creation of axis / labels.
         //axis 1
-        drawXAxes(forAxis: .Primary, maxValue: graphsYMaximum(forAxis: .Primary), minValue: graphsYMinimum(forAxis: .Primary) ?? 0.0, dirtyRect, colour: primaryAxisColour, lineGap: gapBetweenPrimaryAxisLines, labelOffset: LabelOffset(position: .Start, x: -(Constants.axisPadding - 2.0), y: 0.0), labelColour: primaryAxisLabelColour )
+        drawYAxes(forAxis: .Primary, maxValue: graphsYMaximum(forAxis: .Primary), minValue: graphsYMinimum(forAxis: .Primary) ?? 0.0, dirtyRect, colour: primaryAxisColour, lineGap: gapBetweenPrimaryAxisLines, labelOffset: LabelOffset(position: .Start, x: -(Constants.axisPadding - 2.0), y: 0.0), labelColour: primaryAxisLabelColour )
         //axis 2 -
         if getGraphs(forAxis: .Secondary).count > 0{
-            drawXAxes(forAxis: .Secondary, maxValue: graphsYMaximum(forAxis: .Secondary), minValue: graphsYMinimum(forAxis: .Secondary) ?? 0.0, dirtyRect, colour: secondaryAxisColour, lineGap: gapBetweenSecondaryAxisLines, labelOffset: LabelOffset(position: .End, x: 0.0, y: 0.0), labelColour: secondaryAxisLabelColour )
+            drawYAxes(forAxis: .Secondary, maxValue: graphsYMaximum(forAxis: .Secondary), minValue: graphsYMinimum(forAxis: .Secondary) ?? 0.0, dirtyRect, colour: secondaryAxisColour, lineGap: gapBetweenSecondaryAxisLines, labelOffset: LabelOffset(position: .End, x: 0.0, y: 0.0), labelColour: secondaryAxisLabelColour )
         }
 
-        drawYAxes(dirtyRect, labelOffset: LabelOffset(position: .Start, x: -30.0, y: -(Constants.axisPadding - 10.0)) )
+        drawXAxes(dirtyRect, labelOffset: LabelOffset(position: .Start, x: -30.0, y: -(Constants.axisPadding - 10.0)) )
 
-        for l in yLabels{ addSubview(l) }
         for l in xLabels{ addSubview(l) }
+        for l in yLabels{ addSubview(l) }
         
         if let titleName = chartTitle{
         
@@ -166,8 +165,8 @@ class GraphView: NSView {
         return nf
     }
     
-    private var yLabels: [NSTextField] = []
     private var xLabels: [NSTextField] = []
+    private var yLabels: [NSTextField] = []
     private var titleLabel: NSTextField?
     private var gapBetweenPrimaryAxisLines:     Double{ return calcAxisLineGap(forAxis: .Primary) }
     private var gapBetweenSecondaryAxisLines:   Double{ return calcAxisLineGap(forAxis: .Secondary) }
@@ -297,7 +296,7 @@ class GraphView: NSView {
             }
         }
         if minimums.count > 0{
-            return minimums.max()!
+            return minimums.min()!
         }
         return nil
     }
@@ -329,7 +328,7 @@ class GraphView: NSView {
         return result
     }
     
-    private func drawYAxes(_ dirtyRect: NSRect, labelOffset: LabelOffset){
+    private func drawXAxes(_ dirtyRect: NSRect, labelOffset: LabelOffset){
         var count = 0.0
         if let maxDate = graphsXMaximumDate(){
             if let minDate = graphsXMinimumDate(){
@@ -337,7 +336,7 @@ class GraphView: NSView {
                 for label in xAxisLabelStrings{
                     let axisStartPoint = coordinatesInView(xValue: count, yValue: graphsYMinimum(forAxis: .Primary) ?? 0.0, forAxis: .Primary, dirtyRect)
                     let axisEndPoint = NSPoint(x: axisStartPoint.x, y: dirtyRect.maxY - CGFloat(Constants.axisPadding))
-                    drawAxis(from: axisStartPoint, to: axisEndPoint, colour: yAxisColour, label, labelOffset: labelOffset, labelColour: yAxisLabelColour)
+                    drawAxis(from: axisStartPoint, to: axisEndPoint, colour: xAxisColour, label, labelOffset: labelOffset, labelColour: xAxisLabelColour)
                     count += factor
                 }
 
@@ -345,7 +344,7 @@ class GraphView: NSView {
         }
     }
     
-    private func drawXAxes(forAxis axis: Axis, maxValue: Double, minValue: Double, _ dirtyRect: NSRect, colour: NSColor, lineGap: Double, labelOffset: LabelOffset, labelColour: NSColor ){
+    private func drawYAxes(forAxis axis: Axis, maxValue: Double, minValue: Double, _ dirtyRect: NSRect, colour: NSColor, lineGap: Double, labelOffset: LabelOffset, labelColour: NSColor ){
         
         var factor = lineGap
         if minValue > lineGap { factor = minValue }
@@ -399,7 +398,7 @@ class GraphView: NSView {
         }
         if let p = labelPosition{
             let label = createLabel(value: labelString, point: p, size: CGSize(width: Constants.labelWidth, height: Constants.labelHeight), colour: labelColour)
-            xLabels.append(label)
+            yLabels.append(label)
         }
     }
     

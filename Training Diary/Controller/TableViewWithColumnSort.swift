@@ -20,7 +20,24 @@ class TableViewWithColumnSort: NSTableView {
         createTableHeaderContextMenu()
     }
     
-
+    override func controlTextDidEndEditing(_ obj: Notification) {
+        super.controlTextDidEndEditing(obj)
+        print("control text")
+        if let userInfo = userActivity?.userInfo{
+            for u in userInfo{
+                print("\(u.key): \(u.value)")
+            }
+        }
+    }
+    
+    override func textDidEndEditing(_ notification: Notification) {
+        super.textDidEndEditing(notification)
+        if let userInfo = userActivity?.userInfo{
+            for u in userInfo{
+                print("\(u.key): \(u.value)")
+            }
+        }
+    }
     
     // assumes the the column ID and the key for the data are the same
     private func createColumnSortFor(key k: String){

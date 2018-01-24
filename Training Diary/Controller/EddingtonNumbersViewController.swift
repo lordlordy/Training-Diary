@@ -18,6 +18,12 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
     private var unit: String?
     private var year: Int?
     
+    //same graphs for all so set them up here
+    private let historyGraph = GraphDefinition(name: "history", axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .red, fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 0.0, size: 2.0), drawZeroes: false, priority: 1)
+    private let plusOneGraph = GraphDefinition(name: "plusOne", axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .blue, fillGradientStart: .blue, fillGradientEnd: .blue, gradientAngle: 0.0, size: 1.0), drawZeroes: false, priority: 1)
+    private let contributorsGraph = GraphDefinition(name: "contributors", axis: .Primary, type: .Point, format: GraphFormat.init(fill: false, colour: .green, fillGradientStart: .green, fillGradientEnd: .green, gradientAngle: 0.0, size: 2.0), drawZeroes: false, priority: 2)
+    private let annualHistoryGraph = GraphDefinition(name: "annual", axis: .Primary, type: .Point, format: GraphFormat.init(fill: true, colour: .yellow, fillGradientStart: .yellow, fillGradientEnd: .yellow, gradientAngle: 0.0, size: 7.0), drawZeroes: false, priority: 4)
+    
     @IBOutlet weak var graphView: GraphView!
     
     @IBOutlet var eddingtonNumberArrayController: NSArrayController!
@@ -25,6 +31,7 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
     
     @IBOutlet weak var edCalcProgressBar: NSProgressIndicator!
     @IBOutlet weak var calcProgressTextField: NSTextField!
+    
     
     @IBAction func saveAll(_ sender: NSButton) {
 
@@ -122,9 +129,12 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
         }
     }
     
+    @IBAction func alternativeUpdateSelection(_ sender: Any) {
+    }
     
     @IBAction func updateSelection(_ sender: NSButton) {
         let start = Date()
+
         calcProgressTextField!.stringValue = "starting..."
         DispatchQueue.global(qos: .userInitiated).async {
             var count: Double = 0.0
@@ -140,8 +150,10 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
                 calculator.update(eddingtonNumber: edNum)
                 DispatchQueue.main.async {
                     
+                    print("starting ednum update \(Date().timeIntervalSince(start))s from start")
                     edNum.update(forCalculator: calculator)
-                    
+                    print("finished ednum update \(Date().timeIntervalSince(start))s from start")
+
                     //         self.prod(eddingtonNumber: edNum)
                     self.edCalcProgressBar!.doubleValue = 100.0 * count / total
                 }
@@ -151,11 +163,15 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
             let seconds = Date().timeIntervalSince(start)
             print("Time taken for new Ed num update: \(seconds) seconds.")
             DispatchQueue.main.async {
-                self.calcProgressTextField!.stringValue = "Update complete in \(Int(seconds))s"
+            //    self.calcProgressTextField!.stringValue = "Update complete in \(Int(seconds))s"
+                self.calcProgressTextField!.stringValue = "Update complete in \(Int(Date().timeIntervalSince(start)))s"
+                print("update graph called \(Date().timeIntervalSince(start))s since start")
+                self.updateGraph()
+                print("graph updated  \(Date().timeIntervalSince(start))s since start")
+                print("TOTAL TIME = \(Date().timeIntervalSince(start))s")
             }
         }
-        
-        updateGraph()
+
     }
     
     @IBAction func calculateSelection(_ sender: NSButton) {
@@ -202,6 +218,7 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
             print("Time taken for new Ed num calculation: \(totalSeconds) seconds.")
             DispatchQueue.main.async {
                 self.calcProgressTextField!.stringValue = "Calc complete in \(Int(totalSeconds))s"
+                print("TOTAL TIME = \(Date().timeIntervalSince(start))")
             }
         }
 
@@ -248,26 +265,25 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
 
     func set(trainingDiary td: TrainingDiary){
         self.trainingDiary = td
+        if let gv = graphView{
+            let range = td.lastDayOfDiary.timeIntervalSince(td.firstDayOfDiary)
+            let numberOfLabels = 6
+            let gap = range / Double(numberOfLabels - 1)
+            var labels: [String] = []
+            labels.append(td.firstDayOfDiary.dateOnlyShorterString())
+            for i in 1...(numberOfLabels-1){
+                labels.append(td.firstDayOfDiary.addingTimeInterval(TimeInterval(gap*Double(i))).dateOnlyShorterString())
+            }
+            gv.xAxisLabelStrings = labels
+        }
     }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpGraphs()
         if let eddNumAC = eddingtonNumberArrayController{
             eddNumAC.addObserver(self, forKeyPath: "selection", options: .new, context: nil)
-        }
-        if let gv = graphView{
-            if let td = trainingDiary{
-                let range = td.lastDayOfDiary.timeIntervalSince(td.firstDayOfDiary)
-                let numberOfLabels = 6
-                let gap = range / Double(numberOfLabels - 1)
-                var labels: [String] = []
-                labels.append(td.firstDayOfDiary.dateOnlyShorterString())
-                for i in 1...(numberOfLabels-1){
-                    labels.append(td.firstDayOfDiary.addingTimeInterval(TimeInterval(gap*Double(i))).dateOnlyShorterString())
-                }
-                gv.xAxisLabelStrings = labels
-            }
         }
     }
     
@@ -354,17 +370,25 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
         return nil
     }
     
+    private func setUpGraphs(){
+        if let gv = graphView{
+            
+            gv.add(graph: historyGraph)
+            gv.add(graph: plusOneGraph)
+            gv.add(graph: contributorsGraph)
+            gv.add(graph: annualHistoryGraph)
+            
+            gv.backgroundGradientStartColour = .lightGray
+            gv.backgroundGradientEndColour = .darkGray
+            gv.backgroundGradientAngle = 45
+            
+        }
+    }
+    
     private func updateGraph(){
-        
         if let edNum = getSelectedEddingtonNumber(){
             if let gv = graphView{
-                gv.clearGraphs()
-                let historyGraph = GraphDefinition(name: "history", axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .red, fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 0.0, size: 2.0), drawZeroes: false, priority: 1)
-                let plusOneGraph = GraphDefinition(name: "plusOne", axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .blue, fillGradientStart: .blue, fillGradientEnd: .blue, gradientAngle: 0.0, size: 1.0), drawZeroes: false, priority: 1)
-                let contributorsGraph = GraphDefinition(name: "contributors", axis: .Primary, type: .Point, format: GraphFormat.init(fill: false, colour: .green, fillGradientStart: .green, fillGradientEnd: .green, gradientAngle: 0.0, size: 2.0), drawZeroes: false, priority: 2)
-                let annualHistoryGraph = GraphDefinition(name: "annual", axis: .Primary, type: .Point, format: GraphFormat.init(fill: true, colour: .yellow, fillGradientStart: .yellow, fillGradientEnd: .yellow, gradientAngle: 0.0, size: 7.0), drawZeroes: false, priority: 4)
-                
-                
+
                 //start with zero for first day of diary - this ensures that scales line up.
                 let firstEntry = (date: trainingDiary!.firstDayOfDiary,value: 0.0)
                 var history: [(date: Date, value: Double)] = [firstEntry]
@@ -392,15 +416,6 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
                 
                 gv.chartTitle = edNum.eddingtonCode
                 
-                gv.add(graph: historyGraph)
-                gv.add(graph: plusOneGraph)
-                gv.add(graph: contributorsGraph)
-                gv.add(graph: annualHistoryGraph)
-                
-                gv.backgroundGradientStartColour = .lightGray
-                gv.backgroundGradientEndColour = .darkGray
-                gv.backgroundGradientAngle = 45
-                
                 gv.needsDisplay = true
                 
             }
@@ -408,7 +423,7 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
     }
     
     
-    // There must be a better way to do this. once an eddington number is calculated we don't want the user changing the type - ie Activity, Unit or Period. The Combo Boxes enable is bound to eddington number 'requiresCalculation' property. When the last updated field is set the Combo Boxes are re-displayed as disabled. This method prods them
+    // There must be a better way to do this. once an eddington number is calculated we don't want the user changing the type - ie Activity, Unit or Period. The Combo Boxes enabled is bound to eddington number 'requiresCalculation' property. When the last updated field is set the Combo Boxes are re-displayed as disabled. This method prods them
     private func prod(eddingtonNumber ed: EddingtonNumber){
         let a = ed.activity
         let at = ed.activityType

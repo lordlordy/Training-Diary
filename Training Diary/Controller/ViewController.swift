@@ -6,11 +6,6 @@
 //  Copyright © 2017 Steven Lord. All rights reserved.
 //
 
-/* TO DO
-     1. Move JSON support to it's own class - it shouldn't be in the View Controller layer
-     2. set up static variables for JSON variable ??
- */
-
 import Cocoa
 
 class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate {
@@ -43,7 +38,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
         ValueTransformer.setValueTransformer(TransformerNSNumberToTimeFormat(), forName: NSValueTransformerName(rawValue: "TransformerNSNumberToTimeFormat"))
         ValueTransformer.setValueTransformer(NumberToDetailedTimeTransformer(), forName: NSValueTransformerName(rawValue: "NumberToDetailedTimeTransformer"))
         ValueTransformer.setValueTransformer(NumberToSummaryTimeFormatter(), forName: NSValueTransformerName(rawValue: "NumberToSummaryTimeFormatter"))
-        
+        ValueTransformer.setValueTransformer(TextViewToStringTransformer(), forName: NSValueTransformerName(rawValue: "TextViewToStringTransformer"))
     }
 
     
@@ -108,11 +103,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
             }
         }
         print("TSB calculation for all activities took \(Date().timeIntervalSince(start)) seconds")
-        if let dvc = daysViewController{
-            if let dac = dvc.daysArrayController{
-                
-            }
-        }
+
         
     }
     
@@ -262,6 +253,27 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
         } catch  {
             print("JSON export failed")
         }
+        
+    }
+    
+    @IBAction func exportCSV(_ sender: NSMenuItem){
+        let csvExporter = CSVExporter()
+        let csv = csvExporter.convertToCVS(trainingDiary: getSelectedTrainingDiary())
+        
+        let homeDir = FileManager.default.homeDirectoryForCurrentUser
+        var saveFileName = homeDir.appendingPathComponent("workouts.csv")
+        do{
+            try csv.workoutCSV.write(to: saveFileName, atomically: false, encoding: .ascii)
+        }catch let error as NSError{
+            print(error)
+        }
+        saveFileName = homeDir.appendingPathComponent("days.csv")
+        do{
+            try csv.dayCSV.write(to: saveFileName, atomically: false, encoding: .ascii)
+        }catch let error as NSError{
+            print(error)
+        }
+
         
     }
     

@@ -12,7 +12,7 @@ class PhysiologicalsArrayController: NSArrayController {
     override func newObject() -> Any {
         let physio = super.newObject() as! Physiological
         physio.fromDate = Date().startOfDay()
-        physio.toDate = Calendar.current.date(byAdding: DateComponents(year: 100), to: Date())
+        physio.toDate = Calendar.current.date(byAdding: DateComponents(year: 99), to: Date())
         let physios = self.arrangedObjects as! [Physiological]
         let sortedPhysios = physios.sorted(by: {$0.fromDate! > $1.toDate!})
         if sortedPhysios.count > 0{

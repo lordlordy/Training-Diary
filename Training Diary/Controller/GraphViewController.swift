@@ -21,15 +21,53 @@ class GraphViewController: NSViewController, TrainingDiaryViewController, GraphM
     private var cache: [String:[(date:Date, value:Double)]] = [:]
     private var graphCache: [TrainingDiary: [ActivityGraphDefinition]] = [:]
     private var dataCache: [TrainingDiary: [String:[(date:Date, value:Double)]]] = [:]
+    private var advanceDateComponent: DateComponents?
+    private var retreatDateComponent: DateComponents?
     
     @objc dynamic var trainingDiary: TrainingDiary?
     
     @IBOutlet weak var graphView: GraphView!
     @IBOutlet weak var fromDatePicker: NSDatePicker!
     @IBOutlet weak var toDatePicker: NSDatePicker!
-    @IBOutlet weak var fromDateSlider: NSSlider!
-    @IBOutlet weak var toDateSlider: NSSlider!
     @IBOutlet weak var activityComboBox: NSComboBox!
+
+    
+    @IBAction func graphPeriodChange(_ sender: PeriodTextField) {
+        if let dc = sender.getNegativeDateComponentsEquivalent(){
+            if let fdp = fromDatePicker{
+                if let tdp = toDatePicker{
+                    fdp.dateValue = Calendar.current.date(byAdding: dc, to: tdp.dateValue)!
+                    updateForDateChange()
+                }
+            }
+        }
+        advanceDateComponent = sender.getDateComponentsEquivalent()
+        retreatDateComponent = sender.getNegativeDateComponentsEquivalent()
+    }
+    
+    @IBAction func retreatAPeriod(_ sender: NSButton) {
+        if let retreat = retreatDateComponent{
+            advance(by: retreat)
+        }
+    }
+    
+    @IBAction func advanceAPeriod(_ sender: NSButton) {
+        if let a = advanceDateComponent{
+            advance(by: a)
+        }
+    }
+    
+    @IBAction func periodComboBoxChanged(_ sender: PeriodComboBox) {
+        if let period = sender.selectedPeriod(){
+            if let gac = graphArrayController{
+                for graph in gac.arrangedObjects as! [ActivityGraphDefinition]{
+                    //setting the string so the GUI updates
+                    graph.periodString = period.rawValue
+                }
+                updateGraphs()
+            }
+        }
+    }
     
     @IBAction func activityChanged(_ sender: NSComboBox) {
         if let gac = graphArrayController{
@@ -37,47 +75,30 @@ class GraphViewController: NSViewController, TrainingDiaryViewController, GraphM
                 graph.activityString = sender.stringValue
             }
             updateGraphs()
-            graphView.needsDisplay = true
-
         }
     }
     
-    @IBAction func fromSlider(_ sender: NSSlider) {
-        if let dp = fromDatePicker{
-            let cal = Calendar.current
-            var dc = cal.dateComponents([.day,.month,.year], from: dp.dateValue)
-            dc.year = sender.integerValue
-            let newDate = cal.date(from: dc)
-            dp.dateValue = newDate!
-            updateForDateChange()
-        }
-    }
-
-    @IBAction func toSlider(_ sender: NSSlider) {
-        if let dp = toDatePicker{
-            let cal = Calendar.current
-            var dc = cal.dateComponents([.day,.month,.year], from: dp.dateValue)
-            dc.year = sender.integerValue
-            let newDate = cal.date(from: dc)
-            dp.dateValue = newDate!
-            updateForDateChange()
+    @IBAction func activityTypeChanged(_ sender: ActivityTypeComboBox) {
+        if let gac = graphArrayController{
+            for graph in gac.arrangedObjects as! [ActivityGraphDefinition]{
+                graph.activityTypeString = sender.stringValue
+            }
         }
     }
     
+    @IBAction func unitChanged(_ sender: UnitComboBox) {
+        if let gac = graphArrayController{
+            for graph in gac.arrangedObjects as! [ActivityGraphDefinition]{
+                graph.unitString = sender.stringValue
+            }
+        }
+    }
     
     @IBAction func fromDateChanged(_ sender: NSDatePicker) {
-        if let ds = fromDateSlider{
-            let year = sender.dateValue.year()
-            ds.doubleValue = Double(year)
-        }
         updateForDateChange()
     }
     
     @IBAction func toDateChanged(_ sender: NSDatePicker) {
-        if let ds = toDateSlider{
-            let year = sender.dateValue.year()
-            ds.doubleValue = Double(year)
-        }
         updateForDateChange()
     }
     
@@ -116,16 +137,6 @@ class GraphViewController: NSViewController, TrainingDiaryViewController, GraphM
             initialSetUp()
         }
         
-        
-  //      trainingDiarySet()
-   //     td.addObserver(self, forKeyPath: TrainingDiaryProperty.ctlDays.rawValue, options: NSKeyValueObservingOptions.new, context: nil)
-     //   td.addObserver(self, forKeyPath: TrainingDiaryProperty.atlDays.rawValue, options: NSKeyValueObservingOptions.new, context: nil)
-       // td.addObserver(self, forKeyPath: TrainingDiaryProperty.swimCTLDays.rawValue, options: NSKeyValueObservingOptions.new, context: nil)
-//        td.addObserver(self, forKeyPath: TrainingDiaryProperty.swimATLDays.rawValue, options: NSKeyValueObservingOptions.new, context: nil)
-  //      td.addObserver(self, forKeyPath: TrainingDiaryProperty.bikeCTLDays.rawValue, options: NSKeyValueObservingOptions.new, context: nil)
-    //    td.addObserver(self, forKeyPath: TrainingDiaryProperty.bikeATLDays.rawValue, options: NSKeyValueObservingOptions.new, context: nil)
-      //  td.addObserver(self, forKeyPath: TrainingDiaryProperty.runCTLDays.rawValue, options: NSKeyValueObservingOptions.new, context: nil)
-        //td.addObserver(self, forKeyPath: TrainingDiaryProperty.runATLDays.rawValue, options: NSKeyValueObservingOptions.new, context: nil)
     }
     
 
@@ -147,25 +158,6 @@ class GraphViewController: NSViewController, TrainingDiaryViewController, GraphM
         
         if let gv = graphView{
             switch keyPath{
- /*           case TrainingDiaryProperty.ctlDays.rawValue?, TrainingDiaryProperty.atlDays.rawValue?:
-                trainingDiary?.calcTSB(forActivity: Activity.Gym, fromDate: (trainingDiary?.firstDayOfDiary)!)
-                trainingDiary?.calcTSB(forActivity: Activity.Walk, fromDate: (trainingDiary?.firstDayOfDiary)!)
-                trainingDiary?.calcTSB(forActivity: Activity.Other, fromDate: (trainingDiary?.firstDayOfDiary)!)
-                updateGraphs()
-                gv.needsDisplay = true
-            case TrainingDiaryProperty.swimCTLDays.rawValue?, TrainingDiaryProperty.swimATLDays.rawValue?:
-                trainingDiary?.calcTSB(forActivity: Activity.Swim, fromDate: (trainingDiary?.firstDayOfDiary)!)
-                updateGraphs()
-                gv.needsDisplay = true
-            case TrainingDiaryProperty.bikeCTLDays.rawValue?, TrainingDiaryProperty.bikeATLDays.rawValue?:
-                trainingDiary?.calcTSB(forActivity: Activity.Bike, fromDate: (trainingDiary?.firstDayOfDiary)!)
-                updateGraphs()
-                gv.needsDisplay = true
-            case TrainingDiaryProperty.runCTLDays.rawValue?, TrainingDiaryProperty.runATLDays.rawValue?:
-                trainingDiary?.calcTSB(forActivity: Activity.Run, fromDate: (trainingDiary?.firstDayOfDiary)!)
-                updateGraphs()
-                gv.needsDisplay = true
- */
             case "name"?:
                 if let graphDefinition = object as? ActivityGraphDefinition{
                     updateData(forGraph: graphDefinition)
@@ -175,38 +167,27 @@ class GraphViewController: NSViewController, TrainingDiaryViewController, GraphM
                 print("~~~~~~~ Am I meant to be observing key path \(String(describing: keyPath))")
             }
         }
-
-        
-        
     }
 
     //MARK: - Private
     
- /*   private func trainingDiarySet(){
-        if let td = trainingDiary{
-            if let fdp = fromDatePicker{
-                if let tdp = toDatePicker{
-                    if fdp.dateValue < td.firstDayOfDiary || fdp.dateValue > td.lastDayOfDiary{
-                        fdp.dateValue  = td.firstDayOfDiary
-                    }
-                    if tdp.dateValue < td.firstDayOfDiary || tdp.dateValue > td.lastDayOfDiary{
-                        tdp.dateValue  = td.lastDayOfDiary
-                    }
-                }
+    private func advance(by dc: DateComponents){
+        if let fdp = fromDatePicker{
+            if let tdp = toDatePicker{
+                fdp.dateValue = Calendar.current.date(byAdding: dc, to: fdp.dateValue)!
+                tdp.dateValue = Calendar.current.date(byAdding: dc, to: tdp.dateValue)!
+                updateForDateChange()
             }
         }
-        initialSetUp()
     }
-   */
-
     
     private func updateGraphs(){
         if let gac = graphArrayController{
             for graph in gac.arrangedObjects as! [ActivityGraphDefinition]{
                 updateData(forGraph: graph)
             }
-
         }
+        graphView!.needsDisplay = true
     }
     
     private func updateForDateChange(){
@@ -214,7 +195,6 @@ class GraphViewController: NSViewController, TrainingDiaryViewController, GraphM
             for g in gac.arrangedObjects as! [ActivityGraphDefinition]{
                 updateForDateChange(forGraph: g)
             }
-
         }
     }
     
@@ -238,12 +218,11 @@ class GraphViewController: NSViewController, TrainingDiaryViewController, GraphM
         if let fdp = fromDatePicker{
             if let tdp = toDatePicker{
                 if let td = trainingDiary{
-                    let from = td.firstDayOfDiary
                     let to = td.lastDayOfDiary
+                    let from = to.addDays(numberOfDays: -365)
                     fdp.dateValue = from
                     tdp.dateValue = to
-                    //date picker dates set. Now set up sliders
-                    setUpSliders()
+                
                     if let gv = graphView{
                         // this shouldn't be here. Will refactor out when sort out creating axes in GraphView
                         gv.xAxisLabelStrings = getXAxisLabels(fromDate: from, toDate: to)
@@ -275,23 +254,6 @@ class GraphViewController: NSViewController, TrainingDiaryViewController, GraphM
         }
     }
 
-    private func setUpSliders(){
-        let firstYear = trainingDiary!.firstYear()
-        let lastYear = trainingDiary!.lastYear()
-        let range = lastYear - firstYear
-        if let fds = fromDateSlider{
-            fds.maxValue = Double(lastYear)
-            fds.minValue = Double(firstYear)
-            fds.numberOfTickMarks = range + 1
-            fds.doubleValue = fds.minValue
-        }
-        if let tds = toDateSlider{
-            tds.maxValue = Double(lastYear)
-            tds.minValue = Double(firstYear)
-            tds.numberOfTickMarks = range + 1
-            tds.doubleValue = tds.maxValue
-        }
-    }
     
     private func createGraphDefinition(forActivity a: Activity, period p: Period, unit u: Unit, type t: ChartType, axis: Axis, drawZeroes: Bool, priority: Int,  format f: GraphFormat) -> ActivityGraphDefinition{
         
@@ -303,28 +265,7 @@ class GraphViewController: NSViewController, TrainingDiaryViewController, GraphM
         
     }
     
-    // this is called when the dataArray is changed. So need to update our set of graphs
- /*   private func dataArrayChanged(){
-        if (oldArray?.count)! > graphArray.count{
-            //item removed
-            for old in oldArray!{
-                if !graphArray.contains(old){
-                    print("\(old.name) removed")
-                    remove(graph: old)
-                }
-            }
-        }else{
-            //item added
-            for new in graphArray{
-                if !(oldArray?.contains(new))!{
-                    print("\(new.name) added")
-                    add(graph: new)
-                    updateData(forGraph: new)
-                }
-            }
-        }
-     }
-  */
+
 
     
     private func addObservers(forGraph g: ActivityGraphDefinition){
@@ -342,7 +283,7 @@ class GraphViewController: NSViewController, TrainingDiaryViewController, GraphM
             if let cachedValues = cache[g.name]{
                 g.cache = cachedValues
             }else{
-                let values = td.getValues(forActivity: g.activity, andActivityType: ActivityType.All, andPeriod: g.period, andUnit: g.unit)
+                let values = td.getValues(forActivity: g.activity, andActivityType: g.activityType, andPeriod: g.period, andUnit: g.unit)
                 g.cache = values
                 self.cache[g.name] = values
         
