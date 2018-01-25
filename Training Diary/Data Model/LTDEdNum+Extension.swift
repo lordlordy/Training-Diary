@@ -9,7 +9,7 @@
 import Foundation
 
 extension LTDEdNum{
-    var edCode: String{
-        return activity! + activityType! + period! + unit!
+    @objc dynamic var code: String{
+        return EddingtonNumber.code(activity, activityType, period!, unit!)
     }
 }

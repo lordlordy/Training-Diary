@@ -185,6 +185,29 @@ extension TrainingDiary{
     
     //MARK: -
     
+    func bikeArray() -> [Bike]{
+        if let b = bikes{
+            return b.allObjects as! [Bike]
+        }
+        return []
+    }
+    
+    func activeBikes() -> [Bike]{
+        return bikeArray().filter({$0.active})
+    }
+    
+    func orderedActiveBikes() -> [Bike]{
+        return activeBikes().sorted(by: {$0.name! < $1.name!})
+    }
+    
+    func bike(forName name: String) -> Bike?{
+        let possibleBike = bikeArray().filter({$0.name == name})
+        if possibleBike.count == 1{
+            return possibleBike[0]
+        }
+        return nil
+    }
+    
     func latestDay() -> Day?{
         let days = ascendingOrderedDays()
         if days.count > 0{ return days[days.count-1] }

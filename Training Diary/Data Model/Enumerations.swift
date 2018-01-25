@@ -357,7 +357,7 @@ enum ENTITY: String{
 
 enum BikeProperty: String{
     case name
-    case km,miles,ascentFeet,ascentMetres, seconds, tss, kj, hours, rides
+    case km,miles,ascentFeet,ascentMetres, seconds, tss, kj, hours, rides, preDiaryKMs
     //relationships
     case workouts
 
@@ -429,9 +429,9 @@ enum TrainingDiaryProperty: String, FileMakerProJSONString{
 enum WorkoutProperty: String, FileMakerProJSONString{
     case activity, activityType, ascentFeet, ascentMetres, bike, brick, cadence, comments, hr
     case isRace, keywords, kj, km, reps, rpe, seconds, rpeTSS, hours, miles
-    case tss, tssMethod, watts, wattsEstimated
+    case tss, tssMethod, watts, wattsEstimated, notBike
     
-    static var AllProperties = [activity, activityType, ascentFeet, ascentMetres, bike, brick, cadence, comments, hours, hr, isRace, keywords, kj, km, reps, rpe, seconds, rpeTSS, tss, tssMethod, watts, wattsEstimated]
+    static var AllProperties = [activity, activityType, ascentFeet, ascentMetres, bike, brick, cadence, comments, hours, hr, isRace, keywords, kj, km, reps, rpe, seconds, rpeTSS, tss, tssMethod, watts, wattsEstimated, notBike]
     static var DoubleProperties = [ascentFeet, ascentMetres, cadence, hr, hours, kj, km, miles, rpe, seconds, rpeTSS, tss, watts]
     
     func isSummable() -> Bool{
@@ -459,6 +459,7 @@ enum WorkoutProperty: String, FileMakerProJSONString{
         case .kj:               return "Kj"
         case .km:               return "KM"
         case .miles:            return ""
+        case .notBike:          return ""
         case .reps:             return "Reps"
         case .rpe:              return "RPE"
         case .rpeTSS:           return "RPE TSS"
@@ -487,6 +488,7 @@ enum WorkoutProperty: String, FileMakerProJSONString{
         case .kj:               return Unit.KJ
         case .km:               return Unit.KM
         case .miles:            return Unit.Miles
+        case .notBike:          return nil
         case .reps:             return Unit.Reps
         case .rpe:              return nil
         case .rpeTSS:           return Unit.RPETSS

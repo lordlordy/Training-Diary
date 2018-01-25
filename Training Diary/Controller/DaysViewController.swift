@@ -8,11 +8,12 @@
 
 import Cocoa
 
-class DaysViewController: NSViewController, TrainingDiaryViewController {
+class DaysViewController: NSViewController, TrainingDiaryViewController, NSComboBoxDataSource, NSTableViewDelegate {
 
     @objc dynamic var trainingDiary: TrainingDiary?
     
     @IBOutlet var daysArrayController: DaysArrayController!
+    @IBOutlet var workoutArrayController: NSArrayController!
     
     @IBOutlet weak var dayTableView: TableViewWithColumnSort!
     @IBOutlet weak var fromDatePicker: NSDatePicker!
@@ -20,6 +21,7 @@ class DaysViewController: NSViewController, TrainingDiaryViewController {
     
     private var advanceDateComponent: DateComponents?
     private var retreatDateComponent: DateComponents?
+    private var currentWorkout: Workout?
     
     
 
@@ -155,7 +157,22 @@ class DaysViewController: NSViewController, TrainingDiaryViewController {
        
     }
     
-    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if let key = keyPath{
+            switch key{
+            case WorkoutProperty.bike.rawValue:
+                if let td = trainingDiary{
+                    if let workout = currentWorkout{
+                        if let bike = td.bike(forName: workout.bike!){
+                            workout.bikeHistory = bike
+                        }
+                    }
+                }
+            default:
+                print("!! Didn't thinkk I set an observer for \(String(describing: keyPath))")
+            }
+        }
+    }
     
 
 
@@ -182,7 +199,35 @@ class DaysViewController: NSViewController, TrainingDiaryViewController {
     
  */
     
-    //MARK: -
+    //MARK: - NSTableViewDelegate
+    func tableViewSelectionDidChange(_ notification: Notification) {
+        if let workout = currentWorkout{
+            workout.removeObserver(self, forKeyPath: WorkoutProperty.bike.rawValue)
+        }
+        if let wac = workoutArrayController{
+            let workouts = wac.selectedObjects as! [Workout]
+            if workouts.count == 1{
+                currentWorkout = workouts[0]
+                workouts[0].addObserver(self, forKeyPath: WorkoutProperty.bike.rawValue, options: NSKeyValueObservingOptions.new, context: nil)
+            }
+        }
+    
+    }
+    
+    //MARK: - NSComboBoxDataSource
+    func comboBox(_ comboBox: NSComboBox, objectValueForItemAt index: Int) -> Any? {
+        let bikes = trainingDiary!.orderedActiveBikes().map{$0.name!}
+        if index < bikes.count{
+            return bikes[index]
+        }
+        return nil
+    }
+
+    func numberOfItems(in comboBox: NSComboBox) -> Int {
+        return trainingDiary!.activeBikes().count
+    }
+    
+    //MARK: - TrainingDiaryViewController
     
     func set(trainingDiary td: TrainingDiary){
         self.trainingDiary = td

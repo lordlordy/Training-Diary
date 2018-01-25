@@ -25,7 +25,7 @@ extension Bike{
     @objc dynamic var km: Double{
         var result: Double = 0.0
         for w in getWorkouts(){ result += w.km }
-        return result
+        return result + preDiaryKMs
     }
     
     @objc dynamic var ascentMetres: Double{

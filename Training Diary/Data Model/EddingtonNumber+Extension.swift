@@ -10,6 +10,10 @@ import Foundation
 
 extension EddingtonNumber{
     
+    static func code(_ activity: String?, _ activityType: String?, _ period: String, _ unit: String) -> String{
+        return eddingtonCode(activity, activityType, period, unit)
+    }
+    
     var nextEddingtonNumber: Int16{ return value + 1}
     var nextAnnualEddingtonNumber: Int16 { return annual + 1}
     @objc dynamic var plusOne: Int16 { return nextEddingtonNumber - Int16(contributorsToNext().count) }
@@ -21,27 +25,7 @@ extension EddingtonNumber{
     @objc dynamic var bikeEditable: Bool{ return requiresCalculation && (activity == Activity.Bike.rawValue)}
     
     @objc dynamic var eddingtonCode: String{
-        var result = ""
-        if let a = activity {
-            result += a
-            if a == Activity.Bike.rawValue{
-                if let bikeName = bike{
-                    if bikeName != BikeName.All.rawValue{
-                        result += ":" + bikeName
-                    }
-                }
-            }
-            if let at = activityType {
-                result += ":" + at
-                if let p = period {
-                    result += ":" + p
-                    if let u = unit {
-                        result += ":" + u
-                    }
-                }
-            }
-        }
-        return result
+        return EddingtonNumber.code(activity, activityType, period!, unit!)
     }
     
     func contributorsToNext() -> [EddingtonContributor]{
@@ -320,6 +304,25 @@ extension EddingtonNumber{
             }
         }
         return 0.0
+    }
+    
+    private static func eddingtonCode(_ activity: String?, _ activityType: String?, _ period: String, _ unit: String) -> String{
+            var result = ""
+            if let a = activity {
+                if a != Activity.All.rawValue{
+                    result += a
+                }
+            }
+            if let at = activityType {
+                if at != ActivityType.All.rawValue{
+                    result += ":" + at
+                }
+                result += ":" + period
+                result += ":" + unit
+                
+            }
+        
+        return result.trimmingCharacters(in: CharacterSet.init(charactersIn: ":"))
     }
     
     

@@ -232,6 +232,8 @@ class BikeViewController: NSViewController, TrainingDiaryViewController, NSTable
         var ltdData: [(Date,Double)] = []
         if p.isSummable(){
             var ltd: Double = 0.0
+            if p == WorkoutProperty.km{ ltd = bike.preDiaryKMs }
+            if p == WorkoutProperty.miles{ ltd = bike.preDiaryKMs * Constant.MilesPerKM.rawValue}
             for d in data.sorted(by: {$0.date < $1.date}){
                 ltd += d.value
                 ltdData.append((d.date, ltd))

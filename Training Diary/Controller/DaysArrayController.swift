@@ -26,10 +26,5 @@ class DaysArrayController: NSArrayController {
         return day
     }
     
-    
-    
-
-
-
 }
     

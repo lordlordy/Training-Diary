@@ -19,13 +19,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Training Diary/Controller/EddingtonNumbersViewController.swift"
-            timestampString = "538507948.876075"
+            filePath = "Training Diary/Controller/DaysViewController.swift"
+            timestampString = "538604509.8469189"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "131"
-            endingLineNumber = "131"
-            landmarkName = "EddingtonNumbersViewController"
+            startingLineNumber = "181"
+            endingLineNumber = "181"
+            landmarkName = "DaysViewController"
             landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
@@ -35,14 +35,46 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Training Diary/Controller/TextViewToStringTransformer.swift"
-            timestampString = "538506660.7991689"
+            filePath = "Training Diary/Controller/DaysViewController.swift"
+            timestampString = "538604509.846999"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "25"
-            endingLineNumber = "25"
-            landmarkName = "reverseTransformedValue(_:)"
+            startingLineNumber = "257"
+            endingLineNumber = "257"
+            landmarkName = "selectedDays()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Training_Diary.DaysViewController.comboBox(__ObjC.NSComboBox, indexOfItemWithStringValue: Swift.String) -&gt; Swift.Int"
+                  moduleName = "Training Diary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/stevenlord/Development/Training%20Diary/Training%20Diary/Controller/DaysViewController.swift"
+                  timestampString = "538581116.6896189"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "212"
+                  endingLineNumber = "212"
+                  offsetFromSymbolStart = "41">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Training_Diary.Bike) -&gt; Swift.String in Training_Diary.DaysViewController.comboBox(__ObjC.NSComboBox, indexOfItemWithStringValue: Swift.String) -&gt; Swift.Int"
+                  moduleName = "Training Diary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/stevenlord/Development/Training%20Diary/Training%20Diary/Controller/DaysViewController.swift"
+                  timestampString = "538581116.6911629"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "212"
+                  endingLineNumber = "212"
+                  offsetFromSymbolStart = "15">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -51,13 +83,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Training Diary/Controller/TextViewToStringTransformer.swift"
-            timestampString = "538506660.799261"
+            filePath = "Training Diary/Controller/DaysViewController.swift"
+            timestampString = "538604509.847062"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "19"
-            endingLineNumber = "19"
-            landmarkName = "transformedValue(_:)"
+            startingLineNumber = "258"
+            endingLineNumber = "258"
+            landmarkName = "selectedDays()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -67,45 +99,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Training Diary/Controller/GraphViewController.swift"
-            timestampString = "538506660.799343"
+            filePath = "Training Diary/Controller/DaysViewController.swift"
+            timestampString = "538604509.847118"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "61"
-            endingLineNumber = "61"
-            landmarkName = "periodComboBoxChanged(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Training Diary/Controller/GraphViewController.swift"
-            timestampString = "538506660.799417"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "67"
-            endingLineNumber = "67"
-            landmarkName = "periodComboBoxChanged(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Training Diary/Controller/GraphViewController.swift"
-            timestampString = "538506660.7995"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "286"
-            endingLineNumber = "286"
-            landmarkName = "updateData(forGraph:)"
+            startingLineNumber = "265"
+            endingLineNumber = "265"
+            landmarkName = "arrangedDays()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -116,12 +116,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Training Diary/Controller/DaysViewController.swift"
-            timestampString = "538506660.799577"
+            timestampString = "538604509.847174"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "150"
-            endingLineNumber = "150"
-            landmarkName = "viewDidLoad()"
+            startingLineNumber = "128"
+            endingLineNumber = "128"
+            landmarkName = "exportCSV(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Training Diary/Data Model/CSVExporter.swift"
+            timestampString = "538584966.042477"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
+            landmarkName = "csv(forWorkout:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -131,13 +147,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Training Diary/Controller/CompareGraphViewController.swift"
-            timestampString = "538506660.800209"
+            filePath = "Training Diary/Data Model/CSVExporter.swift"
+            timestampString = "538584966.042733"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "39"
-            endingLineNumber = "39"
-            landmarkName = "graphLengthChange(_:)"
+            startingLineNumber = "63"
+            endingLineNumber = "63"
+            landmarkName = "csv(forWorkout:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -147,29 +163,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Training Diary/Controller/EddingtonNumbersViewController.swift"
-            timestampString = "538507948.877012"
+            filePath = "Training Diary/Controller/DaysViewController.swift"
+            timestampString = "538604509.8472821"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "160"
-            endingLineNumber = "160"
-            landmarkName = "updateSelection(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Training Diary/Controller/EddingtonNumbersViewController.swift"
-            timestampString = "538507948.8775589"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "147"
-            endingLineNumber = "147"
-            landmarkName = "updateSelection(_:)"
+            startingLineNumber = "163"
+            endingLineNumber = "163"
+            landmarkName = "observeValue(forKeyPath:of:change:context:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

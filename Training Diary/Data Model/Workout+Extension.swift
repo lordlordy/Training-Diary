@@ -10,6 +10,10 @@ import Cocoa
 
 extension Workout{
     
+    @objc dynamic var notBike: Bool{
+        return !(activity == Activity.Bike.rawValue)
+    }
+    
     @objc dynamic var hours: Double{
         return seconds * Constant.HoursPerSecond.rawValue
     }
@@ -42,8 +46,8 @@ extension Workout{
     override public class func keyPathsForValuesAffectingValue(forKey key: String) -> Set<String>{
         let keyPaths = super.keyPathsForValuesAffectingValue(forKey: key)
         switch key {
-        case "day.runKM":
-            return keyPaths.union(Set([WorkoutProperty.km.rawValue]))
+        case WorkoutProperty.notBike.rawValue:
+            return keyPaths.union(Set([WorkoutProperty.activity.rawValue]))
         case WorkoutProperty.rpeTSS.rawValue:
             return keyPaths.union(Set([WorkoutProperty.seconds.rawValue,WorkoutProperty.rpe.rawValue]))
         case "estimatedKJ":

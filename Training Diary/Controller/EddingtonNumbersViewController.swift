@@ -46,7 +46,7 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
         }
         
         if let edNumSet = trainingDiary?.lTDEdNumbers?.allObjects as! [LTDEdNum]?{
-            for e in edNumSet.sorted(by: {$0.edCode < $1.edCode}){
+            for e in edNumSet.sorted(by: {$0.code < $1.code}){
                 html += "<tr>\n"
                 html += "<td>\(e.activity!)</td>\n"
                 html += "<td>\(e.activityType!)</td>\n"
