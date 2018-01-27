@@ -13,12 +13,12 @@ class ActivityTypeComboBox: NSComboBox {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        self.addItems(withObjectValues: ActivityType.AllActivityTypes.map({$0.rawValue}))
+        self.addItems(withObjectValues: ActivityTypeEnum.AllActivityTypes.map({$0.rawValue}))
         
     }
   
-    func selectedActivityType() -> ActivityType?{
-        return ActivityType(rawValue: self.stringValue)
+    func selectedActivityType() -> ActivityTypeEnum?{
+        return ActivityTypeEnum(rawValue: self.stringValue)
     }
     
 }

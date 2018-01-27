@@ -255,7 +255,7 @@ class GraphViewController: NSViewController, TrainingDiaryViewController, GraphM
     }
 
     
-    private func createGraphDefinition(forActivity a: Activity, period p: Period, unit u: Unit, type t: ChartType, axis: Axis, drawZeroes: Bool, priority: Int,  format f: GraphFormat) -> ActivityGraphDefinition{
+    private func createGraphDefinition(forActivity a: ActivityEnum, period p: Period, unit u: Unit, type t: ChartType, axis: Axis, drawZeroes: Bool, priority: Int,  format f: GraphFormat) -> ActivityGraphDefinition{
         
         let graphDetails = ActivityGraphDefinition(activity: a, unit: u, period: p)
         graphDetails.graph = GraphDefinition(name: graphDetails.name, axis: axis, type: t, format: f,drawZeroes: drawZeroes, priority: priority)

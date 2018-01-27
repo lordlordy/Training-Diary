@@ -22,7 +22,7 @@ extension EddingtonNumber{
     @objc dynamic var daysSinceLastContributor: Double { return calculateDaysSinceLastContributor() }
 
     @objc dynamic var requiresCalculation: Bool{ return lastUpdated == nil}
-    @objc dynamic var bikeEditable: Bool{ return requiresCalculation && (activity == Activity.Bike.rawValue)}
+    @objc dynamic var bikeEditable: Bool{ return requiresCalculation && (activity == ActivityEnum.Bike.rawValue)}
     
     @objc dynamic var eddingtonCode: String{
         return EddingtonNumber.code(activity, activityType, period!, unit!)
@@ -309,12 +309,12 @@ extension EddingtonNumber{
     private static func eddingtonCode(_ activity: String?, _ activityType: String?, _ period: String, _ unit: String) -> String{
             var result = ""
             if let a = activity {
-                if a != Activity.All.rawValue{
+                if a != ActivityEnum.All.rawValue{
                     result += a
                 }
             }
             if let at = activityType {
-                if at != ActivityType.All.rawValue{
+                if at != ActivityTypeEnum.All.rawValue{
                     result += ":" + at
                 }
                 result += ":" + period

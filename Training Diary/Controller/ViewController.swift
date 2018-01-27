@@ -24,9 +24,6 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
     //MARK: - @IBOutlets
     
     @IBOutlet var trainingDiarysArrayController: NSArrayController!
-    @IBOutlet weak var tsbActivityComboBox: NSComboBox!
-    @IBOutlet weak var atlDaysTextField: NSTextField!
-    @IBOutlet weak var ctlDaysTextField: NSTextField!
     
     //MARK: - Initialisers
     
@@ -53,52 +50,20 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
             if let c = controller as? TrainingDiaryViewController{
                 trainingDiaryVCs.append(c)
             }
-            if let controller = controller as? DaysViewController{
-                daysViewController = controller
-                
-            }
-            if let controller = controller as? EddingtonNumbersViewController{
-                eddingtonNumbersViewController = controller
-            }
-
-            if let controller = controller as? WeightHRViewController{
-                weightHRViewController = controller
-            }
-            if let controller = controller as? GraphViewController{
-                graphViewController = controller
-            }
-            if let controller = controller as? CompareGraphViewController{
-                comparisonGraphViewController = controller
-            }
+            if let controller = controller as? DaysViewController{ daysViewController = controller }
+            if let controller = controller as? EddingtonNumbersViewController{ eddingtonNumbersViewController = controller }
+            if let controller = controller as? WeightHRViewController{ weightHRViewController = controller }
+            if let controller = controller as? GraphViewController{ graphViewController = controller }
+            if let controller = controller as? CompareGraphViewController{ comparisonGraphViewController = controller }
         }
         
-
     }
-    
-    @IBAction func tsbActivityChanges(_ sender: NSComboBox) {
-        if let td = selectedTrainingDiary(){
-            switch sender.stringValue{
-            case Activity.Swim.rawValue:
-                atlDaysTextField.integerValue = Int(td.swimATLDays)
-                ctlDaysTextField.integerValue = Int(td.swimCTLDays)
-            case Activity.Bike.rawValue:
-                atlDaysTextField.integerValue = Int(td.bikeATLDays)
-                ctlDaysTextField.integerValue = Int(td.bikeCTLDays)
-            case Activity.Run.rawValue:
-                atlDaysTextField.integerValue = Int(td.runATLDays)
-                ctlDaysTextField.integerValue = Int(td.runCTLDays)
-            default:
-                atlDaysTextField.integerValue = Int(td.atlDays)
-                ctlDaysTextField.integerValue = Int(td.ctlDays)
-            }
 
-        }
-    }
     
-    @IBAction func recalcAllTSB(_ sender: NSButton) {
+ /*   @IBAction func recalcAllTSB(_ sender: NSButton) {
         let start = Date()
         if let td = selectedTrainingDiary(){
-            for a in Activity.allActivities{
+            for a in ActivityEnum.allActivities{
                 td.calcTSB(forActivity: a, fromDate: td.firstDayOfDiary)
             }
         }
@@ -110,21 +75,13 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
     @IBAction func recalcFromTSB(_ sender: NSButton) {
         if let td = selectedTrainingDiary(){
             if let d = latestSelectedDate(){
-                for a in Activity.allActivities{
+                for a in ActivityEnum.allActivities{
                     td.calcTSB(forActivity: a, fromDate: d)
                 }
             }
         }
     }
-    
-    
-    @IBAction func atlDaysChanged(_ sender: NSTextField) {
-        setSelectedATLDays(toValue: sender.doubleValue)
-    }
-    
-    @IBAction func ctlDaysChanged(_ sender: NSTextField) {
-        setSelectedCTLDays(toValue: sender.doubleValue)
-    }
+   */
     
     @IBAction func newDiary(_ sender: Any){
         trainingDiarysArrayController.add(sender)
@@ -141,11 +98,6 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
                 c.set(trainingDiary: trainingDiary)
             }
             
-            // not sure what this is for !
-            if let cb = tsbActivityComboBox{
-                cb.selectItem(at: 0)
-                tsbActivityChanges(cb)
-            }
         }
     }
  
@@ -338,72 +290,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
         
     }
     
-    /* Returns the ATL days for the activity selected in tsbActivityComboBox
- */
-    private func getSelectedTSBConstants() -> (atlDays: Double, ctlDays: Double){
-        var result  = (atlDays: 0.0, ctlDays: 0.0)
-        if let td = selectedTrainingDiary(){
-            if let comboBox = tsbActivityComboBox{
-                switch comboBox.stringValue{
-                case Activity.Swim.rawValue:
-                    result.atlDays = td.swimATLDays
-                    result.ctlDays = td.swimCTLDays
-                case Activity.Bike.rawValue:
-                    result.atlDays = td.bikeATLDays
-                    result.ctlDays = td.bikeCTLDays
-                case Activity.Run.rawValue:
-                    result.atlDays = td.runATLDays
-                    result.ctlDays = td.runCTLDays
-                default:
-                    result.atlDays = td.atlDays
-                    result.ctlDays = td.ctlDays
-                }
-            }
-        }
-        return result
-    }
-    
-    // sets the ATL days for the activity selected in tsbActivityComboBox. Only sets if changed
-    private func setSelectedATLDays(toValue value: Double){
-        if value != getSelectedTSBConstants().atlDays{
-            if let td = selectedTrainingDiary(){
-                if let comboBox = tsbActivityComboBox{
-                    switch comboBox.stringValue{
-                    case Activity.Swim.rawValue:
-                        td.setValue(value, forKey: TrainingDiaryProperty.swimATLDays.rawValue)
-                    case Activity.Bike.rawValue:
-                        td.setValue(value, forKey: TrainingDiaryProperty.bikeATLDays.rawValue)
-                    case Activity.Run.rawValue:
-                        td.setValue(value, forKey: TrainingDiaryProperty.runATLDays.rawValue)
-                    default:
-                        td.setValue(value, forKey: TrainingDiaryProperty.atlDays.rawValue)
-                    }
-                }
-            }
-        }
-    }
 
-    // sets the ATL days for the activity selected in tsbActivityComboBox. Only sets if changed
-    private func setSelectedCTLDays(toValue value: Double){
-        if value != getSelectedTSBConstants().atlDays{
-            if let td = selectedTrainingDiary(){
-                if let comboBox = tsbActivityComboBox{
-                    switch comboBox.stringValue{
-                    case Activity.Swim.rawValue:
-                        td.setValue(value, forKey: TrainingDiaryProperty.swimCTLDays.rawValue)
-                    case Activity.Bike.rawValue:
-                        td.setValue(value, forKey: TrainingDiaryProperty.bikeCTLDays.rawValue)
-                    case Activity.Run.rawValue:
-                        td.setValue(value, forKey: TrainingDiaryProperty.runCTLDays.rawValue)
-                    default:
-                        td.setValue(value, forKey: TrainingDiaryProperty.ctlDays.rawValue)
-                    }
-                }
-            }
-        }
-    }
-    
-    
     private func selectedDays() -> [Day]{
         if let dvc = daysViewController{
             if let dac = dvc.daysArrayController{

@@ -89,7 +89,7 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
         calcProgressTextField!.stringValue = "starting..."
         DispatchQueue.global(qos: .userInitiated).async {
             var totalPossible: Int = 0
-            for a in Activity.allActivities{
+            for a in ActivityEnum.allActivities{
                 let validUnitsForActivity = a.validUnits()
                 for at in a.validTypes(){
                     let validUnitsCount = validUnitsForActivity.intersection(at.validUnits()).count
@@ -102,7 +102,7 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
             let calculator = EddingtonNumberCalculator()
             var name: String = ""
             
-            for a in Activity.allActivities{
+            for a in ActivityEnum.allActivities{
  //           for a in [Activity.Bike]{
                 for at in a.validTypes(){
  //                       for at in [ActivityType.All]{

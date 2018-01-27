@@ -51,7 +51,7 @@ class DaysViewController: NSViewController, TrainingDiaryViewController, NSCombo
         let start = Date()
         for e in trainingDiary!.eddingtonNumbers!{
             let s = Date()
-            var edNum = e as! EddingtonNumber
+            let edNum = e as! EddingtonNumber
             let calculator = EddingtonNumberCalculator()
             calculator.calculate(eddingtonNumber: edNum)
             edNum.update(forCalculator: calculator)
@@ -165,6 +165,7 @@ class DaysViewController: NSViewController, TrainingDiaryViewController, NSCombo
                     if let workout = currentWorkout{
                         if let bike = td.bike(forName: workout.bike!){
                             workout.bikeHistory = bike
+                            print("Workout \(workout.day!.date!.dateOnlyShorterString()) added to history for \(bike.name!)")
                         }
                     }
                 }
@@ -216,15 +217,48 @@ class DaysViewController: NSViewController, TrainingDiaryViewController, NSCombo
     
     //MARK: - NSComboBoxDataSource
     func comboBox(_ comboBox: NSComboBox, objectValueForItemAt index: Int) -> Any? {
-        let bikes = trainingDiary!.orderedActiveBikes().map{$0.name!}
-        if index < bikes.count{
-            return bikes[index]
+        if let identifier = comboBox.identifier{
+            switch identifier.rawValue{
+            case "BikeComboBox":
+                let bikes = trainingDiary!.orderedActiveBikes().map{$0.name!}
+                if index < bikes.count{
+                    return bikes[index]
+                }
+            case "ActivityComboBox":
+                let activities = trainingDiary!.activitiesArray().map({$0.name!})
+                if index < activities.count{
+                    return activities[index]
+                }
+            case "ActivityTypeComboBox":
+                if let a = currentWorkout?.activity{
+                    let types = trainingDiary!.validActivityTypes(forActivityString: a).map({$0.name!})
+                    if index < types.count{
+                        return types[index]
+                    }
+                }
+            default:
+                print("What combo box is this \(identifier.rawValue) which I'm (DaysViewController) a data source for? ")
+            }
         }
         return nil
     }
 
     func numberOfItems(in comboBox: NSComboBox) -> Int {
-        return trainingDiary!.activeBikes().count
+        if let identifier = comboBox.identifier{
+            switch identifier.rawValue{
+            case "BikeComboBox":
+                return trainingDiary!.activeBikes().count
+            case "ActivityComboBox":
+                return trainingDiary!.activitiesArray().count
+            case "ActivityTypeComboBox":
+                if let a = currentWorkout?.activity{
+                    return trainingDiary!.validActivityTypes(forActivityString: a).count
+                }
+            default:
+                return 0
+            }
+        }
+        return 0
     }
     
     //MARK: - TrainingDiaryViewController

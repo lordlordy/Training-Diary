@@ -11,7 +11,7 @@ import Cocoa
 extension Workout{
     
     @objc dynamic var notBike: Bool{
-        return !(activity == Activity.Bike.rawValue)
+        return !(activity == ActivityEnum.Bike.rawValue)
     }
     
     @objc dynamic var hours: Double{
@@ -66,7 +66,7 @@ extension Workout{
          Unit
      Returning zero if it's not this type
      */
-    func valueFor(_ a: [Activity],_ t: [ActivityType], _ unit: Unit, _ b: BikeName? = nil) -> Double{
+    func valueFor(_ a: [ActivityEnum],_ t: [ActivityTypeEnum], _ unit: Unit, _ b: BikeName? = nil) -> Double{
         if let requestedBike = b{
             //bike passed in. If this workout is on this bike then continue. If not return zero
             if requestedBike.rawValue != bike{
@@ -97,31 +97,31 @@ extension Workout{
     
     //MARK: - private
     
-    private func isOfType(_ a: Activity, _ t: ActivityType ) -> Bool{
+    private func isOfType(_ a: ActivityEnum, _ t: ActivityTypeEnum ) -> Bool{
         return isOneOfTheseTypes([a], [t])
     }
     
-    private func isOneOfTheseTypes(_ a: [Activity], _ t: [ActivityType]) -> Bool{
-        return (a.contains(Activity.All) || isOneOff(a)) && (t.contains(ActivityType.All) || isOneOff(t))
+    private func isOneOfTheseTypes(_ a: [ActivityEnum], _ t: [ActivityTypeEnum]) -> Bool{
+        return (a.contains(ActivityEnum.All) || isOneOff(a)) && (t.contains(ActivityTypeEnum.All) || isOneOff(t))
     }
     
-    private func getActivity() -> Activity?{
+    private func getActivity() -> ActivityEnum?{
         if let activity = self.activity{
-            return Activity(rawValue: activity)
+            return ActivityEnum(rawValue: activity)
         }else{
             return nil
         }
     }
 
-    private func getActivityType() -> ActivityType?{
+    private func getActivityType() -> ActivityTypeEnum?{
         if let activityType  = self.activityType{
-            return ActivityType(rawValue: activityType)
+            return ActivityTypeEnum(rawValue: activityType)
         }else{
             return nil
         }
     }
     
-    private func isOneOff(_ a: [Activity]) -> Bool{
+    private func isOneOff(_ a: [ActivityEnum]) -> Bool{
         if getActivity() == nil {
             return false
         }else{
@@ -129,7 +129,7 @@ extension Workout{
         }
     }
 
-    private func isOneOff(_ a: [ActivityType]) -> Bool{
+    private func isOneOff(_ a: [ActivityTypeEnum]) -> Bool{
         if getActivityType() == nil {
             return false
         }else{

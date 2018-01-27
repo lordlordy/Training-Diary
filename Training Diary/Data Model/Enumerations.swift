@@ -57,6 +57,8 @@ enum Constant: Double {
     case FeetPerMetre       = 3.28084
     case LbsPerKg           = 2.20462
     case SecondsPer365Days  = 31_536_000
+    case ATLDays            = 7
+    case CTLDays            = 42
 }
 
 
@@ -107,7 +109,7 @@ enum Period: String{
 /* Need to decide what to do with activity type "ALLActivities" ... it's not quite right. It's not an activity. Perhaps I need
  to allow nil in certain case with activity and that mens all of them.
 */
-enum Activity: String{
+enum ActivityEnum: String{
     case Swim 
     case Bike
     case Run
@@ -122,7 +124,7 @@ enum Activity: String{
         return self.rawValue.lowercased() + unit.rawValue
     }
     
-    func validTypes() -> [ActivityType]{
+    func validTypes() -> [ActivityTypeEnum]{
         switch self{
         case .Swim:
             return [ .Solo, .Squad, .OpenWater, .All ]
@@ -163,7 +165,7 @@ enum Activity: String{
 
 }
 
-enum ActivityType: String{
+enum ActivityTypeEnum: String{
     case Solo
     case Squad
     case OpenWater
@@ -353,6 +355,7 @@ enum ENTITY: String{
     case TrainingDiary, Day, Workout, Weight, Physiological, Metric, Bike
     case EddingtonNumber, EddingtonAnnualContributor, EddingtonAnnualHistory
     case EddingtonContributor, EddingtonHistory, LTDEdNum
+    case Activity, ActivityType
 }
 
 enum BikeProperty: String{
@@ -433,6 +436,8 @@ enum WorkoutProperty: String, FileMakerProJSONString{
     
     static var AllProperties = [activity, activityType, ascentFeet, ascentMetres, bike, brick, cadence, comments, hours, hr, isRace, keywords, kj, km, reps, rpe, seconds, rpeTSS, tss, tssMethod, watts, wattsEstimated, notBike]
     static var DoubleProperties = [ascentFeet, ascentMetres, cadence, hr, hours, kj, km, miles, rpe, seconds, rpeTSS, tss, watts]
+    static var StringProperties = [activity, activityType, bike, comments, keywords, tssMethod]
+    static var BooleanProperties = [brick, isRace, wattsEstimated]
     
     func isSummable() -> Bool{
         switch self{

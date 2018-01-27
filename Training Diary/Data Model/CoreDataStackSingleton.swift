@@ -53,18 +53,22 @@ class CoreDataStackSingleton{
     
         print("Entity counts for Training Diary: \(String(describing: td.name))")
             
-        let days        = getCount(forEntity: ENTITY.Day, forTrainingDiary: td)
-        let workouts    = getCount(forEntity: ENTITY.Workout, forTrainingDiary: td)
-        let weights     = getCount(forEntity: ENTITY.Weight, forTrainingDiary:td)
-        let physios     = getCount(forEntity: ENTITY.Physiological, forTrainingDiary:td)
-        let edNums      = getCount(forEntity: ENTITY.EddingtonNumber, forTrainingDiary: td)
-        
+        let days            = getCount(forEntity: ENTITY.Day, forTrainingDiary: td)
+        let workouts        = getCount(forEntity: ENTITY.Workout, forTrainingDiary: td)
+        let weights         = getCount(forEntity: ENTITY.Weight, forTrainingDiary:td)
+        let physios         = getCount(forEntity: ENTITY.Physiological, forTrainingDiary:td)
+        let edNums          = getCount(forEntity: ENTITY.EddingtonNumber, forTrainingDiary: td)
+        let activities      = getCount(forEntity: ENTITY.Activity, forTrainingDiary: td)
+        let activityTypes   = getCount(forEntity: ENTITY.ActivityType, forTrainingDiary: td)
+
         print("Number of days: \(days)")
         print("Number of workouts: \(workouts)")
         print("Number of weights: \(weights)")
         print("Number of physiologicals:  \(physios)")
         print("Number of EddingtonNumbers:  \(edNums)")
-        
+        print("Number of Activities:  \(activities)")
+        print("Number of ActivityTypes:  \(activityTypes)")
+
     }
     
     
@@ -104,8 +108,8 @@ class CoreDataStackSingleton{
         let metricsMOSet = d.mutableSetValue(forKey: DayProperty.metrics.rawValue)
         let metricKeys: [String] = (metricsMOSet.allObjects as! [Metric]).map({$0.uniqueKey})
         for metric in Unit.metrics{
-            for a in Activity.allActivities{
-                if a != Activity.All{ // All is calculated
+            for a in ActivityEnum.allActivities{
+                if a != ActivityEnum.All{ // All is calculated
                     if !metricKeys.contains(Metric.key(forActivity: a, andUnit: metric)){
                         //add metric
                         let m = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.Metric.rawValue, in: trainingDiaryPC.viewContext)!, insertInto: trainingDiaryPC.viewContext)
@@ -161,7 +165,24 @@ class CoreDataStackSingleton{
         }
     }
     
-    func workouts(forActivity a: Activity, andTrainingDiary td: TrainingDiary) -> [Workout]{
+    func workouts(forTrainingDiary td: TrainingDiary) -> [Workout]{
+        let workoutRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: ENTITY.Workout.rawValue)
+        workoutRequest.predicate = NSPredicate(format: "day.trainingDiary = %@", argumentArray: [td])
+        
+        do{
+            let workouts = try trainingDiaryPC.viewContext.fetch(workoutRequest)
+            print("\(workouts.count) workouts found in training diary \(String(describing: td.name))")
+            return workouts as! [Workout]
+            
+        }catch{
+            print("failed to get workouts for training diary: \(String(describing: td.name))")
+            print("error")
+        }
+        
+        return []
+    }
+    
+    func workouts(forActivity a: ActivityEnum, andTrainingDiary td: TrainingDiary) -> [Workout]{
         
         let workoutRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: ENTITY.Workout.rawValue)
         workoutRequest.predicate = NSPredicate(format: "day.trainingDiary = %@ and activity = %@", argumentArray: [td, a.rawValue])
@@ -291,7 +312,8 @@ class CoreDataStackSingleton{
         switch entity{
         case .Workout:
             return getEntityCountFor(entityName: entity.rawValue,predicate: NSPredicate.init(format: "day.trainingDiary == %@", argumentArray: [td]), sortDescriptor: nil, trainingDiary: td)
-            
+        case .ActivityType:
+            return getEntityCountFor(entityName: entity.rawValue,predicate: NSPredicate.init(format: "activity.trainingDiary == %@", argumentArray: [td]), sortDescriptor: nil, trainingDiary: td)
         default:
             return getEntityCountFor(entityName: entity.rawValue,predicate: NSPredicate.init(format: "trainingDiary == %@", argumentArray: [td]), sortDescriptor: nil, trainingDiary: td)
             

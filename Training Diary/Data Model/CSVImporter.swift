@@ -204,7 +204,7 @@ class CSVImporter{
         
         //    case swimSeconds, swimComments, swimIsRace, swimKJ, swimKM, swimRPE, swimTSS, swimTSSMethod, swimType, swimWatts
 
-        workout.setValue(Activity.Swim.rawValue, forKey: WorkoutProperty.activity.rawValue)
+        workout.setValue(ActivityEnum.Swim.rawValue, forKey: WorkoutProperty.activity.rawValue)
         if let i = columnDictionary[CSVImportString.swimSeconds.rawValue]{ workout.setValue(Double(row[i]), forKey: WorkoutProperty.seconds.rawValue) }
         if let i = columnDictionary[CSVImportString.swimComments.rawValue]{ workout.setValue(row[i], forKey: WorkoutProperty.comments.rawValue) }
         if let i = columnDictionary[CSVImportString.swimIsRace.rawValue]{
@@ -221,7 +221,7 @@ class CSVImporter{
         if let i = columnDictionary[CSVImportString.swimTSSMethod.rawValue]{ workout.setValue(row[i], forKey: WorkoutProperty.tssMethod.rawValue) }
         if let i = columnDictionary[CSVImportString.swimType.rawValue]{
             if row[i] == ""{
-                workout.setValue(ActivityType.Squad.rawValue, forKey: WorkoutProperty.activityType.rawValue)
+                workout.setValue(ActivityTypeEnum.Squad.rawValue, forKey: WorkoutProperty.activityType.rawValue)
             }else{
                 workout.setValue(row[i], forKey: WorkoutProperty.activityType.rawValue)
             }
@@ -235,7 +235,7 @@ class CSVImporter{
         workouts.add(workout)
         
        // case bikeSeconds, bikeAscentMetres, bikeBrick, bikeCadence, BikeComments, bikeHR, bikeIsRace, bikeKJ, bikeKM, bikeRPE, bikeTSS, bikeTSSMethod, bikeType, bikeWatts
-        workout.setValue(Activity.Bike.rawValue, forKey: WorkoutProperty.activity.rawValue)
+        workout.setValue(ActivityEnum.Bike.rawValue, forKey: WorkoutProperty.activity.rawValue)
         if let i = columnDictionary[CSVImportString.bikeSeconds.rawValue]{      workout.setValue(Double(row[i]), forKey: WorkoutProperty.seconds.rawValue) }
         if let i = columnDictionary[CSVImportString.bikeAscentMetres.rawValue]{ workout.setValue(Double(row[i]), forKey: WorkoutProperty.ascentMetres.rawValue) }
         if let i = columnDictionary[CSVImportString.bikeBrick.rawValue]{
@@ -262,7 +262,7 @@ class CSVImporter{
         if let i = columnDictionary[CSVImportString.bikeTSSMethod.rawValue]{    workout.setValue(row[i], forKey: WorkoutProperty.tssMethod.rawValue) }
         if let i = columnDictionary[CSVImportString.bikeType.rawValue]{
             if row[i] == ""{
-               workout.setValue(ActivityType.Road.rawValue, forKey: WorkoutProperty.activityType.rawValue)
+               workout.setValue(ActivityTypeEnum.Road.rawValue, forKey: WorkoutProperty.activityType.rawValue)
             }else{
                 workout.setValue(row[i], forKey: WorkoutProperty.activityType.rawValue)
             }
@@ -276,7 +276,7 @@ class CSVImporter{
         workouts.add(workout)
         
         //case runSeconds, runAscentMetres, runBrick, runCadence, runComments, runHR, runIsRace, runKJ, runKM, runRPE, runTSS, runTSSMethod, runType, runWatts
-        workout.setValue(Activity.Run.rawValue, forKey: WorkoutProperty.activity.rawValue)
+        workout.setValue(ActivityEnum.Run.rawValue, forKey: WorkoutProperty.activity.rawValue)
         if let i = columnDictionary[CSVImportString.runSeconds.rawValue]{      workout.setValue(Double(row[i]), forKey: WorkoutProperty.seconds.rawValue) }
         if let i = columnDictionary[CSVImportString.runAscentMetres.rawValue]{ workout.setValue(Double(row[i]), forKey: WorkoutProperty.ascentMetres.rawValue) }
         if let i = columnDictionary[CSVImportString.runBrick.rawValue]{
@@ -303,7 +303,7 @@ class CSVImporter{
         if let i = columnDictionary[CSVImportString.runTSSMethod.rawValue]{    workout.setValue(row[i], forKey: WorkoutProperty.tssMethod.rawValue) }
         if let i = columnDictionary[CSVImportString.runType.rawValue]{
             if row[i] == ""{
-                workout.setValue(ActivityType.Road.rawValue, forKey: WorkoutProperty.activityType.rawValue)
+                workout.setValue(ActivityTypeEnum.Road.rawValue, forKey: WorkoutProperty.activityType.rawValue)
             }else{
                 workout.setValue(row[i], forKey: WorkoutProperty.activityType.rawValue)
             }
@@ -317,7 +317,7 @@ class CSVImporter{
         workouts.add(workout)
         
         //case gymSeconds, gymComments, gymKJ, gymReps, gymRPE, gymTSS, gymTSSMethod, gymType
-        workout.setValue(Activity.Gym.rawValue, forKey: WorkoutProperty.activity.rawValue)
+        workout.setValue(ActivityEnum.Gym.rawValue, forKey: WorkoutProperty.activity.rawValue)
         if let i = columnDictionary[CSVImportString.gymSeconds.rawValue]{ workout.setValue(Double(row[i]), forKey: WorkoutProperty.seconds.rawValue) }
         if let i = columnDictionary[CSVImportString.gymComments.rawValue]{ workout.setValue(row[i], forKey: WorkoutProperty.comments.rawValue) }
         if let i = columnDictionary[CSVImportString.gymKJ.rawValue]{ workout.setValue(Double(row[i]), forKey: WorkoutProperty.kj.rawValue) }
@@ -327,7 +327,7 @@ class CSVImporter{
         if let i = columnDictionary[CSVImportString.gymTSSMethod.rawValue]{ workout.setValue(row[i], forKey: WorkoutProperty.tssMethod.rawValue) }
         if let i = columnDictionary[CSVImportString.gymType.rawValue]{
             if row[i] == ""{
-                workout.setValue(ActivityType.General.rawValue, forKey: WorkoutProperty.activityType.rawValue)
+                workout.setValue(ActivityTypeEnum.General.rawValue, forKey: WorkoutProperty.activityType.rawValue)
             }else{
                 workout.setValue(row[i], forKey: WorkoutProperty.activityType.rawValue)
             }
@@ -340,7 +340,7 @@ class CSVImporter{
         workouts.add(workout)
         
         //case walkSeconds, walkAscentMetres, walkComments, walkHR, walkKJ, walkKM, walkRPE, walkTSS, walkTSSMethod, walkType
-        workout.setValue(Activity.Walk.rawValue, forKey: WorkoutProperty.activity.rawValue)
+        workout.setValue(ActivityEnum.Walk.rawValue, forKey: WorkoutProperty.activity.rawValue)
         if let i = columnDictionary[CSVImportString.walkSeconds.rawValue]{      workout.setValue(Double(row[i]), forKey: WorkoutProperty.seconds.rawValue) }
         if let i = columnDictionary[CSVImportString.walkAscentMetres.rawValue]{ workout.setValue(Double(row[i]), forKey: WorkoutProperty.ascentMetres.rawValue) }
         if let i = columnDictionary[CSVImportString.walkComments.rawValue]{     workout.setValue(row[i], forKey: WorkoutProperty.comments.rawValue) }
@@ -352,7 +352,7 @@ class CSVImporter{
         if let i = columnDictionary[CSVImportString.walkTSSMethod.rawValue]{    workout.setValue(row[i], forKey: WorkoutProperty.tssMethod.rawValue) }
         if let i = columnDictionary[CSVImportString.walkType.rawValue]{
             if row[i] == ""{
-                workout.setValue(ActivityType.General.rawValue, forKey: WorkoutProperty.activityType.rawValue)
+                workout.setValue(ActivityTypeEnum.General.rawValue, forKey: WorkoutProperty.activityType.rawValue)
             }else{
                 workout.setValue(row[i], forKey: WorkoutProperty.activityType.rawValue)
             }
@@ -365,7 +365,7 @@ class CSVImporter{
         workouts.add(workout)
         
         //case otherSeconds, otherComments, otherHR, otherKJ, otherRPE, otherTSS, otherTSSMethod, otherType
-        workout.setValue(Activity.Swim.rawValue, forKey: WorkoutProperty.activity.rawValue)
+        workout.setValue(ActivityEnum.Swim.rawValue, forKey: WorkoutProperty.activity.rawValue)
         if let i = columnDictionary[CSVImportString.otherSeconds.rawValue]{ workout.setValue(Double(row[i]), forKey: WorkoutProperty.seconds.rawValue) }
         if let i = columnDictionary[CSVImportString.otherComments.rawValue]{ workout.setValue(row[i], forKey: WorkoutProperty.comments.rawValue) }
         if let i = columnDictionary[CSVImportString.otherHR.rawValue]{ workout.setValue(Double(row[i]), forKey: WorkoutProperty.hr.rawValue) }
@@ -375,7 +375,7 @@ class CSVImporter{
         if let i = columnDictionary[CSVImportString.otherTSSMethod.rawValue]{ workout.setValue(row[i], forKey: WorkoutProperty.tssMethod.rawValue) }
         if let i = columnDictionary[CSVImportString.otherType.rawValue]{
             if row[i] == ""{
-                workout.setValue(ActivityType.General.rawValue, forKey: WorkoutProperty.activityType.rawValue)
+                workout.setValue(ActivityTypeEnum.General.rawValue, forKey: WorkoutProperty.activityType.rawValue)
             }else{
                 workout.setValue(row[i], forKey: WorkoutProperty.activityType.rawValue)
             }

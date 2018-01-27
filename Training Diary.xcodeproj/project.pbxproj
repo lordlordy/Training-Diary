@@ -10,6 +10,7 @@
 		7309AED61FC6CCC100054A6B /* ActivityGraphDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7309AED51FC6CCC100054A6B /* ActivityGraphDefinition.swift */; };
 		730AE25E1FC732DB00348A63 /* ChartTypeComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730AE25D1FC732DB00348A63 /* ChartTypeComboBox.swift */; };
 		730DB7571FE132F500579A81 /* Metric+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730DB7561FE132F500579A81 /* Metric+Extension.swift */; };
+		7310C767201A76E3005FEEAE /* AdminViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7310C766201A76E3005FEEAE /* AdminViewController.swift */; };
 		731CF8051F981C3300C59AA8 /* RollingSum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731CF8041F981C3300C59AA8 /* RollingSum.swift */; };
 		731CF8071F98467A00C59AA8 /* TSBCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731CF8061F98467A00C59AA8 /* TSBCalculator.swift */; };
 		732103AE1FCFFB570020F365 /* CSVImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732103AD1FCFFB570020F365 /* CSVImporter.swift */; };
@@ -84,6 +85,7 @@
 		7309AED51FC6CCC100054A6B /* ActivityGraphDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityGraphDefinition.swift; sourceTree = "<group>"; };
 		730AE25D1FC732DB00348A63 /* ChartTypeComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartTypeComboBox.swift; sourceTree = "<group>"; };
 		730DB7561FE132F500579A81 /* Metric+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Metric+Extension.swift"; sourceTree = "<group>"; };
+		7310C766201A76E3005FEEAE /* AdminViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminViewController.swift; sourceTree = "<group>"; };
 		731CF8041F981C3300C59AA8 /* RollingSum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollingSum.swift; sourceTree = "<group>"; };
 		731CF8061F98467A00C59AA8 /* TSBCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSBCalculator.swift; sourceTree = "<group>"; };
 		732103AD1FCFFB570020F365 /* CSVImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVImporter.swift; sourceTree = "<group>"; };
@@ -255,6 +257,7 @@
 				7385C4781FAA600A00F48685 /* DaysViewController.swift */,
 				73E25E1A1FC038FC0081FC62 /* GraphViewController.swift */,
 				73E7FD372015FA2900D1FCD4 /* BikeViewController.swift */,
+				7310C766201A76E3005FEEAE /* AdminViewController.swift */,
 				73D3738620176FD600E44427 /* BikeGraphs.swift */,
 				73D89F9B1FD1BB03002F07A2 /* CompareGraphViewController.swift */,
 				7309AED51FC6CCC100054A6B /* ActivityGraphDefinition.swift */,
@@ -375,6 +378,7 @@
 				73FC61E5200E26AA00C61DE6 /* LTDEddingtonNumberWebViewController.swift in Sources */,
 				73265B661FB47D240081D3F9 /* Weight+Extension.swift in Sources */,
 				732EF2141FD0B5E6008768C0 /* RollingPeriodWeightedAverage.swift in Sources */,
+				7310C767201A76E3005FEEAE /* AdminViewController.swift in Sources */,
 				7309AED61FC6CCC100054A6B /* ActivityGraphDefinition.swift in Sources */,
 				73DC9B111FDC373700D4774A /* NumberToDetailedTimeTransformer.swift in Sources */,
 				73F270621FAB0CC400D36156 /* TableViewWithColumnSort.swift in Sources */,

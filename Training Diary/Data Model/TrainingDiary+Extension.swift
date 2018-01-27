@@ -8,7 +8,7 @@
 
 import Foundation
 
-class WorkoutHistory {
+/* class WorkoutHistory {
     var date: Date
     var workout: Workout
     var kmTD: Double
@@ -37,15 +37,15 @@ class WorkoutHistory {
         secondsTD = previous.secondsTD + workout.seconds
         tssTD = previous.tssTD + workout.tss
     }
-    
+ 
     func printHistory(){
         print("\(date): km:\(kmTD) metres:\(ascentMetresTD) kj:\(kjTD) reps:\(repsTD) seconds:\(secondsTD) tss: \(tssTD)")
     }
 
     
 }
-
-@objc class BikeHistory: NSObject{
+*/
+/*@objc class BikeHistory: NSObject{
     @objc dynamic var name: String
     @objc dynamic var isValid: Bool{
         return BikeName(rawValue: name) != nil
@@ -60,7 +60,7 @@ class WorkoutHistory {
         self.name = name
     }
 }
-
+*/
 extension TrainingDiary{
     
     //MARK: - for display in GUI summary
@@ -98,6 +98,10 @@ extension TrainingDiary{
     // don't think this really need @objc dynamic - check and remove
     @objc dynamic var lastDayOfDiary: Date{
         return latestDay()?.date ?? Date()
+    }
+    
+    @objc dynamic var workouts: [Workout]{
+        return CoreDataStackSingleton.shared.workouts(forTrainingDiary: self)
     }
     
     //MARK: - Validation functions
@@ -156,9 +160,10 @@ extension TrainingDiary{
 
     }
     
+    //MARK: -
     
-    func calculateBikeHistory(){
-        let bikeWorkouts = CoreDataStackSingleton.shared.workouts(forActivity: Activity.Bike, andTrainingDiary: self)
+/*    func calculateBikeHistory(){
+        let bikeWorkouts = CoreDataStackSingleton.shared.workouts(forActivity: ActivityEnum.Bike, andTrainingDiary: self)
         var results: [String:[WorkoutHistory]] = [:]
         for b in bikeWorkouts.sorted(by: {$0.day!.date! < $1.day!.date!}){
             if results[b.bike!] != nil{
@@ -177,13 +182,60 @@ extension TrainingDiary{
         }
         
     }
-    
+    */
     func connectWorkouts(forBike bike: Bike){
          CoreDataStackSingleton.shared.connectWorkouts(toBike: bike)
     }
     
+    func uniqueActivityTypePairs() -> [String]{
+        
+        var result: [String] = []
+        
+        for a in ActivityEnum.allActivities{
+            let workouts = CoreDataStackSingleton.shared.workouts(forActivity: a, andTrainingDiary: self)
+            for w in workouts{
+                var possibleValue: String = w.activity!
+                possibleValue += ":"
+                possibleValue += w.activityType!
+                if possibleValue == "Swim:Road"{
+                    print("\(possibleValue) - \(w.day!.date!.dateOnlyShorterString())")
+                }
+                if possibleValue == "Run:Solo"{
+                    print("\(possibleValue) - \(w.day!.date!.dateOnlyShorterString())")
+                }
+                if !result.contains(possibleValue){
+                    result.append(possibleValue)
+                }
+            }
+        }
+        return result
+        
+    }
     
-    //MARK: -
+    func activity(forString a: String) -> Activity?{
+        let a = activitiesArray().filter({$0.name == a})
+        if a.count == 1{
+            return a[0]
+        }
+        return nil
+    }
+    
+    func validActivityTypes(forActivityString a: String) -> [ActivityType]{
+        if let activity = activity(forString: a){
+            if let types = activity.activityTypes?.allObjects as? [ActivityType]{
+                return types
+            }
+        }
+        return []
+    }
+    
+    func activitiesArray() -> [Activity]{
+        if let a = activities{
+            let result = a.allObjects as! [Activity]
+            return result.sorted(by: {$0.name! < $1.name!})
+        }
+        return []
+    }
     
     func bikeArray() -> [Bike]{
         if let b = bikes{
@@ -293,17 +345,17 @@ extension TrainingDiary{
     
     
     //MARK: - Getting values
-    func getValues(forActivity activity: Activity, andActivityType activityType: ActivityType, andPeriod period: Period, andUnit unit: Unit) -> [(date: Date, value:Double)]{
+    func getValues(forActivity activity: ActivityEnum, andActivityType activityType: ActivityTypeEnum, andPeriod period: Period, andUnit unit: Unit) -> [(date: Date, value:Double)]{
         return getValues(forActivity: activity, andActivityType: activityType, andPeriod: period, andUnit: unit, fromDate: firstDayOfDiary)
     }
 
     // note this can be pretty time consuming if asking for things like RYear
-    func getValues(forActivity activity: Activity, andActivityType activityType: ActivityType, andPeriod period: Period, andUnit unit: Unit, fromDate from: Date) -> [(date: Date, value:Double)]{
+    func getValues(forActivity activity: ActivityEnum, andActivityType activityType: ActivityTypeEnum, andPeriod period: Period, andUnit unit: Unit, fromDate from: Date) -> [(date: Date, value:Double)]{
         return getValues(forActivity: activity, andActivityType: activityType, andPeriod: period, andUnit: unit, fromDate: from, toDate: lastDayOfDiary)
     }
 
     // note this can be pretty time consuming if asking for things like RYear
-    func getValues(forActivity activity: Activity, andActivityType activityType: ActivityType, andPeriod period: Period, andUnit unit: Unit, fromDate from: Date, toDate to: Date) -> [(date: Date, value:Double)]{
+    func getValues(forActivity activity: ActivityEnum, andActivityType activityType: ActivityTypeEnum, andPeriod period: Period, andUnit unit: Unit, fromDate from: Date, toDate to: Date) -> [(date: Date, value:Double)]{
         
         if let optimizedResults = optimisedCalculation(forActivity: activity, andActivityType: activityType, andPeriod: period, andUnit: unit, fromDate: from, toDate: to){
             return optimizedResults
@@ -328,13 +380,13 @@ extension TrainingDiary{
         return result
     }
     
-    func calcTSB(forActivity activity: Activity, fromDate d: Date){
+    func calcTSB(forActivity activity: ActivityEnum, fromDate d: Date){
         let start = Date()
         
-        if !(activity == Activity.All){ // all is a calculated property
+        if !(activity == ActivityEnum.All){ // all is a calculated property
             let factors = tsbFactors(forActivity: activity)
             for day in ascendingOrderedDays(fromDate: d){
-                let tss = day.valueFor(activity: activity, activityType: ActivityType.All, unit: Unit.TSS)
+                let tss = day.valueFor(activity: activity, activityType: ActivityTypeEnum.All, unit: Unit.TSS)
                 var atl = tss * factors.atlDayFactor
                 var ctl = tss * factors.ctlDayFactor
                 
@@ -390,7 +442,7 @@ extension TrainingDiary{
         mutableSetValue(forKey: TrainingDiaryProperty.lTDEdNumbers.rawValue).removeAllObjects()
     }
     
-    func addLTDEddingtonNumber(forActivity a: Activity, type at: ActivityType, period p: Period, unit u: Unit, value v: Int, plusOne: Int){
+    func addLTDEddingtonNumber(forActivity a: ActivityEnum, type at: ActivityTypeEnum, period p: Period, unit u: Unit, value v: Int, plusOne: Int){
         let len = CoreDataStackSingleton.shared.newLTDEdNum()
         len.activity = a.rawValue
         len.activityType = at.rawValue
@@ -459,7 +511,7 @@ extension TrainingDiary{
 
     
     // this is focussed on the rolling periods. It is very time consuming to just loop through and ask each day for it's rolling period - by way of example. RollingYear for all days would require summing 365 days for every day - thats 5,000 x 365 sums - if we ask each day individually. If we run through the days and keep a total as we go there are ~ 2 sums per day. So should be ~ 180 times faster. Sacrifising generalisation for speed here. A second benefit is this method makes it easier to average units rather than just sum them.
-    private func optimisedCalculation(forActivity activity: Activity, andActivityType activityType: ActivityType, andPeriod period: Period, andUnit unit: Unit, fromDate from: Date, toDate to: Date) -> [(date: Date, value:Double)]?{
+    private func optimisedCalculation(forActivity activity: ActivityEnum, andActivityType activityType: ActivityTypeEnum, andPeriod period: Period, andUnit unit: Unit, fromDate from: Date, toDate to: Date) -> [(date: Date, value:Double)]?{
 //        print("STARTING optimized calculation for \(activity):\(activityType.rawValue):\(period.rawValue):\(unit)...")
         var result: [(date: Date, value:Double)] = []
         
@@ -523,7 +575,7 @@ extension TrainingDiary{
         return result
     }
     
-    private func tsbFactors(forActivity activity: Activity) -> (ctlYDayFactor: Double,ctlDayFactor:Double, atlYDayFactor: Double, atlDayFactor: Double){
+    private func tsbFactors(forActivity activity: ActivityEnum) -> (ctlYDayFactor: Double,ctlDayFactor:Double, atlYDayFactor: Double, atlDayFactor: Double){
         
         let constants = tsbConstants(forActivity: activity)
         
@@ -536,13 +588,22 @@ extension TrainingDiary{
         
     }
     
-    private func tsbConstants(forActivity activity: Activity) -> (atlDays: Double, ctlDays: Double){
-        switch activity{
-        case .Swim: return (atlDays: self.swimATLDays, ctlDays: self.swimCTLDays)
-        case .Bike: return (atlDays: self.bikeATLDays, ctlDays: self.bikeCTLDays)
-        case .Run: return (atlDays: self.runATLDays, ctlDays: self.runCTLDays)
-        default: return (atlDays: self.atlDays, ctlDays: self.ctlDays)
+    private func tsbConstants(forActivity activity: ActivityEnum) -> (atlDays: Double, ctlDays: Double){
+        
+        var atl = Constant.ATLDays.rawValue
+        var ctl = Constant.CTLDays.rawValue
+        
+        if let overrides = tsbConstants{
+            for c in overrides{
+                let override = c as! TSBConstant
+                if override.activity! == activity.rawValue{
+                    atl = override.atlDays
+                    ctl = override.ctlDays
+                }
+            }
         }
+        
+        return (atl,ctl)
     }
     
     private func ascendingOrderedDays(fromDate from: Date, toDate to: Date) -> [Day]{
@@ -564,7 +625,7 @@ extension TrainingDiary{
         return []
     }
     
-    private func createNextHistory(previous: WorkoutHistory? = nil, workout w: Workout) -> WorkoutHistory{
+/*    private func createNextHistory(previous: WorkoutHistory? = nil, workout w: Workout) -> WorkoutHistory{
 
         let result = WorkoutHistory.init(w)
         if let p = previous{
@@ -573,4 +634,5 @@ extension TrainingDiary{
         return result
         
     }
+ */
 }
