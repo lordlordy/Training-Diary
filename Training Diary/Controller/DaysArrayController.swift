@@ -20,7 +20,7 @@ class DaysArrayController: NSArrayController {
                 day.yesterday = latestDay
                 latestDay.tomorrow = day
                 day.date = latestDay.date!.addDays(numberOfDays: 1)
-                CoreDataStackSingleton.shared.populateMetricPlaceholders(forDay: day)
+          //      CoreDataStackSingleton.shared.populateMetricPlaceholders(forDay: day)
             }
         }
         return day

@@ -215,8 +215,8 @@ class JSONImporter{
                                 }
                             case WorkoutProperty.ascentMetres.fmpString():
                                 workout.setValue(wp.value, forKey: WorkoutProperty.ascentMetres.rawValue)
-                            case WorkoutProperty.bike.fmpString():
-                                workout.setValue(wp.value as! String, forKey: WorkoutProperty.bike.rawValue)
+                            case WorkoutProperty.equipmentName.fmpString():
+                                workout.setValue(wp.value as! String, forKey: WorkoutProperty.equipmentName.rawValue)
                             case WorkoutProperty.isRace.fmpString():
                                 if let isRace = wp.value as? String{
                                     if isRace == "1" || isRace.uppercased() == "YES" || isRace.uppercased() == "Y"{

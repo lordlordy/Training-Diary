@@ -14,6 +14,7 @@ class TableViewWithColumnSort: NSTableView {
         super.init(coder: coder)
         
         for t in tableColumns{
+            print(t.identifier.rawValue)
             createColumnSortFor(key: t.identifier.rawValue)
         }
         

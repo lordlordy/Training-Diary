@@ -9,7 +9,7 @@
 import Cocoa
 
 
-class GraphViewController: NSViewController, TrainingDiaryViewController, GraphManagementDelegate {
+class GraphViewController: NSViewController, TrainingDiaryViewController, GraphManagementDelegate, NSComboBoxDataSource {
 
     fileprivate struct Constants{
         static let numberOfXAxisLabels: Int = 12
@@ -30,7 +30,7 @@ class GraphViewController: NSViewController, TrainingDiaryViewController, GraphM
     @IBOutlet weak var fromDatePicker: NSDatePicker!
     @IBOutlet weak var toDatePicker: NSDatePicker!
     @IBOutlet weak var activityComboBox: NSComboBox!
-
+    
     
     @IBAction func graphPeriodChange(_ sender: PeriodTextField) {
         if let dc = sender.getNegativeDateComponentsEquivalent(){
@@ -72,7 +72,7 @@ class GraphViewController: NSViewController, TrainingDiaryViewController, GraphM
     @IBAction func activityChanged(_ sender: NSComboBox) {
         if let gac = graphArrayController{
             for graph in gac.arrangedObjects as! [ActivityGraphDefinition]{
-                graph.activityString = sender.stringValue
+                graph.activity = sender.stringValue
             }
             updateGraphs()
         }
@@ -81,7 +81,7 @@ class GraphViewController: NSViewController, TrainingDiaryViewController, GraphM
     @IBAction func activityTypeChanged(_ sender: ActivityTypeComboBox) {
         if let gac = graphArrayController{
             for graph in gac.arrangedObjects as! [ActivityGraphDefinition]{
-                graph.activityTypeString = sender.stringValue
+                graph.activityType = sender.stringValue
             }
         }
     }
@@ -139,7 +139,66 @@ class GraphViewController: NSViewController, TrainingDiaryViewController, GraphM
         
     }
     
-
+    //MARK: - NSComboBoxDataSource
+    func comboBox(_ comboBox: NSComboBox, objectValueForItemAt index: Int) -> Any? {
+        if let identifier = comboBox.identifier{
+            switch identifier.rawValue{
+            case "TableActivityComboBox", "ActivityComboBox":
+                let activities = trainingDiary!.activitiesArray().map({$0.name!})
+                if index < activities.count{
+                    return activities[index]
+                }
+            case "TableActivityTypeComboBox":
+                guard let c = comboBox.superview as? NSTableCellView else{
+                    return nil
+                }
+                if let graph = c.objectValue as? ActivityGraphDefinition{
+                    let types = trainingDiary!.validActivityTypes(forActivityString: graph.activity).map({$0.name!})
+                    if index < types.count{
+                        return types[index]
+                    }
+                }
+            case "ActivityTypeComboBox":
+                if let acb = activityComboBox{
+                    if let types = trainingDiary?.validActivityTypes(forActivityString: acb.stringValue){
+                        if index < types.count{
+                            return types[index].name
+                        }
+                    }
+                }
+            default:
+                print("What combo box is this \(identifier.rawValue) which I'm (DaysViewController) a data source for? ")
+            }
+        }
+        return nil
+    }
+    
+    func numberOfItems(in comboBox: NSComboBox) -> Int {
+        if let identifier = comboBox.identifier{
+            switch identifier.rawValue{
+            case "TableActivityComboBox", "ActivityComboBox":
+                return trainingDiary!.activitiesArray().count
+            case "TableActivityTypeComboBox":
+                guard let c = comboBox.superview as? NSTableCellView else{
+                    return 0
+                }
+                if let graph = c.objectValue as? ActivityGraphDefinition{
+                    return trainingDiary!.validActivityTypes(forActivityString: graph.activity).count
+                }
+            case "ActivityTypeComboBox":
+                if let acb = activityComboBox{
+                    if let types = trainingDiary?.validActivityTypes(forActivityString: acb.stringValue){
+                        return types.count
+                    }
+                }
+            default:
+                return 0
+            }
+        }
+        return 0
+    }
+    
+    //MARK: -
     
     override func viewDidLoad() {
         if let gac = graphArrayController{
@@ -229,10 +288,10 @@ class GraphViewController: NSViewController, TrainingDiaryViewController, GraphM
                         gv.numberOfPrimaryAxisLines = 6
                         gv.numberOfSecondaryAxisLines = 8
 
-                        let tsbGraph = createGraphDefinition(forActivity: .All, period: .Day, unit: .TSB, type: .Line, axis: .Primary, drawZeroes: true, priority: 4, format: GraphFormat(fill: true, colour: .blue, fillGradientStart: .red, fillGradientEnd: .blue, gradientAngle: 90.0, size: 1.0))
-                        let ctlGraph = createGraphDefinition(forActivity: .All, period: .Day, unit: .CTL, type: .Line, axis: .Primary, drawZeroes: true, priority: 3, format: GraphFormat(fill: false, colour: .red, fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 0.0, size: 1.0))
-                        let atlGraph = createGraphDefinition(forActivity: .All, period: .Day, unit: .ATL, type: .Line, axis: .Primary, drawZeroes: true, priority: 2, format: GraphFormat(fill: false, colour: .green, fillGradientStart: .green, fillGradientEnd: .green, gradientAngle: 0.0, size: 1.0))
-                        let tssGraph = createGraphDefinition(forActivity: .All, period: .Day, unit: .TSS, type: .Point, axis: .Secondary, drawZeroes: false, priority: 1, format: GraphFormat(fill: true, colour: .yellow, fillGradientStart: .yellow, fillGradientEnd: .yellow, gradientAngle: 0.0, size: 1.0))
+                        let tsbGraph = createGraphDefinition(forActivity: FixedActivity.Bike.rawValue, period: .Day, unit: .TSB, type: .Line, axis: .Primary, drawZeroes: true, priority: 4, format: GraphFormat(fill: true, colour: .blue, fillGradientStart: .red, fillGradientEnd: .blue, gradientAngle: 90.0, size: 1.0))
+                        let ctlGraph = createGraphDefinition(forActivity: FixedActivity.Bike.rawValue, period: .Day, unit: .CTL, type: .Line, axis: .Primary, drawZeroes: true, priority: 3, format: GraphFormat(fill: false, colour: .red, fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 0.0, size: 1.0))
+                        let atlGraph = createGraphDefinition(forActivity: FixedActivity.Bike.rawValue, period: .Day, unit: .ATL, type: .Line, axis: .Primary, drawZeroes: true, priority: 2, format: GraphFormat(fill: false, colour: .green, fillGradientStart: .green, fillGradientEnd: .green, gradientAngle: 0.0, size: 1.0))
+                        let tssGraph = createGraphDefinition(forActivity: FixedActivity.Bike.rawValue, period: .Day, unit: .TSS, type: .Point, axis: .Secondary, drawZeroes: false, priority: 1, format: GraphFormat(fill: true, colour: .yellow, fillGradientStart: .yellow, fillGradientEnd: .yellow, gradientAngle: 0.0, size: 1.0))
                         
                         tsbGraph.graph!.startFromOrigin = true
                         ctlGraph.graph!.startFromOrigin = true
@@ -255,7 +314,7 @@ class GraphViewController: NSViewController, TrainingDiaryViewController, GraphM
     }
 
     
-    private func createGraphDefinition(forActivity a: ActivityEnum, period p: Period, unit u: Unit, type t: ChartType, axis: Axis, drawZeroes: Bool, priority: Int,  format f: GraphFormat) -> ActivityGraphDefinition{
+    private func createGraphDefinition(forActivity a: String, period p: Period, unit u: Unit, type t: ChartType, axis: Axis, drawZeroes: Bool, priority: Int,  format f: GraphFormat) -> ActivityGraphDefinition{
         
         let graphDetails = ActivityGraphDefinition(activity: a, unit: u, period: p)
         graphDetails.graph = GraphDefinition(name: graphDetails.name, axis: axis, type: t, format: f,drawZeroes: drawZeroes, priority: priority)
@@ -283,7 +342,8 @@ class GraphViewController: NSViewController, TrainingDiaryViewController, GraphM
             if let cachedValues = cache[g.name]{
                 g.cache = cachedValues
             }else{
-                let values = td.getValues(forActivity: g.activity, andActivityType: g.activityType, andPeriod: g.period, andUnit: g.unit)
+                
+                let values = td.valuesFor(activity: g.activity, activityType: g.activityType, equipment: ConstantString.EddingtonAll.rawValue, period: g.period, unit: g.unit)
                 g.cache = values
                 self.cache[g.name] = values
         

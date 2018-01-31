@@ -22,6 +22,11 @@ enum TSSMethod: String{
     static var AllMethods = [RPE, TRIMPS, PacePower]
 }
 
+//these will be included with the app and cannot be deleted.
+enum FixedActivity: String{
+    case Swim, Bike, Run, Gym
+}
+
 enum DayType: String{
     case Normal
     case Race
@@ -59,6 +64,10 @@ enum Constant: Double {
     case SecondsPer365Days  = 31_536_000
     case ATLDays            = 7
     case CTLDays            = 42
+}
+
+enum ConstantString: String{
+    case EddingtonAll       = "All"
 }
 
 
@@ -109,6 +118,7 @@ enum Period: String{
 /* Need to decide what to do with activity type "ALLActivities" ... it's not quite right. It's not an activity. Perhaps I need
  to allow nil in certain case with activity and that mens all of them.
 */
+/*
 enum ActivityEnum: String{
     case Swim 
     case Bike
@@ -218,7 +228,7 @@ enum ActivityTypeEnum: String{
     
     
 }
-
+*/
 enum UnitType: String{
     case Activity, Day
 }
@@ -233,7 +243,7 @@ enum Unit: String{
     //do we want these here. They're day based units - not activity based units
     case fatigue, fatPercent, kg, lbs, motivation, restingHR, sleep
     
-    static var activityUnits = [AscentMetres,AscentFeet, Cadence, Hours, HR, KJ, KM, Miles, Minutes, Reps, RPETSS, Seconds, TSS, Watts, ATL, CTL, TSB]
+    static var activityUnits = [AscentMetres,AscentFeet, Cadence, Hours, HR, KJ, KM, Miles, Minutes, Reps, RPETSS, Seconds, TSS, Watts]
     static var dayUnits = [ fatigue, fatPercent, kg, lbs, motivation, restingHR, sleep]
     static var allUnits = [AscentMetres,AscentFeet, Cadence, Hours, HR, KJ, KM, Miles, Minutes, Reps, RPETSS, Seconds, TSS, Watts, ATL, CTL, TSB, fatigue, fatPercent, kg, lbs, motivation, restingHR, sleep]
     static var metrics = [ATL, CTL, TSB]
@@ -245,9 +255,10 @@ enum Unit: String{
         }
     }
     
-    var isActivityBased:    Bool{ return Unit.activityUnits.contains(self) }
+    var isActivityBased:    Bool{ return Unit.activityUnits.contains(self) || Unit.metrics.contains(self) }
     var isMetric:           Bool{ return Unit.metrics.contains(self) }
-
+    var allKey:             String{ return "all" + self.rawValue}
+    
     func type() -> UnitType{
         if Unit.dayUnits.contains(self){
             return .Day
@@ -352,15 +363,15 @@ enum FPMJSONString: String, FileMakerProJSONString{
 //MARK: - Core Data Entities and Properties
 
 enum ENTITY: String{
-    case TrainingDiary, Day, Workout, Weight, Physiological, Metric, Bike
+    case TrainingDiary, Day, Workout, Weight, Physiological, Metric, Equipment
     case EddingtonNumber, EddingtonAnnualContributor, EddingtonAnnualHistory
     case EddingtonContributor, EddingtonHistory, LTDEdNum
     case Activity, ActivityType
 }
 
-enum BikeProperty: String{
+enum EquipmentProperty: String{
     case name
-    case km,miles,ascentFeet,ascentMetres, seconds, tss, kj, hours, rides, preDiaryKMs
+    case km,miles,ascentFeet,ascentMetres, seconds, tss, kj, hours, preDiaryKMs, workoutCount
     //relationships
     case workouts
 
@@ -368,6 +379,14 @@ enum BikeProperty: String{
 
 enum MetricProperty: String{
     case activity, name, value, uniqueKey
+}
+
+enum ActivityProperty: String{
+    case name, activityTypes, trainingDiary, equipment
+}
+
+enum ActivityTypeProperty: String{
+    case name, activity
 }
 
 enum WeightProperty: String, FileMakerProJSONString{
@@ -378,7 +397,7 @@ enum WeightProperty: String, FileMakerProJSONString{
     
     func fmpString() -> String {
         switch self{
-        case .fatPercent:    return "Body Fat"
+        case .fatPercent:       return "Body Fat"
         case .fromDate:         return "From"
         case .kg:               return "KG"
         case .lbs:              return ""
@@ -420,6 +439,7 @@ enum TrainingDiaryProperty: String, FileMakerProJSONString{
     //relationships
     case eddingtonNumbers, lTDEdNumbers
     case days, physiologicals, weights
+    case activities
     
     func fmpString() -> String {
         switch self{
@@ -430,18 +450,19 @@ enum TrainingDiaryProperty: String, FileMakerProJSONString{
 }
 
 enum WorkoutProperty: String, FileMakerProJSONString{
-    case activity, activityType, ascentFeet, ascentMetres, bike, brick, cadence, comments, hr
+    case activity, activityType, ascentFeet, ascentMetres, equipmentName, brick, cadence, comments, hr
     case isRace, keywords, kj, km, reps, rpe, seconds, rpeTSS, hours, miles
-    case tss, tssMethod, watts, wattsEstimated, notBike
+    case tss, tssMethod, watts, wattsEstimated, notBike, estimatedKJ
+    case activityString, activityTypeString, equipmentOK, activityTypeOK
     
-    static var AllProperties = [activity, activityType, ascentFeet, ascentMetres, bike, brick, cadence, comments, hours, hr, isRace, keywords, kj, km, reps, rpe, seconds, rpeTSS, tss, tssMethod, watts, wattsEstimated, notBike]
-    static var DoubleProperties = [ascentFeet, ascentMetres, cadence, hr, hours, kj, km, miles, rpe, seconds, rpeTSS, tss, watts]
-    static var StringProperties = [activity, activityType, bike, comments, keywords, tssMethod]
-    static var BooleanProperties = [brick, isRace, wattsEstimated]
+    static var AllProperties = [activity, activityType, activityString, activityTypeString, ascentFeet, ascentMetres, equipmentName, brick, cadence, comments, estimatedKJ, hours, hr, isRace, keywords, kj, km, reps, rpe, seconds, rpeTSS, tss, tssMethod, watts, wattsEstimated, equipmentOK, activityTypeOK]
+    static var DoubleProperties = [ascentFeet, ascentMetres, cadence, estimatedKJ, hr, hours, kj, km, miles, rpe, seconds, rpeTSS, tss, watts]
+    static var StringProperties = [activityString, activityTypeString, equipmentName, comments, keywords, tssMethod]
+    static var BooleanProperties = [brick, isRace, wattsEstimated, equipmentOK, activityTypeOK]
     
     func isSummable() -> Bool{
         switch self{
-        case .ascentFeet, .ascentMetres, .hours, .kj, .km, .miles, .seconds, .rpeTSS, .tss: return true
+        case .ascentFeet, .ascentMetres, .estimatedKJ, .hours, .kj, .km, .miles, .seconds, .rpeTSS, .tss: return true
         default: return false
         }
     }
@@ -449,14 +470,19 @@ enum WorkoutProperty: String, FileMakerProJSONString{
     //this is the string used by Filemaker Pro DB as the marker in it's JSON
     func fmpString() -> String{
         switch self{
-        case .activity:         return "Sport"
-        case .activityType:     return "Type"
-        case .ascentMetres:     return "Ascent"
-        case .ascentFeet:       return ""
-        case .bike:             return "Bike"
+        case .activity:             return "Sport"
+        case .activityString:       return "Sport"
+        case .activityType:         return "Type"
+        case .activityTypeOK:       return ""
+        case .activityTypeString:   return "Type"
+        case .ascentMetres:         return "Ascent"
+        case .ascentFeet:           return ""
+        case .equipmentName:        return "Bike"
+        case .equipmentOK:      return ""
         case .brick:            return "Brick"
         case .cadence:          return "Cadence"
         case .comments:         return "Comments"
+        case .estimatedKJ:      return ""
         case .hours:            return ""
         case .hr:               return "Heart Rate"
         case .isRace:           return "Race"
@@ -478,14 +504,19 @@ enum WorkoutProperty: String, FileMakerProJSONString{
     
     func unit() -> Unit?{
         switch self{
-        case .activity:         return nil
-        case .activityType:     return nil
-        case .ascentMetres:     return Unit.AscentMetres
+        case .activity:             return nil
+        case .activityString:       return nil
+        case .activityType:         return nil
+        case .activityTypeOK:       return nil
+        case .activityTypeString:   return nil
+        case .ascentMetres:         return Unit.AscentMetres
         case .ascentFeet:       return Unit.AscentFeet
-        case .bike:             return nil
+        case .equipmentName:    return nil
+        case .equipmentOK:      return nil
         case .brick:            return Unit.Brick
         case .cadence:          return Unit.Cadence
         case .comments:         return nil
+        case .estimatedKJ:      return nil
         case .hours:            return Unit.Hours
         case .hr:               return Unit.HR
         case .isRace:           return nil

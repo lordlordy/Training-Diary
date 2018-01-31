@@ -11,6 +11,7 @@ import Cocoa
 class BikeViewController: NSViewController, TrainingDiaryViewController, NSTableViewDelegate, NSComboBoxDataSource {
 
     @objc dynamic var trainingDiary: TrainingDiary?
+    @objc dynamic var bikeActivity: Activity?
     @objc dynamic var rollingDataDays: Int = 30
     
     @IBOutlet var bikeArrayController: NSArrayController!
@@ -22,10 +23,10 @@ class BikeViewController: NSViewController, TrainingDiaryViewController, NSTable
     @IBOutlet weak var fromDatePicker: NSDatePicker!
     @IBOutlet weak var toDatePicker: NSDatePicker!
     
-    private var dataCache: [Bike: [WorkoutProperty: GraphData]] = [:]
-    private var graphCache: [Bike:BikeGraphs] = [:]
+    private var dataCache: [Equipment: [WorkoutProperty: GraphData]] = [:]
+    private var graphCache: [Equipment:BikeGraphs] = [:]
     private var graphColours: [NSColor] = [.black, .blue, .brown, .cyan, .green, .magenta, .orange, .purple, .red, .white, .systemPink, .yellow]
-    private var allocatedColours: [Bike:NSColor] = [:]
+    private var allocatedColours: [Equipment:NSColor] = [:]
     private var advanceDateComponent: DateComponents?
     private var retreatDateComponent: DateComponents?
     
@@ -46,7 +47,7 @@ class BikeViewController: NSViewController, TrainingDiaryViewController, NSTable
         super.viewDidLoad()
         //perhaps this should be a user default / preference
         if let cb = displayTypeComboBox{
-            cb.selectItem(at: 4)
+            cb.selectItem(at: 7)
         }
         if let td = trainingDiary{
             if let fdp = fromDatePicker{    fdp.dateValue = td.firstDayOfDiary }
@@ -124,7 +125,7 @@ class BikeViewController: NSViewController, TrainingDiaryViewController, NSTable
     @IBAction func updateHistory(_ sender: NSButton) {
         if let td = trainingDiary{
             for bike in selectedBikes(){
-                td.connectWorkouts(forBike: bike)
+                td.connectWorkouts(forEquipment: bike)
                 print("\(String(describing: bike.workouts?.count)) workouts for \(String(describing: bike.name))")
             }
         }
@@ -160,6 +161,7 @@ class BikeViewController: NSViewController, TrainingDiaryViewController, NSTable
         if let tdp = toDatePicker{
             tdp.dateValue = td.lastDayOfDiary
         }
+        bikeActivity = td.activity(forString: FixedActivity.Bike.rawValue)
     }
     
     //MARK: - Private
@@ -171,7 +173,7 @@ class BikeViewController: NSViewController, TrainingDiaryViewController, NSTable
         return []
     }
     
-    private func addGraphs(forBike bike: Bike){
+    private func addGraphs(forBike bike: Equipment){
         if let gv = graphView{
             if let cache = graphCache[bike]{
                 cache.add(toGraph: gv)
@@ -192,7 +194,7 @@ class BikeViewController: NSViewController, TrainingDiaryViewController, NSTable
         return WorkoutProperty.km
     }
     
-    private func createGraphs(forBike bike: Bike){
+    private func createGraphs(forBike bike: Equipment){
         let c = colour(forBike: bike)
         
         // point graph first
@@ -224,9 +226,12 @@ class BikeViewController: NSViewController, TrainingDiaryViewController, NSTable
     
 
     
-    private func createData(forBike bike: Bike, andProperty p: WorkoutProperty) -> GraphData{
+    private func createData(forBike bike: Equipment, andProperty p: WorkoutProperty) -> GraphData{
         // point graph first
-        let data = bike.getWorkouts().map({(date: $0.day!.date!,value: $0.value(forKey: p.rawValue) as! Double)}).filter({$0.value != 0.0})
+        let data = bike.getWorkouts()
+        var mappedData: [(date: Date, value: Double)]?
+        
+         mappedData = data.map({(date: $0.day!.date!,value: $0.value(forKey: p.rawValue) as! Double)}).filter({$0.value != 0.0})
         
         // ltd data next
         var ltdData: [(Date,Double)] = []
@@ -234,7 +239,7 @@ class BikeViewController: NSViewController, TrainingDiaryViewController, NSTable
             var ltd: Double = 0.0
             if p == WorkoutProperty.km{ ltd = bike.preDiaryKMs }
             if p == WorkoutProperty.miles{ ltd = bike.preDiaryKMs * Constant.MilesPerKM.rawValue}
-            for d in data.sorted(by: {$0.date < $1.date}){
+            for d in mappedData!.sorted(by: {$0.date < $1.date}){
                 ltd += d.value
                 ltdData.append((d.date, ltd))
             }
@@ -255,11 +260,11 @@ class BikeViewController: NSViewController, TrainingDiaryViewController, NSTable
         var rollingData: [(Date,Double)] = []
         let rollingDataQ = RollingPeriodWeightedAverage.init(size: rollingDataDays)
         
-        for d in fillInMissingDates(data.sorted(by: {$0.date < $1.date})){
+        for d in fillInMissingDates(mappedData!.sorted(by: {$0.date < $1.date})){
             rollingData.append((d.date, rollingDataQ.addAndReturnAverage(forDate: d.date, value: d.value, wieghting: 1.0)!))
         }
         
-        let graphData = GraphData(values: data, ltd: ltdData, rolling: rollingData)
+        let graphData = GraphData(values: mappedData!, ltd: ltdData, rolling: rollingData)
         
         // add to cache
         if var bikeCache = dataCache[bike]{
@@ -293,17 +298,17 @@ class BikeViewController: NSViewController, TrainingDiaryViewController, NSTable
         return result
     }
     
-    private func selectedBikes() -> [Bike]{
+    private func selectedBikes() -> [Equipment]{
         
         if let bac = bikeArrayController{
-            if let sb = bac.selectedObjects as? [Bike]{
+            if let sb = bac.selectedObjects as? [Equipment]{
                 return sb
             }
         }
         return []
     }
     
-    private func colour(forBike bike: Bike) -> NSColor{
+    private func colour(forBike bike: Equipment) -> NSColor{
         if let color = allocatedColours[bike]{
             return color
         }else{
@@ -320,7 +325,7 @@ class BikeViewController: NSViewController, TrainingDiaryViewController, NSTable
         graphView!.needsDisplay = true
     }
     
-    private func updateGraphData(forBike bike: Bike, andProperty p: WorkoutProperty){
+    private func updateGraphData(forBike bike: Equipment, andProperty p: WorkoutProperty){
         
         var data: GraphData? = nil
         
@@ -363,9 +368,9 @@ class BikeViewController: NSViewController, TrainingDiaryViewController, NSTable
     
     private func addGraphs(){
         if let bac = bikeArrayController{
-            for b in bac.selectedObjects as! [Bike]{
+            for b in bac.selectedObjects as! [Equipment]{
                 // this check is in place to cope with adding a new bike. At the point of addition there will be no workouts
-                if b.rides > 0{
+                if b.workoutCount > 0{
                     addGraphs(forBike: b)
                 }
             }

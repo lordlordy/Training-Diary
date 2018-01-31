@@ -29,55 +29,36 @@ public class EddingtonNumberCalculator: NSObject{
         return annualContributors.filter({$0.value >= Double(nextAnnualEddingtonNumber)})
     }
 
-    func quickCaclulation(forActivity a: ActivityEnum, andType at: ActivityTypeEnum, andPeriod p: Period, andUnit u: Unit, inTrainingDiary td: TrainingDiary) -> (ednum: Int,plusOne: Int, maturity: Double ){
+    func quickCaclulation(forActivity a: String, andType at: String, equipment e: String, andPeriod p: Period, andUnit u: Unit, inTrainingDiary td: TrainingDiary) -> (ednum: Int,plusOne: Int, maturity: Double ){
         
-        let values = td.getValues(forActivity: a, andActivityType: at, andPeriod: p, andUnit: u)
+        let values = td.valuesFor(activity: a, activityType: at, equipment: e, period: p, unit: u)
         return quickEddingNumberCalc(forDoubleValues: values.map({$0.value}).filter({$0 >= 1.0}))
         
     }
     
-    func calculate(eddingtonNumber: EddingtonNumber){
-        
-        if let a = ActivityEnum(rawValue: eddingtonNumber.activity!){
-            if let at = ActivityTypeEnum(rawValue: eddingtonNumber.activityType!){
-                if let p = Period(rawValue: eddingtonNumber.period!){
-                    if let u = Unit(rawValue: eddingtonNumber.unit!){
-                        
-                        
-                        let values = eddingtonNumber.trainingDiary!.getValues(forActivity: a, andActivityType: at, andPeriod: p, andUnit: u)
-                        let usefulValues = values.filter({$0.value >= 1.0})
-                        
-                        eddingtonCalculation(forValues: usefulValues)
-                        
-                        
-                    }
-                }
+    func calculate(eddingtonNumber e: EddingtonNumber){
+        if let p = Period(rawValue: e.period!){
+            if let u = Unit(rawValue: e.unit!){
+                let values = e.trainingDiary!.valuesFor(activity: e.activity!, activityType: e.activityType!, equipment: e.equipment!, period: p, unit: u)
+                let usefulValues = values.filter({$0.value >= 1.0})
+                eddingtonCalculation(forValues: usefulValues)
             }
         }
     }
     
     // updates from last updateded date
-    func update(eddingtonNumber: EddingtonNumber){
-        if let from = eddingtonNumber.lastUpdated{
-            if let a = ActivityEnum(rawValue: eddingtonNumber.activity!){
-                if let at = ActivityTypeEnum(rawValue: eddingtonNumber.activityType!){
-                    if let p = Period(rawValue: eddingtonNumber.period!){
-                        if let u = Unit(rawValue: eddingtonNumber.unit!){
-                            
-                            populateCalc(forEddingtonNumber: eddingtonNumber)
-                            
-                            let values = eddingtonNumber.trainingDiary!.getValues(forActivity: a, andActivityType: at, andPeriod: p, andUnit: u, fromDate: from.startOfDay())
-                            
-                            eddingtonCalculation(forValues: values, from: from)
-                            
-                            
-                        }
-                    }
+    func update(eddingtonNumber e: EddingtonNumber){
+        if let from = e.lastUpdated{
+            if let p = Period(rawValue: e.period!){
+                if let u = Unit(rawValue: e.unit!){
+                    populateCalc(forEddingtonNumber: e)
+                    let values = e.trainingDiary!.valuesFor(activity: e.activity!, activityType: e.activityType!, equipment: e.equipment!, period: p, unit: u, from: from.startOfDay())
+                    eddingtonCalculation(forValues: values, from: from)
                 }
             }
         }else{
             //never updated so do the calc from scratch
-            calculate(eddingtonNumber: eddingtonNumber)
+            calculate(eddingtonNumber: e)
         }
     }
     

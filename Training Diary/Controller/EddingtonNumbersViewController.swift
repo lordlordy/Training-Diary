@@ -8,12 +8,13 @@
 
 import Cocoa
 
-class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewController {
+class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewController, NSComboBoxDataSource {
 
     @objc dynamic var trainingDiary: TrainingDiary?
     
     private var activity: String?
     private var activityType: String?
+    private var equipment: String?
     private var period: String?
     private var unit: String?
     private var year: Int?
@@ -89,37 +90,55 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
         calcProgressTextField!.stringValue = "starting..."
         DispatchQueue.global(qos: .userInitiated).async {
             var totalPossible: Int = 0
-            for a in ActivityEnum.allActivities{
-                let validUnitsForActivity = a.validUnits()
-                for at in a.validTypes(){
-                    let validUnitsCount = validUnitsForActivity.intersection(at.validUnits()).count
-                    totalPossible += validUnitsCount
+            
+            var activities = self.trainingDiary!.activitiesArray().map({$0.name!})
+            activities.append(ConstantString.EddingtonAll.rawValue)
+            
+            for a in self.trainingDiary!.eddingtonActivities(){
+                for at in self.trainingDiary!.eddingtonActivityTypes(forActivityString: a){
+                    for e in self.trainingDiary!.eddingtonEquipment(forActivityString: a){
+                        var units = Unit.activityUnits
+                        if (a == ConstantString.EddingtonAll.rawValue && at == ConstantString.EddingtonAll.rawValue && e == ConstantString.EddingtonAll.rawValue){
+                            units = Unit.allUnits
+                        }else if (at == ConstantString.EddingtonAll.rawValue && e == ConstantString.EddingtonAll.rawValue){
+                            //metrics only calculated on the activity for ALL types and ALL Equipment
+                            units.append(contentsOf: Unit.metrics)
+                        }
+                        totalPossible += units.count * Period.eddingtonNumberPeriods.count
+                    }
                 }
             }
-            totalPossible = totalPossible * Period.eddingtonNumberPeriods.count
             
             var count: Int = 0
             let calculator = EddingtonNumberCalculator()
             var name: String = ""
             
-            for a in ActivityEnum.allActivities{
- //           for a in [Activity.Bike]{
-                for at in a.validTypes(){
- //                       for at in [ActivityType.All]{
-                    for u in at.validUnits().intersection(a.validUnits()).sorted(by: {$0.rawValue < $1.rawValue}){
-                        for p in Period.eddingtonNumberPeriods{
-//                            for p in [Period.Day]{
-                            count += 1
-                            name = a.rawValue
-                            name += ":" + at.rawValue
-                            name += ":" + p.rawValue
-                            name += ":" + u.rawValue
-                            let result = calculator.quickCaclulation(forActivity: a, andType: at, andPeriod: p, andUnit: u, inTrainingDiary: self.trainingDiary!)
-                            DispatchQueue.main.sync {
-                                self.calcProgressTextField!.stringValue = "\(count) of \(totalPossible) : \(name) (\(Int(Date().timeIntervalSince(start)))s) ..."
-                                self.edCalcProgressBar!.doubleValue = 100.0 * Double(count) / Double(totalPossible)
-                                if result.ednum > 0{
-                                    self.trainingDiary!.addLTDEddingtonNumber(forActivity: a, type: at, period: p, unit: u, value: result.ednum, plusOne: result.plusOne)
+
+            for a in self.trainingDiary!.eddingtonActivities(){
+                for at in self.trainingDiary!.eddingtonActivityTypes(forActivityString: a){
+                    for e in self.trainingDiary!.eddingtonEquipment(forActivityString: a){
+                        var units = Unit.activityUnits
+                        if (a == ConstantString.EddingtonAll.rawValue && at == ConstantString.EddingtonAll.rawValue && e == ConstantString.EddingtonAll.rawValue){
+                            units = Unit.allUnits
+                        }else if (at == ConstantString.EddingtonAll.rawValue && e == ConstantString.EddingtonAll.rawValue){
+                            //metrics only calculated on the activity for ALL types and ALL Equipment
+                            units.append(contentsOf: Unit.metrics)
+                        }
+                        for u in units.sorted(by: {$0.rawValue < $1.rawValue}){
+                            for p in Period.eddingtonNumberPeriods{
+                                count += 1
+                                name = a
+                                name += ":" + e
+                                name += ":" + at
+                                name += ":" + p.rawValue
+                                name += ":" + u.rawValue
+                                let result = calculator.quickCaclulation(forActivity: a, andType: at, equipment: e, andPeriod: p, andUnit: u, inTrainingDiary: self.trainingDiary!)
+                                DispatchQueue.main.sync {
+                                    self.calcProgressTextField!.stringValue = "\(count) of \(totalPossible) : \(name) (\(Int(Date().timeIntervalSince(start)))s) ..."
+                                    self.edCalcProgressBar!.doubleValue = 100.0 * Double(count) / Double(totalPossible)
+                                    if result.ednum > 0{
+                                        self.trainingDiary!.addLTDEddingtonNumber(forActivity: a, type: at, equipment: e, period: p, unit: u, value: result.ednum, plusOne: result.plusOne)
+                                    }
                                 }
                             }
                         }
@@ -239,6 +258,11 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
     }
  */
     
+    @IBAction func equipmentField(_ sender: NSTextField) {
+        self.equipment = sender.stringValue
+        if self.equipment == "" {self.equipment = nil}
+        updatePredicate()
+    }
     @IBAction func activityField(_ sender: NSTextField) {
         self.activity = sender.stringValue
         if self.activity == "" {self.activity = nil}
@@ -279,6 +303,55 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
     }
     
     
+    //MARK: - NSComboBoxDataSource
+    func comboBox(_ comboBox: NSComboBox, objectValueForItemAt index: Int) -> Any? {
+        if let identifier = comboBox.identifier{
+            switch identifier.rawValue{
+            case "EdNumActivityComboBox":
+                let activities = trainingDiary!.activitiesArray().map({$0.name!})
+                if index < activities.count{
+                    return activities[index]
+                }
+            case "EdNumActivityTypeComboBox":
+                guard let c = comboBox.superview as? NSTableCellView else{
+                    return 0
+                }
+                if let e = c.objectValue as? EddingtonNumber{
+                    if let a = e.activity{
+                        let types = trainingDiary!.validActivityTypes(forActivityString: a)
+                        if index < types.count{
+                            return types[index].name!
+                        }
+                    }
+                }
+            default:
+                print("What combo box is this \(identifier.rawValue) which I'm (DaysViewController) a data source for? ")
+            }
+        }
+        return nil
+    }
+    
+    func numberOfItems(in comboBox: NSComboBox) -> Int {
+        if let identifier = comboBox.identifier{
+            switch identifier.rawValue{
+            case "EdNumActivityComboBox":
+                return trainingDiary!.activitiesArray().count
+            case "EdNumActivityTypeComboBox":
+                guard let c = comboBox.superview as? NSTableCellView else{
+                    return 0
+                }
+                if let e = c.objectValue as? EddingtonNumber{
+                    return trainingDiary!.validActivityTypes(forActivityString: e.activity!).count
+                }
+            default:
+                return 0
+            }
+        }
+        return 0
+    }
+
+    //MARK: - Override
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpGraphs()
@@ -286,6 +359,8 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
             eddNumAC.addObserver(self, forKeyPath: "selection", options: .new, context: nil)
         }
     }
+
+    //MARK: - value observing
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         switch keyPath!{
@@ -316,6 +391,11 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
         if let at = activityType{
             predicateString = addTo(predicateString: predicateString, withPredicateString: " activityType CONTAINS %@", isFirstPredicate)
             arguments.append(at)
+            isFirstPredicate = false
+        }
+        if let e = equipment{
+            predicateString = addTo(predicateString: predicateString, withPredicateString: " equipment CONTAINS %@", isFirstPredicate)
+            arguments.append(e)
             isFirstPredicate = false
         }
         if let p = period{

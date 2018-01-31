@@ -8,33 +8,46 @@
 
 import Foundation
 
-extension Day{
+extension Day: TrainingDiaryValues{
     
     
     /* We do not want this to fail as when requesting a value for a particular combination of activity, type and unit a valid answer is zero. For example: if this gets asked what the swim squad ascent is then the correct answer is zero.
     */
-    func valueFor(activity: ActivityEnum, activityType: ActivityTypeEnum, unit: Unit) -> Double{
+    func valueFor(activity a: Activity?, activityType at: ActivityType? = nil, equipment e: Equipment? = nil, unit u: Unit) -> Double{
+        let ALL = ConstantString.EddingtonAll.rawValue
+        return valueFor(activity: a?.name ?? ALL, activityType: at?.name ?? ALL, equipment: e?.name ?? ALL, unit: u)
+    }
+
+    func valueFor(activity: String, activityType: String, equipment: String, unit: Unit) -> Double{
         var result = 0.0
         if !unit.isActivityBased{
-            //have a day based unit (eg fatigue, sleep, restingHR
+            //have a day based unit (eg fatigue, sleep, restingHR)
             return value(forKey: unit.rawValue) as! Double
         }
         
-        if activityType == ActivityTypeEnum.All{
+        
+        if activityType == ConstantString.EddingtonAll.rawValue && equipment == ConstantString.EddingtonAll.rawValue{
             //this is small optimisation in case a simple calculated propery is available for this.
             //Note that if no value is available we'll drop through this to the generic method
-            if let value = self.value(forKey: activity.keyString(forUnit: unit)){
-                return value as! Double
+            if  activity == ConstantString.EddingtonAll.rawValue{
+                //no activity ... so asking for all
+                if let value = self.value(forKey: unit.allKey){
+                    return value as! Double
+                }
+            }else{
+                if let value = self.value(forKey: activity.lowercased() + unit.rawValue){
+                    return value as! Double
+                }
             }
         }
         if unit.summable{
-            result = sumOverWorkouts(forActivities: [activity], andTypes: [activityType], andUnit: unit)
+            result = sumOverWorkouts(activity: activity, activityType : activityType, equipment: equipment, unit: unit)
         }else{
-            result = weightedAverageOverWorkouts(forActivities: [activity], andTypes: [activityType], andUnit: unit)
+            result = weightedAverageOverWorkouts(activity: activity, activityType: activityType, equipment: equipment, unit: unit)
         }
         return result
     }
-
+    
     /* Over ridden this to avoid exceptions being fired if ask for a key that doesn't exist. Instead return nil.
      This allows me to check for value. Main reason is method valueFor(activity:,activityType:unit:)
  */
@@ -42,48 +55,53 @@ extension Day{
         return nil
     }
     
-    func valueFor(period p: Period, activity a: ActivityEnum, activityType at: ActivityTypeEnum, unit u: Unit ) -> Double{
+    //MARK: - TrainingDiaryValues implementation
+    
+    func valuesFor(activity a: String, activityType at: String, equipment e: String, period p: Period, unit u: Unit, from: Date? = nil, to: Date? = nil) -> [(date: Date, value: Double)]{
+        var v: Double = 0.0
         switch p{
         case .Day:
-            return valueFor(activity: a, activityType: at, unit: u)
+            v = valueFor(activity: a, activityType: at, equipment: e, unit: u)
         case .Week:
             if self.date!.isEndOfWeek(){
-                return valueFor(period: Period.rWeek, activity: a, activityType: at, unit: u)
-            }else{
-                return 0.0
+                v = valuesFor( activity: a, activityType: at, equipment: e, period: Period.rWeek, unit: u)[0].value
             }
         case .Month:
             if self.date!.isEndOfMonth(){
-                return valueFor(period: Period.rMonth, activity: a, activityType: at, unit: u)
-            }else{
-                return 0.0
+                v = valuesFor( activity: a, activityType: at, equipment: e, period: Period.rMonth, unit: u)[0].value
             }
         case .Year:
             if self.date!.isEndOfYear(){
-                return valueFor(period: Period.rYear, activity: a, activityType: at, unit: u)
-            }else{
-                return 0.0
+                v = valuesFor( activity: a, activityType: at, equipment: e, period: Period.rYear, unit: u)[0].value
             }
         case .WeekToDate:
-            return recursiveAdd(toDate: self.date!.startOfWeek(), activity: a, activityType: at, unit: u)
+            v = recursiveAdd(toDate: self.date!.startOfWeek(), activity: a, activityType: at, equipment: e, unit: u)
         case .MonthToDate:
-            return recursiveAdd(toDate: self.date!.startOfMonth(), activity: a, activityType: at, unit: u)
+            v = recursiveAdd(toDate: self.date!.startOfMonth(), activity: a, activityType: at, equipment: e, unit: u)
         case .YearToDate:
-            return recursiveAdd(toDate: self.date!.startOfYear(), activity: a, activityType: at, unit: u)
+            v = recursiveAdd(toDate: self.date!.startOfYear(), activity: a, activityType: at, equipment: e, unit: u)
         case .rWeek:
-            return recursiveAdd(toDate: self.date!.startOfRWeek(), activity: a, activityType: at, unit: u)
+            v = recursiveAdd(toDate: self.date!.startOfRWeek(), activity: a, activityType: at, equipment: e, unit: u)
         case .rMonth:
-            return recursiveAdd(toDate: self.date!.startOfRMonth(), activity: a, activityType: at, unit: u)
+            v = recursiveAdd(toDate: self.date!.startOfRMonth(), activity: a, activityType: at, equipment: e, unit: u)
         case .rYear:
-            return recursiveAdd(toDate: self.date!.startOfRYear(), activity: a, activityType: at, unit: u)
+            v = recursiveAdd(toDate: self.date!.startOfRYear(), activity: a, activityType: at, equipment: e, unit: u)
         case .Lifetime:
-            return recursiveAdd(toDate: self.trainingDiary!.firstDayOfDiary, activity: a, activityType: at, unit: u)
+            v = recursiveAdd(toDate: self.trainingDiary!.firstDayOfDiary, activity: a, activityType: at, equipment: e, unit: u)
         case .Adhoc:
-            return 0.0
+            v = 0.0
         }
-        
-        
+        return [(date!,v)]
     }
+    
+    func valuesFor(activity a: Activity? = nil, activityType at: ActivityType? = nil , equipment e: Equipment? = nil, period p: Period, unit u: Unit, from: Date? = nil, to: Date? = nil) -> [(date: Date, value: Double)]{
+        let ALL = ConstantString.EddingtonAll.rawValue
+        return valuesFor(activity: a?.name ?? ALL, activityType: at?.name ?? ALL, equipment: e?.name ?? ALL, period: p, unit: u, from: from, to: to)
+    }
+    
+    func valuesAreForTrainingDiary() -> TrainingDiary { return trainingDiary! }
+    
+    //MARK: - Core Data dependent key values
     
     /*This is the method that needs implementing to ensure calculated properties update when the properties
     they depend on change.
@@ -93,20 +111,6 @@ extension Day{
         switch key {
         case DayCalculatedProperty.numberOfWorkouts.rawValue:
             return keyPaths.union(Set([DayProperty.workouts.rawValue]))
-//        case DayCalculatedProperty.swimTSB.rawValue:
-  //          return keyPaths.union(Set([DayProperty.swimATL.rawValue, DayProperty.swimCTL.rawValue]))
-    //    case DayCalculatedProperty.bikeTSB.rawValue:
-      //      return keyPaths.union(Set([DayProperty.bikeATL.rawValue, DayProperty.bikeCTL.rawValue]))
-//        case DayCalculatedProperty.runTSB.rawValue:
-  //          return keyPaths.union(Set([DayProperty.runATL.rawValue, DayProperty.runCTL.rawValue]))
-    //    case DayCalculatedProperty.allTSB.rawValue:
-      //      return keyPaths.union(Set([DayProperty.allATL.rawValue, DayProperty.allCTL.rawValue]))
-  //      case DayCalculatedProperty.allCTL.rawValue:
-    //        return keyPaths.union(Set([DayProperty.swimCTL.rawValue, DayProperty.bikeCTL.rawValue, DayProperty.runCTL.rawValue, DayProperty.gymCTL.rawValue, DayProperty.walkCTL.rawValue, DayProperty.otherCTL.rawValue]))
-  //      case DayCalculatedProperty.allATL.rawValue:
-    //        return keyPaths.union(Set([DayProperty.swimATL.rawValue, DayProperty.bikeATL.rawValue, DayProperty.runATL.rawValue, DayProperty.gymATL.rawValue, DayProperty.walkATL.rawValue, DayProperty.otherATL.rawValue]))
-//        case _ where DayCalculatedProperty.ALL.map{$0.rawValue}.contains(key):
-  //          return keyPaths.union(Set([DayProperty.workoutChanged.rawValue]))
         default:
             return keyPaths
         }
@@ -116,11 +120,13 @@ extension Day{
     //MARK: - Calculated properties - these are for display in GUI
 
     @objc dynamic var swimATL: Double{
-        return metricValue(forActivity: ActivityEnum.Swim, andMetric: Unit.ATL)
+//        return metricValue(forActivity: ActivityEnum.Swim, andMetric: Unit.ATL)
+        return 12.345
     }
 
     @objc dynamic var swimCTL: Double{
-        return metricValue(forActivity: ActivityEnum.Swim, andMetric: Unit.CTL)
+//        return metricValue(forActivity: ActivityEnum.Swim, andMetric: Unit.CTL)
+  return 12.345
     }
 
     @objc dynamic var swimHours: Double{
@@ -128,143 +134,150 @@ extension Day{
     }
  
     @objc dynamic var swimKJ: Double{
-        return sumOverWorkouts(forActivities: [ActivityEnum.Swim], andTypes: [ActivityTypeEnum.All], andUnit: WorkoutProperty.kj.unit()!)
+        return sumOverWorkouts(activity: activitySwim().name!, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, unit: WorkoutProperty.kj.unit()!)
     }
     @objc dynamic var swimKM: Double{
-        return sumOverWorkouts(forActivities: [ActivityEnum.Swim], andTypes: [ActivityTypeEnum.All], andUnit: WorkoutProperty.km.unit()!)
+        return sumOverWorkouts(activity: activitySwim().name!, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, unit: WorkoutProperty.km.unit()!)
     }
     @objc dynamic var swimMinutes: Double{
         return swimSeconds / Constant.SecondsPerMinute.rawValue
     }
     @objc dynamic var swimSeconds: Double{
-        return sumOverWorkouts(forActivities: [ActivityEnum.Swim], andTypes: [ActivityTypeEnum.All], andUnit: WorkoutProperty.seconds.unit()!)
+        return sumOverWorkouts(activity: activitySwim().name!, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, unit: WorkoutProperty.seconds.unit()!)
     }
     @objc dynamic var swimTSB: Double{
-        return metricValue(forActivity: ActivityEnum.Swim, andMetric: Unit.TSB)
+        return 12.345
+        //return metricValue(forActivity: ActivityEnum.Swim, andMetric: Unit.TSB)
     }
     @objc dynamic var swimTSS: Double{
-        return sumOverWorkouts(forActivities: [ActivityEnum.Swim], andTypes: [ActivityTypeEnum.All], andUnit: WorkoutProperty.tss.unit()!)
+        return sumOverWorkouts(activity: activitySwim().name!, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, unit: WorkoutProperty.tss.unit()!)
     }
     @objc dynamic var swimWatts: Double{
-        return weightedAverageOverWorkouts(forActivities: [ActivityEnum.Swim], andTypes: [ActivityTypeEnum.All], andUnit: WorkoutProperty.watts.unit()!)
+        return weightedAverageOverWorkouts(activity: activitySwim().name!, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, unit: WorkoutProperty.watts.unit()!)
     }
     
     @objc dynamic var bikeATL: Double{
-        return metricValue(forActivity: ActivityEnum.Bike, andMetric: Unit.ATL)
+        return 12.345
+        //return metricValue(forActivity: ActivityEnum.Bike, andMetric: Unit.ATL)
     }
     
     @objc dynamic var bikeCTL: Double{
-        return metricValue(forActivity: ActivityEnum.Bike, andMetric: Unit.CTL)
+        return 12.345
+        //return metricValue(forActivity: ActivityEnum.Bike, andMetric: Unit.CTL)
     }
     
     @objc dynamic var bikeAscentFeet: Double{
         return bikeAscentMetres * Constant.FeetPerMetre.rawValue
     }
     @objc dynamic var bikeAscentMetres: Double{
-        return sumOverWorkouts(forActivities: [ActivityEnum.Bike], andTypes: [ActivityTypeEnum.All], andUnit: WorkoutProperty.ascentMetres.unit()!)
+        return sumOverWorkouts(activity: activityBike().name!, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, unit: WorkoutProperty.ascentMetres.unit()!)
     }
     @objc dynamic var bikeHours: Double{
         return bikeSeconds / Constant.SecondsPerHour.rawValue
     }
     @objc dynamic var bikeHR: Double{
-        return weightedAverageOverWorkouts(forActivities: [ActivityEnum.Bike], andTypes: [ActivityTypeEnum.All], andUnit: WorkoutProperty.hr.unit()!)
+        return weightedAverageOverWorkouts(activity: activityBike().name!, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, unit: WorkoutProperty.hr.unit()!)
     }
     @objc dynamic var bikeKJ: Double{
-        return sumOverWorkouts(forActivities: [ActivityEnum.Bike], andTypes: [ActivityTypeEnum.All], andUnit: WorkoutProperty.kj.unit()!)
+        return sumOverWorkouts(activity: activityBike().name!, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, unit: WorkoutProperty.kj.unit()!)
     }
     @objc dynamic var bikeKM: Double{
-        return sumOverWorkouts(forActivities: [ActivityEnum.Bike], andTypes: [ActivityTypeEnum.All], andUnit: WorkoutProperty.km.unit()!)
+        return sumOverWorkouts(activity: activityBike().name!, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, unit: WorkoutProperty.km.unit()!)
     }
     @objc dynamic var bikeMinutes: Double{
         return bikeSeconds / Constant.SecondsPerMinute.rawValue
     }
     @objc dynamic var bikeSeconds: Double{
-        return sumOverWorkouts(forActivities: [ActivityEnum.Bike], andTypes: [ActivityTypeEnum.All], andUnit: WorkoutProperty.seconds.unit()!)
+        return sumOverWorkouts(activity: activityBike().name!, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, unit: WorkoutProperty.seconds.unit()!)
     }
     @objc dynamic var bikeTSS: Double{
-        return sumOverWorkouts(forActivities: [ActivityEnum.Bike], andTypes: [ActivityTypeEnum.All], andUnit: WorkoutProperty.tss.unit()!)
+        return sumOverWorkouts(activity: activityBike().name!, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, unit: WorkoutProperty.tss.unit()!)
     }
     @objc dynamic var bikeTSB: Double{
-        return metricValue(forActivity: ActivityEnum.Bike, andMetric: Unit.TSB)
+        return 12.345
+        //return metricValue(forActivity: ActivityEnum.Bike, andMetric: Unit.TSB)
     }
 
     @objc dynamic var bikeWatts: Double{
-        return weightedAverageOverWorkouts(forActivities: [ActivityEnum.Bike], andTypes: [ActivityTypeEnum.All], andUnit: WorkoutProperty.watts.unit()!)
+        return weightedAverageOverWorkouts(activity: activityBike().name!, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, unit: WorkoutProperty.watts.unit()!)
     }
     
     @objc dynamic var runATL: Double{
-        return metricValue(forActivity: ActivityEnum.Run, andMetric: Unit.ATL)
+        return 12.345
+        //return metricValue(forActivity: ActivityEnum.Run, andMetric: Unit.ATL)
     }
     
     @objc dynamic var runCTL: Double{
-        return metricValue(forActivity: ActivityEnum.Run, andMetric: Unit.CTL)
+        return 12.345
+        //return metricValue(forActivity: ActivityEnum.Run, andMetric: Unit.CTL)
     }
     
     @objc dynamic var runAscentFeet: Double{
         return runAscentMetres * Constant.FeetPerMetre.rawValue
     }
     @objc dynamic var runAscentMetres: Double{
-        return sumOverWorkouts(forActivities: [ActivityEnum.Run], andTypes: [ActivityTypeEnum.All], andUnit: WorkoutProperty.ascentMetres.unit()!)
+        return sumOverWorkouts(activity: activityRun().name!, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, unit: WorkoutProperty.ascentMetres.unit()!)
     }
     @objc dynamic var runHours: Double{
         return runSeconds / Constant.SecondsPerHour.rawValue
     }
     @objc dynamic var runHR: Double{
-        return weightedAverageOverWorkouts(forActivities: [ActivityEnum.Run], andTypes: [ActivityTypeEnum.All], andUnit: WorkoutProperty.hr.unit()!)
+        return weightedAverageOverWorkouts(activity: activityRun().name!, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, unit: WorkoutProperty.hr.unit()!)
     }
     @objc dynamic var runKJ: Double{
-        return sumOverWorkouts(forActivities: [ActivityEnum.Run], andTypes: [ActivityTypeEnum.All], andUnit: WorkoutProperty.kj.unit()!)
+        return sumOverWorkouts(activity: activityRun().name!, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, unit: WorkoutProperty.kj.unit()!)
     }
     @objc dynamic var runKM: Double{
-        return sumOverWorkouts(forActivities: [ActivityEnum.Run], andTypes: [ActivityTypeEnum.All], andUnit: WorkoutProperty.km.unit()!)
+        return sumOverWorkouts(activity: activityRun().name!, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, unit: WorkoutProperty.km.unit()!)
     }
     @objc dynamic var runMinutes: Double{
         return runSeconds / Constant.SecondsPerMinute.rawValue
     }
     @objc dynamic var runSeconds: Double{
-        return sumOverWorkouts(forActivities: [ActivityEnum.Run], andTypes: [ActivityTypeEnum.All], andUnit: WorkoutProperty.seconds.unit()!)
+        return sumOverWorkouts(activity: activityRun().name!, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, unit: WorkoutProperty.seconds.unit()!)
     }
     @objc dynamic var runTSS: Double{
-        return sumOverWorkouts(forActivities: [ActivityEnum.Run], andTypes: [ActivityTypeEnum.All], andUnit: WorkoutProperty.tss.unit()!)
+        return sumOverWorkouts(activity: activityRun().name!, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, unit: WorkoutProperty.tss.unit()!)
     }
     @objc dynamic var runTSB: Double{
-        return metricValue(forActivity: ActivityEnum.Run, andMetric: Unit.TSB)
+        return 12.345
+        //return metricValue(forActivity: ActivityEnum.Run, andMetric: Unit.TSB)
     }
     @objc dynamic var runWatts: Double{
-        return weightedAverageOverWorkouts(forActivities: [ActivityEnum.Run], andTypes: [ActivityTypeEnum.All], andUnit: WorkoutProperty.watts.unit()!)
+        return weightedAverageOverWorkouts(activity: activityRun().name!, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, unit: WorkoutProperty.watts.unit()!)
     }
     
     @objc dynamic var allAscentFeet: Double{
         return allAscentMetres * Constant.FeetPerMetre.rawValue
     }
     @objc dynamic var allAscentMetres: Double{
-        return sumOverWorkouts(forActivities: ActivityEnum.allActivities, andTypes: [ActivityTypeEnum.All], andUnit: WorkoutProperty.ascentMetres.unit()!)
+        return sumOverWorkouts(activity: ConstantString.EddingtonAll.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue,unit: WorkoutProperty.ascentMetres.unit()!)
     }
     @objc dynamic var allHours: Double{
         return allSeconds / Constant.SecondsPerHour.rawValue
     }
     @objc dynamic var allKJ: Double{
-        return sumOverWorkouts(forActivities: ActivityEnum.allActivities, andTypes: [ActivityTypeEnum.All], andUnit: WorkoutProperty.kj.unit()!)
+        return sumOverWorkouts(activity: ConstantString.EddingtonAll.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue,unit: WorkoutProperty.kj.unit()!)
     }
     @objc dynamic var allKM: Double{
-        return sumOverWorkouts(forActivities: ActivityEnum.allActivities, andTypes: [ActivityTypeEnum.All], andUnit: WorkoutProperty.km.unit()!)
+        return sumOverWorkouts(activity: ConstantString.EddingtonAll.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue,unit: WorkoutProperty.km.unit()!)
     }
     @objc dynamic var allMinutes: Double{
         return allSeconds / Constant.SecondsPerMinute.rawValue
     }
     @objc dynamic var allSeconds: Double{
-        return sumOverWorkouts(forActivities: ActivityEnum.allActivities, andTypes: [ActivityTypeEnum.All], andUnit: WorkoutProperty.seconds.unit()!)
+        return sumOverWorkouts(activity: ConstantString.EddingtonAll.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue,unit: WorkoutProperty.seconds.unit()!)
     }
     @objc dynamic var allTSS: Double{
-        return sumOverWorkouts(forActivities: ActivityEnum.allActivities, andTypes: [ActivityTypeEnum.All], andUnit: WorkoutProperty.tss.unit()!)
+        return sumOverWorkouts(activity: ConstantString.EddingtonAll.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, unit: WorkoutProperty.tss.unit()!)
     }
     
     @objc dynamic var allATL: Double{
-        return swimATL + bikeATL + runATL + gymATL + walkATL + otherATL
+        return 12.345
     }
     
     @objc dynamic var allCTL: Double{
-        return swimCTL + bikeCTL + runCTL + gymCTL + walkCTL + otherCTL
+        return 12.345 * 2.0
     }
     
     @objc dynamic var allTSB: Double{
@@ -272,40 +285,22 @@ extension Day{
     }
     
     @objc dynamic var gymATL: Double{
-        return metricValue(forActivity: ActivityEnum.Gym, andMetric: Unit.ATL)
+        return 12.345
+        // return metricValue(forActivity: ActivityEnum.Gym, andMetric: Unit.ATL)
     }
     
     @objc dynamic var gymCTL: Double{
-        return metricValue(forActivity: ActivityEnum.Gym, andMetric: Unit.CTL)
+        return 12.345
+        //return metricValue(forActivity: ActivityEnum.Gym, andMetric: Unit.CTL)
     }
     
     @objc dynamic var gymTSB: Double{
-        return metricValue(forActivity: ActivityEnum.Gym, andMetric: Unit.TSB)
+        return 12.345
+        //return metricValue(forActivity: ActivityEnum.Gym, andMetric: Unit.TSB)
     }
     
-    @objc dynamic var walkATL: Double{
-        return metricValue(forActivity: ActivityEnum.Walk, andMetric: Unit.ATL)
-    }
-    
-    @objc dynamic var walkCTL: Double{
-        return metricValue(forActivity: ActivityEnum.Walk, andMetric: Unit.CTL)
-    }
-    
-    @objc dynamic var walkTSB: Double{
-        return metricValue(forActivity: ActivityEnum.Walk, andMetric: Unit.TSB)
-    }
-    
-    @objc dynamic var otherATL: Double{
-        return metricValue(forActivity: ActivityEnum.Other, andMetric: Unit.ATL)
-    }
-    
-    @objc dynamic var otherCTL: Double{
-        return metricValue(forActivity: ActivityEnum.Other, andMetric: Unit.CTL)
-    }
-    
-    @objc dynamic var otherTSB: Double{
-        return metricValue(forActivity: ActivityEnum.Other, andMetric: Unit.TSB)
-    }
+
+
     
     @objc dynamic var kg: Double{
         if let td = trainingDiary{
@@ -339,7 +334,8 @@ extension Day{
         }
     }
     @objc dynamic var pressUpReps: Double{
-        return sumOverWorkouts(forActivities: [ActivityEnum.Gym], andTypes: [ActivityTypeEnum.PressUp], andUnit: WorkoutProperty.reps.unit()!)
+        return 12.345
+        //return sumOverWorkouts(forActivities: [ActivityEnum.Gym], andTypes: [ActivityTypeEnum.PressUp], andUnit: WorkoutProperty.reps.unit()!)
     }
     
     //MARK: - utility functions
@@ -363,7 +359,7 @@ extension Day{
     }
 
 
-    func setMetricValue(forActivity a: ActivityEnum, andMetric m: Unit, toValue v:Double){
+    func setMetricValue(forActivity a: Activity, andMetric m: Unit, toValue v:Double){
         if let metric = metric(forActivity: a, andMetric: m){
             metric.value = v
         }
@@ -371,14 +367,14 @@ extension Day{
 
     //MARK:- private
     
-    private func metricValue(forActivity a: ActivityEnum, andMetric m: Unit ) -> Double{
+    private func metricValue(forActivity a: Activity, andMetric m: Unit ) -> Double{
         if let result = metricValuesDictionary()[Metric.key(forActivity: a, andUnit: m)]{
             return result
         }
         return 0.0
     }
     
-    private func metric(forActivity a: ActivityEnum, andMetric m: Unit) -> Metric?{
+    private func metric(forActivity a: Activity, andMetric m: Unit) -> Metric?{
         return metricDictionary()[Metric.key(forActivity: a, andUnit: m)]
     }
 
@@ -406,21 +402,21 @@ extension Day{
         return result
     }
     
-    private func sumOverWorkouts(forActivities activities: [ActivityEnum], andTypes types: [ActivityTypeEnum], andUnit unit: Unit) -> Double{
+    private func sumOverWorkouts(activity a: String, activityType at: String, equipment e: String,  unit: Unit) -> Double{
         var sum = 0.0
         for w in getWorkouts(){
-            sum += w.valueFor(activities, types, unit)
+            sum += w.valuesFor(activity: a, activityType: at, equipment: e, period: Period.Day, unit: unit)[0].value
         }
         return sum
     }
 
-    private func recursiveAdd(toDate d: Date, activity a: ActivityEnum, activityType at: ActivityTypeEnum, unit u: Unit) -> Double{
-        var result = self.valueFor(activity: a, activityType: at, unit: u)
+    private func recursiveAdd(toDate d: Date, activity a: String, activityType at: String, equipment e: String, unit u: Unit) -> Double{
+        var result = self.valuesFor(activity: a, activityType: at, equipment: e, period: Period.Day, unit: u)[0].value
         if self.date!.isSameDate(asDate: d){
             return result
         }else{
             if let y = yesterday{
-                result += y.recursiveAdd(toDate: d, activity: a, activityType: at, unit: u)
+                result += y.recursiveAdd(toDate: d, activity: a, activityType: at, equipment: e, unit: u)
             }else{
                 return result
             }
@@ -428,12 +424,12 @@ extension Day{
         return result
     }
     
-    private func weightedAverageOverWorkouts(forActivities activities: [ActivityEnum], andTypes types: [ActivityTypeEnum], andUnit unit: Unit) ->  Double{
+    private func weightedAverageOverWorkouts( activity a: String, activityType at: String, equipment e: String,  unit u: Unit) ->  Double{
         var weighting = 0.0
         var weightedSum = 0.0
         for w in getWorkouts(){
-            let value = w.valueFor(activities, types, unit)
-            let weight = w.valueFor(activities, types, Unit.Seconds)
+            let value = w.valuesFor(activity: a, activityType: at, equipment: e, period: Period.Day, unit: u)[0].value
+            let weight = w.valuesFor(activity: a, activityType: at, equipment: e, period: Period.Day, unit: Unit.Seconds)[0].value
             if (value > 0.0){
                 weighting += weight
                 weightedSum += value*weight
@@ -454,6 +450,9 @@ extension Day{
         }
     }
     
+    private func activitySwim() ->  Activity{ return trainingDiary!.activity(forString: FixedActivity.Swim.rawValue)! }
+    private func activityBike() ->  Activity{ return trainingDiary!.activity(forString: FixedActivity.Bike.rawValue)! }
+    private func activityRun() ->   Activity{ return trainingDiary!.activity(forString: FixedActivity.Run.rawValue)! }
+    private func activityGym() ->   Activity{ return trainingDiary!.activity(forString: FixedActivity.Gym.rawValue)! }
 
-    
 }

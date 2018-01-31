@@ -19,25 +19,19 @@ import Foundation
     var cache: [(date: Date, value: Double)] = [] // this is ALL the data. When dates change we just filter this
     @objc var graph: GraphDefinition?
     
-    var activity:       ActivityEnum        { didSet{ updateName() } }
-    var activityType:   ActivityTypeEnum    { didSet{ updateName() } }
-    var unit:           Unit            { didSet{ updateName() } }
-    var period:         Period          { didSet{ updateName() } }
+    @objc dynamic var activity:       String  { didSet{ updateName() } }
+    @objc dynamic var activityType:   String  { didSet{ updateName() } }
+    var unit:           Unit    { didSet{ updateName() } }
+    var period:         Period  { didSet{ updateName() } }
     
-    @objc dynamic var activityString: String{
-        get{ return activity.rawValue}
-        set{
-            if let a = ActivityEnum(rawValue: newValue){ activity = a}
-        }
+ /*   @objc dynamic var activityString: String{
+        return activity
     }
     
     @objc dynamic var activityTypeString: String{
-        get{ return activityType.rawValue}
-        set{
-            if let at = ActivityTypeEnum(rawValue: newValue){ activityType = at}
-        }
+        return activityType ?? ""
     }
-    
+   */
     @objc dynamic var unitString: String{
         get{ return unit.rawValue}
         set{
@@ -57,8 +51,9 @@ import Foundation
     @objc dynamic var name: String = ""
     
     override init(){
-        self.activity = ActivityEnum.Bike
-        self.activityType = ActivityTypeEnum.All
+        self.activity = FixedActivity.Bike.rawValue
+        self.activity = ConstantString.EddingtonAll.rawValue
+        self.activityType = ConstantString.EddingtonAll.rawValue
         self.unit = Unit.KM
         self.period = Period.Day
         graph = GraphDefinition(name: "new", axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .black, fillGradientStart: .black, fillGradientEnd: .black, gradientAngle: 0.0, size: 1.0), drawZeroes: true, priority: 1)
@@ -66,7 +61,7 @@ import Foundation
         updateName()
     }
     
-    convenience init(activity a: ActivityEnum, unit u: Unit, period p: Period) {
+    convenience init(activity a: String, unit u: Unit, period p: Period) {
         self.init()
         activity = a
         unit = u
@@ -74,13 +69,16 @@ import Foundation
         updateName()
     }
 
-    convenience init(graph: GraphDefinition,activity a: ActivityEnum, unit u: Unit, period p: Period) {
+    convenience init(graph: GraphDefinition,activity a: String, unit u: Unit, period p: Period) {
         self.init(activity: a, unit: u, period: p)
         self.graph = graph
     }
     
     private func updateName(){
-        name = activityString + ":" + activityTypeString + ":" + periodString + ":" + unitString
+        name = activity
+        name += ":" + activityType
+        name += ":" + periodString
+        name += ":" + unitString
     }
     
 }

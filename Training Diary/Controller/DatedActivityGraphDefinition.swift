@@ -24,16 +24,16 @@ import Foundation
         super.init()
     }
     
-    convenience init(activity a: ActivityEnum, unit u: Unit, period p: Period, fromDate f: Date, toDate t: Date) {
+    convenience init(activity a: Activity, unit u: Unit, period p: Period, fromDate f: Date, toDate t: Date) {
         self.init()
-        self.activity = a
+        self.activity = a.name!
         self.unit = u
         self.period = p
         self.from = f
         self.to = t
     }
     
-    convenience init(graph: GraphDefinition,activity a: ActivityEnum, unit u: Unit, period p: Period, fromDate f: Date, toDate t: Date) {
+    convenience init(graph: GraphDefinition,activity a: Activity, unit u: Unit, period p: Period, fromDate f: Date, toDate t: Date) {
         self.init(activity: a, unit: u, period: p, fromDate: f, toDate: t)
         self.graph = graph
     }

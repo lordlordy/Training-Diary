@@ -1,20 +1,19 @@
 //
-//  Bike+Extension.swift
+//  Equipment+Extension.swift
 //  Training Diary
 //
-//  Created by Steven Lord on 22/01/2018.
+//  Created by Steven Lord on 30/01/2018.
 //  Copyright © 2018 Steven Lord. All rights reserved.
 //
 
 import Foundation
-/*
-extension Bike{
-    
+
+extension Equipment{
     @objc dynamic var nameIsEditable: Bool{
-        return rides == 0
+        return workoutCount == 0
     }
     
-    @objc dynamic var rides: Int{
+    @objc dynamic var workoutCount: Int{
         return workouts?.count ?? 0
     }
     
@@ -52,9 +51,12 @@ extension Bike{
         return result
     }
     
-
+    
     func workoutDateRange() -> (from: Date, to: Date){
         let dates = getWorkouts().map({$0.day!.date!})
+        if dates.count == 0{
+            return (from: Date(), to: Date())
+        }
         return (from: dates.min()!, to: dates.max()!)
     }
     
@@ -65,4 +67,3 @@ extension Bike{
         return []
     }
 }
- */

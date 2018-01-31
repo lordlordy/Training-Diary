@@ -8,12 +8,14 @@
 
 import Cocoa
 
-class CompareGraphViewController: NSViewController, GraphManagementDelegate, TrainingDiaryViewController {
+class CompareGraphViewController: NSViewController, GraphManagementDelegate, TrainingDiaryViewController, NSComboBoxDataSource {
 
     @objc dynamic var trainingDiary: TrainingDiary?
     
     @IBOutlet weak var graphView: GraphView!
     @IBOutlet var graphArrayController: GraphArrayController!
+    @IBOutlet weak var graphTableView: TableViewWithColumnSort!
+    @IBOutlet weak var activityComboBox: NSComboBox!
     
     private var cache: [TrainingDiary: [DatedActivityGraphDefinition]] = [:]
     private var advanceDateComponent: DateComponents?
@@ -46,19 +48,15 @@ class CompareGraphViewController: NSViewController, GraphManagementDelegate, Tra
     
     
     
-    @IBAction func activityChange(_ sender: ActivityComboBox) {
-        if let a = sender.selectedActivity(){
-            for g in graphs(){
-                g.activityString = a.rawValue
-            }
+    @IBAction func activityChange(_ sender: NSComboBox) {
+        for g in graphs(){
+            g.activity = sender.stringValue
         }
     }
     
-    @IBAction func activityTypeChange(_ sender: ActivityTypeComboBox) {
-        if let at = sender.selectedActivityType(){
-            for g in graphs(){
-                g.activityTypeString = at.rawValue
-            }
+    @IBAction func activityTypeChange(_ sender: NSComboBox) {
+        for g in graphs(){
+            g.activityType = sender.stringValue
         }
     }
     
@@ -111,8 +109,8 @@ class CompareGraphViewController: NSViewController, GraphManagementDelegate, Tra
         g.graph!.format.fillGradientEnd = g.graph!.format.colour
         //set activity and such like to one of the current graphs as most likely person wants to compare like with like
         if graphs().count > 0{
-            g.activityString = graphs()[0].activityString
-            g.activityTypeString = graphs()[0].activityTypeString
+            g.activity = graphs()[0].activity
+            g.activityType = graphs()[0].activityType
             g.periodString = graphs()[0].periodString
             g.unitString = graphs()[0].unitString
             g.graph!.type = graphs()[0].graph!.type
@@ -156,6 +154,66 @@ class CompareGraphViewController: NSViewController, GraphManagementDelegate, Tra
         }
         
     }
+    
+    //MARK: - NSComboBoxDataSource
+    func comboBox(_ comboBox: NSComboBox, objectValueForItemAt index: Int) -> Any? {
+        if let identifier = comboBox.identifier{
+            switch identifier.rawValue{
+            case "TableActivityComboBox", "ActivityComboBox":
+                let activities = trainingDiary!.activitiesArray().map({$0.name!})
+                if index < activities.count{
+                    return activities[index]
+                }
+            case "TableActivityTypeComboBox":
+                guard let c = comboBox.superview as? NSTableCellView else{
+                    return nil
+                }
+                if let graph = c.objectValue as? ActivityGraphDefinition{
+                    let types = trainingDiary!.validActivityTypes(forActivityString: graph.activity).map({$0.name!})
+                    if index < types.count{
+                        return types[index]
+                    }
+                }
+            case "ActivityTypeComboBox":
+                if let acb = activityComboBox{
+                    if let types = trainingDiary?.validActivityTypes(forActivityString: acb.stringValue){
+                        if index < types.count{
+                            return types[index].name
+                        }
+                    }
+                }
+            default:
+                print("What combo box is this \(identifier.rawValue) which I'm (DaysViewController) a data source for? ")
+            }
+        }
+        return nil
+    }
+    
+    func numberOfItems(in comboBox: NSComboBox) -> Int {
+        if let identifier = comboBox.identifier{
+            switch identifier.rawValue{
+            case "TableActivityComboBox", "ActivityComboBox":
+                return trainingDiary!.activitiesArray().count
+            case "TableActivityTypeComboBox":
+                guard let c = comboBox.superview as? NSTableCellView else{
+                    return 0
+                }
+                if let graph = c.objectValue as? ActivityGraphDefinition{
+                    return trainingDiary!.validActivityTypes(forActivityString: graph.activity).count
+                }
+            case "ActivityTypeComboBox":
+                if let acb = activityComboBox{
+                    if let types = trainingDiary?.validActivityTypes(forActivityString: acb.stringValue){
+                        return types.count                
+                    }
+                }
+            default:
+                return 0
+            }
+        }
+        return 0
+    }
+
 
     //MARK: - Property observing
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?){
@@ -191,7 +249,7 @@ class CompareGraphViewController: NSViewController, GraphManagementDelegate, Tra
     private func updateData(forGraph graph: DatedActivityGraphDefinition){
         if let td = trainingDiary{
             if let g = graph.graph{
-                let values = td.getValues(forActivity: graph.activity, andActivityType: graph.activityType, andPeriod: graph.period, andUnit: graph.unit, fromDate: graph.from, toDate: graph.to)
+                let values = td.valuesFor(activity: graph.activity, activityType: graph.activityType, equipment: ConstantString.EddingtonAll.rawValue, period: graph.period, unit: graph.unit, from: graph.from, to: graph.to)
                 g.data = values
                 if values.count > baseDates.count{
                     baseDates =  values.map({$0.date})
@@ -263,8 +321,8 @@ class CompareGraphViewController: NSViewController, GraphManagementDelegate, Tra
             let runGraph = GraphDefinition(name: String(end.year()), axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .red, fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 0.0, size: 2.0), drawZeroes: true, priority: 2)
             let runGraph2 = GraphDefinition(name: String(end2.year()), axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .blue, fillGradientStart: .blue, fillGradientEnd: .blue, gradientAngle: 0.0, size: 2.0), drawZeroes: true, priority: 1)
 
-            let datedRunGraph = DatedActivityGraphDefinition(graph: runGraph, activity: .Run, unit: .KM, period: .YearToDate, fromDate: start, toDate: end)
-            let datedRunGraph2 = DatedActivityGraphDefinition(graph: runGraph2, activity: .Run, unit: .KM, period: .YearToDate, fromDate: start2, toDate: end2)
+            let datedRunGraph = DatedActivityGraphDefinition(graph: runGraph, activity: trainingDiary!.activity(forString: FixedActivity.Run.rawValue)!, unit: .KM, period: .YearToDate, fromDate: start, toDate: end)
+            let datedRunGraph2 = DatedActivityGraphDefinition(graph: runGraph2, activity: trainingDiary!.activity(forString: FixedActivity.Run.rawValue)!, unit: .KM, period: .YearToDate, fromDate: start2, toDate: end2)
 
             datedRunGraph.graph!.drawZero = false
             datedRunGraph2.graph!.drawZero = false
@@ -302,6 +360,8 @@ class CompareGraphViewController: NSViewController, GraphManagementDelegate, Tra
         let r = CGFloat(arc4random()) / CGFloat(UInt32.max)
         return r
     }
+    
+
     
     
 }

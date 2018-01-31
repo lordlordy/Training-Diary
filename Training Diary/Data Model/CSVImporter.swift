@@ -37,7 +37,8 @@ class CSVImporter{
     private var columnDictionary: [String: Int] = [:]
     
     private var dateFormatter: DateFormatter
-    private let persistentContainer = CoreDataStackSingleton.shared.trainingDiaryPC
+//    private let persistentContainer = CoreDataStackSingleton.shared.trainingDiaryPC
+    private var trainingDiary: TrainingDiary?
 
 
 
@@ -121,24 +122,22 @@ class CSVImporter{
     
     private func createManagedObjectModelFrom(csv: [[String]]){
         //create the base Object - TrainingDiary
-        let trainingDiary: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "TrainingDiary", into: CoreDataStackSingleton.shared.trainingDiaryPC.viewContext)
-        
-        trainingDiary.setValue(Date().dateOnlyString(), forKey: "name")
+         trainingDiary = CoreDataStackSingleton.shared.newTrainingDiary()
         
         var index = 0
         for row in csv{
             //first row is labels
             if index > 0{
-                addWeight(fromRow: row, toTrainingDiary: trainingDiary)
-                addPhysio(fromRow: row, toTrainingDiary: trainingDiary)
-                addDayAndWorkouts(forRow: row, toTrainingDiary: trainingDiary)
+                addWeight(fromRow: row, toTrainingDiary: trainingDiary!)
+                addPhysio(fromRow: row, toTrainingDiary: trainingDiary!)
+                addDayAndWorkouts(forRow: row, toTrainingDiary: trainingDiary!)
             }
             index += 1
         }
         
 
         print("Added:")
-        CoreDataStackSingleton.shared.printEntityCounts(forDiary: trainingDiary as! TrainingDiary)
+        CoreDataStackSingleton.shared.printEntityCounts(forDiary: trainingDiary!)
         
     }
     
@@ -151,7 +150,7 @@ class CSVImporter{
         if let index = columnDictionary[CSVImportString.date.rawValue]{
             if let date = dateFormatter.date(from: row[index]){
                 //have parsed the date so can add a day to the diary
-                let day = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.Day.rawValue, in: persistentContainer.viewContext)!, insertInto: persistentContainer.viewContext)
+                let day = CoreDataStackSingleton.shared.newDay()
                 daysMOSet.add(day)
                 
                 day.setValue(date, forKey: DayProperty.date.rawValue)
@@ -199,12 +198,14 @@ class CSVImporter{
     
     private func addSwimWorkout(fromRow row: [String], workouts : NSMutableSet){
         
-        let workout = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.Workout.rawValue, in: persistentContainer.viewContext)!, insertInto: persistentContainer.viewContext)
+        let workout = CoreDataStackSingleton.shared.newWorkout()
         workouts.add(workout)
         
         //    case swimSeconds, swimComments, swimIsRace, swimKJ, swimKM, swimRPE, swimTSS, swimTSSMethod, swimType, swimWatts
 
-        workout.setValue(ActivityEnum.Swim.rawValue, forKey: WorkoutProperty.activity.rawValue)
+        let swimActivity = trainingDiary!.activity(forString: FixedActivity.Swim.rawValue)
+        
+        workout.setValue(swimActivity, forKey: WorkoutProperty.activity.rawValue)
         if let i = columnDictionary[CSVImportString.swimSeconds.rawValue]{ workout.setValue(Double(row[i]), forKey: WorkoutProperty.seconds.rawValue) }
         if let i = columnDictionary[CSVImportString.swimComments.rawValue]{ workout.setValue(row[i], forKey: WorkoutProperty.comments.rawValue) }
         if let i = columnDictionary[CSVImportString.swimIsRace.rawValue]{
@@ -220,22 +221,21 @@ class CSVImporter{
         if let i = columnDictionary[CSVImportString.swimTSS.rawValue]{ workout.setValue(Double(row[i]), forKey: WorkoutProperty.tss.rawValue) }
         if let i = columnDictionary[CSVImportString.swimTSSMethod.rawValue]{ workout.setValue(row[i], forKey: WorkoutProperty.tssMethod.rawValue) }
         if let i = columnDictionary[CSVImportString.swimType.rawValue]{
-            if row[i] == ""{
-                workout.setValue(ActivityTypeEnum.Squad.rawValue, forKey: WorkoutProperty.activityType.rawValue)
-            }else{
-                workout.setValue(row[i], forKey: WorkoutProperty.activityType.rawValue)
-            }
+            var type: String = "Squad"
+            if row[i] != ""{ type = row[i] }
+            workout.setValue(trainingDiary!.activityType(forActivity: FixedActivity.Swim.rawValue, andType: row[i])!, forKey: WorkoutProperty.activityType.rawValue)
         }
         if let i = columnDictionary[CSVImportString.swimWatts.rawValue]{ workout.setValue(Double(row[i]), forKey: WorkoutProperty.watts.rawValue) }
         
     }
 
     private func addBikeWorkout(fromRow row: [String], workouts : NSMutableSet){
-        let workout = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.Workout.rawValue, in: persistentContainer.viewContext)!, insertInto: persistentContainer.viewContext)
+        let workout = CoreDataStackSingleton.shared.newWorkout()
         workouts.add(workout)
         
        // case bikeSeconds, bikeAscentMetres, bikeBrick, bikeCadence, BikeComments, bikeHR, bikeIsRace, bikeKJ, bikeKM, bikeRPE, bikeTSS, bikeTSSMethod, bikeType, bikeWatts
-        workout.setValue(ActivityEnum.Bike.rawValue, forKey: WorkoutProperty.activity.rawValue)
+        let bikeActivity = trainingDiary!.activity(forString: FixedActivity.Bike.rawValue)
+        workout.setValue(bikeActivity, forKey: WorkoutProperty.activity.rawValue)
         if let i = columnDictionary[CSVImportString.bikeSeconds.rawValue]{      workout.setValue(Double(row[i]), forKey: WorkoutProperty.seconds.rawValue) }
         if let i = columnDictionary[CSVImportString.bikeAscentMetres.rawValue]{ workout.setValue(Double(row[i]), forKey: WorkoutProperty.ascentMetres.rawValue) }
         if let i = columnDictionary[CSVImportString.bikeBrick.rawValue]{
@@ -261,22 +261,21 @@ class CSVImporter{
         if let i = columnDictionary[CSVImportString.bikeTSS.rawValue]{          workout.setValue(Double(row[i]), forKey: WorkoutProperty.tss.rawValue) }
         if let i = columnDictionary[CSVImportString.bikeTSSMethod.rawValue]{    workout.setValue(row[i], forKey: WorkoutProperty.tssMethod.rawValue) }
         if let i = columnDictionary[CSVImportString.bikeType.rawValue]{
-            if row[i] == ""{
-               workout.setValue(ActivityTypeEnum.Road.rawValue, forKey: WorkoutProperty.activityType.rawValue)
-            }else{
-                workout.setValue(row[i], forKey: WorkoutProperty.activityType.rawValue)
-            }
+            var type: String = "Road"
+            if row[i] != "" { type = row[i]}
+            workout.setValue(trainingDiary!.activityType(forActivity: FixedActivity.Bike.rawValue, andType: type), forKey: WorkoutProperty.activityType.rawValue)
         }
         if let i = columnDictionary[CSVImportString.bikeWatts.rawValue]{        workout.setValue(Double(row[i]), forKey: WorkoutProperty.watts.rawValue) }
 
 
     }
     private func addRunWorkout(fromRow row: [String], workouts : NSMutableSet){
-        let workout = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.Workout.rawValue, in: persistentContainer.viewContext)!, insertInto: persistentContainer.viewContext)
+        let workout = CoreDataStackSingleton.shared.newWorkout()
         workouts.add(workout)
         
         //case runSeconds, runAscentMetres, runBrick, runCadence, runComments, runHR, runIsRace, runKJ, runKM, runRPE, runTSS, runTSSMethod, runType, runWatts
-        workout.setValue(ActivityEnum.Run.rawValue, forKey: WorkoutProperty.activity.rawValue)
+        let runActivity = trainingDiary!.activity(forString: FixedActivity.Run.rawValue)
+        workout.setValue(runActivity, forKey: WorkoutProperty.activity.rawValue)
         if let i = columnDictionary[CSVImportString.runSeconds.rawValue]{      workout.setValue(Double(row[i]), forKey: WorkoutProperty.seconds.rawValue) }
         if let i = columnDictionary[CSVImportString.runAscentMetres.rawValue]{ workout.setValue(Double(row[i]), forKey: WorkoutProperty.ascentMetres.rawValue) }
         if let i = columnDictionary[CSVImportString.runBrick.rawValue]{
@@ -302,22 +301,20 @@ class CSVImporter{
         if let i = columnDictionary[CSVImportString.runTSS.rawValue]{          workout.setValue(Double(row[i]), forKey: WorkoutProperty.tss.rawValue) }
         if let i = columnDictionary[CSVImportString.runTSSMethod.rawValue]{    workout.setValue(row[i], forKey: WorkoutProperty.tssMethod.rawValue) }
         if let i = columnDictionary[CSVImportString.runType.rawValue]{
-            if row[i] == ""{
-                workout.setValue(ActivityTypeEnum.Road.rawValue, forKey: WorkoutProperty.activityType.rawValue)
-            }else{
-                workout.setValue(row[i], forKey: WorkoutProperty.activityType.rawValue)
-            }
+            var type: String = "Road"
+            if row[i] != "" { type = row[i]}
+            workout.setValue(trainingDiary!.activityType(forActivity: FixedActivity.Run.rawValue, andType: type), forKey: WorkoutProperty.activityType.rawValue)
         }
         if let i = columnDictionary[CSVImportString.runWatts.rawValue]{        workout.setValue(Double(row[i]), forKey: WorkoutProperty.watts.rawValue) }
 
     }
         
     private func addGymWorkout(fromRow row: [String], workouts : NSMutableSet){
-        let workout = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.Workout.rawValue, in: persistentContainer.viewContext)!, insertInto: persistentContainer.viewContext)
+        let workout = CoreDataStackSingleton.shared.newWorkout()
         workouts.add(workout)
         
         //case gymSeconds, gymComments, gymKJ, gymReps, gymRPE, gymTSS, gymTSSMethod, gymType
-        workout.setValue(ActivityEnum.Gym.rawValue, forKey: WorkoutProperty.activity.rawValue)
+   //     workout.setValue(ActivityEnum.Gym.rawValue, forKey: WorkoutProperty.activity.rawValue)
         if let i = columnDictionary[CSVImportString.gymSeconds.rawValue]{ workout.setValue(Double(row[i]), forKey: WorkoutProperty.seconds.rawValue) }
         if let i = columnDictionary[CSVImportString.gymComments.rawValue]{ workout.setValue(row[i], forKey: WorkoutProperty.comments.rawValue) }
         if let i = columnDictionary[CSVImportString.gymKJ.rawValue]{ workout.setValue(Double(row[i]), forKey: WorkoutProperty.kj.rawValue) }
@@ -327,20 +324,20 @@ class CSVImporter{
         if let i = columnDictionary[CSVImportString.gymTSSMethod.rawValue]{ workout.setValue(row[i], forKey: WorkoutProperty.tssMethod.rawValue) }
         if let i = columnDictionary[CSVImportString.gymType.rawValue]{
             if row[i] == ""{
-                workout.setValue(ActivityTypeEnum.General.rawValue, forKey: WorkoutProperty.activityType.rawValue)
+     //           workout.setValue(ActivityTypeEnum.General.rawValue, forKey: WorkoutProperty.activityType.rawValue)
             }else{
                 workout.setValue(row[i], forKey: WorkoutProperty.activityType.rawValue)
             }
         }
-        
+       print("Imported Gym workout from CSV - Setting of Activity and Type not implemented")
 
     }
     private func addWalkWorkout(fromRow row: [String], workouts : NSMutableSet){
-        let workout = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.Workout.rawValue, in: persistentContainer.viewContext)!, insertInto: persistentContainer.viewContext)
+        let workout = CoreDataStackSingleton.shared.newWorkout()
         workouts.add(workout)
         
         //case walkSeconds, walkAscentMetres, walkComments, walkHR, walkKJ, walkKM, walkRPE, walkTSS, walkTSSMethod, walkType
-        workout.setValue(ActivityEnum.Walk.rawValue, forKey: WorkoutProperty.activity.rawValue)
+//        workout.setValue(ActivityEnum.Walk.rawValue, forKey: WorkoutProperty.activity.rawValue)
         if let i = columnDictionary[CSVImportString.walkSeconds.rawValue]{      workout.setValue(Double(row[i]), forKey: WorkoutProperty.seconds.rawValue) }
         if let i = columnDictionary[CSVImportString.walkAscentMetres.rawValue]{ workout.setValue(Double(row[i]), forKey: WorkoutProperty.ascentMetres.rawValue) }
         if let i = columnDictionary[CSVImportString.walkComments.rawValue]{     workout.setValue(row[i], forKey: WorkoutProperty.comments.rawValue) }
@@ -352,20 +349,22 @@ class CSVImporter{
         if let i = columnDictionary[CSVImportString.walkTSSMethod.rawValue]{    workout.setValue(row[i], forKey: WorkoutProperty.tssMethod.rawValue) }
         if let i = columnDictionary[CSVImportString.walkType.rawValue]{
             if row[i] == ""{
-                workout.setValue(ActivityTypeEnum.General.rawValue, forKey: WorkoutProperty.activityType.rawValue)
+  //              workout.setValue(ActivityTypeEnum.General.rawValue, forKey: WorkoutProperty.activityType.rawValue)
             }else{
                 workout.setValue(row[i], forKey: WorkoutProperty.activityType.rawValue)
             }
         }
 
+        print("Imported Walk workout from CSV - Setting of Activity and Type not implemented")
+
 
     }
     private func addOtherWorkout(fromRow row: [String], workouts : NSMutableSet){
-        let workout = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.Workout.rawValue, in: persistentContainer.viewContext)!, insertInto: persistentContainer.viewContext)
+        let workout = CoreDataStackSingleton.shared.newWorkout()
         workouts.add(workout)
         
         //case otherSeconds, otherComments, otherHR, otherKJ, otherRPE, otherTSS, otherTSSMethod, otherType
-        workout.setValue(ActivityEnum.Swim.rawValue, forKey: WorkoutProperty.activity.rawValue)
+  //      workout.setValue(ActivityEnum.Swim.rawValue, forKey: WorkoutProperty.activity.rawValue)
         if let i = columnDictionary[CSVImportString.otherSeconds.rawValue]{ workout.setValue(Double(row[i]), forKey: WorkoutProperty.seconds.rawValue) }
         if let i = columnDictionary[CSVImportString.otherComments.rawValue]{ workout.setValue(row[i], forKey: WorkoutProperty.comments.rawValue) }
         if let i = columnDictionary[CSVImportString.otherHR.rawValue]{ workout.setValue(Double(row[i]), forKey: WorkoutProperty.hr.rawValue) }
@@ -375,12 +374,13 @@ class CSVImporter{
         if let i = columnDictionary[CSVImportString.otherTSSMethod.rawValue]{ workout.setValue(row[i], forKey: WorkoutProperty.tssMethod.rawValue) }
         if let i = columnDictionary[CSVImportString.otherType.rawValue]{
             if row[i] == ""{
-                workout.setValue(ActivityTypeEnum.General.rawValue, forKey: WorkoutProperty.activityType.rawValue)
+  //              workout.setValue(ActivityTypeEnum.General.rawValue, forKey: WorkoutProperty.activityType.rawValue)
             }else{
                 workout.setValue(row[i], forKey: WorkoutProperty.activityType.rawValue)
             }
         }
-        
+        print("Imported Other workout from CSV - Setting of Activity and Type not implemented")
+
 
     }
 
@@ -398,7 +398,7 @@ class CSVImporter{
 
                 //only create and add weight if we have KG
                 if let weightKG = kg{
-                    let weight = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.Weight.rawValue, in: persistentContainer.viewContext)!, insertInto: persistentContainer.viewContext)
+                    let weight = CoreDataStackSingleton.shared.newWeight()
                     trainingDiary.mutableSetValue(forKey: TrainingDiaryProperty.weights.rawValue).add(weight)
                     // for now set the date just for the day - should go through weights and put in correct toDate
                     weight.setValue(date.startOfDay() , forKey: WeightProperty.fromDate.rawValue)
@@ -431,7 +431,7 @@ class CSVImporter{
                 
                 //only create and add weight if we have KG
                 if let restingHR = hr{
-                    let physio = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.Physiological.rawValue, in: persistentContainer.viewContext)!, insertInto: persistentContainer.viewContext)
+                    let physio = CoreDataStackSingleton.shared.newPhysiological()
                     trainingDiary.mutableSetValue(forKey: TrainingDiaryProperty.physiologicals.rawValue).add(physio)
                     // for now set the date just for the day - should go through weights and put in correct toDate
                     physio.setValue(date.startOfDay() , forKey: PhysiologicalProperty.fromDate.rawValue)

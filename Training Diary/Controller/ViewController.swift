@@ -36,6 +36,9 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
         ValueTransformer.setValueTransformer(NumberToDetailedTimeTransformer(), forName: NSValueTransformerName(rawValue: "NumberToDetailedTimeTransformer"))
         ValueTransformer.setValueTransformer(NumberToSummaryTimeFormatter(), forName: NSValueTransformerName(rawValue: "NumberToSummaryTimeFormatter"))
         ValueTransformer.setValueTransformer(TextViewToStringTransformer(), forName: NSValueTransformerName(rawValue: "TextViewToStringTransformer"))
+        ValueTransformer.setValueTransformer(ActivityToStringTransformer(), forName: NSValueTransformerName(rawValue: "ActivityToStringTransformer"))
+
+        
     }
 
     

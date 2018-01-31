@@ -10,8 +10,8 @@ import Foundation
 
 extension EddingtonNumber{
     
-    static func code(_ activity: String?, _ activityType: String?, _ period: String, _ unit: String) -> String{
-        return eddingtonCode(activity, activityType, period, unit)
+    static func code(activity: String, activityType: String, equipment: String, period: String, unit: String) -> String{
+        return eddingtonCode(activity, activityType, equipment, period, unit)
     }
     
     var nextEddingtonNumber: Int16{ return value + 1}
@@ -22,12 +22,17 @@ extension EddingtonNumber{
     @objc dynamic var daysSinceLastContributor: Double { return calculateDaysSinceLastContributor() }
 
     @objc dynamic var requiresCalculation: Bool{ return lastUpdated == nil}
-    @objc dynamic var bikeEditable: Bool{ return requiresCalculation && (activity == ActivityEnum.Bike.rawValue)}
+    @objc dynamic var bikeEditable: Bool{ return true}
     
     @objc dynamic var eddingtonCode: String{
-        return EddingtonNumber.code(activity, activityType, period!, unit!)
+        let a = activity ?? ConstantString.EddingtonAll.rawValue
+        let at = activityType ?? ConstantString.EddingtonAll.rawValue
+        let e = equipment ?? ConstantString.EddingtonAll.rawValue
+        return EddingtonNumber.code(activity: a,activityType: at, equipment: e, period: period!,unit: unit!)
     }
     
+    
+
     func contributorsToNext() -> [EddingtonContributor]{
         let currentContributors = getContributors()
         return currentContributors.filter({$0.value >= Double(nextEddingtonNumber)})
@@ -306,22 +311,12 @@ extension EddingtonNumber{
         return 0.0
     }
     
-    private static func eddingtonCode(_ activity: String?, _ activityType: String?, _ period: String, _ unit: String) -> String{
-            var result = ""
-            if let a = activity {
-                if a != ActivityEnum.All.rawValue{
-                    result += a
-                }
-            }
-            if let at = activityType {
-                if at != ActivityTypeEnum.All.rawValue{
-                    result += ":" + at
-                }
-                result += ":" + period
-                result += ":" + unit
-                
-            }
-        
+    private static func eddingtonCode(_ activity: String, _ activityType: String, _ equipment: String, _ period: String, _ unit: String) -> String{
+        var result = activity
+        result += ":" + equipment
+        result += ":" + activityType
+        result += ":" + period
+        result += ":" + unit
         return result.trimmingCharacters(in: CharacterSet.init(charactersIn: ":"))
     }
     

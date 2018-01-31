@@ -10,6 +10,17 @@ import Foundation
 
 extension LTDEdNum{
     @objc dynamic var code: String{
-        return EddingtonNumber.code(activity, activityType, period!, unit!)
+        let ALL = ConstantString.EddingtonAll.rawValue
+        return EddingtonNumber.code(activity: activity ?? ALL, activityType: activityType ?? ALL, equipment: equipment ?? ALL, period: period!,unit: unit!)
+    }
+    
+    var levelString: String{
+        var result = ""
+        result += activity ?? ConstantString.EddingtonAll.rawValue
+        result += ":" + (equipment ?? ConstantString.EddingtonAll.rawValue)
+        result += ":" + (activityType ?? ConstantString.EddingtonAll.rawValue)
+        result += ":" + unit!
+        result += ":" + period!
+        return result
     }
 }

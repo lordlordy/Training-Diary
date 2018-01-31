@@ -8,31 +8,17 @@
 
 import Cocoa
 
-extension Workout{
+extension Workout: TrainingDiaryValues{
     
-    @objc dynamic var notBike: Bool{
-        return !(activity == ActivityEnum.Bike.rawValue)
-    }
     
-    @objc dynamic var hours: Double{
-        return seconds * Constant.HoursPerSecond.rawValue
-    }
+    @objc dynamic var hours:        Double{ return seconds * Constant.HoursPerSecond.rawValue}
+    @objc dynamic var minutes:      Double{ return seconds * Constant.MinutesPerSecond.rawValue}
+    @objc dynamic var miles:        Double{ return km * Constant.MilesPerKM.rawValue }
+    @objc dynamic var ascentFeet:   Double{ return ascentMetres * Constant.FeetPerMetre.rawValue }
+    @objc dynamic var rpeTSS:       Double{ return (100/49)*rpe*rpe*Double(seconds)/3600 }
     
-    @objc dynamic var minutes: Double{
-        return seconds * Constant.MinutesPerSecond.rawValue
-    }
-    
-    @objc dynamic var miles: Double{
-        return km * Constant.MilesPerKM.rawValue
-    }
-    
-    @objc dynamic var ascentFeet: Double{
-        return ascentMetres * Constant.FeetPerMetre.rawValue
-    }
-    
-    @objc dynamic var rpeTSS: Double{
-        return (100/49)*rpe*rpe*Double(seconds)/3600
-    }
+    @objc dynamic var activityTypeOK:   Bool { return activityTypeValid() }
+    @objc dynamic var equipmentOK:      Bool { return equipmentValid() }
     
     @objc dynamic var estimatedKJ: Double{
         if watts > 0.0{
@@ -50,7 +36,8 @@ extension Workout{
             return keyPaths.union(Set([WorkoutProperty.activity.rawValue]))
         case WorkoutProperty.rpeTSS.rawValue:
             return keyPaths.union(Set([WorkoutProperty.seconds.rawValue,WorkoutProperty.rpe.rawValue]))
-        case "estimatedKJ":
+            
+        case WorkoutProperty.estimatedKJ.rawValue:
             return keyPaths.union(Set([WorkoutProperty.watts.rawValue, WorkoutProperty.seconds.rawValue, WorkoutProperty.rpeTSS.rawValue]))
         default:
             return keyPaths
@@ -59,82 +46,76 @@ extension Workout{
     
     
     
-    
-    /* All workouts respond to requests for any combination of
-         Activity
-         ActivityType
-         Unit
-     Returning zero if it's not this type
-     */
-    func valueFor(_ a: [ActivityEnum],_ t: [ActivityTypeEnum], _ unit: Unit, _ b: BikeName? = nil) -> Double{
-        if let requestedBike = b{
-            //bike passed in. If this workout is on this bike then continue. If not return zero
-            if requestedBike.rawValue != bike{
-                return 0.0
-            }
-        }
-        if (isOneOfTheseTypes(a, t) && !unit.isMetric){
-            if(unit.isDerived()){
-                if let derivation = unit.dataForDerivation(){
+    //MARK: - TrainingDiaryValues protocol implementation
+
+    func valuesFor(activity a: String, activityType at: String, equipment e: String, period p: Period, unit u: Unit, from: Date? = nil, to: Date? = nil) -> [(date: Date, value: Double)]{
+        var v: Double = 0.0
+
+        if (isOfType(activity: a, activityType: at, equipment: e) && !u.isMetric){
+            if(u.isDerived()){
+                if let derivation = u.dataForDerivation(){
                     if let d = value(forKey: derivation.unit.workoutPropertyName()!){
-                        return (d as! Double) * derivation.multiple.rawValue
+                        v = (d as! Double) * derivation.multiple.rawValue
                     }else{
                         print("couldn't get value for \(String(describing: derivation.unit.workoutPropertyName()))")
                     }
                 }else{
-                    print("derived data nil for \(unit)")
+                    print("derived data nil for \(u)")
                 }
             }else{
-                if let d = value(forKey: unit.workoutPropertyName()!){
-                    return d as! Double
-                }else{
-                    return 0.0
+                if let d = value(forKey: u.workoutPropertyName()!){
+                    v = d as! Double
                 }
             }
         }
-        return 0.0
+        return [(day!.date!, v)]
     }
+    
+    func valuesFor(activity a: Activity? = nil, activityType at: ActivityType? = nil, equipment e: Equipment? = nil, period p: Period, unit u: Unit, from: Date? = nil, to: Date? = nil) -> [(date: Date, value: Double)]{
+        var aString = ConstantString.EddingtonAll.rawValue
+        var atString = ConstantString.EddingtonAll.rawValue
+        var eString = ConstantString.EddingtonAll.rawValue
+
+        if let activity = a         { aString = activity.name!}
+        if let activityType = at    { atString = activityType.name!}
+        if let equipment = e        { eString = equipment.name!}
+        
+        return valuesFor(activity: aString, activityType: atString, equipment: eString, period: p, unit: u, from: from, to: to)
+    }
+    
+    func valuesAreForTrainingDiary() -> TrainingDiary { return day!.trainingDiary! }
     
     //MARK: - private
     
-    private func isOfType(_ a: ActivityEnum, _ t: ActivityTypeEnum ) -> Bool{
-        return isOneOfTheseTypes([a], [t])
-    }
-    
-    private func isOneOfTheseTypes(_ a: [ActivityEnum], _ t: [ActivityTypeEnum]) -> Bool{
-        return (a.contains(ActivityEnum.All) || isOneOff(a)) && (t.contains(ActivityTypeEnum.All) || isOneOff(t))
-    }
-    
-    private func getActivity() -> ActivityEnum?{
-        if let activity = self.activity{
-            return ActivityEnum(rawValue: activity)
-        }else{
-            return nil
-        }
+
+
+    private func isOfType(activity: String, activityType: String, equipment: String ) -> Bool{
+        let correctActivity: Bool = (activity == ConstantString.EddingtonAll.rawValue || activity == activityString)
+        let correctType: Bool = (activityType == ConstantString.EddingtonAll.rawValue || activityType == activityTypeString)
+        let correctEquipment: Bool = (equipment == ConstantString.EddingtonAll.rawValue || equipment == equipmentName)
+        return correctActivity && correctType && correctEquipment
     }
 
-    private func getActivityType() -> ActivityTypeEnum?{
-        if let activityType  = self.activityType{
-            return ActivityTypeEnum(rawValue: activityType)
-        }else{
-            return nil
+    private func activityTypeValid() -> Bool{
+        if let validTypes = activity?.activityTypes{
+            if let at = activityType{
+                return validTypes.contains(at)
+            }
         }
+        return false
+    }
+
+    private func equipmentValid() -> Bool{
+        if equipment == nil { return true } // ok to not have equipment set
+        if let validTypes = activity?.equipment{
+            if let e = equipment{
+                return validTypes.contains(e)
+            }
+        }else{
+            //no equipment set up
+            return equipment == nil
+        }
+        return false
     }
     
-    private func isOneOff(_ a: [ActivityEnum]) -> Bool{
-        if getActivity() == nil {
-            return false
-        }else{
-            return a.contains(getActivity()!)
-        }
-    }
-
-    private func isOneOff(_ a: [ActivityTypeEnum]) -> Bool{
-        if getActivityType() == nil {
-            return false
-        }else{
-            return a.contains(getActivityType()!)
-        }
-    }
-
 }
