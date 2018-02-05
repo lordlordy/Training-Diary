@@ -27,47 +27,12 @@ class DaysViewController: NSViewController, TrainingDiaryViewController, NSCombo
 
     //MARK: - Actions
 
-
-
-        
-
-        
-
-    
-
-    
-    
- /*   @IBAction func calcAllTSB(_ sender: NSButton) {
-        if let td = trainingDiary{
-            for a in Activity.allActivities{
-                print(a)
-                td.calcTSB(forActivity: a, fromDate: td.firstDayOfDiary)
-            }
-        }
-    }
-    
-    @IBAction func calcTSBFrom(_ sender: NSButton) {
-        if let td = trainingDiary{
-            if let d = latestSelectedDate(){
-                for a in Activity.allActivities{
-                    td.calcTSB(forActivity: a, fromDate: d)
-                }
-            }
-        }
-    }
-   */
     
     @IBAction func testFeature(_ sender: NSButton) {
-        let start = Date()
-        for e in trainingDiary!.eddingtonNumbers!{
-            let s = Date()
-            let edNum = e as! EddingtonNumber
-            let calculator = EddingtonNumberCalculator()
-            calculator.calculate(eddingtonNumber: edNum)
-            edNum.update(forCalculator: calculator)
-            print("\(edNum.eddingtonCode) - \(Date().timeIntervalSince(s))s")
+        if let dtv = dayTableView{
+            dtv.reloadData()
+            dtv.needsDisplay = true
         }
-        print("Recalc took \(Date().timeIntervalSince(start))s")
     }
     
     
@@ -160,7 +125,7 @@ class DaysViewController: NSViewController, TrainingDiaryViewController, NSCombo
     override func viewDidLoad() {
         super.viewDidLoad()
         daysArrayController.sortDescriptors.append(NSSortDescriptor.init(key: "date", ascending: false))
-     
+        setFilterPredicate()
        
     }
     

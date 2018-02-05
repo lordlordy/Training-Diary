@@ -1,12 +1,14 @@
 </table>
 <script>
 function filterNumbers() {
-var a,at,p,u, filter, table, tr, td, i,c;
+var a,e,at,p,u, filter, table, tr, td, i,c;
 a = document.getElementById("activity");
+e = document.getElementById("equipment");
 at = document.getElementById("type");
 p = document.getElementById("period");
 u = document.getElementById("unit");
 aUpper = a.value.toUpperCase();
+eUpper = e.value.toUpperCase();
 atUpper = at.value.toUpperCase();
 pUpper = p.value.toUpperCase();
 uUpper = u.value.toUpperCase();
@@ -15,11 +17,12 @@ tr = table.getElementsByTagName("tr");
 
 for (i = 0, c = 0; i < tr.length; i++) {
 ad = tr[i].getElementsByTagName("td")[0];
-atd = tr[i].getElementsByTagName("td")[1];
-pd = tr[i].getElementsByTagName("td")[2];
-ud = tr[i].getElementsByTagName("td")[3];
+ae = tr[i].getElementsByTagName("td")[1]
+atd = tr[i].getElementsByTagName("td")[2];
+pd = tr[i].getElementsByTagName("td")[3];
+ud = tr[i].getElementsByTagName("td")[4];
 if (ad) {
-if ((ad.innerHTML.toUpperCase().indexOf(aUpper) > -1) && (atd.innerHTML.toUpperCase().indexOf(atUpper) > -1)&& (pd.innerHTML.toUpperCase().indexOf(pUpper) > -1)&& (ud.innerHTML.toUpperCase().indexOf(uUpper) > -1)) {
+if ((ad.innerHTML.toUpperCase().indexOf(aUpper) > -1) &&(ae.innerHTML.toUpperCase().indexOf(eUpper) > -1) && (atd.innerHTML.toUpperCase().indexOf(atUpper) > -1)&& (pd.innerHTML.toUpperCase().indexOf(pUpper) > -1)&& (ud.innerHTML.toUpperCase().indexOf(uUpper) > -1)) {
 tr[i].style.display = "";
 c++
 } else {

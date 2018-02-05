@@ -7,32 +7,54 @@
 //
 
 import Foundation
-
-@objc class EdLevel: NSObject, TreeNode{
+/* DEPRECATED
+@objc class EdLevel: NSObject{
     
-    //MARK: - TreeNode implementation
     @objc dynamic var isLeaf: Bool { return children.count == 0}
     @objc dynamic var childCount: Int { return children.count}
-    var children: [TreeNode] { return edChildren as [TreeNode]}
-    
-    @objc dynamic var mutableChildren:NSSet { return  NSSet.init(array: edChildren)}
-    var edChildren: [EdLevel] = []
-
+    @objc dynamic var children: [EdLevel]{
+        get{
+      //      print("Getting value from \(name)")
+            return internalChildren
+        }
+        set{
+            internalChildren = newValue
+        }
+    }
     
     @objc dynamic var name: String
 
-    @objc dynamic var descendantCount: Int{ return calculatedDescendentCount() }
+    @objc var descendantCount: Int{ return calculatedDescendentCount() }
     
-    init(name n: String){
+    //only set at leaf level
+    @objc var edNumber: LTDEdNum?
+    
+    private var internalChildren: [EdLevel] = []
+    
+    @objc init(name n: String){
         name = n
     }
+    
+    
  
+    func printOut(_ s: String){
+        var pString = ":"
+        pString += s
+        pString += name + " - "
+        pString += String(calculatedDescendentCount())
+        print(pString)
+        for c in children{
+            c.printOut(s + "~")
+        }
+
+    }
+    
     private func calculatedDescendentCount() -> Int{
         var result: Int = 0
-        if edChildren.count == 0{
+        if children.count == 0{
             return 1
         }else{
-            for c in edChildren{
+            for c in children{
                 result += c.calculatedDescendentCount()
             }
         }
@@ -40,3 +62,4 @@ import Foundation
     }
     
 }
+ */

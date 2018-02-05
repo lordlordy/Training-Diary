@@ -22,7 +22,11 @@ extension TrainingDiary: TrainingDiaryValues{
     @objc dynamic var bikes: NSSet?{ return bikeMutableSet() }
     
     @objc dynamic var ltdEdNumCount: Int{
-        return self.lTDEdNumbers?.count ?? 0
+        var c = 0
+        for i in ltdEddingtonNumbersArray(){
+            c += i.descendantCount
+        }
+        return c
     }
     
     @objc dynamic var edNumCount: Int{
@@ -138,7 +142,10 @@ extension TrainingDiary: TrainingDiaryValues{
         CoreDataStackSingleton.shared.connectWorkouts(toEquipment: equipment)
     }
     
-
+    
+    func allWorkouts() -> [Workout]{ return CoreDataStackSingleton.shared.workouts(forTrainingDiary: self) }
+    
+    //MARK: -
     
     func uniqueActivityTypePairs() -> [String]{
         
@@ -165,6 +172,9 @@ extension TrainingDiary: TrainingDiaryValues{
         
     }
     
+    //MARK - getting activity, type and equipment
+     // NB these create it if not present
+    // TO DO - these shouldn't return optionals
     func activity(forString s: String) -> Activity?{
         let a = activitiesArray().filter({$0.name == s})
         if a.count == 1{
@@ -203,6 +213,31 @@ extension TrainingDiary: TrainingDiaryValues{
         
         return nil
     }
+
+    
+    func equipment(forActivity a: String, andName n: String) -> Equipment?{
+        if let activity = activity(forString: a){
+            if let possEquip = activity.equipment?.allObjects as? [Equipment]{
+                let filtered = possEquip.filter({$0.name == n})
+                if filtered.count == 1{
+                    return filtered[0]
+                }
+                if filtered.count == 0{
+                    //create new equipment
+                    let e = CoreDataStackSingleton.shared.newEquipment()
+                    e.name = n
+                    let equipmentSet = activity.mutableSetValue(forKey: ActivityProperty.equipment.rawValue)
+                    equipmentSet.add(e)
+                    print("Created new equipment in Training Diary - type \(String(describing: e.name)) added to \(String(describing: activity.name))")
+                    return e
+                }
+            }
+        }
+        
+        return nil
+    }
+
+    //MARK: -
     
     func validActivityTypes(forActivityString a: String) -> [ActivityType]{
         if let activity = activity(forString: a){
@@ -216,19 +251,6 @@ extension TrainingDiary: TrainingDiaryValues{
 
     
 
-    func equipment(forActivity a: String, andName name: String?) -> Equipment?{
-        if let n = name{
-            if let activity = activity(forString: a){
-                if let possEquip = activity.equipment?.allObjects as? [Equipment]{
-                    let filtered = possEquip.filter({$0.name == n})
-                    if filtered.count == 1{
-                        return filtered[0]
-                    }
-                }
-            }
-        }
-        return nil
-    }
  
     func validEquipment(forActivityString a: String) -> [Equipment]{
         if let activity = activity(forString: a){
@@ -441,25 +463,7 @@ extension TrainingDiary: TrainingDiaryValues{
     
     //MARK: - Getting values - MOST TO REMOVE
 
-/*    private func getValues(forActivity activity: String, andActivityType activityType: String, andPeriod period: Period, andUnit unit: Unit) -> [(date: Date, value:Double)]{
-        if let a = self.activity(forString: activity){
-            if let at = self.activityType(forActivity: activity, andType: activityType){
-                return getValues(forActivity: a, andActivityType: at, andPeriod: period, andUnit: unit, fromDate: firstDayOfDiary)
-            }
-        }
-        return []
-    }
-*/
-    // note this can be pretty time consuming if asking for things like RYear
-/*    private func getValues(forActivity activity: String, andActivityType activityType: String, andPeriod period: Period, andUnit unit: Unit, fromDate from: Date) -> [(date: Date, value:Double)]{
-        if let a = self.activity(forString: activity){
-            if let at = self.activityType(forActivity: activity, andType: activityType){
-                return getValues(forActivity: a, andActivityType: at, andPeriod: period, andUnit: unit, fromDate: from, toDate: lastDayOfDiary)
-            }
-        }
-        return []
-    }
-  */
+
     // note this can be pretty time consuming if asking for things like RYear
     private func getValues(forActivity activity: String, andActivityType activityType: String, andEquipment e: String, andPeriod period: Period, andUnit unit: Unit, fromDate from: Date) -> [(date: Date, value:Double)]{
         return getValues(forActivity: activity, andActivityType: activityType, andEquipment: e, andPeriod: period, andUnit: unit, fromDate: from, toDate: lastDayOfDiary)
@@ -493,41 +497,38 @@ extension TrainingDiary: TrainingDiaryValues{
     
     //MARK: -
     
+    //this does whole diary for every activity
+    func recalcTSB(){
+        let start = Date()
+        for a in activitiesArray(){
+            calcTSB(forActivity: a, fromDate: firstDayOfDiary)
+        }
+        print("Calculating TSB for all took \(Date().timeIntervalSince(start))s")
+    }
+    
     func calcTSB(forActivity activity: Activity, fromDate d: Date){
+        
         let start = Date()
         
-        let factors = tsbFactors(forActivity: activity)
-        for day in ascendingOrderedDays(fromDate: d){
+        let factors = self.tsbFactors(forActivity: activity)
+        for day in self.ascendingOrderedDays(fromDate: d){
             let tss = day.valueFor(activity: activity, unit: Unit.TSS)
             var atl = tss * factors.atlDayFactor
             var ctl = tss * factors.ctlDayFactor
             
             if let yesterday = day.yesterday{
-                let yATL = yesterday.value(forKey: activity.keyString(forUnit: .ATL)) as! Double
-                let yCTL = yesterday.value(forKey: activity.keyString(forUnit: .CTL)) as! Double
+                let yATL = yesterday.metric(forActivity: activity, andMetric: Unit.ATL)?.value ?? 0.0
+                let yCTL = yesterday.metric(forActivity: activity, andMetric: Unit.CTL)?.value ?? 0.0
                 atl += yATL * factors.atlYDayFactor
                 ctl += yCTL * factors.ctlYDayFactor
             }
 
-            let s = Date()
             day.setMetricValue(forActivity: activity, andMetric: Unit.ATL, toValue: atl)
-            let s2 = Date()
             day.setMetricValue(forActivity: activity, andMetric: Unit.CTL, toValue: ctl)
-             let finish = Date()
             day.setMetricValue(forActivity: activity, andMetric: Unit.TSB, toValue: ctl - atl)
-            if s2.timeIntervalSince(s) > TimeInterval(0.1){ print("ATL for \(activity) took \(s2.timeIntervalSince(s)) seconds") }
-            if finish.timeIntervalSince(s2) > TimeInterval(0.1){ print("CTL for \(activity) took \(finish.timeIntervalSince(s2)) seconds") }
-
-            
-            if Date().timeIntervalSince(start) > TimeInterval(5.0){
-                print("exiting TSB calc for \(activity) as taking too long (ie more than 5s)")
-                return
-            }
             
         }
         print("Calc TSB for \(activity.name!) took \(Date().timeIntervalSince(start)) seconds")
-        
-    
         
     }
     
@@ -550,21 +551,54 @@ extension TrainingDiary: TrainingDiaryValues{
     }
     
     //MARK: - Eddington Number Support
-    func clearAllLTDEddingtonNumbers(){
-        mutableSetValue(forKey: TrainingDiaryProperty.lTDEdNumbers.rawValue).removeAllObjects()
+
+    func getLTDEddingtonNumber(forActivity a: String) -> LTDEddingtonNumber{
+        if let array = ltdEddingtonNumbers?.allObjects as? [LTDEddingtonNumber]{
+            let filtered = array.filter({$0.name! == a})
+            if filtered.count == 1{
+                return filtered[0]
+            }else if filtered.count > 1{
+                // shouldn't be more than this many
+                print("\(filtered.count) children of name \(a) in \(String(describing: name)) - should be unique by name")
+                return filtered[0]
+            }
+        }
+        
+        let newChild = CoreDataStackSingleton.shared.newLTDEddingtonNumber(a)
+        mutableSetValue(forKey: TrainingDiaryProperty.ltdEddingtonNumbers.rawValue).add(newChild)
+//        newChild.trainingDiary = self
+        return newChild
     }
-    
+  
     func addLTDEddingtonNumber(forActivity a: String, type at: String, equipment e: String, period p: Period, unit u: Unit, value v: Int, plusOne: Int){
-        let len = CoreDataStackSingleton.shared.newLTDEdNum()
-        len.activity = a
-        len.activityType = at
-        len.equipment = e
-        len.period = p.rawValue
-        len.unit = u.rawValue
-        len.value = Int16(v)
-        len.plusOne = Int16(plusOne)
-        len.lastUpdated = Date()
-        self.addToLTDEdNumbers(len)
+        
+        let aLevel = getLTDEddingtonNumber(forActivity: a)
+        aLevel.activity = a
+        
+        let eLevel = aLevel.getChild(forName: e)
+        eLevel.activityType = a
+        eLevel.equipment = e
+        
+        let tLevel = eLevel.getChild(forName: at)
+        tLevel.activity = a
+        tLevel.equipment = e
+        tLevel.activityType = at
+        
+        let uLevel = tLevel.getChild(forName: u.rawValue)
+        uLevel.activity = a
+        uLevel.equipment = e
+        uLevel.activityType = at
+        uLevel.unit = u.rawValue
+        
+        let pLevel = uLevel.getChild(forName: p.rawValue)
+        pLevel.activity = a
+        pLevel.equipment = e
+        pLevel.activityType = at
+        pLevel.unit = u.rawValue
+        pLevel.period = p.rawValue
+        pLevel.value = Int16(v)
+        pLevel.plusOne = Int16(plusOne)
+        
     }
     
 
@@ -735,6 +769,10 @@ extension TrainingDiary: TrainingDiaryValues{
             return days.sorted(by: {$0.date! < $1.date!})
         }
         return []
+    }
+    
+    private func ltdEddingtonNumbersArray() -> [LTDEddingtonNumber]{
+        return ltdEddingtonNumbers?.allObjects as? [LTDEddingtonNumber] ?? []
     }
     
 }

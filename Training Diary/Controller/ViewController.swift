@@ -24,6 +24,8 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
     //MARK: - @IBOutlets
     
     @IBOutlet var trainingDiarysArrayController: NSArrayController!
+    @IBOutlet weak var mainStatusField: NSTextField!
+    @IBOutlet weak var mainProgressBar: NSProgressIndicator!
     
     //MARK: - Initialisers
     
@@ -53,11 +55,25 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
             if let c = controller as? TrainingDiaryViewController{
                 trainingDiaryVCs.append(c)
             }
-            if let controller = controller as? DaysViewController{ daysViewController = controller }
-            if let controller = controller as? EddingtonNumbersViewController{ eddingtonNumbersViewController = controller }
-            if let controller = controller as? WeightHRViewController{ weightHRViewController = controller }
-            if let controller = controller as? GraphViewController{ graphViewController = controller }
-            if let controller = controller as? CompareGraphViewController{ comparisonGraphViewController = controller }
+            if let controller = controller as? DaysViewController{
+                daysViewController = controller
+            }
+            if let controller = controller as? EddingtonNumbersViewController{
+                eddingtonNumbersViewController = controller
+                controller.mainViewController = self
+            }
+            if let controller = controller as? WeightHRViewController{
+                weightHRViewController = controller
+            }
+            if let controller = controller as? GraphViewController{
+                graphViewController = controller
+            }
+            if let controller = controller as? CompareGraphViewController{
+                comparisonGraphViewController = controller
+            }
+            if let controller = controller as? AdminViewController{
+                controller.mainViewController = self
+            }
         }
         
     }
@@ -105,19 +121,6 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
     }
  
     //MARK: - @IBActions
-    
-    @IBAction func printEntities(_ sender: NSButton) {
-        printEntities()
-    }
-
-
-    
-    @IBAction func printEntityCounts(_ sender: NSButton) {
-        CoreDataStackSingleton.shared.printEntityCounts(forDiary: getSelectedTrainingDiary())
-    }
-    
-
-
     //MARK: - Testing
 
     @IBAction func testFeature(_ sender: Any) {
@@ -288,10 +291,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
         return nil
     }
     
-    private func printEntities() {
-        print("Re-implementing. Please try later")
-        
-    }
+
     
 
     private func selectedDays() -> [Day]{

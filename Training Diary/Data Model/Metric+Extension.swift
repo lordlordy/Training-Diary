@@ -20,9 +20,7 @@ extension Metric{
         
     }
     
-    static func key(forActivity a: Activity, andUnit u: Unit) -> String{
-        return a.name! + u.rawValue
-        
-    }
-    
+    static func key(forActivity a: Activity, andUnit u: Unit) -> String{ return Metric.key(forActivity: a.name!, andUnit: u)}
+    static func key(forActivity a: String, andUnit u: Unit) -> String{ return a + u.rawValue}
+
 }

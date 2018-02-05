@@ -25,7 +25,7 @@ class BikeViewController: NSViewController, TrainingDiaryViewController, NSTable
     
     private var dataCache: [Equipment: [WorkoutProperty: GraphData]] = [:]
     private var graphCache: [Equipment:BikeGraphs] = [:]
-    private var graphColours: [NSColor] = [.black, .blue, .brown, .cyan, .green, .magenta, .orange, .purple, .red, .white, .systemPink, .yellow]
+    private var graphColours: [NSColor] = [.black, .blue, .brown, .cyan, .green, .magenta, .orange, .purple, .red, .white, .systemPink, .yellow, .darkGray, .systemBlue, .systemGreen]
     private var allocatedColours: [Equipment:NSColor] = [:]
     private var advanceDateComponent: DateComponents?
     private var retreatDateComponent: DateComponents?

@@ -144,7 +144,7 @@ class GraphViewController: NSViewController, TrainingDiaryViewController, GraphM
         if let identifier = comboBox.identifier{
             switch identifier.rawValue{
             case "TableActivityComboBox", "ActivityComboBox":
-                let activities = trainingDiary!.activitiesArray().map({$0.name!})
+                let activities = trainingDiary!.eddingtonActivities()
                 if index < activities.count{
                     return activities[index]
                 }
@@ -153,16 +153,16 @@ class GraphViewController: NSViewController, TrainingDiaryViewController, GraphM
                     return nil
                 }
                 if let graph = c.objectValue as? ActivityGraphDefinition{
-                    let types = trainingDiary!.validActivityTypes(forActivityString: graph.activity).map({$0.name!})
+                    let types = trainingDiary!.eddingtonActivityTypes(forActivityString: graph.activity)
                     if index < types.count{
                         return types[index]
                     }
                 }
             case "ActivityTypeComboBox":
                 if let acb = activityComboBox{
-                    if let types = trainingDiary?.validActivityTypes(forActivityString: acb.stringValue){
+                    if let types = trainingDiary?.eddingtonActivityTypes(forActivityString: acb.stringValue){
                         if index < types.count{
-                            return types[index].name
+                            return types[index]
                         }
                     }
                 }
@@ -177,17 +177,17 @@ class GraphViewController: NSViewController, TrainingDiaryViewController, GraphM
         if let identifier = comboBox.identifier{
             switch identifier.rawValue{
             case "TableActivityComboBox", "ActivityComboBox":
-                return trainingDiary!.activitiesArray().count
+                return trainingDiary!.eddingtonActivities().count
             case "TableActivityTypeComboBox":
                 guard let c = comboBox.superview as? NSTableCellView else{
                     return 0
                 }
                 if let graph = c.objectValue as? ActivityGraphDefinition{
-                    return trainingDiary!.validActivityTypes(forActivityString: graph.activity).count
+                    return trainingDiary!.eddingtonActivityTypes(forActivityString: graph.activity).count
                 }
             case "ActivityTypeComboBox":
                 if let acb = activityComboBox{
-                    if let types = trainingDiary?.validActivityTypes(forActivityString: acb.stringValue){
+                    if let types = trainingDiary?.eddingtonActivityTypes(forActivityString: acb.stringValue){
                         return types.count
                     }
                 }

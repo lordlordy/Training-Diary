@@ -49,37 +49,6 @@ class CoreDataStackSingleton{
         return container
     }()
     
-    public func printEntityCounts(forDiary td: TrainingDiary){
-    
-        print("Entity counts for Training Diary: \(String(describing: td.name))")
-            
-        let days            = getCount(forEntity: ENTITY.Day, forTrainingDiary: td)
-        let workouts        = getCount(forEntity: ENTITY.Workout, forTrainingDiary: td)
-        let weights         = getCount(forEntity: ENTITY.Weight, forTrainingDiary:td)
-        let physios         = getCount(forEntity: ENTITY.Physiological, forTrainingDiary:td)
-        let edNums          = getCount(forEntity: ENTITY.EddingtonNumber, forTrainingDiary: td)
-        let activities      = getCount(forEntity: ENTITY.Activity, forTrainingDiary: td)
-        let activityTypes   = getCount(forEntity: ENTITY.ActivityType, forTrainingDiary: td)
-        let metrics         = getCount(forEntity: ENTITY.Metric, forTrainingDiary: td)
-        let ltdEdNums       = getCount(forEntity: ENTITY.LTDEdNum, forTrainingDiary: td)
-
-        print("Number of days: \(days)")
-        print("Number of workouts: \(workouts)")
-        print("Number of weights: \(weights)")
-        print("Number of physiologicals:  \(physios)")
-        print("Number of EddingtonNumbers:  \(edNums)")
-        print("Number of LTDEdNums:  \(ltdEdNums)")
-        print("Number of Activities:  \(activities)")
-        print("Number of ActivityTypes:  \(activityTypes)")
-        print("Number of Metrics:  \(metrics)")
-
-    }
-    
-    public func getAllEntities(ofType e: ENTITY) -> [NSManagedObject]{
-        return getEntitiesFor(entityName: e.rawValue, predicate: nil, sortDescriptor: nil)
-    }
-    
-    
     func save(){
         do {
             try trainingDiaryPC.viewContext.save()
@@ -88,29 +57,44 @@ class CoreDataStackSingleton{
         }
     }
     
+    //MARK:-
     
-    func getDaysOrdered(byKey key: String, isAcending: Bool, trainingDiary td: TrainingDiary) -> [Day]{
-        let descriptor = NSSortDescriptor.init(key: key, ascending: isAcending)
-        return getDays(sortDescriptor: [descriptor], trainingDiary: td)
-    }
+    public func printEntityCounts(forDiary td: TrainingDiary){
     
-    
-/*    func getWeightAndFat(forDay day: Date, andTrainingDiary td: TrainingDiary) -> (weight: Double, fatPercentage: Double){
-        if let weight = getWeight(forDay: day, andTrainingDiary: td){
-            return (weight.kg, weight.fatPercent)
-        }else{
-            return (0.0,0.0)
+        print("Entity counts for Training Diary: \(String(describing: td.name))")
+        
+/*        for e in ENTITY.ALL.sorted(by: {$0.rawValue < $1.rawValue}){
+            let count = getCount(forEntity: e, forTrainingDiary: td)
+            print("\(count) - \(e.rawValue)")
         }
-    }
-    
-    func getRestingHeartRate(forDay day: Date) -> Int16{
-        if let physio = getPhysiological(forDay: day){
-            return physio.restingHR
-        }else{
-            return 0
-        }
-    }
+        
+        print("OLD PRINT OUT")
   */
+        let days                = getCount(forEntity: ENTITY.Day, forTrainingDiary: td)
+        let workouts            = getCount(forEntity: ENTITY.Workout, forTrainingDiary: td)
+        let weights             = getCount(forEntity: ENTITY.Weight, forTrainingDiary:td)
+        let physios             = getCount(forEntity: ENTITY.Physiological, forTrainingDiary:td)
+        let edNums              = getCount(forEntity: ENTITY.EddingtonNumber, forTrainingDiary: td)
+        let activities          = getCount(forEntity: ENTITY.Activity, forTrainingDiary: td)
+        let activityTypes       = getCount(forEntity: ENTITY.ActivityType, forTrainingDiary: td)
+        let metrics             = getCount(forEntity: ENTITY.Metric, forTrainingDiary: td)
+        let ltdEddingtonNumbers = getCount(forEntity: ENTITY.LTDEddingtonNumber, forTrainingDiary: td)
+
+        print("Number of days: \(days)")
+        print("Number of workouts: \(workouts)")
+        print("Number of weights: \(weights)")
+        print("Number of physiologicals:  \(physios)")
+        print("Number of EddingtonNumbers:  \(edNums)")
+        print("Number of LTDEddingtonNumbers:  \(ltdEddingtonNumbers)")
+        print("Number of Activities:  \(activities)")
+        print("Number of ActivityTypes:  \(activityTypes)")
+        print("Number of Metrics:  \(metrics)")
+        print(("entities \(getAllEntities(ofType: ENTITY.LTDEddingtonNumber).count)"))
+
+    }
+    
+
+    //MARK: - Data import utitlies
     //inserts fields for metrics if they don't already exist
     func populateMetricPlaceholders(forDay d: Day){
         let metricsMOSet = d.mutableSetValue(forKey: DayProperty.metrics.rawValue)
@@ -151,10 +135,35 @@ class CoreDataStackSingleton{
         return eh as! EddingtonAnnualContributor
     }
     
-    func newLTDEdNum() -> LTDEdNum{
+ /*   func newLTDEdNum() -> LTDEdNum{
         let len = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.LTDEdNum.rawValue, in: trainingDiaryPC.viewContext)!, insertInto: trainingDiaryPC.viewContext)
         return len as! LTDEdNum
     }
+   */
+    func newLTDEddingtonNumber(_ n: String) -> LTDEddingtonNumber{
+        let len = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.LTDEddingtonNumber.rawValue, in: trainingDiaryPC.viewContext)!, insertInto: trainingDiaryPC.viewContext)
+        print("Inserting new LTD Eddington Number \(n)")
+        let result =  len as! LTDEddingtonNumber
+        result.name = n
+        return result
+    }
+    
+    func deleteAll(entity e: ENTITY, forTrainingDiary td: TrainingDiary){
+        
+        let eddingtonNumberRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: e.rawValue)
+        eddingtonNumberRequest.predicate = NSPredicate.init(format: "trainingDiary = %@", argumentArray: [td])
+        do {
+            let ednum = try CoreDataStackSingleton.shared.trainingDiaryPC.viewContext.fetch(eddingtonNumberRequest)
+            for e in ednum{
+                CoreDataStackSingleton.shared.trainingDiaryPC.viewContext.delete(e as! NSManagedObject)
+            }
+        } catch {
+            print("Failed to delete \(e.rawValue) from \(td.name) with error:")
+            print(error)
+        }
+    }
+    
+    //MARK: - New Entities
     
     func newTrainingDiary() -> TrainingDiary{
         let mo: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: ENTITY.TrainingDiary.rawValue, into: trainingDiaryPC.viewContext)
@@ -182,6 +191,11 @@ class CoreDataStackSingleton{
         let at = NSManagedObject(entity: NSEntityDescription.entity(forEntityName: ENTITY.ActivityType.rawValue, in: trainingDiaryPC.viewContext)!, insertInto: trainingDiaryPC.viewContext)
         return at as! ActivityType
     }
+
+    func newEquipment() -> Equipment{
+        let e = NSManagedObject(entity: NSEntityDescription.entity(forEntityName: ENTITY.Equipment.rawValue, in: trainingDiaryPC.viewContext)!, insertInto: trainingDiaryPC.viewContext)
+        return e as! Equipment
+    }
     
     func newWeight() -> Weight{
         let w = NSManagedObject(entity: NSEntityDescription.entity(forEntityName: ENTITY.Weight.rawValue, in: trainingDiaryPC.viewContext)!, insertInto: trainingDiaryPC.viewContext)
@@ -193,23 +207,20 @@ class CoreDataStackSingleton{
         return p as! Physiological
     }
     
+    //MARK: - deletion
     func delete(entity e: NSManagedObject){
         CoreDataStackSingleton.shared.trainingDiaryPC.viewContext.delete(e)
     }
     
-    func deleteAllEddingtonNumbers(forTrainingDiary td: TrainingDiary){
-        
-        let eddingtonNumberRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: ENTITY.EddingtonNumber.rawValue)
-        eddingtonNumberRequest.predicate = NSPredicate.init(format: "trainingDiary = %@", argumentArray: [td])
-        do {
-            let ednum = try CoreDataStackSingleton.shared.trainingDiaryPC.viewContext.fetch(eddingtonNumberRequest)
-            for e in ednum{
-                CoreDataStackSingleton.shared.trainingDiaryPC.viewContext.delete(e as! NSManagedObject)
-            }
-        } catch {
-            print("Failed to delete eddington numbers with error:")
-            print(error)
-        }
+    //MARK: - Getting entities
+    
+    public func getAllEntities(ofType e: ENTITY) -> [NSManagedObject]{
+        return getEntitiesFor(entityName: e.rawValue, predicate: nil, sortDescriptor: nil)
+    }
+    
+    func getDaysOrdered(byKey key: String, isAcending: Bool, trainingDiary td: TrainingDiary) -> [Day]{
+        let descriptor = NSSortDescriptor.init(key: key, ascending: isAcending)
+        return getDays(sortDescriptor: [descriptor], trainingDiary: td)
     }
     
     func workouts(forTrainingDiary td: TrainingDiary) -> [Workout]{
@@ -246,6 +257,43 @@ class CoreDataStackSingleton{
         
         return []
         
+    }
+    
+    //this query is aimed at optimising calculating all eddington numbers by checking whether it's worth doing a load of calculations
+    func workoutCount(forActivity a: String, activityType at: String, equipment e: String, trainingDiary td: TrainingDiary) -> Int{
+        var predicateString = "day.trainingDiary = %@"
+        var args: [Any] = [td]
+        var count: Int = 0
+        
+        if a != ConstantString.EddingtonAll.rawValue{
+            predicateString += " and activityString = %@"
+            args.append(a)
+        }
+        
+        if at != ConstantString.EddingtonAll.rawValue{
+            predicateString += " and activityTypeString = %@"
+            args.append(at)
+        }
+        
+        if e != ConstantString.EddingtonAll.rawValue{
+            predicateString += " and equipmentName = %@"
+            args.append(e)
+        }
+        
+        let request = NSFetchRequest<NSFetchRequestResult>.init(entityName: ENTITY.Workout.rawValue)
+        request.predicate = NSPredicate(format: predicateString, argumentArray: args)
+        
+        do{
+            count = try trainingDiaryPC.viewContext.count(for: request)
+            
+        }catch{
+            print("failed to count workouts for \(a):\(at):\(e) in \(td.name!)")
+            print("Predicate: \(predicateString)")
+            print("Argument array: \(args)")
+        }
+
+        
+        return count
     }
     
     func connectWorkouts(toEquipment e: Equipment){

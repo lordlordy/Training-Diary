@@ -14,7 +14,6 @@ class TableViewWithColumnSort: NSTableView {
         super.init(coder: coder)
         
         for t in tableColumns{
-            print(t.identifier.rawValue)
             createColumnSortFor(key: t.identifier.rawValue)
         }
         
@@ -43,7 +42,7 @@ class TableViewWithColumnSort: NSTableView {
     // assumes the the column ID and the key for the data are the same
     private func createColumnSortFor(key k: String){
         let c = tableColumns[column(withIdentifier: NSUserInterfaceItemIdentifier.init(k))]
-            c.sortDescriptorPrototype = NSSortDescriptor.init(key: k, ascending: false)
+        c.sortDescriptorPrototype = NSSortDescriptor.init(key: k, ascending: false)
     }
     
     @objc func contextMenuSelected(_ item: NSMenuItem){

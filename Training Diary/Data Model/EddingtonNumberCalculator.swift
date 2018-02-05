@@ -11,14 +11,23 @@ import Foundation
 //Seperate out the eddington calculation so it can be run in a seperate thread.
 public class EddingtonNumberCalculator: NSObject{
 
+    static func calculateMaturity(ednum: Int, plusOne: Int, max: Double) -> Double{
+        let edSizeFactor = Double(ednum) / max
+        let plusOneFactor = min(1.0, Double(plusOne) / Double(ednum))
+       // return edSizeFactor * plusOneFactor
+        return edSizeFactor
+    }
+    
+    
     var eddingtonNumber: Int = 0
     var annualEddingtonNumber: Int = 0
     var plusOne: Int {return nextEddingtonNumber - contributorsToNext.count}
     var annualPlusOne: Int {return nextAnnualEddingtonNumber - annualContributorsToNext.count}
     var contributors: [(date: Date, value: Double)] = []
     var annualContributors: [(date: Date, value: Double)] = []
-    var history: [(date: Date, value: Int, plusOne: Int)] = []
+    var history: [(date: Date, value: Int, plusOne: Int, max: Double)] = []
     var annualHistory: [(date: Date, value: Int, plusOne: Int)] = []
+    var maxContributor: Double? { return contributors.map({$0.value}).max()}
     
     private var nextEddingtonNumber: Int {return eddingtonNumber + 1}
     private var nextAnnualEddingtonNumber: Int {return annualEddingtonNumber + 1}
@@ -28,6 +37,8 @@ public class EddingtonNumberCalculator: NSObject{
     private var annualContributorsToNext: [(date: Date, value: Double)]{
         return annualContributors.filter({$0.value >= Double(nextAnnualEddingtonNumber)})
     }
+    
+    private var currentMax: Double = 1.0
 
     func quickCaclulation(forActivity a: String, andType at: String, equipment e: String, andPeriod p: Period, andUnit u: Unit, inTrainingDiary td: TrainingDiary) -> (ednum: Int,plusOne: Int, maturity: Double ){
         
@@ -86,6 +97,7 @@ public class EddingtonNumberCalculator: NSObject{
         for v in sortedValues{
             //start LTD calc
             if v.value >= Double(nextEddingtonNumber){
+                if v.value > currentMax { currentMax = v.value}
                 // new contributor
                 contributors.append(v)
                 
@@ -94,7 +106,7 @@ public class EddingtonNumberCalculator: NSObject{
                     eddingtonNumber = nextEddingtonNumber
                 }
                 
-                history.append((v.date, eddingtonNumber, plusOne))
+                history.append((v.date, eddingtonNumber, plusOne, currentMax))
             }
             //start annual calc
             if v.date > previousYearEnd{
@@ -149,7 +161,7 @@ public class EddingtonNumberCalculator: NSObject{
         if let hist = edNum.history{
             let array = hist.allObjects as! [EddingtonHistory]
             for i in array.sorted(by: {$0.date! < $1.date!}){
-                history.append((i.date!, Int(i.value), Int(i.plusOne)))
+                history.append((i.date!, Int(i.value), Int(i.plusOne), i.max))
             }
         }
         

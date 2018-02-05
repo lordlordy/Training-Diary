@@ -33,6 +33,12 @@ extension Equipment{
         return result
     }
     
+    @objc dynamic var numberOfTypes: Int{
+        let typeStrings = getWorkouts().flatMap({$0.activityType?.name})
+        let mySet = Set<String>(typeStrings)
+        return mySet.count
+    }
+    
     @objc dynamic var seconds: Double{
         var result: Double = 0.0
         for w in getWorkouts(){ result += w.seconds }

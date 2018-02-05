@@ -223,7 +223,7 @@ class CSVImporter{
         if let i = columnDictionary[CSVImportString.swimType.rawValue]{
             var type: String = "Squad"
             if row[i] != ""{ type = row[i] }
-            workout.setValue(trainingDiary!.activityType(forActivity: FixedActivity.Swim.rawValue, andType: row[i])!, forKey: WorkoutProperty.activityType.rawValue)
+            workout.setValue(trainingDiary!.activityType(forActivity: FixedActivity.Swim.rawValue, andType: type)!, forKey: WorkoutProperty.activityType.rawValue)
         }
         if let i = columnDictionary[CSVImportString.swimWatts.rawValue]{ workout.setValue(Double(row[i]), forKey: WorkoutProperty.watts.rawValue) }
         

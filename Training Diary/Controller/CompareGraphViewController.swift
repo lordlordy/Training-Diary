@@ -159,26 +159,32 @@ class CompareGraphViewController: NSViewController, GraphManagementDelegate, Tra
     func comboBox(_ comboBox: NSComboBox, objectValueForItemAt index: Int) -> Any? {
         if let identifier = comboBox.identifier{
             switch identifier.rawValue{
-            case "TableActivityComboBox", "ActivityComboBox":
-                let activities = trainingDiary!.activitiesArray().map({$0.name!})
+            case "CompareTableActivityComboBox", "CompareActivityComboBox":
+                let activities = trainingDiary!.eddingtonActivities()
                 if index < activities.count{
                     return activities[index]
                 }
-            case "TableActivityTypeComboBox":
-                guard let c = comboBox.superview as? NSTableCellView else{
-                    return nil
-                }
+            case "CompareTableActivityTypeComboBox":
+                guard let c = comboBox.superview as? NSTableCellView else{ return nil }
                 if let graph = c.objectValue as? ActivityGraphDefinition{
-                    let types = trainingDiary!.validActivityTypes(forActivityString: graph.activity).map({$0.name!})
+                    let types = trainingDiary!.eddingtonActivityTypes(forActivityString: graph.activity)
                     if index < types.count{
                         return types[index]
                     }
                 }
-            case "ActivityTypeComboBox":
+            case "CompareTableEquipmentComboBox":
+                guard let c = comboBox.superview as? NSTableCellView else{ return nil }
+                if let graph = c.objectValue as? ActivityGraphDefinition{
+                    let types = trainingDiary!.eddingtonEquipment(forActivityString: graph.activity)
+                    if index < types.count{
+                        return types[index]
+                    }
+                }
+            case "CompareActivityTypeComboBox":
                 if let acb = activityComboBox{
-                    if let types = trainingDiary?.validActivityTypes(forActivityString: acb.stringValue){
+                    if let types = trainingDiary?.eddingtonActivityTypes(forActivityString: acb.stringValue){
                         if index < types.count{
-                            return types[index].name
+                            return types[index]
                         }
                     }
                 }
@@ -192,18 +198,21 @@ class CompareGraphViewController: NSViewController, GraphManagementDelegate, Tra
     func numberOfItems(in comboBox: NSComboBox) -> Int {
         if let identifier = comboBox.identifier{
             switch identifier.rawValue{
-            case "TableActivityComboBox", "ActivityComboBox":
-                return trainingDiary!.activitiesArray().count
-            case "TableActivityTypeComboBox":
-                guard let c = comboBox.superview as? NSTableCellView else{
-                    return 0
-                }
+            case "CompareTableActivityComboBox", "CompareActivityComboBox":
+                return trainingDiary!.eddingtonActivities().count
+            case "CompareTableActivityTypeComboBox":
+                guard let c = comboBox.superview as? NSTableCellView else{ return 0 }
                 if let graph = c.objectValue as? ActivityGraphDefinition{
-                    return trainingDiary!.validActivityTypes(forActivityString: graph.activity).count
+                    return trainingDiary!.eddingtonActivityTypes(forActivityString: graph.activity).count
                 }
-            case "ActivityTypeComboBox":
+            case "CompareTableEquipmentComboBox":
+                guard let c = comboBox.superview as? NSTableCellView else{ return 0 }
+                if let graph = c.objectValue as? ActivityGraphDefinition{
+                    return trainingDiary!.eddingtonEquipment(forActivityString: graph.activity).count
+                }
+            case "CompareActivityTypeComboBox":
                 if let acb = activityComboBox{
-                    if let types = trainingDiary?.validActivityTypes(forActivityString: acb.stringValue){
+                    if let types = trainingDiary?.eddingtonActivityTypes(forActivityString: acb.stringValue){
                         return types.count                
                     }
                 }
@@ -249,7 +258,7 @@ class CompareGraphViewController: NSViewController, GraphManagementDelegate, Tra
     private func updateData(forGraph graph: DatedActivityGraphDefinition){
         if let td = trainingDiary{
             if let g = graph.graph{
-                let values = td.valuesFor(activity: graph.activity, activityType: graph.activityType, equipment: ConstantString.EddingtonAll.rawValue, period: graph.period, unit: graph.unit, from: graph.from, to: graph.to)
+                let values = td.valuesFor(activity: graph.activity, activityType: graph.activityType, equipment: graph.equipment, period: graph.period, unit: graph.unit, from: graph.from, to: graph.to)
                 g.data = values
                 if values.count > baseDates.count{
                     baseDates =  values.map({$0.date})

@@ -51,6 +51,9 @@ class GraphView: NSView {
     public var graphs = Set<GraphDefinition>()
     public var chartTitle: String?
     
+    public var primaryAxisNumberFormatter: NumberFormatter = NumberFormatter()
+    public var secondaryAxisNumberFormatter: NumberFormatter = NumberFormatter()
+
     //MARK: - Graph management
     
     func add(graph: GraphDefinition){
@@ -159,11 +162,7 @@ class GraphView: NSView {
         return (count == 0)
     }
     
-    private var labelNumberFormat: NumberFormatter {
-        let nf = NumberFormatter()
-        nf.numberStyle = NumberFormatter.Style.none
-        return nf
-    }
+
     
     private var xLabels: [NSTextField] = []
     private var yLabels: [NSTextField] = []
@@ -350,6 +349,9 @@ class GraphView: NSView {
         if minValue > lineGap { factor = minValue }
         var strokeColour = colour
         
+        var numberFormatter = primaryAxisNumberFormatter
+        if axis == Axis.Secondary { numberFormatter = secondaryAxisNumberFormatter}
+        
         let phaseFactor: CGFloat = CGFloat(exp(log(Constants.phaseFactorForFinalLine)/(maxValue/lineGap)))
         
         var axisStart = coordinatesInView(xValue: 0.0, yValue: 0.0, forAxis: axis, dirtyRect)
@@ -361,7 +363,7 @@ class GraphView: NSView {
             strokeColour.setStroke()
             axisStart = coordinatesInView(xValue: 0.0, yValue: factor, forAxis: axis, dirtyRect)
             axisEnd = NSPoint(x: dirtyRect.maxX - CGFloat(Constants.axisPadding), y: axisStart.y)
-            drawAxis(from: axisStart, to: axisEnd, colour: strokeColour, labelNumberFormat.string(from: NSNumber(value: factor))!, labelOffset: labelOffset, labelColour: labelColour)
+            drawAxis(from: axisStart, to: axisEnd, colour: strokeColour, numberFormatter.string(from: NSNumber(value: factor))!, labelOffset: labelOffset, labelColour: labelColour)
             factor += lineGap
         }
         
@@ -374,7 +376,7 @@ class GraphView: NSView {
                 strokeColour.setStroke()
                 axisStart = coordinatesInView(xValue: 0.0, yValue: factor, forAxis: .Primary, dirtyRect)
                 axisEnd = NSPoint(x: dirtyRect.maxX - CGFloat(Constants.axisPadding), y: axisStart.y)
-                drawAxis(from: axisStart, to: axisEnd, colour: strokeColour, labelNumberFormat.string(from: NSNumber(value: factor))!, labelOffset: labelOffset, labelColour: labelColour)
+                drawAxis(from: axisStart, to: axisEnd, colour: strokeColour, numberFormatter.string(from: NSNumber(value: factor))!, labelOffset: labelOffset, labelColour: labelColour)
                 factor -= lineGap
             }
 

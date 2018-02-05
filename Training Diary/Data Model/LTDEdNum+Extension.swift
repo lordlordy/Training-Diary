@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+/* DEPRECATED
 extension LTDEdNum{
     @objc dynamic var code: String{
         let ALL = ConstantString.EddingtonAll.rawValue
@@ -24,3 +24,4 @@ extension LTDEdNum{
         return result
     }
 }
+*/

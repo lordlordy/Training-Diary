@@ -48,6 +48,7 @@
     </entity>
     <entity name="EddingtonHistory" representedClassName="EddingtonHistory" syncable="YES" codeGenerationType="class">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="max" optional="YES" attributeType="Double" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="plusOne" optional="YES" attributeType="Integer 16" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="value" optional="YES" attributeType="Integer 16" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="eddingtonNumber" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EddingtonNumber" inverseName="history" inverseEntity="EddingtonNumber" syncable="YES"/>
@@ -58,6 +59,7 @@
         <attribute name="annual" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="equipment" attributeType="String" defaultValueString="All" syncable="YES"/>
         <attribute name="lastUpdated" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="maxContributor" optional="YES" attributeType="Double" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="period" attributeType="String" defaultValueString="Day" syncable="YES"/>
         <attribute name="unit" attributeType="String" defaultValueString="KM" syncable="YES"/>
         <attribute name="value" attributeType="Integer 16" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
@@ -75,16 +77,18 @@
         <relationship name="activity" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Activity" inverseName="equipment" inverseEntity="Activity" syncable="YES"/>
         <relationship name="workouts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Workout" inverseName="equipment" inverseEntity="Workout" syncable="YES"/>
     </entity>
-    <entity name="LTDEdNum" representedClassName="LTDEdNum" syncable="YES" codeGenerationType="class">
-        <attribute name="activity" attributeType="String" defaultValueString="All" syncable="YES"/>
-        <attribute name="activityType" attributeType="String" defaultValueString="All" syncable="YES"/>
-        <attribute name="equipment" attributeType="String" defaultValueString="All" syncable="YES"/>
-        <attribute name="lastUpdated" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+    <entity name="LTDEddingtonNumber" representedClassName="LTDEddingtonNumber" syncable="YES" codeGenerationType="class">
+        <attribute name="activity" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="activityType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="equipment" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="period" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="plusOne" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="unit" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="value" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <relationship name="trainingDiary" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TrainingDiary" inverseName="lTDEdNumbers" inverseEntity="TrainingDiary" syncable="YES"/>
+        <attribute name="value" optional="YES" attributeType="Integer 16" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="children" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="LTDEddingtonNumber" inverseName="parent" inverseEntity="LTDEddingtonNumber" syncable="YES"/>
+        <relationship name="parent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LTDEddingtonNumber" inverseName="children" inverseEntity="LTDEddingtonNumber" syncable="YES"/>
+        <relationship name="trainingDiary" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TrainingDiary" inverseName="ltdEddingtonNumbers" inverseEntity="TrainingDiary" syncable="YES"/>
     </entity>
     <entity name="Metric" representedClassName="Metric" syncable="YES" codeGenerationType="class">
         <attribute name="activity" optional="YES" attributeType="String" syncable="YES"/>
@@ -109,7 +113,7 @@
         <relationship name="activities" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Activity" inverseName="trainingDiary" inverseEntity="Activity" syncable="YES"/>
         <relationship name="days" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Day" inverseName="trainingDiary" inverseEntity="Day" syncable="YES"/>
         <relationship name="eddingtonNumbers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="EddingtonNumber" inverseName="trainingDiary" inverseEntity="EddingtonNumber" syncable="YES"/>
-        <relationship name="lTDEdNumbers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="LTDEdNum" inverseName="trainingDiary" inverseEntity="LTDEdNum" syncable="YES"/>
+        <relationship name="ltdEddingtonNumbers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="LTDEddingtonNumber" inverseName="trainingDiary" inverseEntity="LTDEddingtonNumber" syncable="YES"/>
         <relationship name="physiologicals" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Physiological" inverseName="trainingDiary" inverseEntity="Physiological" syncable="YES"/>
         <relationship name="tsbConstants" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TSBConstant" inverseName="trainingDiary" inverseEntity="TSBConstant" syncable="YES"/>
         <relationship name="weights" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Weight" inverseName="trainingDiary" inverseEntity="Weight" syncable="YES"/>
@@ -160,10 +164,10 @@
         <element name="EddingtonAnnualContributor" positionX="-477" positionY="135" width="128" height="90"/>
         <element name="EddingtonAnnualHistory" positionX="-630" positionY="147" width="128" height="103"/>
         <element name="EddingtonContributor" positionX="-621" positionY="-234" width="128" height="90"/>
-        <element name="EddingtonHistory" positionX="-630" positionY="-42" width="128" height="103"/>
-        <element name="EddingtonNumber" positionX="-486" positionY="-249" width="128" height="240"/>
+        <element name="EddingtonHistory" positionX="-630" positionY="-42" width="128" height="120"/>
+        <element name="EddingtonNumber" positionX="-486" positionY="-249" width="128" height="255"/>
         <element name="Equipment" positionX="324" positionY="72" width="128" height="135"/>
-        <element name="LTDEdNum" positionX="-731" positionY="-630" width="128" height="180"/>
+        <element name="LTDEddingtonNumber" positionX="-776" positionY="-379" width="128" height="208"/>
         <element name="Metric" positionX="-486" positionY="-459" width="128" height="103"/>
         <element name="Physiological" positionX="234" positionY="-621" width="128" height="195"/>
         <element name="TrainingDiary" positionX="-227" positionY="-531" width="128" height="165"/>

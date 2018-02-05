@@ -22,7 +22,14 @@ extension Day: TrainingDiaryValues{
         var result = 0.0
         if !unit.isActivityBased{
             //have a day based unit (eg fatigue, sleep, restingHR)
-            return value(forKey: unit.rawValue) as! Double
+            if unit.isDerived(){
+                if let d = unit.dataForDerivation(){
+                    let baseValue = value(forKey: d.unit.rawValue) as! Double
+                    return baseValue * d.multiple.rawValue
+                }
+            }else{
+                return value(forKey: unit.rawValue) as! Double
+            }
         }
         
         
@@ -120,13 +127,11 @@ extension Day: TrainingDiaryValues{
     //MARK: - Calculated properties - these are for display in GUI
 
     @objc dynamic var swimATL: Double{
-//        return metricValue(forActivity: ActivityEnum.Swim, andMetric: Unit.ATL)
-        return 12.345
+        return metricValue(forActivity: FixedActivity.Swim.rawValue, andMetric: Unit.ATL)
     }
 
     @objc dynamic var swimCTL: Double{
-//        return metricValue(forActivity: ActivityEnum.Swim, andMetric: Unit.CTL)
-  return 12.345
+        return metricValue(forActivity: FixedActivity.Swim.rawValue, andMetric: Unit.CTL)
     }
 
     @objc dynamic var swimHours: Double{
@@ -146,8 +151,7 @@ extension Day: TrainingDiaryValues{
         return sumOverWorkouts(activity: activitySwim().name!, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, unit: WorkoutProperty.seconds.unit()!)
     }
     @objc dynamic var swimTSB: Double{
-        return 12.345
-        //return metricValue(forActivity: ActivityEnum.Swim, andMetric: Unit.TSB)
+        return metricValue(forActivity: FixedActivity.Swim.rawValue, andMetric: Unit.TSB)
     }
     @objc dynamic var swimTSS: Double{
         return sumOverWorkouts(activity: activitySwim().name!, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, unit: WorkoutProperty.tss.unit()!)
@@ -157,13 +161,11 @@ extension Day: TrainingDiaryValues{
     }
     
     @objc dynamic var bikeATL: Double{
-        return 12.345
-        //return metricValue(forActivity: ActivityEnum.Bike, andMetric: Unit.ATL)
+        return metricValue(forActivity: FixedActivity.Bike.rawValue, andMetric: Unit.ATL)
     }
     
     @objc dynamic var bikeCTL: Double{
-        return 12.345
-        //return metricValue(forActivity: ActivityEnum.Bike, andMetric: Unit.CTL)
+        return metricValue(forActivity: FixedActivity.Bike.rawValue, andMetric: Unit.CTL)
     }
     
     @objc dynamic var bikeAscentFeet: Double{
@@ -194,8 +196,7 @@ extension Day: TrainingDiaryValues{
         return sumOverWorkouts(activity: activityBike().name!, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, unit: WorkoutProperty.tss.unit()!)
     }
     @objc dynamic var bikeTSB: Double{
-        return 12.345
-        //return metricValue(forActivity: ActivityEnum.Bike, andMetric: Unit.TSB)
+        return metricValue(forActivity: FixedActivity.Bike.rawValue, andMetric: Unit.TSB)
     }
 
     @objc dynamic var bikeWatts: Double{
@@ -203,13 +204,11 @@ extension Day: TrainingDiaryValues{
     }
     
     @objc dynamic var runATL: Double{
-        return 12.345
-        //return metricValue(forActivity: ActivityEnum.Run, andMetric: Unit.ATL)
+        return metricValue(forActivity: FixedActivity.Run.rawValue, andMetric: Unit.ATL)
     }
     
     @objc dynamic var runCTL: Double{
-        return 12.345
-        //return metricValue(forActivity: ActivityEnum.Run, andMetric: Unit.CTL)
+        return metricValue(forActivity: FixedActivity.Run.rawValue, andMetric: Unit.CTL)
     }
     
     @objc dynamic var runAscentFeet: Double{
@@ -240,8 +239,7 @@ extension Day: TrainingDiaryValues{
         return sumOverWorkouts(activity: activityRun().name!, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, unit: WorkoutProperty.tss.unit()!)
     }
     @objc dynamic var runTSB: Double{
-        return 12.345
-        //return metricValue(forActivity: ActivityEnum.Run, andMetric: Unit.TSB)
+        return metricValue(forActivity: FixedActivity.Run.rawValue, andMetric: Unit.TSB)
     }
     @objc dynamic var runWatts: Double{
         return weightedAverageOverWorkouts(activity: activityRun().name!, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, unit: WorkoutProperty.watts.unit()!)
@@ -273,30 +271,27 @@ extension Day: TrainingDiaryValues{
     }
     
     @objc dynamic var allATL: Double{
-        return 12.345
+        return metricValue(forActivity: ConstantString.EddingtonAll.rawValue, andMetric: Unit.ATL)
     }
     
     @objc dynamic var allCTL: Double{
-        return 12.345 * 2.0
+        return metricValue(forActivity: ConstantString.EddingtonAll.rawValue, andMetric: Unit.CTL)
     }
     
     @objc dynamic var allTSB: Double{
-        return allCTL - allATL
+        return metricValue(forActivity: ConstantString.EddingtonAll.rawValue, andMetric: Unit.TSB)
     }
     
     @objc dynamic var gymATL: Double{
-        return 12.345
-        // return metricValue(forActivity: ActivityEnum.Gym, andMetric: Unit.ATL)
+        return metricValue(forActivity: FixedActivity.Gym.rawValue, andMetric: Unit.ATL)
     }
     
     @objc dynamic var gymCTL: Double{
-        return 12.345
-        //return metricValue(forActivity: ActivityEnum.Gym, andMetric: Unit.CTL)
+        return metricValue(forActivity: FixedActivity.Gym.rawValue, andMetric: Unit.CTL)
     }
     
     @objc dynamic var gymTSB: Double{
-        return 12.345
-        //return metricValue(forActivity: ActivityEnum.Gym, andMetric: Unit.TSB)
+        return metricValue(forActivity: FixedActivity.Gym.rawValue, andMetric: Unit.TSB)
     }
     
 
@@ -360,24 +355,48 @@ extension Day: TrainingDiaryValues{
 
 
     func setMetricValue(forActivity a: Activity, andMetric m: Unit, toValue v:Double){
-        if let metric = metric(forActivity: a, andMetric: m){
+        if let metric = metric(forActivity: a.name!, andMetric: m){
             metric.value = v
         }
     }
+    
+    func metric(forActivity a: Activity, andMetric m: Unit) -> Metric?{
+        return metric(forActivity: a.name!, andMetric: m)
+    }
+
 
     //MARK:- private
     
-    private func metricValue(forActivity a: Activity, andMetric m: Unit ) -> Double{
+    private func metricValue(forActivity a: String, andMetric m: Unit ) -> Double{
+        if a == ConstantString.EddingtonAll.rawValue{
+            // look for sum over all activities
+            return sum(forMetric: m)
+        }
         if let result = metricValuesDictionary()[Metric.key(forActivity: a, andUnit: m)]{
             return result
         }
         return 0.0
     }
     
-    private func metric(forActivity a: Activity, andMetric m: Unit) -> Metric?{
+    private func metric(forActivity a: String, andMetric m: Unit) -> Metric?{
         return metricDictionary()[Metric.key(forActivity: a, andUnit: m)]
     }
-
+    
+    private func sum(forMetric m: Unit) -> Double{
+        var result = 0.0
+        if m.isMetric {
+            if let all = metrics?.allObjects as? [Metric]{
+                let filter = all.filter({$0.name == m.rawValue})
+                //figure out using reduce method eventually. for now:
+//                result = filter.reduce(0.0) { (r, metric) -> Result in return r + metric.value }
+                for f in filter{
+                    result += f.value
+                }
+            }
+        }
+        return result
+    }
+    
     private func metricDictionary() -> [String:Metric]{
         var result: [String:Metric] = [:]
         if let metricSet = metrics{

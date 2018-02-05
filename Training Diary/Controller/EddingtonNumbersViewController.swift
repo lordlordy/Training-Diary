@@ -11,6 +11,7 @@ import Cocoa
 class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewController, NSComboBoxDataSource {
 
     @objc dynamic var trainingDiary: TrainingDiary?
+    var mainViewController: ViewController?
     
     private var activity: String?
     private var activityType: String?
@@ -24,14 +25,12 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
     private let plusOneGraph = GraphDefinition(name: "plusOne", axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .blue, fillGradientStart: .blue, fillGradientEnd: .blue, gradientAngle: 0.0, size: 1.0), drawZeroes: false, priority: 1)
     private let contributorsGraph = GraphDefinition(name: "contributors", axis: .Primary, type: .Point, format: GraphFormat.init(fill: false, colour: .green, fillGradientStart: .green, fillGradientEnd: .green, gradientAngle: 0.0, size: 2.0), drawZeroes: false, priority: 2)
     private let annualHistoryGraph = GraphDefinition(name: "annual", axis: .Primary, type: .Point, format: GraphFormat.init(fill: true, colour: .yellow, fillGradientStart: .yellow, fillGradientEnd: .yellow, gradientAngle: 0.0, size: 7.0), drawZeroes: false, priority: 4)
-    
+    private let maturityGraph = GraphDefinition(name: "maturity", axis: .Secondary, type: .Line, format: GraphFormat.init(fill: false, colour: .cyan, fillGradientStart: .cyan, fillGradientEnd: .cyan, gradientAngle: 0.0, size: 1.0), drawZeroes: false, priority: 5)
+
     @IBOutlet weak var graphView: GraphView!
     
     @IBOutlet var eddingtonNumberArrayController: NSArrayController!
-    @IBOutlet var ltdEdNumArrayController: NSArrayController!
-    
-    @IBOutlet weak var edCalcProgressBar: NSProgressIndicator!
-    @IBOutlet weak var calcProgressTextField: NSTextField!
+    @IBOutlet var eddingtonNumberTreeController: NSTreeController!
     
     
     @IBAction func saveAll(_ sender: NSButton) {
@@ -46,16 +45,19 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
             }
         }
         
-        if let edNumSet = trainingDiary?.lTDEdNumbers?.allObjects as! [LTDEdNum]?{
+        if let edNumSet = trainingDiary?.ltdEddingtonNumbers?.allObjects as! [LTDEddingtonNumber]?{
             for e in edNumSet.sorted(by: {$0.code < $1.code}){
-                html += "<tr>\n"
-                html += "<td>\(e.activity!)</td>\n"
-                html += "<td>\(e.activityType!)</td>\n"
-                html += "<td>\(e.period!)</td>\n"
-                html += "<td>\(e.unit!)</td>\n"
-                html += "<td>\(e.value)</td>\n"
-                html += "<td>\(e.plusOne)</td>\n"
-                html += "</tr>"
+                for l in e.getLeaves(){
+                    html += "<tr>\n"
+                    html += "<td>\(l.activity!)</td>\n"
+                    html += "<td>\(l.equipment!)</td>\n"
+                    html += "<td>\(l.activityType!)</td>\n"
+                    html += "<td>\(l.period!)</td>\n"
+                    html += "<td>\(l.unit!)</td>\n"
+                    html += "<td>\(l.value)</td>\n"
+                    html += "<td>\(l.plusOne)</td>\n"
+                    html += "</tr>"
+                }
             }
         }
         
@@ -82,41 +84,39 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
     @IBAction func calculateAll(_ sender: NSButton) {
         //this is a calculation of all possible ed nums
         let start = Date()
+        let currentTotal = trainingDiary!.ltdEdNumCount
         //remove all ltd ed nums from training diary
-        if let ltdEdNumSet = trainingDiary?.mutableSetValue(forKey: TrainingDiaryProperty.lTDEdNumbers.rawValue){
+        if let ltdEdNumSet = trainingDiary?.mutableSetValue(forKey: TrainingDiaryProperty.ltdEddingtonNumbers.rawValue){
             ltdEdNumSet.removeAllObjects()
         }
 
-        calcProgressTextField!.stringValue = "starting..."
+        mainViewController!.mainStatusField!.stringValue = "EDDINGTON LTD CALCULATION OF ALL: starting by estimating total to be calculated "
+        
+        //test approach
+        let localWorkoutCopy: [Workout] = trainingDiary!.allWorkouts()
+        
         DispatchQueue.global(qos: .userInitiated).async {
-            var totalPossible: Int = 0
             
             var activities = self.trainingDiary!.activitiesArray().map({$0.name!})
             activities.append(ConstantString.EddingtonAll.rawValue)
-            
-            for a in self.trainingDiary!.eddingtonActivities(){
-                for at in self.trainingDiary!.eddingtonActivityTypes(forActivityString: a){
-                    for e in self.trainingDiary!.eddingtonEquipment(forActivityString: a){
-                        var units = Unit.activityUnits
-                        if (a == ConstantString.EddingtonAll.rawValue && at == ConstantString.EddingtonAll.rawValue && e == ConstantString.EddingtonAll.rawValue){
-                            units = Unit.allUnits
-                        }else if (at == ConstantString.EddingtonAll.rawValue && e == ConstantString.EddingtonAll.rawValue){
-                            //metrics only calculated on the activity for ALL types and ALL Equipment
-                            units.append(contentsOf: Unit.metrics)
-                        }
-                        totalPossible += units.count * Period.eddingtonNumberPeriods.count
-                    }
-                }
-            }
             
             var count: Int = 0
             let calculator = EddingtonNumberCalculator()
             var name: String = ""
             
 
-            for a in self.trainingDiary!.eddingtonActivities(){
-                for at in self.trainingDiary!.eddingtonActivityTypes(forActivityString: a){
-                    for e in self.trainingDiary!.eddingtonEquipment(forActivityString: a){
+             for a in self.trainingDiary!.eddingtonActivities(){
+                for e in self.trainingDiary!.eddingtonEquipment(forActivityString: a){
+                    var types: [String] = [ConstantString.EddingtonAll.rawValue]
+                    if let equipment = self.trainingDiary!.equipment(forActivity: a, andName: e){
+                        if equipment.numberOfTypes > 1{
+                            types = self.trainingDiary!.eddingtonActivityTypes(forActivityString: a)
+                        }
+                    }else{
+                        //no equipment ... so all types
+                        types = self.trainingDiary!.eddingtonActivityTypes(forActivityString: a)
+                    }
+                    for at in types{
                         var units = Unit.activityUnits
                         if (a == ConstantString.EddingtonAll.rawValue && at == ConstantString.EddingtonAll.rawValue && e == ConstantString.EddingtonAll.rawValue){
                             units = Unit.allUnits
@@ -124,26 +124,46 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
                             //metrics only calculated on the activity for ALL types and ALL Equipment
                             units.append(contentsOf: Unit.metrics)
                         }
-                        for u in units.sorted(by: {$0.rawValue < $1.rawValue}){
-                            for p in Period.eddingtonNumberPeriods{
-                                count += 1
-                                name = a
-                                name += ":" + e
-                                name += ":" + at
-                                name += ":" + p.rawValue
-                                name += ":" + u.rawValue
-                                let result = calculator.quickCaclulation(forActivity: a, andType: at, equipment: e, andPeriod: p, andUnit: u, inTrainingDiary: self.trainingDiary!)
-                                DispatchQueue.main.sync {
-                                    self.calcProgressTextField!.stringValue = "\(count) of \(totalPossible) : \(name) (\(Int(Date().timeIntervalSince(start)))s) ..."
-                                    self.edCalcProgressBar!.doubleValue = 100.0 * Double(count) / Double(totalPossible)
-                                    if result.ednum > 0{
-                                        self.trainingDiary!.addLTDEddingtonNumber(forActivity: a, type: at, equipment: e, period: p, unit: u, value: result.ednum, plusOne: result.plusOne)
+                        // lets check if worth doing any calcs
+
+                        let workoutCount = localWorkoutCopy.filter({ (w: Workout) -> Bool in
+                            let aCorrect    = a == "All" || w.activityString == a
+                            let atCorrect   = at == "All" || w.activityTypeString == at
+                            let eCorrect    = e == "All" || w.equipmentName == e
+                            return aCorrect && atCorrect && eCorrect
+                        }).count
+
+                        if workoutCount <= Int(Constant.WorkoutThresholdForEdNumberCount.rawValue){
+                            print("Only \(workoutCount) workouts for \(a):\(e):\(at) so not bothering to calculate eddington numbers")
+                            count += units.count * Period.eddingtonNumberPeriods.count
+                        }else{
+
+                            for u in units.sorted(by: {$0.rawValue < $1.rawValue}){
+                                for p in Period.eddingtonNumberPeriods{
+                                    
+                                    count += 1
+                                    name = a
+                                    name += ":" + e
+                                    name += ":" + at
+                                    name += ":" + p.rawValue
+                                    name += ":" + u.rawValue
+                                    let result = calculator.quickCaclulation(forActivity: a, andType: at, equipment: e, andPeriod: p, andUnit: u, inTrainingDiary: self.trainingDiary!)
+                                    DispatchQueue.main.sync {
+                                        self.mainViewController!.mainStatusField!.stringValue = "EDDINGTON LTD CALCULATION OF ALL: \(count) of \(currentTotal) : \(name) (\(Int(Date().timeIntervalSince(start)))s) ..."
+                                        self.mainViewController!.mainProgressBar!.doubleValue = 100.0 * Double(count) / Double(currentTotal)
+                                        if result.ednum > 0{
+                                            self.trainingDiary!.addLTDEddingtonNumber(forActivity: a, type: at, equipment: e, period: p, unit: u, value: result.ednum, plusOne: result.plusOne)
+                                        }
                                     }
                                 }
                             }
                         }
                     }
                 }
+            }
+            DispatchQueue.main.async {
+                self.mainViewController!.mainStatusField.stringValue = "EDDINGTON LTD CALCULATION OF ALL: ALL LTD complete in \(Int(Date().timeIntervalSince(start)))s"
+                self.mainViewController!.mainProgressBar!.doubleValue = 100.0
             }
         }
     }
@@ -154,7 +174,7 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
     @IBAction func updateSelection(_ sender: NSButton) {
         let start = Date()
 
-        calcProgressTextField!.stringValue = "starting..."
+        mainViewController!.mainStatusField.stringValue = "EDDINGTON NUMBER UPDATE: starting..."
         DispatchQueue.global(qos: .userInitiated).async {
             var count: Double = 0.0
             let total: Double = Double(self.selectedRows().count)
@@ -162,7 +182,7 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
                 count += 1
                 let secs = Int(Date().timeIntervalSince(start))
                 DispatchQueue.main.sync {
-                    self.calcProgressTextField!.stringValue = "\(Int(count)) of \(Int(total)) : \(edNum.eddingtonCode) (\(secs)s) ..."
+                    self.mainViewController!.mainStatusField.stringValue = "EDDINGTON NUMBER UPDATE: \(Int(count)) of \(Int(total)) : \(edNum.eddingtonCode) (\(secs)s) ..."
                 }
                 let subStart = Date()
                 let calculator = EddingtonNumberCalculator()
@@ -173,8 +193,7 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
                     edNum.update(forCalculator: calculator)
                     print("finished ednum update \(Date().timeIntervalSince(start))s from start")
 
-                    //         self.prod(eddingtonNumber: edNum)
-                    self.edCalcProgressBar!.doubleValue = 100.0 * count / total
+                    self.mainViewController!.mainProgressBar!.doubleValue = 100.0 * count / total
                 }
                 let timeTaken = Date().timeIntervalSince(subStart)
                 print("Time taken for \(edNum.eddingtonCode): \(timeTaken) seconds")
@@ -182,8 +201,7 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
             let seconds = Date().timeIntervalSince(start)
             print("Time taken for new Ed num update: \(seconds) seconds.")
             DispatchQueue.main.async {
-            //    self.calcProgressTextField!.stringValue = "Update complete in \(Int(seconds))s"
-                self.calcProgressTextField!.stringValue = "Update complete in \(Int(Date().timeIntervalSince(start)))s"
+                self.mainViewController!.mainStatusField.stringValue = "EDDINGTON NUMBER UPDATE: Update complete in \(Int(Date().timeIntervalSince(start)))s"
                 print("update graph called \(Date().timeIntervalSince(start))s since start")
                 self.updateGraph()
                 print("graph updated  \(Date().timeIntervalSince(start))s since start")
@@ -197,7 +215,7 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
         
         let start = Date()
         var slowCalcs: [(code: String, seconds: TimeInterval)] = []
-        calcProgressTextField!.stringValue = "starting..."
+        mainViewController!.mainStatusField!.stringValue = "EDDINGTON NUMBER CALCULATION: starting..."
         DispatchQueue.global(qos: .userInitiated).async {
             var count: Double = 0.0
             let total: Double = Double(self.selectedRows().count)
@@ -205,7 +223,7 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
                 count += 1
                 let secs = Int(Date().timeIntervalSince(start))
                 DispatchQueue.main.sync {
-                    self.calcProgressTextField!.stringValue = "\(Int(count)) of \(Int(total)) : \(edNum.eddingtonCode) (\(secs)s) ..."
+                    self.mainViewController!.mainStatusField!.stringValue = "EDDINGTON NUMBER CALCULATION: \(Int(count)) of \(Int(total)) : \(edNum.eddingtonCode) (\(secs)s) ..."
                 }
                 let subStart = Date()
                 let calculator = EddingtonNumberCalculator()
@@ -214,8 +232,7 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
                     
                     edNum.update(forCalculator: calculator)
                     
-           //         self.prod(eddingtonNumber: edNum)
-                    self.edCalcProgressBar!.doubleValue = 100.0 * count / total
+                    self.mainViewController!.mainProgressBar!.doubleValue = 100.0 * count / total
                 }
                 let timeTaken = Date().timeIntervalSince(subStart)
                 if timeTaken > 1.0{
@@ -236,7 +253,7 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
             print("Slow average = \(slowAverage) other average = \(otherAverage)")
             print("Time taken for new Ed num calculation: \(totalSeconds) seconds.")
             DispatchQueue.main.async {
-                self.calcProgressTextField!.stringValue = "Calc complete in \(Int(totalSeconds))s"
+                self.mainViewController!.mainStatusField!.stringValue = "EDDINGTON NUMBER CALCULATION: Calc complete in \(Int(totalSeconds))s"
                 print("TOTAL TIME = \(Date().timeIntervalSince(start))")
             }
         }
@@ -244,19 +261,7 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
         updateGraph()
     }
     
- /*
-    @IBAction func updateEdNumber(_ sender: NSButton){
-        let start = Date()
-        for edNum in selectedRows(){
-            let calculator = EddingtonNumberCalculator()
-            calculator.updateEddingtonNumber(forEddingtonNumber: edNum)
-            prod(eddingtonNumber: edNum)
- 
-        }
-        print("Time taken for Core data Ed num update: \(Date().timeIntervalSince(start)) seconds")
-        updateGraph()
-    }
- */
+
     
     @IBAction func equipmentField(_ sender: NSTextField) {
         self.equipment = sender.stringValue
@@ -308,19 +313,27 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
         if let identifier = comboBox.identifier{
             switch identifier.rawValue{
             case "EdNumActivityComboBox":
-                let activities = trainingDiary!.activitiesArray().map({$0.name!})
+                let activities = trainingDiary!.eddingtonActivities()
                 if index < activities.count{
                     return activities[index]
                 }
             case "EdNumActivityTypeComboBox":
-                guard let c = comboBox.superview as? NSTableCellView else{
-                    return 0
-                }
+                guard let c = comboBox.superview as? NSTableCellView else{ return 0 }
                 if let e = c.objectValue as? EddingtonNumber{
                     if let a = e.activity{
-                        let types = trainingDiary!.validActivityTypes(forActivityString: a)
+                        let types = trainingDiary!.eddingtonActivityTypes(forActivityString: a)
                         if index < types.count{
-                            return types[index].name!
+                            return types[index]
+                        }
+                    }
+                }
+            case "EdNumEquipmentComboBox":
+                guard let c = comboBox.superview as? NSTableCellView else{ return 0 }
+                if let e = c.objectValue as? EddingtonNumber{
+                    if let a = e.activity{
+                        let types = trainingDiary!.eddingtonEquipment(forActivityString: a)
+                        if index < types.count{
+                            return types[index]
                         }
                     }
                 }
@@ -335,13 +348,16 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
         if let identifier = comboBox.identifier{
             switch identifier.rawValue{
             case "EdNumActivityComboBox":
-                return trainingDiary!.activitiesArray().count
+                return trainingDiary!.eddingtonActivities().count
             case "EdNumActivityTypeComboBox":
-                guard let c = comboBox.superview as? NSTableCellView else{
-                    return 0
-                }
+                guard let c = comboBox.superview as? NSTableCellView else{ return 0 }
                 if let e = c.objectValue as? EddingtonNumber{
-                    return trainingDiary!.validActivityTypes(forActivityString: e.activity!).count
+                    return trainingDiary!.eddingtonActivityTypes(forActivityString: e.activity!).count
+                }
+            case "EdNumEquipmentComboBox":
+                guard let c = comboBox.superview as? NSTableCellView else{ return 0 }
+                if let e = c.objectValue as? EddingtonNumber{
+                    return trainingDiary!.eddingtonEquipment(forActivityString: e.activity!).count
                 }
             default:
                 return 0
@@ -369,13 +385,6 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
 
         default:
             print("why am I observing \(String(describing: keyPath))")
-        }
-    }
-    
-    private func setProgress(_ value: Double){
-        if let pb = edCalcProgressBar{
-            pb.increment(by: value)
-            pb.display()
         }
     }
 
@@ -417,10 +426,9 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
         if predicateString != ""{
             let myPredicate = NSPredicate.init(format: predicateString, argumentArray: arguments)
             eddingtonNumberArrayController.filterPredicate = myPredicate
-            ltdEdNumArrayController.filterPredicate = myPredicate
+            
         }else{
             eddingtonNumberArrayController.filterPredicate = nil
-            ltdEdNumArrayController.filterPredicate = nil
             isFirstPredicate = true
         }
         
@@ -457,10 +465,30 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
             gv.add(graph: plusOneGraph)
             gv.add(graph: contributorsGraph)
             gv.add(graph: annualHistoryGraph)
-            
+            gv.add(graph: maturityGraph)
+
             gv.backgroundGradientStartColour = .lightGray
             gv.backgroundGradientEndColour = .darkGray
             gv.backgroundGradientAngle = 45
+            
+            //create the labels - create six
+            var xAxisLabels: [String] = []
+            if let td = trainingDiary{
+                let from = td.firstDayOfDiary
+                let to = td.lastDayOfDiary
+                let gap = to.timeIntervalSince(from) / 5.0
+                xAxisLabels.append(from.dateOnlyShorterString())
+                for i in 1...5{
+                    xAxisLabels.append(from.addingTimeInterval(gap * Double(i)).dateOnlyShorterString())
+                }
+            }
+            
+            gv.xAxisLabelStrings = xAxisLabels
+            
+            let formatter = NumberFormatter()
+            formatter.format = "#,##0.00"
+            gv.secondaryAxisNumberFormatter = formatter
+            
             
         }
     }
@@ -475,18 +503,23 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
                 var plusOneHistory: [(date: Date, value: Double)] = [firstEntry]
                 var contributors: [(date: Date, value: Double)] = [firstEntry]
                 var annualHistory: [(date: Date, value: Double)] = [firstEntry]
-                
+                var maturityHistory: [(date: Date, value: Double)] = [firstEntry]
+
                 for e in edNum.getSortedHistory(){
                     history.append((date: e.date!, value: Double(e.value)))
                     plusOneHistory.append((date: e.date!, value: Double(e.value + e.plusOne)))
+                    maturityHistory.append((date: e.date!, value: e.maturity))
+
                 }
+                historyGraph.data = history
+                plusOneGraph.data = plusOneHistory
+                maturityGraph.data = maturityHistory
                 
                 for c in edNum.getSortedContributors(){
                     contributors.append((c.date!, c.value))
                 }
                 
-                historyGraph.data = history
-                plusOneGraph.data = plusOneHistory
+
                 contributorsGraph.data = contributors
                 
                 for e in edNum.getSortedAnnualHistory(){

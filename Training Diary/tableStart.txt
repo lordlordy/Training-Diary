@@ -10,7 +10,17 @@ box-sizing: border-box;
 #activity {
 background-position: 10px 10px;
 background-repeat: no-repeat;
-width: 20%;
+width: 17%;
+font-size: 12px;
+padding: 2px 2px 2px 2px;
+border: 1px solid #ddd;
+margin-bottom: 2px;
+}
+
+#equipment {
+background-position: 10px 10px;
+background-repeat: no-repeat;
+width: 17%;
 font-size: 12px;
 padding: 2px 2px 2px 2px;
 border: 1px solid #ddd;
@@ -20,7 +30,7 @@ margin-bottom: 2px;
 #type {
 background-position: 10px 10px;
 background-repeat: no-repeat;
-width: 20%;
+width: 17%;
 font-size: 12px;
 padding: 2px 2px 2px 2px;
 border: 1px solid #ddd;
@@ -30,7 +40,7 @@ margin-bottom: 2px;
 #period {
 background-position: 10px 10px;
 background-repeat: no-repeat;
-width: 20%;
+width: 17%;
 font-size: 12px;
 padding: 2px 2px 2px 2px;
 border: 1px solid #ddd;
@@ -40,7 +50,7 @@ margin-bottom: 2px;
 #unit {
 background-position: 10px 10px;
 background-repeat: no-repeat;
-width: 20%;
+width: 8%;
 font-size: 12px;
 padding: 2px 2px 2px 2px;
 border: 1px solid #ddd;
@@ -50,7 +60,7 @@ margin-bottom: 2px;
 #count {
 background-position: 10px 10px;
 background-repeat: no-repeat;
-width: 10%;
+width: 8%;
 font-size: 12px;
 padding: 2px 2px 2px 2px;
 border: 1px solid #ddd;
@@ -79,18 +89,21 @@ background-color: #f1f1f1;
 </style>
 </head>
 <body>
+<p>Having been experimenting with generalising the creation of Eddington Numbers in my training diary here is the output after asking it to create all (with a few rules to avoid clearly pointless ones). There are over 5,000 eddington number here. There should be a blog post shortly about how much fun all this has been. Unfortunately Wordpress won't allow inclusion of scripting unless you pay top$ for a business account so I've not been able to include filtering on this table. </br>
+<i>There are some errors in the numbers due to some functionality needing debugging following this generalisation. Once fixed I'll update this page.</i></p>
 <input type="text" id="activity" onkeyup="filterNumbers()" placeholder="Filter activity.." title="Type in a name">
+<input type="text" id="equipment" onkeyup="filterNumbers()" placeholder="Filter equipment.." title="Type in a name">
 <input type="text" id="type" onkeyup="filterNumbers()" placeholder="Filter type.." title="Type in a name">
 <input type="text" id="period" onkeyup="filterNumbers()" placeholder="Filter period.." title="Type in a name">
 <input type="text" id="unit" onkeyup="filterNumbers()" placeholder="Filter unit.." title="Type in a name">
-<input type="text" id="count" placeholder="count.
-.." title="Type in a name">
+<input type="text" id="count" placeholder="count..." title="Type in a name">
 <table id="edNumTable">
 <tr class="Header">
-<th style="width:20%;">Activity</th>
-<th style="width:20%;">Type</th>
-<th style="width:20%;">Period</th>
-<th style="width:20%;">Unit</th>
-<th style="width:10%;">#</th>
-<th style="width:10%;">+1</th>
+<th style="width:17%;">Activity</th>
+<th style="width:17%;">Equipment</th>
+<th style="width:17%;">Type</th>
+<th style="width:17%;">Period</th>
+<th style="width:17%;">Unit</th>
+<th style="width:8%;">#</th>
+<th style="width:7%;">+1</th>
 </tr>

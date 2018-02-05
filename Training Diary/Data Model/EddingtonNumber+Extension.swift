@@ -64,23 +64,13 @@ extension EddingtonNumber{
     }
     
     func update(forCalculator calculator: EddingtonNumberCalculator){
-        var d = Date()
         setContributors(to: calculator.contributors)
-        print("setContributors took \(Date().timeIntervalSince(d))s")
-        d = Date()
         setHistory(to: calculator.history)
-        print("setHistory took \(Date().timeIntervalSince(d))s")
-        d = Date()
         value = Int16(calculator.eddingtonNumber)
-        
         setAnnualContributors(to: calculator.annualContributors)
-        print("setAnnualContributors took \(Date().timeIntervalSince(d))s")
-        d = Date()
         setAnnualHistory(to: calculator.annualHistory)
-        print("setAnnualHistory took \(Date().timeIntervalSince(d))s")
-        d = Date()
         annual = Int16(calculator.annualEddingtonNumber)
-        
+        maxContributor = calculator.maxContributor!
         lastUpdated = Date()
 
     }
@@ -96,7 +86,7 @@ extension EddingtonNumber{
         }
     }
     
-    public func setHistory(to newHistory: [(date: Date, value: Int, plusOne: Int)]){
+    public func setHistory(to newHistory: [(date: Date, value: Int, plusOne: Int, max: Double)]){
         let history = mutableSetValue(forKey: EddingtonNumberProperty.history.rawValue)
         history.removeAllObjects()
         for h in newHistory{
@@ -104,6 +94,7 @@ extension EddingtonNumber{
             hist.date = h.date
             hist.value = Int16(h.value)
             hist.plusOne = Int16(h.plusOne)
+            hist.max = h.max
             history.add(hist)
         }
     }
@@ -294,10 +285,7 @@ extension EddingtonNumber{
 
     
     private func calculateMaturity() -> Double{
-
-        let daysSinceLastContributor = calculateDaysSinceLastContributor()
-        return 1 - 1 / ( exp(daysSinceLastContributor/365))
-        
+        return EddingtonNumberCalculator.calculateMaturity(ednum: Int(value), plusOne: Int(plusOne), max: maxContributor)
     }
     
     private func calculateDaysSinceLastContributor() -> Double{

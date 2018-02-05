@@ -64,6 +64,7 @@ enum Constant: Double {
     case SecondsPer365Days  = 31_536_000
     case ATLDays            = 7
     case CTLDays            = 42
+    case WorkoutThresholdForEdNumberCount = 10
 }
 
 enum ConstantString: String{
@@ -241,16 +242,16 @@ enum Unit: String{
     case HR, KJ, KM, Miles, Minutes, Reps, RPETSS, Seconds
     case TSS, Watts, ATL, CTL, TSB
     //do we want these here. They're day based units - not activity based units
-    case fatigue, fatPercent, kg, lbs, motivation, restingHR, sleep
+    case fatigue, fatPercent, kg, lbs, motivation, restingHR, sleep, sleepMinutes
     
     static var activityUnits = [AscentMetres,AscentFeet, Cadence, Hours, HR, KJ, KM, Miles, Minutes, Reps, RPETSS, Seconds, TSS, Watts]
-    static var dayUnits = [ fatigue, fatPercent, kg, lbs, motivation, restingHR, sleep]
-    static var allUnits = [AscentMetres,AscentFeet, Cadence, Hours, HR, KJ, KM, Miles, Minutes, Reps, RPETSS, Seconds, TSS, Watts, ATL, CTL, TSB, fatigue, fatPercent, kg, lbs, motivation, restingHR, sleep]
+    static var dayUnits = [ fatigue, fatPercent, kg, lbs, motivation, restingHR, sleep, sleepMinutes]
+    static var allUnits = [AscentMetres,AscentFeet, Cadence, Hours, HR, KJ, KM, Miles, Minutes, Reps, RPETSS, Seconds, TSS, Watts, ATL, CTL, TSB, fatigue, fatPercent, kg, lbs, motivation, restingHR, sleep, sleepMinutes]
     static var metrics = [ATL, CTL, TSB]
     
     var summable: Bool{
         switch self{
-        case .Cadence, .HR, .Watts, .fatigue, .fatPercent, .kg, .lbs, .motivation, .restingHR, .sleep, .ATL, .CTL, .TSB: return false
+        case .Cadence, .HR, .Watts, .fatigue, .fatPercent, .kg, .lbs, .motivation, .restingHR, .ATL, .CTL, .TSB: return false
         default: return true
         }
     }
@@ -296,6 +297,7 @@ enum Unit: String{
         case .motivation:    return nil
         case .restingHR:     return nil
         case .sleep:         return nil
+        case .sleepMinutes:         return nil
         }
  
     }
@@ -304,7 +306,7 @@ enum Unit: String{
      */
     func isDerived() -> Bool{
         switch self{
-        case .AscentFeet, .Hours, .Minutes, .Miles: return true
+        case .AscentFeet, .Hours, .Minutes, .Miles, .sleepMinutes: return true
         default: return false
         }
     }
@@ -315,6 +317,7 @@ enum Unit: String{
         case .Minutes: return (unit: .Seconds, multiple: Constant.MinutesPerSecond)
         case .Hours: return (unit: .Seconds, multiple: Constant.HoursPerSecond)
         case .Miles: return (unit: .KM, multiple: Constant.MilesPerKM)
+        case .sleepMinutes: return (unit: .sleep, multiple: Constant.SecondsPerMinute)
         default: return nil
         }
     }
@@ -365,8 +368,10 @@ enum FPMJSONString: String, FileMakerProJSONString{
 enum ENTITY: String{
     case TrainingDiary, Day, Workout, Weight, Physiological, Metric, Equipment
     case EddingtonNumber, EddingtonAnnualContributor, EddingtonAnnualHistory
-    case EddingtonContributor, EddingtonHistory, LTDEdNum
+    case EddingtonContributor, EddingtonHistory, LTDEddingtonNumber
     case Activity, ActivityType
+    
+    static let ALL = [.TrainingDiary, .Day, .Workout, .Weight, Physiological, .Metric, .Equipment, .EddingtonNumber, .EddingtonAnnualContributor, .EddingtonAnnualHistory, .EddingtonContributor, .EddingtonHistory, .LTDEddingtonNumber, .Activity, .ActivityType]
 }
 
 enum EquipmentProperty: String{
@@ -437,7 +442,7 @@ enum TrainingDiaryProperty: String, FileMakerProJSONString{
     case swimATLDays, swimCTLDays, bikeATLDays, bikeCTLDays, runATLDays, runCTLDays, atlDays, ctlDays
 
     //relationships
-    case eddingtonNumbers, lTDEdNumbers
+    case eddingtonNumbers, ltdEddingtonNumbers
     case days, physiologicals, weights
     case activities
     
@@ -587,6 +592,10 @@ enum EddingtonNumberProperty: String{
     case annualContributors, annualHistory, contributors, history, trainingDiary
     //calculated:
     case eddingtonCode
+}
+
+enum LTDEddingtonNumberProperty: String{
+    case children, parent
 }
 
 
