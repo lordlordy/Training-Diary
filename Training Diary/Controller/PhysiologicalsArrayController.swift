@@ -11,12 +11,20 @@ import Cocoa
 class PhysiologicalsArrayController: NSArrayController {
     override func newObject() -> Any {
         let physio = super.newObject() as! Physiological
-        physio.fromDate = Date().startOfDay()
-        physio.toDate = Calendar.current.date(byAdding: DateComponents(year: 99), to: Date())
+        //get date components for date in current time zone
+        let dc = Calendar.current.dateComponents([.day,.month,.year], from: Date())
+        //set date as GMT
+        var gmt = Calendar.init(identifier: .gregorian)
+        gmt.timeZone = TimeZone(secondsFromGMT: 0)!
+        //date in GMT
+        let fromDate = gmt.date(from: dc)?.startOfDay()
+        
+        physio.fromDate = fromDate
+        physio.toDate = Calendar.current.date(byAdding: DateComponents(year: 99), to: fromDate!)
         let physios = self.arrangedObjects as! [Physiological]
         let sortedPhysios = physios.sorted(by: {$0.fromDate! > $1.toDate!})
         if sortedPhysios.count > 0{
-            sortedPhysios[0].toDate = Date().yesterday().endOfDay()
+            sortedPhysios[0].toDate = fromDate!.yesterday().endOfDay()
         }
         return physio
     }

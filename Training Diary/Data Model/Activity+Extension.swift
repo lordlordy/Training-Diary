@@ -10,6 +10,9 @@ import Foundation
 
 extension Activity{
     
+    @objc dynamic var isFixedActivity: Bool {return isOneOfFixedActivityTypes() }
+    @objc dynamic var canEditName: Bool { return !isFixedActivity }
+    
     @objc dynamic var workoutCount: Int { return workouts?.count ?? 0 }
     @objc dynamic var km: Double { return getWorkouts().reduce(0,{$0 + $1.km}) }
     @objc dynamic var hours: Double { return getWorkouts().reduce(0,{$0 + $1.hours}) }
@@ -61,6 +64,11 @@ extension Activity{
         }
     }
     
-    
+    private func isOneOfFixedActivityTypes() -> Bool{
+        if let n = name{
+            return FixedActivity.All.map({$0.rawValue}).contains(n)
+        }
+        return false
+    }
     
 }

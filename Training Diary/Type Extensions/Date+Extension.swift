@@ -10,33 +10,58 @@ import Foundation
 
 extension Date{
    
+    private var gmtTZ: TimeZone{ return TimeZone(secondsFromGMT: 0)! }
+    
+
     
     private var dayOfWeekNameFormatter: DateFormatter{
         get{
             let df = DateFormatter.init()
             df.dateFormat = "EEEE"
-            df.timeZone = TimeZone.init(secondsFromGMT: 0)
+            df.timeZone = gmtTZ
             return df
         }
     }
  
-    private var calendar: Calendar{
-        get{
-            var cal = Calendar.init(identifier: .gregorian)
-            //should we use this instead so start of week is Monday?
-            cal = Calendar.init(identifier: .iso8601)
-            cal.timeZone = TimeZone.init(secondsFromGMT: 0)!
-            return cal
-        }
+    private func gregorianCalendar() -> Calendar{
+        var cal = Calendar.init(identifier: .gregorian)
+        //should we use this instead so start of week is Monday?
+        cal = Calendar.init(identifier: .iso8601)
+        cal.timeZone = gmtTZ
+        return cal
     }
     
     public func year() -> Int{
-        let dc = calendar.dateComponents([.year], from: self)
+        let dc = gregorianCalendar().dateComponents([.year], from: self)
         if let year = dc.year{
             return year
         }else{
             return 0
         }
+    }
+    
+    public func dayOfMonth() -> Int{
+        let dc = gregorianCalendar().dateComponents([.day], from: self)
+        if let day = dc.day{
+            return day
+        }else{
+            return 0
+        }
+    }
+    
+    func dayOfMonthAndDayName() -> String{
+        let formatter = DateFormatter()
+        formatter.dateFormat = "ccc-dd"
+        formatter.timeZone = gmtTZ
+        return formatter.string(from: self)
+    }
+    
+    public func monthAsString() -> String{
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMMM"
+        formatter.timeZone = gmtTZ
+        return formatter.string(from: self)
     }
     
     public func addDays(numberOfDays i: Int) -> Date{
@@ -50,6 +75,7 @@ extension Date{
     
     public func dateOnlyString() -> String{
         let dateFormatter = DateFormatter.init()
+        dateFormatter.timeZone = gmtTZ
         dateFormatter.dateFormat = "yyyy-MM-dd"
         return dateFormatter.string(from: self)
     }
@@ -57,14 +83,15 @@ extension Date{
     // added for display in charts
     public func dateOnlyShorterString() ->String{
         let dateFormatter = DateFormatter.init()
+        dateFormatter.timeZone = gmtTZ
         dateFormatter.dateFormat = "dd-MMM-yy"
         return dateFormatter.string(from: self)
     }
     
     //compares just date components
     public func isSameDate(asDate: Date)-> Bool{
-        let dc1 = calendar.dateComponents([.day, .month, .year], from: asDate)
-        let dc2 = calendar.dateComponents([.day, .month, .year], from: self)
+        let dc1 = gregorianCalendar().dateComponents([.day, .month, .year], from: asDate)
+        let dc2 = gregorianCalendar().dateComponents([.day, .month, .year], from: self)
         return (dc1.day == dc2.day && dc1.month == dc2.month && dc1.year == dc2.year)
     }
     
@@ -78,36 +105,57 @@ extension Date{
         return self.tomorrow().isSameDate(asDate: day)
     }
  
+    func isSunday() -> Bool{
+        return gregorianCalendar().dateComponents([.weekday], from: self).weekday! == WeekDay.gregorianSunday.rawValue
+    }
+    func isMonday() -> Bool{
+        return gregorianCalendar().dateComponents([.weekday], from: self).weekday! == WeekDay.gregorianMonday.rawValue
+    }
+    func isTuesday() -> Bool{
+        return gregorianCalendar().dateComponents([.weekday], from: self).weekday! == WeekDay.gregorianTuesday.rawValue
+    }
+    func isWednesday() -> Bool{
+        return gregorianCalendar().dateComponents([.weekday], from: self).weekday! == WeekDay.gregorianWednesday.rawValue
+    }
+    func isThursday() -> Bool{
+        return gregorianCalendar().dateComponents([.weekday], from: self).weekday! == WeekDay.gregorianThursday.rawValue
+    }
+    func isFriday() -> Bool{
+        return gregorianCalendar().dateComponents([.weekday], from: self).weekday! == WeekDay.gregorianFriday.rawValue
+    }
+    func isSaturday() -> Bool{
+        return gregorianCalendar().dateComponents([.weekday], from: self).weekday! == WeekDay.gregorianSaturday.rawValue
+    }
 
     public func isEndOfWeek() -> Bool{
-        let dayOfWeek = calendar.dateComponents([.weekday], from: self)
-        return dayOfWeek.weekday == 1
+        let dayOfWeek = gregorianCalendar().dateComponents([.weekday], from: self)
+        return dayOfWeek.weekday == 1 //Sunday with Gregorian Cal & iso8601
     }
 
     public func isStartOfWeek() -> Bool{
-        let dayOfWeek = calendar.dateComponents([.weekday], from: self)
+        let dayOfWeek = gregorianCalendar().dateComponents([.weekday], from: self)
         return dayOfWeek.weekday == 2
     }
     
     public func isEndOfMonth() -> Bool{
-        let monthNow = calendar.dateComponents([.month], from: self)
-        let monthTomorrow = calendar.dateComponents([.month], from: tomorrow())
+        let monthNow = gregorianCalendar().dateComponents([.month], from: self)
+        let monthTomorrow = gregorianCalendar().dateComponents([.month], from: tomorrow())
         return !(monthNow == monthTomorrow)
     }
 
     public func isStartOfMonth() -> Bool{
-        return calendar.dateComponents([.day], from: self).day! == 1
+        return gregorianCalendar().dateComponents([.day], from: self).day! == 1
     }
     
     public func isEndOfYear() -> Bool{
-        let dayOfMonth = calendar.dateComponents([.day], from: self)
-        let month = calendar.dateComponents([.month], from: self)
+        let dayOfMonth = gregorianCalendar().dateComponents([.day], from: self)
+        let month = gregorianCalendar().dateComponents([.month], from: self)
         return dayOfMonth.day! == 31 && month.month == 12
     }
 
     public func isStartdOfYear() -> Bool{
-        let dayOfMonth = calendar.dateComponents([.day], from: self)
-        let month = calendar.dateComponents([.month], from: self)
+        let dayOfMonth = gregorianCalendar().dateComponents([.day], from: self)
+        let month = gregorianCalendar().dateComponents([.month], from: self)
         return dayOfMonth.day! == 1 && month.month == 1
     }
 
@@ -127,87 +175,110 @@ extension Date{
     
     //return start of day - ie time component 00:00:00
     public func startOfDay() -> Date{
-        var dc = calendar.dateComponents([.day, .month,.year], from: self)
+        var dc = gregorianCalendar().dateComponents([.day, .month,.year], from: self)
         dc.hour = 0
         dc.minute = 0
         dc.second = 0
-        return calendar.date(from: dc)!
+        return gregorianCalendar().date(from: dc)!
     }
     
     public func endOfDay() -> Date{
-        var dc = calendar.dateComponents([.day, .month,.year], from: self)
+        var dc = gregorianCalendar().dateComponents([.day, .month,.year], from: self)
         dc.hour = 23
         dc.minute = 59
         dc.second = 59
-        return calendar.date(from: dc)!
+        return gregorianCalendar().date(from: dc)!
     }
 
     
     public func startOfYear() -> Date{
-        var dc = calendar.dateComponents([.day, .month,.year], from: self)
+        var dc = gregorianCalendar().dateComponents([.day, .month,.year], from: self)
         dc.day = 1
         dc.month = 1
         dc.hour = 0
         dc.minute = 0
         dc.second = 0
-        return calendar.date(from: dc)!
+        return gregorianCalendar().date(from: dc)!
     }
     
     public func endOfYear() -> Date{
-        var dc = calendar.dateComponents([.day, .month,.year], from: self)
+        var dc = gregorianCalendar().dateComponents([.day, .month,.year], from: self)
         dc.day = 31
         dc.month = 12
         dc.hour = 23
         dc.minute = 59
         dc.second = 59
-        return calendar.date(from: dc)!
+        return gregorianCalendar().date(from: dc)!
     }
    
     public func startOfMonth() -> Date{
-        var dc = calendar.dateComponents([.day, .month,.year], from: self)
+        var dc = gregorianCalendar().dateComponents([.day, .month,.year], from: self)
         dc.day = 1
         dc.hour = 0
         dc.minute = 0
         dc.second = 0
-        return calendar.date(from: dc)!
+        return gregorianCalendar().date(from: dc)!
     }
     
     public func endOfMonth() -> Date{
         let components = DateComponents(day:1)
-        let startOfNextMonth = calendar.nextDate(after:self, matching: components, matchingPolicy: .nextTime)!
-        return calendar.date(byAdding:.day, value: -1, to: startOfNextMonth)!
+        let startOfNextMonth = gregorianCalendar().nextDate(after:self, matching: components, matchingPolicy: .nextTime)!
+        let d = gregorianCalendar().date(byAdding:.day, value: -1, to: startOfNextMonth)!
+        return d.endOfDay()
     }
     
     public func startOfWeek() -> Date{
-        var components = calendar.dateComponents([.weekOfYear, .year], from: self)
-        components.weekday = 2
-        return calendar.date(from: components)!
+        var cal = gregorianCalendar()
+        cal.firstWeekday = WeekDay.gregorianMonday.rawValue
+        var components = cal.dateComponents([.weekOfYear, .year], from: self)
+        components.weekday = WeekDay.gregorianMonday.rawValue
+        return cal.date(from: components)!
     }
     
+    func startOfWeek(firstDayOfWeek: WeekDay) -> Date{
+        var cal = gregorianCalendar()
+        cal.firstWeekday = firstDayOfWeek.rawValue
+        var components = cal.dateComponents([.weekOfYear, .year], from: self)
+        components.weekday = firstDayOfWeek.rawValue
+        return cal.date(from: components)!
+    }
+
+    
     public func endOfWeek() -> Date{
-        var components = calendar.dateComponents([.weekOfYear, .year], from: self)
-        components.weekday = 1
-        return calendar.date(from: components)!
+        var cal = gregorianCalendar()
+        cal.firstWeekday = WeekDay.gregorianMonday.rawValue
+        var components = cal.dateComponents([.weekOfYear, .year], from: self)
+        components.weekday = WeekDay.gregorianSunday.rawValue
+        return gregorianCalendar().date(from: components)!
+    }
+    
+    func endOfWeek(firstDayOfWeek: WeekDay) -> Date{
+        var cal = gregorianCalendar()
+        cal.firstWeekday = firstDayOfWeek.rawValue
+        var components = cal.dateComponents([.weekOfYear, .year], from: self)
+        components.weekday = firstDayOfWeek.previousWeekDay().rawValue
+        return cal.date(from: components)!
     }
     
     public func startOfRWeek() -> Date{
         //note minus 6 as RWeek is inclusive - ie 7 days includes first and last day
         let dc  = DateComponents.init(day: -6 )
-        return calendar.date(byAdding: dc, to: self)!
+        return gregorianCalendar().date(byAdding: dc, to: self)!
     }
+
     
     //note just uses 30 days
     public func startOfRMonth() -> Date{
         // note minus 29 as this is inclusive ... so period will be 30
         let dc  = DateComponents.init(day: -29 )
-        return calendar.date(byAdding: dc, to: self)!
+        return gregorianCalendar().date(byAdding: dc, to: self)!
     }
     
     //note just uses 365 days
     public func startOfRYear() -> Date{
         //note minute 364 as this is inclusive... so period will be 365
         let dc  = DateComponents.init(day: -364 )
-        return calendar.date(byAdding: dc, to: self)!
+        return gregorianCalendar().date(byAdding: dc, to: self)!
     }
     
 }

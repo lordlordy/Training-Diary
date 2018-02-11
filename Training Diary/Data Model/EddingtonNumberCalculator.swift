@@ -13,7 +13,7 @@ public class EddingtonNumberCalculator: NSObject{
 
     static func calculateMaturity(ednum: Int, plusOne: Int, max: Double) -> Double{
         let edSizeFactor = Double(ednum) / max
-        let plusOneFactor = min(1.0, Double(plusOne) / Double(ednum))
+    //    let plusOneFactor = min(1.0, Double(plusOne) / Double(ednum))
        // return edSizeFactor * plusOneFactor
         return edSizeFactor
     }

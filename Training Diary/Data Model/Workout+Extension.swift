@@ -8,8 +8,7 @@
 
 import Cocoa
 
-extension Workout: TrainingDiaryValues{
-    
+extension Workout: TrainingDiaryValues, PeriodNode{
     
     @objc dynamic var hours:        Double{ return seconds * Constant.HoursPerSecond.rawValue}
     @objc dynamic var minutes:      Double{ return seconds * Constant.MinutesPerSecond.rawValue}
@@ -44,8 +43,97 @@ extension Workout: TrainingDiaryValues{
         }
     }
     
-    
-    
+    //MARK: - PeriodNode protocol implmentation
+    @objc var isLeaf: Bool { return true }
+    @objc var isRoot: Bool { return false}
+    @objc var isWorkout: Bool { return true}
+    @objc var name: String { return (activity?.name ?? "") + ":" + (activityType?.name ?? "") }
+    @objc var children: [PeriodNode] { return [] }
+    @objc var childCount: Int { return 0 }
+    @objc var totalKM: Double { return km }
+    @objc var totalSeconds:  Double { return TimeInterval(seconds) }
+    @objc var totalTSS: Double { return tss }
+    @objc var swimKM: Double {
+        if activityString! == FixedActivity.Swim.rawValue{
+            return km
+        }else{
+            return 0.0
+        }
+    }
+    @objc var swimSeconds: TimeInterval {
+        if activityString! == FixedActivity.Swim.rawValue{
+            return TimeInterval(seconds)
+        }else{
+            return TimeInterval(0.0)
+        }
+    }
+    @objc var swimTSS: Double {
+        if activityString! == FixedActivity.Swim.rawValue{
+            return tss
+        }else{
+            return 0.0
+        }
+    }
+    @objc var bikeKM: Double {
+        if activityString! == FixedActivity.Bike.rawValue{
+            return km
+        }else{
+            return 0.0
+        }
+    }
+    @objc var bikeSeconds: TimeInterval {
+        if activityString! == FixedActivity.Bike.rawValue{
+            return TimeInterval(seconds)
+        }else{
+            return TimeInterval(0.0)
+        }
+    }
+    @objc var bikeTSS: Double {
+        if activityString! == FixedActivity.Bike.rawValue{
+            return tss
+        }else{
+            return 0.0
+        }
+    }
+    @objc var runKM: Double {
+        if activityString! == FixedActivity.Run.rawValue{
+            return km
+        }else{
+            return 0.0
+        }
+    }
+    @objc var runSeconds: TimeInterval {
+        if activityString! == FixedActivity.Run.rawValue{
+            return TimeInterval(seconds)
+        }else{
+            return TimeInterval(0.0)
+        }
+    }
+    @objc var runTSS: Double {
+        if activityString! == FixedActivity.Run.rawValue{
+            return tss
+        }else{
+            return 0.0
+        }
+    }
+
+    @objc var fromDate: Date { return day!.date! }
+    @objc var toDate: Date { return day!.date! }
+    func inPeriod(_ p: PeriodNode) -> Bool{
+        return (p.fromDate <= fromDate) && (p.toDate >= toDate)
+    }
+    func child(forName n: String) -> PeriodNode?{
+        for node in children{
+            if node.name == n{
+                return node
+            }
+        }
+        return nil
+    }
+    func add(child: PeriodNode) {
+        print("Can't add children to Workouts")
+    }
+
     //MARK: - TrainingDiaryValues protocol implementation
 
     func valuesFor(activity a: String, activityType at: String, equipment e: String, period p: Period, unit u: Unit, from: Date? = nil, to: Date? = nil) -> [(date: Date, value: Double)]{

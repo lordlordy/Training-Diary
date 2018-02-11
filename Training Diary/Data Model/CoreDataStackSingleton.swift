@@ -57,6 +57,8 @@ class CoreDataStackSingleton{
         }
     }
     
+
+    
     //MARK:-
     
     public func printEntityCounts(forDiary td: TrainingDiary){
@@ -89,7 +91,7 @@ class CoreDataStackSingleton{
         print("Number of Activities:  \(activities)")
         print("Number of ActivityTypes:  \(activityTypes)")
         print("Number of Metrics:  \(metrics)")
-        print(("entities \(getAllEntities(ofType: ENTITY.LTDEddingtonNumber).count)"))
+        print(("Number of LTDEddingtonNumbers across all diaries \(getAllEntities(ofType: ENTITY.LTDEddingtonNumber).count)"))
 
     }
     
@@ -135,19 +137,14 @@ class CoreDataStackSingleton{
         return eh as! EddingtonAnnualContributor
     }
     
- /*   func newLTDEdNum() -> LTDEdNum{
-        let len = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.LTDEdNum.rawValue, in: trainingDiaryPC.viewContext)!, insertInto: trainingDiaryPC.viewContext)
-        return len as! LTDEdNum
-    }
-   */
     func newLTDEddingtonNumber(_ n: String) -> LTDEddingtonNumber{
         let len = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.LTDEddingtonNumber.rawValue, in: trainingDiaryPC.viewContext)!, insertInto: trainingDiaryPC.viewContext)
-        print("Inserting new LTD Eddington Number \(n)")
         let result =  len as! LTDEddingtonNumber
         result.name = n
         return result
     }
     
+    //DEPRECATED ?
     func deleteAll(entity e: ENTITY, forTrainingDiary td: TrainingDiary){
         
         let eddingtonNumberRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: e.rawValue)
@@ -158,7 +155,7 @@ class CoreDataStackSingleton{
                 CoreDataStackSingleton.shared.trainingDiaryPC.viewContext.delete(e as! NSManagedObject)
             }
         } catch {
-            print("Failed to delete \(e.rawValue) from \(td.name) with error:")
+            print("Failed to delete \(e.rawValue) from \(String(describing: td.name)) with error:")
             print(error)
         }
     }
@@ -184,6 +181,9 @@ class CoreDataStackSingleton{
     
     func newActivity() -> Activity{
         let activity = NSManagedObject(entity: NSEntityDescription.entity(forEntityName: ENTITY.Activity.rawValue, in: trainingDiaryPC.viewContext)!, insertInto: trainingDiaryPC.viewContext)
+        print("NEW ACTIVITY  \(#function)")
+        print(Thread.callStackSymbols)
+        print("NEW ACTIVITY  \(#function)")
         return activity as! Activity
     }
 
@@ -210,6 +210,20 @@ class CoreDataStackSingleton{
     //MARK: - deletion
     func delete(entity e: NSManagedObject){
         CoreDataStackSingleton.shared.trainingDiaryPC.viewContext.delete(e)
+    }
+    
+    func ltdEdNumsMissingParentAndTrainingDiary() -> [LTDEddingtonNumber]{
+        let request = NSFetchRequest<NSFetchRequestResult>.init(entityName: ENTITY.LTDEddingtonNumber.rawValue)
+        request.predicate = NSPredicate(format: "parent = nil && trainingDiary = nil")
+        do{
+            let edNums = try trainingDiaryPC.viewContext.fetch(request)
+            return edNums as! [LTDEddingtonNumber]
+            
+        }catch{
+            print("failed to get LTD ednums without parent or trainingDiary)")
+            print("error")
+        }
+        return []
     }
     
     //MARK: - Getting entities
@@ -319,42 +333,6 @@ class CoreDataStackSingleton{
  
     // MARK: - Private
     
-/*    private func getPhysiological(forDay day: Date) -> Physiological?{
-        let myFetch = NSFetchRequest<NSFetchRequestResult>.init(entityName: "Physiological")
-        myFetch.predicate = NSPredicate.init(format: "%@ >= fromDate AND %@ <= toDate", argumentArray: [day,day])
-        
-        do{
-            let results = try trainingDiaryPC.viewContext.fetch(myFetch)
-            let physiologicals: [Physiological] = results as! [Physiological]
-            if(physiologicals.count >= 1){
-                return physiologicals[0]
-            }else{
-                return nil
-            }
-        }catch{
-            print("Physiological fetch for date \(day) failed with error \(error)")
-        }
-        return nil
-    }
- */
-/*    private func getWeight(forDay day: Date, andTrainingDiary td: TrainingDiary) -> Weight?{
-        let myFetch = NSFetchRequest<NSFetchRequestResult>.init(entityName: "Weight")
-        myFetch.predicate = NSPredicate.init(format: "%@ >= fromDate AND %@ <= toDate and %@ == trainingDiary", argumentArray: [day,day,td])
-        
-        do{
-            let results = try trainingDiaryPC.viewContext.fetch(myFetch)
-            let weights: [Weight] = results as! [Weight]
-            if(weights.count >= 1){
-                return weights[0]
-            }else{
-                return nil
-            }
-        }catch{
-            print("Weight fetch for date \(day) failed with error \(error)")
-        }
-        return nil
-    }
-*/
     private func getDays(sortDescriptor : [NSSortDescriptor]?, trainingDiary td: TrainingDiary) -> [Day]{
         let results = getEntitiesFor(entityName: "Day",predicate: NSPredicate.init(format: "trainingDiary == %@", argumentArray: [td]), sortDescriptor: sortDescriptor)
         return results as! [Day]

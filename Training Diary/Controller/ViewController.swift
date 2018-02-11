@@ -13,19 +13,47 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
     //this has to be a variable (ie can't be derived) to be Key Value compliant for Core Data
     @objc dynamic var managedObjectContext: NSManagedObjectContext
     
-    private var daysViewController: DaysViewController?
-    private var eddingtonNumbersViewController: EddingtonNumbersViewController?
-    private var weightHRViewController: WeightHRViewController?
-    private var graphViewController: GraphViewController?
-    private var comparisonGraphViewController: CompareGraphViewController?
+//    private var daysViewController: DaysViewController?
+ //   private var eddingtonNumbersViewController: EddingtonNumbersViewController?
+//    private var weightHRViewController: WeightHRViewController?
+//    private var graphViewController: GraphViewController?
+//    private var comparisonGraphViewController: CompareGraphViewController?
     
     private var trainingDiaryVCs: [TrainingDiaryViewController] = []
+    private var currentSelectedDiary: TrainingDiary?
 
     //MARK: - @IBOutlets
     
     @IBOutlet var trainingDiarysArrayController: NSArrayController!
     @IBOutlet weak var mainStatusField: NSTextField!
     @IBOutlet weak var mainProgressBar: NSProgressIndicator!
+    
+    @IBOutlet weak var periodCB: PeriodComboBox!
+    @IBOutlet weak var totalUnitCB: UnitComboBox!
+    @IBOutlet weak var swimUnitCB: UnitComboBox!
+    @IBOutlet weak var bikeUnitCB: UnitComboBox!
+    @IBOutlet weak var runUnitCB: UnitComboBox!
+    @IBOutlet weak var gymUnitCB: UnitComboBox!
+    
+    @IBOutlet weak var comparisonYear: NSTextField!
+    @IBOutlet weak var comparisonTotal: NSTextField!
+    @IBOutlet weak var currentTotal: NSTextField!
+    @IBOutlet weak var comparisonSwim: NSTextField!
+    @IBOutlet weak var currentSwim: NSTextField!
+    @IBOutlet weak var comparisonBike: NSTextField!
+    @IBOutlet weak var currentBike: NSTextField!
+    @IBOutlet weak var comparisonRun: NSTextField!
+    @IBOutlet weak var currentRun: NSTextField!
+    @IBOutlet weak var comparisonGym: NSTextField!
+    @IBOutlet weak var currentGym: NSTextField!
+    
+    @IBAction func comparisonYearChanged(_ sender: NSTextField) { updateAll() }
+    @IBAction func periodCBChanged(_ sender: PeriodComboBox)    { updateAll()  }
+    @IBAction func totalUnitCBChanged(_ sender: UnitComboBox)   { updateTotal() }
+    @IBAction func swimUnitCBChanged(_ sender: UnitComboBox)    { updateSwim() }
+    @IBAction func bikeUnitCBChanged(_ sender: UnitComboBox)    { updateBike() }
+    @IBAction func runUnitCBChanged(_ sender: UnitComboBox)     { updateRun() }
+    @IBAction func gymUnitCBChanged(_ sender: UnitComboBox)     { updateGym() }
     
     //MARK: - Initialisers
     
@@ -55,52 +83,35 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
             if let c = controller as? TrainingDiaryViewController{
                 trainingDiaryVCs.append(c)
             }
-            if let controller = controller as? DaysViewController{
-                daysViewController = controller
-            }
+
             if let controller = controller as? EddingtonNumbersViewController{
-                eddingtonNumbersViewController = controller
                 controller.mainViewController = self
             }
-            if let controller = controller as? WeightHRViewController{
-                weightHRViewController = controller
-            }
-            if let controller = controller as? GraphViewController{
-                graphViewController = controller
-            }
-            if let controller = controller as? CompareGraphViewController{
-                comparisonGraphViewController = controller
-            }
-            if let controller = controller as? AdminViewController{
+
+            if let controller = controller as? DefaultsViewController{
                 controller.mainViewController = self
             }
         }
         
     }
-
     
- /*   @IBAction func recalcAllTSB(_ sender: NSButton) {
-        let start = Date()
-        if let td = selectedTrainingDiary(){
-            for a in ActivityEnum.allActivities{
-                td.calcTSB(forActivity: a, fromDate: td.firstDayOfDiary)
-            }
-        }
-        print("TSB calculation for all activities took \(Date().timeIntervalSince(start)) seconds")
-
-        
-    }
-    
-    @IBAction func recalcFromTSB(_ sender: NSButton) {
-        if let td = selectedTrainingDiary(){
-            if let d = latestSelectedDate(){
-                for a in ActivityEnum.allActivities{
-                    td.calcTSB(forActivity: a, fromDate: d)
-                }
-            }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        periodCB.stringValue = Period.YearToDate.rawValue
+        totalUnitCB.stringValue = Unit.Hours.rawValue
+        swimUnitCB.stringValue = Unit.KM.rawValue
+        bikeUnitCB.stringValue = Unit.KM.rawValue
+        runUnitCB.stringValue = Unit.KM.rawValue
+        gymUnitCB.stringValue = Unit.Reps.rawValue
+        if let currentYear = getSelectedTrainingDiary()?.lastDayOfDiary.year(){
+            comparisonYear.stringValue = String(currentYear - 1)
+        }else{
+            comparisonYear.stringValue = "2017"
         }
     }
-   */
+
+    
+
     
     @IBAction func newDiary(_ sender: Any){
         trainingDiarysArrayController.add(sender)
@@ -113,10 +124,15 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
     func tableViewSelectionDidChange(_ notification: Notification) {
         if let trainingDiary = trainingDiarysArrayController.selectedObjects[0] as? TrainingDiary{
             
+            if trainingDiary == currentSelectedDiary{
+                return // do nothing as selection not changed
+            }
+            currentSelectedDiary = trainingDiary
+            
             for c in trainingDiaryVCs{
                 c.set(trainingDiary: trainingDiary)
             }
-            
+            updateAll()
         }
     }
  
@@ -183,53 +199,58 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
     }
     
     @IBAction func mergeFromFile(_ sender: NSMenuItem) {
-        let td: TrainingDiary = getSelectedTrainingDiary()
-        
-        let jsonImporter = JSONImporter()
-        
-        //this will bring up file choser for user to select file to merge and then
-        //parse the file returning top level json dictionary
-        //not this may return nil if user hits 'cancel' for instance
-        if let url = getPathFromModelDialogue(withTitle: "chose .json file",andFileTypes: ["json"]){
-            let s = Date()
-            jsonImporter.merge(fromURL: url, intoDiary: td)
-            print("Merge took \(Date().timeIntervalSince(s)) seconds")
+        if let td = getSelectedTrainingDiary(){
+            let jsonImporter = JSONImporter()
+            
+            //this will bring up file choser for user to select file to merge and then
+            //parse the file returning top level json dictionary
+            //not this may return nil if user hits 'cancel' for instance
+            if let url = getPathFromModelDialogue(withTitle: "chose .json file",andFileTypes: ["json"]){
+                let s = Date()
+                jsonImporter.merge(fromURL: url, intoDiary: td)
+                print("Merge took \(Date().timeIntervalSince(s)) seconds")
+            }
+
         }
+        
     }
     
     @IBAction func exportJSON(_ sender: NSMenuItem){
-        let td: TrainingDiary = getSelectedTrainingDiary()
-        let keys = td.attributeKeys
-        let dictionary = td.dictionaryWithValues(forKeys: keys)
-        print(keys)
-        print(dictionary)
-        //   let td = ["Test":"Data"]
-        do {
-            let data = try JSONSerialization.data(withJSONObject: dictionary, options: .prettyPrinted)
-            let string = NSString.init(data: data, encoding: String.Encoding.ascii.rawValue)
-            print(string!)
-        } catch  {
-            print("JSON export failed")
+        if let td = getSelectedTrainingDiary(){
+            let keys = td.attributeKeys
+            let dictionary = td.dictionaryWithValues(forKeys: keys)
+            print(keys)
+            print(dictionary)
+            //   let td = ["Test":"Data"]
+            do {
+                let data = try JSONSerialization.data(withJSONObject: dictionary, options: .prettyPrinted)
+                let string = NSString.init(data: data, encoding: String.Encoding.ascii.rawValue)
+                print(string!)
+            } catch  {
+                print("JSON export failed")
+            }
         }
-        
     }
     
     @IBAction func exportCSV(_ sender: NSMenuItem){
         let csvExporter = CSVExporter()
-        let csv = csvExporter.convertToCVS(trainingDiary: getSelectedTrainingDiary())
-        
-        let homeDir = FileManager.default.homeDirectoryForCurrentUser
-        var saveFileName = homeDir.appendingPathComponent("workouts.csv")
-        do{
-            try csv.workoutCSV.write(to: saveFileName, atomically: false, encoding: .ascii)
-        }catch let error as NSError{
-            print(error)
-        }
-        saveFileName = homeDir.appendingPathComponent("days.csv")
-        do{
-            try csv.dayCSV.write(to: saveFileName, atomically: false, encoding: .ascii)
-        }catch let error as NSError{
-            print(error)
+        if let td = getSelectedTrainingDiary(){
+            let csv = csvExporter.convertToCVS(trainingDiary: td)
+            
+            let homeDir = FileManager.default.homeDirectoryForCurrentUser
+            var saveFileName = homeDir.appendingPathComponent("workouts.csv")
+            do{
+                try csv.workoutCSV.write(to: saveFileName, atomically: false, encoding: .ascii)
+            }catch let error as NSError{
+                print(error)
+            }
+            saveFileName = homeDir.appendingPathComponent("days.csv")
+            do{
+                try csv.dayCSV.write(to: saveFileName, atomically: false, encoding: .ascii)
+            }catch let error as NSError{
+                print(error)
+            }
+
         }
 
         
@@ -247,13 +268,18 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
        
     }
 
+
+    
     
     //MARK: - Private functions
     
-    private func getSelectedTrainingDiary() -> TrainingDiary{
+    private func getSelectedTrainingDiary() -> TrainingDiary?{
         //array controller set to only allow single selection. So the array should always have only one item
-        let selectedObject = trainingDiarysArrayController.selectedObjects[0]
-        return selectedObject as! TrainingDiary
+        if trainingDiarysArrayController.selectedObjects.count > 0{
+            let selectedObject = trainingDiarysArrayController.selectedObjects[0]
+            return selectedObject as? TrainingDiary
+        }
+        return nil
     }
     
 
@@ -280,8 +306,6 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
         }
     }
     
-
-
     private func selectedTrainingDiary() -> TrainingDiary?{
         if let tdac = trainingDiarysArrayController{
             if tdac.selectedObjects.count > 0{
@@ -291,31 +315,131 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
         return nil
     }
     
-
-    
-
-    private func selectedDays() -> [Day]{
-        if let dvc = daysViewController{
-            if let dac = dvc.daysArrayController{
-                return dac.selectedObjects as! [Day]
-            }
-        }
-        return []
+    //MARK: - Calculated propertiesCalculated
+    private func updateAll(){
+        updateTotal()
+        updateSwim()
+        updateBike()
+        updateRun()
+        updateGym()
     }
     
-    private func latestSelectedDate() -> Date?{
-        var latestDate: Date?
-        for d in selectedDays(){
-            if let latest = latestDate{
-                if d.date! > latest{
-                    latestDate = d.date
-                }
+    private func updateTotal(){
+        if let td = selectedTrainingDiary(){
+            let values = td.valuesFor(activity: ConstantString.EddingtonAll.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, unit: totalUnitCB.selectedUnit()!, from: td.lastDayOfDiary, to: td.lastDayOfDiary)
+            if values.count > 0{
+                currentTotal.stringValue = String(values[0].value)
             }else{
-                latestDate = d.date
+                currentTotal.stringValue = "12345.6789"
+            }
+            
+            if let cDate = comparisonDate(){
+                let values = td.valuesFor(activity: ConstantString.EddingtonAll.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, unit: totalUnitCB.selectedUnit()!, from: cDate, to: cDate)
+                if values.count > 0{
+                    comparisonTotal.stringValue = String(values[0].value)
+                }else{
+                    comparisonTotal.stringValue = "12345.6789"
+                }
+            }
+            
+        }
+    }
+    
+    private func updateSwim(){
+        if let td = selectedTrainingDiary(){
+            let values = td.valuesFor(activity: FixedActivity.Swim.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, unit: swimUnitCB.selectedUnit()!, from: td.lastDayOfDiary, to: td.lastDayOfDiary)
+            if values.count > 0{
+                currentSwim.stringValue = String(values[0].value)
+            }else{
+                currentSwim.stringValue = "12345.6789"
+            }
+            
+            if let cDate = comparisonDate(){
+                let values = td.valuesFor(activity: FixedActivity.Swim.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, unit: swimUnitCB.selectedUnit()!, from: cDate, to: cDate)
+                if values.count > 0{
+                    comparisonSwim.stringValue = String(values[0].value)
+                }else{
+                    comparisonSwim.stringValue = "12345.6789"
+                }
+            }
+            
+        }
+    }
+
+    private func updateBike(){
+        if let td = selectedTrainingDiary(){
+            let values = td.valuesFor(activity: FixedActivity.Bike.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, unit: bikeUnitCB.selectedUnit()!, from: td.lastDayOfDiary, to: td.lastDayOfDiary)
+            if values.count > 0{
+                currentBike.stringValue = String(values[0].value)
+            }else{
+                currentBike.stringValue = "12345.6789"
+            }
+            
+            if let cDate = comparisonDate(){
+                let values = td.valuesFor(activity: FixedActivity.Bike.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, unit: bikeUnitCB.selectedUnit()!, from: cDate, to: cDate)
+                if values.count > 0{
+                    comparisonBike.stringValue = String(values[0].value)
+                }else{
+                    comparisonBike.stringValue = "12345.6789"
+                }
+            }
+            
+        }
+    }
+ 
+    private func updateRun(){
+        if let td = selectedTrainingDiary(){
+            let values = td.valuesFor(activity: FixedActivity.Run.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, unit: runUnitCB.selectedUnit()!, from: td.lastDayOfDiary, to: td.lastDayOfDiary)
+            if values.count > 0{
+                currentRun.stringValue = String(values[0].value)
+            }else{
+                currentRun.stringValue = "12345.6789"
+            }
+            
+            if let cDate = comparisonDate(){
+                let values = td.valuesFor(activity: FixedActivity.Run.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, unit: runUnitCB.selectedUnit()!, from: cDate, to: cDate)
+                if values.count > 0{
+                    comparisonRun.stringValue = String(values[0].value)
+                }else{
+                    comparisonRun.stringValue = "12345.6789"
+                }
+            }
+            
+        }
+    }
+    
+    private func updateGym(){
+        if let td = selectedTrainingDiary(){
+            let values = td.valuesFor(activity: FixedActivity.Gym.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, unit: gymUnitCB.selectedUnit()!, from: td.lastDayOfDiary, to: td.lastDayOfDiary)
+            if values.count > 0{
+                currentGym.stringValue = String(values[0].value)
+            }else{
+                currentGym.stringValue = "12345.6789"
+            }
+            
+            if let cDate = comparisonDate(){
+                let values = td.valuesFor(activity: FixedActivity.Gym.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, unit: gymUnitCB.selectedUnit()!, from: cDate, to: cDate)
+                if values.count > 0{
+                    comparisonGym.stringValue = String(values[0].value)
+                }else{
+                    comparisonGym.stringValue = "12345.6789"
+                }
+            }
+            
+        }
+    }
+    
+    private func comparisonDate() -> Date?{
+        if let cYear = Int(comparisonYear.stringValue){
+            if let td = getSelectedTrainingDiary(){
+                var calendar = Calendar(identifier: Calendar.Identifier.gregorian)
+                calendar.timeZone = TimeZone(secondsFromGMT: 0)!
+                var dc = calendar.dateComponents([.day,.month], from: td.lastDayOfDiary)
+                dc.year = cYear
+                return calendar.date(from: dc)
             }
         }
-        
-        return latestDate
+        return nil
     }
 
 }

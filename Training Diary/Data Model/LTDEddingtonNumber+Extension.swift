@@ -12,6 +12,7 @@ extension LTDEddingtonNumber{
     
     @objc dynamic var descendantCount: Int{ return calculatedDescendentCount()}
     @objc dynamic var isLeaf: Bool { return childArray().count == 0}
+    @objc dynamic var isRoot: Bool { return parent == nil}
     
     @objc dynamic var code: String{
         var result: String = activity ?? ""

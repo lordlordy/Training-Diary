@@ -12,12 +12,13 @@ import Foundation
 extension TrainingDiary: TrainingDiaryValues{
     
     
-    //MARK: - for display in GUI summary
+    //MARK: - Lifetime for display in GUI summary
     @objc dynamic var totalBikeKM:  Double{ return total(forKey: "bikeKM") }
     @objc dynamic var totalSwimKM:  Double{ return total(forKey: "swimKM") }
     @objc dynamic var totalRunKM:   Double{ return total(forKey: "runKM") }
     @objc dynamic var totalSeconds: Double{ return total(forKey: "allSeconds")}
     @objc dynamic var totalTime: TimeInterval{ return TimeInterval(totalSeconds)}
+    
     
     @objc dynamic var bikes: NSSet?{ return bikeMutableSet() }
     
@@ -57,6 +58,16 @@ extension TrainingDiary: TrainingDiaryValues{
     
     @objc dynamic var workouts: [Workout]{
         return CoreDataStackSingleton.shared.workouts(forTrainingDiary: self)
+    }
+    
+    func ascendingOrderedDays() -> [Day]{
+        let daysArray = days!.allObjects as! [Day]
+        return daysArray.sorted(by: {$0.date! < $1.date!})
+    }
+    
+    func descendingOrderedDays() -> [Day]{
+        let daysArray = days!.allObjects as! [Day]
+        return daysArray.sorted(by: {$0.date! > $1.date!})
     }
     
     //MARK: - Validation functions
@@ -177,61 +188,84 @@ extension TrainingDiary: TrainingDiaryValues{
     // TO DO - these shouldn't return optionals
     func activity(forString s: String) -> Activity?{
         let a = activitiesArray().filter({$0.name == s})
-        if a.count == 1{
+        if a.count > 0{
             return a[0]
         }
-        if a.count == 0{
-            //create new activity
-            let activity = CoreDataStackSingleton.shared.newActivity()
-            activity.name = s
-            let activitySet = self.mutableSetValue(forKey: TrainingDiaryProperty.activities.rawValue)
-            activitySet.add(activity)
-            return activity
-        }
+
         return nil
+    }
+    
+    //this returns existing if exists otherwise creates a new one and returns
+    func addActivity(forString s: String) -> Activity{
+        if let a = activity(forString: s){ return a }
+
+        //create new activity
+        let newActivity = CoreDataStackSingleton.shared.newActivity()
+        newActivity.name = s
+        let activitySet = self.mutableSetValue(forKey: TrainingDiaryProperty.activities.rawValue)
+        activitySet.add(newActivity)
+        return newActivity
+    
     }
     
     func activityType(forActivity a: String, andType t: String) -> ActivityType?{
         if let activity = activity(forString: a){
             if let at = activity.activityTypes?.allObjects as? [ActivityType]{
                 let filtered = at.filter({$0.name == t})
-                if filtered.count == 1{
+                if filtered.count > 0{
                     return filtered[0]
                 }
-                if filtered.count == 0{
-                    //create new activity type
-                    let at = CoreDataStackSingleton.shared.newActivityType()
-                    at.name = t
-                    let activityTypeSet = activity.mutableSetValue(forKey: ActivityProperty.activityTypes.rawValue)
-                    activityTypeSet.add(at)
-                    print("Created new activity type in Training Diary - type \(String(describing: at.name)) added to \(String(describing: activity.name))")
-                    return at
-                }
-                print("\(filtered.count) activity types with name \(t) in Activity \(activity.name!) ActivityType names should be unique")
             }
         }
         
         return nil
     }
-
+    
+    func addActivityType(forActivity a: String, andType t: String) -> ActivityType?{
+        if let at = activityType(forActivity: a, andType: t) { return at }
+        
+        //create new
+        if let activity = activity(forString: a){
+            //create new activity type
+            let at = CoreDataStackSingleton.shared.newActivityType()
+            at.name = t
+            let activityTypeSet = activity.mutableSetValue(forKey: ActivityProperty.activityTypes.rawValue)
+            activityTypeSet.add(at)
+            print("Created new activity type in Training Diary - type \(String(describing: at.name)) added to \(String(describing: activity.name))")
+            return at
+        }else{
+            print("Can't add new Activity Type \(t) for activity \(a) as that activity does not exist")
+        }
+        
+        return nil
+    }
     
     func equipment(forActivity a: String, andName n: String) -> Equipment?{
         if let activity = activity(forString: a){
             if let possEquip = activity.equipment?.allObjects as? [Equipment]{
                 let filtered = possEquip.filter({$0.name == n})
-                if filtered.count == 1{
+                if filtered.count > 0{
                     return filtered[0]
                 }
-                if filtered.count == 0{
-                    //create new equipment
-                    let e = CoreDataStackSingleton.shared.newEquipment()
-                    e.name = n
-                    let equipmentSet = activity.mutableSetValue(forKey: ActivityProperty.equipment.rawValue)
-                    equipmentSet.add(e)
-                    print("Created new equipment in Training Diary - type \(String(describing: e.name)) added to \(String(describing: activity.name))")
-                    return e
-                }
             }
+        }
+        return nil
+    }
+    
+    func addEquipment(forActivity a: String, andName n: String) -> Equipment?{
+        if let e = equipment(forActivity: a, andName: n){ return e}
+        
+        //create new
+        if let activity = activity(forString: a){
+            //create new equipment
+            let e = CoreDataStackSingleton.shared.newEquipment()
+            e.name = n
+            let equipmentSet = activity.mutableSetValue(forKey: ActivityProperty.equipment.rawValue)
+            equipmentSet.add(e)
+            print("Created new equipment in Training Diary - type \(String(describing: e.name)) added to \(String(describing: activity.name))")
+            return e
+        }else{
+            print("Can't add new equipment \(n) for activity \(a) as that activity does not exist")
         }
         
         return nil
@@ -253,9 +287,13 @@ extension TrainingDiary: TrainingDiaryValues{
 
  
     func validEquipment(forActivityString a: String) -> [Equipment]{
+        return equipment(forActivityString: a).filter({$0.active})
+    }
+    
+    func equipment(forActivityString a: String) -> [Equipment]{
         if let activity = activity(forString: a){
             if let types = activity.equipment?.allObjects as? [Equipment]{
-                return types.filter({$0.active})
+                return types
             }
         }
         return []
@@ -313,7 +351,7 @@ extension TrainingDiary: TrainingDiaryValues{
                 return tStrings
             }
         }
-        return []
+        return [ConstantString.EddingtonAll.rawValue]
     }
     
     
@@ -465,9 +503,9 @@ extension TrainingDiary: TrainingDiaryValues{
 
 
     // note this can be pretty time consuming if asking for things like RYear
-    private func getValues(forActivity activity: String, andActivityType activityType: String, andEquipment e: String, andPeriod period: Period, andUnit unit: Unit, fromDate from: Date) -> [(date: Date, value:Double)]{
-        return getValues(forActivity: activity, andActivityType: activityType, andEquipment: e, andPeriod: period, andUnit: unit, fromDate: from, toDate: lastDayOfDiary)
-    }
+//    private func getValues(forActivity activity: String, andActivityType activityType: String, andEquipment e: String, andPeriod period: Period, andUnit unit: Unit, fromDate from: Date) -> [(date: Date, value:Double)]{
+  //      return getValues(forActivity: activity, andActivityType: activityType, andEquipment: e, andPeriod: period, andUnit: unit, fromDate: from, toDate: lastDayOfDiary)
+    //}
 
     // note this can be pretty time consuming if asking for things like RYear
     private func getValues(forActivity a: String, andActivityType at: String, andEquipment e: String, andPeriod period: Period, andUnit unit: Unit, fromDate from: Date, toDate to: Date) -> [(date: Date, value:Double)]{
@@ -482,14 +520,15 @@ extension TrainingDiary: TrainingDiaryValues{
         var result: [(date: Date, value: Double)] = []
         
         if period != Period.Day && !unit.summable{
-            print("getValues(forActivity in Training Diary has not implemented weighted averaging so cannot return values for \(unit.rawValue)")
+            print("getValues(forActivity:) in Training Diary has not implemented weighted averaging so cannot return values for \(unit.rawValue)")
             return result
         }
         
         let sortedDays = ascendingOrderedDays(fromDate: from, toDate: to)
         if sortedDays.count > 0 {
             for day in sortedDays{
-                result.append((date: day.date!, value: day.valueFor( activity: a, activityType: at, equipment: e, unit: unit)))
+                let r = day.valuesFor(activity: a, activityType: at, equipment: e, period: period, unit: unit)
+                result.append(r[0])
             }
         }
         return result
@@ -499,14 +538,12 @@ extension TrainingDiary: TrainingDiaryValues{
     
     //this does whole diary for every activity
     func recalcTSB(){
-        let start = Date()
         for a in activitiesArray(){
             calcTSB(forActivity: a, fromDate: firstDayOfDiary)
         }
-        print("Calculating TSB for all took \(Date().timeIntervalSince(start))s")
     }
     
-    func calcTSB(forActivity activity: Activity, fromDate d: Date){
+    func calcTSB(forActivity activity: Activity, fromDate d: Date ){
         
         let start = Date()
         
@@ -566,7 +603,6 @@ extension TrainingDiary: TrainingDiaryValues{
         
         let newChild = CoreDataStackSingleton.shared.newLTDEddingtonNumber(a)
         mutableSetValue(forKey: TrainingDiaryProperty.ltdEddingtonNumbers.rawValue).add(newChild)
-//        newChild.trainingDiary = self
         return newChild
     }
   
@@ -668,9 +704,21 @@ extension TrainingDiary: TrainingDiaryValues{
             case .rMonth:       rSum = RollingPeriodSum(size: 30)
             case .rYear:        rSum = RollingPeriodSum(size: 365)
             case .WeekToDate:   rSum  = ToDateSum(size: 7, rule: {$0.isEndOfWeek()})
+            case .WTDTue:       rSum  = ToDateSum(size: 7, rule: {$0.isMonday()})
+            case .WTDWed:       rSum  = ToDateSum(size: 7, rule: {$0.isTuesday()})
+            case .WTDThu:       rSum  = ToDateSum(size: 7, rule: {$0.isWednesday()})
+            case .WTDFri:       rSum  = ToDateSum(size: 7, rule: {$0.isThursday()})
+            case .WTDSat:       rSum  = ToDateSum(size: 7, rule: {$0.isFriday()})
+            case .WTDSun:       rSum  = ToDateSum(size: 7, rule: {$0.isSaturday()})
             case .MonthToDate:  rSum  = ToDateSum(size: 31, rule: {$0.isEndOfMonth()})
             case .YearToDate:   rSum  = ToDateSum(size: 366, rule: {$0.isEndOfYear()})
             case .Week:         rSum  = PeriodSum(size: 7, rule: {$0.isEndOfWeek()})
+            case .WeekTue:      rSum  = PeriodSum(size: 7, rule: {$0.isMonday()})
+            case .WeekWed:      rSum  = PeriodSum(size: 7, rule: {$0.isTuesday()})
+            case .WeekThu:      rSum  = PeriodSum(size: 7, rule: {$0.isWednesday()})
+            case .WeekFri:      rSum  = PeriodSum(size: 7, rule: {$0.isThursday()})
+            case .WeekSat:      rSum  = PeriodSum(size: 7, rule: {$0.isFriday()})
+            case .WeekSun:      rSum  = PeriodSum(size: 7, rule: {$0.isSaturday()})
             case .Month:        rSum  = PeriodSum(size: 31, rule: {$0.isEndOfMonth()})
             case .Year:         rSum  = PeriodSum(size: 366, rule: {$0.isEndOfYear()})
             default:
@@ -693,9 +741,21 @@ extension TrainingDiary: TrainingDiaryValues{
             case .rMonth:       rAverage = RollingPeriodWeightedAverage(size: 30)
             case .rYear:        rAverage = RollingPeriodWeightedAverage(size: 365)
             case .WeekToDate:   rAverage = ToDateWeightedAverage(size: 7, rule: {$0.isEndOfWeek()})
+            case .WTDTue:       rAverage = ToDateWeightedAverage(size: 7, rule: {$0.isMonday()})
+            case .WTDWed:       rAverage = ToDateWeightedAverage(size: 7, rule: {$0.isTuesday()})
+            case .WTDThu:       rAverage = ToDateWeightedAverage(size: 7, rule: {$0.isWednesday()})
+            case .WTDFri:       rAverage = ToDateWeightedAverage(size: 7, rule: {$0.isThursday()})
+            case .WTDSat:       rAverage = ToDateWeightedAverage(size: 7, rule: {$0.isFriday()})
+            case .WTDSun:       rAverage = ToDateWeightedAverage(size: 7, rule: {$0.isSaturday()})
             case .MonthToDate:  rAverage = ToDateWeightedAverage(size: 31, rule: {$0.isEndOfMonth()})
             case .YearToDate:   rAverage = ToDateWeightedAverage(size: 366, rule: {$0.isEndOfYear()})
             case .Week:         rAverage = PeriodWeightedAverage(size: 7, rule: {$0.isEndOfWeek()})
+            case .WeekTue:      rAverage = PeriodWeightedAverage(size: 7, rule: {$0.isMonday()})
+            case .WeekWed:      rAverage = PeriodWeightedAverage(size: 7, rule: {$0.isTuesday()})
+            case .WeekThu:      rAverage = PeriodWeightedAverage(size: 7, rule: {$0.isWednesday()})
+            case .WeekFri:      rAverage = PeriodWeightedAverage(size: 7, rule: {$0.isThursday()})
+            case .WeekSat:      rAverage = PeriodWeightedAverage(size: 7, rule: {$0.isFriday()})
+            case .WeekSun:      rAverage = PeriodWeightedAverage(size: 7, rule: {$0.isSaturday()})
             case .Month:        rAverage = PeriodWeightedAverage(size: 31, rule: {$0.isEndOfMonth()})
             case .Year:         rAverage = PeriodWeightedAverage(size: 366, rule: {$0.isEndOfYear()})
             default:
@@ -760,16 +820,7 @@ extension TrainingDiary: TrainingDiaryValues{
         return ascendingOrderedDays().filter({$0.date! >= d})
     }
     
-    private func ascendingOrderedDays() -> [Day]{
-        if let diaryDays = self.days{
-            var days: [Day] = []
-            for fd in diaryDays{
-                days.append(fd as! Day)
-            }
-            return days.sorted(by: {$0.date! < $1.date!})
-        }
-        return []
-    }
+
     
     private func ltdEddingtonNumbersArray() -> [LTDEddingtonNumber]{
         return ltdEddingtonNumbers?.allObjects as? [LTDEddingtonNumber] ?? []

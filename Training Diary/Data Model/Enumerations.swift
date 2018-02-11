@@ -14,6 +14,29 @@ protocol FileMakerProJSONString{
     func fmpString() -> String
 }
 
+enum WeekDay: Int{
+    case gregorianSunday = 1
+    case gregorianMonday = 2
+    case gregorianTuesday = 3
+    case gregorianWednesday = 4
+    case gregorianThursday = 5
+    case gregorianFriday = 6
+    case gregorianSaturday = 7
+    
+    func previousWeekDay() -> WeekDay{
+        switch self{
+        case .gregorianSunday:      return .gregorianSaturday
+        case .gregorianMonday:      return .gregorianSunday
+        case .gregorianTuesday:     return .gregorianMonday
+        case .gregorianWednesday:   return .gregorianTuesday
+        case .gregorianThursday:    return .gregorianWednesday
+        case .gregorianFriday:      return .gregorianThursday
+        case .gregorianSaturday:    return .gregorianFriday
+        }
+    }
+    
+}
+
 enum TSSMethod: String{
     case RPE
     case TRIMPS
@@ -25,6 +48,7 @@ enum TSSMethod: String{
 //these will be included with the app and cannot be deleted.
 enum FixedActivity: String{
     case Swim, Bike, Run, Gym
+    static let All = [Swim, Bike, Run, Gym]
 }
 
 enum DayType: String{
@@ -87,9 +111,21 @@ enum Period: String{
     case rYear          = "RYear"
     case Lifetime       = "Lifetime"
     case Adhoc          = "Adhoc"
-    
-    static var eddingtonNumberPeriods = [Day,Week,Month,Year, WeekToDate,MonthToDate, YearToDate,rWeek,rMonth,rYear]
-    static var All = [Day,Week,Month,Year, WeekToDate,MonthToDate, YearToDate,rWeek,rMonth,rYear, Lifetime, Adhoc]
+    case WeekTue        = "Wk-Tue"
+    case WeekWed        = "Wk-Wed"
+    case WeekThu        = "Wk-Thu"
+    case WeekFri        = "Wk-Fri"
+    case WeekSat        = "Wk-Sat"
+    case WeekSun        = "Wk-Sun"
+    case WTDTue         = "WTD-Tue"
+    case WTDWed         = "WTD-Wed"
+    case WTDThu         = "WTD-Thu"
+    case WTDFri         = "WTD-Fri"
+    case WTDSat         = "WTD-Sat"
+    case WTDSun         = "WTD-Sun"
+
+    static var eddingtonNumberPeriods = [Day, Week, Month, Year, WeekToDate, MonthToDate, YearToDate, rWeek, rMonth, rYear, WeekTue, WeekWed, WeekThu, WeekFri, WeekSat, WeekSun, WTDTue, WTDWed, WTDThu, WTDFri, WTDSat, WTDSun]
+    static var All = [Day,Week,Month,Year, WeekToDate,MonthToDate, YearToDate,rWeek,rMonth,rYear, Lifetime, Adhoc, WeekTue, WeekWed, WeekThu, WeekFri, WeekSat, WeekSun, WTDTue, WTDWed, WTDThu, WTDFri, WTDSat, WTDSun]
     
     
     /* Returns the periods range of dates for a given date. This gives the period this ends with except where this doesn't make sense
@@ -111,6 +147,24 @@ enum Period: String{
         case .rWeek:        return (from: d.startOfRWeek(), to: d)
         case .rMonth:       return (from: d.startOfRMonth(), to: d)
         case .rYear:        return (from: d.startOfRYear(), to: d)
+        case .WTDTue:       return (from: d.startOfWeek(firstDayOfWeek: .gregorianTuesday), to: d)
+        case .WTDWed:       return (from: d.startOfWeek(firstDayOfWeek: .gregorianWednesday), to: d)
+        case .WTDThu:       return (from: d.startOfWeek(firstDayOfWeek: .gregorianThursday), to: d)
+        case .WTDFri:       return (from: d.startOfWeek(firstDayOfWeek: .gregorianFriday), to: d)
+        case .WTDSat:       return (from: d.startOfWeek(firstDayOfWeek: .gregorianSaturday), to: d)
+        case .WTDSun:       return (from: d.startOfWeek(firstDayOfWeek: .gregorianSunday), to: d)
+        case .WeekTue:
+            return (from: d.startOfWeek(firstDayOfWeek: .gregorianTuesday), to: d.endOfWeek(firstDayOfWeek: .gregorianTuesday))
+        case .WeekWed:
+            return (from: d.startOfWeek(firstDayOfWeek: .gregorianWednesday), to: d.endOfWeek(firstDayOfWeek: .gregorianWednesday))
+        case .WeekThu:
+            return (from: d.startOfWeek(firstDayOfWeek: .gregorianThursday), to: d.endOfWeek(firstDayOfWeek: .gregorianThursday))
+        case .WeekFri:
+            return (from: d.startOfWeek(firstDayOfWeek: .gregorianFriday), to: d.endOfWeek(firstDayOfWeek: .gregorianFriday))
+        case .WeekSat:
+            return (from: d.startOfWeek(firstDayOfWeek: .gregorianSaturday), to: d.endOfWeek(firstDayOfWeek: .gregorianSaturday))
+        case .WeekSun:
+            return (from: d.startOfWeek(firstDayOfWeek: .gregorianSunday), to: d.endOfWeek(firstDayOfWeek: .gregorianSunday))
         }
     }
   

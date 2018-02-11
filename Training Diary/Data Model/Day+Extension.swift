@@ -8,7 +8,8 @@
 
 import Foundation
 
-extension Day: TrainingDiaryValues{
+extension Day: TrainingDiaryValues, PeriodNode{
+
     
     
     /* We do not want this to fail as when requesting a value for a particular combination of activity, type and unit a valid answer is zero. For example: if this gets asked what the swim squad ascent is then the correct answer is zero.
@@ -62,6 +63,35 @@ extension Day: TrainingDiaryValues{
         return nil
     }
     
+    //MARK: - PeriodNode implementation
+    @objc var name: String { return String(date!.dayOfMonthAndDayName()) }
+    @objc var isLeaf: Bool { return children.count == 0 }
+    @objc var isRoot: Bool { return false}
+    @objc var isWorkout: Bool { return false}
+    @objc var children: [PeriodNode] { return getWorkouts() }
+    @objc var childCount: Int { return children.count }
+    @objc var totalKM: Double { return allKM}
+    @objc var totalSeconds: TimeInterval { return allSeconds }
+    @objc var totalTSS: Double { return allTSS }
+    @objc var fromDate: Date { return date! }
+    @objc var toDate: Date { return date! }
+    func inPeriod(_ p: PeriodNode) -> Bool{
+        return (p.fromDate <= fromDate) && (p.toDate >= toDate)
+    }
+    func child(forName n: String) -> PeriodNode?{
+        for node in children{
+            if node.name == n{
+                return node
+            }
+        }
+        return nil
+    }
+    func add(child: PeriodNode) {
+        if let w = child as? Workout{
+            mutableSetValue(forKey: DayProperty.workouts.rawValue).add(w)
+        }
+    }
+    
     //MARK: - TrainingDiaryValues implementation
     
     func valuesFor(activity a: String, activityType at: String, equipment e: String, period p: Period, unit u: Unit, from: Date? = nil, to: Date? = nil) -> [(date: Date, value: Double)]{
@@ -70,7 +100,31 @@ extension Day: TrainingDiaryValues{
         case .Day:
             v = valueFor(activity: a, activityType: at, equipment: e, unit: u)
         case .Week:
-            if self.date!.isEndOfWeek(){
+            if self.date!.isEndOfWeek(){ // this is checking for Sunday
+                v = valuesFor( activity: a, activityType: at, equipment: e, period: Period.rWeek, unit: u)[0].value
+            }
+        case .WeekTue:
+            if self.date!.isMonday(){
+                v = valuesFor( activity: a, activityType: at, equipment: e, period: Period.rWeek, unit: u)[0].value
+            }
+        case .WeekWed:
+            if self.date!.isTuesday(){
+                v = valuesFor( activity: a, activityType: at, equipment: e, period: Period.rWeek, unit: u)[0].value
+            }
+        case .WeekThu:
+            if self.date!.isWednesday(){
+                v = valuesFor( activity: a, activityType: at, equipment: e, period: Period.rWeek, unit: u)[0].value
+            }
+        case .WeekFri:
+            if self.date!.isThursday(){
+                v = valuesFor( activity: a, activityType: at, equipment: e, period: Period.rWeek, unit: u)[0].value
+            }
+        case .WeekSat:
+            if self.date!.isFriday(){
+                v = valuesFor( activity: a, activityType: at, equipment: e, period: Period.rWeek, unit: u)[0].value
+            }
+        case .WeekSun:
+            if self.date!.isSaturday(){
                 v = valuesFor( activity: a, activityType: at, equipment: e, period: Period.rWeek, unit: u)[0].value
             }
         case .Month:
@@ -83,6 +137,18 @@ extension Day: TrainingDiaryValues{
             }
         case .WeekToDate:
             v = recursiveAdd(toDate: self.date!.startOfWeek(), activity: a, activityType: at, equipment: e, unit: u)
+        case .WTDTue:
+            v = recursiveAdd(toDate: self.date!.startOfWeek(firstDayOfWeek: WeekDay.gregorianTuesday), activity: a, activityType: at, equipment: e, unit: u)
+        case .WTDWed:
+            v = recursiveAdd(toDate: self.date!.startOfWeek(firstDayOfWeek: WeekDay.gregorianWednesday), activity: a, activityType: at, equipment: e, unit: u)
+        case .WTDThu:
+            v = recursiveAdd(toDate: self.date!.startOfWeek(firstDayOfWeek: WeekDay.gregorianThursday), activity: a, activityType: at, equipment: e, unit: u)
+        case .WTDFri:
+            v = recursiveAdd(toDate: self.date!.startOfWeek(firstDayOfWeek: WeekDay.gregorianFriday), activity: a, activityType: at, equipment: e, unit: u)
+        case .WTDSat:
+            v = recursiveAdd(toDate: self.date!.startOfWeek(firstDayOfWeek: WeekDay.gregorianSaturday), activity: a, activityType: at, equipment: e, unit: u)
+        case .WTDSun:
+            v = recursiveAdd(toDate: self.date!.startOfWeek(firstDayOfWeek: WeekDay.gregorianSunday), activity: a, activityType: at, equipment: e, unit: u)
         case .MonthToDate:
             v = recursiveAdd(toDate: self.date!.startOfMonth(), activity: a, activityType: at, equipment: e, unit: u)
         case .YearToDate:
@@ -126,6 +192,8 @@ extension Day: TrainingDiaryValues{
     
     //MARK: - Calculated properties - these are for display in GUI
 
+    @objc dynamic var dateString: String{ return date!.dateOnlyShorterString()}
+    
     @objc dynamic var swimATL: Double{
         return metricValue(forActivity: FixedActivity.Swim.rawValue, andMetric: Unit.ATL)
     }
