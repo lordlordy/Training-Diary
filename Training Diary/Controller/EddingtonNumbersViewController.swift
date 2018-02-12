@@ -14,6 +14,7 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
     var mainViewController: ViewController?
     @IBOutlet weak var ltdCalcActivityCB: NSComboBox!
     @IBOutlet weak var ltdCalcEquipmentCB: NSComboBox!
+    @IBOutlet var treeController: NSTreeController!
     
     private var activity: String?
     private var activityType: String?
@@ -423,6 +424,9 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
         setUpGraphs()
         if let eddNumAC = eddingtonNumberArrayController{
             eddNumAC.addObserver(self, forKeyPath: "selection", options: .new, context: nil)
+        }
+        if let tc = treeController{
+            tc.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         }
     }
 
