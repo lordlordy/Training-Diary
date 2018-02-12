@@ -10526,6 +10526,7 @@ IA
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                     <connections>
+                                                                        <binding destination="FHB-2S-X9K" name="fontItalic" keyPath="objectValue.isWorkout" id="m6g-pJ-RRv"/>
                                                                         <binding destination="FHB-2S-X9K" name="value" keyPath="objectValue.totalTSS" id="UFP-Fq-8pc"/>
                                                                     </connections>
                                                                 </textField>
@@ -10569,6 +10570,7 @@ IA
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                     <connections>
+                                                                        <binding destination="xTX-Ii-Jff" name="fontItalic" keyPath="objectValue.isWorkout" id="ZVC-Mh-Nqf"/>
                                                                         <binding destination="xTX-Ii-Jff" name="value" keyPath="objectValue.swimKM" id="uOI-ID-dp0"/>
                                                                     </connections>
                                                                 </textField>
@@ -10606,6 +10608,7 @@ IA
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                     <connections>
+                                                                        <binding destination="wYz-Iz-Tpo" name="fontItalic" keyPath="objectValue.isWorkout" id="ByJ-Ao-MT8"/>
                                                                         <binding destination="wYz-Iz-Tpo" name="value" keyPath="objectValue.bikeKM" id="lAD-SX-jU7"/>
                                                                     </connections>
                                                                 </textField>
@@ -10643,6 +10646,7 @@ IA
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                     <connections>
+                                                                        <binding destination="mOP-Cz-qBf" name="fontItalic" keyPath="objectValue.isWorkout" id="s5i-iY-AnD"/>
                                                                         <binding destination="mOP-Cz-qBf" name="value" keyPath="objectValue.runKM" id="Wb6-kh-b8v"/>
                                                                     </connections>
                                                                 </textField>
@@ -10679,6 +10683,7 @@ IA
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                     <connections>
+                                                                        <binding destination="0ek-NS-4wn" name="fontItalic" keyPath="objectValue.isWorkout" id="bUS-hC-yTf"/>
                                                                         <binding destination="0ek-NS-4wn" name="value" keyPath="objectValue.swimSeconds" id="PD4-Ot-hxV">
                                                                             <dictionary key="options">
                                                                                 <string key="NSValueTransformerName">NumberToSummaryTimeFormatter</string>
@@ -10719,6 +10724,7 @@ IA
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                     <connections>
+                                                                        <binding destination="doW-9D-uZU" name="fontItalic" keyPath="objectValue.isWorkout" id="F0s-IV-tpE"/>
                                                                         <binding destination="doW-9D-uZU" name="value" keyPath="objectValue.bikeSeconds" id="VyT-lG-QHA">
                                                                             <dictionary key="options">
                                                                                 <string key="NSValueTransformerName">NumberToSummaryTimeFormatter</string>
@@ -10759,6 +10765,7 @@ IA
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                     <connections>
+                                                                        <binding destination="8bD-Sw-YIE" name="fontItalic" keyPath="objectValue.isWorkout" id="twN-bi-eX7"/>
                                                                         <binding destination="8bD-Sw-YIE" name="value" keyPath="objectValue.runSeconds" id="Jwa-up-6Jf">
                                                                             <dictionary key="options">
                                                                                 <string key="NSValueTransformerName">NumberToSummaryTimeFormatter</string>
@@ -10800,6 +10807,7 @@ IA
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                     <connections>
+                                                                        <binding destination="nDy-g1-n0m" name="fontItalic" keyPath="objectValue.isWorkout" id="0Wn-wh-nIS"/>
                                                                         <binding destination="nDy-g1-n0m" name="value" keyPath="objectValue.swimTSS" id="cWc-eM-Cbw"/>
                                                                     </connections>
                                                                 </textField>
@@ -10837,6 +10845,7 @@ IA
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                     <connections>
+                                                                        <binding destination="RYy-2Z-WPp" name="fontItalic" keyPath="objectValue.isWorkout" id="Dtw-9j-z5S"/>
                                                                         <binding destination="RYy-2Z-WPp" name="value" keyPath="objectValue.bikeTSS" id="6ph-t5-cKi"/>
                                                                     </connections>
                                                                 </textField>
@@ -10874,6 +10883,7 @@ IA
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                     <connections>
+                                                                        <binding destination="2Vh-oh-rQF" name="fontItalic" keyPath="objectValue.isWorkout" id="nVg-th-rCi"/>
                                                                         <binding destination="2Vh-oh-rQF" name="value" keyPath="objectValue.runTSS" id="PL1-oF-huf"/>
                                                                     </connections>
                                                                 </textField>
@@ -10910,6 +10920,7 @@ IA
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                     <connections>
+                                                                        <binding destination="yLp-pI-Fwa" name="fontItalic" keyPath="objectValue.isWorkout" id="Qlo-pe-mug"/>
                                                                         <binding destination="yLp-pI-Fwa" name="value" keyPath="objectValue.totalSeconds" id="ogr-Py-KhR">
                                                                             <dictionary key="options">
                                                                                 <string key="NSValueTransformerName">NumberToSummaryTimeFormatter</string>
@@ -10951,6 +10962,7 @@ IA
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                     <connections>
+                                                                        <binding destination="n0G-eY-EBg" name="fontItalic" keyPath="objectValue.isWorkout" id="h8g-Gb-kS1"/>
                                                                         <binding destination="n0G-eY-EBg" name="value" keyPath="objectValue.totalKM" id="Rn9-Xh-k22"/>
                                                                     </connections>
                                                                 </textField>
@@ -10987,9 +10999,9 @@ IA
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                     <connections>
-                                                                        <binding destination="7oi-A2-C7V" name="fontItalic" keyPath="objectValue.isWorkout" id="lun-xm-gBp"/>
-                                                                        <binding destination="7oi-A2-C7V" name="hidden" keyPath="objectValue.isWorkout" id="ASG-WW-q9P"/>
                                                                         <binding destination="7oi-A2-C7V" name="value" keyPath="objectValue.childCount" id="Zuq-gS-Ied"/>
+                                                                        <binding destination="7oi-A2-C7V" name="hidden" keyPath="objectValue.isWorkout" id="ASG-WW-q9P"/>
+                                                                        <binding destination="7oi-A2-C7V" name="fontItalic" keyPath="objectValue.isWorkout" id="lun-xm-gBp"/>
                                                                     </connections>
                                                                 </textField>
                                                             </subviews>
