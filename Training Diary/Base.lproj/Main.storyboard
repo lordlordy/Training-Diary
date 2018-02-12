@@ -5775,8 +5775,8 @@ IA
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                     <connections>
-                                                                        <binding destination="R50-ca-T2X" name="fontBold" keyPath="objectValue.isRoot" id="o9C-xP-7MD"/>
                                                                         <binding destination="R50-ca-T2X" name="fontItalic" keyPath="objectValue.isLeaf" previousBinding="o9C-xP-7MD" id="6bz-do-VmS"/>
+                                                                        <binding destination="R50-ca-T2X" name="fontBold" keyPath="objectValue.isRoot" id="o9C-xP-7MD"/>
                                                                         <binding destination="R50-ca-T2X" name="value" keyPath="objectValue.name" id="taP-ei-TiD"/>
                                                                     </connections>
                                                                 </textField>
@@ -5821,8 +5821,9 @@ IA
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                     <connections>
-                                                                        <binding destination="bKQ-Zd-lam" name="fontBold" keyPath="objectValue.isRoot" id="NHf-ju-iBB"/>
+                                                                        <binding destination="bKQ-Zd-lam" name="hidden" keyPath="objectValue.isLeaf" id="hEq-Sc-yip"/>
                                                                         <binding destination="bKQ-Zd-lam" name="value" keyPath="objectValue.descendantCount" id="dBv-ow-kq2"/>
+                                                                        <binding destination="bKQ-Zd-lam" name="fontBold" keyPath="objectValue.isRoot" id="NHf-ju-iBB"/>
                                                                     </connections>
                                                                 </textField>
                                                             </subviews>
@@ -5863,7 +5864,7 @@ IA
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                     <connections>
-                                                                        <binding destination="ojZ-m9-Y1S" name="hidden" keyPath="objectValue.isRoot" id="yAB-F8-ox8"/>
+                                                                        <binding destination="ojZ-m9-Y1S" name="hidden" keyPath="objectValue.isNotLeaf" id="T5k-2W-StC"/>
                                                                         <binding destination="ojZ-m9-Y1S" name="value" keyPath="objectValue.value" id="chW-Ur-fre"/>
                                                                     </connections>
                                                                 </textField>
@@ -5905,7 +5906,7 @@ IA
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                     <connections>
-                                                                        <binding destination="6Ca-24-VAh" name="hidden" keyPath="objectValue.isRoot" id="fpu-Kb-2uC"/>
+                                                                        <binding destination="6Ca-24-VAh" name="hidden" keyPath="objectValue.isNotLeaf" id="wap-DL-wh1"/>
                                                                         <binding destination="6Ca-24-VAh" name="value" keyPath="objectValue.plusOne" id="9vc-0Y-8LO"/>
                                                                     </connections>
                                                                 </textField>
