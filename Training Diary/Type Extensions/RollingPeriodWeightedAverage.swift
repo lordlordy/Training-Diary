@@ -33,4 +33,5 @@ class RollingPeriodWeightedAverage{
     func preLoadData(forDate d: Date) -> Date{
         return d.addDays(numberOfDays: -rollingSumQueue.size())
     }
+    
 }

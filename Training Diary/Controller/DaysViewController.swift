@@ -29,10 +29,15 @@ class DaysViewController: NSViewController, TrainingDiaryViewController, NSCombo
 
     
     @IBAction func testFeature(_ sender: NSButton) {
-        if let dtv = dayTableView{
-            dtv.reloadData()
-            dtv.needsDisplay = true
+        let start = Date()
+        if let td = trainingDiary{
+            let stDevRMSSD = td.calculatedHRVData()
+            for s in stDevRMSSD{
+                print(s)
+            }
+            print("Std of rMSSD and SDNN for rolling 91 days calculated \(stDevRMSSD.count) values in \(Date().timeIntervalSince(start))s")
         }
+        
     }
     
     

@@ -109,6 +109,9 @@
         <relationship name="trainingDiary" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TrainingDiary" inverseName="physiologicals" inverseEntity="TrainingDiary" syncable="YES"/>
     </entity>
     <entity name="TrainingDiary" representedClassName="TrainingDiary" syncable="YES" codeGenerationType="class">
+        <attribute name="hrvEasyPercentile" optional="YES" attributeType="Double" minValueString="0" maxValueString="100" defaultValueString="25" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="hrvHardPercentile" optional="YES" attributeType="Double" minValueString="0" maxValueString="100" defaultValueString="75" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="hrvOffPercentile" optional="YES" attributeType="Double" minValueString="0" maxValueString="100" defaultValueString="3" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" attributeType="String" defaultValueString="Training Diary" syncable="YES"/>
         <relationship name="activities" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Activity" inverseName="trainingDiary" inverseEntity="Activity" syncable="YES"/>
         <relationship name="days" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Day" inverseName="trainingDiary" inverseEntity="Day" syncable="YES"/>
@@ -170,7 +173,7 @@
         <element name="LTDEddingtonNumber" positionX="-776" positionY="-379" width="128" height="208"/>
         <element name="Metric" positionX="-486" positionY="-459" width="128" height="103"/>
         <element name="Physiological" positionX="234" positionY="-621" width="128" height="195"/>
-        <element name="TrainingDiary" positionX="-227" positionY="-531" width="128" height="165"/>
+        <element name="TrainingDiary" positionX="-227" positionY="-531" width="128" height="210"/>
         <element name="TSBConstant" positionX="-461" positionY="-627" width="128" height="105"/>
         <element name="Weight" positionX="18" positionY="-639" width="128" height="133"/>
         <element name="Workout" positionX="-18" positionY="-216" width="128" height="390"/>

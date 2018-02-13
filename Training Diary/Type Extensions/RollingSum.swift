@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+/* can be removed
 public struct RollingSum{
     
     private var buffer: [Double]
@@ -38,3 +38,4 @@ public struct RollingSum{
     }
     
 }
+*/

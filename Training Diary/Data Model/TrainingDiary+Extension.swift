@@ -637,7 +637,24 @@ extension TrainingDiary: TrainingDiaryValues{
         
     }
     
-
+    func calculatedHRVData() -> [(rMSSDMean: Double, rMSSDStdDev:Double, sddnMean: Double, sddnStdDev: Double)]{
+        var result: [(Double, Double, Double, Double)] = []
+        let mathCalculator = Maths()
+        if let firstDate = earliestRMSSDDate(){
+            if let physios = physiologicalsAscendingDateOrder()?.filter({$0.fromDate! >= firstDate}){
+                let rQ = RollingSumQueue(size: 91)
+                let sQ = RollingSumQueue(size: 91)
+                for e in physios{
+                    let rMean = rQ.addAndReturnAverage(value:e.restingRMSSD)
+                    let sMean = sQ.addAndReturnAverage(value: e.restingSDNN)
+                    let rStDev = mathCalculator.standardDeviation(rQ.array())
+                    let sStDev = mathCalculator.standardDeviation(sQ.array())
+                    result.append((rMean, rStDev, sMean, sStDev))
+                }
+            }
+        }
+        return result
+    }
     
     //MARK: - Private
     
@@ -820,10 +837,20 @@ extension TrainingDiary: TrainingDiaryValues{
         return ascendingOrderedDays().filter({$0.date! >= d})
     }
     
-
-    
     private func ltdEddingtonNumbersArray() -> [LTDEddingtonNumber]{
         return ltdEddingtonNumbers?.allObjects as? [LTDEddingtonNumber] ?? []
+    }
+    
+    // returning nil means no RMSSD data found
+    private func earliestRMSSDDate() -> Date?{
+        if let hrData = physiologicals?.allObjects as? [Physiological]{
+            for s in hrData.sorted(by: {$0.fromDate! < $1.fromDate!}){
+                if s.restingRMSSD > 0{
+                    return s.fromDate!
+                }
+            }
+        }
+        return nil
     }
     
 }

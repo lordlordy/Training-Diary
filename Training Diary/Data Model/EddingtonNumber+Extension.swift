@@ -70,7 +70,9 @@ extension EddingtonNumber{
         setAnnualContributors(to: calculator.annualContributors)
         setAnnualHistory(to: calculator.annualHistory)
         annual = Int16(calculator.annualEddingtonNumber)
-        maxContributor = calculator.maxContributor!
+        if let max = calculator.maxContributor{
+            maxContributor = max
+        }
         lastUpdated = Date()
 
     }

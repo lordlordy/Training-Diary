@@ -35,6 +35,10 @@ class RollingSumQueue{
         return sum
     }
     
+    func array() -> [Double]{
+        return sumQueue.array()
+    }
+    
     private func numberOfZeroes() -> Int{
         return sumQueue.array().filter({$0 <= 0.0001}).count
     }
