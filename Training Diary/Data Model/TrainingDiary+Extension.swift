@@ -8,6 +8,22 @@
 
 import Foundation
 
+struct HRVData{
+    var date: Date
+
+    var rmssdMean: Double
+    var rmssdStdDev: Double
+    var rmssdEasy: Double
+    var rmssdHard: Double
+    var rmssdOff: Double
+
+    var sdnnMean: Double
+    var sdnnStdDev: Double
+    var sdnnEasy: Double
+    var sdnnHard: Double
+    var sdnnOff: Double
+
+}
 
 extension TrainingDiary: TrainingDiaryValues{
     
@@ -587,6 +603,42 @@ extension TrainingDiary: TrainingDiaryValues{
         return 0
     }
     
+    func calculatedHRVData() -> [HRVData]{
+        var result: [HRVData] = []
+        let mathCalculator = Maths()
+        
+        let offSDs = mathCalculator.normalCDFInverse(hrvOffPercentile / 100 )
+        let easySDs = mathCalculator.normalCDFInverse(hrvEasyPercentile / 100 )
+        let hardSDs = mathCalculator.normalCDFInverse(hrvHardPercentile / 100 )
+        
+        if let firstDate = earliestRMSSDDate(){
+            let rQ = RollingSumQueue(size: 91)
+            let sQ = RollingSumQueue(size: 91)
+            
+            for d in ascendingOrderedDays(fromDate: firstDate){
+                if let p = physiological(forDate: d.date!){
+    
+                    let rMean = rQ.addAndReturnAverage(value:p.restingRMSSD)
+                    let rStDev = mathCalculator.standardDeviation(rQ.array())
+                    let rHard = rMean + hardSDs * rStDev
+                    let rEasy = rMean + easySDs * rStDev
+                    let rOff = rMean + offSDs * rStDev
+                    
+                    let sMean = sQ.addAndReturnAverage(value: p.restingSDNN)
+                    let sStDev = mathCalculator.standardDeviation(sQ.array())
+                    let sHard = sMean + hardSDs * sStDev
+                    let sEasy = sMean + easySDs * sStDev
+                    let sOff = sMean + offSDs * sStDev
+                    
+                    result.append(HRVData(date: d.date!, rmssdMean: rMean, rmssdStdDev: rStDev, rmssdEasy: rEasy, rmssdHard: rHard, rmssdOff: rOff, sdnnMean: sMean, sdnnStdDev: sStDev, sdnnEasy: sEasy, sdnnHard: sHard, sdnnOff: sOff))
+
+                }
+            }
+        }
+        return result
+    }
+    
+    
     //MARK: - Eddington Number Support
 
     func getLTDEddingtonNumber(forActivity a: String) -> LTDEddingtonNumber{
@@ -637,25 +689,7 @@ extension TrainingDiary: TrainingDiaryValues{
         
     }
     
-    func calculatedHRVData() -> [(rMSSDMean: Double, rMSSDStdDev:Double, sddnMean: Double, sddnStdDev: Double)]{
-        var result: [(Double, Double, Double, Double)] = []
-        let mathCalculator = Maths()
-        if let firstDate = earliestRMSSDDate(){
-            if let physios = physiologicalsAscendingDateOrder()?.filter({$0.fromDate! >= firstDate}){
-                let rQ = RollingSumQueue(size: 91)
-                let sQ = RollingSumQueue(size: 91)
-                for e in physios{
-                    let rMean = rQ.addAndReturnAverage(value:e.restingRMSSD)
-                    let sMean = sQ.addAndReturnAverage(value: e.restingSDNN)
-                    let rStDev = mathCalculator.standardDeviation(rQ.array())
-                    let sStDev = mathCalculator.standardDeviation(sQ.array())
-                    result.append((rMean, rStDev, sMean, sStDev))
-                }
-            }
-        }
-        return result
-    }
-    
+
     //MARK: - Private
     
     private func weight(forDate d: Date) -> Weight?{

@@ -59,6 +59,7 @@ class Maths{
     }
     
     //Implementation from https://www.johndcook.com/blog/csharp_phi_inverse/
+    //this takes a percentile (probability) and returns number of SD from mean
     func normalCDFInverse(_ p: Double) -> Double{
         if (p <= 0.0 || p >= 1.0){
             print("Invalid input argument: \(p)")

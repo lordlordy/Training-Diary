@@ -38,7 +38,8 @@ class WeightHRViewController: NSViewController, TrainingDiaryViewController {
     
     private enum CacheKey: String{
         case kg, fatPercent, hr, sdnn, rmssd, sleep, motivation, fatigue
-        static let AllKeys = [kg, fatPercent, hr, sdnn, rmssd, sleep, motivation, fatigue]
+        case sdnnOff, sdnnEasy, sdnnHard, rmssdOff, rmssdEasy, rmssdHard
+        static let AllKeys = [kg, fatPercent, hr, sdnn, rmssd, sleep, motivation, fatigue, sdnnOff, sdnnEasy, sdnnHard, rmssdOff, rmssdEasy, rmssdHard]
         
         func rollingCacheKey() -> String{
             return "rolling" + self.rawValue
@@ -51,9 +52,11 @@ class WeightHRViewController: NSViewController, TrainingDiaryViewController {
             case .hr:           return NSColor.blue
             case .kg:           return NSColor.black
             case .motivation:   return NSColor.orange
-            case .rmssd:        return NSColor.green
-            case .sdnn:         return NSColor.red
             case .sleep:        return NSColor.white
+            case .rmssd, .rmssdOff, .rmssdEasy, .rmssdHard:
+                return NSColor.green
+            case .sdnn, .sdnnOff, .sdnnEasy, .sdnnHard:
+                return NSColor.red
             }
         }
         
@@ -64,12 +67,48 @@ class WeightHRViewController: NSViewController, TrainingDiaryViewController {
             case .hr:           return Axis.Primary
             case .kg:           return Axis.Primary
             case .motivation:   return Axis.Secondary
-            case .rmssd:        return Axis.Primary
-            case .sdnn:         return Axis.Primary
             case .sleep:        return Axis.Secondary
+            case .rmssd, .rmssdOff, .rmssdEasy, .rmssdHard:
+                return Axis.Primary
+            case .sdnn, .sdnnOff, .sdnnEasy, .sdnnHard:
+                return Axis.Primary
             }
         }
         
+        func graphType() -> ChartType{
+            switch self{
+            case .rmssdOff, .rmssdHard, .rmssdEasy, .sdnnHard, .sdnnEasy, .sdnnOff:
+                return .Line
+            default:
+                return .Point
+            }
+        }
+        
+        func includeRolling() -> Bool{
+            switch self{
+            case .rmssdOff, .rmssdHard, .rmssdEasy, .sdnnHard, .sdnnEasy, .sdnnOff:
+                return false
+            default: return true
+            }
+        }
+        
+        func size() -> CGFloat{
+            switch self{
+            case .rmssdOff, .rmssdHard, .rmssdEasy, .sdnnHard, .sdnnEasy, .sdnnOff:
+                return 2.0
+            case .rmssd, .sdnn: return 3.0
+            default: return 2.0
+            }
+        }
+        
+        func dashed() -> Bool{
+            switch self{
+            case .rmssdOff, .rmssdHard, .rmssdEasy, .sdnnHard, .sdnnEasy, .sdnnOff:
+                        return true
+            default:    return false
+            }
+        }
+
     }
     
     @IBAction func advanceAPeriod(_ sender: NSButton) {
@@ -94,7 +133,7 @@ class WeightHRViewController: NSViewController, TrainingDiaryViewController {
         case "HR":
             for g in currentGraphs{
                 switch g.name{
-                case CacheKey.hr.rawValue, CacheKey.hr.rollingCacheKey(), CacheKey.sdnn.rawValue, CacheKey.sdnn.rollingCacheKey(), CacheKey.rmssd.rawValue, CacheKey.rmssd.rollingCacheKey():
+                case CacheKey.hr.rawValue, CacheKey.hr.rollingCacheKey(), CacheKey.sdnn.rawValue, CacheKey.sdnn.rollingCacheKey(), CacheKey.rmssd.rawValue, CacheKey.rmssd.rollingCacheKey(), CacheKey.sdnnHard.rawValue, CacheKey.sdnnEasy.rawValue, CacheKey.sdnnOff.rawValue, CacheKey.rmssdHard.rawValue, CacheKey.rmssdEasy.rawValue, CacheKey.rmssdOff.rawValue:
                     g.display = true
                 default:
                     g.display = false
@@ -155,7 +194,7 @@ class WeightHRViewController: NSViewController, TrainingDiaryViewController {
     }
     
     override func viewDidLoad() {
-            trainingDiarySet()
+        trainingDiarySet()
         if let gv = graphView{
             gv.backgroundGradientStartColour = .lightGray
             gv.backgroundGradientEndColour = .darkGray
@@ -219,7 +258,6 @@ class WeightHRViewController: NSViewController, TrainingDiaryViewController {
     }
     
     private func createGraphDefinitions(forTrainingDiary td: TrainingDiary) -> [GraphDefinition]{
-
         
         cache[CacheKey.hr.rawValue]         = td.hrDateOrder()
         cache[CacheKey.sdnn.rawValue]       = td.sdnnDateOrder()
@@ -232,26 +270,54 @@ class WeightHRViewController: NSViewController, TrainingDiaryViewController {
 
         updateRollingDataCache()
         
+        let hrvData = td.calculatedHRVData()
+        cache[CacheKey.sdnnHard.rawValue] = hrvData.map({($0.date, $0.sdnnHard)})
+        cache[CacheKey.sdnnEasy.rawValue] = hrvData.map({($0.date, $0.sdnnEasy)})
+        cache[CacheKey.sdnnOff.rawValue] = hrvData.map({($0.date, $0.sdnnOff)})
+        cache[CacheKey.rmssdHard.rawValue] = hrvData.map({($0.date, $0.rmssdHard)})
+        cache[CacheKey.rmssdEasy.rawValue] = hrvData.map({($0.date, $0.rmssdEasy)})
+        cache[CacheKey.rmssdOff.rawValue] = hrvData.map({($0.date, $0.rmssdOff)})
+
+        
         for key in CacheKey.AllKeys{
-            currentGraphs.append(createGraph(forKey: key, type: .Point))
-            currentGraphs.append(createGraph(forKey: key.rollingCacheKey(), type: .Line, colour: key.graphColour(), axis: key.axis(), size:3.0))
+            if let g = createGraph(forKey: key.rawValue, type: key.graphType(), colour: key.graphColour(), axis: key.axis(), size: key.size()){
+                currentGraphs.append(g)
+            }
+            if key.includeRolling(){
+                if let g = createGraph(forKey: key.rollingCacheKey(), type: .Line, colour: key.graphColour(), axis: key.axis(), size:3.0){
+                    currentGraphs.append(g)
+                }
+            }
         }
     
         return currentGraphs
         
     }
     
-    private func createGraph(forKey key: CacheKey, type: ChartType) -> GraphDefinition{
-        return createGraph(forKey: key.rawValue, type: type, colour: key.graphColour(), axis: key.axis())
-    }
+//    private func createGraph(forKey key: CacheKey, type: ChartType) -> GraphDefinition?{
+  //      return createGraph(forKey: key.rawValue, type: type, colour: key.graphColour(), axis: key.axis())
+    //}
     
-    private func createGraph(forKey key: String, type: ChartType, colour: NSColor, axis: Axis ) -> GraphDefinition{
-        return createGraph(forKey: key, type: type, colour: colour, axis: axis, size: 1.0)
+  //  private func createGraph(forKey key: String, type: ChartType, colour: NSColor, axis: Axis ) -> GraphDefinition?{
+    //    return createGraph(forKey: key, type: type, colour: colour, axis: axis, size: 2.0)
         
-    }
+    //}
 
-    private func createGraph(forKey key: String, type: ChartType, colour: NSColor, axis: Axis, size: CGFloat ) -> GraphDefinition{
-        return GraphDefinition(name: key, data: cache[key]!, axis: axis  , type: type, format: GraphFormat(fill: false, colour: colour, fillGradientStart: colour, fillGradientEnd: colour, gradientAngle: 45, size: size),drawZeroes: false, priority: 2)
+    private func createGraph(forKey key: String, type: ChartType, colour: NSColor, axis: Axis, size: CGFloat ) -> GraphDefinition?{
+        if let data = cache[key]{
+            let graph = GraphDefinition(name: key, data: data, axis: axis  , type: type, format: GraphFormat(fill: false, colour: colour, fillGradientStart: colour, fillGradientEnd: colour, gradientAngle: 45, size: size),drawZeroes: false, priority: 2)
+
+            if let cacheKey = CacheKey.init(rawValue: key){
+                if cacheKey.dashed(){
+                    graph.dash = [5.0,5.0]
+                }
+            }
+            
+            return graph
+        }else{
+            print("No cache data for cache key \(key)")
+            return nil
+        }
         
     }
     
@@ -312,5 +378,6 @@ class WeightHRViewController: NSViewController, TrainingDiaryViewController {
             }
         }
     }
+
     
 }

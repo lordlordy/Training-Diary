@@ -13,6 +13,7 @@ class GraphDefinition: NSObject{
     var axis: Axis = Axis.Primary
     var type: ChartType = ChartType.Line
     var startFromOrigin: Bool = false
+    var dash: [CGFloat]?
     
     @objc dynamic var drawZero: Bool = true
     @objc dynamic var name: String

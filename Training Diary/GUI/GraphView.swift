@@ -389,7 +389,9 @@ class GraphView: NSView {
         colour.setStroke()
         path.move(to: from)
         path.line(to: to)
-        path.setLineDash([2.0,2.0], count: 2, phase: 0.0)
+        let dash: [CGFloat] = [2.0,2.0]
+        path.setLineDash(dash, count: 2, phase: 0.0)
+//        path.setLineDash([2.0,2.0], count: 2, phase: 0.0)
         path.stroke()
         var labelPosition: NSPoint?
         switch labelOffset.position{
@@ -420,6 +422,9 @@ class GraphView: NSView {
         if graph.data.count == 0 { return } // no data
         
         let path = NSBezierPath()
+        if let dash = graph.dash{
+            path.setLineDash(dash, count: dash.count, phase: 0.0)
+        }
         
         
         if let startDate = graphsXMinimumDate(){

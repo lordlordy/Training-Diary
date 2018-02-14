@@ -32,9 +32,11 @@ class DaysViewController: NSViewController, TrainingDiaryViewController, NSCombo
         let start = Date()
         if let td = trainingDiary{
             let stDevRMSSD = td.calculatedHRVData()
-            for s in stDevRMSSD{
-                print(s)
-            }
+            let end = Date()
+       //     for s in stDevRMSSD{
+         //       print(s)
+           // }
+            print("Time to calc: \(end.timeIntervalSince(start))s")
             print("Std of rMSSD and SDNN for rolling 91 days calculated \(stDevRMSSD.count) values in \(Date().timeIntervalSince(start))s")
         }
         
