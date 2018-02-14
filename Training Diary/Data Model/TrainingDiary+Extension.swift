@@ -41,7 +41,7 @@ extension TrainingDiary: TrainingDiaryValues{
     @objc dynamic var ltdEdNumCount: Int{
         var c = 0
         for i in ltdEddingtonNumbersArray(){
-            c += i.descendantCount
+            c += i.leafCount
         }
         return c
     }

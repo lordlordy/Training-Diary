@@ -425,6 +425,8 @@ extension Day: TrainingDiaryValues, PeriodNode{
     func setMetricValue(forActivity a: Activity, andMetric m: Unit, toValue v:Double){
         if let metric = metric(forActivity: a.name!, andMetric: m){
             metric.value = v
+        }else{
+            print("Unable to set metric \(m.rawValue) for \(String(describing: a.name)) for date \(date!.dateOnlyShorterString())")
         }
     }
     
@@ -447,7 +449,13 @@ extension Day: TrainingDiaryValues, PeriodNode{
     }
     
     private func metric(forActivity a: String, andMetric m: Unit) -> Metric?{
-        return metricDictionary()[Metric.key(forActivity: a, andUnit: m)]
+        if let metric = metricDictionary()[Metric.key(forActivity: a, andUnit: m)]{
+            return metric
+        }else{
+            //does exist so create and add the metric
+            CoreDataStackSingleton.shared.populateMetricPlaceholders(forDay: self)
+            return metricDictionary()[Metric.key(forActivity: a, andUnit: m)]
+        }
     }
     
     private func sum(forMetric m: Unit) -> Double{

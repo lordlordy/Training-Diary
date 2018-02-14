@@ -10,7 +10,7 @@ import Foundation
 
 extension LTDEddingtonNumber{
     
-    @objc dynamic var descendantCount: Int{ return calculatedDescendentCount()}
+    @objc dynamic var leafCount: Int{ return calculatedLeafCount()}
     @objc dynamic var isLeaf: Bool { return childArray().count == 0}
     @objc dynamic var isRoot: Bool { return parent == nil}
     @objc dynamic var isNotLeaf: Bool { return !isLeaf }
@@ -62,13 +62,13 @@ extension LTDEddingtonNumber{
         return []
     }
 
-    private func calculatedDescendentCount() -> Int{
+    private func calculatedLeafCount() -> Int{
         var result: Int = 0
         if childArray().count == 0{
             return 1
         }else{
             for c in childArray(){
-                result += c.calculatedDescendentCount()
+                result += c.calculatedLeafCount()
             }
         }
         return result
