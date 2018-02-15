@@ -658,26 +658,31 @@ extension TrainingDiary: TrainingDiaryValues{
         return newChild
     }
   
-    func addLTDEddingtonNumber(forActivity a: String, type at: String, equipment e: String, period p: Period, unit u: Unit, value v: Int, plusOne: Int){
+    func addLTDEddingtonNumber(forActivity a: String, type at: String, equipment e: String, period p: Period, unit u: Unit, value v: Int, plusOne: Int, maturity: Double){
+        
         
         let aLevel = getLTDEddingtonNumber(forActivity: a)
         aLevel.activity = a
+        aLevel.lastUpdate = Date()
         
         let eLevel = aLevel.getChild(forName: e)
         eLevel.activityType = a
         eLevel.equipment = e
-        
+        eLevel.lastUpdate = Date()
+
         let tLevel = eLevel.getChild(forName: at)
         tLevel.activity = a
         tLevel.equipment = e
         tLevel.activityType = at
-        
+        tLevel.lastUpdate = Date()
+
         let uLevel = tLevel.getChild(forName: u.rawValue)
         uLevel.activity = a
         uLevel.equipment = e
         uLevel.activityType = at
         uLevel.unit = u.rawValue
-        
+        uLevel.lastUpdate = Date()
+
         let pLevel = uLevel.getChild(forName: p.rawValue)
         pLevel.activity = a
         pLevel.equipment = e
@@ -686,6 +691,9 @@ extension TrainingDiary: TrainingDiaryValues{
         pLevel.period = p.rawValue
         pLevel.value = Int16(v)
         pLevel.plusOne = Int16(plusOne)
+        pLevel.maturity = maturity
+        pLevel.lastUpdate = Date()
+
         
     }
     

@@ -41,6 +41,23 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
     }
     
     
+    @IBAction func calculateTreeSelection(_ sender: Any) {
+        var edNums = Set<LTDEddingtonNumber>()
+        for s in treeController!.selectedObjects{
+            if let node = s as? LTDEddingtonNumber{
+                for e in node.getLeaves(){
+                    edNums.insert(e)
+                }
+            }
+        }
+        let calculator = EddingtonNumberCalculator()
+        for e in edNums{
+            let result = calculator.quickCaclulation(forActivity: e.activity!, andType: e.activityType!, equipment: e.equipment!, andPeriod: Period(rawValue: e.period!)!, andUnit: Unit(rawValue: e.unit!)!, inTrainingDiary: trainingDiary!)
+            trainingDiary!.addLTDEddingtonNumber(forActivity: e.activity!, type: e.activityType!, equipment: e.equipment!, period: Period(rawValue: e.period!)!, unit: Unit(rawValue: e.unit!)!, value: result.ednum, plusOne: result.plusOne, maturity: result.maturity)
+            print(result)
+        }
+    }
+    
     @IBAction func outlineViewDoubleClicked(_ sender: NSOutlineView) {
         let item = sender.item(atRow: sender.clickedRow)
         
@@ -176,7 +193,7 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
                                         self.mainViewController!.mainStatusField!.stringValue = "EDDINGTON LTD CALCULATION OF ALL: \(count) of \(currentTotal) : \(name) (\(Int(Date().timeIntervalSince(start)))s) ..."
                                         self.mainViewController!.mainProgressBar!.doubleValue = 100.0 * Double(count) / Double(currentTotal)
                                         if result.ednum > 0{
-                                            self.trainingDiary!.addLTDEddingtonNumber(forActivity: a, type: at, equipment: e, period: p, unit: u, value: result.ednum, plusOne: result.plusOne)
+                                            self.trainingDiary!.addLTDEddingtonNumber(forActivity: a, type: at, equipment: e, period: p, unit: u, value: result.ednum, plusOne: result.plusOne, maturity: result.maturity)
                               //              self.trainingDiary!.managedObjectContext?.refresh(self.trainingDiary!, mergeChanges: true)
                                         }
                                     }// end DispatchQueue.main

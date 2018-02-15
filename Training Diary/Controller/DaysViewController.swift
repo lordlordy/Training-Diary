@@ -29,19 +29,14 @@ class DaysViewController: NSViewController, TrainingDiaryViewController, NSCombo
 
     
     @IBAction func testFeature(_ sender: NSButton) {
-        let start = Date()
-        if let td = trainingDiary{
-            let stDevRMSSD = td.calculatedHRVData()
-            let end = Date()
-       //     for s in stDevRMSSD{
-         //       print(s)
-           // }
-            print("Time to calc: \(end.timeIntervalSince(start))s")
-            print("Std of rMSSD and SDNN for rolling 91 days calculated \(stDevRMSSD.count) values in \(Date().timeIntervalSince(start))s")
-        }
-        
+
     }
     
+    @IBAction func reload(_ sender: Any) {
+        if let table = dayTableView{
+            table.reloadData()
+        }
+    }
     
     @IBAction func periodCBChanged(_ sender: PeriodComboBox) {
 

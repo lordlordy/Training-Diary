@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13240" systemVersion="16G1036" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13240" systemVersion="16G1212" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Activity" representedClassName="Activity" syncable="YES" codeGenerationType="class">
         <attribute name="includeInEddingtonCalcs" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
@@ -81,6 +81,8 @@
         <attribute name="activity" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="activityType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="equipment" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastUpdate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="maturity" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="period" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="plusOne" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
@@ -112,6 +114,7 @@
         <attribute name="hrvEasyPercentile" optional="YES" attributeType="Double" minValueString="0" maxValueString="100" defaultValueString="25" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="hrvHardPercentile" optional="YES" attributeType="Double" minValueString="0" maxValueString="100" defaultValueString="75" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="hrvOffPercentile" optional="YES" attributeType="Double" minValueString="0" maxValueString="100" defaultValueString="3" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="monotonyDays" optional="YES" attributeType="Integer 16" defaultValueString="7" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" attributeType="String" defaultValueString="Training Diary" syncable="YES"/>
         <relationship name="activities" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Activity" inverseName="trainingDiary" inverseEntity="Activity" syncable="YES"/>
         <relationship name="days" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Day" inverseName="trainingDiary" inverseEntity="Day" syncable="YES"/>
@@ -170,10 +173,10 @@
         <element name="EddingtonHistory" positionX="-630" positionY="-42" width="128" height="120"/>
         <element name="EddingtonNumber" positionX="-486" positionY="-249" width="128" height="255"/>
         <element name="Equipment" positionX="324" positionY="72" width="128" height="135"/>
-        <element name="LTDEddingtonNumber" positionX="-776" positionY="-379" width="128" height="208"/>
+        <element name="LTDEddingtonNumber" positionX="-776" positionY="-379" width="128" height="240"/>
         <element name="Metric" positionX="-486" positionY="-459" width="128" height="103"/>
         <element name="Physiological" positionX="234" positionY="-621" width="128" height="195"/>
-        <element name="TrainingDiary" positionX="-227" positionY="-531" width="128" height="210"/>
+        <element name="TrainingDiary" positionX="-227" positionY="-531" width="128" height="225"/>
         <element name="TSBConstant" positionX="-461" positionY="-627" width="128" height="105"/>
         <element name="Weight" positionX="18" positionY="-639" width="128" height="133"/>
         <element name="Workout" positionX="-18" positionY="-216" width="128" height="390"/>
