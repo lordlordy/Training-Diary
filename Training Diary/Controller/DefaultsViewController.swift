@@ -30,8 +30,23 @@ class DefaultsViewController: NSViewController, TrainingDiaryViewController, NSC
     
     @IBAction func recalcMonotonyAndStrain(_ sender: Any) {
         let start = Date()
-        if let td = trainingDiary{
-            td.calculateMonotonyAndStrain()
+        DispatchQueue.global(qos: .userInitiated).async {
+
+            if let td = self.trainingDiary{
+                let count: Double = Double(td.activitiesArray().count)
+                var i: Double = 0.0
+                for a in td.activitiesArray(){
+                    i += 1.0
+                    DispatchQueue.main.sync {
+                        self.mainViewController!.mainStatusField!.stringValue = "Calculating monotony & strain:  \(String(describing: a.name)) - \(Int(Date().timeIntervalSince(start)))s ..."
+                        self.mainViewController!.mainProgressBar!.doubleValue = i * 100 / count
+                    }
+                    td.calculateMonotonyAndStrain(forActivity: a)
+                }
+            }
+            DispatchQueue.main.sync {
+                self.mainViewController!.mainStatusField!.stringValue = "Monotony and Strain Calculation took \(Date().timeIntervalSince(start))s"
+            }
         }
         print("Monotony and Strain Calculation took \(Date().timeIntervalSince(start))s")
     }
