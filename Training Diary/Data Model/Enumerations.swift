@@ -294,14 +294,14 @@ enum UnitType: String{
 enum Unit: String{
     case AscentFeet, AscentMetres, Brick, Cadence, Hours
     case HR, KJ, KM, Miles, Minutes, Reps, RPETSS, Seconds
-    case TSS, Watts, ATL, CTL, TSB
+    case TSS, Watts, ATL, CTL, TSB, Monotony, Strain
     //do we want these here. They're day based units - not activity based units
-    case fatigue, fatPercent, kg, lbs, motivation, restingHR, sleep, sleepMinutes
+    case fatigue, fatPercent, kg, lbs, motivation, restingHR, restingSDNN, restingRMSSD, sleep, sleepMinutes
     
     static var activityUnits = [AscentMetres,AscentFeet, Cadence, Hours, HR, KJ, KM, Miles, Minutes, Reps, RPETSS, Seconds, TSS, Watts]
-    static var dayUnits = [ fatigue, fatPercent, kg, lbs, motivation, restingHR, sleep, sleepMinutes]
-    static var allUnits = [AscentMetres,AscentFeet, Cadence, Hours, HR, KJ, KM, Miles, Minutes, Reps, RPETSS, Seconds, TSS, Watts, ATL, CTL, TSB, fatigue, fatPercent, kg, lbs, motivation, restingHR, sleep, sleepMinutes]
-    static var metrics = [ATL, CTL, TSB]
+    static var dayUnits = [ fatigue, fatPercent, kg, lbs, motivation, restingHR, restingSDNN, restingRMSSD, sleep, sleepMinutes]
+    static var allUnits = [AscentMetres,AscentFeet, Cadence, Hours, HR, KJ, KM, Miles, Minutes, Reps, RPETSS, Seconds, TSS, Watts, ATL, CTL, TSB, Monotony, Strain, fatigue, fatPercent, kg, lbs, motivation, restingHR, restingSDNN, restingRMSSD, sleep, sleepMinutes]
+    static var metrics = [ATL, CTL, TSB, Monotony, Strain]
     
     var summable: Bool{
         switch self{
@@ -343,6 +343,8 @@ enum Unit: String{
         case .ATL:           return nil
         case .CTL:           return nil
         case .TSB:           return nil
+        case .Monotony:      return nil
+        case .Strain:        return nil
         //Day units
         case .fatigue:       return nil
         case .fatPercent:    return nil
@@ -350,8 +352,10 @@ enum Unit: String{
         case .lbs:           return nil
         case .motivation:    return nil
         case .restingHR:     return nil
+        case .restingSDNN:   return nil
+        case .restingRMSSD:  return nil
         case .sleep:         return nil
-        case .sleepMinutes:         return nil
+        case .sleepMinutes:  return nil
         }
  
     }

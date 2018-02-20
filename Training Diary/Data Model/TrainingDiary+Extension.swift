@@ -144,27 +144,7 @@ extension TrainingDiary: TrainingDiaryValues{
     
     //MARK: -
     
-/*    func calculateBikeHistory(){
-        let bikeWorkouts = CoreDataStackSingleton.shared.workouts(forActivity: ActivityEnum.Bike, andTrainingDiary: self)
-        var results: [String:[WorkoutHistory]] = [:]
-        for b in bikeWorkouts.sorted(by: {$0.day!.date! < $1.day!.date!}){
-            if results[b.bike!] != nil{
-                let lastHistory = results[b.bike!]![results[b.bike!]!.count - 1]
-                results[b.bike!]!.append(createNextHistory(previous: lastHistory, workout: b))
-            }else{
-                results[b.bike!] = [createNextHistory( workout: b)]
-            }
-        }
-        
-        for r in results{
-            print("\(r.key) workouts: \(r.value.count)")
-            for i in r.value{
-                print(i.printHistory())
-            }
-        }
-        
-    }
-    */
+
     func connectWorkouts(forEquipment equipment: Equipment){
         CoreDataStackSingleton.shared.connectWorkouts(toEquipment: equipment)
     }
@@ -497,6 +477,14 @@ extension TrainingDiary: TrainingDiaryValues{
         return result
     }
     
+    func ltdEddingtonNumberExists(activity a: String, activityType at: String, equipment e: String, period p: String, unit u: String ) -> Bool{
+        let edCode = EddingtonNumber.code(activity: a, activityType: at, equipment: e, period: p, unit: u)
+        let currentEdNums = ltdEddingtonNumbersArray()
+        let filtered = currentEdNums.filter({$0.code == edCode})
+        
+        return filtered.count > 0
+    }
+    
     //MARK: - TrainingDiaryValues protocol
 
     func valuesFor(activity a: String, activityType at: String, equipment e: String, period p: Period, unit u: Unit, from: Date? = nil, to: Date? = nil) -> [(date: Date, value: Double)]{
@@ -515,13 +503,7 @@ extension TrainingDiary: TrainingDiaryValues{
 
     func valuesAreForTrainingDiary() -> TrainingDiary { return self }
     
-    //MARK: - Getting values - MOST TO REMOVE
-
-
-    // note this can be pretty time consuming if asking for things like RYear
-//    private func getValues(forActivity activity: String, andActivityType activityType: String, andEquipment e: String, andPeriod period: Period, andUnit unit: Unit, fromDate from: Date) -> [(date: Date, value:Double)]{
-  //      return getValues(forActivity: activity, andActivityType: activityType, andEquipment: e, andPeriod: period, andUnit: unit, fromDate: from, toDate: lastDayOfDiary)
-    //}
+    //MARK: - Getting values
 
     // note this can be pretty time consuming if asking for things like RYear
     private func getValues(forActivity a: String, andActivityType at: String, andEquipment e: String, andPeriod period: Period, andUnit unit: Unit, fromDate from: Date, toDate to: Date) -> [(date: Date, value:Double)]{
@@ -585,6 +567,25 @@ extension TrainingDiary: TrainingDiaryValues{
         
     }
     
+    func calculateMonotonyAndStrain(){
+        for a in activitiesArray(){
+            calculateMonotonyAndStrain(forActivity: a)
+        }
+    }
+    
+    //no return as this will be stored in Core Data as another metric.
+    func calculateMonotonyAndStrain(forActivity a: Activity){
+        let start = Date()
+        let q = RollingSumQueue(size: Int(monotonyDays))
+        let mathematics = Maths()
+        for d in ascendingOrderedDays(){
+            _ = q.addAndReturnAverage(value: d.valueFor(activity: a, unit: Unit.TSS))
+            let mAndStrain = mathematics.monotonyAndStrain(q.array())
+            d.setMetricValue(forActivity: a, andMetric: Unit.Monotony, toValue: mAndStrain.monotony)
+            d.setMetricValue(forActivity: a, andMetric: Unit.Strain, toValue: mAndStrain.strain)
+        }
+        print("Calc strain for \(a.name) took \(Date().timeIntervalSince(start))s")
+    }
     
     public func kg(forDate d: Date) -> Double{
         if let w = weight(forDate: d){ return w.kg }
@@ -601,6 +602,20 @@ extension TrainingDiary: TrainingDiaryValues{
             return Int(physio.restingHR)
         }
         return 0
+    }
+
+    public func restingSDNN(forDate d: Date) -> Double{
+        if let physio = physiological(forDate: d){
+            return physio.restingSDNN
+        }
+        return 0.0
+    }
+    
+    public func restingRMSSD(forDate d: Date) -> Double{
+        if let physio = physiological(forDate: d){
+            return physio.restingRMSSD
+        }
+        return 0.0
     }
     
     func calculatedHRVData() -> [HRVData]{
@@ -638,6 +653,7 @@ extension TrainingDiary: TrainingDiaryValues{
         return result
     }
     
+
     
     //MARK: - Eddington Number Support
 

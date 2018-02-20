@@ -29,7 +29,7 @@ class DaysViewController: NSViewController, TrainingDiaryViewController, NSCombo
 
     
     @IBAction func testFeature(_ sender: NSButton) {
-
+        print("No test feature currently implemented")
     }
     
     @IBAction func reload(_ sender: Any) {

@@ -17,13 +17,30 @@ class Maths{
     // this is mean / stdDev
     func monotony(_ array: [Double]) -> Double{
         let r = stdDevMeanTotal(array)
+        if r.stdDev == 0.0{
+            return 0.0
+        }
         return r.mean / r.stdDev
         
     }
     
     func strain(_ array: [Double]) -> Double{
         let r = stdDevMeanTotal(array)
+        if r.stdDev == 0.0{
+            return 0.0
+        }
         return r.mean * r.total / r.stdDev
+    }
+    
+    func monotonyAndStrain(_ array: [Double]) -> (monotony: Double, strain: Double){
+        let r = stdDevMeanTotal(array)
+        var monotony: Double = 0.0
+        var strain: Double = 0.0
+        if r.stdDev > 0.0{
+            monotony = r.mean / r.stdDev
+            strain = r.mean * r.total / r.stdDev
+        }
+        return (monotony, strain)
     }
     
     /* Implementation from https://www.johndcook.com/blog/cpp_phi/

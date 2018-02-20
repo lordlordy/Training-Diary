@@ -14,6 +14,7 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
     var mainViewController: ViewController?
     @IBOutlet weak var ltdCalcActivityCB: NSComboBox!
     @IBOutlet weak var ltdCalcEquipmentCB: NSComboBox!
+    @IBOutlet weak var ltdCalcUnitCB: UnitComboBox!
     @IBOutlet var treeController: NSTreeController!
     
     private var activity: String?
@@ -40,7 +41,7 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
         ltdCalcEquipmentCB.stringValue = ""
     }
     
-    
+
     @IBAction func calculateTreeSelection(_ sender: Any) {
         var edNums = Set<LTDEddingtonNumber>()
         for s in treeController!.selectedObjects{
@@ -116,8 +117,7 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
     }
     
     @IBAction func calcSelectedActivity(_ sender: NSButton) {
-    
-        calculatedLTD(forActivities: [ltdCalcActivityCB.stringValue], equipment: ltdCalcEquipmentCB.stringValue)
+        calculatedLTD(forActivities: [ltdCalcActivityCB.stringValue], equipment: ltdCalcEquipmentCB.stringValue,unit: ltdCalcUnitCB.selectedUnit())
     }
     
     
@@ -125,90 +125,6 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
         calculatedLTD(forActivities: trainingDiary!.eddingtonActivities())
     }
     
-    private func calculatedLTD(forActivities activities: [String], equipment e: String? = nil){
-        //this is a calculation of all possible ed nums
-        let start = Date()
-        let currentTotal = trainingDiary!.ltdEdNumCount
-        //remove all ltd ed nums from training diary
- //       if let ltdEdNumSet = trainingDiary?.mutableSetValue(forKey: TrainingDiaryProperty.ltdEddingtonNumbers.rawValue){
-   //         ltdEdNumSet.removeAllObjects()
-     //   }
-    
-        mainViewController!.mainStatusField!.stringValue = "EDDINGTON LTD CALCULATION OF ALL: starting by estimating total to be calculated "
-    
-        //test approach
-        let localWorkoutCopy: [Workout] = trainingDiary!.allWorkouts()
-    
-        DispatchQueue.global(qos: .userInitiated).async {
-    
-       //     var activities = self.trainingDiary!.activitiesArray().map({$0.name!})
-        //    activities.append(ConstantString.EddingtonAll.rawValue)
-    
-            var count: Int = 0
-            let calculator = EddingtonNumberCalculator()
-            var name: String = ""
-    
-    
-            for a in activities{
-                var equipment: [String] = []
-                if let equip = e{
-                    equipment = [equip]
-                }else{
-                    equipment = self.trainingDiary!.eddingtonEquipment(forActivityString: a)
-                }
-                for e in equipment{
-                    for at in self.trainingDiary!.eddingtonActivityTypes(forActivityString: a){
-    
-                        var units = Unit.activityUnits
-                        if (a == ConstantString.EddingtonAll.rawValue && at == ConstantString.EddingtonAll.rawValue && e == ConstantString.EddingtonAll.rawValue){
-                        units = Unit.allUnits
-                        }else if (at == ConstantString.EddingtonAll.rawValue && e == ConstantString.EddingtonAll.rawValue){
-                            //metrics only calculated on the activity for ALL types and ALL Equipment
-                            units.append(contentsOf: Unit.metrics)
-                        }
-                        // lets check if worth doing any calcs
-
-                        let workoutCount = localWorkoutCopy.filter({ (w: Workout) -> Bool in
-                            let aCorrect    = a == "All" || w.activityString == a
-                            let atCorrect   = at == "All" || w.activityTypeString == at
-                            let eCorrect    = e == "All" || w.equipmentName == e
-                            return aCorrect && atCorrect && eCorrect}).count
-
-                        if workoutCount <= Int(Constant.WorkoutThresholdForEdNumberCount.rawValue){
-                            print("Only \(workoutCount) workouts for \(a):\(e):\(at) so not bothering to calculate eddington numbers")
-                            count += units.count * Period.eddingtonNumberPeriods.count
-                        }else{
-
-                            for u in units.sorted(by: {$0.rawValue < $1.rawValue}){
-                                for p in Period.eddingtonNumberPeriods{
-                                    count += 1
-                                    name = a
-                                    name += ":" + e
-                                    name += ":" + at
-                                    name += ":" + p.rawValue
-                                    name += ":" + u.rawValue
-                                    let result = calculator.quickCaclulation(forActivity: a, andType: at, equipment: e, andPeriod: p, andUnit: u, inTrainingDiary: self.trainingDiary!)
-                                    DispatchQueue.main.sync {
-                                        print("EDDINGTON LTD CALCULATION OF ALL: \(count) of \(currentTotal) : \(name) (\(Int(Date().timeIntervalSince(start)))s) ...")
-                                        self.mainViewController!.mainStatusField!.stringValue = "EDDINGTON LTD CALCULATION OF ALL: \(count) of \(currentTotal) : \(name) (\(Int(Date().timeIntervalSince(start)))s) ..."
-                                        self.mainViewController!.mainProgressBar!.doubleValue = 100.0 * Double(count) / Double(currentTotal)
-                                        if result.ednum > 0{
-                                            self.trainingDiary!.addLTDEddingtonNumber(forActivity: a, type: at, equipment: e, period: p, unit: u, value: result.ednum, plusOne: result.plusOne, maturity: result.maturity)
-                              //              self.trainingDiary!.managedObjectContext?.refresh(self.trainingDiary!, mergeChanges: true)
-                                        }
-                                    }// end DispatchQueue.main
-                                }// end Period loop
-                            }// end unit loop
-                        }//end else on workout count chedk
-                    }// end type loop
-                }// end equipment loop
-            }// end activity loop
-            DispatchQueue.main.async {
-                self.mainViewController!.mainStatusField.stringValue = "EDDINGTON LTD CALCULATION OF ALL: ALL LTD complete in \(Int(Date().timeIntervalSince(start)))s"
-                self.mainViewController!.mainProgressBar!.doubleValue = 100.0
-            }
-        }// end DispatchGlobal
-    }
     
     @IBAction func alternativeUpdateSelection(_ sender: Any) {
     }
@@ -606,6 +522,100 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
         }
     }
     
+    private func calculatedLTD(forActivities activities: [String], equipment e: String? = nil, unit u: Unit? = nil){
+        //this is a calculation of all possible ed nums
+        let start = Date()
+        let currentTotal = trainingDiary!.ltdEdNumCount
+        
+        
+        mainViewController!.mainStatusField!.stringValue = "EDDINGTON LTD CALCULATION OF ALL: starting by estimating total to be calculated "
+        
+        //test approach - need to evaluate if this is worth doing
+        let localWorkoutCopy: [Workout] = trainingDiary!.allWorkouts()
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+                        
+            var count: Int = 0
+            let calculator = EddingtonNumberCalculator()
+            var name: String = ""
+            
+            
+            for a in activities{
+                var equipment: [String] = []
+                if let equip = e{
+                    equipment = [equip]
+                }else{
+                    equipment = self.trainingDiary!.eddingtonEquipment(forActivityString: a)
+                }
+                for e in equipment{
+                    for at in self.trainingDiary!.eddingtonActivityTypes(forActivityString: a){
+                        
+                        var units = Unit.activityUnits
+                        
+                        if let unit = u{
+                            if unit.isMetric{
+                                if  e == ConstantString.EddingtonAll.rawValue && at == ConstantString.EddingtonAll.rawValue{
+                                    units = [unit]
+                                }else{
+                                    units = []
+                                }
+                            }else{
+                                units = [unit]
+                            }
+                        }else{
+                            if (a == ConstantString.EddingtonAll.rawValue && at == ConstantString.EddingtonAll.rawValue && e == ConstantString.EddingtonAll.rawValue){
+                                units = Unit.allUnits
+                            }else if (at == ConstantString.EddingtonAll.rawValue && e == ConstantString.EddingtonAll.rawValue){
+                                //metrics only calculated on the activity for ALL types and ALL Equipment
+                                units.append(contentsOf: Unit.metrics)
+                            }
+                        }
+                        
+                        // lets check if worth doing any calcs
+                        
+                        let workoutCount = localWorkoutCopy.filter({ (w: Workout) -> Bool in
+                            let aCorrect    = a == "All" || w.activityString == a
+                            let atCorrect   = at == "All" || w.activityTypeString == at
+                            let eCorrect    = e == "All" || w.equipmentName == e
+                            return aCorrect && atCorrect && eCorrect}).count
+                        
+                        if workoutCount <= Int(Constant.WorkoutThresholdForEdNumberCount.rawValue){
+                            print("Only \(workoutCount) workouts for \(a):\(e):\(at) so not bothering to calculate eddington numbers")
+                            count += units.count * Period.eddingtonNumberPeriods.count
+                        }else{
+                            
+                            for u in units.sorted(by: {$0.rawValue < $1.rawValue}){
+                                for p in Period.eddingtonNumberPeriods{
+                                    count += 1
+                                    name = a
+                                    name += ":" + e
+                                    name += ":" + at
+                                    name += ":" + p.rawValue
+                                    name += ":" + u.rawValue
+                                    let result = calculator.quickCaclulation(forActivity: a, andType: at, equipment: e, andPeriod: p, andUnit: u, inTrainingDiary: self.trainingDiary!)
+                                    DispatchQueue.main.sync {
+                                        print("EDDINGTON LTD CALCULATION OF ALL: \(count) of \(currentTotal) : \(name) (\(Int(Date().timeIntervalSince(start)))s) ...")
+                                        self.mainViewController!.mainStatusField!.stringValue = "EDDINGTON LTD CALCULATION OF ALL: \(count) of \(currentTotal) : \(name) (\(Int(Date().timeIntervalSince(start)))s) ..."
+                                        self.mainViewController!.mainProgressBar!.doubleValue = 100.0 * Double(count) / Double(currentTotal)
+                                        if result.ednum > 0{
+                                            self.trainingDiary!.addLTDEddingtonNumber(forActivity: a, type: at, equipment: e, period: p, unit: u, value: result.ednum, plusOne: result.plusOne, maturity: result.maturity)
+                                            //              self.trainingDiary!.managedObjectContext?.refresh(self.trainingDiary!, mergeChanges: true)
+                                        }
+                                    }// end DispatchQueue.main
+                                }// end Period loop
+                            }// end unit loop
+                        }//end else on workout count chedk
+                    }// end type loop
+                }// end equipment loop
+            }// end activity loop
+            DispatchQueue.main.async {
+                self.mainViewController!.mainStatusField.stringValue = "EDDINGTON LTD CALCULATION OF ALL: ALL LTD complete in \(Int(Date().timeIntervalSince(start)))s"
+                self.mainViewController!.mainProgressBar!.doubleValue = 100.0
+            }
+        }// end DispatchGlobal
+    }
+
+
     
     // There must be a better way to do this. once an eddington number is calculated we don't want the user changing the type - ie Activity, Unit or Period. The Combo Boxes enabled is bound to eddington number 'requiresCalculation' property. When the last updated field is set the Combo Boxes are re-displayed as disabled. This method prods them
     private func prod(eddingtonNumber ed: EddingtonNumber){

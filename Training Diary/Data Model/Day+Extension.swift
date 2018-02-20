@@ -48,6 +48,10 @@ extension Day: TrainingDiaryValues, PeriodNode{
                 }
             }
         }
+        //check for metric here as they are held by the Day not the workout
+        if unit.isMetric{
+            return metricValue(forActivity: activity, andMetric: unit)
+        }
         if unit.summable{
             result = sumOverWorkouts(activity: activity, activityType : activityType, equipment: equipment, unit: unit)
         }else{
@@ -387,6 +391,20 @@ extension Day: TrainingDiaryValues, PeriodNode{
             return td.restingHeartRate(forDate: self.date!)
         }
         return 0
+    }
+    
+    @objc dynamic var restingSDNN: Double{
+        if let td = trainingDiary{
+            return td.restingSDNN(forDate: self.date!)
+        }
+        return 0.0
+    }
+    
+    @objc dynamic var restingRMSSD: Double{
+        if let td = trainingDiary{
+            return td.restingRMSSD(forDate: self.date!)
+        }
+        return 0.0
     }
     
     @objc dynamic var numberOfWorkouts: Int{

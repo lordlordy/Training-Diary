@@ -28,6 +28,14 @@ class DefaultsViewController: NSViewController, TrainingDiaryViewController, NSC
         }
     }
     
+    @IBAction func recalcMonotonyAndStrain(_ sender: Any) {
+        let start = Date()
+        if let td = trainingDiary{
+            td.calculateMonotonyAndStrain()
+        }
+        print("Monotony and Strain Calculation took \(Date().timeIntervalSince(start))s")
+    }
+    
     @IBAction func recalcTSB(_ sender: Any) {
         DispatchQueue.global(qos: .userInitiated).async {
             
