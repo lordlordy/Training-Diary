@@ -61,8 +61,9 @@ enum DayType: String{
     case Injured
     case Niggle
     case Ill
+    case Camp
     
-    static var AllTypes = [Normal, Race, Holiday, Rest, Recovery, Travel, Injured, Niggle, Ill]
+    static var AllTypes = [Normal, Race, Camp, Holiday, Rest, Recovery, Travel, Injured, Niggle, Ill]
 }
 
 enum SleepQuality: String{
@@ -170,120 +171,7 @@ enum Period: String{
   
 }
 
-/* Need to decide what to do with activity type "ALLActivities" ... it's not quite right. It's not an activity. Perhaps I need
- to allow nil in certain case with activity and that mens all of them.
-*/
-/*
-enum ActivityEnum: String{
-    case Swim 
-    case Bike
-    case Run
-    case Gym
-    case Walk
-    case Other
-    case All   // special case to indicate this is any and all activities
-    
-    static var allActivities = [Swim,Bike,Run,Gym,Walk,Other,All]
-    
-    func keyString(forUnit unit: Unit) -> String{
-        return self.rawValue.lowercased() + unit.rawValue
-    }
-    
-    func validTypes() -> [ActivityTypeEnum]{
-        switch self{
-        case .Swim:
-            return [ .Solo, .Squad, .OpenWater, .All ]
-        case .Bike:
-            return [ .Road, .OffRoad, .Turbo, .All ]
-        case .Run:
-            return [ .Road, .OffRoad, .Fell, .Treadmill, .All ]
-        case .Gym:
-            return [.General, .PressUp, .All ]
-        case .Walk:
-            return [.All ]
-        case .Other:
-            return [ .Stepper, .Aquajog, .Kayak, .All ]
-        case .All:
-            return [ .All ]
-        }
-    }
-    
-    func validUnits() -> Set<Unit>{
-        switch self{
-        case .Swim:
-            return [ .Hours, .KJ, .KM, .Miles, .Minutes, .RPETSS, .Seconds, .TSS, .Watts, .ATL, .CTL, .TSB ]
-        case .Bike:
-            return [ .AscentMetres, .AscentFeet,  .Cadence, .Hours, .HR, .KJ, .KM, .Miles, .Minutes, .RPETSS, .Seconds, .TSS, .Watts, .ATL, .CTL, .TSB ]
-        case .Run:
-            return [ .AscentMetres, .AscentFeet,  .Cadence, .Hours, .HR, .KJ, .KM, .Miles, .Minutes, .RPETSS, .Seconds, .TSS, .Watts, .ATL, .CTL, .TSB ]
-        case .Gym:
-            return [ .Hours, .KJ, .Minutes, .Reps, .RPETSS, .Seconds, .TSS, .ATL, .CTL, .TSB ]
-        case .Walk:
-            return [ .AscentMetres, .AscentFeet, .Hours, .HR, .KJ, .KM, .Miles, .Minutes, .RPETSS, .Seconds, .TSS, .ATL, .CTL, .TSB ]
-        case .Other:
-            return [ .Hours, .HR, .KJ, .Minutes, .RPETSS, .Seconds, .TSS, .ATL, .CTL, .TSB ]
-        case .All:
-            return [ .AscentMetres, .AscentFeet,  .Cadence, .Hours, .HR, .KJ, .KM, .Miles, .Minutes, .Reps, .RPETSS, .Seconds, .TSS, .Watts, .ATL, .CTL, .TSB ]
-        }
-    }
-    
 
-}
-
-enum ActivityTypeEnum: String{
-    case Solo
-    case Squad
-    case OpenWater
-    case Road
-    case OffRoad
-    case Turbo
-    case Fell
-    case Treadmill
-    case General
-    case PressUp
-    case Stepper
-    case Aquajog
-    case Kayak
-    case All
-    
-    static var AllActivityTypes = [Solo,Squad,OpenWater,Road,OffRoad,Turbo,Fell, Treadmill, General, PressUp, Stepper, Aquajog, Kayak, All]
-    
-    func validUnits() -> Set<Unit>{
-        switch self{
-        case .Solo:
-            return [ .Hours, .KJ, .KM, .Miles, .Minutes, .RPETSS, .Seconds, .TSS, .Watts]
-        case .Squad:
-            return [ .Hours, .KJ, .KM, .Miles, .Minutes, .RPETSS, .Seconds, .TSS, .Watts]
-        case .OpenWater:
-            return [ .Hours, .KJ, .KM, .Miles, .Minutes, .RPETSS, .Seconds, .TSS, .Watts]
-        case .Road:
-            return [ .AscentMetres, .AscentFeet, .Cadence, .Hours, .HR, .KJ, .KM, .Miles, .Minutes, .RPETSS, .Seconds, .TSS, .Watts]
-        case .OffRoad:
-            return [ .AscentMetres, .AscentFeet, .Cadence, .Hours, .HR, .KJ, .KM, .Miles, .Minutes, .RPETSS, .Seconds, .TSS, .Watts]
-        case .Turbo:
-            return [ .Cadence, .Hours, .HR, .KJ, .KM, .Miles, .Minutes, .RPETSS, .Seconds, .TSS, .Watts]
-        case .Fell:
-            return [ .AscentMetres, .AscentFeet, .Cadence, .Hours, .HR, .KJ, .KM, .Miles, .Minutes, .RPETSS, .Seconds, .TSS, .Watts]
-        case .Treadmill:
-            return [ .Cadence, .Hours, .HR, .KJ, .KM, .Miles, .Minutes, .RPETSS, .Seconds, .TSS, .Watts]
-        case .General:
-            return [ .Hours, .Minutes, .RPETSS, .Seconds, .TSS]
-        case .PressUp:
-            return [ .Hours, .KJ, .Minutes, .Reps, .RPETSS, .Seconds, .TSS]
-        case .Stepper:
-            return [ .AscentMetres, .AscentFeet, .Hours, .HR, .KJ, .Minutes, .RPETSS, .Seconds, .TSS]
-        case .Aquajog:
-            return [ .Hours, .HR, .KJ, .Minutes, .RPETSS, .Seconds, .TSS]
-        case .Kayak:
-            return [ .Hours, .HR, .KJ, .KM, .Miles, .Minutes, .RPETSS, .Seconds, .TSS]
-        case .All:
-            return [ .AscentMetres, .AscentFeet, .Cadence, .Hours, .HR, .KJ, .KM, .Miles, .Minutes, .Reps, .RPETSS, .Seconds, .TSS, .Watts, .ATL, .CTL, .TSB]
-        }
-    }
-    
-    
-}
-*/
 enum UnitType: String{
     case Activity, Day
 }

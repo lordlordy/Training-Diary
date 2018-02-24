@@ -13,7 +13,7 @@ import Foundation
  current sum */
 class ToDateSum: RollingPeriodSum{
     
-    var resetRule: (Date) -> Bool
+    var resetRule: ((Date) -> Bool)
     
     init(size: Int, rule: @escaping (Date) -> Bool){
         resetRule = rule
@@ -28,5 +28,6 @@ class ToDateSum: RollingPeriodSum{
         return sum
     }
     
+
     
 }

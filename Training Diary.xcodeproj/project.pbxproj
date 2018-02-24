@@ -63,6 +63,7 @@
 		73B5644420260B6E0022E80A /* LTDEddingtonNumber+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B5644320260B6E0022E80A /* LTDEddingtonNumber+Extension.swift */; };
 		73B9FCBB2006A4EF00C57D25 /* GraphDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B9FCBA2006A4EF00C57D25 /* GraphDefinition.swift */; };
 		73B9FCBD200B703600C57D25 /* AllBikesComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B9FCBC200B703600C57D25 /* AllBikesComboBox.swift */; };
+		73BD2F64203E489000377CCE /* GMTDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73BD2F63203E489000377CCE /* GMTDateFormatter.swift */; };
 		73C2E4951FD7B29800C30316 /* GraphArrayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C2E4941FD7B29800C30316 /* GraphArrayController.swift */; };
 		73C2E4991FD8967900C30316 /* GraphManagementDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C2E4981FD8967900C30316 /* GraphManagementDelegate.swift */; };
 		73C2F03E20206E480073323D /* Equipment+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C2F03D20206E480073323D /* Equipment+Extension.swift */; };
@@ -154,6 +155,7 @@
 		73B5644320260B6E0022E80A /* LTDEddingtonNumber+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LTDEddingtonNumber+Extension.swift"; sourceTree = "<group>"; };
 		73B9FCBA2006A4EF00C57D25 /* GraphDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphDefinition.swift; sourceTree = "<group>"; };
 		73B9FCBC200B703600C57D25 /* AllBikesComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllBikesComboBox.swift; sourceTree = "<group>"; };
+		73BD2F63203E489000377CCE /* GMTDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GMTDateFormatter.swift; sourceTree = "<group>"; };
 		73C2E4941FD7B29800C30316 /* GraphArrayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphArrayController.swift; sourceTree = "<group>"; };
 		73C2E4981FD8967900C30316 /* GraphManagementDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphManagementDelegate.swift; sourceTree = "<group>"; };
 		73C2F03D20206E480073323D /* Equipment+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Equipment+Extension.swift"; sourceTree = "<group>"; };
@@ -258,6 +260,7 @@
 				7369D9F51FB24F8C00ECAA1E /* TSSMethodComboBox.swift */,
 				7369D9ED1FB23DBC00ECAA1E /* DayTypeComboBox.swift */,
 				73AF79AA2025CA0C0067CE37 /* GMTDatePicker.swift */,
+				73BD2F63203E489000377CCE /* GMTDateFormatter.swift */,
 				73789C8F20123C69002D2393 /* PeriodTextField.swift */,
 				7369D9EF1FB24EEE00ECAA1E /* BikeComboBox.swift */,
 				73B9FCBC200B703600C57D25 /* AllBikesComboBox.swift */,
@@ -462,6 +465,7 @@
 				730DB7571FE132F500579A81 /* Metric+Extension.swift in Sources */,
 				732103AE1FCFFB570020F365 /* CSVImporter.swift in Sources */,
 				73C58CA71FA8EFD200F57BAE /* EddingtonNumber+Extension.swift in Sources */,
+				73BD2F64203E489000377CCE /* GMTDateFormatter.swift in Sources */,
 				7333B8631FA76F3A00E93BF0 /* EddingtonNumbersViewController.swift in Sources */,
 				730AE25E1FC732DB00348A63 /* ChartTypeComboBox.swift in Sources */,
 				73E7FD382015FA2900D1FCD4 /* BikeViewController.swift in Sources */,

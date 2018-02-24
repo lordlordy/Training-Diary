@@ -16,7 +16,12 @@ extension LTDEddingtonNumber{
     @objc dynamic var isNotLeaf: Bool { return !isLeaf }
     
     @objc dynamic var code: String{
-        let result = EddingtonNumber.code(activity: activity!, activityType: activityType ?? "", equipment: equipment ?? "", period: period!, unit: unit!)
+        let result = EddingtonNumber.code(activity: activity, activityType: activityType, equipment: equipment, period: period ?? "", unit: unit ?? "")
+        return result
+    }
+    
+    @objc dynamic var shortCode: String{
+        let result = EddingtonNumber.shortCode(activity: activity, activityType: activityType, equipment: equipment, period: period ?? "", unit: unit ?? "")
         return result
     }
     

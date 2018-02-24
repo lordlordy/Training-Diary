@@ -10,8 +10,12 @@ import Foundation
 
 extension EddingtonNumber{
     
-    static func code(activity: String, activityType: String, equipment: String, period: String, unit: String) -> String{
+    static func code(activity: String?, activityType: String?, equipment: String?, period: String, unit: String) -> String{
         return eddingtonCode(activity, activityType, equipment, period, unit)
+    }
+
+    static func shortCode(activity: String?, activityType: String?, equipment: String?, period: String, unit: String) -> String{
+        return shortEddingtonCode(activity, activityType, equipment, period, unit)
     }
     
     var nextEddingtonNumber: Int16{ return value + 1}
@@ -301,10 +305,28 @@ extension EddingtonNumber{
         return 0.0
     }
     
-    private static func eddingtonCode(_ activity: String, _ activityType: String, _ equipment: String, _ period: String, _ unit: String) -> String{
-        var result = activity
-        result += ":" + equipment
-        result += ":" + activityType
+    private static func eddingtonCode(_ activity: String?, _ activityType: String?, _ equipment: String?, _ period: String, _ unit: String) -> String{
+        var result = activity ?? ConstantString.EddingtonAll.rawValue
+        result += ":" + (equipment ?? ConstantString.EddingtonAll.rawValue)
+        result += ":" + (activityType ?? ConstantString.EddingtonAll.rawValue)
+        result += ":" + period
+        result += ":" + unit
+        return result.trimmingCharacters(in: CharacterSet.init(charactersIn: ":"))
+    }
+    
+    private static func shortEddingtonCode(_ activity: String?, _ activityType: String?, _ equipment: String?, _ period: String, _ unit: String) -> String{
+        var result = ""
+        if let a = activity {
+            if a != ConstantString.EddingtonAll.rawValue && (equipment == nil || equipment == ConstantString.EddingtonAll.rawValue ){
+                result += a
+            }
+        }
+        if let e = equipment {
+            if e != ConstantString.EddingtonAll.rawValue{ result += ":" + e }
+        }
+        if let at = activityType {
+            if at != ConstantString.EddingtonAll.rawValue{ result += ":" + at }
+        }
         result += ":" + period
         result += ":" + unit
         return result.trimmingCharacters(in: CharacterSet.init(charactersIn: ":"))

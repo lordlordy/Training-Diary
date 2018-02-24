@@ -10,7 +10,7 @@ import Foundation
 
 class ToDateWeightedAverage: RollingPeriodWeightedAverage{
     
-    var resetRule: (Date) -> Bool
+    var resetRule: ((Date) -> Bool)
     
     init(size: Int, rule: @escaping (Date) -> Bool){
         resetRule = rule
@@ -24,4 +24,5 @@ class ToDateWeightedAverage: RollingPeriodWeightedAverage{
         }
         return average
     }
+
 }

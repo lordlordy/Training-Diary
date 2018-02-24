@@ -12,9 +12,6 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
 
     @objc dynamic var trainingDiary: TrainingDiary?
     var mainViewController: ViewController?
-    @IBOutlet weak var ltdCalcActivityCB: NSComboBox!
-    @IBOutlet weak var ltdCalcEquipmentCB: NSComboBox!
-    @IBOutlet weak var ltdCalcUnitCB: UnitComboBox!
     @IBOutlet var treeController: NSTreeController!
     
     private var activity: String?
@@ -36,10 +33,7 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
     @IBOutlet var eddingtonNumberArrayController: NSArrayController!
     @IBOutlet var eddingtonNumberTreeController: NSTreeController!
     
-    @IBAction func ltdActivityCBChanged(_ sender: NSComboBox) {
-        ltdCalcEquipmentCB.reloadData()
-        ltdCalcEquipmentCB.stringValue = ""
-    }
+
     
 
     @IBAction func calculateTreeSelection(_ sender: Any) {
@@ -55,7 +49,8 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
         for e in edNums{
             let result = calculator.quickCaclulation(forActivity: e.activity!, andType: e.activityType!, equipment: e.equipment!, andPeriod: Period(rawValue: e.period!)!, andUnit: Unit(rawValue: e.unit!)!, inTrainingDiary: trainingDiary!)
             trainingDiary!.addLTDEddingtonNumber(forActivity: e.activity!, type: e.activityType!, equipment: e.equipment!, period: Period(rawValue: e.period!)!, unit: Unit(rawValue: e.unit!)!, value: result.ednum, plusOne: result.plusOne, maturity: result.maturity)
-            print(result)
+            
+            print("\(e.shortCode) : \(result)")
         }
     }
     
@@ -69,10 +64,9 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
         }
     }
     
-    
-    @IBAction func saveAll(_ sender: NSButton) {
-
+    @IBAction func saveAsHTML(_ sender: Any) {
         var html: String = ""
+ 
         if let tableStart = Bundle.main.url(forResource: "tableStart", withExtension: "txt"){
             do{
                 let contents = try String.init(contentsOf: tableStart)
@@ -81,10 +75,10 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
                 print("tableStart.txt not loaded")
             }
         }
-        
-        if let edNumSet = trainingDiary?.ltdEddingtonNumbers?.allObjects as! [LTDEddingtonNumber]?{
+ 
+        if let edNumSet = trainingDiary?.ltdEddingtonNumbers?.allObjects as? [LTDEddingtonNumber]{
             for e in edNumSet.sorted(by: {$0.code < $1.code}){
-                for l in e.getLeaves(){
+                for l in e.getLeaves().sorted(by: {$0.code < $1.code}){
                     html += "<tr>\n"
                     html += "<td>\(l.activity!)</td>\n"
                     html += "<td>\(l.equipment!)</td>\n"
@@ -114,11 +108,9 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
         }catch let error as NSError{
             print(error)
         }
+ 
     }
-    
-    @IBAction func calcSelectedActivity(_ sender: NSButton) {
-        calculatedLTD(forActivities: [ltdCalcActivityCB.stringValue], equipment: ltdCalcEquipmentCB.stringValue,unit: ltdCalcUnitCB.selectedUnit())
-    }
+
     
     
     @IBAction func calculateAll(_ sender: NSButton) {
@@ -263,12 +255,7 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
             }
             gv.xAxisLabelStrings = labels
         }
-        if let cd = ltdCalcEquipmentCB{
-            cd.stringValue = ConstantString.EddingtonAll.rawValue
-        }
-        if let cd = ltdCalcActivityCB{
-            cd.stringValue = ConstantString.EddingtonAll.rawValue
-        }
+
 
     }
     
@@ -277,11 +264,7 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
     func comboBox(_ comboBox: NSComboBox, objectValueForItemAt index: Int) -> Any? {
         if let identifier = comboBox.identifier{
             switch identifier.rawValue{
-            case "LTDCalcActivityCB": // this list does not include "All"
-                let activities = trainingDiary!.eddingtonActivities()
-                if index < activities.count{
-                    return activities[index]
-                }
+
             case "EdNumActivityComboBox":
                 let activities = trainingDiary!.eddingtonActivities()
                 if index < activities.count{
@@ -307,13 +290,7 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
                         }
                     }
                 }
-            case "LTDCalcEquipmentCB":
-                if let a = ltdCalcActivityCB?.stringValue{
-                    let e = trainingDiary!.eddingtonEquipment(forActivityString: a)
-                    if index < e.count{
-                        return e[index]
-                    }
-                }
+
             default:
                 print("What combo box is this \(identifier.rawValue) which I'm (DaysViewController) a data source for? ")
             }
@@ -324,8 +301,7 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
     func numberOfItems(in comboBox: NSComboBox) -> Int {
         if let identifier = comboBox.identifier{
             switch identifier.rawValue{
-            case "LTDCalcActivityCB": // this list does not include "All"
-                return trainingDiary!.eddingtonActivities().count
+
             case "EdNumActivityComboBox":
                 return trainingDiary!.eddingtonActivities().count
             case "EdNumActivityTypeComboBox":
@@ -338,11 +314,7 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
                 if let e = c.objectValue as? EddingtonNumber{
                     return trainingDiary!.eddingtonEquipment(forActivityString: e.activity!).count
                 }
-            case "LTDCalcEquipmentCB":
-                if let a = ltdCalcActivityCB?.stringValue{
-                    let e = trainingDiary!.eddingtonEquipment(forActivityString: a)
-                    return e.count
-                }
+
             default:
                 return 0
             }
@@ -525,20 +497,70 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
     private func calculatedLTD(forActivities activities: [String], equipment e: String? = nil, unit u: Unit? = nil){
         //this is a calculation of all possible ed nums
         let start = Date()
-        let currentTotal = trainingDiary!.ltdEdNumCount
+        var total = 0
         
         
-        mainViewController!.mainStatusField!.stringValue = "EDDINGTON LTD CALCULATION OF ALL: starting by estimating total to be calculated "
+        mainViewController!.mainStatusField!.stringValue = "EDDINGTON LTD CALCULATION OF ALL: starting by estimating total to be calculated... "
         
         //test approach - need to evaluate if this is worth doing
         let localWorkoutCopy: [Workout] = trainingDiary!.allWorkouts()
         
         DispatchQueue.global(qos: .userInitiated).async {
+            
+            //count how many we're calculting
+            for a in activities{
+                var equipment: [String] = []
+                if let equip = e{
+                    equipment = [equip]
+                }else{
+                    equipment = self.trainingDiary!.eddingtonEquipment(forActivityString: a)
+                }
+                for e in equipment{
+                    for at in self.trainingDiary!.eddingtonActivityTypes(forActivityString: a){
                         
+                        var units = Unit.activityUnits
+                        
+                        if let unit = u{
+                            if unit.isMetric{
+                                if  e == ConstantString.EddingtonAll.rawValue && at == ConstantString.EddingtonAll.rawValue{
+                                    units = [unit]
+                                }else{
+                                    units = []
+                                }
+                            }else{
+                                units = [unit]
+                            }
+                        }else{
+                            if (a == ConstantString.EddingtonAll.rawValue && at == ConstantString.EddingtonAll.rawValue && e == ConstantString.EddingtonAll.rawValue){
+                                units = Unit.allUnits
+                            }else if (at == ConstantString.EddingtonAll.rawValue && e == ConstantString.EddingtonAll.rawValue){
+                                //metrics only calculated on the activity for ALL types and ALL Equipment
+                                units.append(contentsOf: Unit.metrics)
+                            }
+                        }
+                        
+                        // lets check if worth doing any calcs
+                        
+                        let workoutCount = localWorkoutCopy.filter({ (w: Workout) -> Bool in
+                            let aCorrect    = a == "All" || w.activityString == a
+                            let atCorrect   = at == "All" || w.activityTypeString == at
+                            let eCorrect    = e == "All" || w.equipmentName == e
+                            return aCorrect && atCorrect && eCorrect}).count
+                        
+                        if workoutCount > Int(Constant.WorkoutThresholdForEdNumberCount.rawValue){
+                            for _ in units.sorted(by: {$0.rawValue < $1.rawValue}){
+                                for _ in Period.eddingtonNumberPeriods{
+                                    total += 1
+                                }// end Period loop
+                            }// end unit loop
+                        }//end else on workout count chedk
+                    }// end type loop
+                }// end equipment loop
+            }// end activity loop
+            
             var count: Int = 0
             let calculator = EddingtonNumberCalculator()
             var name: String = ""
-            
             
             for a in activities{
                 var equipment: [String] = []
@@ -581,7 +603,6 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
                         
                         if workoutCount <= Int(Constant.WorkoutThresholdForEdNumberCount.rawValue){
                             print("Only \(workoutCount) workouts for \(a):\(e):\(at) so not bothering to calculate eddington numbers")
-                            count += units.count * Period.eddingtonNumberPeriods.count
                         }else{
                             
                             for u in units.sorted(by: {$0.rawValue < $1.rawValue}){
@@ -592,15 +613,17 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
                                     name += ":" + at
                                     name += ":" + p.rawValue
                                     name += ":" + u.rawValue
-                                    let result = calculator.quickCaclulation(forActivity: a, andType: at, equipment: e, andPeriod: p, andUnit: u, inTrainingDiary: self.trainingDiary!)
-                                    DispatchQueue.main.sync {
-                                        print("EDDINGTON LTD CALCULATION OF ALL: \(count) of \(currentTotal) : \(name) (\(Int(Date().timeIntervalSince(start)))s) ...")
-                                        self.mainViewController!.mainStatusField!.stringValue = "EDDINGTON LTD CALCULATION OF ALL: \(count) of \(currentTotal) : \(name) (\(Int(Date().timeIntervalSince(start)))s) ..."
-                                        self.mainViewController!.mainProgressBar!.doubleValue = 100.0 * Double(count) / Double(currentTotal)
-                                        if result.ednum > 0{
-                                            self.trainingDiary!.addLTDEddingtonNumber(forActivity: a, type: at, equipment: e, period: p, unit: u, value: result.ednum, plusOne: result.plusOne, maturity: result.maturity)
-                                            //              self.trainingDiary!.managedObjectContext?.refresh(self.trainingDiary!, mergeChanges: true)
-                                        }
+                                    autoreleasepool{ // added for memory management
+                                        let result = calculator.quickCaclulation(forActivity: a, andType: at, equipment: e, andPeriod: p, andUnit: u, inTrainingDiary: self.trainingDiary!)
+                                        
+                                        DispatchQueue.main.sync {
+                                            print("EDDINGTON LTD CALCULATION OF ALL: \(count) of \(total) : \(name) (\(Int(Date().timeIntervalSince(start)))s) ...")
+                                            self.mainViewController!.mainStatusField!.stringValue = "EDDINGTON LTD CALCULATION OF ALL: \(count) of \(total) : \(name) (\(Int(Date().timeIntervalSince(start)))s) ..."
+                                            self.mainViewController!.mainProgressBar!.doubleValue = 100.0 * Double(count) / Double(total)
+                                            if result.ednum > 0{
+                                                self.trainingDiary!.addLTDEddingtonNumber(forActivity: a, type: at, equipment: e, period: p, unit: u, value: result.ednum, plusOne: result.plusOne, maturity: result.maturity)
+                                            }
+                                        }// end autoreleasepool
                                     }// end DispatchQueue.main
                                 }// end Period loop
                             }// end unit loop

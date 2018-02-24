@@ -29,10 +29,11 @@ extension TrainingDiary: TrainingDiaryValues{
     
     
     //MARK: - Lifetime for display in GUI summary
-    @objc dynamic var totalBikeKM:  Double{ return total(forKey: "bikeKM") }
-    @objc dynamic var totalSwimKM:  Double{ return total(forKey: "swimKM") }
-    @objc dynamic var totalRunKM:   Double{ return total(forKey: "runKM") }
-    @objc dynamic var totalSeconds: Double{ return total(forKey: "allSeconds")}
+    @objc dynamic var totalBikeKM:  Double{ return total(forKey: DayCalculatedProperty.bikeKM.rawValue) }
+    @objc dynamic var totalSwimKM:  Double{ return total(forKey: DayCalculatedProperty.swimKM.rawValue) }
+    @objc dynamic var totalRunKM:   Double{ return total(forKey: DayCalculatedProperty.runKM.rawValue) }
+    @objc dynamic var totalAscentMetres: Double { return total(forKey: DayCalculatedProperty.allAscentMetres.rawValue)}
+    @objc dynamic var totalSeconds: Double{ return total(forKey: DayCalculatedProperty.allSeconds.rawValue)}
     @objc dynamic var totalTime: TimeInterval{ return TimeInterval(totalSeconds)}
     
     
@@ -584,7 +585,7 @@ extension TrainingDiary: TrainingDiaryValues{
             d.setMetricValue(forActivity: a, andMetric: Unit.Monotony, toValue: mAndStrain.monotony)
             d.setMetricValue(forActivity: a, andMetric: Unit.Strain, toValue: mAndStrain.strain)
         }
-        print("Calc strain for \(a.name) took \(Date().timeIntervalSince(start))s")
+        print("Calc strain for \(String(describing: a.name)) took \(Date().timeIntervalSince(start))s")
     }
     
     public func kg(forDate d: Date) -> Double{
@@ -682,8 +683,9 @@ extension TrainingDiary: TrainingDiaryValues{
         aLevel.lastUpdate = Date()
         
         let eLevel = aLevel.getChild(forName: e)
-        eLevel.activityType = a
+        eLevel.activity = a
         eLevel.equipment = e
+        eLevel.activityType = nil
         eLevel.lastUpdate = Date()
 
         let tLevel = eLevel.getChild(forName: at)
@@ -769,11 +771,13 @@ extension TrainingDiary: TrainingDiaryValues{
     
     // this is focussed on the rolling periods. It is very time consuming to just loop through and ask each day for it's rolling period - by way of example. RollingYear for all days would require summing 365 days for every day - thats 5,000 x 365 sums - if we ask each day individually. If we run through the days and keep a total as we go there are ~ 2 sums per day. So should be ~ 180 times faster. Sacrifising generalisation for speed here. A second benefit is this method makes it easier to average units rather than just sum them.
     private func optimisedCalculation(forActivity activity: String, andActivityType activityType: String, andEquipment e: String, andPeriod period: Period, andUnit unit: Unit, fromDate from: Date, toDate to: Date) -> [(date: Date, value:Double)]?{
-//        print("STARTING optimized calculation for \(activity):\(activityType.rawValue):\(period.rawValue):\(unit)...")
+
+        
         var result: [(date: Date, value:Double)] = []
         
+        
         if unit.summable{
-            var rSum: RollingPeriodSum
+            var rSum: RollingPeriodSum?
             switch period{
             case .rWeek:        rSum = RollingPeriodSum(size: 7)
             case .rMonth:       rSum = RollingPeriodSum(size: 30)
@@ -796,25 +800,28 @@ extension TrainingDiary: TrainingDiaryValues{
             case .WeekSun:      rSum  = PeriodSum(size: 7, rule: {$0.isSaturday()})
             case .Month:        rSum  = PeriodSum(size: 31, rule: {$0.isEndOfMonth()})
             case .Year:         rSum  = PeriodSum(size: 366, rule: {$0.isEndOfYear()})
+ 
             default:
                 return nil
             }
             
-            for d in ascendingOrderedDays(fromDate: rSum.preLoadData(forDate: from), toDate: to){
-                let sum = rSum.addAndReturnSum(forDate: d.date!, value: d.valueFor(activity: activity, activityType: activityType, equipment: e, unit: unit))
+            for d in ascendingOrderedDays(fromDate: rSum!.preLoadData(forDate: from), toDate: to){
+                let sum = rSum!.addAndReturnSum(forDate: d.date!, value: d.valueFor(activity: activity, activityType: activityType, equipment: e, unit: unit))
                 if d.date! >= from{
                     if let s = sum{
                         result.append((d.date!, s))
                     }
                 }
             }
+
             
         }else{
-            var rAverage: RollingPeriodWeightedAverage
+            var rAverage: RollingPeriodWeightedAverage?
             switch period{
             case .rWeek:        rAverage = RollingPeriodWeightedAverage(size: 7)
             case .rMonth:       rAverage = RollingPeriodWeightedAverage(size: 30)
             case .rYear:        rAverage = RollingPeriodWeightedAverage(size: 365)
+
             case .WeekToDate:   rAverage = ToDateWeightedAverage(size: 7, rule: {$0.isEndOfWeek()})
             case .WTDTue:       rAverage = ToDateWeightedAverage(size: 7, rule: {$0.isMonday()})
             case .WTDWed:       rAverage = ToDateWeightedAverage(size: 7, rule: {$0.isTuesday()})
@@ -833,25 +840,26 @@ extension TrainingDiary: TrainingDiaryValues{
             case .WeekSun:      rAverage = PeriodWeightedAverage(size: 7, rule: {$0.isSaturday()})
             case .Month:        rAverage = PeriodWeightedAverage(size: 31, rule: {$0.isEndOfMonth()})
             case .Year:         rAverage = PeriodWeightedAverage(size: 366, rule: {$0.isEndOfYear()})
+ 
             default:
                 return nil
             }
             
             
-            for d in ascendingOrderedDays(fromDate: rAverage.preLoadData(forDate: from), toDate: to){
+            for d in ascendingOrderedDays(fromDate: rAverage!.preLoadData(forDate: from), toDate: to){
                 var weight: Double = 1.0
                 if unit.type() == UnitType.Activity{
                     weight = d.valueFor(activity: activity, activityType: activityType, equipment: e, unit: Unit.Seconds)
                 }
-                let sum = rAverage.addAndReturnAverage(forDate: d.date!, value: d.valueFor(activity: activity, activityType: activityType, equipment: e, unit: unit), wieghting: weight)
+                let sum = rAverage!.addAndReturnAverage(forDate: d.date!, value: d.valueFor(activity: activity, activityType: activityType, equipment: e, unit: unit), wieghting: weight)
                 if d.date! >= from{
                     if let s = sum{
                         result.append((d.date!, s))
                     }
                 }
             }
+
         }
-        
 
         return result
     }
