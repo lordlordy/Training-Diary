@@ -1563,13 +1563,15 @@
                                 </connections>
                             </containerView>
                             <progressIndicator wantsLayer="YES" maxValue="100" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="2uU-GE-tMd">
-                                <rect key="frame" x="7" y="-1" width="546" height="20"/>
+                                <rect key="frame" x="7" y="-1" width="458" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="458" id="Ajm-JR-DYk"/>
+                                </constraints>
                             </progressIndicator>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qiP-of-Clf">
-                                <rect key="frame" x="559" y="2" width="557" height="16"/>
+                                <rect key="frame" x="468" y="2" width="648" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="16" id="IQQ-YN-AfU"/>
-                                    <constraint firstAttribute="width" constant="553" id="dg5-gv-Fdv"/>
                                 </constraints>
                                 <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" id="aMV-gA-2c8">
                                     <font key="font" metaFont="smallSystem"/>
@@ -1579,7 +1581,7 @@
                             </textField>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="qiP-of-Clf" firstAttribute="leading" secondItem="2uU-GE-tMd" secondAttribute="trailing" constant="8" id="4Qo-ag-QV5"/>
+                            <constraint firstItem="qiP-of-Clf" firstAttribute="leading" secondItem="2uU-GE-tMd" secondAttribute="trailing" constant="5" id="A5f-cp-lIj"/>
                             <constraint firstItem="2uU-GE-tMd" firstAttribute="top" secondItem="y3b-Zo-gs6" secondAttribute="bottom" constant="5" id="HYH-A4-a1P"/>
                             <constraint firstAttribute="bottom" secondItem="qiP-of-Clf" secondAttribute="bottom" constant="2" id="LUQ-sU-lAS"/>
                             <constraint firstAttribute="trailing" secondItem="y3b-Zo-gs6" secondAttribute="trailing" constant="5" id="LYO-r2-bjp"/>
@@ -1623,7 +1625,7 @@
                     </connections>
                 </arrayController>
             </objects>
-            <point key="canvasLocation" x="119" y="820"/>
+            <point key="canvasLocation" x="119" y="819.5"/>
         </scene>
         <!--Tab View Controller-->
         <scene sceneID="8vb-xO-7b5">
@@ -4297,7 +4299,7 @@ IA
                                         </customSpacing>
                                     </stackView>
                                     <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DsA-s8-6aX">
-                                        <rect key="frame" x="120" y="0.0" width="60" height="50"/>
+                                        <rect key="frame" x="160" y="0.0" width="60" height="50"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="751" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="ezJ-mv-0R6">
                                                 <rect key="frame" x="-2" y="36" width="64" height="14"/>
@@ -4354,7 +4356,7 @@ IA
                                         </customSpacing>
                                     </stackView>
                                     <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cgW-Mt-XgQ">
-                                        <rect key="frame" x="180" y="0.0" width="60" height="50"/>
+                                        <rect key="frame" x="220" y="0.0" width="60" height="50"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="751" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="g45-L6-30g">
                                                 <rect key="frame" x="6.5" y="36" width="47" height="14"/>
@@ -4409,7 +4411,7 @@ IA
                                         </customSpacing>
                                     </stackView>
                                     <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BRc-v8-mvO">
-                                        <rect key="frame" x="240" y="0.0" width="60" height="50"/>
+                                        <rect key="frame" x="280" y="0.0" width="60" height="50"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="751" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="ao9-ki-Xj5">
                                                 <rect key="frame" x="7.5" y="36" width="45" height="14"/>
@@ -4464,7 +4466,7 @@ IA
                                         </customSpacing>
                                     </stackView>
                                     <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="icv-Ng-Xbj">
-                                        <rect key="frame" x="300" y="0.0" width="60" height="50"/>
+                                        <rect key="frame" x="340" y="0.0" width="60" height="50"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fkB-ca-np9">
                                                 <rect key="frame" x="-2" y="36" width="64" height="14"/>
@@ -7047,8 +7049,8 @@ IA
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView id="Dva-Yr-mbG">
-                                                            <rect key="frame" x="0.0" y="0.0" width="139" height="20"/>
+                                                        <tableCellView misplaced="YES" id="Dva-Yr-mbG">
+                                                            <rect key="frame" x="0.0" y="0.0" width="84" height="20"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <datePicker verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="GA8-En-YHv" customClass="GMTDatePicker" customModule="Training_Diary" customModuleProvider="target">
@@ -7092,8 +7094,8 @@ IA
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView id="INz-HK-qhk">
-                                                            <rect key="frame" x="85" y="0.0" width="139" height="20"/>
+                                                        <tableCellView misplaced="YES" id="INz-HK-qhk">
+                                                            <rect key="frame" x="85" y="0.0" width="75" height="20"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <datePicker verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="q2h-tc-mW9" customClass="GMTDatePicker" customModule="Training_Diary" customModuleProvider="target">
@@ -7388,8 +7390,8 @@ IA
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView id="GUv-9m-Rdr">
-                                                            <rect key="frame" x="0.0" y="0.0" width="139" height="20"/>
+                                                        <tableCellView misplaced="YES" id="GUv-9m-Rdr">
+                                                            <rect key="frame" x="0.0" y="0.0" width="77" height="20"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <datePicker verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mPh-xm-4DQ" customClass="GMTDatePicker" customModule="Training_Diary" customModuleProvider="target">
@@ -7430,8 +7432,8 @@ IA
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView id="hOm-qw-wVq">
-                                                            <rect key="frame" x="78" y="0.0" width="139" height="20"/>
+                                                        <tableCellView misplaced="YES" id="hOm-qw-wVq">
+                                                            <rect key="frame" x="78" y="0.0" width="65" height="20"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <datePicker verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RNO-h0-WQz" customClass="GMTDatePicker" customModule="Training_Diary" customModuleProvider="target">
@@ -12436,13 +12438,13 @@ IA
                                                 </customSpacing>
                                             </stackView>
                                             <scrollView autohidesScrollers="YES" horizontalLineScroll="16" horizontalPageScroll="10" verticalLineScroll="16" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TJT-Rw-ZuN">
-                                                <rect key="frame" x="20" y="1" width="168" height="138"/>
+                                                <rect key="frame" x="20" y="0.0" width="168" height="139"/>
                                                 <clipView key="contentView" id="1cS-KR-Uyq">
-                                                    <rect key="frame" x="1" y="0.0" width="166" height="137"/>
+                                                    <rect key="frame" x="1" y="0.0" width="166" height="138"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="14" rowSizeStyle="automatic" headerView="aH9-yt-6yt" viewBased="YES" id="5QM-hZ-STM">
-                                                            <rect key="frame" x="0.0" y="0.0" width="166" height="114"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="166" height="115"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <size key="intercellSpacing" width="3" height="2"/>
                                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -13272,13 +13274,13 @@ IA
                                                     <real value="3.4028234663852886e+38"/>
                                                 </customSpacing>
                                             </stackView>
-                                            <scrollView wantsLayer="YES" autohidesScrollers="YES" horizontalLineScroll="16" horizontalPageScroll="10" verticalLineScroll="16" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tyn-VH-HrR">
+                                            <scrollView wantsLayer="YES" autohidesScrollers="YES" horizontalLineScroll="42" horizontalPageScroll="10" verticalLineScroll="42" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tyn-VH-HrR">
                                                 <rect key="frame" x="20" y="0.0" width="351" height="155"/>
                                                 <clipView key="contentView" id="6IR-JT-uhK">
                                                     <rect key="frame" x="1" y="0.0" width="349" height="154"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveName="activityTypesTable" rowHeight="14" rowSizeStyle="automatic" headerView="w9l-6i-2OI" viewBased="YES" id="I9P-Ni-vzT" customClass="TableViewWithColumnSort" customModule="Training_Diary" customModuleProvider="target">
+                                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveName="activityTypesTable" rowHeight="40" rowSizeStyle="automatic" headerView="w9l-6i-2OI" viewBased="YES" id="I9P-Ni-vzT" customClass="TableViewWithColumnSort" customModule="Training_Diary" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="0.0" width="349" height="131"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <size key="intercellSpacing" width="3" height="2"/>
@@ -13509,13 +13511,13 @@ IA
                                                     <real value="3.4028234663852886e+38"/>
                                                 </customSpacing>
                                             </stackView>
-                                            <scrollView autohidesScrollers="YES" horizontalLineScroll="16" horizontalPageScroll="10" verticalLineScroll="16" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vx7-gB-Sti">
+                                            <scrollView autohidesScrollers="YES" horizontalLineScroll="42" horizontalPageScroll="10" verticalLineScroll="42" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vx7-gB-Sti">
                                                 <rect key="frame" x="20" y="0.0" width="351" height="155"/>
                                                 <clipView key="contentView" id="puY-jl-FAU">
                                                     <rect key="frame" x="1" y="0.0" width="349" height="154"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveName="equipmentTable" rowHeight="14" rowSizeStyle="automatic" headerView="6nn-ej-Oa2" viewBased="YES" id="lyv-JE-t0K" customClass="TableViewWithColumnSort" customModule="Training_Diary" customModuleProvider="target">
+                                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveName="equipmentTable" rowHeight="40" rowSizeStyle="automatic" headerView="6nn-ej-Oa2" viewBased="YES" id="lyv-JE-t0K" customClass="TableViewWithColumnSort" customModule="Training_Diary" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="0.0" width="349" height="131"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <size key="intercellSpacing" width="3" height="2"/>

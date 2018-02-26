@@ -40,9 +40,9 @@ public class EddingtonNumberCalculator: NSObject{
     
     private var currentMax: Double = 1.0
 
-    func quickCaclulation(forActivity a: String, andType at: String, equipment e: String, andPeriod p: Period, andUnit u: Unit, inTrainingDiary td: TrainingDiary) -> (ednum: Int,plusOne: Int, maturity: Double ){
+    func quickCaclulation(forDayType dt: String, forActivity a: String, andType at: String, equipment e: String, andPeriod p: Period, andUnit u: Unit, inTrainingDiary td: TrainingDiary) -> (ednum: Int,plusOne: Int, maturity: Double ){
         
-        let values = td.valuesFor(activity: a, activityType: at, equipment: e, period: p, unit: u)
+        let values = td.valuesFor(dayType: dt, activity: a, activityType: at, equipment: e, period: p, unit: u)
         return quickEddingNumberCalc(forDoubleValues: values.map({$0.value}).filter({$0 >= 1.0}))
         
     }
@@ -50,7 +50,7 @@ public class EddingtonNumberCalculator: NSObject{
     func calculate(eddingtonNumber e: EddingtonNumber){
         if let p = Period(rawValue: e.period!){
             if let u = Unit(rawValue: e.unit!){
-                let values = e.trainingDiary!.valuesFor(activity: e.activity!, activityType: e.activityType!, equipment: e.equipment!, period: p, unit: u)
+                let values = e.trainingDiary!.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: e.activity!, activityType: e.activityType!, equipment: e.equipment!, period: p, unit: u)
                 let usefulValues = values.filter({$0.value >= 1.0})
                 eddingtonCalculation(forValues: usefulValues)
             }
@@ -63,7 +63,7 @@ public class EddingtonNumberCalculator: NSObject{
             if let p = Period(rawValue: e.period!){
                 if let u = Unit(rawValue: e.unit!){
                     populateCalc(forEddingtonNumber: e)
-                    let values = e.trainingDiary!.valuesFor(activity: e.activity!, activityType: e.activityType!, equipment: e.equipment!, period: p, unit: u, from: from.startOfDay())
+                    let values = e.trainingDiary!.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: e.activity!, activityType: e.activityType!, equipment: e.equipment!, period: p, unit: u, from: from.startOfDay())
                     eddingtonCalculation(forValues: values, from: from)
                 }
             }

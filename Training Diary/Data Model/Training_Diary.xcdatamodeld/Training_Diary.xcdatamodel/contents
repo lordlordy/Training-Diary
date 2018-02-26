@@ -80,6 +80,7 @@
     <entity name="LTDEddingtonNumber" representedClassName="LTDEddingtonNumber" syncable="YES" codeGenerationType="class">
         <attribute name="activity" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="activityType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dayType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="equipment" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lastUpdate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="maturity" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
@@ -173,7 +174,7 @@
         <element name="EddingtonHistory" positionX="-630" positionY="-42" width="128" height="120"/>
         <element name="EddingtonNumber" positionX="-486" positionY="-249" width="128" height="255"/>
         <element name="Equipment" positionX="324" positionY="72" width="128" height="135"/>
-        <element name="LTDEddingtonNumber" positionX="-776" positionY="-379" width="128" height="240"/>
+        <element name="LTDEddingtonNumber" positionX="-776" positionY="-379" width="128" height="255"/>
         <element name="Metric" positionX="-486" positionY="-459" width="128" height="103"/>
         <element name="Physiological" positionX="234" positionY="-621" width="128" height="195"/>
         <element name="TrainingDiary" positionX="-227" positionY="-531" width="128" height="225"/>

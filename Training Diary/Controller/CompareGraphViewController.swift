@@ -258,7 +258,7 @@ class CompareGraphViewController: NSViewController, GraphManagementDelegate, Tra
     private func updateData(forGraph graph: DatedActivityGraphDefinition){
         if let td = trainingDiary{
             if let g = graph.graph{
-                let values = td.valuesFor(activity: graph.activity, activityType: graph.activityType, equipment: graph.equipment, period: graph.period, unit: graph.unit, from: graph.from, to: graph.to)
+                let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: graph.activity, activityType: graph.activityType, equipment: graph.equipment, period: graph.period, unit: graph.unit, from: graph.from, to: graph.to)
                 g.data = values
                 if values.count > baseDates.count{
                     baseDates =  values.map({$0.date})

@@ -29,7 +29,10 @@ class DaysViewController: NSViewController, TrainingDiaryViewController, NSCombo
 
     
     @IBAction func testFeature(_ sender: NSButton) {
-        print("No test feature currently implemented")
+  //      print("No test feature currently implemented")
+        for d in selectedDays(){
+            print(d.date!.dayOfWeekName())
+        }
     }
     
     @IBAction func reload(_ sender: Any) {
@@ -273,7 +276,7 @@ class DaysViewController: NSViewController, TrainingDiaryViewController, NSCombo
             dac.trainingDiary = td
         }
         toDatePicker!.dateValue = td.lastDayOfDiary
-        fromDatePicker!.dateValue = td.lastDayOfDiary.addDays(numberOfDays: -365)
+        fromDatePicker!.dateValue = td.lastDayOfDiary.addDays(numberOfDays: -20 )
         setFilterPredicate()
     }
 

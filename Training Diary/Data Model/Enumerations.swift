@@ -94,6 +94,8 @@ enum Constant: Double {
 
 enum ConstantString: String{
     case EddingtonAll       = "All"
+    case Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
+    static var DayTypeStrings = [EddingtonAll, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday]
 }
 
 

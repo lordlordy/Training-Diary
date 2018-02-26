@@ -136,39 +136,45 @@ extension Workout: TrainingDiaryValues, PeriodNode{
 
     //MARK: - TrainingDiaryValues protocol implementation
 
-    func valuesFor(activity a: String, activityType at: String, equipment e: String, period p: Period, unit u: Unit, from: Date? = nil, to: Date? = nil) -> [(date: Date, value: Double)]{
+    func valuesFor(dayType dt: String, activity a: String, activityType at: String, equipment e: String, period p: Period, unit u: Unit, from: Date? = nil, to: Date? = nil) -> [(date: Date, value: Double)]{
         var v: Double = 0.0
 
-        if (isOfType(activity: a, activityType: at, equipment: e) && !u.isMetric){
-            if(u.isDerived()){
-                if let derivation = u.dataForDerivation(){
-                    if let d = value(forKey: derivation.unit.workoutPropertyName()!){
-                        v = (d as! Double) * derivation.multiple.rawValue
+        if (dt == ConstantString.EddingtonAll.rawValue || dt == day!.type || dt == day!.date?.dayOfWeekName()){
+            if (isOfType(activity: a, activityType: at, equipment: e) && !u.isMetric){
+                if(u.isDerived()){
+                    if let derivation = u.dataForDerivation(){
+                        if let d = value(forKey: derivation.unit.workoutPropertyName()!){
+                            v = (d as! Double) * derivation.multiple.rawValue
+                        }else{
+                            print("couldn't get value for \(String(describing: derivation.unit.workoutPropertyName()))")
+                        }
                     }else{
-                        print("couldn't get value for \(String(describing: derivation.unit.workoutPropertyName()))")
+                        print("derived data nil for \(u)")
                     }
                 }else{
-                    print("derived data nil for \(u)")
-                }
-            }else{
-                if let d = value(forKey: u.workoutPropertyName()!){
-                    v = d as! Double
+                    if let d = value(forKey: u.workoutPropertyName()!){
+                        v = d as! Double
+                    }
                 }
             }
         }
+        
         return [(day!.date!, v)]
     }
     
-    func valuesFor(activity a: Activity? = nil, activityType at: ActivityType? = nil, equipment e: Equipment? = nil, period p: Period, unit u: Unit, from: Date? = nil, to: Date? = nil) -> [(date: Date, value: Double)]{
+    func valuesFor(dayType dt: DayType?, activity a: Activity? = nil, activityType at: ActivityType? = nil, equipment e: Equipment? = nil, period p: Period, unit u: Unit, from: Date? = nil, to: Date? = nil) -> [(date: Date, value: Double)]{
+        
+        var dString = ConstantString.EddingtonAll.rawValue
         var aString = ConstantString.EddingtonAll.rawValue
         var atString = ConstantString.EddingtonAll.rawValue
         var eString = ConstantString.EddingtonAll.rawValue
 
+        if let dayType = dt         { dString = dayType.rawValue}
         if let activity = a         { aString = activity.name!}
         if let activityType = at    { atString = activityType.name!}
         if let equipment = e        { eString = equipment.name!}
         
-        return valuesFor(activity: aString, activityType: atString, equipment: eString, period: p, unit: u, from: from, to: to)
+        return valuesFor(dayType: dString, activity: aString, activityType: atString, equipment: eString, period: p, unit: u, from: from, to: to)
     }
     
     func valuesAreForTrainingDiary() -> TrainingDiary { return day!.trainingDiary! }

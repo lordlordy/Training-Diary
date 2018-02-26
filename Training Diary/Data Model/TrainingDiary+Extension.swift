@@ -317,6 +317,13 @@ extension TrainingDiary: TrainingDiaryValues{
     
     //MARK: - Eddington String
     
+    func eddingtonDayTypes() -> [String]{
+        var result = DayType.AllTypes.map({$0.rawValue})
+        result.append(contentsOf: ConstantString.DayTypeStrings.map({$0.rawValue}))
+        result.sort(by: {$0 < $1})
+        return result
+    }
+    
     func eddingtonActivities() -> [String]{
         var result = activitiesArray().filter({$0.includeInEddingtonCalcs}).map({$0.name!})
         result.append(ConstantString.EddingtonAll.rawValue)
@@ -488,17 +495,17 @@ extension TrainingDiary: TrainingDiaryValues{
     
     //MARK: - TrainingDiaryValues protocol
 
-    func valuesFor(activity a: String, activityType at: String, equipment e: String, period p: Period, unit u: Unit, from: Date? = nil, to: Date? = nil) -> [(date: Date, value: Double)]{
+    func valuesFor(dayType dt: String, activity a: String, activityType at: String, equipment e: String, period p: Period, unit u: Unit, from: Date? = nil, to: Date? = nil) -> [(date: Date, value: Double)]{
         var fromDate = firstDayOfDiary
         var toDate = lastDayOfDiary
         if let f = from { fromDate = f}
         if let t = to   { toDate = t}
-        return getValues(forActivity: a, andActivityType: at, andEquipment: e, andPeriod: p, andUnit: u, fromDate: fromDate, toDate: toDate)
+        return getValues(forDayType: dt, andActivity: a, andActivityType: at, andEquipment: e, andPeriod: p, andUnit: u, fromDate: fromDate, toDate: toDate)
     }
     
-    func valuesFor(activity a: Activity?, activityType at: ActivityType?, equipment e: Equipment?, period p: Period, unit u: Unit, from: Date? = nil, to: Date? = nil) -> [(date: Date, value: Double)] {
+    func valuesFor(dayType dt: DayType?, activity a: Activity?, activityType at: ActivityType?, equipment e: Equipment?, period p: Period, unit u: Unit, from: Date? = nil, to: Date? = nil) -> [(date: Date, value: Double)] {
         let ALL = ConstantString.EddingtonAll.rawValue
-        return valuesFor(activity: a?.name ?? ALL, activityType: at?.name ?? ALL, equipment: e?.name ?? ALL, period: p, unit: u, from: from, to: to)
+        return valuesFor(dayType: dt?.rawValue ?? ALL, activity: a?.name ?? ALL, activityType: at?.name ?? ALL, equipment: e?.name ?? ALL, period: p, unit: u, from: from, to: to)
     }
     
 
@@ -507,9 +514,9 @@ extension TrainingDiary: TrainingDiaryValues{
     //MARK: - Getting values
 
     // note this can be pretty time consuming if asking for things like RYear
-    private func getValues(forActivity a: String, andActivityType at: String, andEquipment e: String, andPeriod period: Period, andUnit unit: Unit, fromDate from: Date, toDate to: Date) -> [(date: Date, value:Double)]{
+    private func getValues(forDayType dt: String, andActivity a: String, andActivityType at: String, andEquipment e: String, andPeriod period: Period, andUnit unit: Unit, fromDate from: Date, toDate to: Date) -> [(date: Date, value:Double)]{
         
-        if let optimizedResults = optimisedCalculation(forActivity: a, andActivityType: at, andEquipment: e, andPeriod: period, andUnit: unit, fromDate: from, toDate: to){
+        if let optimizedResults = optimisedCalculation(forDayType: dt, andActivity: a, andActivityType: at, andEquipment: e, andPeriod: period, andUnit: unit, fromDate: from, toDate: to){
             return optimizedResults
         }
         
@@ -526,7 +533,7 @@ extension TrainingDiary: TrainingDiaryValues{
         let sortedDays = ascendingOrderedDays(fromDate: from, toDate: to)
         if sortedDays.count > 0 {
             for day in sortedDays{
-                let r = day.valuesFor(activity: a, activityType: at, equipment: e, period: period, unit: unit)
+                let r = day.valuesFor(dayType: dt, activity: a, activityType: at, equipment: e, period: period, unit: unit)
                 result.append(r[0])
             }
         }
@@ -548,7 +555,7 @@ extension TrainingDiary: TrainingDiaryValues{
         
         let factors = self.tsbFactors(forActivity: activity)
         for day in self.ascendingOrderedDays(fromDate: d){
-            let tss = day.valueFor(activity: activity, unit: Unit.TSS)
+            let tss = day.valueFor(dayType: nil, activity: activity, unit: Unit.TSS)
             var atl = tss * factors.atlDayFactor
             var ctl = tss * factors.ctlDayFactor
             
@@ -580,7 +587,7 @@ extension TrainingDiary: TrainingDiaryValues{
         let q = RollingSumQueue(size: Int(monotonyDays))
         let mathematics = Maths()
         for d in ascendingOrderedDays(){
-            _ = q.addAndReturnAverage(value: d.valueFor(activity: a, unit: Unit.TSS))
+            _ = q.addAndReturnAverage(value: d.valueFor(dayType: nil, activity: a, unit: Unit.TSS))
             let mAndStrain = mathematics.monotonyAndStrain(q.array())
             d.setMetricValue(forActivity: a, andMetric: Unit.Monotony, toValue: mAndStrain.monotony)
             d.setMetricValue(forActivity: a, andMetric: Unit.Strain, toValue: mAndStrain.strain)
@@ -658,43 +665,51 @@ extension TrainingDiary: TrainingDiaryValues{
     
     //MARK: - Eddington Number Support
 
-    func getLTDEddingtonNumber(forActivity a: String) -> LTDEddingtonNumber{
+    func getLTDEddingtonNumber(forDayType dt: String) -> LTDEddingtonNumber{
         if let array = ltdEddingtonNumbers?.allObjects as? [LTDEddingtonNumber]{
-            let filtered = array.filter({$0.name! == a})
+            let filtered = array.filter({$0.name! == dt})
             if filtered.count == 1{
                 return filtered[0]
             }else if filtered.count > 1{
                 // shouldn't be more than this many
-                print("\(filtered.count) children of name \(a) in \(String(describing: name)) - should be unique by name")
+                print("\(filtered.count) children of name \(dt) in \(String(describing: name)) - should be unique by name")
                 return filtered[0]
             }
         }
         
-        let newChild = CoreDataStackSingleton.shared.newLTDEddingtonNumber(a)
+        let newChild = CoreDataStackSingleton.shared.newLTDEddingtonNumber(dt)
         mutableSetValue(forKey: TrainingDiaryProperty.ltdEddingtonNumbers.rawValue).add(newChild)
         return newChild
     }
   
-    func addLTDEddingtonNumber(forActivity a: String, type at: String, equipment e: String, period p: Period, unit u: Unit, value v: Int, plusOne: Int, maturity: Double){
+    func addLTDEddingtonNumber(forDayType dt: String, forActivity a: String, type at: String, equipment e: String, period p: Period, unit u: Unit, value v: Int, plusOne: Int, maturity: Double){
         
         
-        let aLevel = getLTDEddingtonNumber(forActivity: a)
+        let dLevel = getLTDEddingtonNumber(forDayType: dt)
+        dLevel.dayType = dt
+        dLevel.lastUpdate = Date()
+        
+        let aLevel = dLevel.getChild(forName: a)
+        dLevel.dayType = dt
         aLevel.activity = a
         aLevel.lastUpdate = Date()
         
         let eLevel = aLevel.getChild(forName: e)
+        dLevel.dayType = dt
         eLevel.activity = a
         eLevel.equipment = e
         eLevel.activityType = nil
         eLevel.lastUpdate = Date()
 
         let tLevel = eLevel.getChild(forName: at)
+        dLevel.dayType = dt
         tLevel.activity = a
         tLevel.equipment = e
         tLevel.activityType = at
         tLevel.lastUpdate = Date()
 
         let uLevel = tLevel.getChild(forName: u.rawValue)
+        dLevel.dayType = dt
         uLevel.activity = a
         uLevel.equipment = e
         uLevel.activityType = at
@@ -702,6 +717,7 @@ extension TrainingDiary: TrainingDiaryValues{
         uLevel.lastUpdate = Date()
 
         let pLevel = uLevel.getChild(forName: p.rawValue)
+        dLevel.dayType = dt
         pLevel.activity = a
         pLevel.equipment = e
         pLevel.activityType = at
@@ -770,7 +786,7 @@ extension TrainingDiary: TrainingDiaryValues{
 
     
     // this is focussed on the rolling periods. It is very time consuming to just loop through and ask each day for it's rolling period - by way of example. RollingYear for all days would require summing 365 days for every day - thats 5,000 x 365 sums - if we ask each day individually. If we run through the days and keep a total as we go there are ~ 2 sums per day. So should be ~ 180 times faster. Sacrifising generalisation for speed here. A second benefit is this method makes it easier to average units rather than just sum them.
-    private func optimisedCalculation(forActivity activity: String, andActivityType activityType: String, andEquipment e: String, andPeriod period: Period, andUnit unit: Unit, fromDate from: Date, toDate to: Date) -> [(date: Date, value:Double)]?{
+    private func optimisedCalculation(forDayType dt: String, andActivity activity: String, andActivityType activityType: String, andEquipment e: String, andPeriod period: Period, andUnit unit: Unit, fromDate from: Date, toDate to: Date) -> [(date: Date, value:Double)]?{
 
         
         var result: [(date: Date, value:Double)] = []
@@ -806,7 +822,7 @@ extension TrainingDiary: TrainingDiaryValues{
             }
             
             for d in ascendingOrderedDays(fromDate: rSum!.preLoadData(forDate: from), toDate: to){
-                let sum = rSum!.addAndReturnSum(forDate: d.date!, value: d.valueFor(activity: activity, activityType: activityType, equipment: e, unit: unit))
+                let sum = rSum!.addAndReturnSum(forDate: d.date!, value: d.valueFor(dayType: dt, activity: activity, activityType: activityType, equipment: e, unit: unit))
                 if d.date! >= from{
                     if let s = sum{
                         result.append((d.date!, s))
@@ -849,9 +865,9 @@ extension TrainingDiary: TrainingDiaryValues{
             for d in ascendingOrderedDays(fromDate: rAverage!.preLoadData(forDate: from), toDate: to){
                 var weight: Double = 1.0
                 if unit.type() == UnitType.Activity{
-                    weight = d.valueFor(activity: activity, activityType: activityType, equipment: e, unit: Unit.Seconds)
+                    weight = d.valueFor(dayType: dt, activity: activity, activityType: activityType, equipment: e, unit: Unit.Seconds)
                 }
-                let sum = rAverage!.addAndReturnAverage(forDate: d.date!, value: d.valueFor(activity: activity, activityType: activityType, equipment: e, unit: unit), wieghting: weight)
+                let sum = rAverage!.addAndReturnAverage(forDate: d.date!, value: d.valueFor(dayType: dt, activity: activity, activityType: activityType, equipment: e, unit: unit), wieghting: weight)
                 if d.date! >= from{
                     if let s = sum{
                         result.append((d.date!, s))

@@ -343,7 +343,7 @@ class GraphViewController: NSViewController, TrainingDiaryViewController, GraphM
                 g.cache = cachedValues
             }else{
                 
-                let values = td.valuesFor(activity: g.activity, activityType: g.activityType, equipment: ConstantString.EddingtonAll.rawValue, period: g.period, unit: g.unit)
+                let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: g.activity, activityType: g.activityType, equipment: ConstantString.EddingtonAll.rawValue, period: g.period, unit: g.unit)
                 g.cache = values
                 self.cache[g.name] = values
         
