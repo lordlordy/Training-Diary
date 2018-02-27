@@ -7,10 +7,20 @@
 box-sizing: border-box;
 }
 
+#dayType {
+background-position: 10px 10px;
+background-repeat: no-repeat;
+width: 14%;
+font-size: 12px;
+padding: 2px 2px 2px 2px;
+border: 1px solid #ddd;
+margin-bottom: 2px;
+}
+
 #activity {
 background-position: 10px 10px;
 background-repeat: no-repeat;
-width: 17%;
+width: 14%;
 font-size: 12px;
 padding: 2px 2px 2px 2px;
 border: 1px solid #ddd;
@@ -20,7 +30,7 @@ margin-bottom: 2px;
 #equipment {
 background-position: 10px 10px;
 background-repeat: no-repeat;
-width: 17%;
+width: 14%;
 font-size: 12px;
 padding: 2px 2px 2px 2px;
 border: 1px solid #ddd;
@@ -30,7 +40,7 @@ margin-bottom: 2px;
 #type {
 background-position: 10px 10px;
 background-repeat: no-repeat;
-width: 17%;
+width: 14%;
 font-size: 12px;
 padding: 2px 2px 2px 2px;
 border: 1px solid #ddd;
@@ -40,7 +50,7 @@ margin-bottom: 2px;
 #period {
 background-position: 10px 10px;
 background-repeat: no-repeat;
-width: 17%;
+width: 14%;
 font-size: 12px;
 padding: 2px 2px 2px 2px;
 border: 1px solid #ddd;
@@ -50,7 +60,7 @@ margin-bottom: 2px;
 #unit {
 background-position: 10px 10px;
 background-repeat: no-repeat;
-width: 8%;
+width: 14%;
 font-size: 12px;
 padding: 2px 2px 2px 2px;
 border: 1px solid #ddd;
@@ -60,7 +70,7 @@ margin-bottom: 2px;
 #count {
 background-position: 10px 10px;
 background-repeat: no-repeat;
-width: 8%;
+width: 10%;
 font-size: 12px;
 padding: 2px 2px 2px 2px;
 border: 1px solid #ddd;
@@ -87,10 +97,50 @@ border-bottom: 1px solid #ddd;
 background-color: #f1f1f1;
 }
 </style>
+<script>
+function filterNumbers() {
+var dt,a,e,at,p,u, filter, table, tr, td, i,c;
+dt = document.getElementById("dayType");
+a = document.getElementById("activity");
+e = document.getElementById("equipment");
+at = document.getElementById("type");
+p = document.getElementById("period");
+u = document.getElementById("unit");
+dtUpper = dt.value.toUpperCase();
+aUpper = a.value.toUpperCase();
+eUpper = e.value.toUpperCase();
+atUpper = at.value.toUpperCase();
+pUpper = p.value.toUpperCase();
+uUpper = u.value.toUpperCase();
+table = document.getElementById("edNumTable");
+tr = table.getElementsByTagName("tr");
+
+for (i = 0, c = 0; i < tr.length; i++) {
+dtd = tr[i].getElementsByTagName("td")[0];
+ad = tr[i].getElementsByTagName("td")[1];
+ed = tr[i].getElementsByTagName("td")[2];
+atd = tr[i].getElementsByTagName("td")[3];
+pd = tr[i].getElementsByTagName("td")[4];
+ud = tr[i].getElementsByTagName("td")[5];
+if (dtd) {
+if ((dtd.innerHTML.toUpperCase().indexOf(dtUpper) > -1) && (ad.innerHTML.toUpperCase().indexOf(aUpper) > -1) && (ed.innerHTML.toUpperCase().indexOf(eUpper) > -1) && (atd.innerHTML.toUpperCase().indexOf(atUpper) > -1) && (pd.innerHTML.toUpperCase().indexOf(pUpper) > -1) && (ud.innerHTML.toUpperCase().indexOf(uUpper) > -1)) {
+tr[i].style.display = "";
+c++
+} else {
+tr[i].style.display = "none";
+}
+}
+}
+document.getElementById("count").value = c
+}
+
+</script>
+
 </head>
 <body>
-<p>Having been experimenting with generalising the creation of Eddington Numbers in my training diary here is the output after asking it to create all (with a few rules to avoid clearly pointless ones). There are over 5,000 eddington number here. There should be a blog post shortly about how much fun all this has been. Unfortunately Wordpress won't allow inclusion of scripting unless you pay top$ for a business account so I've not been able to include filtering on this table. </br>
+<p>Having been experimenting with generalising the creation of Eddington Numbers in my training diary here is the output after asking it to create all (with a few rules to avoid clearly pointless ones). There are over 15,000 eddington number here. There should be a blog post shortly about how much fun all this has been. Unfortunately Wordpress won't allow inclusion of scripting unless you pay top$ for a business account so I've not been able to include filtering on this table. </br>
 <i>There are some errors in the numbers due to some functionality needing debugging following this generalisation. Once fixed I'll update this page.</i></p>
+<input type="text" id="dayType" onkeyup="filterNumbers()" placeholder="Filter day type.." title="Type in a name">
 <input type="text" id="activity" onkeyup="filterNumbers()" placeholder="Filter activity.." title="Type in a name">
 <input type="text" id="equipment" onkeyup="filterNumbers()" placeholder="Filter equipment.." title="Type in a name">
 <input type="text" id="type" onkeyup="filterNumbers()" placeholder="Filter type.." title="Type in a name">
@@ -99,11 +149,12 @@ background-color: #f1f1f1;
 <input type="text" id="count" placeholder="count..." title="Type in a name">
 <table id="edNumTable">
 <tr class="Header">
-<th style="width:17%;">Activity</th>
-<th style="width:17%;">Equipment</th>
-<th style="width:17%;">Type</th>
-<th style="width:17%;">Period</th>
-<th style="width:17%;">Unit</th>
+<th style="width:14%;">Day Type</th>
+<th style="width:14%;">Activity</th>
+<th style="width:14%;">Equipment</th>
+<th style="width:14%;">Type</th>
+<th style="width:14%;">Period</th>
+<th style="width:14%;">Unit</th>
 <th style="width:8%;">#</th>
-<th style="width:7%;">+1</th>
+<th style="width:8%;">+1</th>
 </tr>

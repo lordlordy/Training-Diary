@@ -485,8 +485,8 @@ extension TrainingDiary: TrainingDiaryValues{
         return result
     }
     
-    func ltdEddingtonNumberExists(activity a: String, activityType at: String, equipment e: String, period p: String, unit u: String ) -> Bool{
-        let edCode = EddingtonNumber.code(activity: a, activityType: at, equipment: e, period: p, unit: u)
+    func ltdEddingtonNumberExists(dayType dt: String, activity a: String, activityType at: String, equipment e: String, period p: String, unit u: String ) -> Bool{
+        let edCode = EddingtonNumber.code(dayType: dt, activity: a, activityType: at, equipment: e, period: p, unit: u)
         let currentEdNums = ltdEddingtonNumbersArray()
         let filtered = currentEdNums.filter({$0.code == edCode})
         

@@ -50,7 +50,9 @@ public class EddingtonNumberCalculator: NSObject{
     func calculate(eddingtonNumber e: EddingtonNumber){
         if let p = Period(rawValue: e.period!){
             if let u = Unit(rawValue: e.unit!){
-                let values = e.trainingDiary!.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: e.activity!, activityType: e.activityType!, equipment: e.equipment!, period: p, unit: u)
+                var dt = ConstantString.EddingtonAll.rawValue
+                if e.dayType != nil { dt = e.dayType!}
+                let values = e.trainingDiary!.valuesFor(dayType: dt, activity: e.activity!, activityType: e.activityType!, equipment: e.equipment!, period: p, unit: u)
                 let usefulValues = values.filter({$0.value >= 1.0})
                 eddingtonCalculation(forValues: usefulValues)
             }
@@ -63,7 +65,9 @@ public class EddingtonNumberCalculator: NSObject{
             if let p = Period(rawValue: e.period!){
                 if let u = Unit(rawValue: e.unit!){
                     populateCalc(forEddingtonNumber: e)
-                    let values = e.trainingDiary!.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: e.activity!, activityType: e.activityType!, equipment: e.equipment!, period: p, unit: u, from: from.startOfDay())
+                    var dt = ConstantString.EddingtonAll.rawValue
+                    if e.dayType != nil { dt = e.dayType!}
+                    let values = e.trainingDiary!.valuesFor(dayType: dt, activity: e.activity!, activityType: e.activityType!, equipment: e.equipment!, period: p, unit: u, from: from.startOfDay())
                     eddingtonCalculation(forValues: values, from: from)
                 }
             }

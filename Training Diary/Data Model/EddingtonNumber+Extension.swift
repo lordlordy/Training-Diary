@@ -10,12 +10,12 @@ import Foundation
 
 extension EddingtonNumber{
     
-    static func code(activity: String?, activityType: String?, equipment: String?, period: String, unit: String) -> String{
-        return eddingtonCode(activity, activityType, equipment, period, unit)
+    static func code(dayType dt: String?, activity: String?, activityType: String?, equipment: String?, period: String, unit: String) -> String{
+        return eddingtonCode(dt, activity, activityType, equipment, period, unit)
     }
 
-    static func shortCode(activity: String?, activityType: String?, equipment: String?, period: String, unit: String) -> String{
-        return shortEddingtonCode(activity, activityType, equipment, period, unit)
+    static func shortCode(daytype dt: String?, activity: String?, activityType: String?, equipment: String?, period: String, unit: String) -> String{
+        return shortEddingtonCode(dt, activity, activityType, equipment, period, unit)
     }
     
     var nextEddingtonNumber: Int16{ return value + 1}
@@ -29,10 +29,11 @@ extension EddingtonNumber{
     @objc dynamic var bikeEditable: Bool{ return true}
     
     @objc dynamic var eddingtonCode: String{
+        let dt = dayType ?? ConstantString.EddingtonAll.rawValue
         let a = activity ?? ConstantString.EddingtonAll.rawValue
         let at = activityType ?? ConstantString.EddingtonAll.rawValue
         let e = equipment ?? ConstantString.EddingtonAll.rawValue
-        return EddingtonNumber.code(activity: a,activityType: at, equipment: e, period: period!,unit: unit!)
+        return EddingtonNumber.code(dayType: dt, activity: a,activityType: at, equipment: e, period: period!,unit: unit!)
     }
     
     
@@ -305,8 +306,9 @@ extension EddingtonNumber{
         return 0.0
     }
     
-    private static func eddingtonCode(_ activity: String?, _ activityType: String?, _ equipment: String?, _ period: String, _ unit: String) -> String{
-        var result = activity ?? ConstantString.EddingtonAll.rawValue
+    private static func eddingtonCode(_ dayType: String?, _ activity: String?, _ activityType: String?, _ equipment: String?, _ period: String, _ unit: String) -> String{
+        var result = dayType ?? ConstantString.EddingtonAll.rawValue
+        result += ":" + (activity ?? ConstantString.EddingtonAll.rawValue)
         result += ":" + (equipment ?? ConstantString.EddingtonAll.rawValue)
         result += ":" + (activityType ?? ConstantString.EddingtonAll.rawValue)
         result += ":" + period
@@ -314,11 +316,16 @@ extension EddingtonNumber{
         return result.trimmingCharacters(in: CharacterSet.init(charactersIn: ":"))
     }
     
-    private static func shortEddingtonCode(_ activity: String?, _ activityType: String?, _ equipment: String?, _ period: String, _ unit: String) -> String{
+    private static func shortEddingtonCode(_ dayType: String?, _ activity: String?, _ activityType: String?, _ equipment: String?, _ period: String, _ unit: String) -> String{
         var result = ""
+        if let dt = dayType {
+            if dt != ConstantString.EddingtonAll.rawValue{
+                result += dt
+            }
+        }
         if let a = activity {
             if a != ConstantString.EddingtonAll.rawValue && (equipment == nil || equipment == ConstantString.EddingtonAll.rawValue ){
-                result += a
+                result += ":" + a
             }
         }
         if let e = equipment {

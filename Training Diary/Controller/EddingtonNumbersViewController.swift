@@ -14,6 +14,7 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
     var mainViewController: ViewController?
     @IBOutlet var treeController: NSTreeController!
     
+    private var dayType: String?
     private var activity: String?
     private var activityType: String?
     private var equipment: String?
@@ -75,11 +76,32 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
                 print("tableStart.txt not loaded")
             }
         }
- 
+        var count: Int = 0
+        test: if let edNumSet = trainingDiary?.ltdEddingtonNumbers?.allObjects as? [LTDEddingtonNumber]{
+            for e in edNumSet.sorted(by: {$0.code < $1.code}){
+                    for l in e.getLeaves().sorted(by: {$0.code < $1.code}){
+                        count += 1
+                        html += "<tr>\n"
+                        html += "<td>\(l.dayType!)</td>\n"
+                        html += "<td>\(l.activity!)</td>\n"
+                        html += "<td>\(l.equipment!)</td>\n"
+                        html += "<td>\(l.activityType!)</td>\n"
+                        html += "<td>\(l.period!)</td>\n"
+                        html += "<td>\(l.unit!)</td>\n"
+                        html += "<td>\(l.value)</td>\n"
+                        html += "<td>\(l.plusOne)</td>\n"
+                        html += "</tr>"
+                   //     if count >= 9943{ break test }
+                    }
+                }
+        }
+        /*
         if let edNumSet = trainingDiary?.ltdEddingtonNumbers?.allObjects as? [LTDEddingtonNumber]{
             for e in edNumSet.sorted(by: {$0.code < $1.code}){
                 for l in e.getLeaves().sorted(by: {$0.code < $1.code}){
+                    
                     html += "<tr>\n"
+                    html += "<td>\(l.dayType!)</td>\n"
                     html += "<td>\(l.activity!)</td>\n"
                     html += "<td>\(l.equipment!)</td>\n"
                     html += "<td>\(l.activityType!)</td>\n"
@@ -91,7 +113,7 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
                 }
             }
         }
-        
+ */
         if let tableEnd = Bundle.main.url(forResource: "tableEnd", withExtension: "txt"){
             do{
                 let contents = try String.init(contentsOf: tableEnd)
@@ -209,6 +231,11 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
     }
     
 
+    @IBAction func dayTypeField(_ sender: NSTextField) {
+        dayType = sender.stringValue
+        if dayType == "" {dayType = nil}
+        updatePredicate()
+    }
     
     @IBAction func equipmentField(_ sender: NSTextField) {
         self.equipment = sender.stringValue
@@ -287,7 +314,14 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
                         }
                     }
                 }
-
+                
+            case "EdNumDayTypeComboBox":
+                if let td = trainingDiary{
+                    let values = td.eddingtonDayTypes()
+                    if index < values.count{
+                        return values[index]
+                    }
+                }
             default:
                 print("What combo box is this \(identifier.rawValue) which I'm (DaysViewController) a data source for? ")
             }
@@ -311,7 +345,10 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
                 if let e = c.objectValue as? EddingtonNumber{
                     return trainingDiary!.eddingtonEquipment(forActivityString: e.activity!).count
                 }
-
+            case "EdNumDayTypeComboBox":
+                if let td = trainingDiary{
+                    return td.eddingtonDayTypes().count
+                }
             default:
                 return 0
             }
@@ -348,6 +385,11 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
         var predicateString: String = ""
         var arguments: [Any] = []
         var isFirstPredicate = true
+        if let dt = dayType{
+            predicateString = addTo(predicateString: predicateString, withPredicateString: "dayType CONTAINS %@", isFirstPredicate)
+            arguments.append(dt)
+            isFirstPredicate = false
+        }
         if let a = activity{
             predicateString = addTo(predicateString: predicateString, withPredicateString: " activity CONTAINS %@", isFirstPredicate)
             arguments.append(a)

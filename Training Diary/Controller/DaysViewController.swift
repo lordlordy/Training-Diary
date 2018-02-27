@@ -35,6 +35,16 @@ class DaysViewController: NSViewController, TrainingDiaryViewController, NSCombo
         }
     }
     
+    @IBAction func addDay(_ sender: Any) {
+        if let dac = daysArrayController{
+            dac.add(sender)
+            setFilterPredicate()
+        }
+        toDatePicker!.dateValue = trainingDiary!.lastDayOfDiary.tomorrow()
+
+        reload(sender)
+    }
+    
     @IBAction func reload(_ sender: Any) {
         if let table = dayTableView{
             table.reloadData()
@@ -287,6 +297,7 @@ class DaysViewController: NSViewController, TrainingDiaryViewController, NSCombo
         if let from = fromDatePicker?.dateValue{
             if let to = toDatePicker?.dateValue{
                 daysArrayController.filterPredicate = NSPredicate(format: "date >= %@ AND date <= %@", argumentArray: [from.startOfDay(),to.endOfDay()])
+                print("Set predice to \(daysArrayController.filterPredicate)")
             }
         }
     }

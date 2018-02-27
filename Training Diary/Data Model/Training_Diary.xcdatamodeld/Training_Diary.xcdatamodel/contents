@@ -57,6 +57,7 @@
         <attribute name="activity" attributeType="String" defaultValueString="All" syncable="YES"/>
         <attribute name="activityType" attributeType="String" defaultValueString="All" syncable="YES"/>
         <attribute name="annual" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="dayType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="equipment" attributeType="String" defaultValueString="All" syncable="YES"/>
         <attribute name="lastUpdated" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="maxContributor" optional="YES" attributeType="Double" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
@@ -172,7 +173,7 @@
         <element name="EddingtonAnnualHistory" positionX="-630" positionY="147" width="128" height="103"/>
         <element name="EddingtonContributor" positionX="-621" positionY="-234" width="128" height="90"/>
         <element name="EddingtonHistory" positionX="-630" positionY="-42" width="128" height="120"/>
-        <element name="EddingtonNumber" positionX="-486" positionY="-249" width="128" height="255"/>
+        <element name="EddingtonNumber" positionX="-486" positionY="-249" width="128" height="270"/>
         <element name="Equipment" positionX="324" positionY="72" width="128" height="135"/>
         <element name="LTDEddingtonNumber" positionX="-776" positionY="-379" width="128" height="255"/>
         <element name="Metric" positionX="-486" positionY="-459" width="128" height="103"/>
