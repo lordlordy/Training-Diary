@@ -77,6 +77,18 @@ extension TrainingDiary: TrainingDiaryValues{
         return CoreDataStackSingleton.shared.workouts(forTrainingDiary: self)
     }
     
+    @objc dynamic var ltdEddingtonNumberLeafs: [LTDEddingtonNumber]{
+        var result: [LTDEddingtonNumber] = []
+        for l in ltdEddingtonNumbersArray(){
+            result.append(contentsOf: l.getLeaves())
+        }
+        print("getting ed nums. total: \(result.count)")
+        return result
+    }
+    @objc dynamic var ltdLeafsCount: Int{
+        return ltdEddingtonNumberLeafs.count
+    }
+    
     func ascendingOrderedDays() -> [Day]{
         let daysArray = days!.allObjects as! [Day]
         return daysArray.sorted(by: {$0.date! < $1.date!})
@@ -319,7 +331,8 @@ extension TrainingDiary: TrainingDiaryValues{
     
     func eddingtonDayTypes() -> [String]{
         var result = DayType.AllTypes.map({$0.rawValue})
-        result.append(contentsOf: ConstantString.DayTypeStrings.map({$0.rawValue}))
+        result.append(contentsOf: DayOfWeek.all.map({$0.rawValue}))
+        result.append(ConstantString.EddingtonAll.rawValue)
         result.sort(by: {$0 < $1})
         return result
     }

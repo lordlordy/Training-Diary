@@ -69,6 +69,7 @@
 		73C2F03E20206E480073323D /* Equipment+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C2F03D20206E480073323D /* Equipment+Extension.swift */; };
 		73C3B37D1F97AC1400ED6108 /* EddingtonNumberCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C3B37C1F97AC1400ED6108 /* EddingtonNumberCalculator.swift */; };
 		73C3B37F1F97DC5A00ED6108 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C3B37E1F97DC5A00ED6108 /* Date+Extension.swift */; };
+		73C56FE62045D0BD00E05AA3 /* EddingtonSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C56FE52045D0BD00E05AA3 /* EddingtonSearchViewController.swift */; };
 		73C58CA71FA8EFD200F57BAE /* EddingtonNumber+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C58CA61FA8EFD200F57BAE /* EddingtonNumber+Extension.swift */; };
 		73CAFEAA20292284003E4D6B /* PeriodNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73CAFEA920292284003E4D6B /* PeriodNode.swift */; };
 		73D3171D2018BEA90070C40B /* TextViewToStringTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D3171C2018BEA90070C40B /* TextViewToStringTransformer.swift */; };
@@ -161,6 +162,7 @@
 		73C2F03D20206E480073323D /* Equipment+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Equipment+Extension.swift"; sourceTree = "<group>"; };
 		73C3B37C1F97AC1400ED6108 /* EddingtonNumberCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EddingtonNumberCalculator.swift; sourceTree = "<group>"; };
 		73C3B37E1F97DC5A00ED6108 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		73C56FE52045D0BD00E05AA3 /* EddingtonSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EddingtonSearchViewController.swift; sourceTree = "<group>"; };
 		73C58CA61FA8EFD200F57BAE /* EddingtonNumber+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EddingtonNumber+Extension.swift"; sourceTree = "<group>"; };
 		73CAFEA920292284003E4D6B /* PeriodNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodNode.swift; sourceTree = "<group>"; };
 		73D3171C2018BEA90070C40B /* TextViewToStringTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewToStringTransformer.swift; sourceTree = "<group>"; };
@@ -287,6 +289,7 @@
 				73E25E1A1FC038FC0081FC62 /* GraphViewController.swift */,
 				73D89F9B1FD1BB03002F07A2 /* CompareGraphViewController.swift */,
 				7333B8621FA76F3A00E93BF0 /* EddingtonNumbersViewController.swift */,
+				73C56FE52045D0BD00E05AA3 /* EddingtonSearchViewController.swift */,
 				73E7FD372015FA2900D1FCD4 /* BikeViewController.swift */,
 				7310C766201A76E3005FEEAE /* AdminViewController.swift */,
 				733AA829202A6E550065C8B9 /* DefaultsViewController.swift */,
@@ -480,6 +483,7 @@
 				73B2B9FC1F896F920044DD4E /* TransformerNSNumberToTimeFormat.swift in Sources */,
 				7328070B1FACBC2900658833 /* Queue.swift in Sources */,
 				73B2B9F81F894E870044DD4E /* CoreDataStackSingleton.swift in Sources */,
+				73C56FE62045D0BD00E05AA3 /* EddingtonSearchViewController.swift in Sources */,
 				73D89F9A1FD15FEB002F07A2 /* PeriodWeightedAverage.swift in Sources */,
 				73593314201F7C6F007BB525 /* ActivityToStringTransformer.swift in Sources */,
 				731CF8071F98467A00C59AA8 /* TSBCalculator.swift in Sources */,

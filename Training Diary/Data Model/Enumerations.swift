@@ -94,8 +94,6 @@ enum Constant: Double {
 
 enum ConstantString: String{
     case EddingtonAll       = "All"
-    case Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
-    static var DayTypeStrings = [EddingtonAll, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday]
 }
 
 
@@ -543,7 +541,19 @@ enum EddingtonNumberProperty: String{
 }
 
 enum LTDEddingtonNumberProperty: String{
+    case activity, activityType, dayType, equipment, period, unit, code, shortCode
+    case lastUpdate, maturity, plusOne, value, isWeekDay
     case children, parent
+    
+    static var StringProperties = [activity, activityType, dayType, equipment, period, unit, code, shortCode]
+    
+}
+
+enum DayOfWeek: String{
+    case Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
+    
+    static var all = [Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday]
+    
 }
 
 

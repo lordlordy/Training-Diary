@@ -14,6 +14,7 @@ extension LTDEddingtonNumber{
     @objc dynamic var isLeaf: Bool { return childArray().count == 0}
     @objc dynamic var isRoot: Bool { return parent == nil}
     @objc dynamic var isNotLeaf: Bool { return !isLeaf }
+    @objc dynamic var isWeekDay: Bool { return DayOfWeek.all.map({$0.rawValue}).contains(dayType!)}
     
     @objc dynamic var code: String{
         let result = EddingtonNumber.code(dayType: dayType, activity: activity, activityType: activityType, equipment: equipment, period: period ?? "", unit: unit ?? "")
@@ -38,7 +39,7 @@ extension LTDEddingtonNumber{
         return result
     }
     
-    //if no present it creates it
+    //if not present it creates it
     func getChild(forName n: String) -> LTDEddingtonNumber{
         
         let filtered = childArray().filter({$0.name == n})
@@ -56,6 +57,8 @@ extension LTDEddingtonNumber{
         }
     }
 
+    // MARK: - Private
+    
     private func childArray() -> [LTDEddingtonNumber]{
         if let array = children?.allObjects as? [LTDEddingtonNumber]{
             return array
