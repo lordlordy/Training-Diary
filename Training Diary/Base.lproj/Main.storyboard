@@ -1631,18 +1631,16 @@
         <!--Tab View Controller-->
         <scene sceneID="8vb-xO-7b5">
             <objects>
-                <tabViewController selectedTabViewItemIndex="9" id="qdR-OF-74A" sceneMemberID="viewController">
+                <tabViewController selectedTabViewItemIndex="0" id="qdR-OF-74A" sceneMemberID="viewController">
                     <tabViewItems>
                         <tabViewItem label="Days" identifier="" id="dJW-xM-nRn"/>
                         <tabViewItem label="Physiological" id="Yi5-T8-zsF"/>
                         <tabViewItem label="Graph" id="L8w-bZ-VGp"/>
                         <tabViewItem id="Ndg-ge-3bT"/>
-                        <tabViewItem label="Eddington Numbers" identifier="" id="DU2-dT-OCM"/>
-                        <tabViewItem id="ApF-aC-BhB"/>
+                        <tabViewItem id="MzF-Z7-4D1"/>
                         <tabViewItem label="Bikes" id="5GB-Bn-xD0"/>
                         <tabViewItem id="o8i-a3-6gG" userLabel="Admin"/>
                         <tabViewItem id="JKD-Wa-H5e" userLabel="Defaults"/>
-                        <tabViewItem id="MzF-Z7-4D1"/>
                     </tabViewItems>
                     <tabView key="tabView" misplaced="YES" type="noTabsBezelBorder" id="xBa-Jl-ofJ">
                         <rect key="frame" x="0.0" y="0.0" width="1124" height="614"/>
@@ -1659,12 +1657,10 @@
                         <segue destination="X48-76-rvX" kind="relationship" relationship="tabItems" id="AIy-sh-b3v"/>
                         <segue destination="QuH-HA-I4x" kind="relationship" relationship="tabItems" id="PNa-rf-Amq"/>
                         <segue destination="bQn-H1-jZw" kind="relationship" relationship="tabItems" id="nvd-VM-vbC"/>
-                        <segue destination="e7J-kp-njl" kind="relationship" relationship="tabItems" id="ohY-Wr-bE6"/>
-                        <segue destination="Jw6-RA-Cw7" kind="relationship" relationship="tabItems" id="jOh-AE-aNm"/>
+                        <segue destination="8Mj-1z-4BA" kind="relationship" relationship="tabItems" id="0Od-AX-H4a"/>
                         <segue destination="b6K-PE-Btk" kind="relationship" relationship="tabItems" id="103-j6-qAK"/>
                         <segue destination="rMI-Fn-YTr" kind="relationship" relationship="tabItems" id="c1H-3h-vHw"/>
                         <segue destination="wkX-tK-3wB" kind="relationship" relationship="tabItems" id="qh6-fc-Rh7"/>
-                        <segue destination="8Mj-1z-4BA" kind="relationship" relationship="tabItems" id="0Od-AX-H4a"/>
                     </connections>
                 </tabViewController>
                 <customObject id="fki-q4-DQB" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -4471,7 +4467,7 @@ IA
                                         </customSpacing>
                                     </stackView>
                                     <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="icv-Ng-Xbj">
-                                        <rect key="frame" x="340" y="0.0" width="60" height="50"/>
+                                        <rect key="frame" x="300" y="0.0" width="60" height="50"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fkB-ca-np9">
                                                 <rect key="frame" x="-2" y="36" width="64" height="14"/>
@@ -4972,7 +4968,7 @@ IA
             </objects>
             <point key="canvasLocation" x="335.5" y="1612"/>
         </scene>
-        <!--EddNum VC-->
+        <!--Calculate-->
         <scene sceneID="qQi-XH-9N2">
             <objects>
                 <arrayController mode="entity" entityName="EddingtonHistory" editable="NO" automaticallyPreparesContent="YES" id="exy-Lv-k13" userLabel="EdHistory AC">
@@ -5006,7 +5002,7 @@ IA
                         <binding destination="e7J-kp-njl" name="managedObjectContext" keyPath="trainingDiary.managedObjectContext" id="QWV-HB-InX"/>
                     </connections>
                 </arrayController>
-                <viewController title="EddNum VC" id="e7J-kp-njl" customClass="EddingtonNumbersViewController" customModule="Training_Diary" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Calculate" id="e7J-kp-njl" customClass="EddingtonNumbersViewController" customModule="Training_Diary" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="nbs-Bj-4OF">
                         <rect key="frame" x="0.0" y="0.0" width="1123" height="576"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -7033,7 +7029,7 @@ IA
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="1630.5" y="1612"/>
+            <point key="canvasLocation" x="2507" y="1321"/>
         </scene>
         <!--Weight & HR-->
         <scene sceneID="h55-kI-VWj">
@@ -13798,10 +13794,10 @@ IA
             </objects>
             <point key="canvasLocation" x="6089" y="615.5"/>
         </scene>
-        <!--Eddington Search-->
+        <!--Search-->
         <scene sceneID="Qmd-Rz-OcM">
             <objects>
-                <viewController title="Eddington Search" id="Jw6-RA-Cw7" customClass="EddingtonSearchViewController" customModule="Training_Diary" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Search" id="Jw6-RA-Cw7" customClass="EddingtonSearchViewController" customModule="Training_Diary" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="bnB-eU-qrg">
                         <rect key="frame" x="0.0" y="0.0" width="1112" height="575"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -14311,7 +14307,7 @@ IA
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <predicateEditor verticalHuggingPriority="750" nestingMode="compound" rowHeight="25" id="KyU-dF-pu6">
-                                            <rect key="frame" x="0.0" y="0.0" width="351" height="534"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="351" height="536"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                             <rowTemplates>
                                                 <predicateEditorRowTemplate rowType="compound" id="tNo-oh-UA3">
@@ -14384,12 +14380,12 @@ IA
                     </connections>
                 </arrayController>
             </objects>
-            <point key="canvasLocation" x="7167" y="615.5"/>
+            <point key="canvasLocation" x="2512" y="1980"/>
         </scene>
-        <!--Tab View Controller-->
+        <!--Eddington Numbers-->
         <scene sceneID="oCa-09-4cz">
             <objects>
-                <tabViewController selectedTabViewItemIndex="1" id="8Mj-1z-4BA" sceneMemberID="viewController">
+                <tabViewController title="Eddington Numbers" selectedTabViewItemIndex="0" id="8Mj-1z-4BA" customClass="EddingtonNumberTABViewController" customModule="Training_Diary" customModuleProvider="target" sceneMemberID="viewController">
                     <tabViewItems>
                         <tabViewItem id="k1z-G2-FYB"/>
                         <tabViewItem id="da9-D6-cOA"/>
@@ -14411,7 +14407,7 @@ IA
                 </tabViewController>
                 <customObject id="wen-B1-VXB" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1840" y="43"/>
+            <point key="canvasLocation" x="1358" y="1630"/>
         </scene>
     </scenes>
     <resources>
@@ -14422,8 +14418,4 @@ IA
         <image name="NSGoRightTemplate" width="9" height="12"/>
         <image name="NSRemoveTemplate" width="11" height="11"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="APm-eE-0fL"/>
-        <segue reference="lyx-w2-94F"/>
-    </inferredMetricsTieBreakers>
 </document>
