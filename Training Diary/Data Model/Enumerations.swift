@@ -101,10 +101,10 @@ enum ConstantString: String{
 
 enum Period: String{
     case Day            = "Day"
-    case Week           = "Week"
+    case Week           = "Wk-Mon"
     case Month          = "Month"
     case Year           = "Year"
-    case WeekToDate     = "WTD"
+    case WeekToDate     = "WTD-Mon"
     case MonthToDate    = "MTD"
     case YearToDate     = "YTD"
     case rWeek          = "RWeek"

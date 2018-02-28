@@ -16,30 +16,11 @@ class DefaultsViewController: NSViewController, TrainingDiaryViewController, NSC
     
     //MARK: - IBActions
     @IBAction func adhoc(_ sender: Any) {
-        if let td = trainingDiary{
-            if let ltd = td.ltdEddingtonNumbers{
-                for l in ltd{
-                    if let node = l as? LTDEddingtonNumber{
-                        setDayType(to: node.dayType!, forEdNum: node)
-                    }
-                }
-            }
-        }
-        
+    
     }
     
-    private func setDayType(to: String, forEdNum: LTDEddingtonNumber){
-        print(to)
-        forEdNum.dayType = to
-        if !forEdNum.isLeaf{
-            for l in forEdNum.children!{
-                if let node = l as? LTDEddingtonNumber{
-                    setDayType(to: to, forEdNum: node)
-                }
-            }
 
-        }
-    }
+    
     
     
     @IBAction func uniqueActivities(_ sender: Any){
