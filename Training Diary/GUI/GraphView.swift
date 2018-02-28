@@ -408,14 +408,58 @@ class GraphView: NSView {
     
     private func draw(graph: GraphDefinition, inDirtyRect dirtyRect: NSRect ){
         switch graph.type{
-        case .Bar: print("Bar chart to be implemented")
-        case .Line: drawLine(graph: graph, inDirtyRect: dirtyRect)
-        case .Point: drawPoints(graph: graph, inDirtyRect: dirtyRect)
+        case .Bar:      drawBar(graph: graph, inDirtyRect: dirtyRect)
+        case .Line:     drawLine(graph: graph, inDirtyRect: dirtyRect)
+        case .Point:    drawPoints(graph: graph, inDirtyRect: dirtyRect)
         }
 
         
     }
 
+    private func drawBar(graph: GraphDefinition, inDirtyRect dirtyRect: NSRect ){
+        if graph.data.count == 0 { return } // no data
+        
+        let path = NSBezierPath()
+        if let dash = graph.dash{
+            path.setLineDash(dash, count: dash.count, phase: 0.0)
+        }
+        
+        
+        if let startDate = graphsXMinimumDate(){
+            if let endDate = graphsXMaximumDate(){
+                
+                //start from origin
+                let origin = coordinatesInView(xValue: 0.0, yValue: 0.0, forAxis: graph.axis, dirtyRect)
+                path.move(to: origin)
+                
+                var previousPoint = origin
+                
+                //this has bar end at x-value. Should amend this to centre at x-value
+                for point in graph.data {
+                    let p = coordinatesInView(xValue:  point.date.timeIntervalSince(startDate), yValue: point.value,forAxis: graph.axis, dirtyRect)
+                
+                    path.line(to: NSPoint(x: previousPoint.x, y: p.y))
+                    path.line(to:p)
+                    path.line(to: NSPoint(x:p.x,y:origin.y))
+               
+                    previousPoint = p
+                }
+                
+                if graph.format.fill{
+                    let endOfXAxis = coordinatesInView(xValue: endDate.timeIntervalSince(startDate), yValue: 0.0,forAxis: graph.axis, dirtyRect)
+                    path.line(to: endOfXAxis)
+                    if let gradient = NSGradient(starting: graph.format.fillGradientStart  , ending: graph.format.fillGradientEnd){
+                        gradient.draw(in: path, angle: graph.format.gradientAngle)
+                    }else{
+                        path.fill()
+                    }
+                }
+                path.lineWidth = graph.format.size
+                graph.format.colour.setStroke()
+                path.stroke()
+            }
+        }    }
+        
     
     private func drawLine(graph: GraphDefinition, inDirtyRect dirtyRect: NSRect ){
         
