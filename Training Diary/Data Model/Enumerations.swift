@@ -407,7 +407,7 @@ enum WorkoutProperty: String, FileMakerProJSONString{
     case activityString, activityTypeString, equipmentOK, activityTypeOK
     
     static var AllProperties = [activity, activityType, activityString, activityTypeString, ascentFeet, ascentMetres, equipmentName, brick, cadence, comments, estimatedKJ, hours, hr, isRace, keywords, kj, km, reps, rpe, seconds, rpeTSS, tss, tssMethod, watts, wattsEstimated, equipmentOK, activityTypeOK]
-    static var DoubleProperties = [ascentFeet, ascentMetres, cadence, estimatedKJ, hr, hours, kj, km, miles, rpe, seconds, rpeTSS, tss, watts]
+    static var DoubleProperties = [ascentFeet, ascentMetres, cadence, estimatedKJ, hr, hours, kj, km, miles, reps, rpe, seconds, rpeTSS, tss, watts]
     static var StringProperties = [activityString, activityTypeString, equipmentName, comments, keywords, tssMethod]
     static var BooleanProperties = [brick, isRace, wattsEstimated, equipmentOK, activityTypeOK]
     
@@ -496,11 +496,12 @@ enum DayCalculatedProperty: String{
     case bikeKM, bikeAscentFeet, bikeAscentMetres, bikeHours, BikeHR, bikeKJ, bikeMinutes, bikeSeconds, bikeTSS, bikeTSB, bikeWatts
     case runKM, runAscentFeet, runAscentMetres, runHours, runHR, runKJ, runMinutes, runSeconds, runTSS, runTSB, runWatts
     case swimKM, swimHours, swimKJ, swimMinutes, swimSeconds, swimTSS, swimTSB, swimWatts
+    case totalReps
     case gymTSB, walkTSB, otherTSB
     
     case numberOfWorkouts
 
-    static let ALL = [ allKM, allAscentFeet, allAscentMetres, allHours, allKJ, allMinutes, allSeconds, allTSS, allATL, allCTL, bikeKM, bikeAscentFeet, bikeAscentMetres, bikeHours, BikeHR, bikeKJ, bikeMinutes, bikeSeconds, bikeTSS, bikeWatts, runKM, runAscentFeet, runAscentMetres, runHours, runHR, runKJ, runMinutes, runSeconds, runTSS, runWatts, swimKM, swimHours, swimKJ, swimMinutes, swimSeconds, swimTSS, swimWatts,allTSB, swimTSB, bikeTSB, runTSB, gymTSB, walkTSB, otherTSB, numberOfWorkouts]
+    static let ALL = [ allKM, allAscentFeet, allAscentMetres, allHours, allKJ, allMinutes, allSeconds, allTSS, allATL, allCTL, bikeKM, bikeAscentFeet, bikeAscentMetres, bikeHours, BikeHR, bikeKJ, bikeMinutes, bikeSeconds, bikeTSS, bikeWatts, runKM, runAscentFeet, runAscentMetres, runHours, runHR, runKJ, runMinutes, runSeconds, runTSS, runWatts, swimKM, swimHours, swimKJ, swimMinutes, swimSeconds, swimTSS, swimWatts,allTSB, swimTSB, bikeTSB, runTSB, totalReps, gymTSB, walkTSB, otherTSB, numberOfWorkouts]
     
     static let ExportProperties = [ allKM, allSeconds, bikeKM, bikeSeconds, runKM,  runSeconds,  swimKM,  swimSeconds]
 }

@@ -84,8 +84,12 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
                 trainingDiaryVCs.append(c)
             }
 
-            if let controller = controller as? EddingtonNumbersViewController{
-                controller.mainViewController = self
+            if let controller = controller as? EddingtonNumberTABViewController{
+                for c in controller.childViewControllers{
+                    if let edController = c as? EddingtonNumbersViewController{
+                        edController.mainViewController = self
+                    }
+                }                
             }
 
             if let controller = controller as? DefaultsViewController{

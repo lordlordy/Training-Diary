@@ -32,6 +32,7 @@ extension TrainingDiary: TrainingDiaryValues{
     @objc dynamic var totalBikeKM:  Double{ return total(forKey: DayCalculatedProperty.bikeKM.rawValue) }
     @objc dynamic var totalSwimKM:  Double{ return total(forKey: DayCalculatedProperty.swimKM.rawValue) }
     @objc dynamic var totalRunKM:   Double{ return total(forKey: DayCalculatedProperty.runKM.rawValue) }
+    @objc dynamic var totalReps:   Double{ return total(forKey: DayCalculatedProperty.totalReps.rawValue) }
     @objc dynamic var totalAscentMetres: Double { return total(forKey: DayCalculatedProperty.allAscentMetres.rawValue)}
     @objc dynamic var totalSeconds: Double{ return total(forKey: DayCalculatedProperty.allSeconds.rawValue)}
     @objc dynamic var totalTime: TimeInterval{ return TimeInterval(totalSeconds)}

@@ -9,6 +9,8 @@
 import Cocoa
 
 class EddingtonNumberTABViewController: NSTabViewController, TrainingDiaryViewController {
+
+    
     func set(trainingDiary td: TrainingDiary) {
         for vc in childViewControllers{
             if let tdvc = vc as? TrainingDiaryViewController{

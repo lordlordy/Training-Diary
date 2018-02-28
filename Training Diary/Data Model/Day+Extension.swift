@@ -424,9 +424,8 @@ extension Day: TrainingDiaryValues, PeriodNode{
             return 0
         }
     }
-    @objc dynamic var pressUpReps: Double{
-        return 12.345
-        //return sumOverWorkouts(forActivities: [ActivityEnum.Gym], andTypes: [ActivityTypeEnum.PressUp], andUnit: WorkoutProperty.reps.unit()!)
+    @objc dynamic var totalReps: Double{
+        return sumOverWorkouts(dayType: ConstantString.EddingtonAll.rawValue, activity: FixedActivity.Gym.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, unit: Unit.Reps)
     }
     
     //MARK: - utility functions
