@@ -1,20 +1,20 @@
 //
-//  AdminViewController.swift
+//  WorkoutsViewController.swift
 //  Training Diary
 //
-//  Created by Steven Lord on 25/01/2018.
+//  Created by Steven Lord on 02/03/2018.
 //  Copyright © 2018 Steven Lord. All rights reserved.
 //
 
 import Cocoa
 
-class AdminViewController: NSViewController, TrainingDiaryViewController {
-  
+class WorkoutsViewController: NSViewController, TrainingDiaryViewController {
+    
     @objc dynamic var trainingDiary: TrainingDiary?
     
     @IBOutlet weak var predicateEditor: NSPredicateEditor!
     
-
+    
     //MARK: - IBActions
     @IBAction func printPredicate(_ sender: Any){
         if let p = predicateEditor{
@@ -28,7 +28,7 @@ class AdminViewController: NSViewController, TrainingDiaryViewController {
         trainingDiary = td
     }
     
-
+    
     
     
     override func viewDidLoad() {
@@ -37,7 +37,7 @@ class AdminViewController: NSViewController, TrainingDiaryViewController {
         
         if let editor = predicateEditor{
             editor.addRow(nil)
-
+            
             var doubleExpressions: [NSExpression] = []
             var doubleOperators: [NSNumber] = []
             for p in WorkoutProperty.DoubleProperties{
@@ -58,7 +58,7 @@ class AdminViewController: NSViewController, TrainingDiaryViewController {
             }
             stringOperators.append(NSNumber(value:NSComparisonPredicate.Operator.contains.rawValue))
             stringOperators.append(NSNumber(value:NSComparisonPredicate.Operator.equalTo.rawValue))
-
+            
             let stringTemplate = NSPredicateEditorRowTemplate.init(leftExpressions: stringExpressions, rightExpressionAttributeType: NSAttributeType.stringAttributeType, modifier: NSComparisonPredicate.Modifier.direct, operators: stringOperators, options: Int(NSComparisonPredicate.Options.caseInsensitive.rawValue))
             
             var booleanExpressions: [NSExpression] = []
@@ -68,15 +68,16 @@ class AdminViewController: NSViewController, TrainingDiaryViewController {
             }
             booleanOperators.append(NSNumber(value:NSComparisonPredicate.Operator.equalTo.rawValue))
             booleanOperators.append(NSNumber(value:NSComparisonPredicate.Operator.notEqualTo.rawValue))
-
+            
             let booleanTemplate = NSPredicateEditorRowTemplate.init(leftExpressions: booleanExpressions, rightExpressionAttributeType: NSAttributeType.booleanAttributeType, modifier: NSComparisonPredicate.Modifier.direct, operators: booleanOperators, options: Int(NSComparisonPredicate.Options.caseInsensitive.rawValue))
-
+            
             
             editor.rowTemplates.append(contentsOf: [doubleTemplate, stringTemplate, booleanTemplate])
         }
-    
+        
     }
     
-
+    
     
 }
+

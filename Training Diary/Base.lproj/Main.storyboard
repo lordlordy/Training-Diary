@@ -4631,7 +4631,7 @@ IA
                                         </customSpacing>
                                     </stackView>
                                     <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NLf-bN-gl0">
-                                        <rect key="frame" x="100" y="0.0" width="60" height="50"/>
+                                        <rect key="frame" x="60" y="0.0" width="60" height="50"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WGl-w7-QjL">
                                                 <rect key="frame" x="-2" y="36" width="64" height="14"/>
@@ -4692,7 +4692,7 @@ IA
                                         </customSpacing>
                                     </stackView>
                                     <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DsA-s8-6aX">
-                                        <rect key="frame" x="160" y="0.0" width="60" height="50"/>
+                                        <rect key="frame" x="120" y="0.0" width="60" height="50"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="751" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="ezJ-mv-0R6">
                                                 <rect key="frame" x="-2" y="36" width="64" height="14"/>
@@ -11134,7 +11134,7 @@ IA
         <!--Workouts-->
         <scene sceneID="xcL-aV-49d">
             <objects>
-                <viewController title="Workout" id="rMI-Fn-YTr" userLabel="Workouts" customClass="AdminViewController" customModule="Training_Diary" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Workout" id="rMI-Fn-YTr" userLabel="Workouts" customClass="WorkoutsViewController" customModule="Training_Diary" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="s6d-Tq-0HA">
                         <rect key="frame" x="0.0" y="0.0" width="1112" height="573"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -14209,7 +14209,7 @@ IA
                                 <rect key="frame" x="754" y="548" width="353" height="22"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QFq-8D-oJs">
-                                        <rect key="frame" x="0.0" y="-1" width="27" height="21"/>
+                                        <rect key="frame" x="0.0" y="-1" width="13" height="21"/>
                                         <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSRemoveTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="gf3-Z5-NlS">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -14219,7 +14219,7 @@ IA
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0WC-u4-I8J">
-                                        <rect key="frame" x="23" y="-7" width="127" height="32"/>
+                                        <rect key="frame" x="9" y="-7" width="127" height="32"/>
                                         <buttonCell key="cell" type="push" title="Calc Selection" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fdi-kP-cUj">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -14229,7 +14229,7 @@ IA
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="c6W-O4-ZIZ">
-                                        <rect key="frame" x="140" y="-7" width="127" height="32"/>
+                                        <rect key="frame" x="126" y="-7" width="127" height="32"/>
                                         <buttonCell key="cell" type="push" title="Save as HTML" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="JgX-ki-9GP">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -14239,7 +14239,7 @@ IA
                                         </connections>
                                     </button>
                                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="g4q-V5-l5Y">
-                                        <rect key="frame" x="263" y="0.0" width="90" height="22"/>
+                                        <rect key="frame" x="249" y="0.0" width="104" height="22"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="YPL-9t-pvR">
                                             <font key="font" metaFont="system"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -14362,13 +14362,13 @@ IA
                         <rect key="frame" x="0.0" y="0.0" width="1112" height="573"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <scrollView autohidesScrollers="YES" horizontalLineScroll="16" horizontalPageScroll="10" verticalLineScroll="16" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xNQ-mH-nos">
+                            <scrollView autohidesScrollers="YES" horizontalLineScroll="42" horizontalPageScroll="10" verticalLineScroll="42" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xNQ-mH-nos">
                                 <rect key="frame" x="0.0" y="0.0" width="1112" height="573"/>
                                 <clipView key="contentView" id="ku4-Vk-qoJ">
                                     <rect key="frame" x="1" y="0.0" width="1110" height="572"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveName="DaysOutlineView" rowHeight="14" rowSizeStyle="automatic" headerView="CBO-Rz-isb" viewBased="YES" indentationPerLevel="5" autoresizesOutlineColumn="YES" outlineTableColumn="UuM-5c-Das" id="Fhx-AP-Vwv">
+                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveName="DaysOutlineView" rowHeight="40" rowSizeStyle="automatic" headerView="CBO-Rz-isb" viewBased="YES" indentationPerLevel="5" autoresizesOutlineColumn="YES" outlineTableColumn="UuM-5c-Das" id="Fhx-AP-Vwv">
                                             <rect key="frame" x="0.0" y="0.0" width="1110" height="549"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
