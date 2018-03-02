@@ -65,6 +65,8 @@
 		73B9FCBB2006A4EF00C57D25 /* GraphDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B9FCBA2006A4EF00C57D25 /* GraphDefinition.swift */; };
 		73B9FCBD200B703600C57D25 /* AllBikesComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B9FCBC200B703600C57D25 /* AllBikesComboBox.swift */; };
 		73BD2F64203E489000377CCE /* GMTDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73BD2F63203E489000377CCE /* GMTDateFormatter.swift */; };
+		73C13FB52049408100199D47 /* TrainingDiaryTabViewControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C13FB32049408100199D47 /* TrainingDiaryTabViewControler.swift */; };
+		73C13FB920495DF400199D47 /* DayTreeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C13FB720495DF400199D47 /* DayTreeViewController.swift */; };
 		73C2E4951FD7B29800C30316 /* GraphArrayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C2E4941FD7B29800C30316 /* GraphArrayController.swift */; };
 		73C2E4991FD8967900C30316 /* GraphManagementDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C2E4981FD8967900C30316 /* GraphManagementDelegate.swift */; };
 		73C2F03E20206E480073323D /* Equipment+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C2F03D20206E480073323D /* Equipment+Extension.swift */; };
@@ -159,6 +161,8 @@
 		73B9FCBA2006A4EF00C57D25 /* GraphDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphDefinition.swift; sourceTree = "<group>"; };
 		73B9FCBC200B703600C57D25 /* AllBikesComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllBikesComboBox.swift; sourceTree = "<group>"; };
 		73BD2F63203E489000377CCE /* GMTDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GMTDateFormatter.swift; sourceTree = "<group>"; };
+		73C13FB32049408100199D47 /* TrainingDiaryTabViewControler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingDiaryTabViewControler.swift; sourceTree = "<group>"; };
+		73C13FB720495DF400199D47 /* DayTreeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTreeViewController.swift; sourceTree = "<group>"; };
 		73C2E4941FD7B29800C30316 /* GraphArrayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphArrayController.swift; sourceTree = "<group>"; };
 		73C2E4981FD8967900C30316 /* GraphManagementDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphManagementDelegate.swift; sourceTree = "<group>"; };
 		73C2F03D20206E480073323D /* Equipment+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Equipment+Extension.swift"; sourceTree = "<group>"; };
@@ -295,6 +299,8 @@
 				73E7FD372015FA2900D1FCD4 /* BikeViewController.swift */,
 				7310C766201A76E3005FEEAE /* AdminViewController.swift */,
 				731154262046550300C2179E /* EddingtonNumberTABViewController.swift */,
+				73C13FB32049408100199D47 /* TrainingDiaryTabViewControler.swift */,
+				73C13FB720495DF400199D47 /* DayTreeViewController.swift */,
 				733AA829202A6E550065C8B9 /* DefaultsViewController.swift */,
 				73E582621F8A12A500B6E25D /* DaysArrayController.swift */,
 				73C2E4941FD7B29800C30316 /* GraphArrayController.swift */,
@@ -440,8 +446,10 @@
 				73AF79AB2025CA0C0067CE37 /* GMTDatePicker.swift in Sources */,
 				73789C9020123C69002D2393 /* PeriodTextField.swift in Sources */,
 				73475E9D2021CD67002407CB /* TreeNode.swift in Sources */,
+				73C13FB920495DF400199D47 /* DayTreeViewController.swift in Sources */,
 				73CAFEAA20292284003E4D6B /* PeriodNode.swift in Sources */,
 				73B2B9E81F894CC00044DD4E /* Training_Diary.xcdatamodeld in Sources */,
+				73C13FB52049408100199D47 /* TrainingDiaryTabViewControler.swift in Sources */,
 				73B9FCBD200B703600C57D25 /* AllBikesComboBox.swift in Sources */,
 				73C2E4991FD8967900C30316 /* GraphManagementDelegate.swift in Sources */,
 				7364157A201C8FF5009D5817 /* TrainingDiaryValues.swift in Sources */,

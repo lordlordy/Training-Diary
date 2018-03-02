@@ -81,6 +81,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
         
         for controller in tabViewController.childViewControllers{
             if let c = controller as? TrainingDiaryViewController{
+                print("adding \(c)")
                 trainingDiaryVCs.append(c)
             }
 

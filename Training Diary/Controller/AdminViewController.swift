@@ -14,29 +14,8 @@ class AdminViewController: NSViewController, TrainingDiaryViewController {
     
     @IBOutlet weak var predicateEditor: NSPredicateEditor!
     
-    @objc dynamic var yearNodes: [PeriodNode] = []
 
     //MARK: - IBActions
-    @IBAction func outlineViewDoubleClicked(_ sender: NSOutlineView) {
-        
-        let item = sender.item(atRow: sender.clickedRow)
-        
-        if sender.isItemExpanded(item){
-            sender.collapseItem(item)
-        }else{
-            sender.expandItem(item)
-        }
-        
-    }
-
-    
-    private func getYearNode(forName n: String) -> PeriodNode?{
-        for y in yearNodes{
-            if y.name == n { return y }
-        }
-        return nil
-    }
-
     @IBAction func printPredicate(_ sender: Any){
         if let p = predicateEditor{
             print(p.predicate ?? "no predicate")
@@ -55,9 +34,6 @@ class AdminViewController: NSViewController, TrainingDiaryViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let _ = trainingDiary{
-            createOutlineView()
-        }
         
         if let editor = predicateEditor{
             editor.addRow(nil)
@@ -102,31 +78,5 @@ class AdminViewController: NSViewController, TrainingDiaryViewController {
     }
     
 
-
-    private func createOutlineView(){
-        yearNodes = []
-        for d in trainingDiary!.descendingOrderedDays(){
-            let year: String = String(d.date!.year())
-            let month: String = d.date!.monthAsString()
-            var yearNode: PeriodNode
-            var monthNode: PeriodNode
-            
-            if let yNode = getYearNode(forName: year){
-                yearNode = yNode
-            }else{
-                yearNode = PeriodNodeImplementation(name: year, from: d.date!.startOfYear(), to: d.date!.endOfYear(), isRoot: true)
-                yearNodes.append(yearNode)
-            }
-            
-            if let mNode = yearNode.child(forName: month){
-                monthNode = mNode
-            }else{
-                monthNode = PeriodNodeImplementation(name: d.date!.monthAsString(), from: d.date!.startOfMonth(), to: d.date!.endOfMonth(), isRoot: false)
-                yearNode.add(child: monthNode)
-            }
-            monthNode.add(child: d)
-        }
-        
-    }
     
 }

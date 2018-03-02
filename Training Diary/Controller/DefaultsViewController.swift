@@ -15,9 +15,10 @@ class DefaultsViewController: NSViewController, TrainingDiaryViewController, NSC
     
     
     //MARK: - IBActions
-    @IBAction func adhoc(_ sender: Any) {
-    
+    @IBAction func adhoc(_ sender: Any) {        
     }
+    
+
     
 
     

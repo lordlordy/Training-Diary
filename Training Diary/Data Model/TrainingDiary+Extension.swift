@@ -29,15 +29,24 @@ extension TrainingDiary: TrainingDiaryValues{
     
     
     //MARK: - Lifetime for display in GUI summary
-    @objc dynamic var totalBikeKM:  Double{ return total(forKey: DayCalculatedProperty.bikeKM.rawValue) }
-    @objc dynamic var totalSwimKM:  Double{ return total(forKey: DayCalculatedProperty.swimKM.rawValue) }
-    @objc dynamic var totalRunKM:   Double{ return total(forKey: DayCalculatedProperty.runKM.rawValue) }
-    @objc dynamic var totalReps:   Double{ return total(forKey: DayCalculatedProperty.totalReps.rawValue) }
-    @objc dynamic var totalAscentMetres: Double { return total(forKey: DayCalculatedProperty.allAscentMetres.rawValue)}
-    @objc dynamic var totalSeconds: Double{ return total(forKey: DayCalculatedProperty.allSeconds.rawValue)}
-    @objc dynamic var totalTime: TimeInterval{ return TimeInterval(totalSeconds)}
-    
-    
+    @objc dynamic var totalBikeKM:          Double { return total(forKey: DayCalculatedProperty.bikeKM.rawValue) }
+    @objc dynamic var totalSwimKM:          Double { return total(forKey: DayCalculatedProperty.swimKM.rawValue) }
+    @objc dynamic var totalRunKM:           Double { return total(forKey: DayCalculatedProperty.runKM.rawValue) }
+    @objc dynamic var totalReps:            Double { return total(forKey: DayCalculatedProperty.totalReps.rawValue) }
+    @objc dynamic var totalAscentMetres:    Double { return total(forKey: DayCalculatedProperty.allAscentMetres.rawValue)}
+    @objc dynamic var totalSeconds:         Double { return total(forKey: DayCalculatedProperty.allSeconds.rawValue)}
+    @objc dynamic var totalTime:            TimeInterval { return TimeInterval(totalSeconds)}
+    @objc dynamic var campDays:             Int { return dayCount(forType: DayType.Camp)}
+    @objc dynamic var holidayDays:          Int { return dayCount(forType: DayType.Holiday)}
+    @objc dynamic var illDays:              Int { return dayCount(forType: DayType.Ill)}
+    @objc dynamic var injuredDays:          Int { return dayCount(forType: DayType.Injured)}
+    @objc dynamic var niggleDays:           Int { return dayCount(forType: DayType.Niggle)}
+    @objc dynamic var normalDays:           Int { return dayCount(forType: DayType.Normal)}
+    @objc dynamic var raceDays:             Int { return dayCount(forType: DayType.Race)}
+    @objc dynamic var recoveryDays:         Int { return dayCount(forType: DayType.Recovery)}
+    @objc dynamic var restDays:             Int { return dayCount(forType: DayType.Rest)}
+    @objc dynamic var travelDays:           Int { return dayCount(forType: DayType.Travel)}
+
     @objc dynamic var bikes: NSSet?{ return bikeMutableSet() }
     
     @objc dynamic var ltdEdNumCount: Int{
@@ -947,6 +956,13 @@ extension TrainingDiary: TrainingDiaryValues{
             }
         }
         return nil
+    }
+    
+    private func dayCount(forType t: DayType) -> Int{
+        if let d = days?.allObjects as? [Day]{
+            return d.filter({$0.type! == t.rawValue}).count
+        }
+        return 0
     }
     
 }
