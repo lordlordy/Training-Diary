@@ -8,9 +8,9 @@
 
 import Cocoa
 
-class CompareGraphViewController: NSViewController, GraphManagementDelegate, TrainingDiaryViewController, NSComboBoxDataSource {
+class CompareGraphViewController: TrainingDiaryViewController, GraphManagementDelegate, NSComboBoxDataSource {
 
-    @objc dynamic var trainingDiary: TrainingDiary?
+//    @objc dynamic var trainingDiary: TrainingDiary?
     
     @IBOutlet weak var graphView: GraphView!
     @IBOutlet var graphArrayController: GraphArrayController!
@@ -131,13 +131,13 @@ class CompareGraphViewController: NSViewController, GraphManagementDelegate, Tra
     
     //MARK: - TrainingDiaryViewController implementation
     
-    func set(trainingDiary td: TrainingDiary){
+    override func set(trainingDiary td: TrainingDiary){
         let currentGraphs = graphArrayController.arrangedObjects as! [DatedActivityGraphDefinition]
         //store current graphs in to cache
         if let t = trainingDiary{
             cache[t] = currentGraphs
         }
-        self.trainingDiary = td
+        super.set(trainingDiary: td)
         //remove current graphs
         graphArrayController!.remove(contentsOf: currentGraphs)
         for g in currentGraphs{

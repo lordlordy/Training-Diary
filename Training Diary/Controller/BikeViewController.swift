@@ -8,9 +8,9 @@
 
 import Cocoa
 
-class BikeViewController: NSViewController, TrainingDiaryViewController, NSTableViewDelegate, NSComboBoxDataSource {
+class BikeViewController: TrainingDiaryViewController, NSTableViewDelegate, NSComboBoxDataSource {
 
-    @objc dynamic var trainingDiary: TrainingDiary?
+//    @objc dynamic var trainingDiary: TrainingDiary?
     @objc dynamic var bikeActivity: Activity?
     @objc dynamic var rollingDataDays: Int = 30
     
@@ -153,8 +153,8 @@ class BikeViewController: NSViewController, TrainingDiaryViewController, NSTable
     
     //MARK: - TrainingDiaryViewController protocol
     
-    func set(trainingDiary td: TrainingDiary){
-        trainingDiary = td
+    override func set(trainingDiary td: TrainingDiary){
+        super.set(trainingDiary: td)
         if let fdp = fromDatePicker{
             fdp.dateValue = td.firstDayOfDiary
         }

@@ -8,9 +8,9 @@
 
 import Cocoa
 
-class EddingtonSearchViewController: NSViewController, TrainingDiaryViewController {
+class EddingtonSearchViewController: TrainingDiaryViewController {
     
-    @objc dynamic var trainingDiary: TrainingDiary?
+//    @objc dynamic var trainingDiary: TrainingDiary?
     @IBOutlet weak var predicateEditor: NSPredicateEditor!
     @IBOutlet var eddingtonNumberAC: NSArrayController!
     @IBOutlet weak var tableView: TableViewWithColumnSort!
@@ -45,10 +45,6 @@ class EddingtonSearchViewController: NSViewController, TrainingDiaryViewControll
         }
         
     }
-    func set(trainingDiary td: TrainingDiary) {
-        trainingDiary = td
-    }
-    
 
     override func viewDidLoad(){
         super.viewDidLoad()

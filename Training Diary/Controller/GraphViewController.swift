@@ -9,7 +9,7 @@
 import Cocoa
 
 
-class GraphViewController: NSViewController, TrainingDiaryViewController, GraphManagementDelegate, NSComboBoxDataSource {
+class GraphViewController: TrainingDiaryViewController, GraphManagementDelegate, NSComboBoxDataSource {
 
     fileprivate struct Constants{
         static let numberOfXAxisLabels: Int = 12
@@ -24,7 +24,7 @@ class GraphViewController: NSViewController, TrainingDiaryViewController, GraphM
     private var advanceDateComponent: DateComponents?
     private var retreatDateComponent: DateComponents?
     
-    @objc dynamic var trainingDiary: TrainingDiary?
+//    @objc dynamic var trainingDiary: TrainingDiary?
     
     @IBOutlet weak var graphView: GraphView!
     @IBOutlet weak var fromDatePicker: NSDatePicker!
@@ -122,7 +122,7 @@ class GraphViewController: NSViewController, TrainingDiaryViewController, GraphM
         }
     }
     
-    func set(trainingDiary td: TrainingDiary){
+    override func set(trainingDiary td: TrainingDiary){
         if let _ = trainingDiary{
             // we already have a diary. So first lets cache data we have
             saveCache()
@@ -130,7 +130,7 @@ class GraphViewController: NSViewController, TrainingDiaryViewController, GraphM
             for graph in graphs(){ remove(graph: graph) }
             if let gac = graphArrayController{ gac.remove(contentsOf: graphs()) }
         }
-        self.trainingDiary = td
+        super.set(trainingDiary:td)
         if retrieveFromCache(){
             for g in graphs(){ add(graph: g)}
         } else {

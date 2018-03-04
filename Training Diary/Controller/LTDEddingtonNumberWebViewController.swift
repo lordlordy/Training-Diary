@@ -9,13 +9,13 @@
 import Cocoa
 import WebKit
 
-class LTDEddingtonNumberWebViewController: NSViewController, TrainingDiaryViewController, WKNavigationDelegate {
+class LTDEddingtonNumberWebViewController:  TrainingDiaryViewController, WKNavigationDelegate {
 
-    @objc dynamic var trainingDiary: TrainingDiary?
+  //  @objc dynamic var trainingDiary: TrainingDiary?
     @IBOutlet weak var webView: WKWebView!
     
-    func set(trainingDiary td: TrainingDiary){
-        trainingDiary = td
+    override func set(trainingDiary td: TrainingDiary){
+        super.set(trainingDiary: td)
         if let wv = webView{
             wv.navigationDelegate = self
             wv.loadHTMLString("<html><body><p><a>my site</a></p></body></html>", baseURL: nil)

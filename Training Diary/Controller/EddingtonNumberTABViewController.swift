@@ -7,7 +7,7 @@
 //
 
 import Cocoa
-
+/*
 class EddingtonNumberTABViewController: NSTabViewController, TrainingDiaryViewController {
 
     
@@ -21,3 +21,4 @@ class EddingtonNumberTABViewController: NSTabViewController, TrainingDiaryViewCo
 
     
 }
+*/

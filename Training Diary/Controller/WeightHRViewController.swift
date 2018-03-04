@@ -8,9 +8,9 @@
 
 import Cocoa
 
-class WeightHRViewController: NSViewController, TrainingDiaryViewController {
+class WeightHRViewController: TrainingDiaryViewController {
 
-    @objc dynamic var trainingDiary: TrainingDiary?
+//    @objc dynamic var trainingDiary: TrainingDiary?
     
     @IBOutlet var weightArrayController: NSArrayController!
     @IBOutlet var hrArrayController: NSArrayController!
@@ -185,8 +185,8 @@ class WeightHRViewController: NSViewController, TrainingDiaryViewController {
     }
     
     
-    func set(trainingDiary td: TrainingDiary){
-        self.trainingDiary = td
+    override func set(trainingDiary td: TrainingDiary){
+        super.set(trainingDiary: td)
         if let gac = graphsArrayController{
             gac.remove(contentsOf: currentGraphs)
         }

@@ -8,9 +8,9 @@
 
 import Cocoa
 
-class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewController, NSComboBoxDataSource {
+class EddingtonNumbersViewController: TrainingDiaryViewController, NSComboBoxDataSource {
 
-    @objc dynamic var trainingDiary: TrainingDiary?
+//    @objc dynamic var trainingDiary: TrainingDiary?
     var mainViewController: ViewController?
     @IBOutlet var treeController: NSTreeController!
     
@@ -266,8 +266,8 @@ class EddingtonNumbersViewController: NSViewController, TrainingDiaryViewControl
     }
     
 
-    func set(trainingDiary td: TrainingDiary){
-        self.trainingDiary = td
+    override func set(trainingDiary td: TrainingDiary){
+        super.set(trainingDiary: td)
         if let gv = graphView{
             let range = td.lastDayOfDiary.timeIntervalSince(td.firstDayOfDiary)
             let numberOfLabels = 6

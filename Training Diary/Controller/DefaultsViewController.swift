@@ -8,9 +8,9 @@
 
 import Cocoa
 
-class DefaultsViewController: NSViewController, TrainingDiaryViewController, NSComboBoxDataSource {
+class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource {
 
-    @objc dynamic var trainingDiary: TrainingDiary?
+//    @objc dynamic var trainingDiary: TrainingDiary?
     var mainViewController: ViewController?
     
     
@@ -231,11 +231,7 @@ class DefaultsViewController: NSViewController, TrainingDiaryViewController, NSC
     
 
     
-    //MARK: - TrainingDiaryViewController implentation
-    
-    func set(trainingDiary td: TrainingDiary) {
-        trainingDiary = td
-    }
+
     
     //MARK: - NSComboBoxDataSource implementation  TSBTableActivityCB
     func comboBox(_ comboBox: NSComboBox, objectValueForItemAt index: Int) -> Any? {

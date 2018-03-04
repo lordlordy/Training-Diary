@@ -8,9 +8,9 @@
 
 import Cocoa
 
-class WorkoutsViewController: NSViewController, TrainingDiaryViewController {
+class WorkoutsViewController: TrainingDiaryViewController {
     
-    @objc dynamic var trainingDiary: TrainingDiary?
+//    @objc dynamic var trainingDiary: TrainingDiary?
     
     @IBOutlet weak var predicateEditor: NSPredicateEditor!
     
@@ -21,12 +21,7 @@ class WorkoutsViewController: NSViewController, TrainingDiaryViewController {
             print(p.predicate ?? "no predicate")
         }
     }
-    
-    //MARK: - TrainingDiaryViewController implentation
-    
-    func set(trainingDiary td: TrainingDiary) {
-        trainingDiary = td
-    }
+
     
     
     

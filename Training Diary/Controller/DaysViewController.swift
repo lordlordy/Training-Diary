@@ -8,9 +8,9 @@
 
 import Cocoa
 
-class DaysViewController: NSViewController, TrainingDiaryViewController, NSComboBoxDataSource, NSTableViewDelegate {
+class DaysViewController: TrainingDiaryViewController, NSComboBoxDataSource, NSTableViewDelegate {
 
-    @objc dynamic var trainingDiary: TrainingDiary?
+//    @objc dynamic var trainingDiary: TrainingDiary?
     
     @IBOutlet var daysArrayController: DaysArrayController!
     @IBOutlet var workoutArrayController: NSArrayController!
@@ -278,15 +278,19 @@ class DaysViewController: NSViewController, TrainingDiaryViewController, NSCombo
         return 0
     }
     
-    //MARK: - TrainingDiaryViewController
+    //MARK: - TrainingDiaryViewControllerProtocol
     
-    func set(trainingDiary td: TrainingDiary){
-        self.trainingDiary = td
+    override func set(trainingDiary td: TrainingDiary){
+        super.set(trainingDiary: td)
         if let dac = daysArrayController{
             dac.trainingDiary = td
         }
-        toDatePicker!.dateValue = td.lastDayOfDiary
-        fromDatePicker!.dateValue = td.lastDayOfDiary.addDays(numberOfDays: -20 )
+        if let tdp = toDatePicker{
+            tdp.dateValue = td.lastDayOfDiary
+        }
+        if let fdp = fromDatePicker{
+            fdp.dateValue = td.lastDayOfDiary.addDays(numberOfDays: -20 )
+        }
         setFilterPredicate()
     }
 

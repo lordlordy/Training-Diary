@@ -19,7 +19,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
 //    private var graphViewController: GraphViewController?
 //    private var comparisonGraphViewController: CompareGraphViewController?
     
-    private var trainingDiaryVCs: [TrainingDiaryViewController] = []
+    private var trainingDiaryVCs: [TrainingDiaryViewControllerProtocol] = []
     private var currentSelectedDiary: TrainingDiary?
 
     //MARK: - @IBOutlets
@@ -80,19 +80,16 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
         guard let tabViewController = segue.destinationController as? NSTabViewController else {return}
         
         for controller in tabViewController.childViewControllers{
-            if let c = controller as? TrainingDiaryViewController{
+            if let c = controller as? TrainingDiaryViewControllerProtocol{
                 print("adding \(c)")
                 trainingDiaryVCs.append(c)
             }
 
-            if let controller = controller as? EddingtonNumberTABViewController{
-                for c in controller.childViewControllers{
-                    if let edController = c as? EddingtonNumbersViewController{
-                        edController.mainViewController = self
-                    }
-                }                
+            for c in controller.childViewControllers{
+                if let edController = c as? EddingtonNumbersViewController{
+                    edController.mainViewController = self
+                }
             }
-
             if let controller = controller as? DefaultsViewController{
                 controller.mainViewController = self
             }

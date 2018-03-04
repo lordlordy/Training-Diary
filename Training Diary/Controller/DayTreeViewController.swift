@@ -8,9 +8,9 @@
 
 import Cocoa
 
-class DayTreeViewController: NSViewController, TrainingDiaryViewController {
+class DayTreeViewController:  TrainingDiaryViewController {
     
-    @objc dynamic var trainingDiary: TrainingDiary?
+//    @objc dynamic var trainingDiary: TrainingDiary?
     
     @objc dynamic var yearNodes: [PeriodNode] = []
     
@@ -36,15 +36,7 @@ class DayTreeViewController: NSViewController, TrainingDiaryViewController {
     }
     
 
-    
-    //MARK: - TrainingDiaryViewController implentation
-    
-    func set(trainingDiary td: TrainingDiary) {
-        trainingDiary = td
-    }
-    
-    
-    
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
