@@ -584,9 +584,9 @@ class EddingtonNumbersViewController: TrainingDiaryViewController, NSComboBoxDat
                             
                             if workoutCount > Int(Constant.WorkoutThresholdForEdNumberCount.rawValue){
                                 for _ in units.sorted(by: {$0.rawValue < $1.rawValue}){
-                                    for _ in periods{
-                                        total += 1
-                                    }// end Period loop
+                           //         for _ in periods{
+                                            total += 1
+                              //      }// end Period loop
                                 }// end unit loop
                             }//end else on workout count chedk
                         }// end type loop
@@ -630,7 +630,8 @@ class EddingtonNumbersViewController: TrainingDiaryViewController, NSComboBoxDat
                             }else{
                                 
                                 for u in units.sorted(by: {$0.rawValue < $1.rawValue}){
-                                    for p in periods{
+//                                    for p in periods{
+                                        for p in [Period.Workout]{
                                         count += 1
                                         name = dt
                                         name += ":" + a

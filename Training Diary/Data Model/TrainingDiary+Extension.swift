@@ -557,7 +557,9 @@ extension TrainingDiary: TrainingDiaryValues{
         if sortedDays.count > 0 {
             for day in sortedDays{
                 let r = day.valuesFor(dayType: dt, activity: a, activityType: at, equipment: e, period: period, unit: unit)
-                result.append(r[0])
+                for e in r{
+                    result.append(e)
+                }
             }
         }
         return result
@@ -713,26 +715,26 @@ extension TrainingDiary: TrainingDiaryValues{
         dLevel.lastUpdate = Date()
         
         let aLevel = dLevel.getChild(forName: a)
-        dLevel.dayType = dt
+        aLevel.dayType = dt
         aLevel.activity = a
         aLevel.lastUpdate = Date()
         
         let eLevel = aLevel.getChild(forName: e)
-        dLevel.dayType = dt
+        eLevel.dayType = dt
         eLevel.activity = a
         eLevel.equipment = e
         eLevel.activityType = nil
         eLevel.lastUpdate = Date()
 
         let tLevel = eLevel.getChild(forName: at)
-        dLevel.dayType = dt
+        tLevel.dayType = dt
         tLevel.activity = a
         tLevel.equipment = e
         tLevel.activityType = at
         tLevel.lastUpdate = Date()
 
         let uLevel = tLevel.getChild(forName: u.rawValue)
-        dLevel.dayType = dt
+        uLevel.dayType = dt
         uLevel.activity = a
         uLevel.equipment = e
         uLevel.activityType = at
@@ -740,7 +742,7 @@ extension TrainingDiary: TrainingDiaryValues{
         uLevel.lastUpdate = Date()
 
         let pLevel = uLevel.getChild(forName: p.rawValue)
-        dLevel.dayType = dt
+        pLevel.dayType = dt
         pLevel.activity = a
         pLevel.equipment = e
         pLevel.activityType = at

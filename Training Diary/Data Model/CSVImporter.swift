@@ -137,8 +137,9 @@ class CSVImporter{
         
 
         print("Added:")
-        CoreDataStackSingleton.shared.printEntityCounts(forDiary: trainingDiary!)
-        
+        for e in CoreDataStackSingleton.shared.getEntityCounts(forDiary: trainingDiary!){
+            print("\(e.entity) = \(e.count)")
+        }
     }
     
     private func addDayAndWorkouts(forRow row: [String], toTrainingDiary trainingDiary: NSManagedObject){

@@ -70,13 +70,9 @@ class EddingtonSearchViewController: TrainingDiaryViewController {
             
             let booleanTemplate = NSPredicateEditorRowTemplate.init(leftExpressions: booleanExpressions, rightExpressionAttributeType: NSAttributeType.booleanAttributeType, modifier: NSComparisonPredicate.Modifier.direct, operators: booleanOperators, options: Int(NSComparisonPredicate.Options.caseInsensitive.rawValue))
             
-
-            let compoundTemplate = NSPredicateEditorRowTemplate.init(compoundTypes: [NSNumber(value: NSCompoundPredicate.LogicalType.and.rawValue), NSNumber(value: NSCompoundPredicate.LogicalType.or.rawValue), NSNumber(value: NSCompoundPredicate.LogicalType.not.rawValue)])
             
-            editor.rowTemplates.append(contentsOf: [stringTemplate, booleanTemplate, compoundTemplate])
+            editor.rowTemplates.append(contentsOf: [stringTemplate, booleanTemplate])
             
-            print("Predicate Editor row templates:")
-            print(editor.rowTemplates)
 
         }
         

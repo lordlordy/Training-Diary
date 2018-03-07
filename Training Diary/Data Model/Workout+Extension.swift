@@ -139,21 +139,23 @@ extension Workout: TrainingDiaryValues, PeriodNode{
     func valuesFor(dayType dt: String, activity a: String, activityType at: String, equipment e: String, period p: Period, unit u: Unit, from: Date? = nil, to: Date? = nil) -> [(date: Date, value: Double)]{
         var v: Double = 0.0
 
-        if (dt == ConstantString.EddingtonAll.rawValue || dt == day!.type || dt == day!.date?.dayOfWeekName()){
-            if (isOfType(activity: a, activityType: at, equipment: e) && !u.isMetric){
-                if(u.isDerived()){
-                    if let derivation = u.dataForDerivation(){
-                        if let d = value(forKey: derivation.unit.workoutPropertyName()!){
-                            v = (d as! Double) * derivation.multiple.rawValue
+        if u.isActivityBased{
+            if (dt == ConstantString.EddingtonAll.rawValue || dt == day!.type || dt == day!.date?.dayOfWeekName()){
+                if (isOfType(activity: a, activityType: at, equipment: e) && !u.isMetric){
+                    if(u.isDerived()){
+                        if let derivation = u.dataForDerivation(){
+                            if let d = value(forKey: derivation.unit.workoutPropertyName()!){
+                                v = (d as! Double) * derivation.multiple.rawValue
+                            }else{
+                                print("couldn't get value for \(String(describing: derivation.unit.workoutPropertyName()))")
+                            }
                         }else{
-                            print("couldn't get value for \(String(describing: derivation.unit.workoutPropertyName()))")
+                            print("derived data nil for \(u)")
                         }
                     }else{
-                        print("derived data nil for \(u)")
-                    }
-                }else{
-                    if let d = value(forKey: u.workoutPropertyName()!){
-                        v = d as! Double
+                        if let d = value(forKey: u.workoutPropertyName()!){
+                            v = d as! Double
+                        }
                     }
                 }
             }

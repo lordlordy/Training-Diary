@@ -140,6 +140,19 @@ class DaysViewController: TrainingDiaryViewController, NSComboBoxDataSource, NST
     override func viewDidLoad() {
         super.viewDidLoad()
         daysArrayController.sortDescriptors.append(NSSortDescriptor.init(key: "date", ascending: false))
+        //check date pickers
+        if let td = trainingDiary{
+            if let fdp = fromDatePicker{
+                if fdp.dateValue < td.firstDayOfDiary{
+                    fdp.dateValue = td.firstDayOfDiary
+                }
+            }
+            if let tdp = toDatePicker{
+                if tdp.dateValue < td.firstDayOfDiary{
+                    tdp.dateValue = td.lastDayOfDiary
+                }
+            }
+        }
         setFilterPredicate()
        
     }

@@ -108,6 +108,7 @@ extension Day: TrainingDiaryValues, PeriodNode{
         
         if (dt == ConstantString.EddingtonAll.rawValue || dt == self.type || dt == date?.dayOfWeekName()){
             switch p{
+            case .Workout: return workoutValuesMatching(dayType: dt, activity: a, activityType: at, equipment: e, period: p, unit: u)
             case .Day:
                 v = valueFor(dayType: dt, activity: a, activityType: at, equipment: e, unit: u)
             case .Week:
@@ -206,6 +207,8 @@ extension Day: TrainingDiaryValues, PeriodNode{
     
     //MARK: - Calculated properties - these are for display in GUI
 
+    @objc dynamic var trainingDiaryName: String{ return trainingDiary?.name ?? "Missing"}
+    
     @objc dynamic var dateString: String{ return date!.dateOnlyShorterString()}
     
     @objc dynamic var swimATL: Double{
@@ -577,4 +580,18 @@ extension Day: TrainingDiaryValues, PeriodNode{
     private func activityRun() ->   Activity{ return trainingDiary!.activity(forString: FixedActivity.Run.rawValue)! }
     private func activityGym() ->   Activity{ return trainingDiary!.activity(forString: FixedActivity.Gym.rawValue)! }
 
+    private func workoutValuesMatching(dayType dt: String, activity a: String, activityType at: String, equipment e: String, period p: Period, unit u: Unit) -> [(date: Date, value: Double)]{
+        // return for all workouts matching this.
+        var result: [(date: Date, value: Double)] = []
+
+        for w in getWorkouts(){
+            let value = w.valuesFor(dayType: dt, activity: a, activityType: at, equipment: e, period: p, unit: u)
+            if value[0].value > 0.0{
+                result.append(value[0])
+            }
+        }
+        
+        return result
+    }
+    
 }

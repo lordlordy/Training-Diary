@@ -33,6 +33,8 @@
 		73475E9D2021CD67002407CB /* TreeNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73475E9C2021CD67002407CB /* TreeNode.swift */; };
 		734C9C50204BDDE90007F5B1 /* TrainingDiaryViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734C9C4F204BDDE90007F5B1 /* TrainingDiaryViewControllerProtocol.swift */; };
 		73593314201F7C6F007BB525 /* ActivityToStringTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73593313201F7C6F007BB525 /* ActivityToStringTransformer.swift */; };
+		7359C17F204C5D8C00A09B61 /* DaysInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7359C17E204C5D8C00A09B61 /* DaysInputViewController.swift */; };
+		7359C183204CFB7700A09B61 /* DaysSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7359C182204CFB7700A09B61 /* DaysSplitViewController.swift */; };
 		735E0AAE202D47B20089C2CD /* Maths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735E0AAD202D47B20089C2CD /* Maths.swift */; };
 		73641578201C7207009D5817 /* Activity+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73641577201C7207009D5817 /* Activity+Extension.swift */; };
 		7364157A201C8FF5009D5817 /* TrainingDiaryValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73641579201C8FF5009D5817 /* TrainingDiaryValues.swift */; };
@@ -46,7 +48,9 @@
 		73789C8E2010CE61002D2393 /* CSVExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73789C8D2010CE61002D2393 /* CSVExporter.swift */; };
 		73789C9020123C69002D2393 /* PeriodTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73789C8F20123C69002D2393 /* PeriodTextField.swift */; };
 		7385C4791FAA600A00F48685 /* DaysViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7385C4781FAA600A00F48685 /* DaysViewController.swift */; };
+		738ED877204D749A006187A1 /* WorkoutsInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 738ED876204D749A006187A1 /* WorkoutsInputViewController.swift */; };
 		73920AB31FC8D2CB00A9686F /* AxisComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73920AB21FC8D2CA00A9686F /* AxisComboBox.swift */; };
+		73A06B05204D594A0088BD09 /* WorkoutSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A06B04204D594A0088BD09 /* WorkoutSplitViewController.swift */; };
 		73AB477C202354CF0093B8A4 /* EddingtonHistory+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AB477B202354CF0093B8A4 /* EddingtonHistory+Extension.swift */; };
 		73AF13FF1FB064D2002A1B9E /* RollingSumQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AF13FE1FB064D2002A1B9E /* RollingSumQueue.swift */; };
 		73AF79AB2025CA0C0067CE37 /* GMTDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AF79AA2025CA0C0067CE37 /* GMTDatePicker.swift */; };
@@ -95,6 +99,7 @@
 		73F2119F1FB4A06900062DAE /* JSONImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F2119E1FB4A06900062DAE /* JSONImporter.swift */; };
 		73F270621FAB0CC400D36156 /* TableViewWithColumnSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F270611FAB0CC400D36156 /* TableViewWithColumnSort.swift */; };
 		73F7097A204C38160022EC04 /* TrainingDiarySplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F70979204C38160022EC04 /* TrainingDiarySplitViewController.swift */; };
+		73F9A3B3204EF584000DEECE /* DaysPredicatorEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F9A3B2204EF584000DEECE /* DaysPredicatorEditorViewController.swift */; };
 		73FC61DF200E19A000C61DE6 /* filteringTable.html in Resources */ = {isa = PBXBuildFile; fileRef = 73FC61DE200E19A000C61DE6 /* filteringTable.html */; };
 		73FC61E1200E1D1900C61DE6 /* tableStart.txt in Resources */ = {isa = PBXBuildFile; fileRef = 73FC61E0200E1D1900C61DE6 /* tableStart.txt */; };
 		73FC61E3200E1D5200C61DE6 /* tableEnd.txt in Resources */ = {isa = PBXBuildFile; fileRef = 73FC61E2200E1D5200C61DE6 /* tableEnd.txt */; };
@@ -128,6 +133,8 @@
 		73475E9C2021CD67002407CB /* TreeNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreeNode.swift; sourceTree = "<group>"; };
 		734C9C4F204BDDE90007F5B1 /* TrainingDiaryViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingDiaryViewControllerProtocol.swift; sourceTree = "<group>"; };
 		73593313201F7C6F007BB525 /* ActivityToStringTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityToStringTransformer.swift; sourceTree = "<group>"; };
+		7359C17E204C5D8C00A09B61 /* DaysInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaysInputViewController.swift; sourceTree = "<group>"; };
+		7359C182204CFB7700A09B61 /* DaysSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaysSplitViewController.swift; sourceTree = "<group>"; };
 		735E0AAD202D47B20089C2CD /* Maths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Maths.swift; sourceTree = "<group>"; };
 		73641577201C7207009D5817 /* Activity+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Activity+Extension.swift"; sourceTree = "<group>"; };
 		73641579201C8FF5009D5817 /* TrainingDiaryValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingDiaryValues.swift; sourceTree = "<group>"; };
@@ -141,7 +148,9 @@
 		73789C8D2010CE61002D2393 /* CSVExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVExporter.swift; sourceTree = "<group>"; };
 		73789C8F20123C69002D2393 /* PeriodTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodTextField.swift; sourceTree = "<group>"; };
 		7385C4781FAA600A00F48685 /* DaysViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaysViewController.swift; sourceTree = "<group>"; };
+		738ED876204D749A006187A1 /* WorkoutsInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutsInputViewController.swift; sourceTree = "<group>"; };
 		73920AB21FC8D2CA00A9686F /* AxisComboBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AxisComboBox.swift; sourceTree = "<group>"; };
+		73A06B04204D594A0088BD09 /* WorkoutSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSplitViewController.swift; sourceTree = "<group>"; };
 		73AB477B202354CF0093B8A4 /* EddingtonHistory+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EddingtonHistory+Extension.swift"; sourceTree = "<group>"; };
 		73AF13FE1FB064D2002A1B9E /* RollingSumQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollingSumQueue.swift; sourceTree = "<group>"; };
 		73AF79AA2025CA0C0067CE37 /* GMTDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GMTDatePicker.swift; sourceTree = "<group>"; };
@@ -193,6 +202,7 @@
 		73F2119E1FB4A06900062DAE /* JSONImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONImporter.swift; sourceTree = "<group>"; };
 		73F270611FAB0CC400D36156 /* TableViewWithColumnSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewWithColumnSort.swift; sourceTree = "<group>"; };
 		73F70979204C38160022EC04 /* TrainingDiarySplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingDiarySplitViewController.swift; sourceTree = "<group>"; };
+		73F9A3B2204EF584000DEECE /* DaysPredicatorEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaysPredicatorEditorViewController.swift; sourceTree = "<group>"; };
 		73FC61DE200E19A000C61DE6 /* filteringTable.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = filteringTable.html; sourceTree = "<group>"; };
 		73FC61E0200E1D1900C61DE6 /* tableStart.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = tableStart.txt; sourceTree = "<group>"; };
 		73FC61E2200E1D5200C61DE6 /* tableEnd.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = tableEnd.txt; sourceTree = "<group>"; };
@@ -292,39 +302,44 @@
 		73E1216D1F98F89400037DAF /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				7309AED51FC6CCC100054A6B /* ActivityGraphDefinition.swift */,
+				73593313201F7C6F007BB525 /* ActivityToStringTransformer.swift */,
+				73D3738620176FD600E44427 /* BikeGraphs.swift */,
+				73E7FD372015FA2900D1FCD4 /* BikeViewController.swift */,
+				73D89F9B1FD1BB03002F07A2 /* CompareGraphViewController.swift */,
+				73D89F9F1FD1E241002F07A2 /* DatedActivityGraphDefinition.swift */,
+				73E582621F8A12A500B6E25D /* DaysArrayController.swift */,
+				7359C17E204C5D8C00A09B61 /* DaysInputViewController.swift */,
+				7359C182204CFB7700A09B61 /* DaysSplitViewController.swift */,
+				7385C4781FAA600A00F48685 /* DaysViewController.swift */,
+				73C13FB720495DF400199D47 /* DayTreeViewController.swift */,
+				733AA829202A6E550065C8B9 /* DefaultsViewController.swift */,
+				73F9A3B2204EF584000DEECE /* DaysPredicatorEditorViewController.swift */,
+				7333B8621FA76F3A00E93BF0 /* EddingtonNumbersViewController.swift */,
+				731154262046550300C2179E /* EddingtonNumberTABViewController.swift */,
+				73C56FE52045D0BD00E05AA3 /* EddingtonSearchViewController.swift */,
+				73C2E4941FD7B29800C30316 /* GraphArrayController.swift */,
+				73B9FCBA2006A4EF00C57D25 /* GraphDefinition.swift */,
+				73C2E4981FD8967900C30316 /* GraphManagementDelegate.swift */,
+				73E25E1A1FC038FC0081FC62 /* GraphViewController.swift */,
+				73FC61E4200E26AA00C61DE6 /* LTDEddingtonNumberWebViewController.swift */,
+				73DC9B101FDC373700D4774A /* NumberToDetailedTimeTransformer.swift */,
+				73DC9B121FDC39B500D4774A /* NumberToSummaryTimeFormatter.swift */,
+				73AF79AC2025CF2E0067CE37 /* OutLineViewWithColumnSort.swift */,
+				7333B9F51FB6F199005F424E /* PhysiologicalsArrayController.swift */,
+				73F270611FAB0CC400D36156 /* TableViewWithColumnSort.swift */,
+				73D3171C2018BEA90070C40B /* TextViewToStringTransformer.swift */,
+				73F70979204C38160022EC04 /* TrainingDiarySplitViewController.swift */,
+				73C13FB32049408100199D47 /* TrainingDiaryTabViewControler.swift */,
 				733837D61FD99BDD0082C45B /* TrainingDiaryViewController.swift */,
 				734C9C4F204BDDE90007F5B1 /* TrainingDiaryViewControllerProtocol.swift */,
-				73C13FB32049408100199D47 /* TrainingDiaryTabViewControler.swift */,
-				73F70979204C38160022EC04 /* TrainingDiarySplitViewController.swift */,
-				73B2B9E41F894CC00044DD4E /* ViewController.swift */,
-				7385C4781FAA600A00F48685 /* DaysViewController.swift */,
-				73265B631FB471A00081D3F9 /* WeightHRViewController.swift */,
-				73E25E1A1FC038FC0081FC62 /* GraphViewController.swift */,
-				73D89F9B1FD1BB03002F07A2 /* CompareGraphViewController.swift */,
-				7333B8621FA76F3A00E93BF0 /* EddingtonNumbersViewController.swift */,
-				73C56FE52045D0BD00E05AA3 /* EddingtonSearchViewController.swift */,
-				73E7FD372015FA2900D1FCD4 /* BikeViewController.swift */,
-				731154262046550300C2179E /* EddingtonNumberTABViewController.swift */,
-				73C13FB720495DF400199D47 /* DayTreeViewController.swift */,
-				73C13FBB2049DC5400199D47 /* WorkoutsViewController.swift */,
-				733AA829202A6E550065C8B9 /* DefaultsViewController.swift */,
-				73E582621F8A12A500B6E25D /* DaysArrayController.swift */,
-				73C2E4941FD7B29800C30316 /* GraphArrayController.swift */,
-				7333B9F31FB6E04C005F424E /* WeightsArrayController.swift */,
-				7333B9F51FB6F199005F424E /* PhysiologicalsArrayController.swift */,
-				73C2E4981FD8967900C30316 /* GraphManagementDelegate.swift */,
-				73D3738620176FD600E44427 /* BikeGraphs.swift */,
-				7309AED51FC6CCC100054A6B /* ActivityGraphDefinition.swift */,
-				73B9FCBA2006A4EF00C57D25 /* GraphDefinition.swift */,
-				73D89F9F1FD1E241002F07A2 /* DatedActivityGraphDefinition.swift */,
-				73FC61E4200E26AA00C61DE6 /* LTDEddingtonNumberWebViewController.swift */,
 				73B2B9FB1F896F920044DD4E /* TransformerNSNumberToTimeFormat.swift */,
-				73DC9B101FDC373700D4774A /* NumberToDetailedTimeTransformer.swift */,
-				73593313201F7C6F007BB525 /* ActivityToStringTransformer.swift */,
-				73DC9B121FDC39B500D4774A /* NumberToSummaryTimeFormatter.swift */,
-				73D3171C2018BEA90070C40B /* TextViewToStringTransformer.swift */,
-				73F270611FAB0CC400D36156 /* TableViewWithColumnSort.swift */,
-				73AF79AC2025CF2E0067CE37 /* OutLineViewWithColumnSort.swift */,
+				73B2B9E41F894CC00044DD4E /* ViewController.swift */,
+				73265B631FB471A00081D3F9 /* WeightHRViewController.swift */,
+				7333B9F31FB6E04C005F424E /* WeightsArrayController.swift */,
+				73A06B04204D594A0088BD09 /* WorkoutSplitViewController.swift */,
+				738ED876204D749A006187A1 /* WorkoutsInputViewController.swift */,
+				73C13FBB2049DC5400199D47 /* WorkoutsViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -332,29 +347,29 @@
 		73E1216E1F98F8F700037DAF /* Data Model */ = {
 			isa = PBXGroup;
 			children = (
-				73B2B9E61F894CC00044DD4E /* Training_Diary.xcdatamodeld */,
 				73641577201C7207009D5817 /* Activity+Extension.swift */,
 				731FA62A201FD890004EF572 /* ActivityType+Extension.swift */,
-				73F2119E1FB4A06900062DAE /* JSONImporter.swift */,
+				73E7FD39201631BD00D1FCD4 /* Bike+Extension.swift */,
+				73B2B9F71F894E870044DD4E /* CoreDataStackSingleton.swift */,
+				73789C8D2010CE61002D2393 /* CSVExporter.swift */,
 				732103AD1FCFFB570020F365 /* CSVImporter.swift */,
+				73B2BA011F898C060044DD4E /* Day+Extension.swift */,
+				73AB477B202354CF0093B8A4 /* EddingtonHistory+Extension.swift */,
+				73C58CA61FA8EFD200F57BAE /* EddingtonNumber+Extension.swift */,
+				73C3B37C1F97AC1400ED6108 /* EddingtonNumberCalculator.swift */,
+				73444C3E1F96AB9B00B3E84D /* Enumerations.swift */,
+				73C2F03D20206E480073323D /* Equipment+Extension.swift */,
+				73F2119E1FB4A06900062DAE /* JSONImporter.swift */,
+				73B5644320260B6E0022E80A /* LTDEddingtonNumber+Extension.swift */,
+				730DB7561FE132F500579A81 /* Metric+Extension.swift */,
 				73CAFEA920292284003E4D6B /* PeriodNode.swift */,
 				733AA827202930BB0065C8B9 /* PeriodNodeImplementation.swift */,
-				73789C8D2010CE61002D2393 /* CSVExporter.swift */,
-				73B2BA011F898C060044DD4E /* Day+Extension.swift */,
-				73641579201C8FF5009D5817 /* TrainingDiaryValues.swift */,
-				73E7FD39201631BD00D1FCD4 /* Bike+Extension.swift */,
-				73C2F03D20206E480073323D /* Equipment+Extension.swift */,
-				73265B651FB47D240081D3F9 /* Weight+Extension.swift */,
-				73B5644320260B6E0022E80A /* LTDEddingtonNumber+Extension.swift */,
-				73B2B9FF1F898BF30044DD4E /* Workout+Extension.swift */,
+				73B2B9E61F894CC00044DD4E /* Training_Diary.xcdatamodeld */,
 				7369D9F91FB2C97400ECAA1E /* TrainingDiary+Extension.swift */,
-				73B2B9F71F894E870044DD4E /* CoreDataStackSingleton.swift */,
-				730DB7561FE132F500579A81 /* Metric+Extension.swift */,
-				73444C3E1F96AB9B00B3E84D /* Enumerations.swift */,
-				73C58CA61FA8EFD200F57BAE /* EddingtonNumber+Extension.swift */,
-				73AB477B202354CF0093B8A4 /* EddingtonHistory+Extension.swift */,
-				73C3B37C1F97AC1400ED6108 /* EddingtonNumberCalculator.swift */,
+				73641579201C8FF5009D5817 /* TrainingDiaryValues.swift */,
 				731CF8061F98467A00C59AA8 /* TSBCalculator.swift */,
+				73265B651FB47D240081D3F9 /* Weight+Extension.swift */,
+				73B2B9FF1F898BF30044DD4E /* Workout+Extension.swift */,
 			);
 			path = "Data Model";
 			sourceTree = "<group>";
@@ -433,6 +448,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				738ED877204D749A006187A1 /* WorkoutsInputViewController.swift in Sources */,
 				73B2B9E51F894CC00044DD4E /* ViewController.swift in Sources */,
 				73789C8E2010CE61002D2393 /* CSVExporter.swift in Sources */,
 				73FC61E5200E26AA00C61DE6 /* LTDEddingtonNumberWebViewController.swift in Sources */,
@@ -441,7 +457,9 @@
 				732EF2141FD0B5E6008768C0 /* RollingPeriodWeightedAverage.swift in Sources */,
 				731FA62B201FD890004EF572 /* ActivityType+Extension.swift in Sources */,
 				7309AED61FC6CCC100054A6B /* ActivityGraphDefinition.swift in Sources */,
+				7359C17F204C5D8C00A09B61 /* DaysInputViewController.swift in Sources */,
 				73DC9B111FDC373700D4774A /* NumberToDetailedTimeTransformer.swift in Sources */,
+				73F9A3B3204EF584000DEECE /* DaysPredicatorEditorViewController.swift in Sources */,
 				73F270621FAB0CC400D36156 /* TableViewWithColumnSort.swift in Sources */,
 				7369D9EE1FB23DBC00ECAA1E /* DayTypeComboBox.swift in Sources */,
 				731154272046550300C2179E /* EddingtonNumberTABViewController.swift in Sources */,
@@ -510,6 +528,7 @@
 				73AF13FF1FB064D2002A1B9E /* RollingSumQueue.swift in Sources */,
 				73920AB31FC8D2CB00A9686F /* AxisComboBox.swift in Sources */,
 				733990C31FB34BD200E80D4A /* PeriodComboBox.swift in Sources */,
+				73A06B05204D594A0088BD09 /* WorkoutSplitViewController.swift in Sources */,
 				73D89F9C1FD1BB03002F07A2 /* CompareGraphViewController.swift in Sources */,
 				73D6CC711FC80A75006830DA /* GraphFormat.swift in Sources */,
 				73AB477C202354CF0093B8A4 /* EddingtonHistory+Extension.swift in Sources */,
@@ -517,6 +536,7 @@
 				7369D9F21FB24F2B00ECAA1E /* ActivityComboBox.swift in Sources */,
 				7369D9F41FB24F5000ECAA1E /* ActivityTypeComboBox.swift in Sources */,
 				73B9FCBB2006A4EF00C57D25 /* GraphDefinition.swift in Sources */,
+				7359C183204CFB7700A09B61 /* DaysSplitViewController.swift in Sources */,
 				73D89F981FD15F39002F07A2 /* PeriodSum.swift in Sources */,
 				73B2BA021F898C060044DD4E /* Day+Extension.swift in Sources */,
 				73D89FA01FD1E241002F07A2 /* DatedActivityGraphDefinition.swift in Sources */,

@@ -124,9 +124,10 @@ enum Period: String{
     case WTDFri         = "WTD-Fri"
     case WTDSat         = "WTD-Sat"
     case WTDSun         = "WTD-Sun"
+    case Workout        = "Workout"
 
-    static var eddingtonNumberPeriods = [Day, Week, Month, Year, WeekToDate, MonthToDate, YearToDate, rWeek, rMonth, rYear, WeekTue, WeekWed, WeekThu, WeekFri, WeekSat, WeekSun, WTDTue, WTDWed, WTDThu, WTDFri, WTDSat, WTDSun]
-    static var All = [Day,Week,Month,Year, WeekToDate,MonthToDate, YearToDate,rWeek,rMonth,rYear, Lifetime, Adhoc, WeekTue, WeekWed, WeekThu, WeekFri, WeekSat, WeekSun, WTDTue, WTDWed, WTDThu, WTDFri, WTDSat, WTDSun]
+    static var eddingtonNumberPeriods = [Day, Week, Month, Year, WeekToDate, MonthToDate, YearToDate, rWeek, rMonth, rYear, WeekTue, WeekWed, WeekThu, WeekFri, WeekSat, WeekSun, WTDTue, WTDWed, WTDThu, WTDFri, WTDSat, WTDSun, Workout]
+    static var All = [Day,Week,Month,Year, WeekToDate,MonthToDate, YearToDate,rWeek,rMonth,rYear, Lifetime, Adhoc, WeekTue, WeekWed, WeekThu, WeekFri, WeekSat, WeekSun, WTDTue, WTDWed, WTDThu, WTDFri, WTDSat, WTDSun, Workout]
     
     
     /* Returns the periods range of dates for a given date. This gives the period this ends with except where this doesn't make sense
@@ -137,7 +138,7 @@ enum Period: String{
      */
     public func periodRange(forDate d: Date) -> (from: Date, to: Date){
         switch self{
-        case .Day, .Adhoc, .Lifetime:
+        case .Day, .Adhoc, .Lifetime, .Workout:
                             return (from: d, to: d)
         case .Week:         return (from: d.startOfWeek(), to: d.endOfWeek())
         case .Month:        return (from: d.startOfMonth(), to: d.endOfMonth())
@@ -509,10 +510,21 @@ enum DayCalculatedProperty: String{
 enum DayProperty: String, FileMakerProJSONString{
     case comments, date, fatigue, motivation, sleep, sleepQuality, type
     case workoutChanged
-    case swimCTL, bikeCTL, runCTL, gymCTL, walkCTL, otherCTL, allCTL
-    case swimATL, bikeATL, runATL, gymATL, walkATL, otherATL, allATL
+    case swimHours, swimKJ, swimKM, swimMinutes, swimSeconds, swimTSB, swimWatts, swimATL, swimCTL
+    case bikeAscentFeet, bikeAscentMetres, bikeHR, bikeHours, bikeJ, bikeKM, bikeMinutes, bikeSeconds, bikeTSB, bikeWatts, bikeATL, bikeCTL
+    case runAscentFeet, runAscentMetres, runHR, runHours, runKJ, runKM, runMinutes, runSeconds, runTSB, runWatts, runATL, runCTL
+    case allAscentFeet, allAscentMetres, allHR, allHours, allKJ, allKM, allMinutes, allSeconds, allTSB, allWatts, allATL, allCTL
+    case gymCTL, walkCTL, otherCTL
+    case gymATL, walkATL, otherATL
+    case kg, lbs, fatPercent, restingHR, restingSDNN, restingRMSSD
+    case numberOfWorkouts, totalReps
     
     static let ExportProperties = [date, fatigue, motivation, sleep, sleepQuality, type, comments]
+    
+    static let doubleProperties = [fatigue, motivation, sleep, swimHours, swimKJ, swimKM, swimMinutes, swimSeconds, swimTSB, swimWatts, swimATL, swimCTL, bikeAscentFeet, bikeAscentMetres, bikeHR, bikeHours, bikeJ, bikeKM, bikeMinutes, bikeSeconds, bikeTSB, bikeWatts, bikeATL, bikeCTL, runAscentFeet, runAscentMetres, runHR, runHours, runKJ, runKM, runMinutes, runSeconds, runTSB, runWatts, runATL, runCTL, allAscentFeet, allAscentMetres, allHR, allHours, allKJ, allKM, allMinutes, allSeconds, allTSB, allWatts, allATL, allCTL, gymCTL, walkCTL, otherCTL, gymATL, walkATL, otherATL, kg, lbs, fatPercent, restingSDNN, restingRMSSD, totalReps]
+    static let stringProperties = [comments, sleepQuality, type]
+    static let intProperties = [restingHR, numberOfWorkouts]
+    static let dateProperties = [date]
     
     //relationships
     case trainingDiary, workouts, metrics

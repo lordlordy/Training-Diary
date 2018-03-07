@@ -10,13 +10,27 @@ import Cocoa
 
 class TrainingDiarySplitViewController: NSSplitViewController, TrainingDiaryViewControllerProtocol {
     
+    @objc dynamic var trainingDiary: TrainingDiary?
+    
     func set(trainingDiary td: TrainingDiary) {
+        trainingDiary = td
         for vc in childViewControllers{
             if let tdvc = vc as? TrainingDiaryViewControllerProtocol{
                 print("Setting training diary on \(tdvc)")
                 tdvc.set(trainingDiary: td)
             }
+            
         }
+        
+    }
+    
+    override func splitView(_ splitView: NSSplitView, canCollapseSubview subview: NSView) -> Bool {
+        return true
+    }
+    
+    override func splitView(_ splitView: NSSplitView, shouldCollapseSubview subview: NSView, forDoubleClickOnDividerAt dividerIndex: Int) -> Bool {
+        print(splitView)
+        return true
     }
     
 }

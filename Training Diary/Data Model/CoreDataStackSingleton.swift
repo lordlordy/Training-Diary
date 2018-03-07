@@ -61,38 +61,22 @@ class CoreDataStackSingleton{
     
     //MARK:-
     
-    public func printEntityCounts(forDiary td: TrainingDiary){
+    public func getEntityCounts(forDiary td: TrainingDiary) -> [(entity: String, count: Int)]{
     
-        print("Entity counts for Training Diary: \(String(describing: td.name))")
+        var results: [(String, Int)] = []
         
-/*        for e in ENTITY.ALL.sorted(by: {$0.rawValue < $1.rawValue}){
-            let count = getCount(forEntity: e, forTrainingDiary: td)
-            print("\(count) - \(e.rawValue)")
-        }
-        
-        print("OLD PRINT OUT")
-  */
-        let days                = getCount(forEntity: ENTITY.Day, forTrainingDiary: td)
-        let workouts            = getCount(forEntity: ENTITY.Workout, forTrainingDiary: td)
-        let weights             = getCount(forEntity: ENTITY.Weight, forTrainingDiary:td)
-        let physios             = getCount(forEntity: ENTITY.Physiological, forTrainingDiary:td)
-        let edNums              = getCount(forEntity: ENTITY.EddingtonNumber, forTrainingDiary: td)
-        let activities          = getCount(forEntity: ENTITY.Activity, forTrainingDiary: td)
-        let activityTypes       = getCount(forEntity: ENTITY.ActivityType, forTrainingDiary: td)
-        let metrics             = getCount(forEntity: ENTITY.Metric, forTrainingDiary: td)
-        let ltdEddingtonNumbers = getCount(forEntity: ENTITY.LTDEddingtonNumber, forTrainingDiary: td)
+        results.append((ENTITY.Day.rawValue,getCount(forEntity: ENTITY.Day, forTrainingDiary: td)))
+        results.append((ENTITY.Workout.rawValue,getCount(forEntity: ENTITY.Workout, forTrainingDiary: td)))
+        results.append((ENTITY.Weight.rawValue,getCount(forEntity: ENTITY.Weight, forTrainingDiary: td)))
+        results.append((ENTITY.Physiological.rawValue,getCount(forEntity: ENTITY.Physiological, forTrainingDiary: td)))
+        results.append((ENTITY.EddingtonNumber.rawValue,getCount(forEntity: ENTITY.EddingtonNumber, forTrainingDiary: td)))
+        results.append((ENTITY.Activity.rawValue,getCount(forEntity: ENTITY.Activity, forTrainingDiary: td)))
+        results.append((ENTITY.ActivityType.rawValue,getCount(forEntity: ENTITY.ActivityType, forTrainingDiary: td)))
+        results.append((ENTITY.Metric.rawValue,getCount(forEntity: ENTITY.Metric, forTrainingDiary: td)))
+        results.append(("LTDEddingtonNumber first nodes",getCount(forEntity: ENTITY.LTDEddingtonNumber, forTrainingDiary: td)))
+        results.append(("LTDEddingtonNumber ALL nodes",getAllEntities(ofType: ENTITY.LTDEddingtonNumber).count))
 
-        print("Number of days: \(days)")
-        print("Number of workouts: \(workouts)")
-        print("Number of weights: \(weights)")
-        print("Number of physiologicals:  \(physios)")
-        print("Number of EddingtonNumbers:  \(edNums)")
-        print("Number of LTDEddingtonNumbers:  \(ltdEddingtonNumbers)")
-        print("Number of Activities:  \(activities)")
-        print("Number of ActivityTypes:  \(activityTypes)")
-        print("Number of Metrics:  \(metrics)")
-        print(("Number of LTDEddingtonNumbers across all diaries \(getAllEntities(ofType: ENTITY.LTDEddingtonNumber).count)"))
-
+        return results
     }
     
 

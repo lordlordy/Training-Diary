@@ -13,7 +13,9 @@ class DaysArrayController: NSArrayController {
     var trainingDiary: TrainingDiary?
     
     override func newObject() -> Any {
+        
         let day: Day = super.newObject() as! Day
+        print("Training diary for day \(String(describing: day.date)) is \(String(describing: day.trainingDiary))")
         //not sure this is the right way to go about it...
         if let td = trainingDiary{
             if let latestDay = td.latestDay(){

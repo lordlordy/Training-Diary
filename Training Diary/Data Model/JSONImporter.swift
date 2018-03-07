@@ -349,7 +349,9 @@ class JSONImporter{
         print("physiologicals added")
         //     printEntities()
         print("Entities in training diary:")
-        CoreDataStackSingleton.shared.printEntityCounts(forDiary: td as! TrainingDiary)
+        for e in CoreDataStackSingleton.shared.getEntityCounts(forDiary: td as! TrainingDiary){
+            print("\(e.entity) = \(e.count)")
+        }
     }
     
     

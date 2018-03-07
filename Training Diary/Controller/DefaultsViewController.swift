@@ -13,22 +13,29 @@ class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource 
 //    @objc dynamic var trainingDiary: TrainingDiary?
     var mainViewController: ViewController?
     
+    @IBOutlet var validationOutputTextView: NSTextView!
     
     //MARK: - IBActions
     @IBAction func adhoc(_ sender: Any) {        
     }
     
 
+    @IBAction func duplicateDays(_ sender: Any) {
+    }
     
-
+    
+    @IBAction func missingDays(_ sender: Any) {
+    }
     
     
     
     @IBAction func uniqueActivities(_ sender: Any){
         let results = trainingDiary!.uniqueActivityTypePairs()
         for r in results{
-            print(r)
+            logMessage(r)
         }
+        logMessage("*** Unique Activities:")
+        logMessage("")
     }
     
     @IBAction func recalcMonotonyAndStrain(_ sender: Any) {
@@ -51,7 +58,7 @@ class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource 
                 self.mainViewController!.mainStatusField!.stringValue = "Monotony and Strain Calculation took \(Date().timeIntervalSince(start))s"
             }
         }
-        print("Monotony and Strain Calculation took \(Date().timeIntervalSince(start))s")
+        logMessage("Monotony and Strain Calculation took \(Date().timeIntervalSince(start))s")
     }
     
     @IBAction func recalcTSB(_ sender: Any) {
@@ -91,7 +98,11 @@ class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource 
         }
     }
     @IBAction func printEntityCounts(_ sender: Any) {
-        CoreDataStackSingleton.shared.printEntityCounts(forDiary: trainingDiary!)
+        for e in CoreDataStackSingleton.shared.getEntityCounts(forDiary: trainingDiary!){
+            logMessage("\(e.entity) = \(e.count)")
+        }
+        logMessage("*** Entity Counts:")
+        logMessage("")
     }
     
     @IBAction func connectActivities(_ sender: Any){
@@ -105,20 +116,23 @@ class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource 
                 if let td = trainingDiary{
                     if let a = w.activityString{
                         w.activity = td.activity(forString: a)
-                        print("Connected activity  for workout \(String(describing: w.day!.date?.dateOnlyShorterString()))")
+                        logMessage("Connected activity  for workout \(String(describing: w.day!.date?.dateOnlyShorterString()))")
                         activiesConnected += 1
                     }
                 }
             }
             if w.activityType == nil{
                 w.activityType = trainingDiary!.activityType(forActivity: w.activityString!, andType: w.activityTypeString!)
-                print("Connected activity type for workout \(String(describing: w.day!.date?.dateOnlyShorterString()))")
+                logMessage("Connected activity type for workout \(String(describing: w.day!.date?.dateOnlyShorterString()))")
                 activityTypesConnected += 1
             }
         }
         
-        print("\(activiesConnected) workouts connected to activity")
-        print("\(activityTypesConnected) workouts connected to activity type")
+        logMessage("\(activiesConnected) workouts connected to activity")
+        logMessage("\(activityTypesConnected) workouts connected to activity type")
+        logMessage("*** Connecting Activities:")
+        logMessage("")
+
     }
     
     @IBAction func listMissingConnections(_ sender: Any){
@@ -133,40 +147,48 @@ class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource 
         for d in days{
             if d.trainingDiary == nil{
                 missingTrainingDiarySet += 1
-                print("Training diary nil for day \(d.date!.dateOnlyShorterString()).")
+                logMessage("Training diary nil for day \(d.date!.dateOnlyShorterString()).")
             }
         }
         
         for w in workouts{
             if w.day == nil{
                 missingDaySet += 1
-                print("day nil for workout \(String(describing: w.activityString)):\(String(describing: w.activityTypeString)) ")
+                logMessage("day nil for workout \(String(describing: w.activityString)):\(String(describing: w.activityTypeString)) ")
                 
             }else{
                 
                 if w.activity == nil{
                     missingActivity += 1
-                    print("activity nil for workout \(String(describing: w.activityString)) - \(w.day!.date!.dateOnlyShorterString())")
+                    logMessage("activity nil for workout \(String(describing: w.activityString)) - \(w.day!.date!.dateOnlyShorterString())")
                 }
                 if w.activityType == nil{
                     missingActivityType += 1
-                    print("activity nil for workout \(String(describing: w.activityTypeString)) - \(w.day!.date!.dateOnlyShorterString())")
+                    logMessage("activity nil for workout \(String(describing: w.activityTypeString)) - \(w.day!.date!.dateOnlyShorterString())")
                 }
-                if w.activityString == nil{ print("Workout is missing activity string \(w.day!.date!.dateOnlyShorterString())") }
-                if w.activityTypeString == nil{ print("Workout is missing activity string \(w.day!.date!.dateOnlyShorterString())") }
+                if w.activityString == nil{
+                    logMessage("Workout is missing activity string \(w.day!.date!.dateOnlyShorterString())")
+                }
+                if w.activityTypeString == nil{
+                    logMessage("Workout is missing activity string \(w.day!.date!.dateOnlyShorterString())")
+                }
             }
         }
         
         let ltd = CoreDataStackSingleton.shared.ltdEdNumsMissingParentAndTrainingDiary()
         for l in ltd{
-            print("Missing parent and trainingDiary: \(l.code)")
+            logMessage("Missing parent and trainingDiary: \(l.code)")
         }
         
-        print("Workouts missing activity: \(missingActivity)")
-        print("Workouts missing activity type: \(missingActivityType)")
-        print("Workouts missing day: \(missingDaySet)")
-        print("Days missing training diary: \(missingTrainingDiarySet)")
-        print("LTDEddingtonNumber without parent or training diary: \(ltd.count)")
+        logMessage("Workouts missing activity: \(missingActivity)")
+        logMessage("Workouts missing activity type: \(missingActivityType)")
+        logMessage("Workouts missing day: \(missingDaySet)")
+        logMessage("Days missing training diary: \(missingTrainingDiarySet)")
+        logMessage("LTDEddingtonNumber without parent or training diary: \(ltd.count)")
+        logMessage("*** Missing Connections:")
+        logMessage("")
+
+
     }
     
     @IBAction func deleleteEntitiesWithMissingConnections(_ sender: Any){
@@ -179,18 +201,18 @@ class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource 
         for d in days{
             if d.trainingDiary == nil{
                 missingTrainingDiarySet += 1
-                print("Training diary nil for day \(d.date!.dateOnlyShorterString()). Removing...")
+                logMessage("Training diary nil for day \(d.date!.dateOnlyShorterString()). Removing...")
                 CoreDataStackSingleton.shared.delete(entity: d)
-                print("DONE")
+                logMessage("DONE")
             }
         }
         
         for w in workouts{
             if w.day == nil{
                 missingDaySet += 1
-                print("day nil for workout \(String(describing: w.activityString)):\(String(describing: w.activityTypeString)) ... ")
+                logMessage("day nil for workout \(String(describing: w.activityString)):\(String(describing: w.activityTypeString)) ... ")
                 CoreDataStackSingleton.shared.delete(entity: w)
-                print("DONE")
+                logMessage("DONE")
                 
             }
         }
@@ -198,35 +220,39 @@ class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource 
         let ltd = CoreDataStackSingleton.shared.ltdEdNumsMissingParentAndTrainingDiary()
         for l in ltd{
             CoreDataStackSingleton.shared.delete(entity: l)
-            print("Deleting LTDEddingtonNumber: \(l.code)")
+            logMessage("Deleting LTDEddingtonNumber: \(l.code)")
         }
     }
     
     @IBAction func printUniqueBikeNames(_ sender: Any){
         var i: Int = 0
         if let td = trainingDiary{
-            print(td.uniqueBikeNames())
+            for bike in td.uniqueBikeNames(){
+                logMessage(bike)
+            }
             for w in td.workouts{
                 if w.activity?.name == FixedActivity.Bike.rawValue{
                     if w.equipment == nil{
-                        print("Equipment not set for bike workout \(String(describing: w.day?.date?.dateOnlyShorterString()))")
+                        logMessage("Equipment not set for bike workout \(String(describing: w.day?.date?.dateOnlyShorterString()))")
                         i += 1
                     }
                     if w.equipmentName == nil{
-                        print("setting equipment name for \(String(describing: w.day?.date?.dateOnlyShorterString())) to...")
+                        logMessage("setting equipment name for \(String(describing: w.day?.date?.dateOnlyShorterString())) to...")
                         if let e = w.equipment{
                             w.equipmentName = e.name
-                            print(w.equipmentName!)
+                            logMessage(w.equipmentName!)
                         }else{
-                            print("FAILED TO SET")
+                            logMessage("FAILED TO SET")
                         }
                         
                     }
                 }
             }
         }
-        print("\(i) workouts missing equipment (ie bike) set")
-        
+        logMessage("\(i) workouts missing equipment (ie bike) set")
+        logMessage("*** Unique Bike Names and Missing Equipment")
+        logMessage("")
+
     }
     
 
@@ -262,7 +288,17 @@ class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource 
         return 0
     }
     
+   
+    private func logMessage(_ s: String){
+        print(s)
+        
+        if let votv = validationOutputTextView{
+            let oldString = votv.string
+            votv.string = s + "\n" + oldString
+        }
     
+        
+    }
 
     
     
