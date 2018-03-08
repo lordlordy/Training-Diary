@@ -85,16 +85,19 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
                 trainingDiaryVCs.append(c)
             }
 
-            for c in controller.childViewControllers{
-                if let edController = c as? EddingtonNumbersViewController{
-                    edController.mainViewController = self
-                }
-            }
-            if let controller = controller as? DefaultsViewController{
-                controller.mainViewController = self
-            }
+            checkToSetMainViewController(controller)
         }
         
+    }
+    
+    private func checkToSetMainViewController(_ vc: NSViewController){
+        if let controller = vc as? ReferenceToMainProtocol{
+            print("Setting main view controller for \(controller)")
+            controller.setMainViewControllerReference(to: self)
+        }
+        for c in vc.childViewControllers{
+            checkToSetMainViewController(c)
+        }
     }
     
     override func viewDidLoad() {

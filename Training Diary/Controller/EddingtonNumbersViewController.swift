@@ -8,10 +8,10 @@
 
 import Cocoa
 
-class EddingtonNumbersViewController: TrainingDiaryViewController, NSComboBoxDataSource {
+class EddingtonNumbersViewController: TrainingDiaryViewController, NSComboBoxDataSource, ReferenceToMainProtocol {
 
 //    @objc dynamic var trainingDiary: TrainingDiary?
-    var mainViewController: ViewController?
+    private var mainViewController: ViewController?
     @IBOutlet var treeController: NSTreeController!
     
     private var dayType: String?
@@ -283,6 +283,10 @@ class EddingtonNumbersViewController: TrainingDiaryViewController, NSComboBoxDat
 
     }
     
+    //MARK: - ReferenceToMainProtocol
+    func setMainViewControllerReference(to vc: ViewController){
+        mainViewController = vc
+    }
     
     //MARK: - NSComboBoxDataSource
     func comboBox(_ comboBox: NSComboBox, objectValueForItemAt index: Int) -> Any? {
@@ -584,9 +588,9 @@ class EddingtonNumbersViewController: TrainingDiaryViewController, NSComboBoxDat
                             
                             if workoutCount > Int(Constant.WorkoutThresholdForEdNumberCount.rawValue){
                                 for _ in units.sorted(by: {$0.rawValue < $1.rawValue}){
-                           //         for _ in periods{
+                                    for _ in periods{
                                             total += 1
-                              //      }// end Period loop
+                                    }// end Period loop
                                 }// end unit loop
                             }//end else on workout count chedk
                         }// end type loop
@@ -630,8 +634,7 @@ class EddingtonNumbersViewController: TrainingDiaryViewController, NSComboBoxDat
                             }else{
                                 
                                 for u in units.sorted(by: {$0.rawValue < $1.rawValue}){
-//                                    for p in periods{
-                                        for p in [Period.Workout]{
+                                    for p in periods{
                                         count += 1
                                         name = dt
                                         name += ":" + a

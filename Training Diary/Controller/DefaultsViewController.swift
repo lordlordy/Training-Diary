@@ -8,15 +8,17 @@
 
 import Cocoa
 
-class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource {
+class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource, ReferenceToMainProtocol {
 
 //    @objc dynamic var trainingDiary: TrainingDiary?
-    var mainViewController: ViewController?
+    private var mainViewController: ViewController?
     
     @IBOutlet var validationOutputTextView: NSTextView!
     
     //MARK: - IBActions
-    @IBAction func adhoc(_ sender: Any) {        
+    @IBAction func adhoc(_ sender: Any) {
+        let maths = Maths()
+        maths.testLinearInterpolation()
     }
     
 
@@ -256,7 +258,11 @@ class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource 
     }
     
 
-    
+    //MARK: - ReferenceToMainProtocol
+    func setMainViewControllerReference(to vc: ViewController){
+        mainViewController = vc
+    }
+
 
     
     //MARK: - NSComboBoxDataSource implementation  TSBTableActivityCB

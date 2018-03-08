@@ -10,6 +10,43 @@ import Foundation
 
 class Maths{
   
+    // currently returns first / last item if outside range
+    //this orders array of values based on x.
+    func linearInterpolate(forX x: Double, fromValues values: [(x: Double, y: Double)]) -> Double{
+        let orderedArray = values.sorted(by: {$0.x < $1.x})
+        let count = orderedArray.count
+        
+        if count == 0 { return 0.0 }
+        
+        if x <= orderedArray[0].x{
+            return orderedArray[0].y
+        }
+        
+        if x >= orderedArray[count-1].x{
+            return orderedArray[count-1].y
+        }
+        
+        
+        var index = 0
+        
+        findPoint: while (index < count){
+            if x >= orderedArray[index].x{
+                break findPoint
+            }
+            index += 1
+        }
+        
+        if index+1 > count-1 { return orderedArray[count-1].y}
+        
+        let xGap = orderedArray[index+1].x - orderedArray[index].x
+        let yGap = orderedArray[index+1].y - orderedArray[index].y
+        
+        let xProportion = (x - orderedArray[index].x) / xGap
+
+        return  orderedArray[index].y + xProportion * yGap
+        
+    }
+    
     func standardDeviation(_ array: [Double]) -> Double{
         return stdDevMeanTotal(array).stdDev
     }
@@ -93,7 +130,7 @@ class Maths{
     }
     
     
-    func test(){
+    func testStDev(){
         let testStdDevs = [-3.0, -2.0, -1.0, 0, 1.0, 2.0, 3.0]
         for x in testStdDevs{
             let p = phi(stdDev: x)
@@ -110,6 +147,22 @@ class Maths{
         }
         
         print("Time for 10,000 std dev calc = \(Date().timeIntervalSince(d))s")
+        
+    }
+    
+    func testLinearInterpolation(){
+        let testArray = [(1.0,1.0),(2.0,2.0),(2.0,2.0),(32.0,32.0),(12.0,12.0),(8.0,8.0),(1.0,1.0),(200.0,200.0),(-4.0,-4.0)]
+        let testNumbers = [1.0, 2.0, 199.0, 1.2345, 2000.0, -1000.0, -3.5]
+        
+        print("TEST ARRAY:")
+        print(testArray)
+        print("TEST NUMBERS:")
+        print(testNumbers)
+        
+        for t in testNumbers{
+            let r = linearInterpolate(forX: t, fromValues: testArray)
+            print("\(t) --> \(r)")
+        }
         
     }
     
