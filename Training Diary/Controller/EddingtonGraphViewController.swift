@@ -42,9 +42,55 @@ class EddingtonGraphViewController: TrainingDiaryViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpGraphs()
+        updateGraph()
     }
     
+    func updateGraph(){
+        if let edNum = getSelectedEddingtonNumber(){
+            if let gv = graphView{
+                
+                //start with zero for first day of diary - this ensures that scales line up.
+                let firstEntry = (date: trainingDiary!.firstDayOfDiary,value: 0.0)
+                var history: [(date: Date, value: Double)] = [firstEntry]
+                var plusOneHistory: [(date: Date, value: Double)] = [firstEntry]
+                var contributors: [(date: Date, value: Double)] = [firstEntry]
+                var annualHistory: [(date: Date, value: Double)] = [firstEntry]
+                var maturityHistory: [(date: Date, value: Double)] = [firstEntry]
+                
+                for e in edNum.getSortedHistory(){
+                    history.append((date: e.date!, value: Double(e.value)))
+                    plusOneHistory.append((date: e.date!, value: Double(e.value + e.plusOne)))
+                    maturityHistory.append((date: e.date!, value: e.maturity))
+                    
+                }
+                historyGraph.data = history
+                plusOneGraph.data = plusOneHistory
+                maturityGraph.data = maturityHistory
+                
+                for c in edNum.getSortedContributors(){
+                    contributors.append((c.date!, c.value))
+                }
+                
+                
+                contributorsGraph.data = contributors
+                
+                for e in edNum.getSortedAnnualHistory(){
+                    annualHistory.append((date:e.date!, value: Double(e.value)))
+                }
+                annualHistoryGraph.data = annualHistory
+                
+                gv.chartTitle = edNum.eddingtonCode
+                
+                gv.needsDisplay = true
+                
+            }
+        }
+    }
+    
+    
     //MARK: - Private
+    
+
     
     private func selectedRows() -> [EddingtonNumber]{
         
@@ -101,46 +147,6 @@ class EddingtonGraphViewController: TrainingDiaryViewController{
         }
     }
     
-    private func updateGraph(){
-        if let edNum = getSelectedEddingtonNumber(){
-            if let gv = graphView{
-                
-                //start with zero for first day of diary - this ensures that scales line up.
-                let firstEntry = (date: trainingDiary!.firstDayOfDiary,value: 0.0)
-                var history: [(date: Date, value: Double)] = [firstEntry]
-                var plusOneHistory: [(date: Date, value: Double)] = [firstEntry]
-                var contributors: [(date: Date, value: Double)] = [firstEntry]
-                var annualHistory: [(date: Date, value: Double)] = [firstEntry]
-                var maturityHistory: [(date: Date, value: Double)] = [firstEntry]
-                
-                for e in edNum.getSortedHistory(){
-                    history.append((date: e.date!, value: Double(e.value)))
-                    plusOneHistory.append((date: e.date!, value: Double(e.value + e.plusOne)))
-                    maturityHistory.append((date: e.date!, value: e.maturity))
-                    
-                }
-                historyGraph.data = history
-                plusOneGraph.data = plusOneHistory
-                maturityGraph.data = maturityHistory
-                
-                for c in edNum.getSortedContributors(){
-                    contributors.append((c.date!, c.value))
-                }
-                
-                
-                contributorsGraph.data = contributors
-                
-                for e in edNum.getSortedAnnualHistory(){
-                    annualHistory.append((date:e.date!, value: Double(e.value)))
-                }
-                annualHistoryGraph.data = annualHistory
-                
-                gv.chartTitle = edNum.eddingtonCode
-                
-                gv.needsDisplay = true
-                
-            }
-        }
-    }
+
     
 }

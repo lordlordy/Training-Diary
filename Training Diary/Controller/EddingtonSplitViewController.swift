@@ -16,4 +16,47 @@ class EddingtonSplitViewController: TrainingDiarySplitViewController {
     @IBOutlet var annualHistoryAC: NSArrayController!
     @IBOutlet var historyAC: NSArrayController!
     @IBOutlet var contributorsAC: NSArrayController!
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        if let eddNumAC = eddingtonNumberAC{
+            eddNumAC.addObserver(self, forKeyPath: "selection", options: .new, context: nil)
+        }
+
+    }
+    
+    //MARK: - value observing
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        switch keyPath!{
+        case "selection":
+            if let controller = findGraphVC([self]){
+                controller.updateGraph()
+            }
+        default:
+            print("why am I observing \(String(describing: keyPath))")
+        }
+    }
+    
+    
+    
+    private func findGraphVC(_ vcs: [NSViewController]) -> EddingtonGraphViewController?{
+
+        for v in vcs{
+            if let controller = v as? EddingtonGraphViewController{
+                return controller
+            }else if v.childViewControllers.count > 0{
+                if let result = findGraphVC(v.childViewControllers){
+                    return result
+                }
+            }else{
+                return nil
+            }
+        }
+        
+        return nil
+        
+    }
+    
 }
