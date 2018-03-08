@@ -157,7 +157,7 @@ extension EddingtonNumber{
         let keyPaths = super.keyPathsForValuesAffectingValue(forKey: key)
         switch key {
         case "eddingtonCode":
-            return keyPaths.union(Set(["activity","activityType","period","unit","bike"]))
+            return keyPaths.union(Set(["activity","activityType","period","unit","bike","dayType"]))
         case "maturity":
             return keyPaths.union(Set(["lastUpdated"]))
         default:

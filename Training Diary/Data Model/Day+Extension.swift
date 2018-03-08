@@ -399,7 +399,7 @@ extension Day: TrainingDiaryValues, PeriodNode{
         }
         return 0.0
     }
-    @objc dynamic var restingHR: Int{
+    @objc dynamic var restingHR: Double{
         if let td = trainingDiary{
             return td.restingHeartRate(forDate: self.date!)
         }

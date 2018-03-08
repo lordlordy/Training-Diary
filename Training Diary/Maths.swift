@@ -30,21 +30,20 @@ class Maths{
         var index = 0
         
         findPoint: while (index < count){
-            if x >= orderedArray[index].x{
+            if x <= orderedArray[index].x{
                 break findPoint
             }
             index += 1
         }
         
-        if index+1 > count-1 { return orderedArray[count-1].y}
         
-        let xGap = orderedArray[index+1].x - orderedArray[index].x
-        let yGap = orderedArray[index+1].y - orderedArray[index].y
+        let xGap = orderedArray[index].x - orderedArray[index-1].x
+        let yGap = orderedArray[index].y - orderedArray[index-1].y
         
-        let xProportion = (x - orderedArray[index].x) / xGap
+        let xProportion = (x - orderedArray[index-1].x) / xGap
 
-        return  orderedArray[index].y + xProportion * yGap
-        
+        let result =  orderedArray[index-1].y + xProportion * yGap
+        return result
     }
     
     func standardDeviation(_ array: [Double]) -> Double{

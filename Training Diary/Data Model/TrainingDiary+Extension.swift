@@ -621,34 +621,33 @@ extension TrainingDiary: TrainingDiaryValues{
     }
     
     public func kg(forDate d: Date) -> Double{
-        if let w = weight(forDate: d){ return w.kg }
-        return 0.0
+        let maths = Maths()
+        let mapped = kgArray().map({(x:$0.date, y:$0.kg)})
+        return maths.linearInterpolate(forX: d.timeIntervalSince1970, fromValues: mapped)
     }
 
     public func fatPercentage(forDate d: Date) -> Double{
-        if let w = weight(forDate: d){ return w.fatPercent }
-        return 0.0
+        let maths =  Maths()
+        let mapped = fatPercentageArray().map({(x:$0.date, y:$0.fatPercent)})
+        return maths.linearInterpolate(forX: d.timeIntervalSince1970, fromValues: mapped)
     }
     
-    public func restingHeartRate(forDate d: Date) -> Int{
-        if let physio = physiological(forDate: d){
-            return Int(physio.restingHR)
-        }
-        return 0
+    public func restingHeartRate(forDate d: Date) -> Double{
+        let maths = Maths()
+        let mapped = restingHRArray().map({(x: $0.date, y: $0.hr)})
+        return maths.linearInterpolate(forX: d.timeIntervalSince1970, fromValues: mapped)
     }
 
     public func restingSDNN(forDate d: Date) -> Double{
-        if let physio = physiological(forDate: d){
-            return physio.restingSDNN
-        }
-        return 0.0
+        let maths = Maths()
+        let mapped = restingSDNNArray().map({(x: $0.date, y: $0.sdnn)})
+        return maths.linearInterpolate(forX: d.timeIntervalSince1970, fromValues: mapped)
     }
     
     public func restingRMSSD(forDate d: Date) -> Double{
-        if let physio = physiological(forDate: d){
-            return physio.restingRMSSD
-        }
-        return 0.0
+        let maths = Maths()
+        let mapped = restingRMSSDArray().map({(x: $0.date, y: $0.rMSSD)})
+        return maths.linearInterpolate(forX: d.timeIntervalSince1970, fromValues: mapped)
     }
     
     func calculatedHRVData() -> [HRVData]{
@@ -759,26 +758,94 @@ extension TrainingDiary: TrainingDiaryValues{
 
     //MARK: - Private
     
+    private func kgArray() -> [(date: Double, kg: Double)]{
+    
+        var result:[(date: Double, kg: Double)] = []
+        
+        for w in weightsArray(){
+            result.append((w.fromDate!.timeIntervalSince1970, w.kg))
+        }
+        
+        return result
+    }
+    
+    private func fatPercentageArray() -> [(date: Double, fatPercent: Double)]{
+        
+        var result:[(date: Double, fatPercent: Double)] = []
+        
+        for w in weightsArray(){
+            result.append((w.fromDate!.timeIntervalSince1970, w.fatPercent))
+        }
+        
+        return result
+    }
+    
+    
+    private func restingHRArray() -> [(date: Double, hr: Double)]{
+        
+        var result:[(date: Double, hr: Double)] = []
+        
+        for w in physiologicalArray(){
+            result.append((w.fromDate!.timeIntervalSince1970, w.restingHR))
+        }
+        
+        return result
+    }
+    
+    private func restingSDNNArray() -> [(date: Double, sdnn: Double)]{
+        
+        var result:[(date: Double, sdnn: Double)] = []
+        
+        for w in physiologicalArray(){
+            result.append((w.fromDate!.timeIntervalSince1970, w.restingSDNN))
+        }
+        
+        return result
+    }
+    
+    private func restingRMSSDArray() -> [(date: Double, rMSSD: Double)]{
+        
+        var result:[(date: Double, rMSSD: Double)] = []
+        
+        for w in physiologicalArray(){
+            result.append((w.fromDate!.timeIntervalSince1970, w.restingRMSSD))
+        }
+        
+        return result
+    }
+    
+    
     private func weight(forDate d: Date) -> Weight?{
-        if let ws = self.weights{
-            let weightsArray = ws.allObjects as! [Weight]
-            let weights = weightsArray.filter({$0.fromDate! <= d && d <= $0.toDate!})
-            if weights.count > 0{
-                return weights[0]
-            }
+        
+        let array = weightsArray()
+        let weights = array.filter({$0.fromDate! <= d && d <= $0.toDate!})
+        if weights.count > 0{
+            return weights[0]
         }
         return nil
     }
     
+    private func weightsArray() -> [Weight]{
+        if let ws = self.weights{
+            return ws.allObjects as! [Weight]
+        }
+        return []
+    }
+    
     private func physiological(forDate d: Date) -> Physiological?{
-        if let ps = self.physiologicals{
-            let physioArray = ps.allObjects as! [Physiological]
-            let physios = physioArray.filter({$0.fromDate! <= d && d <= $0.toDate!})
-            if physios.count > 0{
-                return physios[0]
-            }
+        let array = physiologicalArray()
+        let physios = array.filter({$0.fromDate! <= d && d <= $0.toDate!})
+        if physios.count > 0{
+            return physios[0]
         }
         return nil
+    }
+    
+    private func physiologicalArray() -> [Physiological]{
+        if let ps = self.physiologicals{
+            return ps.allObjects as! [Physiological]
+        }
+        return []
     }
     
     private func weightsAscendingDateOrder() -> [Weight]?{

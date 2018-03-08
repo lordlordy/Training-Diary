@@ -189,7 +189,9 @@ class BikeViewController: TrainingDiaryViewController, NSTableViewDelegate, NSCo
     
     private func selectedProperty() -> WorkoutProperty{
         if let cb = displayTypeComboBox{
-            return WorkoutProperty.DoubleProperties[cb.indexOfSelectedItem]
+            if cb.indexOfSelectedItem < WorkoutProperty.DoubleProperties.count{
+                return WorkoutProperty.DoubleProperties[cb.indexOfSelectedItem]
+            }
         }
         return WorkoutProperty.km
     }
