@@ -14,6 +14,10 @@ extension Weight{
         return kg * Constant.LbsPerKg.rawValue
     }
     
+    @objc dynamic var recordingDate: String{
+        return fromDate!.iso8601Format()
+    }
+    
     
     override public class func keyPathsForValuesAffectingValue(forKey key: String) -> Set<String>{
         let keyPaths = super.keyPathsForValuesAffectingValue(forKey: key)

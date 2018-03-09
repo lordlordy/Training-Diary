@@ -204,9 +204,13 @@ extension Day: TrainingDiaryValues, PeriodNode{
         }
     }
 
+    //this is for JSON serialisation
+    @objc dynamic var iso8061DateString: String{
+        return date!.iso8601Format()
+    }
     
     //MARK: - Calculated properties - these are for display in GUI
-
+    
     @objc dynamic var trainingDiaryName: String{ return trainingDiary?.name ?? "Missing"}
     
     @objc dynamic var dateString: String{ return date!.dateOnlyShorterString()}

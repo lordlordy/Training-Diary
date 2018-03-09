@@ -78,6 +78,10 @@ extension TrainingDiary: TrainingDiaryValues{
         return Date()
     }
     
+    //ISO format for JSON export
+    @objc dynamic var firstDate: String{ return firstDayOfDiary.iso8601Format() }
+    @objc dynamic var lastDate: String{ return lastDayOfDiary.iso8601Format() }
+
     // don't think this really need @objc dynamic - check and remove
     @objc dynamic var lastDayOfDiary: Date{
         return latestDay()?.date ?? Date()
