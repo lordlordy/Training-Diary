@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension Activity{
+extension Activity: CategoryProtocol{
     
     @objc dynamic var isFixedActivity: Bool {return isOneOfFixedActivityTypes() }
     @objc dynamic var canEditName: Bool { return !isFixedActivity }
@@ -18,6 +18,7 @@ extension Activity{
     @objc dynamic var hours: Double { return getWorkouts().reduce(0,{$0 + $1.hours}) }
     @objc dynamic var tss: Double { return getWorkouts().reduce(0,{$0 + $1.tss}) }
 
+    func categoryName() -> String { return name! }
     
     func keyString(forUnit unit: Unit) -> String{
         return self.name!.lowercased() + unit.rawValue

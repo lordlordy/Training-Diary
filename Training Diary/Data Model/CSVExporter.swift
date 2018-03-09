@@ -43,7 +43,7 @@ class CSVExporter{
                 }
             }
         }
-        
+                
         print("Workout count: \(workoutCount)")
         print("Day count: \(dayCount)")
 
@@ -53,13 +53,15 @@ class CSVExporter{
     private func csv(forWorkout w: Workout) -> String{
         var result: String = ""
         
-        for property in WorkoutProperty.AllProperties{
+        for property in WorkoutProperty.ExportProperties{
             result += ","
             if let value = w.value(forKey: property.rawValue){
                 if let v = value as? String{
                     result += fixString(v)
                 }else if let d = value as? Double{
                     result += String(format: "%.8f",d)
+                }else if let category = value as? CategoryProtocol{
+                    result += category.categoryName()
                 }else{
                     result += String(describing: value)
                 }
@@ -89,7 +91,7 @@ class CSVExporter{
                 }
             }
         }
-        for property in DayCalculatedProperty.ExportProperties{
+        for property in DayCalculatedProperty.ALL{
             result += ","
             if let value = d.value(forKey: property.rawValue){
                 if let v = value as? String{
@@ -108,7 +110,7 @@ class CSVExporter{
     private func headerRowForWorkouts() -> String{
         var result: String = ""
         
-        for property in WorkoutProperty.AllProperties{
+        for property in WorkoutProperty.ExportProperties{
             result += ","
             result += property.rawValue
         }
@@ -129,7 +131,7 @@ class CSVExporter{
             }
             result += property.rawValue
         }
-        for property in DayCalculatedProperty.ExportProperties{
+        for property in DayCalculatedProperty.ALL{
             result += ","
             result += property.rawValue
         }

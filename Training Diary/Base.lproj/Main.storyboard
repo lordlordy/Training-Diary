@@ -117,32 +117,6 @@
                                                 </items>
                                             </menu>
                                         </menuItem>
-                                        <menuItem title="Admin" id="bOA-lb-gvT">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <menu key="submenu" title="Admin" id="7Rj-Oc-udk">
-                                                <items>
-                                                    <menuItem title="New Diary" id="eXY-gK-WCq">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                        <connections>
-                                                            <action selector="newDiary:" target="Ady-hI-5gd" id="oJv-Vh-mek"/>
-                                                        </connections>
-                                                    </menuItem>
-                                                    <menuItem title="Remove Diary" id="hFd-yx-G0y">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                        <connections>
-                                                            <action selector="removeDiary:" target="Ady-hI-5gd" id="1ej-Yj-wf9"/>
-                                                        </connections>
-                                                    </menuItem>
-                                                    <menuItem isSeparatorItem="YES" id="Uf7-5y-D9g"/>
-                                                    <menuItem title="Delete ALL Entities..." id="lC1-jU-eEa">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                        <connections>
-                                                            <action selector="deleteALL:" target="Ady-hI-5gd" id="1OA-Mu-VGv"/>
-                                                        </connections>
-                                                    </menuItem>
-                                                </items>
-                                            </menu>
-                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="cqh-3M-TGl"/>
                                         <menuItem title="New" keyEquivalent="n" id="Was-JA-tGl">
                                             <connections>
@@ -768,6 +742,20 @@
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+                        <toolbar key="toolbar" implicitIdentifier="106653BB-55AD-4351-981D-D6C2F9F0CAD0" autosavesConfiguration="NO" displayMode="labelOnly" sizeMode="small" id="Dot-ne-mui">
+                            <allowedToolbarItems>
+                                <toolbarItem implicitItemIdentifier="NSToolbarShowColorsItem" id="0Yt-nh-ez9"/>
+                                <toolbarItem implicitItemIdentifier="NSToolbarShowFontsItem" id="xCs-gV-x5I"/>
+                                <toolbarItem implicitItemIdentifier="NSToolbarPrintItem" id="6mH-Hh-UL7"/>
+                                <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="zWq-lL-A8j"/>
+                                <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="BTd-OZ-cRK"/>
+                            </allowedToolbarItems>
+                            <defaultToolbarItems>
+                                <toolbarItem reference="0Yt-nh-ez9"/>
+                                <toolbarItem reference="xCs-gV-x5I"/>
+                                <toolbarItem reference="6mH-Hh-UL7"/>
+                            </defaultToolbarItems>
+                        </toolbar>
                         <connections>
                             <outlet property="delegate" destination="B8D-0N-5wS" id="98r-iN-zZc"/>
                         </connections>
@@ -4777,7 +4765,7 @@ IA
                                         </customSpacing>
                                     </stackView>
                                     <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="icv-Ng-Xbj">
-                                        <rect key="frame" x="300" y="0.0" width="60" height="50"/>
+                                        <rect key="frame" x="340" y="0.0" width="60" height="50"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fkB-ca-np9">
                                                 <rect key="frame" x="-2" y="36" width="64" height="14"/>
@@ -8387,7 +8375,7 @@ IA
                                         <comboBox verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MB3-62-YHU">
                                             <rect key="frame" x="6" y="421" width="121" height="22"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <comboBoxCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" numberOfVisibleItems="5" id="B7x-cr-WEw">
+                                            <comboBoxCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" buttonBordered="NO" numberOfVisibleItems="5" id="B7x-cr-WEw">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -15229,7 +15217,7 @@ IA
                                         </tableView>
                                     </subviews>
                                 </clipView>
-                                <scroller key="horizontalScroller" verticalHuggingPriority="750" doubleValue="0.95604395604395609" horizontal="YES" id="d0v-Gp-zbF">
+                                <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="d0v-Gp-zbF">
                                     <rect key="frame" x="1" y="261" width="598" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -16399,7 +16387,7 @@ IA
                                         </tableView>
                                     </subviews>
                                 </clipView>
-                                <scroller key="horizontalScroller" verticalHuggingPriority="750" doubleValue="0.99528857479387511" horizontal="YES" id="GZS-Al-eRg">
+                                <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="GZS-Al-eRg">
                                     <rect key="frame" x="1" y="83" width="598" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>

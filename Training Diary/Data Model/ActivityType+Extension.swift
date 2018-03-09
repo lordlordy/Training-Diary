@@ -8,8 +8,11 @@
 
 import Foundation
 
-extension ActivityType{
+extension ActivityType: CategoryProtocol{
     
     @objc dynamic var workoutCount: Int { return workouts?.count ?? 0 }
+    
+    func categoryName() -> String { return name! }
+
     
 }

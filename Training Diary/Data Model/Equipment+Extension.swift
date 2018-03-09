@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension Equipment{
+extension Equipment: CategoryProtocol{
     @objc dynamic var nameIsEditable: Bool{
         return workoutCount == 0
     }
@@ -57,6 +57,8 @@ extension Equipment{
         return result
     }
     
+    func categoryName() -> String { return name! }
+
     
     func workoutDateRange() -> (from: Date, to: Date){
         let dates = getWorkouts().map({$0.day!.date!})

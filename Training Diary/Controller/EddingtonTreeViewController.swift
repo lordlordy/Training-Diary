@@ -91,13 +91,29 @@ class EddingtonTreeViewController: TrainingDiaryViewController, ReferenceToMainP
             }
         }
         
-        let homeDir = FileManager.default.homeDirectoryForCurrentUser
-        let saveFileName = homeDir.appendingPathComponent("ltdEddingtonNumbers.html")
-        do{
-            try html.write(to: saveFileName, atomically: false, encoding: .ascii)
-        }catch let error as NSError{
-            print(error)
+        guard let window = view.window else {
+            print("Failed to get window")
+            return
         }
+        
+        let panel = NSSavePanel()
+        panel.directoryURL = FileManager.default.homeDirectoryForCurrentUser
+        panel.allowedFileTypes = ["html"]
+        panel.canCreateDirectories = true
+        panel.nameFieldStringValue = "ltdEddingtonNumbers.html"
+        
+        panel.beginSheetModal(for: window) {(result) in
+            if result.rawValue == NSFileHandlingPanelOKButton,
+                let url = panel.url{
+         
+                do{
+                    try html.write(to: url, atomically: true, encoding: .utf8)
+                }catch{
+                    print("Unable to save HTML")
+                    print(error)
+                }
+            }
+         }
         
     }
     

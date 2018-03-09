@@ -239,26 +239,25 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
     
     @IBAction func exportCSV(_ sender: NSMenuItem){
         let csvExporter = CSVExporter()
+        
         if let td = getSelectedTrainingDiary(){
             let csv = csvExporter.convertToCVS(trainingDiary: td)
             
-            let homeDir = FileManager.default.homeDirectoryForCurrentUser
-            var saveFileName = homeDir.appendingPathComponent("workouts.csv")
-            do{
-                try csv.workoutCSV.write(to: saveFileName, atomically: false, encoding: .ascii)
-            }catch let error as NSError{
-                print(error)
+            if let saveFolder = selectPathFromModalDialogue(createSubFolder: "Data-\(Date().dateOnlyString())"){
+                var saveFileName = saveFolder.appendingPathComponent("workouts.csv")
+                do{
+                    try csv.workoutCSV.write(to: saveFileName, atomically: false, encoding: .utf8)
+                }catch let error as NSError{
+                    print(error)
+                }
+                saveFileName = saveFolder.appendingPathComponent("days.csv")
+                do{
+                    try csv.dayCSV.write(to: saveFileName, atomically: false, encoding: .utf8)
+                }catch let error as NSError{
+                    print(error)
+                }
             }
-            saveFileName = homeDir.appendingPathComponent("days.csv")
-            do{
-                try csv.dayCSV.write(to: saveFileName, atomically: false, encoding: .ascii)
-            }catch let error as NSError{
-                print(error)
-            }
-
         }
-
-        
     }
     
     //MARK: - CSV Support
@@ -309,6 +308,49 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
             // User clicked on "Cancel"
             return nil
         }
+    }
+    
+    func selectPathFromModalDialogue(createSubFolder folder: String? = nil) -> URL?{
+        //see about selecting a directory for the save
+        let dialog = NSOpenPanel()
+        dialog.message = "Choose directory for save."
+        if let f = folder{
+            dialog.message = "Choose directory for save. (a sub folder called \(f) will be created"
+        }
+        dialog.showsResizeIndicator    = true
+        dialog.showsHiddenFiles        = false
+        dialog.canChooseDirectories    = true
+        dialog.canCreateDirectories    = true
+        dialog.allowsMultipleSelection = false
+        dialog.canChooseFiles           = false
+        dialog.prompt = "Select"
+        
+        if (dialog.runModal() == NSApplication.ModalResponse.OK) {
+            if let directory = dialog.url{
+                var saveFolder = directory
+                if let f = folder{
+                     saveFolder = directory.appendingPathComponent(f)
+                }
+                
+                //check for this folder
+                var isDirectory: ObjCBool = false
+                FileManager.default.fileExists(atPath: saveFolder.path, isDirectory: &isDirectory)
+                
+                if !isDirectory.boolValue{
+                    print("\(saveFolder) does not exist. Will create")
+                    do{
+                        try FileManager.default.createDirectory(at: saveFolder, withIntermediateDirectories: true, attributes: nil)
+                    }catch{
+                        print(error)
+                        return nil
+                    }
+                }
+                return saveFolder
+                
+            }
+        }
+        
+       return nil
     }
     
     private func selectedTrainingDiary() -> TrainingDiary?{

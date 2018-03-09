@@ -99,8 +99,8 @@
 		73E25E191FBEA9150081FC62 /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E25E181FBEA9150081FC62 /* GraphView.swift */; };
 		73E25E1B1FC038FC0081FC62 /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E25E1A1FC038FC0081FC62 /* GraphViewController.swift */; };
 		73E582631F8A12A500B6E25D /* DaysArrayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E582621F8A12A500B6E25D /* DaysArrayController.swift */; };
+		73E6A3ED20524F4600551C85 /* CategoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E6A3EC20524F4600551C85 /* CategoryProtocol.swift */; };
 		73E7FD382015FA2900D1FCD4 /* BikeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E7FD372015FA2900D1FCD4 /* BikeViewController.swift */; };
-		73E7FD3A201631BD00D1FCD4 /* Bike+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E7FD39201631BD00D1FCD4 /* Bike+Extension.swift */; };
 		73F2119F1FB4A06900062DAE /* JSONImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F2119E1FB4A06900062DAE /* JSONImporter.swift */; };
 		73F270621FAB0CC400D36156 /* TableViewWithColumnSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F270611FAB0CC400D36156 /* TableViewWithColumnSort.swift */; };
 		73F7097A204C38160022EC04 /* TrainingDiarySplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F70979204C38160022EC04 /* TrainingDiarySplitViewController.swift */; };
@@ -207,8 +207,9 @@
 		73E25E181FBEA9150081FC62 /* GraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
 		73E25E1A1FC038FC0081FC62 /* GraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
 		73E582621F8A12A500B6E25D /* DaysArrayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaysArrayController.swift; sourceTree = "<group>"; };
+		73E6A3EC20524F4600551C85 /* CategoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryProtocol.swift; sourceTree = "<group>"; };
+		73E6A3EE20525CBD00551C85 /* Training Diary.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Training Diary.entitlements"; sourceTree = "<group>"; };
 		73E7FD372015FA2900D1FCD4 /* BikeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BikeViewController.swift; sourceTree = "<group>"; };
-		73E7FD39201631BD00D1FCD4 /* Bike+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bike+Extension.swift"; sourceTree = "<group>"; };
 		73F2119E1FB4A06900062DAE /* JSONImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONImporter.swift; sourceTree = "<group>"; };
 		73F270611FAB0CC400D36156 /* TableViewWithColumnSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewWithColumnSort.swift; sourceTree = "<group>"; };
 		73F70979204C38160022EC04 /* TrainingDiarySplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingDiarySplitViewController.swift; sourceTree = "<group>"; };
@@ -249,6 +250,7 @@
 		73B2B9E11F894CC00044DD4E /* Training Diary */ = {
 			isa = PBXGroup;
 			children = (
+				73E6A3EE20525CBD00551C85 /* Training Diary.entitlements */,
 				73FC61DE200E19A000C61DE6 /* filteringTable.html */,
 				73FC61E0200E1D1900C61DE6 /* tableStart.txt */,
 				73FC61E2200E1D5200C61DE6 /* tableEnd.txt */,
@@ -364,9 +366,9 @@
 			children = (
 				73641577201C7207009D5817 /* Activity+Extension.swift */,
 				731FA62A201FD890004EF572 /* ActivityType+Extension.swift */,
-				73E7FD39201631BD00D1FCD4 /* Bike+Extension.swift */,
 				73B2B9F71F894E870044DD4E /* CoreDataStackSingleton.swift */,
 				73789C8D2010CE61002D2393 /* CSVExporter.swift */,
+				73E6A3EC20524F4600551C85 /* CategoryProtocol.swift */,
 				732103AD1FCFFB570020F365 /* CSVImporter.swift */,
 				73B2BA011F898C060044DD4E /* Day+Extension.swift */,
 				73AB477B202354CF0093B8A4 /* EddingtonHistory+Extension.swift */,
@@ -422,6 +424,11 @@
 					73B2B9DE1F894CC00044DD4E = {
 						CreatedOnToolsVersion = 9.0;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -495,7 +502,6 @@
 				7364157A201C8FF5009D5817 /* TrainingDiaryValues.swift in Sources */,
 				73DC9B131FDC39B500D4774A /* NumberToSummaryTimeFormatter.swift in Sources */,
 				73B2B9E31F894CC00044DD4E /* AppDelegate.swift in Sources */,
-				73E7FD3A201631BD00D1FCD4 /* Bike+Extension.swift in Sources */,
 				733AA82A202A6E550065C8B9 /* DefaultsViewController.swift in Sources */,
 				732EF2161FD0B60F008768C0 /* ToDateWeightedAverage.swift in Sources */,
 				73265B641FB471A00081D3F9 /* WeightHRViewController.swift in Sources */,
@@ -536,6 +542,7 @@
 				73D3738720176FD600E44427 /* BikeGraphs.swift in Sources */,
 				73C2F03E20206E480073323D /* Equipment+Extension.swift in Sources */,
 				7369D9F61FB24F8C00ECAA1E /* TSSMethodComboBox.swift in Sources */,
+				73E6A3ED20524F4600551C85 /* CategoryProtocol.swift in Sources */,
 				73B2B9FC1F896F920044DD4E /* TransformerNSNumberToTimeFormat.swift in Sources */,
 				7328070B1FACBC2900658833 /* Queue.swift in Sources */,
 				73B2B9F81F894E870044DD4E /* CoreDataStackSingleton.swift in Sources */,
@@ -687,7 +694,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "Training Diary/Training_Diary.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Training Diary/Training Diary.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "Training Diary/Info.plist";
@@ -702,7 +709,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "Training Diary/Training_Diary.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Training Diary/Training Diary.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "Training Diary/Info.plist";
