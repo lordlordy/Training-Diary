@@ -14,6 +14,10 @@ protocol FileMakerProJSONString{
     func fmpString() -> String
 }
 
+enum JSONGenerator: String{
+    case SwiftTrainingDiary, FileMakerProTrainingDiary
+}
+
 enum WeekDay: Int{
     case gregorianSunday = 1
     case gregorianMonday = 2
@@ -47,8 +51,8 @@ enum TSSMethod: String{
 
 //these will be included with the app and cannot be deleted.
 enum FixedActivity: String{
-    case Swim, Bike, Run, Gym
-    static let All = [Swim, Bike, Run, Gym]
+    case Swim, Bike, Run, Gym, Walk, Other
+    static let All = [Swim, Bike, Run, Gym, Walk, Other]
 }
 
 enum DayType: String{
@@ -410,12 +414,12 @@ enum TrainingDiaryProperty: String, FileMakerProJSONString{
 }
 
 enum WorkoutProperty: String, FileMakerProJSONString{
-    case activity, activityType, ascentFeet, ascentMetres, equipmentName, brick, cadence, comments, hr
+    case activity, activityType, equipment, ascentFeet, ascentMetres, equipmentName, brick, cadence, comments, hr
     case isRace, keywords, kj, km, reps, rpe, seconds, rpeTSS, hours, miles
     case tss, tssMethod, watts, wattsEstimated, notBike, estimatedKJ
     case activityString, activityTypeString, equipmentOK, activityTypeOK
     
-    static var AllProperties = [activity, activityType, activityString, activityTypeString, ascentFeet, ascentMetres, equipmentName, brick, cadence, comments, estimatedKJ, hours, hr, isRace, keywords, kj, km, reps, rpe, seconds, rpeTSS, tss, tssMethod, watts, wattsEstimated, equipmentOK, activityTypeOK]
+    static var AllProperties = [activity, activityType, activityString, activityTypeString, ascentFeet, ascentMetres, equipment, equipmentName, brick, cadence, comments, estimatedKJ, hours, hr, isRace, keywords, kj, km, reps, rpe, seconds, rpeTSS, tss, tssMethod, watts, wattsEstimated, equipmentOK, activityTypeOK]
     static var ExportProperties = [activity, activityType, equipmentName, seconds, km, rpe, tss, tssMethod, watts, wattsEstimated, hr, kj, ascentMetres, brick, cadence, isRace, keywords, reps, comments]
     static var jsonProperties = [activityString, activityTypeString, equipmentName, seconds, km, rpe, tss, tssMethod, watts, wattsEstimated, hr, kj, ascentMetres, brick, cadence, isRace, keywords, reps, comments]
     static var DoubleProperties = [ascentFeet, ascentMetres, cadence, estimatedKJ, hr, hours, kj, km, miles, reps, rpe, seconds, rpeTSS, tss, watts]
@@ -432,13 +436,14 @@ enum WorkoutProperty: String, FileMakerProJSONString{
     //this is the string used by Filemaker Pro DB as the marker in it's JSON
     func fmpString() -> String{
         switch self{
-        case .activity:             return "Sport"
+        case .activity:             return ""
         case .activityString:       return "Sport"
-        case .activityType:         return "Type"
+        case .activityType:         return ""
         case .activityTypeOK:       return ""
         case .activityTypeString:   return "Type"
         case .ascentMetres:         return "Ascent"
         case .ascentFeet:           return ""
+        case .equipment:            return ""
         case .equipmentName:        return "Bike"
         case .equipmentOK:      return ""
         case .brick:            return "Brick"
@@ -473,6 +478,7 @@ enum WorkoutProperty: String, FileMakerProJSONString{
         case .activityTypeString:   return nil
         case .ascentMetres:         return Unit.AscentMetres
         case .ascentFeet:       return Unit.AscentFeet
+        case .equipment:        return nil
         case .equipmentName:    return nil
         case .equipmentOK:      return nil
         case .brick:            return Unit.Brick

@@ -150,7 +150,16 @@ class CoreDataStackSingleton{
         let mo: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: ENTITY.TrainingDiary.rawValue, into: trainingDiaryPC.viewContext)
         let td = mo as! TrainingDiary
         td.name = "New Training Diary"
+        addFixedActiviesTypesAndEquipment(toTrainingDiary: td)
+
         return td
+    }
+    
+    func addFixedActiviesTypesAndEquipment(toTrainingDiary td: TrainingDiary){
+        //set up fixed activities
+        for activity in FixedActivity.All{
+            td.addActivity(forString: activity.rawValue)
+        }        
     }
     
     func newDay() -> Day{
@@ -165,9 +174,6 @@ class CoreDataStackSingleton{
     
     func newActivity() -> Activity{
         let activity = NSManagedObject(entity: NSEntityDescription.entity(forEntityName: ENTITY.Activity.rawValue, in: trainingDiaryPC.viewContext)!, insertInto: trainingDiaryPC.viewContext)
-        print("NEW ACTIVITY  \(#function)")
-        print(Thread.callStackSymbols)
-        print("NEW ACTIVITY  \(#function)")
         return activity as! Activity
     }
 
@@ -227,7 +233,6 @@ class CoreDataStackSingleton{
         
         do{
             let workouts = try trainingDiaryPC.viewContext.fetch(workoutRequest)
-            print("\(workouts.count) workouts found in training diary \(String(describing: td.name))")
             return workouts as! [Workout]
             
         }catch{

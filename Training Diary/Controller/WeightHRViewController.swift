@@ -305,7 +305,7 @@ class WeightHRViewController: TrainingDiaryViewController {
 
     private func createGraph(forKey key: String, type: ChartType, colour: NSColor, axis: Axis, size: CGFloat ) -> GraphDefinition?{
         if let data = cache[key]{
-            let graph = GraphDefinition(name: key, data: data, axis: axis  , type: type, format: GraphFormat(fill: false, colour: colour, fillGradientStart: colour, fillGradientEnd: colour, gradientAngle: 45, size: size),drawZeroes: false, priority: 2)
+            let graph = GraphDefinition(name: key, data: data, axis: axis  , type: type, format: GraphFormat(fill: false, colour: colour, fillGradientStart: colour, fillGradientEnd: colour, gradientAngle: 45, size: size, opacity: 1.0),drawZeroes: false, priority: 2)
 
             if let cacheKey = CacheKey.init(rawValue: key){
                 if cacheKey.dashed(){

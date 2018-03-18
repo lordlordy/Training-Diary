@@ -85,7 +85,7 @@ class GraphView: NSView {
     }
     
     override func prepareForInterfaceBuilder() {
-        let graph = GraphDefinition(name: "Test", data: [(date: Date(),23.5)], axis: .Primary, type: .Point, format: GraphFormat.init(fill: false, colour: .red, fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 0.0, size: 2.0), drawZeroes: false, priority: 1  )
+        let graph = GraphDefinition(name: "Test", data: [(date: Date(),23.5)], axis: .Primary, type: .Point, format: GraphFormat.init(fill: false, colour: .red, fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 0.0, size: 2.0, opacity: 1.0), drawZeroes: false, priority: 1  )
         graphs.insert(graph)
     }
     
@@ -448,14 +448,17 @@ class GraphView: NSView {
                 if graph.format.fill{
                     let endOfXAxis = coordinatesInView(xValue: endDate.timeIntervalSince(startDate), yValue: 0.0,forAxis: graph.axis, dirtyRect)
                     path.line(to: endOfXAxis)
-                    if let gradient = NSGradient(starting: graph.format.fillGradientStart  , ending: graph.format.fillGradientEnd){
+                    let startColour = graph.format.fillGradientStart.withAlphaComponent(graph.format.opacity)
+                    let endColout = graph.format.fillGradientEnd.withAlphaComponent(graph.format.opacity)
+                    if let gradient = NSGradient(starting: startColour , ending: endColout){
                         gradient.draw(in: path, angle: graph.format.gradientAngle)
                     }else{
                         path.fill()
                     }
                 }
                 path.lineWidth = graph.format.size
-                graph.format.colour.setStroke()
+                graph.format.colour.withAlphaComponent(graph.format.opacity).setStroke()
+                
                 path.stroke()
             }
         }    }

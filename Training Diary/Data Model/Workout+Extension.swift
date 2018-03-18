@@ -38,6 +38,10 @@ extension Workout: TrainingDiaryValues, PeriodNode{
             
         case WorkoutProperty.estimatedKJ.rawValue:
             return keyPaths.union(Set([WorkoutProperty.watts.rawValue, WorkoutProperty.seconds.rawValue, WorkoutProperty.rpeTSS.rawValue]))
+        case WorkoutProperty.miles.rawValue:
+            return keyPaths.union(Set([WorkoutProperty.km.rawValue]))
+        case WorkoutProperty.ascentFeet.rawValue:
+            return keyPaths.union(Set([WorkoutProperty.ascentMetres.rawValue]))
         default:
             return keyPaths
         }

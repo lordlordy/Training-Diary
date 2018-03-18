@@ -96,7 +96,6 @@ extension TrainingDiary: TrainingDiaryValues{
         for l in ltdEddingtonNumbersArray(){
             result.append(contentsOf: l.getLeaves())
         }
-        print("getting ed nums. total: \(result.count)")
         return result
     }
     @objc dynamic var ltdLeafsCount: Int{

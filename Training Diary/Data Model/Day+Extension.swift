@@ -71,7 +71,9 @@ extension Day: TrainingDiaryValues, PeriodNode{
     }
     
     //MARK: - PeriodNode implementation
-    @objc var name: String { return String(date!.dayOfMonthAndDayName()) }
+    @objc var name: String {
+        return String(date!.dayOfMonthAndDayName())
+    }
     @objc var isLeaf: Bool { return children.count == 0 }
     @objc var isRoot: Bool { return false}
     @objc var isWorkout: Bool { return false}

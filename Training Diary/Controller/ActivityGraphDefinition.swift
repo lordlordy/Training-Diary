@@ -58,7 +58,7 @@ import Foundation
         self.equipment = ConstantString.EddingtonAll.rawValue
         self.unit = Unit.KM
         self.period = Period.Day
-        graph = GraphDefinition(name: "new", axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .black, fillGradientStart: .black, fillGradientEnd: .black, gradientAngle: 0.0, size: 1.0), drawZeroes: true, priority: 1)
+        graph = GraphDefinition(name: "new", axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .black, fillGradientStart: .black, fillGradientEnd: .black, gradientAngle: 0.0, size: 1.0, opacity: 1.0), drawZeroes: true, priority: 1)
         super.init()
         updateName()
     }

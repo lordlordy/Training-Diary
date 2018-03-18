@@ -13,7 +13,7 @@ class JSONImporter{
     
     public func importDiary(fromURL url: URL){
         if let json = importJSON(fromURL: url) {
-            let td = newTrainingDiary()
+            let td = CoreDataStackSingleton.shared.newTrainingDiary()
             td.setValue(json["Created"], forKey: "name")
             add(json, toTrainingDiary: td )
 
@@ -45,7 +45,7 @@ class JSONImporter{
     }
     
     
-    private func addPhysiological(fromJSON json: [String: Any], toTrainingDiary trainingDiary: NSManagedObject){
+    private func addPhysiological(fromJSON json: [String: Any], toTrainingDiary trainingDiary: TrainingDiary){
         
         let persistentContainer = CoreDataStackSingleton.shared.trainingDiaryPC
         
@@ -105,7 +105,7 @@ class JSONImporter{
 
     }
     
-    private func addWeight(fromJSON json: [String: Any], toTrainingDiary trainingDiary: NSManagedObject){
+    private func addWeight(fromJSON json: [String: Any], toTrainingDiary trainingDiary: TrainingDiary){
         
         let persistentContainer = CoreDataStackSingleton.shared.trainingDiaryPC
         
@@ -155,13 +155,12 @@ class JSONImporter{
         }
     }
     
-    private func addDaysAndWorkouts(fromJSON json: [String: Any], toTrainingDiary trainingDiary: NSManagedObject){
+    private func addDaysAndWorkouts(fromJSON json: [String: Any], toTrainingDiary trainingDiary: TrainingDiary){
         
         let persistentContainer = CoreDataStackSingleton.shared.trainingDiaryPC
         
         let daysMOSet = trainingDiary.mutableSetValue(forKey: TrainingDiaryProperty.days.rawValue)
         
-        //perhaps place this in a singleton.
         let dateFormatter = DateFormatter.init()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         dateFormatter.timeZone = TimeZone.init(secondsFromGMT: 0)
@@ -177,7 +176,6 @@ class JSONImporter{
             let workoutsMOSet = day.mutableSetValue(forKey: DayProperty.workouts.rawValue)
             let pairs = d as! [String: Any]
             for p in pairs{
-                let start = Date()
                 switch p.key{
                 case DayProperty.date.fmpString():
                     day.setValue(dateFormatter.date(from: p.value as! String), forKey: DayProperty.date.rawValue)
@@ -186,8 +184,8 @@ class JSONImporter{
                 case DayProperty.sleepQuality.fmpString():
                     day.setValue(p.value, forKey: DayProperty.sleepQuality.rawValue)
                 case DayProperty.type.fmpString():
-//                    day.setValue(p.value, forKey: DayProperty.type.rawValue)
-                    day.setValue(p.value, forKey: "test")
+                    day.setValue(p.value, forKey: DayProperty.type.rawValue)
+//                    day.setValue(p.value, forKey: "test")
                 case DayProperty.motivation.fmpString():
                     day.setValue(p.value, forKey: DayProperty.motivation.rawValue)
                 case DayProperty.fatigue.fmpString():
@@ -204,15 +202,12 @@ class JSONImporter{
                         let workoutItems = w as! [String: Any]
                         for wp in workoutItems{
                             switch wp.key{
-                            case WorkoutProperty.activity.fmpString():
-                                workout.setValue(wp.value, forKey: WorkoutProperty.activity.rawValue)
-                            case WorkoutProperty.activityType.fmpString():
-                                //need to remove whites spaces. In FPM JSON we get 'Open Water' and 'Off Road'
-                                if let stringValue = wp.value as? String{
-                                    workout.setValue(stringValue.removeWhitespaces(), forKey: WorkoutProperty.activityType.rawValue)
-                                }else{
-                                    workout.setValue(wp.value, forKey: WorkoutProperty.activityType.rawValue)
-                                }
+                            case WorkoutProperty.activityString.fmpString():
+                                workout.setValue(wp.value, forKey: WorkoutProperty.activityString.rawValue)
+                                let activity = trainingDiary.addActivity(forString: wp.value as! String)
+                                workout.setValue(activity, forKey: WorkoutProperty.activity.rawValue)
+                            case WorkoutProperty.activityTypeString.fmpString():
+                                workout.setValue(wp.value, forKey: WorkoutProperty.activityTypeString.rawValue)
                             case WorkoutProperty.ascentMetres.fmpString():
                                 workout.setValue(wp.value, forKey: WorkoutProperty.ascentMetres.rawValue)
                             case WorkoutProperty.equipmentName.fmpString():
@@ -280,6 +275,21 @@ class JSONImporter{
                                 }
                             }
                         }
+                        //need to set up Activity Properties etc..
+                        if let wkt = workout as? Workout{
+                            if let a = wkt.activityString{
+                                let activity = trainingDiary.addActivity(forString: a)
+                                wkt.activity = activity
+                                if let at = wkt.activityTypeString{
+                                    let activityType = trainingDiary.addActivityType(forActivity: a, andType: at)
+                                    wkt.activityType = activityType
+                                }
+                                if let e = wkt.equipmentName{
+                                    let equipment = trainingDiary.addEquipment(forActivity: a, andName: e)
+                                    wkt.equipment = equipment
+                                }
+                            }
+                        }
                     }
                 default:
                     if !(p.key == FPMJSONString.Created.fmpString()){
@@ -287,11 +297,8 @@ class JSONImporter{
                         print("JSON not added for Key: *\(p.key)* with value: \(p.value)")
                     }
                 }
-                print("Pair \(p) took \(Date().timeIntervalSince(start)) seconds" )
             }
-            let start = Date()
             CoreDataStackSingleton.shared.populateMetricPlaceholders(forDay: day as! Day)
-            print("populating metric placeholders \(Date().timeIntervalSince(start)) seconds")
         }
         let addedDays: [Day] = daysMOSet.allObjects as! [Day]
         insertYesterdayAndTomorrow(forDays: addedDays)
@@ -313,43 +320,12 @@ class JSONImporter{
         }
     }
     
-    private func newTrainingDiary() -> TrainingDiary{
-        //create the base Object - TrainingDiary
-        let trainingDiary: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "TrainingDiary", into: CoreDataStackSingleton.shared.trainingDiaryPC.viewContext)
-
-
-        return trainingDiary as! TrainingDiary
-        
-        
-        
- /*       print("Adding days and workouts to managed object model...")
-        addDaysAndWorkouts(fromJSON: json, toTrainingDiary: trainingDiary)
-        print("days and workouts added")
-        print("Adding weights to managed object model...")
-        addWeight(fromJSON: json, toTrainingDiary: trainingDiary)
-        print("weights added")
-        print("Adding physiologicals to managed object model...")
-        addPhysiological(fromJSON: json, toTrainingDiary: trainingDiary)
-        print("physiologicals added")
-        //     printEntities()
-        print("Entities in training diary:")
-        CoreDataStackSingleton.shared.printEntityCounts(forDiary: trainingDiary as! TrainingDiary)
-    */
-    }
     
-    private func add(_ json: [String: Any], toTrainingDiary td: NSManagedObject){
-        print("Adding days and workouts to managed object model...")
+    private func add(_ json: [String: Any], toTrainingDiary td: TrainingDiary){
         addDaysAndWorkouts(fromJSON: json, toTrainingDiary: td)
-        print("days and workouts added")
-        print("Adding weights to managed object model...")
         addWeight(fromJSON: json, toTrainingDiary: td)
-        print("weights added")
-        print("Adding physiologicals to managed object model...")
         addPhysiological(fromJSON: json, toTrainingDiary: td)
-        print("physiologicals added")
-        //     printEntities()
-        print("Entities in training diary:")
-        for e in CoreDataStackSingleton.shared.getEntityCounts(forDiary: td as! TrainingDiary){
+        for e in CoreDataStackSingleton.shared.getEntityCounts(forDiary: td){
             print("\(e.entity) = \(e.count)")
         }
     }

@@ -12,7 +12,11 @@ class DayTreeViewController:  TrainingDiaryViewController {
     
 //    @objc dynamic var trainingDiary: TrainingDiary?
     
+    private var monthYearNodes: [PeriodNode] = []
+    private var weekYearNodes: [PeriodNode] = []
+    
     @objc dynamic var yearNodes: [PeriodNode] = []
+    @IBOutlet weak var outlineView: NSOutlineView!
     
     //MARK: - IBActions
     @IBAction func outlineViewDoubleClicked(_ sender: NSOutlineView) {
@@ -27,9 +31,20 @@ class DayTreeViewController:  TrainingDiaryViewController {
         
     }
     
+    @IBAction func weekMonthToggle(_ sender: NSButton) {
+        let onState: Bool = sender.state == NSControl.StateValue.on
+        if onState{
+            yearNodes = monthYearNodes
+        }else{
+            yearNodes = weekYearNodes
+        }
+        if let ov = outlineView{
+            ov.reloadData()
+        }
+    }
     
-    private func getYearNode(forName n: String) -> PeriodNode?{
-        for y in yearNodes{
+    private func getYearNode(forName n: String, inYearNodes: [PeriodNode]) -> PeriodNode?{
+        for y in inYearNodes{
             if y.name == n { return y }
         }
         return nil
@@ -43,6 +58,8 @@ class DayTreeViewController:  TrainingDiaryViewController {
         
         if let _ = trainingDiary{
             createOutlineView()
+            createWeekOutlineView()
+            yearNodes = monthYearNodes
         }
         
  
@@ -52,18 +69,18 @@ class DayTreeViewController:  TrainingDiaryViewController {
     
     
     private func createOutlineView(){
-        yearNodes = []
+        monthYearNodes = []
         for d in trainingDiary!.descendingOrderedDays(){
             let year: String = String(d.date!.year())
             let month: String = d.date!.monthAsString()
             var yearNode: PeriodNode
             var monthNode: PeriodNode
             
-            if let yNode = getYearNode(forName: year){
+            if let yNode = getYearNode(forName: year, inYearNodes: monthYearNodes){
                 yearNode = yNode
             }else{
                 yearNode = PeriodNodeImplementation(name: year, from: d.date!.startOfYear(), to: d.date!.endOfYear(), isRoot: true)
-                yearNodes.append(yearNode)
+                monthYearNodes.append(yearNode)
             }
             
             if let mNode = yearNode.child(forName: month){
@@ -74,6 +91,38 @@ class DayTreeViewController:  TrainingDiaryViewController {
             }
             monthNode.add(child: d)
         }
+        
+    }
+    
+    private func createWeekOutlineView(){
+        weekYearNodes = []
+        
+
+        
+        for d in trainingDiary!.descendingOrderedDays(){
+            let year: String = String(d.date!.yearForWeekOfYear())
+  //          let week: String = "Wk-\(d.date!.weekOfYear()) \(d.date!.yearForWeekOfYear())"
+            let week: String = "Wk-\(d.date!.weekOfYear())"
+            var yearNode: PeriodNode
+            var weekNode: PeriodNode
+            
+            
+            if let yNode = getYearNode(forName: year, inYearNodes: weekYearNodes){
+                yearNode = yNode
+            }else{
+                yearNode = PeriodNodeImplementation(name: year, from: d.date!.startOfYear(), to: d.date!.endOfYear(), isRoot: true)
+                weekYearNodes.append(yearNode)
+            }
+            
+            if let wNode = yearNode.child(forName: week){
+                weekNode = wNode
+            }else{
+                weekNode = PeriodNodeImplementation(name: week, from: d.date!.startOfWeek(), to: d.date!.endOfWeek(), isRoot: false)
+                yearNode.add(child: weekNode)
+            }
+            weekNode.add(child: d)
+        }
+        
         
     }
     

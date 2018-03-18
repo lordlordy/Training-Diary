@@ -9,8 +9,6 @@
 import Cocoa
 
 class CompareGraphViewController: TrainingDiaryViewController, GraphManagementDelegate, NSComboBoxDataSource {
-
-//    @objc dynamic var trainingDiary: TrainingDiary?
     
     @IBOutlet weak var graphView: GraphView!
     @IBOutlet var graphArrayController: GraphArrayController!
@@ -305,6 +303,11 @@ class CompareGraphViewController: TrainingDiaryViewController, GraphManagementDe
         for g in graphs(){
             g.to = Calendar.current.date(byAdding: dc, to: g.from) ?? g.to
         }
+        
+        if graphs().count > 0{
+            setXAxisLabels(from: graphs()[0].from, to: graphs()[0].to)
+        }
+        
     }
     
     private func advanceGraphs(by dc: DateComponents){
@@ -327,8 +330,8 @@ class CompareGraphViewController: TrainingDiaryViewController, GraphManagementDe
             let end2 = Calendar.current.date(byAdding: DateComponents(year:-1), to: end)!
             let start2 = end2.startOfYear()
             
-            let runGraph = GraphDefinition(name: String(end.year()), axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .red, fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 0.0, size: 2.0), drawZeroes: true, priority: 2)
-            let runGraph2 = GraphDefinition(name: String(end2.year()), axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .blue, fillGradientStart: .blue, fillGradientEnd: .blue, gradientAngle: 0.0, size: 2.0), drawZeroes: true, priority: 1)
+            let runGraph = GraphDefinition(name: String(end.year()), axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .red, fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 0.0, size: 2.0, opacity: 1.0), drawZeroes: true, priority: 2)
+            let runGraph2 = GraphDefinition(name: String(end2.year()), axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .blue, fillGradientStart: .blue, fillGradientEnd: .blue, gradientAngle: 0.0, size: 2.0, opacity: 1.0), drawZeroes: true, priority: 1)
 
             let datedRunGraph = DatedActivityGraphDefinition(graph: runGraph, activity: trainingDiary!.activity(forString: FixedActivity.Run.rawValue)!, unit: .KM, period: .YearToDate, fromDate: start, toDate: end)
             let datedRunGraph2 = DatedActivityGraphDefinition(graph: runGraph2, activity: trainingDiary!.activity(forString: FixedActivity.Run.rawValue)!, unit: .KM, period: .YearToDate, fromDate: start2, toDate: end2)
@@ -345,8 +348,7 @@ class CompareGraphViewController: TrainingDiaryViewController, GraphManagementDe
             add(graph: datedRunGraph)
             add(graph: datedRunGraph2)
             
-            gv.xAxisLabelStrings = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
-            
+            setXAxisLabels(from: start, to: end)
 
         }
     }
@@ -368,6 +370,23 @@ class CompareGraphViewController: TrainingDiaryViewController, GraphManagementDe
     private func random() -> CGFloat{
         let r = CGFloat(arc4random()) / CGFloat(UInt32.max)
         return r
+    }
+    
+    func setXAxisLabels(from: Date, to: Date){
+        if let gv = graphView{
+            let gap = to.timeIntervalSince(from) / 12.0
+            var labels: [String] = []
+            let formatter: DateFormatter = DateFormatter()
+            formatter.dateFormat = "dd-MMM"
+            
+            for i in 0...12{
+                let d = from.addingTimeInterval(gap*Double(i))
+                labels.append(formatter.string(from: d))
+            }
+            
+            gv.xAxisLabelStrings = labels
+        }
+
     }
     
 

@@ -30,6 +30,16 @@ extension Date{
         }
     }
     
+    func weekOfYear() -> Int{
+        let dc = gregorianCalendar.dateComponents([.weekOfYear], from: self)
+        return dc.weekOfYear!
+    }
+    
+    func yearForWeekOfYear() -> Int{
+        let dc = gregorianCalendar.dateComponents([.yearForWeekOfYear], from: self)
+        return dc.yearForWeekOfYear!
+    }
+    
     func iso8601Format() -> String{
         let formatter = ISO8601DateFormatter()
         return formatter.string(from: self)
@@ -55,7 +65,7 @@ extension Date{
     
     func dayOfMonthAndDayName() -> String{
         let formatter = DateFormatter()
-        formatter.dateFormat = "ccc-dd"
+        formatter.dateFormat = "ccc dd-MMM"
         formatter.timeZone = gmtTZ
         return formatter.string(from: self)
     }
@@ -84,11 +94,25 @@ extension Date{
         return dateFormatter.string(from: self)
     }
     
+    public func dateAndMonthString() -> String{
+        let dateFormatter = DateFormatter.init()
+        dateFormatter.timeZone = gmtTZ
+        dateFormatter.dateFormat = "dd-MMM"
+        return dateFormatter.string(from: self)
+    }
+    
     // added for display in charts
     public func dateOnlyShorterString() ->String{
         let dateFormatter = DateFormatter.init()
         dateFormatter.timeZone = gmtTZ
         dateFormatter.dateFormat = "dd-MMM-yy"
+        return dateFormatter.string(from: self)
+    }
+    
+    public func dayAndDateString() ->String{
+        let dateFormatter = DateFormatter.init()
+        dateFormatter.timeZone = gmtTZ
+        dateFormatter.dateFormat = "ccc dd-MMM-yy"
         return dateFormatter.string(from: self)
     }
     
@@ -227,7 +251,6 @@ extension Date{
     
     public func startOfWeek() -> Date{
         var cal = gregorianCalendar
-        cal.firstWeekday = WeekDay.gregorianMonday.rawValue
         cal.firstWeekday = WeekDay.gregorianMonday.rawValue
         var components = cal.dateComponents([.weekOfYear, .year], from: self)
         components.weekday = WeekDay.gregorianMonday.rawValue

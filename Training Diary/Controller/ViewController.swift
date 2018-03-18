@@ -12,18 +12,13 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
 
     //this has to be a variable (ie can't be derived) to be Key Value compliant for Core Data
     @objc dynamic var managedObjectContext: NSManagedObjectContext
-    
-//    private var daysViewController: DaysViewController?
- //   private var eddingtonNumbersViewController: EddingtonNumbersViewController?
-//    private var weightHRViewController: WeightHRViewController?
-//    private var graphViewController: GraphViewController?
-//    private var comparisonGraphViewController: CompareGraphViewController?
-    
+        
     private var trainingDiaryVCs: [TrainingDiaryViewControllerProtocol] = []
     private var currentSelectedDiary: TrainingDiary?
 
     //MARK: - @IBOutlets
     
+    @IBOutlet var trainingDiaryAC: TrainingDiaryArrayController!
     @IBOutlet var trainingDiarysArrayController: NSArrayController!
     @IBOutlet weak var mainStatusField: NSTextField!
     @IBOutlet weak var mainProgressBar: NSProgressIndicator!
@@ -54,6 +49,13 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
     @IBAction func bikeUnitCBChanged(_ sender: UnitComboBox)    { updateBike() }
     @IBAction func runUnitCBChanged(_ sender: UnitComboBox)     { updateRun() }
     @IBAction func gymUnitCBChanged(_ sender: UnitComboBox)     { updateGym() }
+    
+    
+    @IBAction func addNewTrainingDiary(_ sender: Any) {
+        if let tdac = trainingDiaryAC{
+            tdac.add(sender)
+        }
+    }
     
     //MARK: - Initialisers
     
@@ -219,90 +221,36 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
         }
         
     }
+
+    @IBAction func exportHTML(_ sender: NSMenuItem){
+        print("TBI exportHTML")
+    }
     
     @IBAction func exportJSON(_ sender: NSMenuItem){
         if let td = getSelectedTrainingDiary(){
+            guard let window = view.window else { return }
             
-            var trainingDiaryDictionary = td.dictionaryWithValues(forKeys: TrainingDiaryProperty.jsonProperties.map({$0.rawValue}))
-            let dayKeys =  DayProperty.jsonProperties.map({$0.rawValue})
-            let workoutKeys = WorkoutProperty.jsonProperties.map({$0.rawValue })
-            let physiologicalKeys = PhysiologicalProperty.jsonProperties.map({$0.rawValue})
-            let weightKeys = WeightProperty.jsonProperties.map({$0.rawValue})
+            let panel = NSSavePanel()
+            panel.directoryURL = FileManager.default.homeDirectoryForCurrentUser
+            panel.allowedFileTypes = ["json"]
+            panel.canCreateDirectories = true
+            panel.nameFieldStringValue = "TrainingDiary.json"
             
-            var dayArray: [[String:Any]] = []
-            if let days = td.days{
-                for d in days{
-                    if let day = d as? Day{
-                        var dayDictionary = day.dictionaryWithValues(forKeys: dayKeys)
-                        var workoutArray: [[String:Any]] = []
-                        if let workouts = day.workouts{
-                            for w in workouts{
-                                let workout = w as! Workout
-                                let workoutDictionary = workout.dictionaryWithValues(forKeys: workoutKeys)
-                                workoutArray.append(workoutDictionary)
-                            }
-                        }
-                        if workoutArray.count > 0{
-                            dayDictionary["workouts"] = workoutArray
-                        }
-                        dayArray.append(dayDictionary)
-                    }
-                }
-            }
-            trainingDiaryDictionary["days"] = dayArray
-            
-            var physiologicalsArray: [[String:Any]] = []
-            if let physiologicals = td.physiologicals{
-                for p in physiologicals{
-                    if let physio = p as? Physiological{
-                        physiologicalsArray.append(physio.dictionaryWithValues(forKeys: physiologicalKeys))
-                    }
-                }
-                trainingDiaryDictionary["physiologicals"] = physiologicalsArray
-            }
-            
-            var weightsArray: [[String:Any]] = []
-            if let weights = td.weights{
-                for w in weights{
-                    if let weight = w as? Weight{
-                        weightsArray.append(weight.dictionaryWithValues(forKeys: weightKeys))
-                    }
-                }
-                trainingDiaryDictionary["weights"] = weightsArray
-            }
-            
-            do {
-                let data = try JSONSerialization.data(withJSONObject: trainingDiaryDictionary, options: .prettyPrinted)
-                let jsonString = NSString.init(data: data, encoding: String.Encoding.utf8.rawValue)
-                
-                guard let window = view.window else {
-                    print("Failed to get window")
-                    return
-                }
-                
-                let panel = NSSavePanel()
-                panel.directoryURL = FileManager.default.homeDirectoryForCurrentUser
-                panel.allowedFileTypes = ["json"]
-                panel.canCreateDirectories = true
-                panel.nameFieldStringValue = "TrainingDiary.json"
-                
-                panel.beginSheetModal(for: window) {(result) in
-                    if result.rawValue == NSFileHandlingPanelOKButton,
-                        let url = panel.url{
-                        
+            panel.beginSheetModal(for: window) {(result) in
+                if result.rawValue == NSFileHandlingPanelOKButton,
+                    let url = panel.url{
+                    
+                    let exporter = JSONExporter()
+                    if let jsonString = exporter.createJSON(forTrainingDiary: td){
                         do{
-                            try jsonString?.write(to: url, atomically: true, encoding: String.Encoding.utf8.rawValue)
+                            try jsonString.write(to: url, atomically: true, encoding: String.Encoding.utf8.rawValue)
                         }catch{
                             print("Unable to save HTML")
                             print(error)
                         }
                     }
                 }
-                
-            } catch  {
-                print("JSON export failed")
             }
-            
         }
         
     }

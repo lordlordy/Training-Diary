@@ -10,18 +10,36 @@ import Cocoa
 
 class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource, ReferenceToMainProtocol {
 
-//    @objc dynamic var trainingDiary: TrainingDiary?
     private var mainViewController: ViewController?
     
     @IBOutlet var validationOutputTextView: NSTextView!
     
     //MARK: - IBActions
     @IBAction func adhoc(_ sender: Any) {
-
+        
     }
     
 
     @IBAction func duplicateDays(_ sender: Any) {
+        var days: [Date] = []
+        var duplicates: [Day] = []
+        if let td = trainingDiary{
+            if let ds = td.days?.allObjects as? [Day]{
+                for d in ds{
+                    if days.contains(d.date!.startOfDay()){
+                        //duplicate
+                        duplicates.append(d)
+                        logMessage("\(d.date!) is a duplicate")
+                    }else{
+                        days.append(d.date!.startOfDay())
+                    }
+                }
+            }
+        }
+        logMessage("Duplicated count = \(duplicates.count)")
+        logMessage("DUPLICATE DAYS:")
+
+        
     }
     
     
@@ -165,7 +183,7 @@ class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource,
                 }
                 if w.activityType == nil{
                     missingActivityType += 1
-                    logMessage("activity nil for workout \(String(describing: w.activityTypeString)) - \(w.day!.date!.dateOnlyShorterString())")
+                    logMessage("activityType nil for workout \(String(describing: w.activityTypeString)) - \(w.day!.date!.dateOnlyShorterString())")
                 }
                 if w.activityString == nil{
                     logMessage("Workout is missing activity string \(w.day!.date!.dateOnlyShorterString())")

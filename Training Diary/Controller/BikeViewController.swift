@@ -200,16 +200,16 @@ class BikeViewController: TrainingDiaryViewController, NSTableViewDelegate, NSCo
         let c = colour(forBike: bike)
         
         // point graph first
-        let graphFormat = GraphFormat.init(fill: true, colour: c, fillGradientStart: c, fillGradientEnd: c, gradientAngle: 45.0, size: GraphConstants.pointSize)
+        let graphFormat = GraphFormat.init(fill: true, colour: c, fillGradientStart: c, fillGradientEnd: c, gradientAngle: 45.0, size: GraphConstants.pointSize, opacity: 1.0)
         let graphDefinition = GraphDefinition.init(name: bike.name! + ":km", axis: .Primary, type: .Point, format: graphFormat, drawZeroes: false, priority: 3)
     
         // ltd data next
-        let ltdGraphFormat = GraphFormat.init(fill: false, colour: c, fillGradientStart: c, fillGradientEnd: c, gradientAngle: 45.0, size: GraphConstants.lineWidth)
+        let ltdGraphFormat = GraphFormat.init(fill: false, colour: c, fillGradientStart: c, fillGradientEnd: c, gradientAngle: 45.0, size: GraphConstants.lineWidth, opacity: 1.0)
         let ltdGraphDefinition = GraphDefinition.init(name: bike.name! + ":ltd:KM", axis: .Secondary, type: .Line, format: ltdGraphFormat, drawZeroes: true, priority: 1)
         
         
         // rolling data
-        let rollingGraphFormat = GraphFormat.init(fill: false, colour: c, fillGradientStart: c, fillGradientEnd: c, gradientAngle: 45.0, size: GraphConstants.rollingLineWidth)
+        let rollingGraphFormat = GraphFormat.init(fill: false, colour: c, fillGradientStart: c, fillGradientEnd: c, gradientAngle: 45.0, size: GraphConstants.rollingLineWidth, opacity: 1.0)
         let rollingGraphDefinition = GraphDefinition.init(name: bike.name! + ":rolling:KM", axis: .Primary, type: .Line, format: rollingGraphFormat, drawZeroes: true, priority: 1)
         
         let bikeGraphs = BikeGraphs(name: bike.name!, valuesGraph: graphDefinition, ltdGraph: ltdGraphDefinition, rollingGraph: rollingGraphDefinition)

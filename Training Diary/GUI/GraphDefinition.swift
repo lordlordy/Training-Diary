@@ -54,7 +54,7 @@ class GraphDefinition: NSObject{
     }
     
     override convenience init(){
-        self.init(name: "new", axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .black, fillGradientStart: .black, fillGradientEnd: .black, gradientAngle: 0.0, size: 2.0), drawZeroes: false, priority: 5)
+        self.init(name: "new", axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .black, fillGradientStart: .black, fillGradientEnd: .black, gradientAngle: 0.0, size: 2.0, opacity: 1.0), drawZeroes: false, priority: 5)
     }
     
 }

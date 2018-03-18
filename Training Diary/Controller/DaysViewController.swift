@@ -174,7 +174,7 @@ class DaysViewController: TrainingDiaryViewController, NSComboBoxDataSource, NST
                     }
                 case WorkoutProperty.activityString.rawValue:
                     print("activityString changed ")
-                        print("\(String(describing: w.activityString)):\(String(describing: w.activityTypeString)) connecting activity...")
+                    print("\(String(describing: w.activityString)):\(String(describing: w.activityTypeString)):\(w.day!.date!.dateOnlyShorterString()) connecting activity...")
                         if let td = w.day?.trainingDiary{
                             w.activity = td.activity(forString: w.activityString!)
                             print("DONE")
@@ -184,7 +184,7 @@ class DaysViewController: TrainingDiaryViewController, NSComboBoxDataSource, NST
                     
                 case WorkoutProperty.activityTypeString.rawValue:
                     print("activityTypeString changed")
-                        print("\(String(describing: w.activityString)):\(String(describing: w.activityTypeString))")
+                        print("\(String(describing: w.activityString)):\(String(describing: w.activityTypeString)):\(w.day!.date!.dateOnlyShorterString()) connecting activityType...")
                         if let td = w.day?.trainingDiary{
                             w.activityType = td.activityType(forActivity: w.activityString!, andType: w.activityTypeString!)
                             print("DONE")
