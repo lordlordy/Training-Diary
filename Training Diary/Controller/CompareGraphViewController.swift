@@ -336,8 +336,8 @@ class CompareGraphViewController: TrainingDiaryViewController, GraphManagementDe
             let datedRunGraph = DatedActivityGraphDefinition(graph: runGraph, activity: trainingDiary!.activity(forString: FixedActivity.Run.rawValue)!, unit: .KM, period: .YearToDate, fromDate: start, toDate: end)
             let datedRunGraph2 = DatedActivityGraphDefinition(graph: runGraph2, activity: trainingDiary!.activity(forString: FixedActivity.Run.rawValue)!, unit: .KM, period: .YearToDate, fromDate: start2, toDate: end2)
 
-            datedRunGraph.graph!.drawZero = false
-            datedRunGraph2.graph!.drawZero = false
+        //    datedRunGraph.graph!.drawZero = false
+          //  datedRunGraph2.graph!.drawZero = false
            
             // add to ArrayController first so they are here when we add into plot - this is needed to adjust dates to
             // same axis.

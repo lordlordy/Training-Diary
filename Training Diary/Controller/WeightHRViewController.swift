@@ -96,7 +96,7 @@ class WeightHRViewController: TrainingDiaryViewController {
             switch self{
             case .rmssdOff, .rmssdHard, .rmssdEasy, .sdnnHard, .sdnnEasy, .sdnnOff:
                 return 2.0
-            case .rmssd, .sdnn: return 3.0
+            case .rmssd, .sdnn, .hr: return 5.0
             default: return 2.0
             }
         }

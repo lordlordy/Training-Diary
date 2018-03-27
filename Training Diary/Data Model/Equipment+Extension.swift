@@ -19,14 +19,17 @@ extension Equipment: CategoryProtocol{
     
     @objc dynamic var miles: Double{ return km * Constant.MilesPerKM.rawValue}
     @objc dynamic var ascentFeet: Double { return ascentMetres * Constant.FeetPerMetre.rawValue}
-    @objc dynamic var hours: Double { return seconds / Constant.SecondsPerHour.rawValue}
+    @objc dynamic var km: Double { return getWorkouts().reduce(0,{$0 + $1.km}) + preDiaryKMs }
+    @objc dynamic var hours: Double { return getWorkouts().reduce(0,{$0 + $1.hours}) }
+    @objc dynamic var tss: Double { return getWorkouts().reduce(0,{$0 + $1.tss}) }
+
     
-    @objc dynamic var km: Double{
+/*    @objc dynamic var km: Double{
         var result: Double = 0.0
         for w in getWorkouts(){ result += w.km }
         return result + preDiaryKMs
     }
-    
+  */
     @objc dynamic var ascentMetres: Double{
         var result: Double = 0.0
         for w in getWorkouts(){ result += w.ascentMetres }
@@ -45,12 +48,12 @@ extension Equipment: CategoryProtocol{
         return result
     }
     
-    @objc dynamic var tss: Double{
+/*    @objc dynamic var tss: Double{
         var result: Double = 0.0
         for w in getWorkouts(){ result += w.tss }
         return result
     }
-    
+ */
     @objc dynamic var kj: Double{
         var result: Double = 0.0
         for w in getWorkouts(){ result += w.kj }
