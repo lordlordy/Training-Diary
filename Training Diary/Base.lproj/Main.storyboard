@@ -1670,7 +1670,7 @@
                     <tabViewItems>
                         <tabViewItem label="Days" id="McT-k6-8me"/>
                         <tabViewItem label="Physiological" id="Yi5-T8-zsF"/>
-                        <tabViewItem label="Graph" id="L8w-bZ-VGp"/>
+                        <tabViewItem id="Fhw-om-C8t"/>
                         <tabViewItem label="Compare" id="eqx-Zh-HYn"/>
                         <tabViewItem label="Eddington Numbers" id="MzF-Z7-4D1"/>
                         <tabViewItem label="Bikes" id="5GB-Bn-xD0"/>
@@ -1689,7 +1689,7 @@
                         <outlet property="tabView" destination="xBa-Jl-ofJ" id="sPu-9Q-Pm1"/>
                         <segue destination="bih-24-rBx" kind="relationship" relationship="tabItems" id="5p6-sK-dyA"/>
                         <segue destination="X48-76-rvX" kind="relationship" relationship="tabItems" id="AIy-sh-b3v"/>
-                        <segue destination="QuH-HA-I4x" kind="relationship" relationship="tabItems" id="PNa-rf-Amq"/>
+                        <segue destination="Ugo-2s-Bya" kind="relationship" relationship="tabItems" id="oBU-Rr-we1"/>
                         <segue destination="4Xq-b4-Fqk" kind="relationship" relationship="tabItems" id="nCK-ZU-3BM"/>
                         <segue destination="8Mj-1z-4BA" kind="relationship" relationship="tabItems" id="0Od-AX-H4a"/>
                         <segue destination="b6K-PE-Btk" kind="relationship" relationship="tabItems" id="103-j6-qAK"/>
@@ -8196,32 +8196,51 @@ IA
                 </arrayController>
                 <arrayController objectClassName="Training_Diary.GraphDefinition" id="k0G-W1-DO2" userLabel="Graph AC"/>
             </objects>
-            <point key="canvasLocation" x="-190" y="1524"/>
+            <point key="canvasLocation" x="-619" y="1514"/>
         </scene>
-        <!--Graph VC-->
+        <!--Graph-->
+        <scene sceneID="CbU-Hc-h86">
+            <objects>
+                <splitViewController title="Graph" id="Ugo-2s-Bya" customClass="GraphSplitViewController" customModule="Training_Diary" customModuleProvider="target" sceneMemberID="viewController">
+                    <splitViewItems>
+                        <splitViewItem id="a88-o5-X9E"/>
+                        <splitViewItem id="ZOw-KF-Dmf"/>
+                    </splitViewItems>
+                    <splitView key="splitView" dividerStyle="paneSplitter" id="yPk-H8-dad">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <connections>
+                            <outlet property="delegate" destination="Ugo-2s-Bya" id="Dss-5v-ETS"/>
+                        </connections>
+                    </splitView>
+                    <connections>
+                        <outlet property="graphArrayController" destination="dyn-P2-Pvv" id="gKA-1u-MJY"/>
+                        <outlet property="splitView" destination="yPk-H8-dad" id="EgU-zX-nl3"/>
+                        <segue destination="QuH-HA-I4x" kind="relationship" relationship="splitItems" id="YT0-yU-gwf"/>
+                        <segue destination="H2W-zR-QCS" kind="relationship" relationship="splitItems" id="Ye6-Os-JiQ"/>
+                    </connections>
+                </splitViewController>
+                <customObject id="dKk-DA-1IK" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <arrayController objectClassName="Training_Diary.ActivityGraphDefinition" id="dyn-P2-Pvv" userLabel="Graphs AC" customClass="GraphArrayController" customModule="Training_Diary" customModuleProvider="target"/>
+            </objects>
+            <point key="canvasLocation" x="256" y="1376"/>
+        </scene>
+        <!--Graph List VC-->
         <scene sceneID="7ma-uX-XcF">
             <objects>
-                <viewController title="Graph VC" id="QuH-HA-I4x" customClass="GraphViewController" customModule="Training_Diary" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Graph VC" id="QuH-HA-I4x" userLabel="Graph List VC" customClass="GraphListViewController" customModule="Training_Diary" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="b2Q-97-6mF">
-                        <rect key="frame" x="0.0" y="0.0" width="1112" height="573"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1112" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="XUz-2c-78g" customClass="GraphView" customModule="Training_Diary" customModuleProvider="target">
-                                <rect key="frame" x="5" y="5" width="1102" height="476"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="backgroundGradientAngle">
-                                        <real key="value" value="180"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </customView>
                             <scrollView wantsLayer="YES" autohidesScrollers="YES" horizontalLineScroll="18" horizontalPageScroll="10" verticalLineScroll="18" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f6Q-Nx-cfT">
-                                <rect key="frame" x="203" y="486" width="904" height="85"/>
+                                <rect key="frame" x="200" y="2" width="910" height="92"/>
                                 <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="fg6-TR-Nol">
-                                    <rect key="frame" x="1" y="0.0" width="902" height="84"/>
+                                    <rect key="frame" x="1" y="0.0" width="908" height="91"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" autosaveName="graphTableView" rowSizeStyle="automatic" headerView="HGj-Ic-7qK" viewBased="YES" id="gtP-JB-BNI" customClass="TableViewWithColumnSort" customModule="Training_Diary" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="902" height="61"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="908" height="68"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="1" height="1"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -8816,16 +8835,13 @@ IA
                                                 </tableColumn>
                                             </tableColumns>
                                             <connections>
-                                                <binding destination="xw6-0s-blv" name="content" keyPath="arrangedObjects" id="XeL-Ek-ibr"/>
-                                                <binding destination="xw6-0s-blv" name="selectionIndexes" keyPath="selectionIndexes" previousBinding="XeL-Ek-ibr" id="uVc-CX-3Vb"/>
-                                                <binding destination="xw6-0s-blv" name="sortDescriptors" keyPath="sortDescriptors" previousBinding="uVc-CX-3Vb" id="UpE-A0-Gwx"/>
+                                                <binding destination="QuH-HA-I4x" name="content" keyPath="parentViewController.graphArrayController.arrangedObjects" id="hMD-V1-0eH"/>
+                                                <binding destination="QuH-HA-I4x" name="selectionIndexes" keyPath="parentViewController.graphArrayController.selectionIndexes" previousBinding="hMD-V1-0eH" id="XhX-ua-dco"/>
+                                                <binding destination="QuH-HA-I4x" name="sortDescriptors" keyPath="parentViewController.graphArrayController.sortDescriptors" previousBinding="XhX-ua-dco" id="6EF-em-c8Z"/>
                                             </connections>
                                         </tableView>
                                     </subviews>
                                 </clipView>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="85" id="0BI-og-18A"/>
-                                </constraints>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="59m-8I-iNO">
                                     <rect key="frame" x="1" y="-16" width="0.0" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
@@ -8835,12 +8851,12 @@ IA
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <tableHeaderView key="headerView" id="HGj-Ic-7qK">
-                                    <rect key="frame" x="0.0" y="0.0" width="902" height="23"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="908" height="23"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableHeaderView>
                             </scrollView>
                             <stackView distribution="fillEqually" orientation="horizontal" alignment="top" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FUW-zT-FLj">
-                                <rect key="frame" x="172" y="557" width="26" height="15"/>
+                                <rect key="frame" x="172" y="80" width="26" height="15"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gdN-jy-O4b">
                                         <rect key="frame" x="0.0" y="-1" width="13" height="17"/>
@@ -8849,7 +8865,7 @@ IA
                                             <font key="font" metaFont="smallSystem"/>
                                         </buttonCell>
                                         <connections>
-                                            <action selector="add:" target="xw6-0s-blv" id="AhZ-4R-Igi"/>
+                                            <action selector="addGraph:" target="QuH-HA-I4x" id="dK2-pk-XGw"/>
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="39w-eD-8Wa">
@@ -8859,7 +8875,7 @@ IA
                                             <font key="font" metaFont="smallSystem"/>
                                         </buttonCell>
                                         <connections>
-                                            <action selector="remove:" target="xw6-0s-blv" id="MOT-rA-ygx"/>
+                                            <action selector="removeGraph:" target="QuH-HA-I4x" id="N4X-Th-oPN"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -8878,7 +8894,7 @@ IA
                                 </customSpacing>
                             </stackView>
                             <stackView distribution="fillEqually" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JsM-Bp-9Zp">
-                                <rect key="frame" x="110" y="488" width="88" height="68"/>
+                                <rect key="frame" x="110" y="11" width="88" height="68"/>
                                 <subviews>
                                     <comboBox identifier="ActivityComboBox" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OiW-9l-kR5">
                                         <rect key="frame" x="0.0" y="47" width="91" height="22"/>
@@ -8888,7 +8904,7 @@ IA
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </comboBoxCell>
                                         <connections>
-                                            <action selector="activityChanged:" target="QuH-HA-I4x" id="oiD-SS-zpk"/>
+                                            <action selector="activityChanged:" target="QuH-HA-I4x" id="dmd-9N-R1E"/>
                                             <outlet property="dataSource" destination="QuH-HA-I4x" id="TTT-2e-9lS"/>
                                         </connections>
                                     </comboBox>
@@ -8900,7 +8916,7 @@ IA
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </comboBoxCell>
                                         <connections>
-                                            <action selector="activityTypeChanged:" target="QuH-HA-I4x" id="0SN-hx-G7Y"/>
+                                            <action selector="activityTypeChanged:" target="QuH-HA-I4x" id="Hzz-bt-Cda"/>
                                             <outlet property="dataSource" destination="QuH-HA-I4x" id="NX0-0O-AFC"/>
                                         </connections>
                                     </comboBox>
@@ -8912,7 +8928,7 @@ IA
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </comboBoxCell>
                                         <connections>
-                                            <action selector="periodComboBoxChanged:" target="QuH-HA-I4x" id="CJh-nX-exS"/>
+                                            <action selector="periodChanged:" target="QuH-HA-I4x" id="4b3-JE-kL7"/>
                                         </connections>
                                     </comboBox>
                                     <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="HsD-hY-ofS" customClass="UnitComboBox" customModule="Training_Diary" customModuleProvider="target">
@@ -8923,7 +8939,7 @@ IA
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </comboBoxCell>
                                         <connections>
-                                            <action selector="unitChanged:" target="QuH-HA-I4x" id="jnJ-Q0-qsN"/>
+                                            <action selector="unitChanged:" target="QuH-HA-I4x" id="xXN-xs-bpw"/>
                                         </connections>
                                     </comboBox>
                                 </subviews>
@@ -8945,7 +8961,7 @@ IA
                                 </customSpacing>
                             </stackView>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="M0E-EX-zPV">
-                                <rect key="frame" x="5" y="488" width="100" height="80"/>
+                                <rect key="frame" x="5" y="11" width="100" height="80"/>
                                 <subviews>
                                     <stackView distribution="fillEqually" orientation="horizontal" alignment="bottom" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Oxp-Hn-9WT">
                                         <rect key="frame" x="0.0" y="60" width="100" height="20"/>
@@ -8954,21 +8970,21 @@ IA
                                                 <rect key="frame" x="0.0" y="0.0" width="38" height="20"/>
                                                 <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <connections>
-                                                    <binding destination="QuH-HA-I4x" name="value" keyPath="self.graphView.backgroundGradientStartColour" id="poL-4b-UUA"/>
+                                                    <binding destination="QuH-HA-I4x" name="value" keyPath="parentViewController.graphView.backgroundGradientStartColour" id="gsX-v2-14C"/>
                                                 </connections>
                                             </colorWell>
                                             <colorWell translatesAutoresizingMaskIntoConstraints="NO" id="Amb-8Z-CEh">
                                                 <rect key="frame" x="38" y="0.0" width="38" height="20"/>
                                                 <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <connections>
-                                                    <binding destination="QuH-HA-I4x" name="value" keyPath="self.graphView.backgroundGradientEndColour" id="4U1-7d-tWE"/>
+                                                    <binding destination="QuH-HA-I4x" name="value" keyPath="parentViewController.graphView.backgroundGradientEndColour" id="DBh-jW-6Rh"/>
                                                 </connections>
                                             </colorWell>
                                             <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tou-2l-ej8">
                                                 <rect key="frame" x="74" y="-3" width="28" height="26"/>
                                                 <sliderCell key="cell" continuous="YES" alignment="left" maxValue="360" allowsTickMarkValuesOnly="YES" sliderType="circular" id="B0P-sn-Svy"/>
                                                 <connections>
-                                                    <binding destination="QuH-HA-I4x" name="value" keyPath="self.graphView.backgroundGradientAngle" id="Nhx-NF-Elf"/>
+                                                    <binding destination="QuH-HA-I4x" name="value" keyPath="parentViewController.graphView.backgroundGradientAngle" id="8Af-Zo-AGR"/>
                                                 </connections>
                                             </slider>
                                         </subviews>
@@ -8997,7 +9013,7 @@ IA
                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         </datePickerCell>
                                         <connections>
-                                            <action selector="fromDateChanged:" target="QuH-HA-I4x" id="3gk-tS-zc3"/>
+                                            <action selector="fromDateChanged:" target="QuH-HA-I4x" id="5Ik-Jm-BQB"/>
                                         </connections>
                                     </datePicker>
                                     <datePicker verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="GPT-EG-pZt">
@@ -9011,7 +9027,7 @@ IA
                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         </datePickerCell>
                                         <connections>
-                                            <action selector="toDateChanged:" target="QuH-HA-I4x" id="v4J-rK-84d"/>
+                                            <action selector="toDateChanged:" target="QuH-HA-I4x" id="W4m-QC-nBG"/>
                                         </connections>
                                     </datePicker>
                                     <stackView distribution="fillProportionally" orientation="horizontal" alignment="bottom" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sbv-Sy-ffC">
@@ -9025,7 +9041,7 @@ IA
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                                 <connections>
-                                                    <action selector="graphPeriodChange:" target="QuH-HA-I4x" id="6l8-fz-owf"/>
+                                                    <action selector="graphPeriodChanged:" target="QuH-HA-I4x" id="JCh-0G-BiO"/>
                                                 </connections>
                                             </textField>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Kr5-vd-A6y">
@@ -9035,7 +9051,7 @@ IA
                                                     <font key="font" metaFont="system"/>
                                                 </buttonCell>
                                                 <connections>
-                                                    <action selector="retreatAPeriod:" target="QuH-HA-I4x" id="VNm-5L-v0D"/>
+                                                    <action selector="retreatAPeriod:" target="QuH-HA-I4x" id="U95-LK-fwL"/>
                                                 </connections>
                                             </button>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Y5B-XV-fzl">
@@ -9045,7 +9061,7 @@ IA
                                                     <font key="font" metaFont="system"/>
                                                 </buttonCell>
                                                 <connections>
-                                                    <action selector="advanceAPeriod:" target="QuH-HA-I4x" id="yeT-Kb-aeA"/>
+                                                    <action selector="advanceAPeriod:" target="QuH-HA-I4x" id="ttT-pH-Q29"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -9091,30 +9107,25 @@ IA
                             <constraint firstItem="M0E-EX-zPV" firstAttribute="leading" secondItem="b2Q-97-6mF" secondAttribute="leading" constant="5" id="0h5-SR-TrX"/>
                             <constraint firstItem="M0E-EX-zPV" firstAttribute="top" secondItem="b2Q-97-6mF" secondAttribute="top" constant="5" id="7LB-cY-EGh"/>
                             <constraint firstItem="FUW-zT-FLj" firstAttribute="top" secondItem="b2Q-97-6mF" secondAttribute="top" constant="1" id="MBG-hL-ge0"/>
+                            <constraint firstAttribute="bottom" secondItem="f6Q-Nx-cfT" secondAttribute="bottom" constant="2" id="NEv-e8-zCk"/>
                             <constraint firstItem="f6Q-Nx-cfT" firstAttribute="top" secondItem="b2Q-97-6mF" secondAttribute="top" constant="2" id="S87-eF-Crg"/>
-                            <constraint firstAttribute="trailing" secondItem="f6Q-Nx-cfT" secondAttribute="trailing" constant="5" id="YId-og-5jZ"/>
+                            <constraint firstAttribute="trailing" secondItem="f6Q-Nx-cfT" secondAttribute="trailing" constant="2" id="YId-og-5jZ"/>
                             <constraint firstItem="FUW-zT-FLj" firstAttribute="trailing" secondItem="JsM-Bp-9Zp" secondAttribute="trailing" id="YYZ-4v-96w"/>
-                            <constraint firstAttribute="bottom" secondItem="XUz-2c-78g" secondAttribute="bottom" constant="5" id="b8t-eP-9fF"/>
-                            <constraint firstItem="f6Q-Nx-cfT" firstAttribute="leading" secondItem="FUW-zT-FLj" secondAttribute="trailing" constant="5" id="d5A-vf-QXC"/>
-                            <constraint firstItem="XUz-2c-78g" firstAttribute="leading" secondItem="b2Q-97-6mF" secondAttribute="leading" constant="5" id="gQJ-ge-Ux0"/>
+                            <constraint firstItem="f6Q-Nx-cfT" firstAttribute="leading" secondItem="FUW-zT-FLj" secondAttribute="trailing" constant="2" id="d5A-vf-QXC"/>
                             <constraint firstItem="JsM-Bp-9Zp" firstAttribute="bottom" secondItem="M0E-EX-zPV" secondAttribute="bottom" id="r2V-lR-y6F"/>
                             <constraint firstItem="JsM-Bp-9Zp" firstAttribute="leading" secondItem="M0E-EX-zPV" secondAttribute="trailing" constant="5" id="wXa-pu-LUU"/>
-                            <constraint firstAttribute="trailing" secondItem="XUz-2c-78g" secondAttribute="trailing" constant="5" id="xaJ-ex-edv"/>
-                            <constraint firstItem="XUz-2c-78g" firstAttribute="top" secondItem="f6Q-Nx-cfT" secondAttribute="bottom" constant="5" id="zLo-2X-GOm"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="activityComboBox" destination="OiW-9l-kR5" id="DLU-84-ZVh"/>
-                        <outlet property="fromDatePicker" destination="3uB-Mf-Dq8" id="lm5-r2-8hi"/>
-                        <outlet property="graphArrayController" destination="xw6-0s-blv" id="ljr-Nh-TPi"/>
-                        <outlet property="graphView" destination="XUz-2c-78g" id="Sgl-Mj-UPp"/>
-                        <outlet property="toDatePicker" destination="GPT-EG-pZt" id="Xs0-KK-Lc7"/>
+                        <outlet property="activityComboBox" destination="OiW-9l-kR5" id="rUC-ss-8QS"/>
+                        <outlet property="activityTypeChanged" destination="Pb5-1E-keg" id="c4V-G0-JLR"/>
+                        <outlet property="fromDatePicker" destination="3uB-Mf-Dq8" id="ujg-jT-uxs"/>
+                        <outlet property="toDatePicker" destination="GPT-EG-pZt" id="bPL-SE-LDK"/>
                     </connections>
                 </viewController>
                 <customObject id="WBV-QA-uww" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <arrayController objectClassName="Training_Diary.ActivityGraphDefinition" id="xw6-0s-blv" userLabel="Graph AC" customClass="GraphArrayController" customModule="Training_Diary" customModuleProvider="target"/>
             </objects>
-            <point key="canvasLocation" x="1112" y="1532"/>
+            <point key="canvasLocation" x="1106" y="1274"/>
         </scene>
         <!--Bikes-->
         <scene sceneID="CzO-hy-K7E">
@@ -14095,7 +14106,7 @@ IA
                     </connections>
                 </arrayController>
             </objects>
-            <point key="canvasLocation" x="-1007" y="1910"/>
+            <point key="canvasLocation" x="-1401" y="2040"/>
         </scene>
         <!--Days Input View Controller-->
         <scene sceneID="pTi-9C-RCg">
@@ -16925,8 +16936,8 @@ IA
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView id="f43-Rq-zET">
-                                                            <rect key="frame" x="213" y="0.0" width="96" height="23"/>
+                                                        <tableCellView misplaced="YES" id="f43-Rq-zET">
+                                                            <rect key="frame" x="213" y="0.0" width="94" height="23"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <datePicker verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1vQ-gN-pQP">
@@ -17703,16 +17714,27 @@ IA
                     </view>
                     <connections>
                         <outlet property="activityComboBox" destination="aAe-sL-hfa" id="v6v-iw-fud"/>
-                        <outlet property="graphTable" destination="QQd-94-X9U" id="gsQ-cX-Qix"/>
-                        <outlet property="graphTableView" destination="QQd-94-X9U" id="fnc-cd-iSB"/>
-                        <outlet property="periodComboBox" destination="e2k-oP-IYW" id="rIO-XN-3Zk"/>
-                        <outlet property="unitComboBox" destination="waN-0A-Lny" id="40K-by-ojB"/>
                     </connections>
                 </viewController>
                 <customObject id="OGk-91-3PY" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <arrayController objectClassName="Training_Diary.DatedActivityGraphDefinition" avoidsEmptySelection="NO" id="ZcW-Xs-UNT" userLabel="Graphs AC" customClass="GraphArrayController" customModule="Training_Diary" customModuleProvider="target"/>
             </objects>
             <point key="canvasLocation" x="2750" y="1300"/>
+        </scene>
+        <!--Graph Chart VC-->
+        <scene sceneID="F6y-yn-eWE">
+            <objects>
+                <viewController title="Graph VC" id="H2W-zR-QCS" userLabel="Graph Chart VC" customClass="GraphViewController" customModule="Training_Diary" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="vxi-7T-Oks" customClass="GraphView" customModule="Training_Diary" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="1112" height="469"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                    <connections>
+                        <outlet property="graphView" destination="vxi-7T-Oks" id="jhj-AR-JOj"/>
+                    </connections>
+                </viewController>
+                <customObject id="cFG-Um-OSE" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1106" y="1628"/>
         </scene>
     </scenes>
     <resources>

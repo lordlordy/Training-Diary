@@ -101,6 +101,8 @@
 		73D89FA01FD1E241002F07A2 /* DatedActivityGraphDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D89F9F1FD1E241002F07A2 /* DatedActivityGraphDefinition.swift */; };
 		73DC9B111FDC373700D4774A /* NumberToDetailedTimeTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DC9B101FDC373700D4774A /* NumberToDetailedTimeTransformer.swift */; };
 		73DC9B131FDC39B500D4774A /* NumberToSummaryTimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DC9B121FDC39B500D4774A /* NumberToSummaryTimeFormatter.swift */; };
+		73DE3E2A206BF4450029EF14 /* GraphSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DE3E29206BF4450029EF14 /* GraphSplitViewController.swift */; };
+		73DE3E2C206BF4A10029EF14 /* GraphListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DE3E2B206BF4A10029EF14 /* GraphListViewController.swift */; };
 		73E25E191FBEA9150081FC62 /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E25E181FBEA9150081FC62 /* GraphView.swift */; };
 		73E25E1B1FC038FC0081FC62 /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E25E1A1FC038FC0081FC62 /* GraphViewController.swift */; };
 		73E582631F8A12A500B6E25D /* DaysArrayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E582621F8A12A500B6E25D /* DaysArrayController.swift */; };
@@ -214,6 +216,8 @@
 		73D89F9F1FD1E241002F07A2 /* DatedActivityGraphDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatedActivityGraphDefinition.swift; sourceTree = "<group>"; };
 		73DC9B101FDC373700D4774A /* NumberToDetailedTimeTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberToDetailedTimeTransformer.swift; sourceTree = "<group>"; };
 		73DC9B121FDC39B500D4774A /* NumberToSummaryTimeFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberToSummaryTimeFormatter.swift; sourceTree = "<group>"; };
+		73DE3E29206BF4450029EF14 /* GraphSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphSplitViewController.swift; sourceTree = "<group>"; };
+		73DE3E2B206BF4A10029EF14 /* GraphListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphListViewController.swift; sourceTree = "<group>"; };
 		73E25E181FBEA9150081FC62 /* GraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
 		73E25E1A1FC038FC0081FC62 /* GraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
 		73E582621F8A12A500B6E25D /* DaysArrayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaysArrayController.swift; sourceTree = "<group>"; };
@@ -352,6 +356,8 @@
 				73339CCB20514804007CD288 /* ReferenceToMainProtocol.swift */,
 				73C2E4981FD8967900C30316 /* GraphManagementDelegate.swift */,
 				73E25E1A1FC038FC0081FC62 /* GraphViewController.swift */,
+				73DE3E2B206BF4A10029EF14 /* GraphListViewController.swift */,
+				73DE3E29206BF4450029EF14 /* GraphSplitViewController.swift */,
 				73FC61E4200E26AA00C61DE6 /* LTDEddingtonNumberWebViewController.swift */,
 				73DC9B101FDC373700D4774A /* NumberToDetailedTimeTransformer.swift */,
 				73DC9B121FDC39B500D4774A /* NumberToSummaryTimeFormatter.swift */,
@@ -529,6 +535,7 @@
 				7369D9F81FB25B7600ECAA1E /* SleepQualityComboBox.swift in Sources */,
 				73F7097A204C38160022EC04 /* TrainingDiarySplitViewController.swift in Sources */,
 				73AF79AD2025CF2E0067CE37 /* OutLineViewWithColumnSort.swift in Sources */,
+				73DE3E2A206BF4450029EF14 /* GraphSplitViewController.swift in Sources */,
 				73444C3F1F96AB9B00B3E84D /* Enumerations.swift in Sources */,
 				73C2E4951FD7B29800C30316 /* GraphArrayController.swift in Sources */,
 				73AA63FB2052BCF70044A05F /* PhysioLogical+Extension.swift in Sources */,
@@ -561,6 +568,7 @@
 				73C2F03E20206E480073323D /* Equipment+Extension.swift in Sources */,
 				7369D9F61FB24F8C00ECAA1E /* TSSMethodComboBox.swift in Sources */,
 				73E6A3ED20524F4600551C85 /* CategoryProtocol.swift in Sources */,
+				73DE3E2C206BF4A10029EF14 /* GraphListViewController.swift in Sources */,
 				73B2B9FC1F896F920044DD4E /* TransformerNSNumberToTimeFormat.swift in Sources */,
 				7328070B1FACBC2900658833 /* Queue.swift in Sources */,
 				73B2B9F81F894E870044DD4E /* CoreDataStackSingleton.swift in Sources */,
