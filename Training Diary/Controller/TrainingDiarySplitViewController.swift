@@ -29,7 +29,6 @@ class TrainingDiarySplitViewController: NSSplitViewController, TrainingDiaryView
     }
     
     override func splitView(_ splitView: NSSplitView, shouldCollapseSubview subview: NSView, forDoubleClickOnDividerAt dividerIndex: Int) -> Bool {
-        print(splitView)
         return true
     }
     

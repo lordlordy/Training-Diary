@@ -38,6 +38,8 @@
 		7359C17F204C5D8C00A09B61 /* DaysInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7359C17E204C5D8C00A09B61 /* DaysInputViewController.swift */; };
 		7359C183204CFB7700A09B61 /* DaysSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7359C182204CFB7700A09B61 /* DaysSplitViewController.swift */; };
 		735E0AAE202D47B20089C2CD /* Maths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735E0AAD202D47B20089C2CD /* Maths.swift */; };
+		735F47AE206BAAEC00962F99 /* CompareGraphTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735F47AD206BAAEC00962F99 /* CompareGraphTableViewController.swift */; };
+		735F47B0206BC91600962F99 /* CompareGraphSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735F47AF206BC91600962F99 /* CompareGraphSplitViewController.swift */; };
 		73641578201C7207009D5817 /* Activity+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73641577201C7207009D5817 /* Activity+Extension.swift */; };
 		7364157A201C8FF5009D5817 /* TrainingDiaryValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73641579201C8FF5009D5817 /* TrainingDiaryValues.swift */; };
 		7369D9EE1FB23DBC00ECAA1E /* DayTypeComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7369D9ED1FB23DBC00ECAA1E /* DayTypeComboBox.swift */; };
@@ -146,6 +148,8 @@
 		7359C17E204C5D8C00A09B61 /* DaysInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaysInputViewController.swift; sourceTree = "<group>"; };
 		7359C182204CFB7700A09B61 /* DaysSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaysSplitViewController.swift; sourceTree = "<group>"; };
 		735E0AAD202D47B20089C2CD /* Maths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Maths.swift; sourceTree = "<group>"; };
+		735F47AD206BAAEC00962F99 /* CompareGraphTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompareGraphTableViewController.swift; sourceTree = "<group>"; };
+		735F47AF206BC91600962F99 /* CompareGraphSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompareGraphSplitViewController.swift; sourceTree = "<group>"; };
 		73641577201C7207009D5817 /* Activity+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Activity+Extension.swift"; sourceTree = "<group>"; };
 		73641579201C8FF5009D5817 /* TrainingDiaryValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingDiaryValues.swift; sourceTree = "<group>"; };
 		7369D9ED1FB23DBC00ECAA1E /* DayTypeComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTypeComboBox.swift; sourceTree = "<group>"; };
@@ -326,6 +330,8 @@
 				73D3738620176FD600E44427 /* BikeGraphs.swift */,
 				73E7FD372015FA2900D1FCD4 /* BikeViewController.swift */,
 				73D89F9B1FD1BB03002F07A2 /* CompareGraphViewController.swift */,
+				735F47AF206BC91600962F99 /* CompareGraphSplitViewController.swift */,
+				735F47AD206BAAEC00962F99 /* CompareGraphTableViewController.swift */,
 				73D89F9F1FD1E241002F07A2 /* DatedActivityGraphDefinition.swift */,
 				73E582621F8A12A500B6E25D /* DaysArrayController.swift */,
 				739E2875205415DA0058E06D /* TrainingDiaryArrayController.swift */,
@@ -500,6 +506,7 @@
 				732807091FACBBF100658833 /* LinkedList.swift in Sources */,
 				731CF8051F981C3300C59AA8 /* RollingSum.swift in Sources */,
 				73AF79AB2025CA0C0067CE37 /* GMTDatePicker.swift in Sources */,
+				735F47AE206BAAEC00962F99 /* CompareGraphTableViewController.swift in Sources */,
 				73789C9020123C69002D2393 /* PeriodTextField.swift in Sources */,
 				73475E9D2021CD67002407CB /* TreeNode.swift in Sources */,
 				73C13FB920495DF400199D47 /* DayTreeViewController.swift in Sources */,
@@ -544,6 +551,7 @@
 				73BD2F64203E489000377CCE /* GMTDateFormatter.swift in Sources */,
 				730AE25E1FC732DB00348A63 /* ChartTypeComboBox.swift in Sources */,
 				73E7FD382015FA2900D1FCD4 /* BikeViewController.swift in Sources */,
+				735F47B0206BC91600962F99 /* CompareGraphSplitViewController.swift in Sources */,
 				73D6CC771FC86CBE006830DA /* RollingPeriodSum.swift in Sources */,
 				73B3188D1FAB78D000B75550 /* String+Extension.swift in Sources */,
 				73E582631F8A12A500B6E25D /* DaysArrayController.swift in Sources */,
