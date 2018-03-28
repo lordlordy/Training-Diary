@@ -16,6 +16,25 @@ extension LTDEddingtonNumber{
     @objc dynamic var isNotLeaf: Bool { return !isLeaf }
     @objc dynamic var isWeekDay: Bool { return DayOfWeek.all.map({$0.rawValue}).contains(dayType!)}
     
+    @objc dynamic var edNum: Int16{
+        if let childDay = getChildDayEddingtonNumber(){
+            return childDay.value
+        }else{
+            return value
+        }
+    }
+
+    @objc dynamic var edNumPlusOne: Int16{
+        if let childDay = getChildDayEddingtonNumber(){
+            return childDay.plusOne
+        }else{
+            return plusOne
+        }
+    }
+
+    
+    @objc dynamic var isZero: Bool { return edNum == 0 }
+    
     @objc dynamic var code: String{
         let result = EddingtonNumber.code(dayType: dayType, activity: activity, activityType: activityType, equipment: equipment, period: period ?? "", unit: unit ?? "")
         return result
@@ -78,6 +97,23 @@ extension LTDEddingtonNumber{
         return result
     }
     
+    // just looks as far as children (ie doesn't recurse down) as if go further there will be loads of "Day" ed nums
+    private func getChildDayEddingtonNumber() -> (value: Int16, plusOne: Int16)?{
 
+        for l in childArray(){
+            if l.isLeaf{
+                if let p = l.period{
+                    if p == Period.Day.rawValue{
+                        return (l.value, l.plusOne)
+                    }
+                }
+            }
+            
+        }
+        
+        return nil
+    }
+
+    
     
 }

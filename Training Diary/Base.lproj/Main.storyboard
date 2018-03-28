@@ -4418,7 +4418,7 @@ IA
                                         </customSpacing>
                                     </stackView>
                                     <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="icv-Ng-Xbj">
-                                        <rect key="frame" x="340" y="0.0" width="60" height="50"/>
+                                        <rect key="frame" x="300" y="0.0" width="60" height="50"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fkB-ca-np9">
                                                 <rect key="frame" x="-2" y="36" width="64" height="14"/>
@@ -4970,7 +4970,7 @@ IA
                     </connections>
                 </arrayController>
             </objects>
-            <point key="canvasLocation" x="3052" y="2118"/>
+            <point key="canvasLocation" x="3158" y="2122"/>
         </scene>
         <!--Training Diary Split View Controller-->
         <scene sceneID="4dn-sn-rNn">
@@ -5956,8 +5956,8 @@ IA
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                     <connections>
-                                                                        <binding destination="slC-sx-JQV" name="hidden" keyPath="objectValue.isNotLeaf" id="FnS-wu-TO7"/>
-                                                                        <binding destination="slC-sx-JQV" name="value" keyPath="objectValue.value" id="M91-l3-z2I"/>
+                                                                        <binding destination="slC-sx-JQV" name="hidden" keyPath="objectValue.isZero" id="NUM-mC-hZ6"/>
+                                                                        <binding destination="slC-sx-JQV" name="value" keyPath="objectValue.edNum" id="BO9-ZY-XHi"/>
                                                                     </connections>
                                                                 </textField>
                                                             </subviews>
@@ -5998,9 +5998,9 @@ IA
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                     <connections>
+                                                                        <binding destination="0Fh-2E-hPR" name="hidden" keyPath="objectValue.isZero" id="vri-gX-jWV"/>
                                                                         <binding destination="0Fh-2E-hPR" name="fontItalic" keyPath="objectValue.isLeaf" id="O3y-OM-VZn"/>
-                                                                        <binding destination="0Fh-2E-hPR" name="hidden" keyPath="objectValue.isNotLeaf" id="tEf-tw-1B9"/>
-                                                                        <binding destination="0Fh-2E-hPR" name="value" keyPath="objectValue.plusOne" id="5Jn-73-DMF"/>
+                                                                        <binding destination="0Fh-2E-hPR" name="value" keyPath="objectValue.edNumPlusOne" id="mdc-9v-lSh"/>
                                                                     </connections>
                                                                 </textField>
                                                             </subviews>
