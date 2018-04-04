@@ -21,7 +21,7 @@ class DaysArrayController: NSArrayController {
             if let latestDay = td.latestDay(){
                 day.yesterday = latestDay
                 latestDay.tomorrow = day
-                day.date = latestDay.date!.addDays(numberOfDays: 1)
+                day.date = latestDay.date!.addDays(numberOfDays: 1).noonGMT()
           //      CoreDataStackSingleton.shared.populateMetricPlaceholders(forDay: day)
             }
         }

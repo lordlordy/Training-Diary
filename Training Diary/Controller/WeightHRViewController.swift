@@ -130,7 +130,7 @@ class WeightHRViewController: TrainingDiaryViewController {
             for g in currentGraphs{
                 g.display = true
             }
-        case "HR":
+        case "HRV":
             for g in currentGraphs{
                 switch g.name{
                 case CacheKey.hr.rawValue, CacheKey.hr.rollingCacheKey(), CacheKey.sdnn.rawValue, CacheKey.sdnn.rollingCacheKey(), CacheKey.rmssd.rawValue, CacheKey.rmssd.rollingCacheKey(), CacheKey.sdnnHard.rawValue, CacheKey.sdnnEasy.rawValue, CacheKey.sdnnOff.rawValue, CacheKey.rmssdHard.rawValue, CacheKey.rmssdEasy.rawValue, CacheKey.rmssdOff.rawValue:
@@ -148,10 +148,82 @@ class WeightHRViewController: TrainingDiaryViewController {
                     g.display = false
                 }
             }
-        case "Sleep":
+        case "Mood":
             for g in currentGraphs{
                 switch g.name{
                 case CacheKey.sleep.rawValue, CacheKey.sleep.rollingCacheKey(), CacheKey.fatigue.rawValue, CacheKey.fatigue.rollingCacheKey(), CacheKey.motivation.rawValue, CacheKey.motivation.rollingCacheKey():
+                    g.display = true
+                default:
+                    g.display = false
+                }
+            }
+        case "HR":
+            for g in currentGraphs{
+                switch g.name{
+                case CacheKey.hr.rawValue, CacheKey.hr.rollingCacheKey():
+                    g.display = true
+                default:
+                    g.display = false
+                }
+            }
+        case "SDNN":
+            for g in currentGraphs{
+                switch g.name{
+                case CacheKey.sdnn.rawValue, CacheKey.sdnn.rollingCacheKey(), CacheKey.sdnnHard.rawValue, CacheKey.sdnnEasy.rawValue, CacheKey.sdnnOff.rawValue:
+                    g.display = true
+                default:
+                    g.display = false
+                }
+            }
+        case "rMSSD":
+            for g in currentGraphs{
+                switch g.name{
+                case CacheKey.rmssd.rawValue, CacheKey.rmssd.rollingCacheKey(), CacheKey.rmssdHard.rawValue, CacheKey.rmssdEasy.rawValue, CacheKey.rmssdOff.rawValue:
+                    g.display = true
+                default:
+                    g.display = false
+                }
+            }
+        case "KG":
+            for g in currentGraphs{
+                switch g.name{
+                case CacheKey.kg.rawValue, CacheKey.kg.rollingCacheKey():
+                    g.display = true
+                default:
+                    g.display = false
+                }
+            }
+        case "Fat%":
+            for g in currentGraphs{
+                switch g.name{
+                case CacheKey.fatPercent.rawValue, CacheKey.fatPercent.rollingCacheKey():
+                    g.display = true
+                default:
+                    g.display = false
+                }
+            }
+        case "Sleep":
+            for g in currentGraphs{
+                switch g.name{
+                case CacheKey.sleep.rawValue, CacheKey.sleep.rollingCacheKey():
+                    g.display = true
+                default:
+                    g.display = false
+                }
+            }
+        case "Motivation":
+            for g in currentGraphs{
+                switch g.name{
+                case CacheKey.motivation.rawValue, CacheKey.motivation.rollingCacheKey():
+                    g.display = true
+                default:
+                    g.display = false
+                }
+            }
+        case "Fatigue":
+            for g in currentGraphs{
+                switch g.name{
+                case CacheKey.fatigue.rawValue, CacheKey.fatigue.rollingCacheKey():
                     g.display = true
                 default:
                     g.display = false

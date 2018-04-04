@@ -63,7 +63,7 @@ class EddingtonSearchViewController: TrainingDiaryViewController {
 
             let stringTemplate = NSPredicateEditorRowTemplate.init(leftExpressions: stringExpressions, rightExpressionAttributeType: NSAttributeType.stringAttributeType, modifier: NSComparisonPredicate.Modifier.direct, operators: stringOperators, options: Int(NSComparisonPredicate.Options.caseInsensitive.rawValue))
             
-            let booleanExpressions: [NSExpression] = [NSExpression(forKeyPath: LTDEddingtonNumberProperty.isWeekDay.rawValue)]
+            let booleanExpressions: [NSExpression] = [NSExpression(forKeyPath: LTDEddingtonNumberProperty.isWeekDay.rawValue),NSExpression(forKeyPath: LTDEddingtonNumberProperty.isMonth.rawValue)]
             var booleanOperators: [NSNumber] = []
             booleanOperators.append(NSNumber(value:NSComparisonPredicate.Operator.equalTo.rawValue))
             booleanOperators.append(NSNumber(value:NSComparisonPredicate.Operator.notEqualTo.rawValue))

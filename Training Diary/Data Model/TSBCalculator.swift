@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+/* DEPRECATED
 class TSBCalculator{
     
     private var ctl: Double = 0.0
@@ -21,3 +21,4 @@ class TSBCalculator{
         return (atl, ctl, ctl-atl)
     }
 }
+*/

@@ -93,7 +93,7 @@ enum Constant: Double {
     case SecondsPer365Days  = 31_536_000
     case ATLDays            = 7
     case CTLDays            = 42
-    case WorkoutThresholdForEdNumberCount = 10
+    case WorkoutThresholdForEdNumberCount = 0
 }
 
 enum ConstantString: String{
@@ -515,6 +515,7 @@ enum DayCalculatedProperty: String{
     case swimKM, swimHours, swimKJ, swimMinutes, swimSeconds, swimTSS, swimTSB, swimWatts
     case totalReps
     case gymTSB, walkTSB, otherTSB
+    case gmt
     
     case numberOfWorkouts
 
@@ -571,7 +572,7 @@ enum EddingtonNumberProperty: String{
 
 enum LTDEddingtonNumberProperty: String{
     case activity, activityType, dayType, equipment, period, unit, code, shortCode
-    case lastUpdate, maturity, plusOne, value, isWeekDay
+    case lastUpdate, maturity, plusOne, value, isWeekDay, isMonth
     case children, parent
     
     static var StringProperties = [activity, activityType, dayType, equipment, period, unit, code, shortCode]
@@ -583,6 +584,12 @@ enum DayOfWeek: String{
     
     static var all = [Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday]
     
+}
+
+enum Month: String{
+    case January, February, March, April, May, June, July, August, September, October, November, December
+    static var all = [ January, February, March, April, May, June, July, August, September, October, November, December ]
+
 }
 
 

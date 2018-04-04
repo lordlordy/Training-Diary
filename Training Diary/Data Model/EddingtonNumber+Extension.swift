@@ -23,7 +23,7 @@ extension EddingtonNumber{
     @objc dynamic var plusOne: Int16 { return nextEddingtonNumber - Int16(contributorsToNext().count) }
     @objc dynamic var annualPlusOne: Int16 { return nextAnnualEddingtonNumber  - Int16(contributorsToAnnualNext().count) }
     @objc dynamic var maturity: Double{ return calculateMaturity() }
-    @objc dynamic var daysSinceLastContributor: Double { return calculateDaysSinceLastContributor() }
+    @objc dynamic var daysSinceLastContributor: Int { return calculateDaysSinceLastContributor() }
 
     @objc dynamic var requiresCalculation: Bool{ return lastUpdated == nil}
     @objc dynamic var bikeEditable: Bool{ return true}
@@ -295,15 +295,15 @@ extension EddingtonNumber{
         return EddingtonNumberCalculator.calculateMaturity(ednum: Int(value), plusOne: Int(plusOne), max: maxContributor)
     }
     
-    private func calculateDaysSinceLastContributor() -> Double{
+    private func calculateDaysSinceLastContributor() -> Int{
         let sortedContributors = getSortedContributors()
         if sortedContributors.count > 0{
             if let now = trainingDiary?.lastDayOfDiary{
                 let seconds = now.timeIntervalSince(sortedContributors[sortedContributors.count - 1].date!)
-                return seconds / Constant.SecondsPerDay.rawValue
+                return Int(seconds / Constant.SecondsPerDay.rawValue)
             }
         }
-        return 0.0
+        return 0
     }
     
     private static func eddingtonCode(_ dayType: String?, _ activity: String?, _ activityType: String?, _ equipment: String?, _ period: String, _ unit: String) -> String{

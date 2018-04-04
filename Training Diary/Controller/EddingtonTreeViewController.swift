@@ -171,9 +171,9 @@ class EddingtonTreeViewController: TrainingDiaryViewController, ReferenceToMainP
                             // lets check if worth doing any calcs
                             
                             let workoutCount = localWorkoutCopy.filter({ (w: Workout) -> Bool in
-                                let aCorrect    = a == "All" || w.activityString == a
-                                let atCorrect   = at == "All" || w.activityTypeString == at
-                                let eCorrect    = e == "All" || w.equipmentName == e
+                                let aCorrect = a == "All" || w.activityString == a
+                                let atCorrect = at == "All" || w.activityTypeString == at
+                                let eCorrect = e == "All" || w.equipmentName == e
                                 return aCorrect && atCorrect && eCorrect}).count
                             
                             if workoutCount > Int(Constant.WorkoutThresholdForEdNumberCount.rawValue){
@@ -195,14 +195,17 @@ class EddingtonTreeViewController: TrainingDiaryViewController, ReferenceToMainP
             var name: String = ""
             
             for dt in self.trainingDiary!.eddingtonDayTypes(){
+
                 var periods: [Period] = [Period.Day]
                 if dt == ConstantString.EddingtonAll.rawValue{
                     periods = Period.eddingtonNumberPeriods
                 }
-                for a in self.trainingDiary!.eddingtonActivities(){
-                    for e in self.trainingDiary!.eddingtonEquipment(forActivityString: a){
-                        for at in self.trainingDiary!.eddingtonActivityTypes(forActivityString: a){
-                            
+     //           for a in self.trainingDiary!.eddingtonActivities(){
+                    for a in ["Bike"]{
+                        for e in self.trainingDiary!.eddingtonEquipment(forActivityString: a){
+//                            for at in self.trainingDiary!.eddingtonActivityTypes(forActivityString: a){
+                                for at in ["Zwift"]{
+
                             var units = Unit.activityUnits
                             
                             if (a == ConstantString.EddingtonAll.rawValue && at == ConstantString.EddingtonAll.rawValue && e == ConstantString.EddingtonAll.rawValue){

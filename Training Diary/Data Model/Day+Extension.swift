@@ -22,7 +22,7 @@ extension Day: TrainingDiaryValues, PeriodNode{
     func valueFor(dayType dt: String, activity a: String, activityType at: String, equipment e: String, unit u: Unit) -> Double{
         var result = 0.0
         
-        if (dt == ConstantString.EddingtonAll.rawValue || dt == type || dt == date?.dayOfWeekName()){
+        if (dt == ConstantString.EddingtonAll.rawValue || dt == type || dt == date?.dayOfWeekName() || dt == date?.monthName()){
             if !u.isActivityBased{
                 //have a day based unit (eg fatigue, sleep, restingHR)
                 if u.isDerived(){
@@ -108,7 +108,7 @@ extension Day: TrainingDiaryValues, PeriodNode{
         var v: Double = 0.0
         
         
-        if (dt == ConstantString.EddingtonAll.rawValue || dt == self.type || dt == date?.dayOfWeekName()){
+        if (dt == ConstantString.EddingtonAll.rawValue || dt == self.type || dt == date?.dayOfWeekName() || dt == date?.monthName()){
             switch p{
             case .Workout: return workoutValuesMatching(dayType: dt, activity: a, activityType: at, equipment: e, period: p, unit: u)
             case .Day:
@@ -201,6 +201,8 @@ extension Day: TrainingDiaryValues, PeriodNode{
         switch key {
         case DayCalculatedProperty.numberOfWorkouts.rawValue:
             return keyPaths.union(Set([DayProperty.workouts.rawValue]))
+        case DayCalculatedProperty.gmt.rawValue:
+            return keyPaths.union(Set([DayProperty.date.rawValue]))
         default:
             return keyPaths
         }
@@ -216,6 +218,8 @@ extension Day: TrainingDiaryValues, PeriodNode{
     @objc dynamic var trainingDiaryName: String{ return trainingDiary?.name ?? "Missing"}
     
     @objc dynamic var dateString: String{ return date!.dateOnlyShorterString()}
+    
+    @objc dynamic var gmt: String { return date!.gmt() }
     
     @objc dynamic var swimATL: Double{
         return metricValue(forActivity: FixedActivity.Swim.rawValue, andMetric: Unit.ATL)

@@ -16,7 +16,8 @@ class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource,
     
     //MARK: - IBActions
     @IBAction func adhoc(_ sender: Any) {
-        
+
+
     }
     
 

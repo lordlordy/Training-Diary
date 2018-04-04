@@ -10,6 +10,7 @@ import Cocoa
 
 class DaysInputViewController: TrainingDiaryViewController {
 
+    @IBOutlet weak var daysTableView: TableViewWithColumnSort!
     
     @IBAction func add(_ sender: Any) {
         if let parentVC = parent?.parent as? DaysSplitViewController{
@@ -25,6 +26,13 @@ class DaysInputViewController: TrainingDiaryViewController {
                 dac.remove(sender)
             }
         }
+    }
+    
+    @IBAction func reload(_ sender: Any) {
+        
+    }
+    
+    @IBAction func calcTSBForSelection(_ sender: Any) {
     }
     
 }

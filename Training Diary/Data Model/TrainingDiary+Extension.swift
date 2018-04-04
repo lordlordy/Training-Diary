@@ -344,8 +344,9 @@ extension TrainingDiary: TrainingDiaryValues{
     
     func eddingtonDayTypes() -> [String]{
         var result = DayType.AllTypes.map({$0.rawValue})
-        result.append(contentsOf: DayOfWeek.all.map({$0.rawValue}))
         result.append(ConstantString.EddingtonAll.rawValue)
+        result.append(contentsOf: DayOfWeek.all.map({$0.rawValue}))
+        result.append(contentsOf: Month.all.map({$0.rawValue}))
         result.sort(by: {$0 < $1})
         return result
     }
@@ -584,14 +585,14 @@ extension TrainingDiary: TrainingDiaryValues{
         let factors = self.tsbFactors(forActivity: activity)
         for day in self.ascendingOrderedDays(fromDate: d){
             let tss = day.valueFor(dayType: nil, activity: activity, unit: Unit.TSS)
-            var atl = tss * factors.atlDayFactor
-            var ctl = tss * factors.ctlDayFactor
+            var atl = tss * (1 - factors.atlFactor)
+            var ctl = tss * (1 - factors.ctlFactor)
             
             if let yesterday = day.yesterday{
                 let yATL = yesterday.metric(forActivity: activity, andMetric: Unit.ATL)?.value ?? 0.0
                 let yCTL = yesterday.metric(forActivity: activity, andMetric: Unit.CTL)?.value ?? 0.0
-                atl += yATL * factors.atlYDayFactor
-                ctl += yCTL * factors.ctlYDayFactor
+                atl += yATL * factors.atlFactor
+                ctl += yCTL * factors.ctlFactor
             }
 
             day.setMetricValue(forActivity: activity, andMetric: Unit.ATL, toValue: atl)
@@ -602,6 +603,8 @@ extension TrainingDiary: TrainingDiaryValues{
         print("Calc TSB for \(activity.name!) took \(Date().timeIntervalSince(start)) seconds")
         
     }
+    
+
     
     func calculateMonotonyAndStrain(){
         for a in activitiesArray(){
@@ -975,16 +978,11 @@ extension TrainingDiary: TrainingDiaryValues{
         return result
     }
     
-    private func tsbFactors(forActivity activity: Activity) -> (ctlYDayFactor: Double,ctlDayFactor:Double, atlYDayFactor: Double, atlDayFactor: Double){
+    private func tsbFactors(forActivity activity: Activity) -> (ctlFactor: Double, atlFactor: Double){
         
         let constants = tsbConstants(forActivity: activity)
         
-        let ctlYDF = exp(-1.0/constants.ctlDays)
-        let ctlDF = 1.0 - ctlYDF
-        let atlYDF = exp(-1.0/constants.atlDays)
-        let atlDF = 1.0 - atlYDF
-        
-        return (ctlYDayFactor: ctlYDF, ctlDayFactor: ctlDF, atlYDayFactor: atlYDF, atlDayFactor: atlDF)
+        return (ctlFactor: exp(-1.0/constants.ctlDays), atlFactor: exp(-1.0/constants.atlDays))
         
     }
     
@@ -1035,6 +1033,20 @@ extension TrainingDiary: TrainingDiaryValues{
             return d.filter({$0.type! == t.rawValue}).count
         }
         return 0
+    }
+    
+    private func daysDictionary() -> [Date:Day]{
+        var result: [Date:Day] = [:]
+        
+        if let diaryDays = self.days?.allObjects as? [Day]{
+            for d in diaryDays{
+                if let date = d.date{
+                    result[date] = d
+                }
+            }
+        }
+        return result
+        
     }
     
 }

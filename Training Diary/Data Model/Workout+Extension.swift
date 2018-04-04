@@ -144,7 +144,7 @@ extension Workout: TrainingDiaryValues, PeriodNode{
         var v: Double = 0.0
 
         if u.isActivityBased{
-            if (dt == ConstantString.EddingtonAll.rawValue || dt == day!.type || dt == day!.date?.dayOfWeekName()){
+            if (dt == ConstantString.EddingtonAll.rawValue || dt == day!.type || dt == day!.date?.dayOfWeekName() || dt == day!.date?.monthName()){
                 if (isOfType(activity: a, activityType: at, equipment: e) && !u.isMetric){
                     if(u.isDerived()){
                         if let derivation = u.dataForDerivation(){

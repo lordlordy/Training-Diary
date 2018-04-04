@@ -399,7 +399,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
             }
             
             if let cDate = comparisonDate(){
-                let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: ConstantString.EddingtonAll.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, unit: totalUnitCB.selectedUnit()!, from: cDate, to: cDate)
+                let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: ConstantString.EddingtonAll.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, unit: totalUnitCB.selectedUnit()!, from: cDate.startOfDay(), to: cDate.endOfDay())
                 if values.count > 0{
                     comparisonTotal.stringValue = String(values[0].value)
                 }else{
@@ -420,7 +420,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
             }
             
             if let cDate = comparisonDate(){
-                let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: FixedActivity.Swim.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, unit: swimUnitCB.selectedUnit()!, from: cDate, to: cDate)
+                let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: FixedActivity.Swim.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, unit: swimUnitCB.selectedUnit()!, from: cDate.startOfDay(), to: cDate.endOfDay())
                 if values.count > 0{
                     comparisonSwim.stringValue = String(values[0].value)
                 }else{
@@ -441,7 +441,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
             }
             
             if let cDate = comparisonDate(){
-                let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: FixedActivity.Bike.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, unit: bikeUnitCB.selectedUnit()!, from: cDate, to: cDate)
+                let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: FixedActivity.Bike.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, unit: bikeUnitCB.selectedUnit()!, from: cDate.startOfDay(), to: cDate.endOfDay())
                 if values.count > 0{
                     comparisonBike.stringValue = String(values[0].value)
                 }else{
@@ -462,7 +462,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
             }
             
             if let cDate = comparisonDate(){
-                let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: FixedActivity.Run.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, unit: runUnitCB.selectedUnit()!, from: cDate, to: cDate)
+                let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: FixedActivity.Run.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, unit: runUnitCB.selectedUnit()!, from: cDate.startOfDay(), to: cDate.endOfDay())
                 if values.count > 0{
                     comparisonRun.stringValue = String(values[0].value)
                 }else{
@@ -483,7 +483,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
             }
             
             if let cDate = comparisonDate(){
-                let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: FixedActivity.Gym.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, unit: gymUnitCB.selectedUnit()!, from: cDate, to: cDate)
+                let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: FixedActivity.Gym.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, unit: gymUnitCB.selectedUnit()!, from: cDate.startOfDay(), to: cDate.endOfDay())
                 if values.count > 0{
                     comparisonGym.stringValue = String(values[0].value)
                 }else{

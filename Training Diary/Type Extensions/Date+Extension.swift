@@ -20,11 +20,29 @@ extension Date{
     }
     
 
+    public func noonGMT() -> Date{
+        var dc = gregorianCalendar.dateComponents([.day, .month, .year], from: self)
+        dc.hour = 12
+        dc.minute = 0
+        dc.second = 0
+        dc.timeZone = gmtTZ
+        return gregorianCalendar.date(from: dc)!
+    }
     
     private var dayOfWeekNameFormatter: DateFormatter{
         get{
             let df = DateFormatter.init()
             df.dateFormat = "EEEE"
+            df.timeZone = gmtTZ
+            return df
+        }
+    }
+
+    
+    private var monthNameFormatter: DateFormatter{
+        get{
+            let df = DateFormatter.init()
+            df.dateFormat = "MMMM"
             df.timeZone = gmtTZ
             return df
         }
@@ -42,6 +60,7 @@ extension Date{
     
     func iso8601Format() -> String{
         let formatter = ISO8601DateFormatter()
+        formatter.timeZone = gmtTZ
         return formatter.string(from: self)
     }
  
@@ -62,6 +81,15 @@ extension Date{
             return 0
         }
     }
+    
+    func gmt() -> String{
+        let formatter = DateFormatter()
+        formatter.dateStyle = DateFormatter.Style.full
+        formatter.timeStyle = DateFormatter.Style.full
+        formatter.timeZone = gmtTZ
+        return formatter.string(from: self)
+    }
+
     
     func dayOfMonthAndDayName() -> String{
         let formatter = DateFormatter()
@@ -191,6 +219,10 @@ extension Date{
     
     public func dayOfWeekName() -> String{
         return dayOfWeekNameFormatter.string(from: self)
+    }
+    
+    public func monthName() -> String{
+        return monthNameFormatter.string(from: self)
     }
     
     //return start of day - ie time component 00:00:00

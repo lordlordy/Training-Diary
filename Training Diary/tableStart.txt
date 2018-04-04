@@ -138,8 +138,8 @@ document.getElementById("count").value = c
 
 </head>
 <body>
-<p>Having been experimenting with generalising the creation of Eddington Numbers in my training diary here is the output after asking it to create all (with a few rules to avoid clearly pointless ones). There are over 15,000 eddington number here. There should be a blog post shortly about how much fun all this has been. Unfortunately Wordpress won't allow inclusion of scripting unless you pay top$ for a business account so I've not been able to include filtering on this table. </br>
-<i>There are some errors in the numbers due to some functionality needing debugging following this generalisation. Once fixed I'll update this page.</i></p>
+<p>Having been experimenting with generalising the creation of Eddington Numbers in my training diary here is the output after asking it to create all (with a few rules to avoid clearly pointless ones). There are over 28,000 eddington number here. There should be a blog post shortly about how much fun all this has been. Unfortunately Wordpress won't allow inclusion of scripting unless you pay top$ for a business account so I've not been able to include filtering on this table. </br>
+</p>
 <input type="text" id="dayType" onkeyup="filterNumbers()" placeholder="Filter day type.." title="Type in a name">
 <input type="text" id="activity" onkeyup="filterNumbers()" placeholder="Filter activity.." title="Type in a name">
 <input type="text" id="equipment" onkeyup="filterNumbers()" placeholder="Filter equipment.." title="Type in a name">

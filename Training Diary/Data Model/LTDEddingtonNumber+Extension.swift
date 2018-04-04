@@ -15,7 +15,8 @@ extension LTDEddingtonNumber{
     @objc dynamic var isRoot: Bool { return parent == nil}
     @objc dynamic var isNotLeaf: Bool { return !isLeaf }
     @objc dynamic var isWeekDay: Bool { return DayOfWeek.all.map({$0.rawValue}).contains(dayType!)}
-    
+    @objc dynamic var isMonth: Bool { return Month.all.map({$0.rawValue}).contains(dayType!)}
+
     @objc dynamic var edNum: Int16{
         if let childDay = getChildDayEddingtonNumber(){
             return childDay.value

@@ -40,27 +40,22 @@ class WorkoutsInputViewController: TrainingDiaryViewController, NSComboBoxDataSo
                             if let e = workout.equipmentName{
                                 if let equipment = td.equipment(forActivity: w.activityString!, andName: e){
                                     workout.equipment = equipment
-                                    print("Workout \(workout.day!.date!.dateOnlyShorterString()) added to  \(equipment.name!)")
                                 }
                             }
                         }
                     }
                 case WorkoutProperty.activityString.rawValue:
-                    print("activityString changed ")
-                    print("\(String(describing: w.activityString)):\(String(describing: w.activityTypeString)) connecting activity...")
                     if let td = w.day?.trainingDiary{
                         w.activity = td.activity(forString: w.activityString!)
-                        print("DONE")
                     }else{
                         print("Failed as couldn't connect to training diary")
                     }
                     
                 case WorkoutProperty.activityTypeString.rawValue:
-                    print("activityTypeString changed")
-                    print("\(String(describing: w.activityString)):\(String(describing: w.activityTypeString))")
                     if let td = w.day?.trainingDiary{
-                        w.activityType = td.activityType(forActivity: w.activityString!, andType: w.activityTypeString!)
-                        print("DONE")
+                        if let ats = w.activityTypeString{
+                            w.activityType = td.activityType(forActivity: w.activityString!, andType: ats)
+                        }
                     }else{
                         print("Failed as couldn't connect to training diary")
                     }
