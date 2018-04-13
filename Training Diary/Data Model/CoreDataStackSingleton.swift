@@ -197,6 +197,9 @@ class CoreDataStackSingleton{
         return p as! Physiological
     }
     
+
+
+    
     //MARK: - deletion
     func delete(entity e: NSManagedObject){
         CoreDataStackSingleton.shared.trainingDiaryPC.viewContext.delete(e)

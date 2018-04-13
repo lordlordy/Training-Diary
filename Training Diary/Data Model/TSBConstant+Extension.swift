@@ -7,7 +7,26 @@
 //
 
 import Foundation
-
+/* deprecated
 extension TSBConstant{
     
+    @objc dynamic var ctlDecayFactor: Double { return exp(-1 / ctlDays) }
+    @objc dynamic var atlDecayFactor: Double { return exp(-1 / atlDays) }
+    
+    func ctlDecayFactor(afterNDays n: Int) -> Double{
+        return pow(ctlDecayFactor, Double(n))
+    }
+
+    func ctlReplacementTSSFactor(afterNDays n: Int) -> Double{
+        return (1 - pow(ctlDecayFactor,Double(n))) / (1 - ctlDecayFactor)
+    }
+
+    func atlDecayFactor(afterNDays n: Int) -> Double{
+        return pow(atlDecayFactor, Double(n))
+    }
+
+    func atlReplacementTSSFactor(afterNDays n: Int) -> Double{
+        return (1 - pow(atlDecayFactor,Double(n))) / (1 - ctlDecayFactor)
+    }
 }
+*/

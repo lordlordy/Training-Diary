@@ -29,10 +29,24 @@ class DaysInputViewController: TrainingDiaryViewController {
     }
     
     @IBAction func reload(_ sender: Any) {
-        
+        if let dtv = daysTableView{
+            dtv.reloadData()
+        }
     }
     
     @IBAction func calcTSBForSelection(_ sender: Any) {
+        if let pvc = parent?.parent as? DaysSplitViewController{
+            if let selectedDay = pvc.daysArrayController.selectedObjects as? [Day]{
+                if selectedDay.count > 0{
+                    if let td = trainingDiary{
+                        for a in td.activitiesArray(){
+                            td.calcTSB(forActivity: a, fromDate: selectedDay[0].date!)
+                        }
+                        daysTableView!.reloadData()
+                    }
+                }
+            }
+        }
     }
     
 }

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13240" systemVersion="16G1212" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Activity" representedClassName="Activity" syncable="YES" codeGenerationType="class">
+        <attribute name="atlDecay" optional="YES" attributeType="Double" defaultValueString="7" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="atlImpact" optional="YES" attributeType="Double" defaultValueString="7" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="ctlDecay" optional="YES" attributeType="Double" defaultValueString="42" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="ctlImpact" optional="YES" attributeType="Double" defaultValueString="42" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="includeInEddingtonCalcs" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="activityTypes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ActivityType" inverseName="activity" inverseEntity="ActivityType" syncable="YES"/>
@@ -123,14 +127,7 @@
         <relationship name="eddingtonNumbers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="EddingtonNumber" inverseName="trainingDiary" inverseEntity="EddingtonNumber" syncable="YES"/>
         <relationship name="ltdEddingtonNumbers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="LTDEddingtonNumber" inverseName="trainingDiary" inverseEntity="LTDEddingtonNumber" syncable="YES"/>
         <relationship name="physiologicals" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Physiological" inverseName="trainingDiary" inverseEntity="Physiological" syncable="YES"/>
-        <relationship name="tsbConstants" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TSBConstant" inverseName="trainingDiary" inverseEntity="TSBConstant" syncable="YES"/>
         <relationship name="weights" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Weight" inverseName="trainingDiary" inverseEntity="Weight" syncable="YES"/>
-    </entity>
-    <entity name="TSBConstant" representedClassName="TSBConstant" syncable="YES" codeGenerationType="class">
-        <attribute name="activity" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="atlDays" optional="YES" attributeType="Double" defaultValueString="7" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="ctlDays" optional="YES" attributeType="Double" defaultValueString="42" usesScalarValueType="YES" syncable="YES"/>
-        <relationship name="trainingDiary" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TrainingDiary" inverseName="tsbConstants" inverseEntity="TrainingDiary" syncable="YES"/>
     </entity>
     <entity name="Weight" representedClassName="Weight" syncable="YES" codeGenerationType="class">
         <attribute name="fatPercent" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
@@ -166,21 +163,20 @@
         <relationship name="equipment" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Equipment" inverseName="workouts" inverseEntity="Equipment" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Activity" positionX="315" positionY="-324" width="128" height="135"/>
-        <element name="ActivityType" positionX="477" positionY="-171" width="128" height="105"/>
+        <element name="Activity" positionX="160" positionY="-513" width="128" height="195"/>
+        <element name="ActivityType" positionX="412" positionY="-279" width="128" height="105"/>
         <element name="Day" positionX="-279" positionY="-165" width="128" height="255"/>
         <element name="EddingtonAnnualContributor" positionX="-477" positionY="135" width="128" height="90"/>
         <element name="EddingtonAnnualHistory" positionX="-630" positionY="147" width="128" height="103"/>
         <element name="EddingtonContributor" positionX="-621" positionY="-234" width="128" height="90"/>
         <element name="EddingtonHistory" positionX="-630" positionY="-42" width="128" height="120"/>
-        <element name="EddingtonNumber" positionX="-486" positionY="-249" width="128" height="270"/>
-        <element name="Equipment" positionX="324" positionY="72" width="128" height="135"/>
-        <element name="LTDEddingtonNumber" positionX="-776" positionY="-379" width="128" height="255"/>
-        <element name="Metric" positionX="-486" positionY="-459" width="128" height="103"/>
-        <element name="Physiological" positionX="234" positionY="-621" width="128" height="195"/>
-        <element name="TrainingDiary" positionX="-227" positionY="-531" width="128" height="225"/>
-        <element name="TSBConstant" positionX="-461" positionY="-627" width="128" height="105"/>
-        <element name="Weight" positionX="18" positionY="-639" width="128" height="133"/>
-        <element name="Workout" positionX="-18" positionY="-216" width="128" height="390"/>
+        <element name="EddingtonNumber" positionX="-452" positionY="-225" width="128" height="270"/>
+        <element name="Equipment" positionX="340" positionY="-72" width="128" height="135"/>
+        <element name="LTDEddingtonNumber" positionX="-659" positionY="-522" width="128" height="255"/>
+        <element name="Metric" positionX="-299" positionY="158" width="128" height="103"/>
+        <element name="Physiological" positionX="-36" positionY="-375" width="128" height="195"/>
+        <element name="TrainingDiary" positionX="-227" positionY="-531" width="128" height="210"/>
+        <element name="Weight" positionX="-45" positionY="-160" width="128" height="133"/>
+        <element name="Workout" positionX="-36" positionY="-3" width="128" height="390"/>
     </elements>
 </model>

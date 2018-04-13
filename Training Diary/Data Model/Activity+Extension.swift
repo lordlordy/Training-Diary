@@ -18,6 +18,37 @@ extension Activity: CategoryProtocol{
     @objc dynamic var hours: Double { return getWorkouts().reduce(0,{$0 + $1.hours}) }
     @objc dynamic var tss: Double { return getWorkouts().reduce(0,{$0 + $1.tss}) }
 
+    @objc dynamic var ctlDecayFactor: Double { return exp(-1 / ctlDecay) }
+    @objc dynamic var ctlImpactFactor: Double { return 1.0 - exp(-1 / ctlImpact) }
+    @objc dynamic var atlDecayFactor: Double { return exp(-1 / atlDecay) }
+    @objc dynamic var atlImpactFactor: Double { return 1.0 - exp(-1 / atlImpact) }
+
+    
+    func ctl(yesterdayCTL: Double, tss: Double) -> Double{
+        return yesterdayCTL * ctlDecayFactor + tss * ctlImpactFactor
+    }
+    
+    func atl(yesterdayATL: Double, tss: Double) -> Double{
+        return yesterdayATL * atlDecayFactor + tss * atlImpactFactor
+    }
+    
+
+    func ctlDecayFactor(afterNDays n: Int) -> Double{
+        return pow(ctlDecayFactor, Double(n))
+    }
+    
+    func ctlReplacementTSSFactor(afterNDays n: Int) -> Double{
+        return (1 - pow(ctlDecayFactor,Double(n))) / (1 - ctlDecayFactor)
+    }
+    
+    func atlDecayFactor(afterNDays n: Int) -> Double{
+        return pow(atlDecayFactor, Double(n))
+    }
+    
+    func atlReplacementTSSFactor(afterNDays n: Int) -> Double{
+        return (1 - pow(atlDecayFactor,Double(n))) / (1 - ctlDecayFactor)
+    }
+    
     func categoryName() -> String { return name! }
     
     func keyString(forUnit unit: Unit) -> String{

@@ -8,15 +8,32 @@
 
 import Cocoa
 
-class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource, ReferenceToMainProtocol {
+class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource, ReferenceToMainProtocol, NSTableViewDelegate {
 
     private var mainViewController: ViewController?
+    private let maxDaysForActivityDecay: Int = 30
+
+    
+    @IBOutlet weak var activityGraphView: GraphView!
+    @IBOutlet var activitiesArrayController: NSArrayController!
     
     @IBOutlet var validationOutputTextView: NSTextView!
     
     //MARK: - IBActions
     @IBAction func adhoc(_ sender: Any) {
+        if let td = trainingDiary{
+            for constant in td.activities?.allObjects as! [Activity]{
+                print("CTL \(constant.name!)")
+                for i in 1...1000{
+                    print("\(i) days: \(Int(100 * constant.ctlDecayFactor(afterNDays: i))) -- \(Int(100 * constant.ctlReplacementTSSFactor(afterNDays: i)))")
+                }
+                print("ATL \(constant.name!)")
+                for i in 1...1000{
+                    print("\(i) days: \(Int(100 * constant.atlDecayFactor(afterNDays: i))) -- \(Int(100 * constant.atlReplacementTSSFactor(afterNDays: i)))")
+                }
 
+            }
+        }
 
     }
     
@@ -276,6 +293,30 @@ class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource,
     }
     
 
+    override func viewDidLoad() {
+        
+        updateGraphs(forActivity: trainingDiary!.activity(forString: FixedActivity.Bike.rawValue)!)
+        
+    }
+    
+    //MARK: - NSTableViewDelegate
+    func tableViewSelectionDidChange(_ notification: Notification) {
+       print("Activity table selection changed")
+        if let ac = activitiesArrayController{
+            if let selection = ac.selectedObjects{
+                if selection.count > 0{
+                    if let a = selection[0] as? Activity{
+                        print(a.name)
+                        if let gv = activityGraphView{
+                            gv.clearGraphs()
+                            updateGraphs(forActivity: a)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     //MARK: - ReferenceToMainProtocol
     func setMainViewControllerReference(to vc: ViewController){
         mainViewController = vc
@@ -320,10 +361,83 @@ class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource,
             let oldString = votv.string
             votv.string = s + "\n" + oldString
         }
-    
-        
+
     }
 
+
+    private func ctlReplacementData(forActivity a: Activity) -> [(date: Date, value: Double)]{
+        var result: [(date: Date, value: Double)] = []
+        let d = Date()
+        
+        for i in 0...maxDaysForActivityDecay{
+            result.append((date: d.addDays(numberOfDays: i), value: 100 * a.ctlReplacementTSSFactor(afterNDays: i)))
+        }
+        return result
+    }
+
+    private func ctlDecayData(forActivity a: Activity) -> [(date: Date, value: Double)]{
+        var result: [(date: Date, value: Double)] = []
+        let d = Date()
+        
+        for i in 0...maxDaysForActivityDecay{
+            result.append((date: d.addDays(numberOfDays: i), value: 100 * a.ctlDecayFactor(afterNDays: i)))
+        }
+        return result
+    }
     
+    private func atlReplacementData(forActivity a: Activity) -> [(date: Date, value: Double)]{
+        var result: [(date: Date, value: Double)] = []
+        let d = Date()
+        
+        for i in 0...maxDaysForActivityDecay{
+            result.append((date: d.addDays(numberOfDays: i), value: 100 * a.atlReplacementTSSFactor(afterNDays: i)))
+        }
+        return result
+    }
     
+    private func atlDecayData(forActivity a: Activity) -> [(date: Date, value: Double)]{
+        var result: [(date: Date, value: Double)] = []
+        let d = Date()
+        
+        for i in 0...maxDaysForActivityDecay{
+            result.append((date: d.addDays(numberOfDays: i), value: 100 * a.atlDecayFactor(afterNDays: i)))
+        }
+        return result
+    }
+    
+    private func updateGraphs(forActivity a: Activity){
+        if let gv = activityGraphView{
+            gv.clearGraphs()
+            for g in graphs(forActivity: a){
+                gv.add(graph: g)
+            }
+            gv.xAxisLabelStrings = ["0","3","6","9","12","15","18","21","24","27","30"]
+        }
+    }
+    
+    private func graphs(forActivity a: Activity) -> [GraphDefinition]{
+        
+        let testCTLData = ctlReplacementData(forActivity: a)
+        let testATLData = atlReplacementData(forActivity: a)
+        let testCTLDecayData = ctlDecayData(forActivity: a)
+        let testATLDecayData = atlDecayData(forActivity: a)
+        
+        var testData: [(date: Date, value: Double)] = []
+        for i in 0...maxDaysForActivityDecay{
+            testData.append((date: testCTLDecayData[i].date, value: testCTLDecayData[i].value - testATLDecayData[i].value))
+        }
+        
+        let ctlGraphDefinition = GraphDefinition(name: a.name!, data: testCTLData, axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .red, fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 1.0, size: 2.0, opacity: 1.0), drawZeroes: true, priority: 1)
+        
+        let atlGraphDefinition = GraphDefinition(name: a.name!, data: testATLData, axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .green, fillGradientStart: .green, fillGradientEnd: .green, gradientAngle: 1.0, size: 2.0, opacity: 1.0), drawZeroes: true, priority: 1)
+        
+        let ctlDecayGraphDefinition = GraphDefinition(name: a.name!, data: testCTLDecayData, axis: .Secondary, type: .Line, format: GraphFormat.init(fill: false, colour: .red, fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 1.0, size: 2.0, opacity: 1.0), drawZeroes: true, priority: 1)
+        
+        let atlDecayGraphDefinition = GraphDefinition(name: a.name!, data: testATLDecayData, axis: .Secondary, type: .Line, format: GraphFormat.init(fill: false, colour: .green, fillGradientStart: .green, fillGradientEnd: .green, gradientAngle: 1.0, size: 2.0, opacity: 1.0), drawZeroes: true, priority: 1)
+        
+        let testGraphDefinition = GraphDefinition(name: a.name!, data: testData, axis: .Secondary, type: .Line, format: GraphFormat.init(fill: false, colour: .yellow, fillGradientStart: .yellow, fillGradientEnd: .yellow, gradientAngle: 1.0, size: 2.0, opacity: 1.0), drawZeroes: true, priority: 1)
+        
+        return [ctlGraphDefinition, atlGraphDefinition, ctlDecayGraphDefinition, atlDecayGraphDefinition, testGraphDefinition]
+        
+    }
 }

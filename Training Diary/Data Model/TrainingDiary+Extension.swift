@@ -582,19 +582,30 @@ extension TrainingDiary: TrainingDiaryValues{
         
         let start = Date()
         
-        let factors = self.tsbFactors(forActivity: activity)
         for day in self.ascendingOrderedDays(fromDate: d){
             let tss = day.valueFor(dayType: nil, activity: activity, unit: Unit.TSS)
-            var atl = tss * (1 - factors.atlFactor)
-            var ctl = tss * (1 - factors.ctlFactor)
+   
+            var yCTL = 0.0
+            var yATL = 0.0
+            
+            if let yesterday = day.yesterday{
+                yATL = yesterday.metric(forActivity: activity, andMetric: Unit.ATL)?.value ?? 0.0
+                yCTL = yesterday.metric(forActivity: activity, andMetric: Unit.CTL)?.value ?? 0.0
+            }
+  
+            let ctl = activity.ctl(yesterdayCTL: yCTL, tss: tss)
+            let atl = activity.atl(yesterdayATL: yATL, tss: tss)
+            
+/*            var atl = tss * (1 - activity.atlDecayFactor)
+            var ctl = tss * (1 - activity.ctlDecayFactor)
             
             if let yesterday = day.yesterday{
                 let yATL = yesterday.metric(forActivity: activity, andMetric: Unit.ATL)?.value ?? 0.0
                 let yCTL = yesterday.metric(forActivity: activity, andMetric: Unit.CTL)?.value ?? 0.0
-                atl += yATL * factors.atlFactor
-                ctl += yCTL * factors.ctlFactor
+                atl += yATL * activity.atlDecayFactor
+                ctl += yCTL * activity.ctlDecayFactor
             }
-
+*/
             day.setMetricValue(forActivity: activity, andMetric: Unit.ATL, toValue: atl)
             day.setMetricValue(forActivity: activity, andMetric: Unit.CTL, toValue: ctl)
             day.setMetricValue(forActivity: activity, andMetric: Unit.TSB, toValue: ctl - atl)
@@ -978,32 +989,7 @@ extension TrainingDiary: TrainingDiaryValues{
         return result
     }
     
-    private func tsbFactors(forActivity activity: Activity) -> (ctlFactor: Double, atlFactor: Double){
-        
-        let constants = tsbConstants(forActivity: activity)
-        
-        return (ctlFactor: exp(-1.0/constants.ctlDays), atlFactor: exp(-1.0/constants.atlDays))
-        
-    }
-    
-    private func tsbConstants(forActivity activity: Activity) -> (atlDays: Double, ctlDays: Double){
-        
-        var atl = Constant.ATLDays.rawValue
-        var ctl = Constant.CTLDays.rawValue
-        
-        if let overrides = tsbConstants{
-            for c in overrides{
-                let override = c as! TSBConstant
-                if override.activity! == activity.name!{
-                    atl = override.atlDays
-                    ctl = override.ctlDays
-                }
-            }
-        }
-        
-        return (atl,ctl)
-    }
-    
+
     private func ascendingOrderedDays(fromDate from: Date, toDate to: Date) -> [Day]{
         return ascendingOrderedDays().filter({$0.date! >= from && $0.date! <= to})
     }
