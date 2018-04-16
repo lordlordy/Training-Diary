@@ -98,42 +98,7 @@ class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource,
         logMessage("Monotony and Strain Calculation took \(Date().timeIntervalSince(start))s")
     }
     
-    @IBAction func recalcTSB(_ sender: Any) {
-        DispatchQueue.global(qos: .userInitiated).async {
-            
-            let start = Date()
-            let numberOfActivities = Double(self.trainingDiary!.activitiesArray().count)
-            var i = 0.0
-            
-            DispatchQueue.main.async {
-                if let mvc = self.mainViewController{
-                    mvc.mainProgressBar!.doubleValue = 0.0
-                    mvc.mainStatusField!.stringValue = "Starting TSB calc..."
-                }
-            }
-            
-            for a in self.trainingDiary!.activitiesArray(){
-                
-                let s = Date()
-                self.trainingDiary!.calcTSB(forActivity: a, fromDate: self.trainingDiary!.firstDayOfDiary)
-                
-                DispatchQueue.main.async {
-                    i += 1.0
-                    if let mvc = self.mainViewController{
-                        mvc.mainStatusField!.stringValue = "\(a.name!) TSB calculated in \(Int(Date().timeIntervalSince(s)))s"
-                        mvc.mainProgressBar!.doubleValue = i * 100.0 / numberOfActivities
-                    }
-                }
-            }
-            
-            DispatchQueue.main.async {
-                if let mvc = self.mainViewController{
-                    mvc.mainStatusField.stringValue = "TSB Calc completed in \(Int(Date().timeIntervalSince(start)))s"
-                }
-            }
-            
-        }
-    }
+
     @IBAction func printEntityCounts(_ sender: Any) {
         for e in CoreDataStackSingleton.shared.getEntityCounts(forDiary: trainingDiary!){
             logMessage("\(e.entity) = \(e.count)")

@@ -22,6 +22,8 @@ extension Activity: CategoryProtocol{
     @objc dynamic var ctlImpactFactor: Double { return 1.0 - exp(-1 / ctlImpact) }
     @objc dynamic var atlDecayFactor: Double { return exp(-1 / atlDecay) }
     @objc dynamic var atlImpactFactor: Double { return 1.0 - exp(-1 / atlImpact) }
+    
+    @objc dynamic var replacementFactor: Double { return  (1 - pow(ctlDecayFactor, replacementDays)) / ctlImpactFactor }
 
     
     func ctl(yesterdayCTL: Double, tss: Double) -> Double{
@@ -32,6 +34,9 @@ extension Activity: CategoryProtocol{
         return yesterdayATL * atlDecayFactor + tss * atlImpactFactor
     }
     
+    func effect(afterDays d: Double) -> Double {
+        return (ctlImpactFactor * pow(ctlDecayFactor,d) - atlImpactFactor * pow(atlDecayFactor,d))
+    }
 
     func ctlDecayFactor(afterNDays n: Int) -> Double{
         return pow(ctlDecayFactor, Double(n))
@@ -69,6 +74,32 @@ extension Activity: CategoryProtocol{
         return []
     }
     
+    //MARK: - Core Data dependent key values
+    
+    /*This is the method that needs implementing to ensure calculated properties update when the properties
+     they depend on change.
+     */
+    override public class func keyPathsForValuesAffectingValue(forKey key: String) -> Set<String>{
+        let keyPaths = super.keyPathsForValuesAffectingValue(forKey: key)
+        switch key {
+        case ActivityProperty.atlDecayFactor.rawValue:
+            return keyPaths.union(Set([ActivityProperty.atlDecay.rawValue]))
+        case ActivityProperty.atlImpactFactor.rawValue:
+            return keyPaths.union(Set([ActivityProperty.atlImpact.rawValue]))
+        case ActivityProperty.ctlDecayFactor.rawValue:
+            return keyPaths.union(Set([ActivityProperty.ctlDecay.rawValue]))
+        case ActivityProperty.ctlImpactFactor.rawValue:
+            return keyPaths.union(Set([ActivityProperty.ctlImpact.rawValue]))
+        case ActivityProperty.replacementFactor.rawValue:
+            return keyPaths.union(Set([ActivityProperty.ctlImpact.rawValue, ActivityProperty.ctlDecay.rawValue, ActivityProperty.replacementDays.rawValue]))
+        case ActivityProperty.effectAfterReplacementDays.rawValue:
+            return keyPaths.union(Set([ActivityProperty.ctlImpact.rawValue, ActivityProperty.ctlDecay.rawValue, ActivityProperty.atlImpact.rawValue, ActivityProperty.atlDecay.rawValue, ActivityProperty.replacementDays.rawValue]))
+        default:
+            return keyPaths
+        }
+    }
+    
+    
     private func getWorkouts() -> [Workout]{
         if let w = workouts?.allObjects as? [Workout]{
             return w
@@ -76,26 +107,7 @@ extension Activity: CategoryProtocol{
         return []
     }
     
-    //DEPRECATED. Need to remove as Activities no longer hard coded
-    func validUnits() -> Set<Unit>{
-        switch self.name!{
-        case "Swim":
-            return [ .Hours, .KJ, .KM, .Miles, .Minutes, .RPETSS, .Seconds, .TSS, .Watts, .ATL, .CTL, .TSB ]
-        case "Bike":
-            return [ .AscentMetres, .AscentFeet,  .Cadence, .Hours, .HR, .KJ, .KM, .Miles, .Minutes, .RPETSS, .Seconds, .TSS, .Watts, .ATL, .CTL, .TSB ]
-        case "Run":
-            return [ .AscentMetres, .AscentFeet,  .Cadence, .Hours, .HR, .KJ, .KM, .Miles, .Minutes, .RPETSS, .Seconds, .TSS, .Watts, .ATL, .CTL, .TSB ]
-        case "Gym":
-            return [ .Hours, .KJ, .Minutes, .Reps, .RPETSS, .Seconds, .TSS, .ATL, .CTL, .TSB ]
-        case "Walk":
-            return [ .AscentMetres, .AscentFeet, .Hours, .HR, .KJ, .KM, .Miles, .Minutes, .RPETSS, .Seconds, .TSS, .ATL, .CTL, .TSB ]
-        case "Other":
-            return [ .Hours, .HR, .KJ, .Minutes, .RPETSS, .Seconds, .TSS, .ATL, .CTL, .TSB ]
-        default:
-            return [ .AscentMetres, .AscentFeet,  .Cadence, .Hours, .HR, .KJ, .KM, .Miles, .Minutes, .Reps, .RPETSS, .Seconds, .TSS, .Watts, .ATL, .CTL, .TSB ]
-        }
-    }
-    
+
     private func isOneOfFixedActivityTypes() -> Bool{
         if let n = name{
             return FixedActivity.All.map({$0.rawValue}).contains(n)

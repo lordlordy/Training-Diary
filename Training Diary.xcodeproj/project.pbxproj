@@ -56,6 +56,9 @@
 		73920AB31FC8D2CB00A9686F /* AxisComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73920AB21FC8D2CA00A9686F /* AxisComboBox.swift */; };
 		739E2876205415DA0058E06D /* TrainingDiaryArrayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739E2875205415DA0058E06D /* TrainingDiaryArrayController.swift */; };
 		73A06B05204D594A0088BD09 /* WorkoutSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A06B04204D594A0088BD09 /* WorkoutSplitViewController.swift */; };
+		73A620C62084E7A200679CE9 /* TSBGraphSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A620C52084E7A200679CE9 /* TSBGraphSplitViewController.swift */; };
+		73A620C82084E7F700679CE9 /* TSBGraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A620C72084E7F700679CE9 /* TSBGraphViewController.swift */; };
+		73A620CA2084F44A00679CE9 /* TSBSelectorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A620C92084F44A00679CE9 /* TSBSelectorsViewController.swift */; };
 		73AA63FB2052BCF70044A05F /* PhysioLogical+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AA63FA2052BCF70044A05F /* PhysioLogical+Extension.swift */; };
 		73AB477C202354CF0093B8A4 /* EddingtonHistory+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AB477B202354CF0093B8A4 /* EddingtonHistory+Extension.swift */; };
 		73AF13FF1FB064D2002A1B9E /* RollingSumQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AF13FE1FB064D2002A1B9E /* RollingSumQueue.swift */; };
@@ -109,6 +112,9 @@
 		73E582631F8A12A500B6E25D /* DaysArrayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E582621F8A12A500B6E25D /* DaysArrayController.swift */; };
 		73E6A3ED20524F4600551C85 /* CategoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E6A3EC20524F4600551C85 /* CategoryProtocol.swift */; };
 		73E7FD382015FA2900D1FCD4 /* BikeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E7FD372015FA2900D1FCD4 /* BikeViewController.swift */; };
+		73EBA47F208346EB00426626 /* ActivityGraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73EBA47E208346EB00426626 /* ActivityGraphViewController.swift */; };
+		73EBA4812083495600426626 /* TSBConstantsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73EBA4802083495600426626 /* TSBConstantsViewController.swift */; };
+		73EBA4832083642D00426626 /* TSConstantsSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73EBA4822083642D00426626 /* TSConstantsSplitViewController.swift */; };
 		73F2119F1FB4A06900062DAE /* JSONImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F2119E1FB4A06900062DAE /* JSONImporter.swift */; };
 		73F270621FAB0CC400D36156 /* TableViewWithColumnSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F270611FAB0CC400D36156 /* TableViewWithColumnSort.swift */; };
 		73F7097A204C38160022EC04 /* TrainingDiarySplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F70979204C38160022EC04 /* TrainingDiarySplitViewController.swift */; };
@@ -169,6 +175,9 @@
 		73920AB21FC8D2CA00A9686F /* AxisComboBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AxisComboBox.swift; sourceTree = "<group>"; };
 		739E2875205415DA0058E06D /* TrainingDiaryArrayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingDiaryArrayController.swift; sourceTree = "<group>"; };
 		73A06B04204D594A0088BD09 /* WorkoutSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSplitViewController.swift; sourceTree = "<group>"; };
+		73A620C52084E7A200679CE9 /* TSBGraphSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSBGraphSplitViewController.swift; sourceTree = "<group>"; };
+		73A620C72084E7F700679CE9 /* TSBGraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSBGraphViewController.swift; sourceTree = "<group>"; };
+		73A620C92084F44A00679CE9 /* TSBSelectorsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSBSelectorsViewController.swift; sourceTree = "<group>"; };
 		73AA63FA2052BCF70044A05F /* PhysioLogical+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhysioLogical+Extension.swift"; sourceTree = "<group>"; };
 		73AB477B202354CF0093B8A4 /* EddingtonHistory+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EddingtonHistory+Extension.swift"; sourceTree = "<group>"; };
 		73AF13FE1FB064D2002A1B9E /* RollingSumQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollingSumQueue.swift; sourceTree = "<group>"; };
@@ -226,6 +235,9 @@
 		73E6A3EC20524F4600551C85 /* CategoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryProtocol.swift; sourceTree = "<group>"; };
 		73E6A3EE20525CBD00551C85 /* Training Diary.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Training Diary.entitlements"; sourceTree = "<group>"; };
 		73E7FD372015FA2900D1FCD4 /* BikeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BikeViewController.swift; sourceTree = "<group>"; };
+		73EBA47E208346EB00426626 /* ActivityGraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityGraphViewController.swift; sourceTree = "<group>"; };
+		73EBA4802083495600426626 /* TSBConstantsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSBConstantsViewController.swift; sourceTree = "<group>"; };
+		73EBA4822083642D00426626 /* TSConstantsSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSConstantsSplitViewController.swift; sourceTree = "<group>"; };
 		73F2119E1FB4A06900062DAE /* JSONImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONImporter.swift; sourceTree = "<group>"; };
 		73F270611FAB0CC400D36156 /* TableViewWithColumnSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewWithColumnSort.swift; sourceTree = "<group>"; };
 		73F70979204C38160022EC04 /* TrainingDiarySplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingDiarySplitViewController.swift; sourceTree = "<group>"; };
@@ -332,46 +344,52 @@
 			isa = PBXGroup;
 			children = (
 				7309AED51FC6CCC100054A6B /* ActivityGraphDefinition.swift */,
+				73EBA47E208346EB00426626 /* ActivityGraphViewController.swift */,
 				73593313201F7C6F007BB525 /* ActivityToStringTransformer.swift */,
 				73D3738620176FD600E44427 /* BikeGraphs.swift */,
 				73E7FD372015FA2900D1FCD4 /* BikeViewController.swift */,
-				73D89F9B1FD1BB03002F07A2 /* CompareGraphViewController.swift */,
 				735F47AF206BC91600962F99 /* CompareGraphSplitViewController.swift */,
 				735F47AD206BAAEC00962F99 /* CompareGraphTableViewController.swift */,
+				73D89F9B1FD1BB03002F07A2 /* CompareGraphViewController.swift */,
 				73D89F9F1FD1E241002F07A2 /* DatedActivityGraphDefinition.swift */,
 				73E582621F8A12A500B6E25D /* DaysArrayController.swift */,
-				739E2875205415DA0058E06D /* TrainingDiaryArrayController.swift */,
 				7359C17E204C5D8C00A09B61 /* DaysInputViewController.swift */,
 				73F9A3B2204EF584000DEECE /* DaysPredicatorEditorViewController.swift */,
 				7359C182204CFB7700A09B61 /* DaysSplitViewController.swift */,
 				7385C4781FAA600A00F48685 /* DaysViewController.swift */,
 				73C13FB720495DF400199D47 /* DayTreeViewController.swift */,
 				733AA829202A6E550065C8B9 /* DefaultsViewController.swift */,
+				73C65C5820516ABC00A3FBC3 /* EddingtonContributorsViewController.swift */,
+				73C65C5C20518B4300A3FBC3 /* EddingtonGraphViewController.swift */,
 				731154262046550300C2179E /* EddingtonNumberTABViewController.swift */,
 				73C56FE52045D0BD00E05AA3 /* EddingtonSearchViewController.swift */,
 				73339CC720513AF3007CD288 /* EddingtonSplitViewController.swift */,
-				73C65C5820516ABC00A3FBC3 /* EddingtonContributorsViewController.swift */,
-				73C65C5C20518B4300A3FBC3 /* EddingtonGraphViewController.swift */,
-				73C65C5A20517C1400A3FBC3 /* EddingtonTreeViewController.swift */,
 				73339CC920513E90007CD288 /* EddingtonTableViewController.swift */,
+				73C65C5A20517C1400A3FBC3 /* EddingtonTreeViewController.swift */,
 				73C2E4941FD7B29800C30316 /* GraphArrayController.swift */,
-				73339CCB20514804007CD288 /* ReferenceToMainProtocol.swift */,
-				73C2E4981FD8967900C30316 /* GraphManagementDelegate.swift */,
-				73E25E1A1FC038FC0081FC62 /* GraphViewController.swift */,
 				73DE3E2B206BF4A10029EF14 /* GraphListViewController.swift */,
+				73C2E4981FD8967900C30316 /* GraphManagementDelegate.swift */,
 				73DE3E29206BF4450029EF14 /* GraphSplitViewController.swift */,
+				73E25E1A1FC038FC0081FC62 /* GraphViewController.swift */,
 				73FC61E4200E26AA00C61DE6 /* LTDEddingtonNumberWebViewController.swift */,
 				73DC9B101FDC373700D4774A /* NumberToDetailedTimeTransformer.swift */,
 				73DC9B121FDC39B500D4774A /* NumberToSummaryTimeFormatter.swift */,
 				73AF79AC2025CF2E0067CE37 /* OutLineViewWithColumnSort.swift */,
 				7333B9F51FB6F199005F424E /* PhysiologicalsArrayController.swift */,
+				73339CCB20514804007CD288 /* ReferenceToMainProtocol.swift */,
 				73F270611FAB0CC400D36156 /* TableViewWithColumnSort.swift */,
 				73D3171C2018BEA90070C40B /* TextViewToStringTransformer.swift */,
+				739E2875205415DA0058E06D /* TrainingDiaryArrayController.swift */,
 				73F70979204C38160022EC04 /* TrainingDiarySplitViewController.swift */,
 				73C13FB32049408100199D47 /* TrainingDiaryTabViewControler.swift */,
 				733837D61FD99BDD0082C45B /* TrainingDiaryViewController.swift */,
 				734C9C4F204BDDE90007F5B1 /* TrainingDiaryViewControllerProtocol.swift */,
 				73B2B9FB1F896F920044DD4E /* TransformerNSNumberToTimeFormat.swift */,
+				73EBA4802083495600426626 /* TSBConstantsViewController.swift */,
+				73EBA4822083642D00426626 /* TSConstantsSplitViewController.swift */,
+				73A620C52084E7A200679CE9 /* TSBGraphSplitViewController.swift */,
+				73A620C72084E7F700679CE9 /* TSBGraphViewController.swift */,
+				73A620C92084F44A00679CE9 /* TSBSelectorsViewController.swift */,
 				73B2B9E41F894CC00044DD4E /* ViewController.swift */,
 				73265B631FB471A00081D3F9 /* WeightHRViewController.swift */,
 				7333B9F31FB6E04C005F424E /* WeightsArrayController.swift */,
@@ -500,6 +518,7 @@
 				73FC61E5200E26AA00C61DE6 /* LTDEddingtonNumberWebViewController.swift in Sources */,
 				735E0AAE202D47B20089C2CD /* Maths.swift in Sources */,
 				73265B661FB47D240081D3F9 /* Weight+Extension.swift in Sources */,
+				73EBA4832083642D00426626 /* TSConstantsSplitViewController.swift in Sources */,
 				732EF2141FD0B5E6008768C0 /* RollingPeriodWeightedAverage.swift in Sources */,
 				731FA62B201FD890004EF572 /* ActivityType+Extension.swift in Sources */,
 				7309AED61FC6CCC100054A6B /* ActivityGraphDefinition.swift in Sources */,
@@ -519,6 +538,7 @@
 				73789C9020123C69002D2393 /* PeriodTextField.swift in Sources */,
 				73475E9D2021CD67002407CB /* TreeNode.swift in Sources */,
 				73C13FB920495DF400199D47 /* DayTreeViewController.swift in Sources */,
+				73EBA4812083495600426626 /* TSBConstantsViewController.swift in Sources */,
 				73CAFEAA20292284003E4D6B /* PeriodNode.swift in Sources */,
 				73B2B9E81F894CC00044DD4E /* Training_Diary.xcdatamodeld in Sources */,
 				73C13FB52049408100199D47 /* TrainingDiaryTabViewControler.swift in Sources */,
@@ -542,12 +562,15 @@
 				73DE3E2A206BF4450029EF14 /* GraphSplitViewController.swift in Sources */,
 				73444C3F1F96AB9B00B3E84D /* Enumerations.swift in Sources */,
 				73C2E4951FD7B29800C30316 /* GraphArrayController.swift in Sources */,
+				73EBA47F208346EB00426626 /* ActivityGraphViewController.swift in Sources */,
 				73AA63FB2052BCF70044A05F /* PhysioLogical+Extension.swift in Sources */,
 				73C65C5D20518B4300A3FBC3 /* EddingtonGraphViewController.swift in Sources */,
 				73D6CC791FC86E5D006830DA /* ToDateSum.swift in Sources */,
 				73C13FBC2049DC5400199D47 /* WorkoutsViewController.swift in Sources */,
+				73A620C82084E7F700679CE9 /* TSBGraphViewController.swift in Sources */,
 				73E25E191FBEA9150081FC62 /* GraphView.swift in Sources */,
 				73D3171D2018BEA90070C40B /* TextViewToStringTransformer.swift in Sources */,
+				73A620C62084E7A200679CE9 /* TSBGraphSplitViewController.swift in Sources */,
 				7369D9F01FB24EEE00ECAA1E /* BikeComboBox.swift in Sources */,
 				73B5644420260B6E0022E80A /* LTDEddingtonNumber+Extension.swift in Sources */,
 				7333B9F61FB6F199005F424E /* PhysiologicalsArrayController.swift in Sources */,
@@ -591,6 +614,7 @@
 				739E2876205415DA0058E06D /* TrainingDiaryArrayController.swift in Sources */,
 				73D6CC711FC80A75006830DA /* GraphFormat.swift in Sources */,
 				73AB477C202354CF0093B8A4 /* EddingtonHistory+Extension.swift in Sources */,
+				73A620CA2084F44A00679CE9 /* TSBSelectorsViewController.swift in Sources */,
 				7333B9F21FB613CA005F424E /* UnitComboBox.swift in Sources */,
 				7369D9F21FB24F2B00ECAA1E /* ActivityComboBox.swift in Sources */,
 				7369D9F41FB24F5000ECAA1E /* ActivityTypeComboBox.swift in Sources */,

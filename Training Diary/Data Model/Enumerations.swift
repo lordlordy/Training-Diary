@@ -339,6 +339,9 @@ enum MetricProperty: String{
 
 enum ActivityProperty: String{
     case name, activityTypes, trainingDiary, equipment
+    case atlDecay, atlImpact, atlDecayFactor, atlImpactFactor
+    case ctlDecay, ctlImpact, ctlDecayFactor, ctlImpactFactor
+    case targetCTL, replacementDays, replacementFactor, effectAfterReplacementDays
 }
 
 enum ActivityTypeProperty: String{
