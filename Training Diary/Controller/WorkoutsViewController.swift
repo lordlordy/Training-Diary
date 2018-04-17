@@ -8,20 +8,12 @@
 
 import Cocoa
 
-class WorkoutsViewController: TrainingDiaryViewController {
-    
-//    @objc dynamic var trainingDiary: TrainingDiary?
-    
-    @IBOutlet weak var predicateEditor: NSPredicateEditor!
+class WorkoutsViewController: TrainingDiarySplitViewController {
     
     
-    //MARK: - IBActions
-    @IBAction func printPredicate(_ sender: Any){
-        if let p = predicateEditor{
-            print(p.predicate ?? "no predicate")
-        }
-    }
-
+    
+    @IBOutlet var workoutsArrayController: NSArrayController!
+    
     
     
     
@@ -30,7 +22,7 @@ class WorkoutsViewController: TrainingDiaryViewController {
         super.viewDidLoad()
         
         
-        if let editor = predicateEditor{
+        if let editor = predicateEditor(){
             editor.addRow(nil)
             
             var doubleExpressions: [NSExpression] = []
@@ -72,6 +64,16 @@ class WorkoutsViewController: TrainingDiaryViewController {
         
     }
     
+    
+    private func predicateEditor() -> NSPredicateEditor?{
+        for vc in childViewControllers{
+            if let wpvc = vc as? WorkoutPredicateViewController{
+                return wpvc.predicateEditor
+            }
+        }
+        return nil
+        
+    }
     
     
 }

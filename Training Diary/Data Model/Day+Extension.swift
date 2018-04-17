@@ -228,6 +228,10 @@ extension Day: TrainingDiaryValues, PeriodNode{
     @objc dynamic var swimCTL: Double{
         return metricValue(forActivity: FixedActivity.Swim.rawValue, andMetric: Unit.CTL)
     }
+    
+    @objc dynamic var swimStrain: Double{
+        return metricValue(forActivity: FixedActivity.Swim.rawValue, andMetric: Unit.Strain)
+    }
 
     @objc dynamic var swimHours: Double{
         return swimSeconds / Constant.SecondsPerHour.rawValue
@@ -262,6 +266,11 @@ extension Day: TrainingDiaryValues, PeriodNode{
     @objc dynamic var bikeCTL: Double{
         return metricValue(forActivity: FixedActivity.Bike.rawValue, andMetric: Unit.CTL)
     }
+    
+    @objc dynamic var bikeStrain: Double{
+        return metricValue(forActivity: FixedActivity.Bike.rawValue, andMetric: Unit.Strain)
+    }
+
     
     @objc dynamic var bikeAscentFeet: Double{
         return bikeAscentMetres * Constant.FeetPerMetre.rawValue
@@ -305,6 +314,11 @@ extension Day: TrainingDiaryValues, PeriodNode{
     @objc dynamic var runCTL: Double{
         return metricValue(forActivity: FixedActivity.Run.rawValue, andMetric: Unit.CTL)
     }
+    
+    @objc dynamic var runStrain: Double{
+        return metricValue(forActivity: FixedActivity.Run.rawValue, andMetric: Unit.Strain)
+    }
+
     
     @objc dynamic var runAscentFeet: Double{
         return runAscentMetres * Constant.FeetPerMetre.rawValue
@@ -372,6 +386,11 @@ extension Day: TrainingDiaryValues, PeriodNode{
     @objc dynamic var allCTL: Double{
         return metricValue(forActivity: ConstantString.EddingtonAll.rawValue, andMetric: Unit.CTL)
     }
+    
+    @objc dynamic var allStrain: Double{
+        return metricValue(forActivity: ConstantString.EddingtonAll.rawValue, andMetric: Unit.Strain)
+    }
+
     
     @objc dynamic var allTSB: Double{
         return metricValue(forActivity: ConstantString.EddingtonAll.rawValue, andMetric: Unit.TSB)

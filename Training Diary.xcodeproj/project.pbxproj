@@ -78,6 +78,7 @@
 		73B95EA02074D36200976849 /* TSBConstant+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B95E9F2074D36200976849 /* TSBConstant+Extension.swift */; };
 		73B9FCBB2006A4EF00C57D25 /* GraphDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B9FCBA2006A4EF00C57D25 /* GraphDefinition.swift */; };
 		73B9FCBD200B703600C57D25 /* AllBikesComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B9FCBC200B703600C57D25 /* AllBikesComboBox.swift */; };
+		73BBE74C2085E4AD0033EAA6 /* WorkoutPredicateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73BBE74B2085E4AD0033EAA6 /* WorkoutPredicateViewController.swift */; };
 		73BD2F64203E489000377CCE /* GMTDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73BD2F63203E489000377CCE /* GMTDateFormatter.swift */; };
 		73C13FB52049408100199D47 /* TrainingDiaryTabViewControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C13FB32049408100199D47 /* TrainingDiaryTabViewControler.swift */; };
 		73C13FB920495DF400199D47 /* DayTreeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C13FB720495DF400199D47 /* DayTreeViewController.swift */; };
@@ -200,6 +201,7 @@
 		73B95E9F2074D36200976849 /* TSBConstant+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TSBConstant+Extension.swift"; sourceTree = "<group>"; };
 		73B9FCBA2006A4EF00C57D25 /* GraphDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphDefinition.swift; sourceTree = "<group>"; };
 		73B9FCBC200B703600C57D25 /* AllBikesComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllBikesComboBox.swift; sourceTree = "<group>"; };
+		73BBE74B2085E4AD0033EAA6 /* WorkoutPredicateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutPredicateViewController.swift; sourceTree = "<group>"; };
 		73BD2F63203E489000377CCE /* GMTDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GMTDateFormatter.swift; sourceTree = "<group>"; };
 		73C13FB32049408100199D47 /* TrainingDiaryTabViewControler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingDiaryTabViewControler.swift; sourceTree = "<group>"; };
 		73C13FB720495DF400199D47 /* DayTreeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTreeViewController.swift; sourceTree = "<group>"; };
@@ -396,6 +398,7 @@
 				738ED876204D749A006187A1 /* WorkoutsInputViewController.swift */,
 				73A06B04204D594A0088BD09 /* WorkoutSplitViewController.swift */,
 				73C13FBB2049DC5400199D47 /* WorkoutsViewController.swift */,
+				73BBE74B2085E4AD0033EAA6 /* WorkoutPredicateViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -618,6 +621,7 @@
 				7333B9F21FB613CA005F424E /* UnitComboBox.swift in Sources */,
 				7369D9F21FB24F2B00ECAA1E /* ActivityComboBox.swift in Sources */,
 				7369D9F41FB24F5000ECAA1E /* ActivityTypeComboBox.swift in Sources */,
+				73BBE74C2085E4AD0033EAA6 /* WorkoutPredicateViewController.swift in Sources */,
 				73B9FCBB2006A4EF00C57D25 /* GraphDefinition.swift in Sources */,
 				7359C183204CFB7700A09B61 /* DaysSplitViewController.swift in Sources */,
 				73D89F981FD15F39002F07A2 /* PeriodSum.swift in Sources */,

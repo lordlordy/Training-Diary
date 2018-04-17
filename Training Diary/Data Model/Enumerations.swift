@@ -529,10 +529,10 @@ enum DayCalculatedProperty: String{
 enum DayProperty: String, FileMakerProJSONString{
     case comments, date, iso8061DateString, fatigue, motivation, sleep, sleepQuality, type
     case workoutChanged
-    case swimHours, swimKJ, swimKM, swimMinutes, swimSeconds, swimTSB, swimWatts, swimATL, swimCTL
-    case bikeAscentFeet, bikeAscentMetres, bikeHR, bikeHours, bikeJ, bikeKM, bikeMinutes, bikeSeconds, bikeTSB, bikeWatts, bikeATL, bikeCTL
-    case runAscentFeet, runAscentMetres, runHR, runHours, runKJ, runKM, runMinutes, runSeconds, runTSB, runWatts, runATL, runCTL
-    case allAscentFeet, allAscentMetres, allHR, allHours, allKJ, allKM, allMinutes, allSeconds, allTSB, allWatts, allATL, allCTL
+    case swimHours, swimKJ, swimKM, swimMinutes, swimSeconds, swimTSB, swimWatts, swimATL, swimCTL, swimStrain
+    case bikeAscentFeet, bikeAscentMetres, bikeHR, bikeHours, bikeJ, bikeKM, bikeMinutes, bikeSeconds, bikeTSB, bikeWatts, bikeATL, bikeCTL, bikeStrain
+    case runAscentFeet, runAscentMetres, runHR, runHours, runKJ, runKM, runMinutes, runSeconds, runTSB, runWatts, runATL, runCTL, runStrain
+    case allAscentFeet, allAscentMetres, allHR, allHours, allKJ, allKM, allMinutes, allSeconds, allTSB, allWatts, allATL, allCTL, allStrain
     case gymCTL, walkCTL, otherCTL
     case gymATL, walkATL, otherATL
     case kg, lbs, fatPercent, restingHR, restingSDNN, restingRMSSD
@@ -541,7 +541,7 @@ enum DayProperty: String, FileMakerProJSONString{
     static let ExportProperties = [date, fatigue, motivation, sleep, sleepQuality, type, comments]
     static let jsonProperties = [iso8061DateString, fatigue, motivation, sleep, sleepQuality, type, comments]
     
-    static let doubleProperties = [fatigue, motivation, sleep, swimHours, swimKJ, swimKM, swimMinutes, swimSeconds, swimTSB, swimWatts, swimATL, swimCTL, bikeAscentFeet, bikeAscentMetres, bikeHR, bikeHours, bikeJ, bikeKM, bikeMinutes, bikeSeconds, bikeTSB, bikeWatts, bikeATL, bikeCTL, runAscentFeet, runAscentMetres, runHR, runHours, runKJ, runKM, runMinutes, runSeconds, runTSB, runWatts, runATL, runCTL, allAscentFeet, allAscentMetres, allHR, allHours, allKJ, allKM, allMinutes, allSeconds, allTSB, allWatts, allATL, allCTL, gymCTL, walkCTL, otherCTL, gymATL, walkATL, otherATL, kg, lbs, fatPercent, restingSDNN, restingRMSSD, totalReps]
+    static let doubleProperties = [fatigue, motivation, sleep, swimHours, swimKJ, swimKM, swimMinutes, swimSeconds, swimTSB, swimWatts, swimATL, swimCTL, swimStrain, bikeAscentFeet, bikeAscentMetres, bikeHR, bikeHours, bikeJ, bikeKM, bikeMinutes, bikeSeconds, bikeTSB, bikeWatts, bikeATL, bikeCTL, bikeStrain, runAscentFeet, runAscentMetres, runHR, runHours, runKJ, runKM, runMinutes, runSeconds, runTSB, runWatts, runATL, runCTL, runStrain, allAscentFeet, allAscentMetres, allHR, allHours, allKJ, allKM, allMinutes, allSeconds, allTSB, allWatts, allATL, allCTL, allStrain, gymCTL, walkCTL, otherCTL, gymATL, walkATL, otherATL, kg, lbs, fatPercent, restingSDNN, restingRMSSD, totalReps]
     static let stringProperties = [comments, sleepQuality, type]
     static let intProperties = [restingHR, numberOfWorkouts]
     static let dateProperties = [date]
