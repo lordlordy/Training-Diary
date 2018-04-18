@@ -72,6 +72,7 @@ class TSBGraphSplitViewController: TrainingDiarySplitViewController{
         
         if let gv = getGraphView(){
             gv.chartTitle = activity + " Training Stress Balance"
+            gv.xAxisLabelStrings = getXAxisLabels(fromDate: start, toDate: end)
             gv.needsDisplay = true
         }
     }
@@ -102,6 +103,17 @@ class TSBGraphSplitViewController: TrainingDiarySplitViewController{
             }
         }
         return nil
+    }
+    
+    private func getXAxisLabels(fromDate from: Date, toDate to: Date) -> [String]{
+        let numberOfLabels: Int = 10
+        let gap = to.timeIntervalSince(from) / Double(numberOfLabels)
+        var result: [String] = []
+        result.append(from.dateOnlyShorterString())
+        for i in 1...numberOfLabels{
+            result.append(from.addingTimeInterval(TimeInterval.init(gap*Double(i))).dateOnlyShorterString())
+        }
+        return result
     }
     
 }
