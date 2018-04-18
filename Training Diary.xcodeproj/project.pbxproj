@@ -59,6 +59,7 @@
 		73A620C62084E7A200679CE9 /* TSBGraphSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A620C52084E7A200679CE9 /* TSBGraphSplitViewController.swift */; };
 		73A620C82084E7F700679CE9 /* TSBGraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A620C72084E7F700679CE9 /* TSBGraphViewController.swift */; };
 		73A620CA2084F44A00679CE9 /* TSBSelectorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A620C92084F44A00679CE9 /* TSBSelectorsViewController.swift */; };
+		73A90F9A208648CC00EF336F /* CalculatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A90F99208648CC00EF336F /* CalculatorViewController.swift */; };
 		73AA63FB2052BCF70044A05F /* PhysioLogical+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AA63FA2052BCF70044A05F /* PhysioLogical+Extension.swift */; };
 		73AB477C202354CF0093B8A4 /* EddingtonHistory+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AB477B202354CF0093B8A4 /* EddingtonHistory+Extension.swift */; };
 		73AF13FF1FB064D2002A1B9E /* RollingSumQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AF13FE1FB064D2002A1B9E /* RollingSumQueue.swift */; };
@@ -179,6 +180,7 @@
 		73A620C52084E7A200679CE9 /* TSBGraphSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSBGraphSplitViewController.swift; sourceTree = "<group>"; };
 		73A620C72084E7F700679CE9 /* TSBGraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSBGraphViewController.swift; sourceTree = "<group>"; };
 		73A620C92084F44A00679CE9 /* TSBSelectorsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSBSelectorsViewController.swift; sourceTree = "<group>"; };
+		73A90F99208648CC00EF336F /* CalculatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorViewController.swift; sourceTree = "<group>"; };
 		73AA63FA2052BCF70044A05F /* PhysioLogical+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhysioLogical+Extension.swift"; sourceTree = "<group>"; };
 		73AB477B202354CF0093B8A4 /* EddingtonHistory+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EddingtonHistory+Extension.swift"; sourceTree = "<group>"; };
 		73AF13FE1FB064D2002A1B9E /* RollingSumQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollingSumQueue.swift; sourceTree = "<group>"; };
@@ -399,6 +401,7 @@
 				73A06B04204D594A0088BD09 /* WorkoutSplitViewController.swift */,
 				73C13FBB2049DC5400199D47 /* WorkoutsViewController.swift */,
 				73BBE74B2085E4AD0033EAA6 /* WorkoutPredicateViewController.swift */,
+				73A90F99208648CC00EF336F /* CalculatorViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -518,6 +521,7 @@
 				738ED877204D749A006187A1 /* WorkoutsInputViewController.swift in Sources */,
 				73B2B9E51F894CC00044DD4E /* ViewController.swift in Sources */,
 				73789C8E2010CE61002D2393 /* CSVExporter.swift in Sources */,
+				73A90F9A208648CC00EF336F /* CalculatorViewController.swift in Sources */,
 				73FC61E5200E26AA00C61DE6 /* LTDEddingtonNumberWebViewController.swift in Sources */,
 				735E0AAE202D47B20089C2CD /* Maths.swift in Sources */,
 				73265B661FB47D240081D3F9 /* Weight+Extension.swift in Sources */,

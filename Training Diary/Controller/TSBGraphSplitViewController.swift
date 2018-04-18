@@ -15,8 +15,8 @@ class TSBGraphSplitViewController: TrainingDiarySplitViewController{
     private let atlGraph: GraphDefinition = GraphDefinition(name: "ATL", axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .green, fillGradientStart: .green, fillGradientEnd: .green, gradientAngle: 0.0, size: 2.0, opacity: 1.0), drawZeroes: true, priority: 2)
     private let tssGraph: GraphDefinition = GraphDefinition(name: "TSS", axis: .Secondary, type: .Bar, format: GraphFormat.init(fill: true, colour: .black, fillGradientStart: .yellow, fillGradientEnd: .yellow, gradientAngle: 0.0, size: 1.0, opacity: 0.5), drawZeroes: false, priority: 1)
     
-    private var end: Date = Date()
-    private var start: Date = Date().addDays(numberOfDays: -365)
+    private var end: Date = Date().endOfDay()
+    private var start: Date = Date().addDays(numberOfDays: -365).startOfDay()
     private var activity: String = FixedActivity.Bike.rawValue
 
 
@@ -38,12 +38,12 @@ class TSBGraphSplitViewController: TrainingDiarySplitViewController{
     }
     
     func updateStart(toDate d: Date){
-        start = d
+        start = d.startOfDay()
         updateGraphs()
     }
     
     func updateEnd(toDate d: Date){
-        end = d
+        end = d.endOfDay()
         updateGraphs()
     }
     

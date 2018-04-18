@@ -14,7 +14,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
     @objc dynamic var managedObjectContext: NSManagedObjectContext
         
     private var trainingDiaryVCs: [TrainingDiaryViewControllerProtocol] = []
-    private var currentSelectedDiary: TrainingDiary?
+    var currentSelectedDiary: TrainingDiary?
 
     //MARK: - @IBOutlets
     
