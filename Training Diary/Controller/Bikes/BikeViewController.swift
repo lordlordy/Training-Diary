@@ -10,18 +10,26 @@ import Cocoa
 
 class BikeViewController: TrainingDiaryViewController, NSTableViewDelegate, NSComboBoxDataSource {
 
-//    @objc dynamic var trainingDiary: TrainingDiary?
     @objc dynamic var bikeActivity: Activity?
     @objc dynamic var rollingDataDays: Int = 30
     
     @IBOutlet var bikeArrayController: NSArrayController!
     @IBOutlet weak var bikeTableView: TableViewWithColumnSort!
-    @IBOutlet weak var graphView: GraphView!
     @IBOutlet var bikeGraphsArrayController: NSArrayController!
     @IBOutlet weak var graphsTableView: NSTableView!
     @IBOutlet weak var displayTypeComboBox: NSComboBox!
     @IBOutlet weak var fromDatePicker: NSDatePicker!
     @IBOutlet weak var toDatePicker: NSDatePicker!
+    
+    var graphView: GraphView?{
+        if let p = parent as? BikeSplitViewController{
+            if let gv = p.bikeGraphViewController?.graphView{
+                return gv
+            }
+        }
+        return nil
+    }
+
     
     private var dataCache: [Equipment: [WorkoutProperty: GraphData]] = [:]
     private var graphCache: [Equipment:BikeGraphs] = [:]
@@ -50,8 +58,12 @@ class BikeViewController: TrainingDiaryViewController, NSTableViewDelegate, NSCo
             cb.selectItem(at: 7)
         }
         if let td = trainingDiary{
-            if let fdp = fromDatePicker{    fdp.dateValue = td.firstDayOfDiary }
-            if let tdp = toDatePicker{      tdp.dateValue = td.lastDayOfDiary }
+            if let fdp = fromDatePicker{
+                fdp.dateValue = td.firstDayOfDiary
+            }
+            if let tdp = toDatePicker{
+                tdp.dateValue = td.lastDayOfDiary
+            }
         }
     }
     
@@ -105,21 +117,21 @@ class BikeViewController: TrainingDiaryViewController, NSTableViewDelegate, NSCo
         let state: Bool = sender.state == NSControl.StateValue.on
         for g in graphs(){ g.valuesGraph.display = state }
         graphsTableView!.reloadData()
-        graphView.needsDisplay = true
+        graphView?.needsDisplay = true
     }
     
     @IBAction func ltdButtonClicked(_ sender: NSButton) {
         let state: Bool = sender.state == NSControl.StateValue.on
         for g in graphs(){ g.ltdGraph.display = state }
         graphsTableView!.reloadData()
-        graphView.needsDisplay = true
+        graphView?.needsDisplay = true
     }
     
     @IBAction func rollingButtonClicked(_ sender: NSButton) {
         let state: Bool = sender.state == NSControl.StateValue.on
         for g in graphs(){ g.rollingGraph.display = state }
         graphsTableView!.reloadData()
-        graphView.needsDisplay = true
+        graphView?.needsDisplay = true
     }
     
     @IBAction func updateHistory(_ sender: NSButton) {
@@ -344,12 +356,13 @@ class BikeViewController: TrainingDiaryViewController, NSTableViewDelegate, NSCo
         
         if let graphs = graphCache[bike]{
             if let d = data{
-                let from = fromDatePicker!.dateValue
-                let to = toDatePicker!.dateValue
-                
-                graphs.valuesGraph.data = d.values.filter({$0.date >= from && $0.date <= to})
-                graphs.ltdGraph.data = d.ltd.filter({$0.date >= from && $0.date <= to})
-                graphs.rollingGraph.data = d.rolling.filter({$0.date >= from && $0.date <= to})
+                if let from = fromDatePicker?.dateValue{
+                    if let to = toDatePicker?.dateValue{
+                        graphs.valuesGraph.data = d.values.filter({$0.date >= from && $0.date <= to})
+                        graphs.ltdGraph.data = d.ltd.filter({$0.date >= from && $0.date <= to})
+                        graphs.rollingGraph.data = d.rolling.filter({$0.date >= from && $0.date <= to})
+                    }
+                }
             }
         }
 
@@ -413,8 +426,16 @@ class BikeViewController: TrainingDiaryViewController, NSTableViewDelegate, NSCo
         var fromDate = range.from
         var toDate = range.to
         
-        if fromDatePicker!.dateValue > fromDate { fromDate = fromDatePicker!.dateValue }
-        if toDatePicker!.dateValue < toDate { toDate = toDatePicker!.dateValue }
+        if let d = fromDatePicker?.dateValue{
+            if d > fromDate {
+                fromDate = d
+            }
+        }
+        if let d = toDatePicker?.dateValue{
+            if d < toDate {
+                toDate = d
+            }
+        }
         
         return (from: fromDate, to: toDate)
     }
