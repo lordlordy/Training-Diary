@@ -475,6 +475,16 @@ extension TrainingDiary: TrainingDiaryValues{
         }
         return result
     }
+
+    func bmiAscendingDateOrder() -> [(date: Date, value: Double)]{
+        var result: [(date: Date, value: Double)] = []
+        if let orderedWeights = weightsAscendingDateOrder(){
+            for w in orderedWeights{
+                result.append((w.fromDate!, w.bmi))
+            }
+        }
+        return result
+    }
     
     func sleepDateOrder() -> [(date: Date, value: Double)]{
         var result: [(date: Date, value: Double )] = []

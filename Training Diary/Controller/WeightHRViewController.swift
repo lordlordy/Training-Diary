@@ -10,7 +10,6 @@ import Cocoa
 
 class WeightHRViewController: TrainingDiaryViewController {
 
-//    @objc dynamic var trainingDiary: TrainingDiary?
     
     @IBOutlet var weightArrayController: NSArrayController!
     @IBOutlet var hrArrayController: NSArrayController!
@@ -37,9 +36,10 @@ class WeightHRViewController: TrainingDiaryViewController {
     
     
     private enum CacheKey: String{
-        case kg, fatPercent, hr, sdnn, rmssd, sleep, motivation, fatigue
+        case kg, fatPercent, hr, sdnn, rmssd, sleep, motivation, fatigue, bmi
         case sdnnOff, sdnnEasy, sdnnHard, rmssdOff, rmssdEasy, rmssdHard
-        static let AllKeys = [kg, fatPercent, hr, sdnn, rmssd, sleep, motivation, fatigue, sdnnOff, sdnnEasy, sdnnHard, rmssdOff, rmssdEasy, rmssdHard]
+        static let AllKeys: [CacheKey] = [.kg, .fatPercent, .hr, .sdnn, .rmssd, .sleep, .motivation, .fatigue, .bmi, .sdnnOff, .sdnnEasy, .sdnnHard, .rmssdOff, .rmssdEasy, .rmssdHard]
+        static let pointData: [CacheKey] = [.kg, .fatPercent, .hr, .sdnn, .rmssd, .sleep, .motivation, .fatigue, .bmi]
         
         func rollingCacheKey() -> String{
             return "rolling" + self.rawValue
@@ -47,6 +47,7 @@ class WeightHRViewController: TrainingDiaryViewController {
         
         func graphColour() -> NSColor{
             switch self{
+            case .bmi:          return NSColor.darkGray
             case .fatigue:      return NSColor.purple
             case .fatPercent:   return NSColor.magenta
             case .hr:           return NSColor.blue
@@ -62,6 +63,7 @@ class WeightHRViewController: TrainingDiaryViewController {
         
         func axis() -> Axis{
             switch self{
+            case .bmi:          return Axis.Secondary
             case .fatigue:      return Axis.Secondary
             case .fatPercent:   return Axis.Secondary
             case .hr:           return Axis.Primary
@@ -93,11 +95,10 @@ class WeightHRViewController: TrainingDiaryViewController {
         }
         
         func size() -> CGFloat{
-            switch self{
-            case .rmssdOff, .rmssdHard, .rmssdEasy, .sdnnHard, .sdnnEasy, .sdnnOff:
+            if CacheKey.pointData.contains(self){
+                return 5.0
+            }else{
                 return 2.0
-            case .rmssd, .sdnn, .hr: return 5.0
-            default: return 2.0
             }
         }
         
@@ -142,7 +143,7 @@ class WeightHRViewController: TrainingDiaryViewController {
         case "Weight":
             for g in currentGraphs{
                 switch g.name{
-                case CacheKey.kg.rawValue, CacheKey.kg.rollingCacheKey(), CacheKey.fatPercent.rawValue, CacheKey.fatPercent.rollingCacheKey():
+                case CacheKey.kg.rawValue, CacheKey.kg.rollingCacheKey(), CacheKey.fatPercent.rawValue, CacheKey.fatPercent.rollingCacheKey(), CacheKey.bmi.rawValue, CacheKey.bmi.rollingCacheKey():
                     g.display = true
                 default:
                     g.display = false
@@ -202,7 +203,15 @@ class WeightHRViewController: TrainingDiaryViewController {
                     g.display = false
                 }
             }
-        case "Sleep":
+        case "BMI":
+            for g in currentGraphs{
+                switch g.name{
+                case CacheKey.bmi.rawValue, CacheKey.bmi.rollingCacheKey():
+                    g.display = true
+                default:
+                    g.display = false
+                }
+            }        case "Sleep":
             for g in currentGraphs{
                 switch g.name{
                 case CacheKey.sleep.rawValue, CacheKey.sleep.rollingCacheKey():
@@ -336,6 +345,7 @@ class WeightHRViewController: TrainingDiaryViewController {
         cache[CacheKey.rmssd.rawValue]      = td.rmssdDateOrder()
         cache[CacheKey.kg.rawValue]         = td.kgAscendingDateOrder()
         cache[CacheKey.fatPercent.rawValue] = td.fatPercentageDateOrder()
+        cache[CacheKey.bmi.rawValue]        = td.bmiAscendingDateOrder()
         cache[CacheKey.sleep.rawValue]      = td.sleepDateOrder()
         cache[CacheKey.motivation.rawValue] = td.motivationDateOrder()
         cache[CacheKey.fatigue.rawValue]    = td.fatigueDateOrder()
@@ -366,14 +376,6 @@ class WeightHRViewController: TrainingDiaryViewController {
         
     }
     
-//    private func createGraph(forKey key: CacheKey, type: ChartType) -> GraphDefinition?{
-  //      return createGraph(forKey: key.rawValue, type: type, colour: key.graphColour(), axis: key.axis())
-    //}
-    
-  //  private func createGraph(forKey key: String, type: ChartType, colour: NSColor, axis: Axis ) -> GraphDefinition?{
-    //    return createGraph(forKey: key, type: type, colour: colour, axis: axis, size: 2.0)
-        
-    //}
 
     private func createGraph(forKey key: String, type: ChartType, colour: NSColor, axis: Axis, size: CGFloat ) -> GraphDefinition?{
         if let data = cache[key]{
