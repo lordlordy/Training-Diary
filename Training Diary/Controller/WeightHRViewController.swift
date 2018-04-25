@@ -7,7 +7,7 @@
 //
 
 import Cocoa
-
+/* Deprecated
 class WeightHRViewController: TrainingDiaryViewController {
 
     
@@ -455,3 +455,4 @@ class WeightHRViewController: TrainingDiaryViewController {
 
     
 }
+ */

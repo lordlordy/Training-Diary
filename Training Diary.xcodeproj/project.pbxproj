@@ -38,6 +38,9 @@
 		73593314201F7C6F007BB525 /* ActivityToStringTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73593313201F7C6F007BB525 /* ActivityToStringTransformer.swift */; };
 		7359C17F204C5D8C00A09B61 /* DaysInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7359C17E204C5D8C00A09B61 /* DaysInputViewController.swift */; };
 		7359C183204CFB7700A09B61 /* DaysSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7359C182204CFB7700A09B61 /* DaysSplitViewController.swift */; };
+		735C8C602090A1BD00149F96 /* WeightHRVSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C8C5F2090A1BD00149F96 /* WeightHRVSplitViewController.swift */; };
+		735C8C622090A28900149F96 /* WeightHRVTablesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C8C612090A28900149F96 /* WeightHRVTablesViewController.swift */; };
+		735C8C642090A2A000149F96 /* WeightHRVGraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C8C632090A2A000149F96 /* WeightHRVGraphViewController.swift */; };
 		735E0AAE202D47B20089C2CD /* Maths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735E0AAD202D47B20089C2CD /* Maths.swift */; };
 		735E8261208E3C7C00081C5D /* PlanOutputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735E8260208E3C7C00081C5D /* PlanOutputViewController.swift */; };
 		735F47AE206BAAEC00962F99 /* CompareGraphTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735F47AD206BAAEC00962F99 /* CompareGraphTableViewController.swift */; };
@@ -168,6 +171,9 @@
 		73593313201F7C6F007BB525 /* ActivityToStringTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityToStringTransformer.swift; sourceTree = "<group>"; };
 		7359C17E204C5D8C00A09B61 /* DaysInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaysInputViewController.swift; sourceTree = "<group>"; };
 		7359C182204CFB7700A09B61 /* DaysSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaysSplitViewController.swift; sourceTree = "<group>"; };
+		735C8C5F2090A1BD00149F96 /* WeightHRVSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightHRVSplitViewController.swift; sourceTree = "<group>"; };
+		735C8C612090A28900149F96 /* WeightHRVTablesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightHRVTablesViewController.swift; sourceTree = "<group>"; };
+		735C8C632090A2A000149F96 /* WeightHRVGraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightHRVGraphViewController.swift; sourceTree = "<group>"; };
 		735E0AAD202D47B20089C2CD /* Maths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Maths.swift; sourceTree = "<group>"; };
 		735E8260208E3C7C00081C5D /* PlanOutputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanOutputViewController.swift; sourceTree = "<group>"; };
 		735F47AD206BAAEC00962F99 /* CompareGraphTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompareGraphTableViewController.swift; sourceTree = "<group>"; };
@@ -420,6 +426,9 @@
 				73A620C92084F44A00679CE9 /* TSBSelectorsViewController.swift */,
 				73B2B9E41F894CC00044DD4E /* ViewController.swift */,
 				73265B631FB471A00081D3F9 /* WeightHRViewController.swift */,
+				735C8C5F2090A1BD00149F96 /* WeightHRVSplitViewController.swift */,
+				735C8C612090A28900149F96 /* WeightHRVTablesViewController.swift */,
+				735C8C632090A2A000149F96 /* WeightHRVGraphViewController.swift */,
 				7333B9F31FB6E04C005F424E /* WeightsArrayController.swift */,
 				738ED876204D749A006187A1 /* WorkoutsInputViewController.swift */,
 				73A06B04204D594A0088BD09 /* WorkoutSplitViewController.swift */,
@@ -561,6 +570,7 @@
 				73DC9B111FDC373700D4774A /* NumberToDetailedTimeTransformer.swift in Sources */,
 				73F9A3B3204EF584000DEECE /* DaysPredicatorEditorViewController.swift in Sources */,
 				73F270621FAB0CC400D36156 /* TableViewWithColumnSort.swift in Sources */,
+				735C8C622090A28900149F96 /* WeightHRVTablesViewController.swift in Sources */,
 				73C65C5920516ABC00A3FBC3 /* EddingtonContributorsViewController.swift in Sources */,
 				7369D9EE1FB23DBC00ECAA1E /* DayTypeComboBox.swift in Sources */,
 				731154272046550300C2179E /* EddingtonNumberTABViewController.swift in Sources */,
@@ -581,6 +591,7 @@
 				73C13FB52049408100199D47 /* TrainingDiaryTabViewControler.swift in Sources */,
 				73B9FCBD200B703600C57D25 /* AllBikesComboBox.swift in Sources */,
 				73C2E4991FD8967900C30316 /* GraphManagementDelegate.swift in Sources */,
+				735C8C602090A1BD00149F96 /* WeightHRVSplitViewController.swift in Sources */,
 				7364157A201C8FF5009D5817 /* TrainingDiaryValues.swift in Sources */,
 				73DC9B131FDC39B500D4774A /* NumberToSummaryTimeFormatter.swift in Sources */,
 				73B95EA02074D36200976849 /* TSBConstant+Extension.swift in Sources */,
@@ -606,6 +617,7 @@
 				73C13FBC2049DC5400199D47 /* WorkoutsViewController.swift in Sources */,
 				73A620C82084E7F700679CE9 /* TSBGraphViewController.swift in Sources */,
 				73E25E191FBEA9150081FC62 /* GraphView.swift in Sources */,
+				735C8C642090A2A000149F96 /* WeightHRVGraphViewController.swift in Sources */,
 				73D3171D2018BEA90070C40B /* TextViewToStringTransformer.swift in Sources */,
 				73E3C6E0208B214800B39235 /* PlansArrayController.swift in Sources */,
 				73A620C62084E7A200679CE9 /* TSBGraphSplitViewController.swift in Sources */,
