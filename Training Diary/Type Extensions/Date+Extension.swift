@@ -13,13 +13,13 @@ extension Date{
    
     private var gmtTZ: TimeZone{ return TimeZone(secondsFromGMT: 0)! }
     private var gregorianCalendar: Calendar{
-        var cal = Calendar.init(identifier: .gregorian)
-        cal = Calendar.init(identifier: .iso8601)
+   //     var cal = Calendar.init(identifier: .gregorian)
+        var cal = Calendar.init(identifier: .iso8601)
         cal.timeZone = gmtTZ
         return cal
     }
     
-
+    
     public func noonGMT() -> Date{
         var dc = gregorianCalendar.dateComponents([.day, .month, .year], from: self)
         dc.hour = 12
@@ -206,6 +206,7 @@ extension Date{
     public func isStartdOfYear() -> Bool{
         return gregorianCalendar.dateComponents([.day], from: self).day! == 1 && gregorianCalendar.dateComponents([.month], from: self).month == 1
     }
+    
 
     //refactor - should be a better way ... is there always 86,400 seconds in a day ! probably never impact me !
     public func tomorrow() -> Date{
@@ -231,6 +232,7 @@ extension Date{
         dc.hour = 0
         dc.minute = 0
         dc.second = 0
+        
         return gregorianCalendar.date(from: dc)!
     }
     

@@ -23,7 +23,9 @@ extension Activity: CategoryProtocol{
     @objc dynamic var atlDecayFactor: Double { return exp(-1 / atlDecay) }
     @objc dynamic var atlImpactFactor: Double { return 1.0 - exp(-1 / atlImpact) }
     
-    @objc dynamic var replacementFactor: Double { return  (1 - pow(ctlDecayFactor, replacementDays)) / ctlImpactFactor }
+    @objc dynamic var ctlHalfLife: Double { return -log(0.5) * ctlDecay }
+    @objc dynamic var atlHalfLife: Double { return -log(0.5) * atlDecay }
+
 
     
     func ctl(yesterdayCTL: Double, tss: Double) -> Double{
@@ -90,10 +92,10 @@ extension Activity: CategoryProtocol{
             return keyPaths.union(Set([ActivityProperty.ctlDecay.rawValue]))
         case ActivityProperty.ctlImpactFactor.rawValue:
             return keyPaths.union(Set([ActivityProperty.ctlImpact.rawValue]))
-        case ActivityProperty.replacementFactor.rawValue:
-            return keyPaths.union(Set([ActivityProperty.ctlImpact.rawValue, ActivityProperty.ctlDecay.rawValue, ActivityProperty.replacementDays.rawValue]))
-        case ActivityProperty.effectAfterReplacementDays.rawValue:
-            return keyPaths.union(Set([ActivityProperty.ctlImpact.rawValue, ActivityProperty.ctlDecay.rawValue, ActivityProperty.atlImpact.rawValue, ActivityProperty.atlDecay.rawValue, ActivityProperty.replacementDays.rawValue]))
+        case ActivityProperty.ctlHalfLife.rawValue:
+            return keyPaths.union(Set([ActivityProperty.ctlDecay.rawValue]))
+        case ActivityProperty.atlHalfLife.rawValue:
+            return keyPaths.union(Set([ActivityProperty.atlDecay.rawValue]))
         default:
             return keyPaths
         }

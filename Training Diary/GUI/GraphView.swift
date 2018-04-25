@@ -49,7 +49,7 @@ class GraphView: NSView {
         didSet{ self.needsDisplay = true}
     }
     public var graphs = Set<GraphDefinition>()
-    public var chartTitle: String?
+    public var chartTitle: String? { didSet{ self.needsDisplay = true } }
     
     public var primaryAxisNumberFormatter: NumberFormatter = NumberFormatter()
     public var secondaryAxisNumberFormatter: NumberFormatter = NumberFormatter()
@@ -391,7 +391,6 @@ class GraphView: NSView {
         path.line(to: to)
         let dash: [CGFloat] = [2.0,2.0]
         path.setLineDash(dash, count: 2, phase: 0.0)
-//        path.setLineDash([2.0,2.0], count: 2, phase: 0.0)
         path.stroke()
         var labelPosition: NSPoint?
         switch labelOffset.position{

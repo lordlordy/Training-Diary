@@ -18,6 +18,14 @@ extension Weight{
         return fromDate!.iso8601Format()
     }
     
+    @objc dynamic var bmi: Double{
+        if let height = trainingDiary?.athleteHeightCM{
+            if height > 0{
+                return kg / pow(trainingDiary!.athleteHeightCM / 100.0,2)
+            }
+        }
+        return 0.0
+    }
     
     override public class func keyPathsForValuesAffectingValue(forKey key: String) -> Set<String>{
         let keyPaths = super.keyPathsForValuesAffectingValue(forKey: key)

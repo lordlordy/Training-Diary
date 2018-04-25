@@ -314,7 +314,7 @@ class DaysViewController: TrainingDiaryViewController, NSComboBoxDataSource, NST
         if let from = fromDatePicker?.dateValue{
             if let to = toDatePicker?.dateValue{
                 daysArrayController.filterPredicate = NSPredicate(format: "date >= %@ AND date <= %@", argumentArray: [from.startOfDay(),to.endOfDay()])
-                print("Set predice to \(daysArrayController.filterPredicate)")
+                print("Set predice to \(String(describing: daysArrayController.filterPredicate))")
             }
         }
     }

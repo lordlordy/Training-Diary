@@ -271,7 +271,7 @@ class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource,
             if let selection = ac.selectedObjects{
                 if selection.count > 0{
                     if let a = selection[0] as? Activity{
-                        print(a.name)
+                        print(a.name as Any)
                         if let gv = activityGraphView{
                             gv.clearGraphs()
                             updateGraphs(forActivity: a)

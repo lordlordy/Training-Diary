@@ -39,6 +39,20 @@ enum WeekDay: Int{
         }
     }
     
+    static let All: [WeekDay] = [.gregorianMonday, .gregorianTuesday, .gregorianWednesday, .gregorianThursday, .gregorianFriday, .gregorianSaturday, .gregorianSunday]
+    
+    func name() -> String{
+        switch self{
+        case .gregorianSunday:      return "Sunday"
+        case .gregorianMonday:      return "Monday"
+        case .gregorianTuesday:     return "Tuesday"
+        case .gregorianWednesday:   return "Wednesday"
+        case .gregorianThursday:    return "Thursday"
+        case .gregorianFriday:      return "Friday"
+        case .gregorianSaturday:    return "Saturday"
+        }
+    }
+    
 }
 
 enum TSSMethod: String{
@@ -321,8 +335,9 @@ enum ENTITY: String{
     case EddingtonNumber, EddingtonAnnualContributor, EddingtonAnnualHistory
     case EddingtonContributor, EddingtonHistory, LTDEddingtonNumber
     case Activity, ActivityType
+    case Plan, PlanDay, BasicWeekDay
     
-    static let ALL = [.TrainingDiary, .Day, .Workout, .Weight, Physiological, .Metric, .Equipment, .EddingtonNumber, .EddingtonAnnualContributor, .EddingtonAnnualHistory, .EddingtonContributor, .EddingtonHistory, .LTDEddingtonNumber, .Activity, .ActivityType]
+    static let ALL = [.TrainingDiary, .Day, .Workout, .Weight, Physiological, .Metric, .Equipment, .EddingtonNumber, .EddingtonAnnualContributor, .EddingtonAnnualHistory, .EddingtonContributor, .EddingtonHistory, .LTDEddingtonNumber, .Activity, .ActivityType, .Plan, .PlanDay, .BasicWeekDay]
 }
 
 enum EquipmentProperty: String{
@@ -341,7 +356,7 @@ enum ActivityProperty: String{
     case name, activityTypes, trainingDiary, equipment
     case atlDecay, atlImpact, atlDecayFactor, atlImpactFactor
     case ctlDecay, ctlImpact, ctlDecayFactor, ctlImpactFactor
-    case targetCTL, replacementDays, replacementFactor, effectAfterReplacementDays
+    case targetCTL, ctlHalfLife, atlHalfLife, effectAfterReplacementDays
 }
 
 enum ActivityTypeProperty: String{
@@ -593,6 +608,33 @@ enum Month: String{
     case January, February, March, April, May, June, July, August, September, October, November, December
     static var all = [ January, February, March, April, May, June, July, August, September, October, November, December ]
 
+}
+
+enum PlanProperty: String{
+    case from, name, taperStart, taperWeeklyDecreasePercentage, to, weeklyIncreasePercentage
+    case basicWeek, planDays, trainingDiary
+}
+
+enum PlanDayProperty: String{
+    case swimATL, swimCTL, swimTSS, swimTSB
+    case bikeATL, bikeCTL, bikeTSS, bikeTSB
+    case runATL, runCTL, runTSS, runTSB
+    case allATL, allCTL, allTSS, allTSB
+    case actualSwimATL, actualSwimCTL, actualSwimTSS, actualSwimTSB
+    case actualBikeATL, actualBikeCTL, actualBikeTSS, actualBikeTSB
+    case actualRunATL, actualRunCTL, actualRunTSS, actualRunTSB
+    case actualAllATL, actualAllCTL, actualAllTSS, actualAllTSB
+    case basicWeekTotalSwimTSS, basicWeekTotalBikeTSS, basicWeekTotalRunTSS, basicWeekTotalAllTSS
+    case date, comments, plan
+}
+
+enum BasicWeekDayProperty: String{
+    case swimPercentage, swimTaperPercentage, swimTSS
+    case bikePercentage, bikeTaperPercentage, bikeTSS
+    case runPercentage, runTaperPercentage, runTSS
+    case name, order, totalTSS
+    
+    static var observables: [BasicWeekDayProperty] = [.swimTSS, .bikeTSS, .runTSS]
 }
 
 

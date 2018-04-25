@@ -158,13 +158,23 @@ class CoreDataStackSingleton{
     func addFixedActiviesTypesAndEquipment(toTrainingDiary td: TrainingDiary){
         //set up fixed activities
         for activity in FixedActivity.All{
-            td.addActivity(forString: activity.rawValue)
+            let _ = td.addActivity(forString: activity.rawValue)
         }        
     }
     
     func newDay() -> Day{
         let day = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.Day.rawValue, in: trainingDiaryPC.viewContext)!, insertInto: trainingDiaryPC.viewContext)
         return day as! Day
+    }
+    
+    func newPlanDay() -> PlanDay{
+        let planDay = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.PlanDay.rawValue, in: trainingDiaryPC.viewContext)!, insertInto: trainingDiaryPC.viewContext)
+        return planDay as! PlanDay
+    }
+
+    func newBasicWeekDay() -> BasicWeekDay{
+        let basicWeekDay = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.BasicWeekDay.rawValue, in: trainingDiaryPC.viewContext)!, insertInto: trainingDiaryPC.viewContext)
+        return basicWeekDay as! BasicWeekDay
     }
     
     func newWorkout() -> Workout{

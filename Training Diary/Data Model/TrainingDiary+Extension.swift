@@ -102,6 +102,24 @@ extension TrainingDiary: TrainingDiaryValues{
         return ltdEddingtonNumberLeafs.count
     }
     
+
+    func getDaysDictionary(fromDate d: Date) -> [String: Day]{
+        let startOfDay = d.startOfDay()
+        let days = ascendingOrderedDays().filter({$0.date! > startOfDay})
+        var result: [String:Day] = [:]
+        for d in days{
+            result[d.date!.dateOnlyShorterString()] = d
+        }
+        return result
+    }
+    
+    func getDay(forDate d: Date) -> Day?{
+        if let day = daysDictionary()[d.dateOnlyShorterString()]{
+            return day
+        }
+        return nil
+    }
+    
     func ascendingOrderedDays() -> [Day]{
         let daysArray = days!.allObjects as! [Day]
         return daysArray.sorted(by: {$0.date! < $1.date!})
@@ -1021,18 +1039,21 @@ extension TrainingDiary: TrainingDiaryValues{
         return 0
     }
     
-    private func daysDictionary() -> [Date:Day]{
-        var result: [Date:Day] = [:]
+    //the string is the result of dateOnlyShorterString() call on date
+    private func daysDictionary() -> [String:Day]{
+        var result: [String:Day] = [:]
         
         if let diaryDays = self.days?.allObjects as? [Day]{
             for d in diaryDays{
                 if let date = d.date{
-                    result[date] = d
+                    result[date.dateOnlyShorterString()] = d
                 }
             }
         }
         return result
-        
     }
+    
+    
+
     
 }
