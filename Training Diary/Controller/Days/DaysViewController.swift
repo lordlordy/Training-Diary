@@ -199,30 +199,6 @@ class DaysViewController: TrainingDiaryViewController, NSComboBoxDataSource, NST
         }
     }
     
-
-
-/*    @objc func notificationReceived(notification:Notification){
-        print("notification received called in DayViewController")
-        let start = Date()
-        if let moc = notification.object as! NSManagedObjectContext?{
-            if let ui = notification.userInfo{
-                if let updates = ui[NSUpdatedObjectsKey] as? Set<NSManagedObject>, updates.count > 0 {
-                    for update in updates {
-                        if let workout = moc.object(with: update.objectID) as? Workout{
-                            if let day = workout.day{
-                                day.setValue(true, forKey: DayProperty.workoutChanged.rawValue)
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        
-        print("leaving notification receieved after \(Date().timeIntervalSince(start)) seconds")
-        
-    }
-    
- */
     
     //MARK: - NSTableViewDelegate
     func tableViewSelectionDidChange(_ notification: Notification) {

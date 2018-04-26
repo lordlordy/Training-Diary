@@ -8,10 +8,10 @@
 
 import Foundation
 
-protocol TrainingDiaryValues{
+//protocol TrainingDiaryValues{
     //NB the equivalent of Activity = nil, ActivityType = nil, Equipment = nil is to pass the string "All"
-    func valuesFor(dayType dt: DayType?, activity a: Activity?, activityType at: ActivityType?, equipment e: Equipment?, period p: Period, unit u: Unit, from: Date?, to: Date?) -> [(date: Date, value: Double)]
-    func valuesFor(dayType dt: String, activity a: String, activityType at: String, equipment e: String, period p: Period, unit u: Unit, from: Date?, to: Date?) -> [(date: Date, value: Double)]
-    func valuesAreForTrainingDiary() -> TrainingDiary
+//    func valuesFor(dayType dt: DayType?, activity a: Activity?, activityType at: ActivityType?, equipment e: Equipment?, period p: Period, unit u: Unit, from: Date?, to: Date?) -> [(date: Date, value: Double)]
+ //   func valuesFor(dayType dt: String, activity a: String, activityType at: String, equipment e: String, period p: Period, unit u: Unit, from: Date?, to: Date?) -> [(date: Date, value: Double)]
+  //  func valuesAreForTrainingDiary() -> TrainingDiary
     
-}
+//}

@@ -25,8 +25,9 @@ struct HRVData{
 
 }
 
-extension TrainingDiary: TrainingDiaryValues{
-    
+extension TrainingDiary{
+//    extension TrainingDiary: TrainingDiaryValues{
+
     
     //MARK: - Lifetime for display in GUI summary
     @objc dynamic var totalBikeKM:          Double { return total(forKey: DayCalculatedProperty.bikeKM.rawValue) }
@@ -551,20 +552,21 @@ extension TrainingDiary: TrainingDiaryValues{
     //MARK: - TrainingDiaryValues protocol
 
     func valuesFor(dayType dt: String, activity a: String, activityType at: String, equipment e: String, period p: Period, unit u: Unit, from: Date? = nil, to: Date? = nil) -> [(date: Date, value: Double)]{
-        var fromDate = firstDayOfDiary
-        var toDate = lastDayOfDiary
-        if let f = from { fromDate = f}
-        if let t = to   { toDate = t}
-        return getValues(forDayType: dt, andActivity: a, andActivityType: at, andEquipment: e, andPeriod: p, andUnit: u, fromDate: fromDate, toDate: toDate)
+ //       var fromDate = firstDayOfDiary
+   //     var toDate = lastDayOfDiary
+     //   if let f = from { fromDate = f}
+       // if let t = to   { toDate = t}
+ //       return getValues(forDayType: dt, andActivity: a, andActivityType: at, andEquipment: e, andPeriod: p, andUnit: u, fromDate: fromDate, toDate: toDate)
+        return getValues(forDayType: dt, andActivity: a, andActivityType: at, andEquipment: e, andPeriod: p, andUnit: u, fromDate: from ?? firstDayOfDiary, toDate: to ?? lastDayOfDiary)
     }
     
-    func valuesFor(dayType dt: DayType?, activity a: Activity?, activityType at: ActivityType?, equipment e: Equipment?, period p: Period, unit u: Unit, from: Date? = nil, to: Date? = nil) -> [(date: Date, value: Double)] {
-        let ALL = ConstantString.EddingtonAll.rawValue
-        return valuesFor(dayType: dt?.rawValue ?? ALL, activity: a?.name ?? ALL, activityType: at?.name ?? ALL, equipment: e?.name ?? ALL, period: p, unit: u, from: from, to: to)
-    }
+//    func valuesFor(dayType dt: DayType?, activity a: Activity?, activityType at: ActivityType?, equipment e: Equipment?, period p: Period, unit u: Unit, from: Date? = nil, to: Date? = nil) -> [(date: Date, value: Double)] {
+ //       let ALL = ConstantString.EddingtonAll.rawValue
+   //     return valuesFor(dayType: dt?.rawValue ?? ALL, activity: a?.name ?? ALL, activityType: at?.name ?? ALL, equipment: e?.name ?? ALL, period: p, unit: u, from: from, to: to)
+    //}
     
 
-    func valuesAreForTrainingDiary() -> TrainingDiary { return self }
+//    func valuesAreForTrainingDiary() -> TrainingDiary { return self }
     
     //MARK: - Getting values
 
@@ -611,7 +613,7 @@ extension TrainingDiary: TrainingDiaryValues{
         let start = Date()
         
         for day in self.ascendingOrderedDays(fromDate: d){
-            let tss = day.valueFor(dayType: nil, activity: activity, unit: Unit.TSS)
+            let tss = day.valueFor(activity: activity, unit: Unit.TSS)
    
             var yCTL = 0.0
             var yATL = 0.0
@@ -624,16 +626,6 @@ extension TrainingDiary: TrainingDiaryValues{
             let ctl = activity.ctl(yesterdayCTL: yCTL, tss: tss)
             let atl = activity.atl(yesterdayATL: yATL, tss: tss)
             
-/*            var atl = tss * (1 - activity.atlDecayFactor)
-            var ctl = tss * (1 - activity.ctlDecayFactor)
-            
-            if let yesterday = day.yesterday{
-                let yATL = yesterday.metric(forActivity: activity, andMetric: Unit.ATL)?.value ?? 0.0
-                let yCTL = yesterday.metric(forActivity: activity, andMetric: Unit.CTL)?.value ?? 0.0
-                atl += yATL * activity.atlDecayFactor
-                ctl += yCTL * activity.ctlDecayFactor
-            }
-*/
             day.setMetricValue(forActivity: activity, andMetric: Unit.ATL, toValue: atl)
             day.setMetricValue(forActivity: activity, andMetric: Unit.CTL, toValue: ctl)
             day.setMetricValue(forActivity: activity, andMetric: Unit.TSB, toValue: ctl - atl)
@@ -657,7 +649,7 @@ extension TrainingDiary: TrainingDiaryValues{
         let q = RollingSumQueue(size: Int(monotonyDays))
         let mathematics = Maths()
         for d in ascendingOrderedDays(){
-            _ = q.addAndReturnAverage(value: d.valueFor(dayType: nil, activity: a, unit: Unit.TSS))
+            _ = q.addAndReturnAverage(value: d.valueFor(activity: a, unit: Unit.TSS))
             let mAndStrain = mathematics.monotonyAndStrain(q.array())
             d.setMetricValue(forActivity: a, andMetric: Unit.Monotony, toValue: mAndStrain.monotony)
             d.setMetricValue(forActivity: a, andMetric: Unit.Strain, toValue: mAndStrain.strain)
@@ -954,8 +946,9 @@ extension TrainingDiary: TrainingDiaryValues{
             case .Month:        rSum  = PeriodSum(size: 31, rule: {$0.isEndOfMonth()})
             case .Year:         rSum  = PeriodSum(size: 366, rule: {$0.isEndOfYear()})
  
-            default:
+            case .Day, .Lifetime, .Adhoc, .Workout:
                 return nil
+                
             }
             
             for d in ascendingOrderedDays(fromDate: rSum!.preLoadData(forDate: from), toDate: to){
@@ -994,7 +987,7 @@ extension TrainingDiary: TrainingDiaryValues{
             case .Month:        rAverage = PeriodWeightedAverage(size: 31, rule: {$0.isEndOfMonth()})
             case .Year:         rAverage = PeriodWeightedAverage(size: 366, rule: {$0.isEndOfYear()})
  
-            default:
+            case .Day, .Lifetime, .Adhoc, .Workout:
                 return nil
             }
             

@@ -21,20 +21,10 @@ class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource,
     
     //MARK: - IBActions
     @IBAction func adhoc(_ sender: Any) {
-        if let td = trainingDiary{
-            for constant in td.activities?.allObjects as! [Activity]{
-                print("CTL \(constant.name!)")
-                for i in 1...1000{
-                    print("\(i) days: \(Int(100 * constant.ctlDecayFactor(afterNDays: i))) -- \(Int(100 * constant.ctlReplacementTSSFactor(afterNDays: i)))")
-                }
-                print("ATL \(constant.name!)")
-                for i in 1...1000{
-                    print("\(i) days: \(Int(100 * constant.atlDecayFactor(afterNDays: i))) -- \(Int(100 * constant.atlReplacementTSSFactor(afterNDays: i)))")
-                }
-
-            }
+        for p in CoreDataStackSingleton.shared.trainingDiaryPC.persistentStoreCoordinator.persistentStores{
+            print(p.url)
+            
         }
-
     }
     
 
