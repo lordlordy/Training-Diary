@@ -42,7 +42,7 @@ public class EddingtonNumberCalculator: NSObject{
 
     func quickCaclulation(forDayType dt: String, forActivity a: String, andType at: String, equipment e: String, andPeriod p: Period, andUnit u: Unit, inTrainingDiary td: TrainingDiary) -> (ednum: Int,plusOne: Int, maturity: Double ){
         
-        let values = td.valuesFor(dayType: dt, activity: a, activityType: at, equipment: e, period: p, unit: u)
+        let values = td.valuesFor(dayType: dt, activity: a, activityType: at, equipment: e, period: p, aggregationMethod: u.defaultAggregator(), unit: u)
         return quickEddingNumberCalc(forDoubleValues: values.map({$0.value}).filter({$0 >= 1.0}))
         
     }
@@ -52,7 +52,7 @@ public class EddingtonNumberCalculator: NSObject{
             if let u = Unit(rawValue: e.unit!){
                 var dt = ConstantString.EddingtonAll.rawValue
                 if e.dayType != nil { dt = e.dayType!}
-                let values = e.trainingDiary!.valuesFor(dayType: dt, activity: e.activity!, activityType: e.activityType!, equipment: e.equipment!, period: p, unit: u)
+                let values = e.trainingDiary!.valuesFor(dayType: dt, activity: e.activity!, activityType: e.activityType!, equipment: e.equipment!, period: p, aggregationMethod: u.defaultAggregator(), unit: u)
                 let usefulValues = values.filter({$0.value >= 1.0})
                 eddingtonCalculation(forValues: usefulValues)
             }
@@ -67,7 +67,7 @@ public class EddingtonNumberCalculator: NSObject{
                     populateCalc(forEddingtonNumber: e)
                     var dt = ConstantString.EddingtonAll.rawValue
                     if e.dayType != nil { dt = e.dayType!}
-                    let values = e.trainingDiary!.valuesFor(dayType: dt, activity: e.activity!, activityType: e.activityType!, equipment: e.equipment!, period: p, unit: u, from: from.startOfDay())
+                    let values = e.trainingDiary!.valuesFor(dayType: dt, activity: e.activity!, activityType: e.activityType!, equipment: e.equipment!, period: p, aggregationMethod: u.defaultAggregator(), unit: u, from: from.startOfDay())
                     eddingtonCalculation(forValues: values, from: from)
                 }
             }

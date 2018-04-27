@@ -8,7 +8,7 @@
 
 import Foundation
 
-class RollingPeriodWeightedAverage{
+class RollingPeriodWeightedAverage: RollingPeriodCalculator{
     
     fileprivate var rollingSumQueue: RollingSumQueue
     fileprivate var rollingWeightsQueue: RollingSumQueue
@@ -16,6 +16,13 @@ class RollingPeriodWeightedAverage{
     init(size s: Int){
         rollingSumQueue = RollingSumQueue(size: s)
         rollingWeightsQueue = RollingSumQueue(size: s)
+    }
+    
+    func addAndReturnValue(forDate date: Date?, value v: Double, weighting w: Double? = 1.0) -> Double?{
+        let sum = rollingSumQueue.addAndReturnSum(value: v * w!)
+        let weighting = rollingWeightsQueue.addAndReturnSum(value: w!)
+        if weighting < 0.000001{return 0.0}
+        return sum / weighting
     }
     
     func addAndReturnAverage(forDate date: Date, value v: Double, wieghting w: Double) -> Double? {
@@ -30,8 +37,5 @@ class RollingPeriodWeightedAverage{
         rollingWeightsQueue.resetQueue()
     }
     
-    func preLoadData(forDate d: Date) -> Date{
-        return d.addDays(numberOfDays: -rollingSumQueue.size())
-    }
-    
+
 }

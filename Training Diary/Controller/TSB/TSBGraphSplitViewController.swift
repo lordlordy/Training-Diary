@@ -84,10 +84,10 @@ class TSBGraphSplitViewController: TrainingDiarySplitViewController{
             //no cached data so lets create it
             var result: [Unit: [(date: Date, value: Double)]] = [:]
             if let td = trainingDiary{
-                result[Unit.CTL] = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: a, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: .Day, unit: .CTL)
-                result[Unit.ATL] = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: a, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: .Day, unit: .ATL)
-                result[Unit.TSB] = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: a, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: .Day, unit: .TSB)
-                result[Unit.TSS] = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: a, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: .Day, unit: .TSS)
+                result[Unit.CTL] = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: a, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: .Day, aggregationMethod: .None, unit: .CTL)
+                result[Unit.ATL] = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: a, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: .Day, aggregationMethod: .None, unit: .ATL)
+                result[Unit.TSB] = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: a, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: .Day, aggregationMethod: .None, unit: .TSB)
+                result[Unit.TSS] = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: a, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: .Day, aggregationMethod: .None, unit: .TSS)
                 
                 dataCache[a] = result
                 

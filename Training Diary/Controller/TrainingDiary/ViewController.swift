@@ -391,7 +391,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
     
     private func updateTotal(){
         if let td = selectedTrainingDiary(){
-            let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: ConstantString.EddingtonAll.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, unit: totalUnitCB.selectedUnit()!, from: td.lastDayOfDiary, to: td.lastDayOfDiary)
+            let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: ConstantString.EddingtonAll.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, aggregationMethod: totalUnitCB.selectedUnit()!.defaultAggregator(), unit: totalUnitCB.selectedUnit()!, from: td.lastDayOfDiary, to: td.lastDayOfDiary)
             if values.count > 0{
                 currentTotal.stringValue = String(values[0].value)
             }else{
@@ -399,7 +399,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
             }
             
             if let cDate = comparisonDate(){
-                let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: ConstantString.EddingtonAll.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, unit: totalUnitCB.selectedUnit()!, from: cDate.startOfDay(), to: cDate.endOfDay())
+                let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: ConstantString.EddingtonAll.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, aggregationMethod: totalUnitCB.selectedUnit()!.defaultAggregator(), unit: totalUnitCB.selectedUnit()!, from: cDate.startOfDay(), to: cDate.endOfDay())
                 if values.count > 0{
                     comparisonTotal.stringValue = String(values[0].value)
                 }else{
@@ -412,7 +412,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
     
     private func updateSwim(){
         if let td = selectedTrainingDiary(){
-            let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: FixedActivity.Swim.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, unit: swimUnitCB.selectedUnit()!, from: td.lastDayOfDiary, to: td.lastDayOfDiary)
+            let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: FixedActivity.Swim.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, aggregationMethod: swimUnitCB.selectedUnit()!.defaultAggregator(), unit: swimUnitCB.selectedUnit()!, from: td.lastDayOfDiary, to: td.lastDayOfDiary)
             if values.count > 0{
                 currentSwim.stringValue = String(values[0].value)
             }else{
@@ -420,7 +420,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
             }
             
             if let cDate = comparisonDate(){
-                let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: FixedActivity.Swim.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, unit: swimUnitCB.selectedUnit()!, from: cDate.startOfDay(), to: cDate.endOfDay())
+                let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: FixedActivity.Swim.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, aggregationMethod: swimUnitCB.selectedUnit()!.defaultAggregator(), unit: swimUnitCB.selectedUnit()!, from: cDate.startOfDay(), to: cDate.endOfDay())
                 if values.count > 0{
                     comparisonSwim.stringValue = String(values[0].value)
                 }else{
@@ -433,7 +433,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
 
     private func updateBike(){
         if let td = selectedTrainingDiary(){
-            let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: FixedActivity.Bike.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, unit: bikeUnitCB.selectedUnit()!, from: td.lastDayOfDiary, to: td.lastDayOfDiary)
+            let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: FixedActivity.Bike.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, aggregationMethod: bikeUnitCB.selectedUnit()!.defaultAggregator(), unit: bikeUnitCB.selectedUnit()!, from: td.lastDayOfDiary, to: td.lastDayOfDiary)
             if values.count > 0{
                 currentBike.stringValue = String(values[0].value)
             }else{
@@ -441,7 +441,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
             }
             
             if let cDate = comparisonDate(){
-                let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: FixedActivity.Bike.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, unit: bikeUnitCB.selectedUnit()!, from: cDate.startOfDay(), to: cDate.endOfDay())
+                let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: FixedActivity.Bike.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, aggregationMethod: bikeUnitCB.selectedUnit()!.defaultAggregator(), unit: bikeUnitCB.selectedUnit()!, from: cDate.startOfDay(), to: cDate.endOfDay())
                 if values.count > 0{
                     comparisonBike.stringValue = String(values[0].value)
                 }else{
@@ -454,7 +454,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
  
     private func updateRun(){
         if let td = selectedTrainingDiary(){
-            let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: FixedActivity.Run.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, unit: runUnitCB.selectedUnit()!, from: td.lastDayOfDiary, to: td.lastDayOfDiary)
+            let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: FixedActivity.Run.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, aggregationMethod: runUnitCB.selectedUnit()!.defaultAggregator(), unit: runUnitCB.selectedUnit()!, from: td.lastDayOfDiary, to: td.lastDayOfDiary)
             if values.count > 0{
                 currentRun.stringValue = String(values[0].value)
             }else{
@@ -462,7 +462,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
             }
             
             if let cDate = comparisonDate(){
-                let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: FixedActivity.Run.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, unit: runUnitCB.selectedUnit()!, from: cDate.startOfDay(), to: cDate.endOfDay())
+                let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: FixedActivity.Run.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, aggregationMethod: runUnitCB.selectedUnit()!.defaultAggregator(), unit: runUnitCB.selectedUnit()!, from: cDate.startOfDay(), to: cDate.endOfDay())
                 if values.count > 0{
                     comparisonRun.stringValue = String(values[0].value)
                 }else{
@@ -475,7 +475,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
     
     private func updateGym(){
         if let td = selectedTrainingDiary(){
-            let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: FixedActivity.Gym.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, unit: gymUnitCB.selectedUnit()!, from: td.lastDayOfDiary, to: td.lastDayOfDiary)
+            let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: FixedActivity.Gym.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, aggregationMethod: gymUnitCB.selectedUnit()!.defaultAggregator(), unit: gymUnitCB.selectedUnit()!, from: td.lastDayOfDiary, to: td.lastDayOfDiary)
             if values.count > 0{
                 currentGym.stringValue = String(values[0].value)
             }else{
@@ -483,7 +483,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
             }
             
             if let cDate = comparisonDate(){
-                let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: FixedActivity.Gym.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, unit: gymUnitCB.selectedUnit()!, from: cDate.startOfDay(), to: cDate.endOfDay())
+                let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: FixedActivity.Gym.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: periodCB.selectedPeriod()!, aggregationMethod: gymUnitCB.selectedUnit()!.defaultAggregator(), unit: gymUnitCB.selectedUnit()!, from: cDate.startOfDay(), to: cDate.endOfDay())
                 if values.count > 0{
                     comparisonGym.stringValue = String(values[0].value)
                 }else{

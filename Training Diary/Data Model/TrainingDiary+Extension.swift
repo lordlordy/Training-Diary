@@ -551,52 +551,37 @@ extension TrainingDiary{
     
     //MARK: - TrainingDiaryValues protocol
 
-    func valuesFor(dayType dt: String, activity a: String, activityType at: String, equipment e: String, period p: Period, unit u: Unit, from: Date? = nil, to: Date? = nil) -> [(date: Date, value: Double)]{
- //       var fromDate = firstDayOfDiary
-   //     var toDate = lastDayOfDiary
-     //   if let f = from { fromDate = f}
-       // if let t = to   { toDate = t}
- //       return getValues(forDayType: dt, andActivity: a, andActivityType: at, andEquipment: e, andPeriod: p, andUnit: u, fromDate: fromDate, toDate: toDate)
-        return getValues(forDayType: dt, andActivity: a, andActivityType: at, andEquipment: e, andPeriod: p, andUnit: u, fromDate: from ?? firstDayOfDiary, toDate: to ?? lastDayOfDiary)
+    func valuesFor(dayType dt: String, activity a: String, activityType at: String, equipment e: String, period p: Period, aggregationMethod am: AggregationMethod, unit u: Unit, from: Date? = nil, to: Date? = nil) -> [(date: Date, value: Double)]{
+        return getValues(forDayType: DayType(rawValue: dt), andActivity: activity(forString: a), andActivityType: activityType(forActivity: a, andType: at), andEquipment: equipment(forActivity: a, andName: e), andPeriod: p, aggregationMethod: am, andUnit: u, fromDate: from ?? firstDayOfDiary, toDate: to ?? lastDayOfDiary)
     }
     
-//    func valuesFor(dayType dt: DayType?, activity a: Activity?, activityType at: ActivityType?, equipment e: Equipment?, period p: Period, unit u: Unit, from: Date? = nil, to: Date? = nil) -> [(date: Date, value: Double)] {
- //       let ALL = ConstantString.EddingtonAll.rawValue
-   //     return valuesFor(dayType: dt?.rawValue ?? ALL, activity: a?.name ?? ALL, activityType: at?.name ?? ALL, equipment: e?.name ?? ALL, period: p, unit: u, from: from, to: to)
-    //}
+    func valuesFor(dayType dt: DayType? = nil, activity a: Activity? = nil, activityType at: ActivityType? = nil, equipment e: Equipment? = nil, period p: Period, aggregationMethod am: AggregationMethod, unit u: Unit, from: Date? = nil, to: Date? = nil) -> [(date: Date, value: Double)]{
+        return getValues(forDayType: dt, andActivity: a, andActivityType: at, andEquipment: e, andPeriod: p, aggregationMethod: am, andUnit: u, fromDate: from ?? firstDayOfDiary, toDate: to ?? lastDayOfDiary)
+    }
     
-
-//    func valuesAreForTrainingDiary() -> TrainingDiary { return self }
     
     //MARK: - Getting values
 
-    // note this can be pretty time consuming if asking for things like RYear
-    private func getValues(forDayType dt: String, andActivity a: String, andActivityType at: String, andEquipment e: String, andPeriod period: Period, andUnit unit: Unit, fromDate from: Date, toDate to: Date) -> [(date: Date, value:Double)]{
+    // this is focussed on the rolling periods. It is very time consuming to just loop through and ask each day for it's rolling period - by way of example. RollingYear for all days would require summing 365 days for every day - thats 5,000 x 365 sums - if we ask each day individually. If we run through the days and keep a total as we go there are ~ 2 sums per day. So should be ~ 180 times faster. Sacrifising generalisation for speed here. A second benefit is this method makes it easier to average units rather than just sum them.
+    // note that passing in nil means ALL
+    private func getValues(forDayType dt: DayType?, andActivity a: Activity?, andActivityType at: ActivityType?, andEquipment e: Equipment?, andPeriod period: Period, aggregationMethod am: AggregationMethod, andUnit unit: Unit, fromDate from: Date, toDate to: Date) -> [(date: Date, value:Double)]{
         
-        if let optimizedResults = optimisedCalculation(forDayType: dt, andActivity: a, andActivityType: at, andEquipment: e, andPeriod: period, andUnit: unit, fromDate: from, toDate: to){
-            return optimizedResults
+        var aggregator: DayAggregatorProtocol
+        
+        switch am{
+        case .Sum:
+            aggregator = SumAggregator(dayType: dt, activity: a, activityType: at, equipment: e, period: period, unit: unit, weighting: nil, from: from, to: to)
+        case .Mean:
+            aggregator = MeanAggregator(dayType: dt, activity: a, activityType: at, equipment: e, period: period, unit: unit, weighting: nil, from: from, to: to)
+        case .WeightedMean:
+            aggregator = MeanAggregator(dayType: dt, activity: a, activityType: at, equipment: e, period: period, unit: unit, weighting: Unit.Seconds, from: from, to: to)
+        case .None:
+            aggregator = DayAggregator(dayType: dt, activity: a, activityType: at, equipment: e, period: period, unit: unit, from: from, to: to)
         }
         
-        //if we get to this point it means optimization calculation hasn't worked.
-        //This will then sum through days / workouts recursively. This can be slow
-        //it also means averaging is rather tricky and hasn't been implemented (yet?)
-        var result: [(date: Date, value: Double)] = []
+        let results = aggregator.aggregate(data: days?.allObjects as? [Day] ?? [])
+        return results
         
-        if period != Period.Day && !unit.summable{
-            print("getValues(forActivity:) in Training Diary has not implemented weighted averaging so cannot return values for \(unit.rawValue)")
-            return result
-        }
-        
-        let sortedDays = ascendingOrderedDays(fromDate: from, toDate: to)
-        if sortedDays.count > 0 {
-            for day in sortedDays{
-                let r = day.valuesFor(dayType: dt, activity: a, activityType: at, equipment: e, period: period, unit: unit)
-                for e in r{
-                    result.append(e)
-                }
-            }
-        }
-        return result
     }
     
     //MARK: -
@@ -914,101 +899,7 @@ extension TrainingDiary{
     
 
     
-    // this is focussed on the rolling periods. It is very time consuming to just loop through and ask each day for it's rolling period - by way of example. RollingYear for all days would require summing 365 days for every day - thats 5,000 x 365 sums - if we ask each day individually. If we run through the days and keep a total as we go there are ~ 2 sums per day. So should be ~ 180 times faster. Sacrifising generalisation for speed here. A second benefit is this method makes it easier to average units rather than just sum them.
-    private func optimisedCalculation(forDayType dt: String, andActivity activity: String, andActivityType activityType: String, andEquipment e: String, andPeriod period: Period, andUnit unit: Unit, fromDate from: Date, toDate to: Date) -> [(date: Date, value:Double)]?{
 
-        
-        var result: [(date: Date, value:Double)] = []
-        
-        
-        if unit.summable{
-            var rSum: RollingPeriodSum?
-            switch period{
-            case .rWeek:        rSum = RollingPeriodSum(size: 7)
-            case .rMonth:       rSum = RollingPeriodSum(size: 30)
-            case .rYear:        rSum = RollingPeriodSum(size: 365)
-            case .WeekToDate:   rSum  = ToDateSum(size: 7, rule: {$0.isEndOfWeek()})
-            case .WTDTue:       rSum  = ToDateSum(size: 7, rule: {$0.isMonday()})
-            case .WTDWed:       rSum  = ToDateSum(size: 7, rule: {$0.isTuesday()})
-            case .WTDThu:       rSum  = ToDateSum(size: 7, rule: {$0.isWednesday()})
-            case .WTDFri:       rSum  = ToDateSum(size: 7, rule: {$0.isThursday()})
-            case .WTDSat:       rSum  = ToDateSum(size: 7, rule: {$0.isFriday()})
-            case .WTDSun:       rSum  = ToDateSum(size: 7, rule: {$0.isSaturday()})
-            case .MonthToDate:  rSum  = ToDateSum(size: 31, rule: {$0.isEndOfMonth()})
-            case .YearToDate:   rSum  = ToDateSum(size: 366, rule: {$0.isEndOfYear()})
-            case .Week:         rSum  = PeriodSum(size: 7, rule: {$0.isEndOfWeek()})
-            case .WeekTue:      rSum  = PeriodSum(size: 7, rule: {$0.isMonday()})
-            case .WeekWed:      rSum  = PeriodSum(size: 7, rule: {$0.isTuesday()})
-            case .WeekThu:      rSum  = PeriodSum(size: 7, rule: {$0.isWednesday()})
-            case .WeekFri:      rSum  = PeriodSum(size: 7, rule: {$0.isThursday()})
-            case .WeekSat:      rSum  = PeriodSum(size: 7, rule: {$0.isFriday()})
-            case .WeekSun:      rSum  = PeriodSum(size: 7, rule: {$0.isSaturday()})
-            case .Month:        rSum  = PeriodSum(size: 31, rule: {$0.isEndOfMonth()})
-            case .Year:         rSum  = PeriodSum(size: 366, rule: {$0.isEndOfYear()})
- 
-            case .Day, .Lifetime, .Adhoc, .Workout:
-                return nil
-                
-            }
-            
-            for d in ascendingOrderedDays(fromDate: rSum!.preLoadData(forDate: from), toDate: to){
-                let sum = rSum!.addAndReturnSum(forDate: d.date!, value: d.valueFor(dayType: dt, activity: activity, activityType: activityType, equipment: e, unit: unit))
-                if d.date! >= from{
-                    if let s = sum{
-                        result.append((d.date!, s))
-                    }
-                }
-            }
-
-            
-        }else{
-            var rAverage: RollingPeriodWeightedAverage?
-            switch period{
-            case .rWeek:        rAverage = RollingPeriodWeightedAverage(size: 7)
-            case .rMonth:       rAverage = RollingPeriodWeightedAverage(size: 30)
-            case .rYear:        rAverage = RollingPeriodWeightedAverage(size: 365)
-
-            case .WeekToDate:   rAverage = ToDateWeightedAverage(size: 7, rule: {$0.isEndOfWeek()})
-            case .WTDTue:       rAverage = ToDateWeightedAverage(size: 7, rule: {$0.isMonday()})
-            case .WTDWed:       rAverage = ToDateWeightedAverage(size: 7, rule: {$0.isTuesday()})
-            case .WTDThu:       rAverage = ToDateWeightedAverage(size: 7, rule: {$0.isWednesday()})
-            case .WTDFri:       rAverage = ToDateWeightedAverage(size: 7, rule: {$0.isThursday()})
-            case .WTDSat:       rAverage = ToDateWeightedAverage(size: 7, rule: {$0.isFriday()})
-            case .WTDSun:       rAverage = ToDateWeightedAverage(size: 7, rule: {$0.isSaturday()})
-            case .MonthToDate:  rAverage = ToDateWeightedAverage(size: 31, rule: {$0.isEndOfMonth()})
-            case .YearToDate:   rAverage = ToDateWeightedAverage(size: 366, rule: {$0.isEndOfYear()})
-            case .Week:         rAverage = PeriodWeightedAverage(size: 7, rule: {$0.isEndOfWeek()})
-            case .WeekTue:      rAverage = PeriodWeightedAverage(size: 7, rule: {$0.isMonday()})
-            case .WeekWed:      rAverage = PeriodWeightedAverage(size: 7, rule: {$0.isTuesday()})
-            case .WeekThu:      rAverage = PeriodWeightedAverage(size: 7, rule: {$0.isWednesday()})
-            case .WeekFri:      rAverage = PeriodWeightedAverage(size: 7, rule: {$0.isThursday()})
-            case .WeekSat:      rAverage = PeriodWeightedAverage(size: 7, rule: {$0.isFriday()})
-            case .WeekSun:      rAverage = PeriodWeightedAverage(size: 7, rule: {$0.isSaturday()})
-            case .Month:        rAverage = PeriodWeightedAverage(size: 31, rule: {$0.isEndOfMonth()})
-            case .Year:         rAverage = PeriodWeightedAverage(size: 366, rule: {$0.isEndOfYear()})
- 
-            case .Day, .Lifetime, .Adhoc, .Workout:
-                return nil
-            }
-            
-            
-            for d in ascendingOrderedDays(fromDate: rAverage!.preLoadData(forDate: from), toDate: to){
-                var weight: Double = 1.0
-                if unit.type() == UnitType.Activity{
-                    weight = d.valueFor(dayType: dt, activity: activity, activityType: activityType, equipment: e, unit: Unit.Seconds)
-                }
-                let sum = rAverage!.addAndReturnAverage(forDate: d.date!, value: d.valueFor(dayType: dt, activity: activity, activityType: activityType, equipment: e, unit: unit), wieghting: weight)
-                if d.date! >= from{
-                    if let s = sum{
-                        result.append((d.date!, s))
-                    }
-                }
-            }
-
-        }
-
-        return result
-    }
     
 
     private func ascendingOrderedDays(fromDate from: Date, toDate to: Date) -> [Day]{

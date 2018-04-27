@@ -12,6 +12,15 @@ import Foundation
  */
 class PeriodSum: ToDateSum{
     
+    func addAndReturnValue(forDate date: Date?, value v: Double, wieghting w: Double? = nil) -> Double?{
+        if let d = date{
+            let sum = super.addAndReturnValue(forDate: d, value: v)
+            if resetRule(d){
+                return sum
+            }
+        }
+        return nil
+    }
     
     override func addAndReturnSum(forDate date: Date, value v: Double) -> Double? {
         let sum = super.addAndReturnSum(forDate: date, value: v)

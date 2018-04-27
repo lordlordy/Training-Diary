@@ -66,7 +66,6 @@ class EddingtonTableViewController: TrainingDiaryViewController, NSComboBoxDataS
         let start = Date()
         
         
-        mainViewController!.mainStatusField.stringValue = "EDDINGTON NUMBER UPDATE: starting..."
         DispatchQueue.global(qos: .userInitiated).async {
             var count: Double = 0.0
             let total: Double = Double(self.selectedRows().count)
@@ -95,7 +94,6 @@ class EddingtonTableViewController: TrainingDiaryViewController, NSComboBoxDataS
             DispatchQueue.main.async {
                 self.mainViewController!.mainStatusField.stringValue = "EDDINGTON NUMBER UPDATE: Update complete in \(Int(Date().timeIntervalSince(start)))s"
                 print("update graph called \(Date().timeIntervalSince(start))s since start")
-        //        self.updateGraph()
                 print("graph updated  \(Date().timeIntervalSince(start))s since start")
                 print("TOTAL TIME = \(Date().timeIntervalSince(start))s")
             }

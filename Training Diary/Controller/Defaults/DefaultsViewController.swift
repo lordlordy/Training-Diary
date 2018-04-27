@@ -21,9 +21,63 @@ class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource,
     
     //MARK: - IBActions
     @IBAction func adhoc(_ sender: Any) {
-        for p in CoreDataStackSingleton.shared.trainingDiaryPC.persistentStoreCoordinator.persistentStores{
-            print(p.url)
+        if let td = trainingDiary{
+            var results: [String: Double] = [:]
+            let start = Date()
+
+            for p in Period.All{
+       //     for p in [Period.Lifetime, Period.Adhoc, Period.Workout]{
+                print(p.rawValue)
+                let ALL = ConstantString.EddingtonAll.rawValue
+                let tdValues = td.valuesFor(dayType: ALL, activity: FixedActivity.Bike.rawValue, activityType: ALL, equipment: ALL, period: p, aggregationMethod: Unit.Watts.defaultAggregator(), unit: Unit.Watts)
+                let aggregator = MeanAggregator(activity: td.activity(forString: FixedActivity.Bike.rawValue)!, period: p, unit: Unit.Watts, weighting: Unit.Seconds, from: td.firstDayOfDiary, to: td.lastDayOfDiary)
+                let meanAggregator = MeanAggregator(activity: td.activity(forString: FixedActivity.Bike.rawValue)!, period: p, unit: Unit.Watts, weighting: nil, from: td.firstDayOfDiary, to: td.lastDayOfDiary)
+                let aggValues = aggregator.aggregate(data: td.days?.allObjects as? [Day] ?? [])
+                let meanValues = meanAggregator.aggregate(data: td.days?.allObjects as? [Day] ?? [])
+
+                var tdDict: [String: Double] = [:]
+                for v in tdValues{
+                    tdDict[v.date.dateOnlyString()] = v.value
+                }
+                
+                var aggDict: [String: Double] = [:]
+                for v in aggValues{
+                    aggDict[v.date.dateOnlyString()] = v.value
+                }
+
+                var meanDict: [String: Double] = [:]
+                for v in meanValues{
+                    meanDict[v.date.dateOnlyString()] = v.value
+                }
+                
+                var sumSquares: Double = 0.0
+                var errors: Int = 0
+                
+                for i in tdDict{
+                    var agg: Double = 0
+                    if let a = aggDict[i.key]{
+                        agg = a
+                    }else{
+                        errors += 1
+                    }
+                    let diff = i.value - agg
+                    sumSquares += pow(diff ,2)
+                }
+                print("\(p.rawValue) - Sum of squares ~ Errors : \(sumSquares) ~ \(errors)")
+               
+                results[p.rawValue] = sumSquares
+
+                for i in meanDict{
+                    print("\(i.key) mean:weighted - \(meanDict[i.key]) : \(aggDict[i.key])")
+                }
+                
+            }
             
+            for i in results{
+                print("\(i.value) - \(i.key)")
+            }
+            
+            print("Took \(Date().timeIntervalSince(start))s")
         }
     }
     

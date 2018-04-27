@@ -148,6 +148,25 @@ enum Period: String{
     static var All = [Day,Week,Month,Year, WeekToDate,MonthToDate, YearToDate,rWeek,rMonth,rYear, Lifetime, Adhoc, WeekTue, WeekWed, WeekThu, WeekFri, WeekSat, WeekSun, WTDTue, WTDWed, WTDThu, WTDFri, WTDSat, WTDSun, Workout]
     
     
+    func size() -> Int{
+        switch self{
+        case .Workout, .Day:
+            return 1
+        case .Week, .WeekTue, .WeekWed, .WeekThu, .WeekFri, .WeekSat, .WeekSun, .WeekToDate, .WTDTue, .WTDWed, .WTDThu, .WTDFri, .WTDSat, .WTDSun, .rWeek:
+            return 7
+        case .Month, .MonthToDate, .rMonth:
+            return 31
+        case .rYear:
+            return 365
+        case .Year, .YearToDate:
+            return 366
+        case .Lifetime:
+            return Int.max
+        case .Adhoc:
+            return 0
+        }
+    }
+    
     /* Returns the periods range of dates for a given date. This gives the period this ends with except where this doesn't make sense
      when it gives period this date is within.
      Returns period ending on date for: Day, WeekToDate, MonthToDate, YearToDate, rWeek, rMonth and rYear
@@ -190,6 +209,10 @@ enum Period: String{
   
 }
 
+enum AggregationMethod: String{
+    case Sum, Mean, WeightedMean
+    case None // special case where aggregating just a single thing eg Day
+}
 
 enum UnitType: String{
     case Activity, Day
@@ -210,6 +233,7 @@ enum Unit: String{
     static var allUnits = [AscentMetres,AscentFeet, Cadence, Hours, HR, KJ, KM, Miles, Minutes, Reps, RPETSS, Seconds, TSS, Watts, ATL, CTL, TSB, Monotony, Strain, fatigue, fatPercent, kg, lbs, motivation, restingHR, restingSDNN, restingRMSSD, sleep, sleepMinutes]
     static var metrics = [ATL, CTL, TSB, Monotony, Strain]
     
+    //deprecated
     var summable: Bool{
         switch self{
         case .Cadence, .HR, .Watts, .fatigue, .fatPercent, .kg, .lbs, .motivation, .restingHR, .ATL, .CTL, .TSB: return false
@@ -220,6 +244,15 @@ enum Unit: String{
     var isActivityBased:    Bool{ return Unit.activityUnits.contains(self) || Unit.metrics.contains(self) }
     var isMetric:           Bool{ return Unit.metrics.contains(self) }
     var allKey:             String{ return "all" + self.rawValue}
+    
+    func defaultAggregator() -> AggregationMethod{
+        switch self{
+        case .Cadence, .HR, .Watts: return AggregationMethod.WeightedMean
+        case .fatigue, .fatPercent, .kg, .lbs, .motivation, .restingHR, .ATL, .CTL, .TSB: return AggregationMethod.Mean
+        default: return AggregationMethod.Sum
+        }
+        
+    }
     
     func type() -> UnitType{
         if Unit.dayUnits.contains(self){

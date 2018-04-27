@@ -101,6 +101,10 @@ extension Day:PeriodNode{
         }
     }
     
+    func valuesFor(dayType dt: DayType? = nil, activity a: Activity? = nil, activityType at: ActivityType? = nil, equipment e: Equipment? = nil, period p: Period, unit u: Unit) -> [(date: Date, value: Double)]{
+        let ALL = ConstantString.EddingtonAll.rawValue
+        return valuesFor(dayType: dt?.rawValue ?? ALL, activity: a?.name ?? ALL, activityType: at?.name ?? ALL, equipment: e?.name ?? ALL, period: p, unit: u)
+    }
     
     func valuesFor(dayType dt: String, activity a: String, activityType at: String, equipment e: String, period p: Period, unit u: Unit) -> [(date: Date, value: Double)]{
 
@@ -171,9 +175,7 @@ extension Day:PeriodNode{
                 v = recursiveAdd(toDate: self.date!.startOfRMonth(), dayType: dt, activity: a, activityType: at, equipment: e, unit: u)
             case .rYear:
                 v = recursiveAdd(toDate: self.date!.startOfRYear(), dayType: dt, activity: a, activityType: at, equipment: e, unit: u)
-            case .Lifetime:
-                v = recursiveAdd(toDate: self.trainingDiary!.firstDayOfDiary, dayType: dt, activity: a, activityType: at, equipment: e, unit: u)
-            case .Adhoc:
+            case .Adhoc, .Lifetime:
                 v = 0.0
             }
         }

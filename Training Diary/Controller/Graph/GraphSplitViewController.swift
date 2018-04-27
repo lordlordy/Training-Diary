@@ -278,7 +278,7 @@ class GraphSplitViewController: TrainingDiarySplitViewController, GraphManagemen
                 g.cache = cachedValues
             }else{
                 
-                let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: g.activity, activityType: g.activityType, equipment: ConstantString.EddingtonAll.rawValue, period: g.period, unit: g.unit)
+                let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: g.activity, activityType: g.activityType, equipment: ConstantString.EddingtonAll.rawValue, period: g.period, aggregationMethod: g.unit.defaultAggregator(), unit: g.unit)
                 g.cache = values
                 self.cache[g.name] = values
                 

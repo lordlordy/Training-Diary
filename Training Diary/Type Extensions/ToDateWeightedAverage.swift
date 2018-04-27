@@ -17,6 +17,17 @@ class ToDateWeightedAverage: RollingPeriodWeightedAverage{
         super.init(size: size)
     }
     
+    override func addAndReturnValue(forDate date: Date?, value v: Double, weighting w: Double? = 1.0) -> Double?{
+        if let d = date{
+            let average = super.addAndReturnValue(forDate: d, value: v, weighting: w)
+            if resetRule(d){
+                resetQueue()
+            }
+            return average
+        }
+        return nil
+    }
+    
     override func addAndReturnAverage(forDate date: Date, value v: Double, wieghting w: Double) -> Double? {
         let average = super.addAndReturnAverage(forDate: date, value: v, wieghting: w)
         if resetRule(date){

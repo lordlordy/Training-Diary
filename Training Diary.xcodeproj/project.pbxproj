@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7302C68720924C5D004B17F5 /* SumAggregator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7302C68620924C5D004B17F5 /* SumAggregator.swift */; };
+		7302C6892092690A004B17F5 /* WeightedMeanAggregator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7302C6882092690A004B17F5 /* WeightedMeanAggregator.swift */; };
+		7302C68B2092D9D0004B17F5 /* MeanAggregator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7302C68A2092D9D0004B17F5 /* MeanAggregator.swift */; };
+		7302C68D2092DBF1004B17F5 /* DayAggregator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7302C68C2092DBF1004B17F5 /* DayAggregator.swift */; };
+		7302C68F20930686004B17F5 /* DayAggregatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7302C68E20930686004B17F5 /* DayAggregatorProtocol.swift */; };
+		7302C69320931B33004B17F5 /* RollingPeriodCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7302C69220931B33004B17F5 /* RollingPeriodCalculator.swift */; };
 		7309AED61FC6CCC100054A6B /* ActivityGraphDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7309AED51FC6CCC100054A6B /* ActivityGraphDefinition.swift */; };
 		730AE25E1FC732DB00348A63 /* ChartTypeComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730AE25D1FC732DB00348A63 /* ChartTypeComboBox.swift */; };
 		730DB7571FE132F500579A81 /* Metric+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730DB7561FE132F500579A81 /* Metric+Extension.swift */; };
@@ -142,6 +148,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7302C68620924C5D004B17F5 /* SumAggregator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SumAggregator.swift; sourceTree = "<group>"; };
+		7302C6882092690A004B17F5 /* WeightedMeanAggregator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightedMeanAggregator.swift; sourceTree = "<group>"; };
+		7302C68A2092D9D0004B17F5 /* MeanAggregator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeanAggregator.swift; sourceTree = "<group>"; };
+		7302C68C2092DBF1004B17F5 /* DayAggregator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayAggregator.swift; sourceTree = "<group>"; };
+		7302C68E20930686004B17F5 /* DayAggregatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayAggregatorProtocol.swift; sourceTree = "<group>"; };
+		7302C69220931B33004B17F5 /* RollingPeriodCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollingPeriodCalculator.swift; sourceTree = "<group>"; };
 		7309AED51FC6CCC100054A6B /* ActivityGraphDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityGraphDefinition.swift; sourceTree = "<group>"; };
 		730AE25D1FC732DB00348A63 /* ChartTypeComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartTypeComboBox.swift; sourceTree = "<group>"; };
 		730DB7561FE132F500579A81 /* Metric+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Metric+Extension.swift"; sourceTree = "<group>"; };
@@ -291,6 +303,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7302C6912093184E004B17F5 /* Aggregators */ = {
+			isa = PBXGroup;
+			children = (
+				7302C68C2092DBF1004B17F5 /* DayAggregator.swift */,
+				7302C68A2092D9D0004B17F5 /* MeanAggregator.swift */,
+				7302C68620924C5D004B17F5 /* SumAggregator.swift */,
+				7302C6882092690A004B17F5 /* WeightedMeanAggregator.swift */,
+				7302C68E20930686004B17F5 /* DayAggregatorProtocol.swift */,
+			);
+			name = Aggregators;
+			sourceTree = "<group>";
+		};
 		73B2B9D61F894CC00044DD4E = {
 			isa = PBXGroup;
 			children = (
@@ -310,20 +334,21 @@
 		73B2B9E11F894CC00044DD4E /* Training Diary */ = {
 			isa = PBXGroup;
 			children = (
-				73E6A3EE20525CBD00551C85 /* Training Diary.entitlements */,
-				73FC61DE200E19A000C61DE6 /* filteringTable.html */,
-				73FC61E0200E1D1900C61DE6 /* tableStart.txt */,
-				73FC61E2200E1D5200C61DE6 /* tableEnd.txt */,
-				73B3188B1FAB78AD00B75550 /* Type Extensions */,
-				73E1216E1F98F8F700037DAF /* Data Model */,
-				73E1216D1F98F89400037DAF /* Controller */,
-				73D8D7181FB5F3CE00FAB8A3 /* GUI */,
+				7302C6912093184E004B17F5 /* Aggregators */,
 				73B2B9E21F894CC00044DD4E /* AppDelegate.swift */,
-				735E0AAD202D47B20089C2CD /* Maths.swift */,
 				73B2B9E91F894CC00044DD4E /* Assets.xcassets */,
+				73E1216D1F98F89400037DAF /* Controller */,
+				73E1216E1F98F8F700037DAF /* Data Model */,
+				73FC61DE200E19A000C61DE6 /* filteringTable.html */,
+				73D8D7181FB5F3CE00FAB8A3 /* GUI */,
 				73B2B9EE1F894CC00044DD4E /* Info.plist */,
 				73B2B9EB1F894CC00044DD4E /* Main.storyboard */,
+				735E0AAD202D47B20089C2CD /* Maths.swift */,
+				73FC61E2200E1D5200C61DE6 /* tableEnd.txt */,
+				73FC61E0200E1D1900C61DE6 /* tableStart.txt */,
+				73E6A3EE20525CBD00551C85 /* Training Diary.entitlements */,
 				73B2B9EF1F894CC00044DD4E /* Training_Diary.entitlements */,
+				73B3188B1FAB78AD00B75550 /* Type Extensions */,
 			);
 			path = "Training Diary";
 			sourceTree = "<group>";
@@ -341,6 +366,7 @@
 				73D6CC781FC86E5D006830DA /* ToDateSum.swift */,
 				73D89F971FD15F39002F07A2 /* PeriodSum.swift */,
 				73D89F991FD15FEB002F07A2 /* PeriodWeightedAverage.swift */,
+				7302C69220931B33004B17F5 /* RollingPeriodCalculator.swift */,
 				732EF2151FD0B60F008768C0 /* ToDateWeightedAverage.swift */,
 				73D6CC761FC86CBE006830DA /* RollingPeriodSum.swift */,
 				732EF2131FD0B5E6008768C0 /* RollingPeriodWeightedAverage.swift */,
@@ -500,30 +526,30 @@
 		73D8D7181FB5F3CE00FAB8A3 /* GUI */ = {
 			isa = PBXGroup;
 			children = (
-				73B2B9FB1F896F920044DD4E /* TransformerNSNumberToTimeFormat.swift */,
-				73D3171C2018BEA90070C40B /* TextViewToStringTransformer.swift */,
-				73F270611FAB0CC400D36156 /* TableViewWithColumnSort.swift */,
-				73AF79AC2025CF2E0067CE37 /* OutLineViewWithColumnSort.swift */,
-				73DC9B121FDC39B500D4774A /* NumberToSummaryTimeFormatter.swift */,
-				73DC9B101FDC373700D4774A /* NumberToDetailedTimeTransformer.swift */,
-				73D89F9F1FD1E241002F07A2 /* DatedActivityGraphDefinition.swift */,
-				73B9FCBA2006A4EF00C57D25 /* GraphDefinition.swift */,
-				7369D9F51FB24F8C00ECAA1E /* TSSMethodComboBox.swift */,
-				7369D9ED1FB23DBC00ECAA1E /* DayTypeComboBox.swift */,
-				73AF79AA2025CA0C0067CE37 /* GMTDatePicker.swift */,
-				73BD2F63203E489000377CCE /* GMTDateFormatter.swift */,
-				73789C8F20123C69002D2393 /* PeriodTextField.swift */,
-				7369D9EF1FB24EEE00ECAA1E /* BikeComboBox.swift */,
-				73B9FCBC200B703600C57D25 /* AllBikesComboBox.swift */,
-				7369D9F71FB25B7600ECAA1E /* SleepQualityComboBox.swift */,
 				7369D9F11FB24F2B00ECAA1E /* ActivityComboBox.swift */,
-				7333B9F11FB613CA005F424E /* UnitComboBox.swift */,
-				730AE25D1FC732DB00348A63 /* ChartTypeComboBox.swift */,
 				7369D9F31FB24F5000ECAA1E /* ActivityTypeComboBox.swift */,
-				733990C21FB34BD200E80D4A /* PeriodComboBox.swift */,
-				73E25E181FBEA9150081FC62 /* GraphView.swift */,
+				73B9FCBC200B703600C57D25 /* AllBikesComboBox.swift */,
 				73920AB21FC8D2CA00A9686F /* AxisComboBox.swift */,
+				7369D9EF1FB24EEE00ECAA1E /* BikeComboBox.swift */,
+				730AE25D1FC732DB00348A63 /* ChartTypeComboBox.swift */,
+				73D89F9F1FD1E241002F07A2 /* DatedActivityGraphDefinition.swift */,
+				7369D9ED1FB23DBC00ECAA1E /* DayTypeComboBox.swift */,
+				73BD2F63203E489000377CCE /* GMTDateFormatter.swift */,
+				73AF79AA2025CA0C0067CE37 /* GMTDatePicker.swift */,
+				73B9FCBA2006A4EF00C57D25 /* GraphDefinition.swift */,
 				73D6CC701FC80A75006830DA /* GraphFormat.swift */,
+				73E25E181FBEA9150081FC62 /* GraphView.swift */,
+				73DC9B101FDC373700D4774A /* NumberToDetailedTimeTransformer.swift */,
+				73DC9B121FDC39B500D4774A /* NumberToSummaryTimeFormatter.swift */,
+				73AF79AC2025CF2E0067CE37 /* OutLineViewWithColumnSort.swift */,
+				733990C21FB34BD200E80D4A /* PeriodComboBox.swift */,
+				73789C8F20123C69002D2393 /* PeriodTextField.swift */,
+				7369D9F71FB25B7600ECAA1E /* SleepQualityComboBox.swift */,
+				73F270611FAB0CC400D36156 /* TableViewWithColumnSort.swift */,
+				73D3171C2018BEA90070C40B /* TextViewToStringTransformer.swift */,
+				73B2B9FB1F896F920044DD4E /* TransformerNSNumberToTimeFormat.swift */,
+				7369D9F51FB24F8C00ECAA1E /* TSSMethodComboBox.swift */,
+				7333B9F11FB613CA005F424E /* UnitComboBox.swift */,
 			);
 			path = GUI;
 			sourceTree = "<group>";
@@ -554,6 +580,7 @@
 			children = (
 				73641577201C7207009D5817 /* Activity+Extension.swift */,
 				731FA62A201FD890004EF572 /* ActivityType+Extension.swift */,
+				7355D4B3208FD0AB00C2F430 /* BasicWeekDay+Extension.swift */,
 				73E6A3EC20524F4600551C85 /* CategoryProtocol.swift */,
 				73B2B9F71F894E870044DD4E /* CoreDataStackSingleton.swift */,
 				73789C8D2010CE61002D2393 /* CSVExporter.swift */,
@@ -573,7 +600,6 @@
 				73AA63FA2052BCF70044A05F /* PhysioLogical+Extension.swift */,
 				73CFDB81208CA00500534553 /* Plan+Extension.swift */,
 				73BE9F51208E0F5F00CD03B8 /* PlanDay+Extension.swift */,
-				7355D4B3208FD0AB00C2F430 /* BasicWeekDay+Extension.swift */,
 				73B2B9E61F894CC00044DD4E /* Training_Diary.xcdatamodeld */,
 				7369D9F91FB2C97400ECAA1E /* TrainingDiary+Extension.swift */,
 				73641579201C8FF5009D5817 /* TrainingDiaryValues.swift */,
@@ -681,6 +707,7 @@
 				73F9A3B3204EF584000DEECE /* DaysPredicatorEditorViewController.swift in Sources */,
 				73F270621FAB0CC400D36156 /* TableViewWithColumnSort.swift in Sources */,
 				735C8C622090A28900149F96 /* WeightHRVTablesViewController.swift in Sources */,
+				7302C68F20930686004B17F5 /* DayAggregatorProtocol.swift in Sources */,
 				73C65C5920516ABC00A3FBC3 /* EddingtonContributorsViewController.swift in Sources */,
 				7369D9EE1FB23DBC00ECAA1E /* DayTypeComboBox.swift in Sources */,
 				731154272046550300C2179E /* EddingtonNumberTABViewController.swift in Sources */,
@@ -702,6 +729,7 @@
 				73BFC3862090EC4400CE3493 /* BikeSplitViewController.swift in Sources */,
 				73C13FB52049408100199D47 /* TrainingDiaryTabViewControler.swift in Sources */,
 				73B9FCBD200B703600C57D25 /* AllBikesComboBox.swift in Sources */,
+				7302C68720924C5D004B17F5 /* SumAggregator.swift in Sources */,
 				73C2E4991FD8967900C30316 /* GraphManagementDelegate.swift in Sources */,
 				735C8C602090A1BD00149F96 /* WeightHRVSplitViewController.swift in Sources */,
 				7364157A201C8FF5009D5817 /* TrainingDiaryValues.swift in Sources */,
@@ -720,6 +748,7 @@
 				73F7097A204C38160022EC04 /* TrainingDiarySplitViewController.swift in Sources */,
 				73AF79AD2025CF2E0067CE37 /* OutLineViewWithColumnSort.swift in Sources */,
 				73DE3E2A206BF4450029EF14 /* GraphSplitViewController.swift in Sources */,
+				7302C68D2092DBF1004B17F5 /* DayAggregator.swift in Sources */,
 				73444C3F1F96AB9B00B3E84D /* Enumerations.swift in Sources */,
 				73C2E4951FD7B29800C30316 /* GraphArrayController.swift in Sources */,
 				73EBA47F208346EB00426626 /* ActivityGraphViewController.swift in Sources */,
@@ -734,6 +763,7 @@
 				73E3C6E0208B214800B39235 /* PlansArrayController.swift in Sources */,
 				73A620C62084E7A200679CE9 /* TSBGraphSplitViewController.swift in Sources */,
 				7369D9F01FB24EEE00ECAA1E /* BikeComboBox.swift in Sources */,
+				7302C68B2092D9D0004B17F5 /* MeanAggregator.swift in Sources */,
 				73B5644420260B6E0022E80A /* LTDEddingtonNumber+Extension.swift in Sources */,
 				7333B9F61FB6F199005F424E /* PhysiologicalsArrayController.swift in Sources */,
 				73C3B37F1F97DC5A00ED6108 /* Date+Extension.swift in Sources */,
@@ -774,6 +804,7 @@
 				73AF13FF1FB064D2002A1B9E /* RollingSumQueue.swift in Sources */,
 				73920AB31FC8D2CB00A9686F /* AxisComboBox.swift in Sources */,
 				73E3C6E2208B229D00B39235 /* PlansTableViewController.swift in Sources */,
+				7302C6892092690A004B17F5 /* WeightedMeanAggregator.swift in Sources */,
 				73339CCA20513E90007CD288 /* EddingtonTableViewController.swift in Sources */,
 				733990C31FB34BD200E80D4A /* PeriodComboBox.swift in Sources */,
 				73A06B05204D594A0088BD09 /* WorkoutSplitViewController.swift in Sources */,
@@ -791,6 +822,7 @@
 				73D89F981FD15F39002F07A2 /* PeriodSum.swift in Sources */,
 				73B2BA021F898C060044DD4E /* Day+Extension.swift in Sources */,
 				73D89FA01FD1E241002F07A2 /* DatedActivityGraphDefinition.swift in Sources */,
+				7302C69320931B33004B17F5 /* RollingPeriodCalculator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

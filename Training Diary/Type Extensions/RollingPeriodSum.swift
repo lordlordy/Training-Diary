@@ -8,13 +8,18 @@
 
 import Foundation
 
-class RollingPeriodSum{
+class RollingPeriodSum: RollingPeriodCalculator{
     
     fileprivate var rollingSumQueue: RollingSumQueue
     
     init(size s: Int){
         rollingSumQueue = RollingSumQueue(size: s)
     }
+    
+    func addAndReturnValue(forDate date: Date?, value v: Double, weighting w: Double? = nil) -> Double?{
+        return rollingSumQueue.addAndReturnSum(value: v)
+    }
+
     
     //This method doesn't use the date. Subclasses do. 
     func addAndReturnSum(forDate date: Date, value v: Double) -> Double? {
@@ -25,8 +30,5 @@ class RollingPeriodSum{
         rollingSumQueue.resetQueue()
     }
 
-    func preLoadData(forDate d: Date) -> Date{
-        return d.addDays(numberOfDays: -rollingSumQueue.size())
-    }
-    
+
 }
