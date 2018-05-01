@@ -24,15 +24,9 @@ import Foundation
     @objc dynamic var equipment:        String { didSet{ updateName() } }
     var unit:           Unit    { didSet{ updateName() } }
     var period:         Period  { didSet{ updateName() } }
+    var aggregationMethod: AggregationMethod { didSet{ updateName() }}
     
- /*   @objc dynamic var activityString: String{
-        return activity
-    }
-    
-    @objc dynamic var activityTypeString: String{
-        return activityType ?? ""
-    }
-   */
+
     @objc dynamic var unitString: String{
         get{ return unit.rawValue}
         set{
@@ -47,6 +41,15 @@ import Foundation
             if let p = Period(rawValue: newValue){ period = p}
         }
     }
+    @objc dynamic var aggregationString: String{
+        get{ return aggregationMethod.rawValue}
+        set{
+            if let a = AggregationMethod(rawValue: newValue){
+                aggregationMethod = a
+            }
+        }
+    }
+    
     // not sure we need to set the name in Graph as that name is 'probably' redundant and should probably be removed
     //@objc dynamic var name: String = ""{didSet{ graph?.name = name } }
     @objc dynamic var name: String = ""
@@ -58,6 +61,7 @@ import Foundation
         self.equipment = ConstantString.EddingtonAll.rawValue
         self.unit = Unit.KM
         self.period = Period.Day
+        self.aggregationMethod = AggregationMethod.Sum
         graph = GraphDefinition(name: "new", axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .black, fillGradientStart: .black, fillGradientEnd: .black, gradientAngle: 0.0, size: 1.0, opacity: 1.0), drawZeroes: true, priority: 1)
         super.init()
         updateName()
@@ -81,6 +85,7 @@ import Foundation
         name += ":" + equipment
         name += ":" + activityType
         name += ":" + periodString
+        name += ":" + aggregationString
         name += ":" + unitString
     }
     

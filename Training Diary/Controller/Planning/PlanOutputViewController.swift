@@ -10,6 +10,7 @@ import Cocoa
 
 class PlanOutputViewController: NSViewController{
     
+    @IBOutlet weak var planOutputTableView: TableViewWithColumnSort!
     @IBAction func recalcTSB(_ sender: Any) {
         if let p = parent?.parent as? PlanningSplitViewController{
             p.recalculatePlan()
@@ -32,6 +33,9 @@ class PlanOutputViewController: NSViewController{
     @IBAction func updateActual(_ sender: Any) {
         if let p = parent?.parent as? PlanningSplitViewController{
             p.updateActuals()
+            if let potv = planOutputTableView{
+                potv.reloadData()
+            }
         }
     }
     

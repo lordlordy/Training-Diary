@@ -212,6 +212,7 @@ enum Period: String{
 enum AggregationMethod: String{
     case Sum, Mean, WeightedMean
     case None // special case where aggregating just a single thing eg Day
+    static let All: [AggregationMethod] = [.Sum, .Mean, .WeightedMean]
 }
 
 enum UnitType: String{

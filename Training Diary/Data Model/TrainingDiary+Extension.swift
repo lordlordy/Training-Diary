@@ -47,6 +47,13 @@ extension TrainingDiary{
     @objc dynamic var recoveryDays:         Int { return dayCount(forType: DayType.Recovery)}
     @objc dynamic var restDays:             Int { return dayCount(forType: DayType.Rest)}
     @objc dynamic var travelDays:           Int { return dayCount(forType: DayType.Travel)}
+   
+    @objc dynamic var nameNotSet: Bool {
+        if let n = name{
+            return n == ""
+        }
+        return true
+    }
 
     @objc dynamic var bikes: NSSet?{ return bikeMutableSet() }
     
@@ -626,6 +633,12 @@ extension TrainingDiary{
         for a in activitiesArray(){
             calculateMonotonyAndStrain(forActivity: a)
         }
+    }
+    
+    func calculatMonotonAndStrain(forActivity a: Activity, fromDate d: Date){
+        
+        print("Calculation of monotony for \(String(describing: a.name)) from date \(d.dateOnlyString()) still to be implemented")
+        
     }
     
     //no return as this will be stored in Core Data as another metric.

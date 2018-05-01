@@ -60,6 +60,12 @@ class CompareGraphSplitViewController: TrainingDiarySplitViewController, GraphMa
             g.periodString = period
         }
     }
+
+    func aggregationMethodChange(aggregationMethod: String) {
+        for g in graphs(){
+            g.aggregationString = aggregationMethod
+        }
+    }
     
     func unitChange(unit: String) {
         for g in graphs(){
@@ -128,6 +134,7 @@ class CompareGraphSplitViewController: TrainingDiarySplitViewController, GraphMa
                 g.activityType = graphs()[0].activityType
                 g.periodString = graphs()[0].periodString
                 g.unitString = graphs()[0].unitString
+                g.aggregationString = graphs()[0].aggregationString
                 g.graph!.type = graphs()[0].graph!.type
                 g.graph!.drawZero = graphs()[0].graph!.drawZero
                 g.graph!.format.size = graphs()[0].graph!.format.size
@@ -268,7 +275,7 @@ class CompareGraphSplitViewController: TrainingDiarySplitViewController, GraphMa
     private func updateData(forGraph graph: DatedActivityGraphDefinition){
         if let td = trainingDiary{
             if let g = graph.graph{
-                let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: graph.activity, activityType: graph.activityType, equipment: graph.equipment, period: graph.period, aggregationMethod: graph.unit.defaultAggregator(), unit: graph.unit, from: graph.from, to: graph.to)
+                let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: graph.activity, activityType: graph.activityType, equipment: graph.equipment, period: graph.period, aggregationMethod: graph.aggregationMethod, unit: graph.unit, from: graph.from, to: graph.to)
                 g.data = values
                 if values.count > baseDates.count{
                     baseDates =  values.map({$0.date})

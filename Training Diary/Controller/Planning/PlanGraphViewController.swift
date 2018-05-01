@@ -14,17 +14,23 @@ class PlanGraphViewController: NSViewController{
         case planTSB, planCTL, planATL, planTSS
         case actualTSB, actualCTL, actualATL, actualTSS
         
+        static let allNames: [GraphName] = [.planTSB, .planCTL, .planATL, .planTSS,.actualTSB, .actualCTL, .actualATL, .actualTSS]
         static let planName: [GraphName] = [.planTSB, .planCTL, .planATL, .planTSS]
         static let actualName: [GraphName] = [.actualTSB, .actualCTL, .actualATL, .actualTSS]
+        static let atlNames: [GraphName] = [.planATL, actualATL]
+        static let ctlNames: [GraphName] = [.planCTL, actualCTL]
+        static let tsbNames: [GraphName] = [.planTSB, actualTSB]
+        static let tssNames: [GraphName] = [.planTSS, actualTSS]
+        
     }
     
-    private let tsbGraph: GraphDefinition = GraphDefinition(name: GraphName.planTSB.rawValue, axis: .Primary, type: .Line, format: GraphFormat.init(fill: true, colour: .black, fillGradientStart: .red, fillGradientEnd: .blue, gradientAngle: 90.0, size: 1.0, opacity: 1.0), drawZeroes: true, priority: 8)
+    private let tsbGraph: GraphDefinition = GraphDefinition(name: GraphName.planTSB.rawValue, axis: .Primary, type: .Line, format: GraphFormat.init(fill: true, colour: .darkGray, fillGradientStart: .red, fillGradientEnd: .blue, gradientAngle: 90.0, size: 1.0, opacity: 1.0), drawZeroes: true, priority: 8)
     private let ctlGraph: GraphDefinition = GraphDefinition(name: GraphName.planCTL.rawValue, axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .red, fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 0.0, size: 2.0, opacity: 1.0), drawZeroes: true, priority: 7)
     private let atlGraph: GraphDefinition = GraphDefinition(name: GraphName.planATL.rawValue, axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .blue, fillGradientStart: .blue, fillGradientEnd: .blue, gradientAngle: 0.0, size: 2.0, opacity: 1.0), drawZeroes: true, priority: 6)
     private let tssGraph: GraphDefinition = GraphDefinition(name: GraphName.planTSS.rawValue, axis: .Secondary, type: .Bar, format: GraphFormat.init(fill: true, colour: .black, fillGradientStart: .yellow, fillGradientEnd: .yellow, gradientAngle: 0.0, size: 1.0, opacity: 0.5), drawZeroes: false, priority: 5)
     
-    private let tsbGraphActual: GraphDefinition = GraphDefinition(name: GraphName.actualTSB.rawValue, axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .darkGray, fillGradientStart: .red, fillGradientEnd: .blue, gradientAngle: 90.0, size: 3.0, opacity: 1.0), drawZeroes: true, priority: 4)
-    private let ctlGraphActual: GraphDefinition = GraphDefinition(name: GraphName.actualCTL.rawValue, axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .systemPink, fillGradientStart: .systemPink, fillGradientEnd: .systemPink, gradientAngle: 0.0, size: 2.0, opacity: 1.0), drawZeroes: true, priority: 3)
+    private let tsbGraphActual: GraphDefinition = GraphDefinition(name: GraphName.actualTSB.rawValue, axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .black, fillGradientStart: .red, fillGradientEnd: .blue, gradientAngle: 90.0, size: 3.0, opacity: 1.0), drawZeroes: true, priority: 4)
+    private let ctlGraphActual: GraphDefinition = GraphDefinition(name: GraphName.actualCTL.rawValue, axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: NSColor.magenta, fillGradientStart: .systemPink, fillGradientEnd: .systemPink, gradientAngle: 0.0, size: 2.0, opacity: 1.0), drawZeroes: true, priority: 3)
     private let atlGraphActual: GraphDefinition = GraphDefinition(name: GraphName.actualATL.rawValue, axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: NSColor.cyan, fillGradientStart: .cyan, fillGradientEnd: .cyan, gradientAngle: 0.0, size: 2.0, opacity: 1.0), drawZeroes: true, priority: 2)
     private let tssGraphActual: GraphDefinition = GraphDefinition(name: GraphName.actualTSS.rawValue, axis: .Secondary, type: .Bar, format: GraphFormat.init(fill: true, colour: .green, fillGradientStart: .green, fillGradientEnd: .green, gradientAngle: 0.0, size: 1.0, opacity: 0.5), drawZeroes: false, priority: 1)
     
@@ -48,6 +54,16 @@ class PlanGraphViewController: NSViewController{
     }
     
     @IBAction func tsbComboBoxChanged(_ sender: Any) {
+        switch tsbComboBox.stringValue{
+        case "ATL": switchOnOnly(graphNames: GraphName.atlNames)
+        case "CTL": switchOnOnly(graphNames: GraphName.ctlNames)
+        case "TSB": switchOnOnly(graphNames: GraphName.tsbNames)
+        case "TSS": switchOnOnly(graphNames: GraphName.tssNames)
+        default: switchOnOnly(graphNames: GraphName.allNames)
+        }
+        if let gv = graphView{
+            gv.needsDisplay = true
+        }
     }
     
     
@@ -231,6 +247,24 @@ class PlanGraphViewController: NSViewController{
         for i in actualPopUpButton!.menu!.items{
             if let s = actualGraphStates[i.title]{
                 i.state = s
+            }
+        }
+    }
+    
+    private func switchOnOnly(graphNames names: [GraphName]){
+        let nameStrings = names.map({$0.rawValue})
+        for g in actualGraphs{
+            if nameStrings.contains(g.name){
+                g.display = true
+            }else{
+                g.display = false
+            }
+        }
+        for g in planGraphs{
+            if nameStrings.contains(g.name){
+                g.display = true
+            }else{
+                g.display = false
             }
         }
     }

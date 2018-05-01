@@ -20,6 +20,9 @@ class TableViewWithColumnSort: NSTableView {
         createTableHeaderContextMenu()
     }
     
+    
+
+    
     override func controlTextDidEndEditing(_ obj: Notification) {
         super.controlTextDidEndEditing(obj)
         print("control text")
@@ -49,23 +52,33 @@ class TableViewWithColumnSort: NSTableView {
         if let col = item.representedObject as? NSTableColumn{
             col.isHidden = !col.isHidden
             item.state = col.isHidden ? .off : .on
+            UserDefaults.standard.set(col.isHidden, forKey: key(forColumn: col))
         }
+    }
+    
+    private func key(forColumn c: NSTableColumn) -> String{
+        var key = autosaveName?.rawValue ?? "~"
+        key += ":"
+        key += c.title
+        return key
     }
     
     /// set up the table header context menu for choosing the columns.
     private func createTableHeaderContextMenu() {
         
+        
         let tableHeaderContextMenu = NSMenu(title:"Select Columns")
         let tableColumns = self.tableColumns
         for column in tableColumns {
+            let colHidden: Bool = UserDefaults.standard.bool(forKey: key(forColumn: column))
             let title = column.headerCell.title
             
             let item = tableHeaderContextMenu.addItem(withTitle: title, action: #selector(TableViewWithColumnSort.contextMenuSelected), keyEquivalent: "")
             
             item.target = self
             item.representedObject = column
-            item.state = column.isHidden ? .off : .on
-
+            item.state = colHidden ? .off : .on
+            
         }
         self.headerView?.menu = tableHeaderContextMenu
     }

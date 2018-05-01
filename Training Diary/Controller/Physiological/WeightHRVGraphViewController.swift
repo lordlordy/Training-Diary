@@ -14,6 +14,19 @@ class WeightHRVGraphViewController: TrainingDiaryViewController{
     @IBOutlet weak var graphView: GraphView!
     @IBOutlet weak var graphsTableView: TableViewWithColumnSort!
     
+    private var fromDate: Date?
+    private var toDate: Date?
+
+    @IBAction func reloadCache(_ sender: Any){
+        createDataCache()
+        setGraphDataFromCache()
+        if let from = fromDate{
+            if let to = toDate{
+                setGraphDate(fromDate: from, toDate: to)
+            }
+        }
+    }
+    
     var rollingDays: Int = 7{
         didSet{
             updateRollingDataCache()
@@ -30,8 +43,12 @@ class WeightHRVGraphViewController: TrainingDiaryViewController{
         }
     }
     
+
+    
     
     func setGraphDate(fromDate from: Date, toDate to: Date){
+        fromDate = from
+        toDate = to
         if let gv = graphView{
             for g in graphs{
                 if let data = cache[g.name]?.filter({$0.date >= from && $0.date <= to}){

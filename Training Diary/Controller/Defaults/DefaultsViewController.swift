@@ -68,7 +68,7 @@ class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource,
                 results[p.rawValue] = sumSquares
 
                 for i in meanDict{
-                    print("\(i.key) mean:weighted - \(meanDict[i.key]) : \(aggDict[i.key])")
+                    print("\(i.key) mean:weighted - \(String(describing: meanDict[i.key])) : \(String(describing: aggDict[i.key]))")
                 }
                 
             }

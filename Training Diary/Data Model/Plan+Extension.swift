@@ -15,6 +15,13 @@ extension Plan{
     @objc dynamic var basicWeekTotalRunTSS: Double { return totalBasicWeek(forProperty: BasicWeekDayProperty.runTSS) }
     @objc dynamic var basicWeekTotalAllTSS: Double { return basicWeekTotalSwimTSS + basicWeekTotalBikeTSS + basicWeekTotalRunTSS }
 
+    @objc dynamic var nameNotSet: Bool{
+        if let n = name{
+            return n == ""
+        }
+        return true
+    }
+    
     private var basicWeekDictionary: [String: BasicWeekDay]{
         let a = basicWeek!.allObjects as! [BasicWeekDay]
         var result: [String: BasicWeekDay] = [:]

@@ -57,6 +57,14 @@ class CompareGraphTableViewController: TrainingDiaryViewController, NSComboBoxDa
         }
     }
     
+    @IBAction func aggregationMethodChanged(_ sender: AggregationMethodComboBox) {
+        if let parentVC = parent as? CompareGraphSplitViewController{
+            if let a = sender.selectedAggregationMethod(){
+                parentVC.aggregationMethodChange(aggregationMethod: a.rawValue)
+            }
+        }
+    }
+    
     @IBAction func unitChange(_ sender: UnitComboBox) {
         if let parentVC = parent as? CompareGraphSplitViewController{
             if let u = sender.selectedUnit(){

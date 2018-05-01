@@ -48,7 +48,9 @@ class GraphListViewController: TrainingDiaryViewController, NSComboBoxDataSource
         }
     }
     
-
+    @IBAction func aggregationMethodChanged(_ sender: AggregationMethodComboBox) {
+    }
+    
     @IBAction func unitChanged(_ sender: UnitComboBox) {
     }
     
