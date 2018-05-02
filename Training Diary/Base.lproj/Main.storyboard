@@ -4406,7 +4406,7 @@ IA
                                         <rect key="frame" x="0.0" y="0.0" width="60" height="50"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zmB-PQ-blA">
-                                                <rect key="frame" x="-2" y="33" width="64" height="17"/>
+                                                <rect key="frame" x="-2" y="33.5" width="64" height="16.5"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="TOTALS" id="Vyd-tz-ISN">
                                                     <font key="font" metaFont="smallSystemBold"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -4414,7 +4414,7 @@ IA
                                                 </textFieldCell>
                                             </textField>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PKk-WL-xS9">
-                                                <rect key="frame" x="-2" y="17" width="64" height="16"/>
+                                                <rect key="frame" x="-2" y="16.5" width="64" height="17"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Filter:" id="3Bp-0Y-6hC">
                                                     <font key="font" metaFont="smallSystem"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -4422,7 +4422,7 @@ IA
                                                 </textFieldCell>
                                             </textField>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xg1-GI-7sK">
-                                                <rect key="frame" x="-2" y="0.0" width="64" height="17"/>
+                                                <rect key="frame" x="-2" y="0.0" width="64" height="16.5"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Selection:" id="xwg-lN-r4K">
                                                     <font key="font" metaFont="smallSystem"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -4452,7 +4452,7 @@ IA
                                         </customSpacing>
                                     </stackView>
                                     <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NLf-bN-gl0">
-                                        <rect key="frame" x="60" y="0.0" width="60" height="50"/>
+                                        <rect key="frame" x="100" y="0.0" width="60" height="50"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WGl-w7-QjL">
                                                 <rect key="frame" x="-2" y="36" width="64" height="14"/>
@@ -4513,7 +4513,7 @@ IA
                                         </customSpacing>
                                     </stackView>
                                     <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DsA-s8-6aX">
-                                        <rect key="frame" x="120" y="0.0" width="60" height="50"/>
+                                        <rect key="frame" x="160" y="0.0" width="60" height="50"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="751" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="ezJ-mv-0R6">
                                                 <rect key="frame" x="-2" y="36" width="64" height="14"/>
@@ -4570,10 +4570,10 @@ IA
                                         </customSpacing>
                                     </stackView>
                                     <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cgW-Mt-XgQ">
-                                        <rect key="frame" x="180" y="0.0" width="60" height="50"/>
+                                        <rect key="frame" x="220" y="0.0" width="60" height="50"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="751" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="g45-L6-30g">
-                                                <rect key="frame" x="7" y="36" width="47" height="14"/>
+                                                <rect key="frame" x="6.5" y="36" width="47" height="14"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Bike KM" id="RE8-v3-JrW">
                                                     <font key="font" metaFont="smallSystem"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -4628,7 +4628,7 @@ IA
                                         <rect key="frame" x="280" y="0.0" width="60" height="50"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="751" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="ao9-ki-Xj5">
-                                                <rect key="frame" x="8" y="36" width="45" height="14"/>
+                                                <rect key="frame" x="7.5" y="36" width="45" height="14"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Run KM" id="O2i-Ta-0LV">
                                                     <font key="font" metaFont="smallSystem"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -4785,7 +4785,7 @@ IA
                                         <rect key="frame" x="0.0" y="19" width="81" height="19"/>
                                         <subviews>
                                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8ES-qG-9sV">
-                                                <rect key="frame" x="-2" y="3" width="20" height="14"/>
+                                                <rect key="frame" x="-2" y="2.5" width="20" height="14"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="KG" id="TdW-sM-k6C">
                                                     <font key="font" metaFont="smallSystem"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -6627,7 +6627,7 @@ IA
                                         </textFieldCell>
                                     </textField>
                                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aCK-z1-z5f">
-                                        <rect key="frame" x="57" y="0.0" width="57" height="19"/>
+                                        <rect key="frame" x="57" y="0.0" width="57.5" height="19"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="day type..." drawsBackground="YES" id="gbW-0Z-4ae">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -6638,7 +6638,7 @@ IA
                                         </connections>
                                     </textField>
                                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Z0W-R7-ZUD">
-                                        <rect key="frame" x="114" y="0.0" width="57" height="19"/>
+                                        <rect key="frame" x="114.5" y="0.0" width="57" height="19"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="activity..." drawsBackground="YES" id="KCV-xc-0eh">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -6649,7 +6649,7 @@ IA
                                         </connections>
                                     </textField>
                                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fZv-Dj-xJo">
-                                        <rect key="frame" x="171" y="0.0" width="57" height="19"/>
+                                        <rect key="frame" x="171.5" y="0.0" width="57" height="19"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="equipment..." drawsBackground="YES" id="zQJ-rx-RxW">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -6660,7 +6660,7 @@ IA
                                         </connections>
                                     </textField>
                                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DfG-Te-Vua">
-                                        <rect key="frame" x="228" y="0.0" width="57" height="19"/>
+                                        <rect key="frame" x="228.5" y="0.0" width="57" height="19"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="type..." drawsBackground="YES" id="M0P-Ez-Qma">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -6671,7 +6671,7 @@ IA
                                         </connections>
                                     </textField>
                                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dle-bI-pS2">
-                                        <rect key="frame" x="285" y="0.0" width="58" height="19"/>
+                                        <rect key="frame" x="285.5" y="0.0" width="57.5" height="19"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="period..." drawsBackground="YES" id="Wh0-1h-DxH">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -8185,7 +8185,7 @@ IA
                                                             </connections>
                                                         </button>
                                                         <textField horizontalHuggingPriority="249" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ghH-uU-Mem">
-                                                            <rect key="frame" x="36" y="4" width="932" height="12"/>
+                                                            <rect key="frame" x="36" y="3.5" width="932" height="12"/>
                                                             <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" state="on" alignment="right" id="f9k-OP-pc6">
                                                                 <numberFormatter key="formatter" formatterBehavior="custom10_4" positiveFormat="#,###" minimumIntegerDigits="0" maximumIntegerDigits="2000000000" id="kzv-o0-ASM"/>
                                                                 <font key="font" metaFont="miniSystem"/>
@@ -8205,7 +8205,7 @@ IA
                                                             </textFieldCell>
                                                         </textField>
                                                         <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MI3-RN-jkz">
-                                                            <rect key="frame" x="977" y="4" width="54" height="12"/>
+                                                            <rect key="frame" x="977" y="3.5" width="54" height="12"/>
                                                             <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" state="on" id="3x3-rW-0Ip">
                                                                 <numberFormatter key="formatter" formatterBehavior="custom10_4" positiveFormat="#,###" minimumIntegerDigits="0" maximumIntegerDigits="2000000000" id="Yld-aX-Eaf"/>
                                                                 <font key="font" metaFont="miniSystem"/>
@@ -11824,7 +11824,7 @@ IA
                                         <rect key="frame" x="0.0" y="29" width="185" height="22"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Hwx-CK-2Xs">
-                                                <rect key="frame" x="-2" y="3" width="98" height="17"/>
+                                                <rect key="frame" x="-2" y="2.5" width="98" height="17"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Monotony Days" id="SSq-FV-9hL">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -11892,7 +11892,7 @@ IA
                                                 </textFieldCell>
                                             </textField>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Htb-fE-VWh">
-                                                <rect key="frame" x="-1" y="25" width="33" height="17"/>
+                                                <rect key="frame" x="-1.5" y="25" width="33" height="17"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Easy" id="p2g-Md-n98">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -13501,7 +13501,7 @@ IA
                                         <rect key="frame" x="0.0" y="198" width="100" height="22"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7pv-JM-SoS">
-                                                <rect key="frame" x="-2" y="3" width="63" height="17"/>
+                                                <rect key="frame" x="-2" y="2.5" width="63" height="17"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Normal" id="tVD-4G-gHr">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -13536,7 +13536,7 @@ IA
                                         <rect key="frame" x="0.0" y="176" width="100" height="22"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="a4O-1q-bZh">
-                                                <rect key="frame" x="-2" y="3" width="63" height="17"/>
+                                                <rect key="frame" x="-2" y="2.5" width="63" height="17"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Camp" id="a1p-zr-4Yo">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -13571,7 +13571,7 @@ IA
                                         <rect key="frame" x="0.0" y="154" width="100" height="22"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UZ7-eU-8x0">
-                                                <rect key="frame" x="-2" y="3" width="63" height="17"/>
+                                                <rect key="frame" x="-2" y="2.5" width="63" height="17"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Rest" id="14U-zu-Rz9">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -13606,7 +13606,7 @@ IA
                                         <rect key="frame" x="0.0" y="132" width="100" height="22"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mcj-9c-IFv">
-                                                <rect key="frame" x="-2" y="3" width="63" height="17"/>
+                                                <rect key="frame" x="-2" y="2.5" width="63" height="17"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Race" id="4PR-Wd-h4b">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -13641,7 +13641,7 @@ IA
                                         <rect key="frame" x="0.0" y="110" width="100" height="22"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oo6-0n-bJN">
-                                                <rect key="frame" x="-2" y="3" width="63" height="17"/>
+                                                <rect key="frame" x="-2" y="2.5" width="63" height="17"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Recovery" id="Rgo-a1-Ypr">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -13676,7 +13676,7 @@ IA
                                         <rect key="frame" x="0.0" y="88" width="100" height="22"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kY0-WH-kqQ">
-                                                <rect key="frame" x="-2" y="3" width="63" height="17"/>
+                                                <rect key="frame" x="-2" y="2.5" width="63" height="17"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Travel" id="saW-2Q-n1L">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -13711,7 +13711,7 @@ IA
                                         <rect key="frame" x="0.0" y="66" width="100" height="22"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Y4M-21-fhO">
-                                                <rect key="frame" x="-2" y="3" width="63" height="17"/>
+                                                <rect key="frame" x="-2" y="2.5" width="63" height="17"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Holiday" id="L9W-gn-rMG">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -13746,7 +13746,7 @@ IA
                                         <rect key="frame" x="0.0" y="44" width="100" height="22"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1iX-DV-ffS">
-                                                <rect key="frame" x="-2" y="3" width="63" height="17"/>
+                                                <rect key="frame" x="-2" y="2.5" width="63" height="17"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Niggle" id="b7i-4c-wBh">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -13781,7 +13781,7 @@ IA
                                         <rect key="frame" x="0.0" y="22" width="100" height="22"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sdE-8S-Yc5">
-                                                <rect key="frame" x="-2" y="3" width="63" height="17"/>
+                                                <rect key="frame" x="-2" y="2.5" width="63" height="17"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Ill" id="prV-pe-g6y">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -13816,7 +13816,7 @@ IA
                                         <rect key="frame" x="0.0" y="0.0" width="100" height="22"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qAv-yP-wJN">
-                                                <rect key="frame" x="-2" y="3" width="63" height="17"/>
+                                                <rect key="frame" x="-2" y="2.5" width="63" height="17"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Injured" id="511-Ro-Dsg">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
