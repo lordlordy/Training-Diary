@@ -20,11 +20,7 @@ class RollingPeriodSum: RollingPeriodCalculator{
         return rollingSumQueue.addAndReturnSum(value: v)
     }
 
-    
-    //This method doesn't use the date. Subclasses do. 
-    func addAndReturnSum(forDate date: Date, value v: Double) -> Double? {
-            return rollingSumQueue.addAndReturnSum(value: v)
-    }
+
      
     func resetQueue(){
         rollingSumQueue.resetQueue()

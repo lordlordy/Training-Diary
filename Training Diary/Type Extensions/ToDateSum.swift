@@ -30,16 +30,5 @@ class ToDateSum: RollingPeriodSum{
         }
         return nil
     }
-
-    
-    override func addAndReturnSum(forDate date: Date, value v: Double) -> Double? {
-        let sum = super.addAndReturnSum(forDate: date, value: v)
-        if resetRule(date){
-            resetQueue()
-        }
-        return sum
-    }
-    
-
     
 }

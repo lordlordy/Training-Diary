@@ -24,13 +24,7 @@ class RollingPeriodWeightedAverage: RollingPeriodCalculator{
         if weighting < 0.000001{return 0.0}
         return sum / weighting
     }
-    
-    func addAndReturnAverage(forDate date: Date, value v: Double, wieghting w: Double) -> Double? {
-        let sum = rollingSumQueue.addAndReturnSum(value: v * w)
-        let weighting = rollingWeightsQueue.addAndReturnSum(value: w)
-        if weighting < 0.000001{return 0.0}
-        return sum / weighting
-    }
+
     
     func resetQueue(){
         rollingSumQueue.resetQueue()

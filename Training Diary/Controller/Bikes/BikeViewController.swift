@@ -264,7 +264,7 @@ class BikeViewController: TrainingDiaryViewController, NSTableViewDelegate, NSCo
                 let d = w.day!.date!
                 let value = w.value(forKey: p.rawValue) as! Double
                 if value != 0.0{
-                    ltdData.append((d, ltdWeightAverage.addAndReturnAverage(forDate: d, value: w.value(forKey: p.rawValue) as! Double, wieghting: w.seconds)!))
+                    ltdData.append((d, ltdWeightAverage.addAndReturnValue(forDate: d, value: w.value(forKey: p.rawValue) as! Double, weighting: w.seconds)!))
                 }
             }
         }
@@ -275,7 +275,7 @@ class BikeViewController: TrainingDiaryViewController, NSTableViewDelegate, NSCo
         let rollingDataQ = RollingPeriodWeightedAverage.init(size: rollingDataDays)
         
         for d in fillInMissingDates(mappedData!.sorted(by: {$0.date < $1.date})){
-            rollingData.append((d.date, rollingDataQ.addAndReturnAverage(forDate: d.date, value: d.value, wieghting: 1.0)!))
+            rollingData.append((d.date, rollingDataQ.addAndReturnValue(forDate: d.date, value: d.value, weighting: 1.0)!))
         }
         
         let graphData = GraphData(values: mappedData!, ltd: ltdData, rolling: rollingData)
