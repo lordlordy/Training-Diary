@@ -51,8 +51,8 @@ class GraphView: NSView {
     public var graphs = Set<GraphDefinition>()
     public var chartTitle: String? { didSet{ self.needsDisplay = true } }
     
-    public var primaryAxisNumberFormatter: NumberFormatter = NumberFormatter()
-    public var secondaryAxisNumberFormatter: NumberFormatter = NumberFormatter()
+ //   public var primaryAxisNumberFormatter: NumberFormatter = NumberFormatter()
+   // public var secondaryAxisNumberFormatter: NumberFormatter = NumberFormatter()
 
     //MARK: - Graph management
     
@@ -315,16 +315,65 @@ class GraphView: NSView {
     }
     
     private func calcAxisLineGap(forAxis a: Axis) -> Double{
-        var result = 100.0
         
-        var range = graphsYMaximum(forAxis: a) - (graphsYMinimum(forAxis: a)  ?? 0.0)
+        let yMax = graphsYMaximum(forAxis: a)
+        let yMin = graphsYMinimum(forAxis: a)
+        var numberOfAxisLines = 1.0
+        
+        var range: Double = yMax - (yMin  ?? 0.0)
         if range == 0.0{ range = 10.0}
+        
         switch a{
-        case .Primary: result = range / Double(numberOfPrimaryAxisLines)
-        case .Secondary: result = range / Double(numberOfSecondaryAxisLines)
+        case .Primary: numberOfAxisLines =   Double(numberOfPrimaryAxisLines)
+        case .Secondary: numberOfAxisLines =  Double(numberOfSecondaryAxisLines)
         }
         
+        var result: Double = range / numberOfAxisLines
+
+        
+        //want to give axes reasonable 'round' labels. If they don't start from zero we will just leave as is. So first we check if the origin is included
+        let originIncluded: Bool = (range >= yMax && range >= abs(yMin ?? 0.0) )
+        
+//        if originIncluded{
+            //do some rounding
+            switch range{
+            case 0...1.5:
+                result = max(0.1, round(range / numberOfAxisLines, toNearest: 0.1))
+            case 1.5...7.0:
+                result = max(1.0, round(range / numberOfAxisLines, toNearest: 1.0))
+            case 7.0...14.0:
+                result = max(2.0, round(range / numberOfAxisLines, toNearest: 2.0))
+            case 14.0...35.0:
+                result = max(5.0, round(range / numberOfAxisLines, toNearest: 5.0))
+            case 35.0...70.0:
+                result = max(10.0, round(range / numberOfAxisLines, toNearest: 10.0))
+            case 70.0...140.0:
+                result = max(20.0, round(range / numberOfAxisLines, toNearest: 20.0))
+            case 140.0...200.0:
+                result = max(25.0, round(range / numberOfAxisLines, toNearest: 25.0))
+            case 200.0...350.0:
+                result = max(50.0, round(range / numberOfAxisLines, toNearest: 50.0))
+            case 350.0...700.0:
+                result = max(100.0, round(range / numberOfAxisLines, toNearest: 100.0))
+            case 700.0...1200.0:
+                result = max(200.0, round(range / numberOfAxisLines, toNearest: 200.0))
+            case 1200.0...2000.0:
+                result = max(250.0, round(range / numberOfAxisLines, toNearest: 250.0))
+            case 2000.0...3500.0:
+                result = max(500.0, round(range / numberOfAxisLines, toNearest: 500.0))
+            default:
+                result = max(1000.0, round(range / numberOfAxisLines, toNearest: 1000.0))
+            }
+//        }
         return result
+
+        
+    }
+    
+    private func round(_ d: Double, toNearest: Double) -> Double{
+            let n = 1/toNearest
+            let numberToRound = d * n
+            return numberToRound.rounded() / n
     }
     
     private func drawXAxes(_ dirtyRect: NSRect, labelOffset: LabelOffset){
@@ -349,8 +398,13 @@ class GraphView: NSView {
         if minValue > lineGap { factor = minValue }
         var strokeColour = colour
         
-        var numberFormatter = primaryAxisNumberFormatter
-        if axis == Axis.Secondary { numberFormatter = secondaryAxisNumberFormatter}
+        let numberFormatter = NumberFormatter()
+        if lineGap < 1{
+            numberFormatter.format = "0.0"
+        }
+        if maxValue > 999{
+            numberFormatter.format = "#,##0"
+        }
         
         let phaseFactor: CGFloat = CGFloat(exp(log(Constants.phaseFactorForFinalLine)/(maxValue/lineGap)))
         

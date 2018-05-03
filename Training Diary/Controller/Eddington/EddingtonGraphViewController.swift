@@ -139,9 +139,9 @@ class EddingtonGraphViewController: TrainingDiaryViewController{
             
             gv.xAxisLabelStrings = xAxisLabels
             
-            let formatter = NumberFormatter()
-            formatter.format = "#,##0.00"
-            gv.secondaryAxisNumberFormatter = formatter
+    //        let formatter = NumberFormatter()
+      //      formatter.format = "#,##0.00"
+        //    gv.secondaryAxisNumberFormatter = formatter
             
             
         }
