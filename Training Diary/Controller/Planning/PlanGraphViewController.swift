@@ -115,7 +115,20 @@ class PlanGraphViewController: NSViewController{
     func setCache(planDays: [PlanDay]){
         cache = planDays.sorted(by: {$0.date! < $1.date!})
         setGraphsToSelectedActivity()
+        setXAxisLabels(from: cache[0].date!, to: cache[cache.count-1].date!, numberOfLabels: 6)
         graphView!.needsDisplay = true
+    }
+    
+    private func setXAxisLabels(from: Date, to: Date, numberOfLabels: Int){
+        let interval = to.timeIntervalSince(from) / Double(numberOfLabels - 1)
+        var labels: [String] = []
+        labels.append(from.dateOnlyShorterString())
+        for i in 1...(numberOfLabels-1){
+            labels.append(from.addingTimeInterval(interval * Double(i)).dateOnlyShorterString())
+        }
+        if let gv = graphView{
+            gv.xAxisLabelStrings = labels
+        }
     }
     
     private func setGraphsToSelectedActivity(){
