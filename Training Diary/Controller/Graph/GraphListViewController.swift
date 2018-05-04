@@ -49,9 +49,15 @@ class GraphListViewController: TrainingDiaryViewController, NSComboBoxDataSource
     }
     
     @IBAction func aggregationMethodChanged(_ sender: AggregationMethodComboBox) {
+        if let parentVC = parent as? GraphSplitViewController{
+            parentVC.aggregationMethodChanged(sender)
+        }
     }
     
     @IBAction func unitChanged(_ sender: UnitComboBox) {
+        if let parentVC = parent as? GraphSplitViewController{
+            parentVC.unitChanged(sender)
+        }
     }
     
     @IBAction func advanceAPeriod(_ sender: Any) {

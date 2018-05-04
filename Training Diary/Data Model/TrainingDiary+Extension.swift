@@ -566,6 +566,10 @@ extension TrainingDiary{
         return getValues(forDayType: dt, andActivity: a, andActivityType: at, andEquipment: e, andPeriod: p, aggregationMethod: am, andUnit: u, fromDate: from ?? firstDayOfDiary, toDate: to ?? lastDayOfDiary)
     }
     
+    func valuesFor(dataSeriesDefinition dsd: DataSeriesDefinition) -> [(date: Date, value: Double)]{
+        return getValues(forDayType: dsd.dayType, andActivity: dsd.activity, andActivityType: dsd.activityType, andEquipment: dsd.equipment, andPeriod: dsd.period, aggregationMethod: dsd.aggregationMethod, andUnit: dsd.unit, fromDate: firstDayOfDiary, toDate: lastDayOfDiary)
+    }
+ 
     
     //MARK: - Getting values
 
@@ -631,22 +635,23 @@ extension TrainingDiary{
     
     func calculateMonotonyAndStrain(){
         for a in activitiesArray(){
-            calculateMonotonyAndStrain(forActivity: a)
+            calculateMonotonyAndStrain(forActivity: a, fromDate: firstDayOfDiary)
         }
     }
     
-    func calculatMonotonAndStrain(forActivity a: Activity, fromDate d: Date){
-        
-        print("Calculation of monotony for \(String(describing: a.name)) from date \(d.dateOnlyString()) still to be implemented")
-        
-    }
     
     //no return as this will be stored in Core Data as another metric.
-    func calculateMonotonyAndStrain(forActivity a: Activity){
+    func calculateMonotonyAndStrain(forActivity a: Activity, fromDate: Date){
         let start = Date()
         let q = RollingSumQueue(size: Int(monotonyDays))
+        let orderedDays = ascendingOrderedDays()
+        //need to pre load the RollingSumQ
+        for d in orderedDays.filter({$0.date! >= fromDate.addDays(numberOfDays: Int(-monotonyDays)) && $0.date! < fromDate} ){
+            _ = q.addAndReturnAverage(value: d.valueFor(activity: a, unit: Unit.TSS))
+        }
+        
         let mathematics = Maths()
-        for d in ascendingOrderedDays(){
+        for d in orderedDays.filter({$0.date! >= fromDate}){
             _ = q.addAndReturnAverage(value: d.valueFor(activity: a, unit: Unit.TSS))
             let mAndStrain = mathematics.monotonyAndStrain(q.array())
             d.setMetricValue(forActivity: a, andMetric: Unit.Monotony, toValue: mAndStrain.monotony)

@@ -8,10 +8,24 @@
 
 import Cocoa
 
+enum TableIdentifier: String{
+    //these are the identifiers given to tables to use for user defaults.
+    //This will allow setting up of a screen to change these default
+    case DayTableInSplitView
+    
+}
+
 class TableViewWithColumnSort: NSTableView {
 
+    private var columnDict: [String:Bool] = [:]
+    
     required init?(coder: NSCoder) {
+  
         super.init(coder: coder)
+        
+        if let dict = UserDefaults.standard.value(forKey: tableName()) as? [String : Bool]{
+            columnDict = dict
+        }
         
         for t in tableColumns{
             createColumnSortFor(key: t.identifier.rawValue)
@@ -19,7 +33,6 @@ class TableViewWithColumnSort: NSTableView {
         
         createTableHeaderContextMenu()
     }
-    
     
 
     
@@ -42,6 +55,10 @@ class TableViewWithColumnSort: NSTableView {
         }
     }
     
+    private func tableName() -> String{
+        return autosaveName?.rawValue ?? "unNamedTable"
+    }
+    
     // assumes the the column ID and the key for the data are the same
     private func createColumnSortFor(key k: String){
         let c = tableColumns[column(withIdentifier: NSUserInterfaceItemIdentifier.init(k))]
@@ -52,7 +69,10 @@ class TableViewWithColumnSort: NSTableView {
         if let col = item.representedObject as? NSTableColumn{
             col.isHidden = !col.isHidden
             item.state = col.isHidden ? .off : .on
-            UserDefaults.standard.set(col.isHidden, forKey: key(forColumn: col))
+    //        UserDefaults.standard.set(col.isHidden, forKey: key(forColumn: col))
+        
+            columnDict[col.identifier.rawValue] = col.isHidden
+            UserDefaults.standard.set(columnDict, forKey: tableName())
         }
     }
     
@@ -69,8 +89,9 @@ class TableViewWithColumnSort: NSTableView {
         
         let tableHeaderContextMenu = NSMenu(title:"Select Columns")
         let tableColumns = self.tableColumns
+        
         for column in tableColumns {
-            let colHidden: Bool = UserDefaults.standard.bool(forKey: key(forColumn: column))
+            let colHidden: Bool = columnDict[column.identifier.rawValue] ?? false
             let title = column.headerCell.title
             
             let item = tableHeaderContextMenu.addItem(withTitle: title, action: #selector(TableViewWithColumnSort.contextMenuSelected), keyEquivalent: "")

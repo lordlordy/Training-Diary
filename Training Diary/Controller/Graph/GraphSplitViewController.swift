@@ -82,7 +82,7 @@ class GraphSplitViewController: TrainingDiarySplitViewController, GraphManagemen
         }
     }
     
-    @IBAction func unitChanged(_ sender: UnitComboBox) {
+    func unitChanged(_ sender: UnitComboBox) {
         if let gac = graphArrayController{
             for graph in gac.arrangedObjects as! [ActivityGraphDefinition]{
                 graph.unitString = sender.stringValue
@@ -90,7 +90,14 @@ class GraphSplitViewController: TrainingDiarySplitViewController, GraphManagemen
         }
     }
     
-
+    func aggregationMethodChanged(_ sender: AggregationMethodComboBox) {
+        if let gac = graphArrayController{
+            for graph in gac.arrangedObjects as! [ActivityGraphDefinition]{
+                graph.aggregationString = sender.stringValue
+            }
+        }
+    }
+    
     func updateForDateChange(){
         if let gac = graphArrayController{
             for g in gac.arrangedObjects as! [ActivityGraphDefinition]{
@@ -223,25 +230,21 @@ class GraphSplitViewController: TrainingDiarySplitViewController, GraphManagemen
                         gv.numberOfPrimaryAxisLines = 6
                         gv.numberOfSecondaryAxisLines = 8
                         
-                        let tsbGraph = createGraphDefinition(forActivity: FixedActivity.Bike.rawValue, period: .Day, unit: .TSB, type: .Line, axis: .Primary, drawZeroes: true, priority: 4, format: GraphFormat(fill: true, colour: .black, fillGradientStart: .red, fillGradientEnd: .blue, gradientAngle: 90.0, size: 1.0, opacity: 1.0))
-                        let ctlGraph = createGraphDefinition(forActivity: FixedActivity.Bike.rawValue, period: .Day, unit: .CTL, type: .Line, axis: .Primary, drawZeroes: true, priority: 3, format: GraphFormat(fill: false, colour: .red, fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 0.0, size: 2.0, opacity: 1.0))
-                        let atlGraph = createGraphDefinition(forActivity: FixedActivity.Bike.rawValue, period: .Day, unit: .ATL, type: .Line, axis: .Primary, drawZeroes: true, priority: 2, format: GraphFormat(fill: false, colour: .green, fillGradientStart: .green, fillGradientEnd: .green, gradientAngle: 0.0, size: 2.0, opacity: 1.0))
-                        let tssGraph = createGraphDefinition(forActivity: FixedActivity.Bike.rawValue, period: .Day, unit: .TSS, type: .Bar, axis: .Secondary, drawZeroes: false, priority: 1, format: GraphFormat(fill: true, colour: .black, fillGradientStart: .yellow, fillGradientEnd: .yellow, gradientAngle: 0.0, size: 1.0, opacity: 0.5))
+                        let strainGraph = createGraphDefinition(forActivity: FixedActivity.Bike.rawValue, period: .Day, unit: .Strain, aggregationMethod: .Sum, type: .Line, axis: .Primary, drawZeroes: true, priority: 1, format: GraphFormat(fill: false, colour: .red, fillGradientStart: .green, fillGradientEnd: .red, gradientAngle: 90, size: 2.0, opacity: 1.0))
+                        let tssGraph = createGraphDefinition(forActivity: FixedActivity.Bike.rawValue, period: .Day, unit: .TSS, aggregationMethod: .Sum, type: .Point, axis: .Secondary, drawZeroes: false, priority: 2, format: GraphFormat(fill: true, colour: .black, fillGradientStart: .cyan, fillGradientEnd: .cyan, gradientAngle: 90.0, size: 6.0, opacity: 1.0))
+                        let tssRweekGraph = createGraphDefinition(forActivity: FixedActivity.Bike.rawValue, period: .rWeek, unit: .TSS, aggregationMethod: .Mean, type: .Bar, axis: .Secondary, drawZeroes: false, priority: 3, format: GraphFormat(fill: true, colour: .black, fillGradientStart: .green, fillGradientEnd: .red, gradientAngle: 90.0, size: 1.0, opacity: 1.0))
                         
-                        tsbGraph.graph!.startFromOrigin = true
-                        ctlGraph.graph!.startFromOrigin = true
-                        atlGraph.graph!.startFromOrigin = true
+                        strainGraph.graph!.startFromOrigin = true
                         
                         //add to array controller
                         if let gac = graphArrayController{
-                            gac.add(contentsOf: [tsbGraph,ctlGraph,atlGraph,tssGraph])
+                            gac.add(contentsOf: [strainGraph,tssGraph, tssRweekGraph])
                         }
                         
-                        add(graph: tsbGraph)
-                        add(graph: ctlGraph)
-                        add(graph: atlGraph)
+                        add(graph: strainGraph)
                         add(graph: tssGraph)
-                        
+                        add(graph: tssRweekGraph)
+
                     }
                 }
             }
@@ -249,9 +252,10 @@ class GraphSplitViewController: TrainingDiarySplitViewController, GraphManagemen
     }
     
     
-    private func createGraphDefinition(forActivity a: String, period p: Period, unit u: Unit, type t: ChartType, axis: Axis, drawZeroes: Bool, priority: Int,  format f: GraphFormat) -> ActivityGraphDefinition{
+    private func createGraphDefinition(forActivity a: String, period p: Period, unit u: Unit, aggregationMethod ag: AggregationMethod, type t: ChartType, axis: Axis, drawZeroes: Bool, priority: Int,  format f: GraphFormat) -> ActivityGraphDefinition{
         
         let graphDetails = ActivityGraphDefinition(activity: a, unit: u, period: p)
+        graphDetails.aggregationMethod = ag
         graphDetails.graph = GraphDefinition(name: graphDetails.name, axis: axis, type: t, format: f,drawZeroes: drawZeroes, priority: priority)
         //NOTE must sort out removing this observer when we remove the graph.
         updateData(forGraph: graphDetails)
@@ -278,7 +282,7 @@ class GraphSplitViewController: TrainingDiarySplitViewController, GraphManagemen
                 g.cache = cachedValues
             }else{
                 
-                let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: g.activity, activityType: g.activityType, equipment: ConstantString.EddingtonAll.rawValue, period: g.period, aggregationMethod: g.unit.defaultAggregator(), unit: g.unit)
+                let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: g.activity, activityType: g.activityType, equipment: ConstantString.EddingtonAll.rawValue, period: g.period, aggregationMethod: g.aggregationMethod, unit: g.unit)
                 g.cache = values
                 self.cache[g.name] = values
                 

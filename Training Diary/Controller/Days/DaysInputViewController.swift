@@ -41,6 +41,7 @@ class DaysInputViewController: TrainingDiaryViewController {
                     if let td = trainingDiary{
                         for a in td.activitiesArray(){
                             td.calcTSB(forActivity: a, fromDate: selectedDay[0].date!)
+                            td.calculateMonotonyAndStrain(forActivity: a, fromDate: selectedDay[0].date!)
                         }
                         daysTableView!.reloadData()
                     }
