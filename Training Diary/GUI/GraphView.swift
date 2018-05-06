@@ -85,7 +85,7 @@ class GraphView: NSView {
     }
     
     override func prepareForInterfaceBuilder() {
-        let graph = GraphDefinition(name: "Test", data: [(date: Date(),23.5)], axis: .Primary, type: .Point, format: GraphFormat.init(fill: false, colour: .red, fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 0.0, size: 2.0, opacity: 1.0), drawZeroes: false, priority: 1  )
+        let graph = GraphDefinition(name: "Test", data: [(x: Date().timeIntervalSinceReferenceDate,23.5)], axis: .Primary, type: .Point, format: GraphFormat.init(fill: false, colour: .red, fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 0.0, size: 2.0, opacity: 1.0), drawZeroes: false, priority: 1  )
         graphs.insert(graph)
     }
     
@@ -266,7 +266,7 @@ class GraphView: NSView {
         if graphs.count > 0{
             for graph in graphs{
                 if graph.data.count > 0{
-                    maximums.append(graph.data.map{$0.value}.max()!)
+                    maximums.append(graph.data.map{$0.y}.max()!)
                 }
             }
         }
@@ -280,18 +280,18 @@ class GraphView: NSView {
         if graphs.count > 0{
             for graph in graphs{
                 if graph.data.count > 0{
-                    minimums.append(graph.data.map{$0.value}.min()!)
+                    minimums.append(graph.data.map{$0.y}.min()!)
                 }
             }
         }
         return minimums.min()
     }
     
-    private func graphsXMinimumDate() -> Date?{
-        var minimums: [Date] = []
+    private func graphsXMinimum() -> Double?{
+        var minimums: [Double] = []
         for graph in graphs{
             if graph.data.count > 0{
-                minimums.append(graph.data.map({$0.date}).min()!)
+                minimums.append(graph.data.map({$0.x}).min()!)
             }
         }
         if minimums.count > 0{
@@ -301,11 +301,11 @@ class GraphView: NSView {
     }
     
     
-    private func graphsXMaximumDate() -> Date?{
-        var maximums: [Date] = []
+    private func graphsXMaximum() -> Double?{
+        var maximums: [Double] = []
         for graph in graphs{
             if graph.data.count > 0{
-                maximums.append(graph.data.map({$0.date}).max()!)
+                maximums.append(graph.data.map({$0.x}).max()!)
             }
         }
         if maximums.count > 0{
@@ -378,9 +378,9 @@ class GraphView: NSView {
     
     private func drawXAxes(_ dirtyRect: NSRect, labelOffset: LabelOffset){
         var count = 0.0
-        if let maxDate = graphsXMaximumDate(){
-            if let minDate = graphsXMinimumDate(){
-                let factor = maxDate.timeIntervalSince(minDate) / Double(xAxisLabelStrings.count - 1)
+        if let max = graphsXMaximum(){
+            if let min = graphsXMinimum(){
+                let factor = (max - min ) / Double(xAxisLabelStrings.count - 1)
                 for label in xAxisLabelStrings{
                     let axisStartPoint = coordinatesInView(xValue: count, yValue: graphsYMinimum(forAxis: .Primary) ?? 0.0, forAxis: .Primary, dirtyRect)
                     let axisEndPoint = NSPoint(x: axisStartPoint.x, y: dirtyRect.maxY - CGFloat(Constants.axisPadding))
@@ -478,8 +478,8 @@ class GraphView: NSView {
         }
         
         
-        if let startDate = graphsXMinimumDate(){
-            if let endDate = graphsXMaximumDate(){
+        if let start = graphsXMinimum(){
+            if let end = graphsXMaximum(){
                 
                 //start from origin
                 let origin = coordinatesInView(xValue: 0.0, yValue: 0.0, forAxis: graph.axis, dirtyRect)
@@ -489,7 +489,7 @@ class GraphView: NSView {
                 
                 //this has bar end at x-value. Should amend this to centre at x-value
                 for point in graph.data {
-                    let p = coordinatesInView(xValue:  point.date.timeIntervalSince(startDate), yValue: point.value,forAxis: graph.axis, dirtyRect)
+                    let p = coordinatesInView(xValue:  point.x - start, yValue: point.y,forAxis: graph.axis, dirtyRect)
                 
                     path.line(to: NSPoint(x: previousPoint.x, y: p.y))
                     path.line(to:p)
@@ -499,7 +499,7 @@ class GraphView: NSView {
                 }
                 
                 if graph.format.fill{
-                    let endOfXAxis = coordinatesInView(xValue: endDate.timeIntervalSince(startDate), yValue: 0.0,forAxis: graph.axis, dirtyRect)
+                    let endOfXAxis = coordinatesInView(xValue: end, yValue: 0.0,forAxis: graph.axis, dirtyRect)
                     path.line(to: endOfXAxis)
                     let startColour = graph.format.fillGradientStart.withAlphaComponent(graph.format.opacity)
                     let endColout = graph.format.fillGradientEnd.withAlphaComponent(graph.format.opacity)
@@ -514,7 +514,8 @@ class GraphView: NSView {
                 
                 path.stroke()
             }
-        }    }
+        }
+    }
         
     
     private func drawLine(graph: GraphDefinition, inDirtyRect dirtyRect: NSRect ){
@@ -527,8 +528,8 @@ class GraphView: NSView {
         }
         
         
-        if let startDate = graphsXMinimumDate(){
-            if let endDate = graphsXMaximumDate(){
+        if let start = graphsXMinimum(){
+            if let end = graphsXMaximum(){
                 
                 var firstPoint: Bool = true
                 
@@ -539,8 +540,8 @@ class GraphView: NSView {
                 }
                 
                 for point in graph.data {
-                    let p = coordinatesInView(xValue:  point.date.timeIntervalSince(startDate), yValue: point.value,forAxis: graph.axis, dirtyRect)
-                    if graph.drawZero || abs(point.value) >= Constants.zero{
+                    let p = coordinatesInView(xValue:  point.x - start, yValue: point.y,forAxis: graph.axis, dirtyRect)
+                    if graph.drawZero || abs(point.y) >= Constants.zero{
                         if firstPoint{
                             path.move(to: p)
                             firstPoint = false
@@ -553,7 +554,7 @@ class GraphView: NSView {
                 }
                 
                 if graph.format.fill{
-                    let endOfXAxis = coordinatesInView(xValue: endDate.timeIntervalSince(startDate), yValue: 0.0,forAxis: graph.axis, dirtyRect)
+                    let endOfXAxis = coordinatesInView(xValue: end - start, yValue: 0.0,forAxis: graph.axis, dirtyRect)
                     path.line(to: endOfXAxis)
                     if let gradient = NSGradient(starting: graph.format.fillGradientStart  , ending: graph.format.fillGradientEnd){
                         gradient.draw(in: path, angle: graph.format.gradientAngle)
@@ -573,10 +574,10 @@ class GraphView: NSView {
         
         if graph.data.count == 0 {return} // no data
         
-        if let startDate = graphsXMinimumDate(){
+        if let start = graphsXMinimum(){
             for point in graph.data{
-                let p = coordinatesInView(xValue:  point.date.timeIntervalSince(startDate), yValue: point.value, forAxis: graph.axis, dirtyRect)
-                if graph.drawZero || abs(point.value) >= Constants.zero {
+                let p = coordinatesInView(xValue:  point.x - start, yValue: point.y, forAxis: graph.axis, dirtyRect)
+                if graph.drawZero || abs(point.y) >= Constants.zero {
                         drawPoint(at: p, graphDefinition: graph)
                 }
             }
@@ -611,10 +612,10 @@ class GraphView: NSView {
     
     private func updatePlotBounds(){
 
-        if let minXDate = graphsXMinimumDate(){
-            if let maxXDate = graphsXMaximumDate(){
+        if let min = graphsXMinimum(){
+            if let max = graphsXMaximum(){
                 _minX = 0.0 //taking minimum date as zero
-                _maxX = maxXDate.timeIntervalSince(minXDate)
+                _maxX = max - min
                 _minYPrimary = graphsYMinimum(forAxis: .Primary)  ?? 0.0
                 _maxYPrimary = graphsYMaximum(forAxis: .Primary)
                 _minYSecondary = graphsYMinimum(forAxis: .Secondary) ?? 0.0

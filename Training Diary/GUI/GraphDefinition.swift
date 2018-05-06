@@ -9,7 +9,7 @@
 import Cocoa
 
 class GraphDefinition: NSObject{
-    var data: [(date: Date, value: Double)] = []
+    var data: [(x: Double, y: Double)] = []
     var axis: Axis = Axis.Primary
     var type: ChartType = ChartType.Line
     var startFromOrigin: Bool = false
@@ -47,7 +47,7 @@ class GraphDefinition: NSObject{
         self.priority = priority
     }
     
-    convenience init(name: String, data: [(date: Date, value: Double)], axis: Axis, type: ChartType, format: GraphFormat, drawZeroes: Bool, priority: Int){
+    convenience init(name: String, data: [(x: Double, y: Double)], axis: Axis, type: ChartType, format: GraphFormat, drawZeroes: Bool, priority: Int){
         
         self.init(name: name, axis: axis, type: type, format: format, drawZeroes: drawZeroes, priority: priority)
         self.data = data

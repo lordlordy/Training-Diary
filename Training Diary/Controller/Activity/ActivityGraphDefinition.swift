@@ -16,7 +16,7 @@ import Foundation
         case name
     }
     
-    var cache: [(date: Date, value: Double)] = [] // this is ALL the data. When dates change we just filter this
+    var cache: [(x: Double, y: Double)] = [] // this is ALL the data. When dates change we just filter this
     @objc var graph: GraphDefinition?
     
     @objc dynamic var activity:         String  { didSet{ updateName() } }

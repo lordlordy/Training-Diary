@@ -184,11 +184,11 @@ class PlanGraphViewController: NSViewController{
     }
     
     
-    private func getData(forProperty p: PlanDayProperty, filterOutPlanFromActual: Bool? = false) -> [(date: Date, value: Double)]{
+    private func getData(forProperty p: PlanDayProperty, filterOutPlanFromActual: Bool? = false) -> [(x: Double, y: Double)]{
         if filterOutPlanFromActual!{
-            return cache.filter({$0.date! < Date().endOfDay()}).map({(date: $0.date!, value: $0.value(forKey: p.rawValue) as! Double)})
+            return cache.filter({$0.date! < Date().endOfDay()}).map({(x: $0.date!.timeIntervalSinceReferenceDate, y: $0.value(forKey: p.rawValue) as! Double)})
         }else{
-            return cache.map({(date: $0.date!, value: $0.value(forKey: p.rawValue) as! Double)})
+            return cache.map({(x: $0.date!.timeIntervalSinceReferenceDate, y: $0.value(forKey: p.rawValue) as! Double)})
         }
     }
     

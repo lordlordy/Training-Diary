@@ -39,9 +39,9 @@ class BikeViewController: TrainingDiaryViewController, NSTableViewDelegate, NSCo
     private var retreatDateComponent: DateComponents?
     
     private struct GraphData{
-        let values: [(date:Date, value:Double)]
-        let ltd: [(date:Date, value:Double)]
-        let rolling: [(date:Date, value:Double)]
+        let values: [(x:Double, y:Double)]
+        let ltd: [(x:Double, y:Double)]
+        let rolling: [(x:Double, y:Double)]
     }
     
     private struct GraphConstants {
@@ -245,17 +245,17 @@ class BikeViewController: TrainingDiaryViewController, NSTableViewDelegate, NSCo
         let data = bike.getWorkouts()
         var mappedData: [(date: Date, value: Double)]?
         
-         mappedData = data.map({(date: $0.day!.date!,value: $0.value(forKey: p.rawValue) as! Double)}).filter({$0.value != 0.0})
+         mappedData = data.map({(date: $0.day!.date!,Value: $0.value(forKey: p.rawValue) as! Double)}).filter({$0.value != 0.0})
         
         // ltd data next
-        var ltdData: [(Date,Double)] = []
+        var ltdData: [(Double,Double)] = []
         if p.isSummable(){
             var ltd: Double = 0.0
             if p == WorkoutProperty.km{ ltd = bike.preDiaryKMs }
             if p == WorkoutProperty.miles{ ltd = bike.preDiaryKMs * Constant.MilesPerKM.rawValue}
             for d in mappedData!.sorted(by: {$0.date < $1.date}){
                 ltd += d.value
-                ltdData.append((d.date, ltd))
+                ltdData.append((d.date.timeIntervalSinceReferenceDate, ltd))
             }
         }else{
             //average never resets so set the queue bigger than number of workouts
@@ -264,21 +264,21 @@ class BikeViewController: TrainingDiaryViewController, NSTableViewDelegate, NSCo
                 let d = w.day!.date!
                 let value = w.value(forKey: p.rawValue) as! Double
                 if value != 0.0{
-                    ltdData.append((d, ltdWeightAverage.addAndReturnValue(forDate: d, value: w.value(forKey: p.rawValue) as! Double, weighting: w.seconds)!))
+                    ltdData.append((d.timeIntervalSinceReferenceDate, ltdWeightAverage.addAndReturnValue(forDate: d, value: w.value(forKey: p.rawValue) as! Double, weighting: w.seconds)!))
                 }
             }
         }
         
         
         // rolling data
-        var rollingData: [(Date,Double)] = []
+        var rollingData: [(Double,Double)] = []
         let rollingDataQ = RollingPeriodWeightedAverage.init(size: rollingDataDays)
         
         for d in fillInMissingDates(mappedData!.sorted(by: {$0.date < $1.date})){
-            rollingData.append((d.date, rollingDataQ.addAndReturnValue(forDate: d.date, value: d.value, weighting: 1.0)!))
+            rollingData.append((d.date.timeIntervalSinceReferenceDate, rollingDataQ.addAndReturnValue(forDate: d.date, value: d.value, weighting: 1.0)!))
         }
         
-        let graphData = GraphData(values: mappedData!, ltd: ltdData, rolling: rollingData)
+        let graphData = GraphData(values: mappedData!.map({(x: $0.date.timeIntervalSinceReferenceDate, y: $0.value)}), ltd: ltdData, rolling: rollingData)
         
         // add to cache
         if var bikeCache = dataCache[bike]{
@@ -358,9 +358,9 @@ class BikeViewController: TrainingDiaryViewController, NSTableViewDelegate, NSCo
             if let d = data{
                 if let from = fromDatePicker?.dateValue{
                     if let to = toDatePicker?.dateValue{
-                        graphs.valuesGraph.data = d.values.filter({$0.date >= from && $0.date <= to})
-                        graphs.ltdGraph.data = d.ltd.filter({$0.date >= from && $0.date <= to})
-                        graphs.rollingGraph.data = d.rolling.filter({$0.date >= from && $0.date <= to})
+                        graphs.valuesGraph.data = d.values.filter({$0.x >= from.timeIntervalSinceReferenceDate && $0.x <= to.timeIntervalSinceReferenceDate})
+                        graphs.ltdGraph.data = d.ltd.filter({$0.x >= from.timeIntervalSinceReferenceDate && $0.x <= to.timeIntervalSinceReferenceDate})
+                        graphs.rollingGraph.data = d.rolling.filter({$0.x >= from.timeIntervalSinceReferenceDate && $0.x <= to.timeIntervalSinceReferenceDate})
                     }
                 }
             }

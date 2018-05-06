@@ -276,7 +276,7 @@ class CompareGraphSplitViewController: TrainingDiarySplitViewController, GraphMa
         if let td = trainingDiary{
             if let g = graph.graph{
                 let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: graph.activity, activityType: graph.activityType, equipment: graph.equipment, period: graph.period, aggregationMethod: graph.aggregationMethod, unit: graph.unit, from: graph.from, to: graph.to)
-                g.data = values
+                g.data = values.map({(x: $0.date.timeIntervalSinceReferenceDate, y: $0.value)})
                 if values.count > baseDates.count{
                     baseDates =  values.map({$0.date})
                     //changed base dates so need to update all graphs
@@ -304,8 +304,8 @@ class CompareGraphSplitViewController: TrainingDiarySplitViewController, GraphMa
             if let g = graph.graph{
                 let currentValues = g.data
                 if currentValues.count > 0{
-                    let gap = baseDates[0].timeIntervalSince(currentValues[0].date)
-                    g.data = currentValues.map({($0.date.addingTimeInterval(gap), $0.value)})
+                    let gap = baseDates[0].timeIntervalSinceReferenceDate - currentValues[0].x
+                    g.data = currentValues.map({($0.x + gap, $0.y)})
                 }
             }
         }

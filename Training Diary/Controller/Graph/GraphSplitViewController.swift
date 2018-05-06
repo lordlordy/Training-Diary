@@ -19,9 +19,9 @@ class GraphSplitViewController: TrainingDiarySplitViewController, GraphManagemen
     @objc dynamic var graphView: GraphView! {return getGraphView()}
     
     //this cache is Training Diary specific so will need clearing if training diary is set different.
-    private var cache: [String:[(date:Date, value:Double)]] = [:]
+    private var cache: [String:[(x:Double, y:Double)]] = [:]
     private var graphCache: [TrainingDiary: [ActivityGraphDefinition]] = [:]
-    private var dataCache: [TrainingDiary: [String:[(date:Date, value:Double)]]] = [:]
+    private var dataCache: [TrainingDiary: [String:[(x:Double, y:Double)]]] = [:]
     private var advanceDateComponent: DateComponents?
     private var retreatDateComponent: DateComponents?
     
@@ -203,7 +203,7 @@ class GraphSplitViewController: TrainingDiarySplitViewController, GraphManagemen
         if let fdp = getFromDatePicker(){
             if let tdp = getToDatePicker(){
                 if let graph = getGraphView(){
-                    let filteredData = g.cache.filter({$0.date >= fdp.dateValue && $0.date <= tdp.dateValue})
+                    let filteredData = g.cache.filter({$0.x >= fdp.dateValue.timeIntervalSinceReferenceDate && $0.x <= tdp.dateValue.timeIntervalSinceReferenceDate})
                     g.graph?.data = filteredData
                     graph.xAxisLabelStrings = getXAxisLabels(fromDate: fdp.dateValue, toDate: tdp.dateValue)
                     graph.needsDisplay = true
@@ -283,9 +283,8 @@ class GraphSplitViewController: TrainingDiarySplitViewController, GraphManagemen
             }else{
                 
                 let values = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: g.activity, activityType: g.activityType, equipment: ConstantString.EddingtonAll.rawValue, period: g.period, aggregationMethod: g.aggregationMethod, unit: g.unit)
-                g.cache = values
-                self.cache[g.name] = values
-                
+                g.cache = values.map({(x: $0.date.timeIntervalSinceReferenceDate, y: $0.value)})
+                self.cache[g.name] = g.cache
             }
             updateForDateChange(forGraph: g)
         }

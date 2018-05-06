@@ -328,42 +328,42 @@ class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource,
     }
 
 
-    private func ctlReplacementData(forActivity a: Activity) -> [(date: Date, value: Double)]{
-        var result: [(date: Date, value: Double)] = []
+    private func ctlReplacementData(forActivity a: Activity) -> [(x: Double, y: Double)]{
+        var result: [(x: Double, y: Double)] = []
         let d = Date()
         
         for i in 0...maxDaysForActivityDecay{
-            result.append((date: d.addDays(numberOfDays: i), value: 100 * a.ctlReplacementTSSFactor(afterNDays: i)))
+            result.append((x: d.addDays(numberOfDays: i).timeIntervalSinceReferenceDate, y: 100 * a.ctlReplacementTSSFactor(afterNDays: i)))
         }
         return result
     }
 
-    private func ctlDecayData(forActivity a: Activity) -> [(date: Date, value: Double)]{
-        var result: [(date: Date, value: Double)] = []
+    private func ctlDecayData(forActivity a: Activity) -> [(x: Double, y: Double)]{
+        var result: [(x: Double, y: Double)] = []
         let d = Date()
         
         for i in 0...maxDaysForActivityDecay{
-            result.append((date: d.addDays(numberOfDays: i), value: 100 * a.ctlDecayFactor(afterNDays: i)))
+            result.append((x: d.addDays(numberOfDays: i).timeIntervalSinceReferenceDate, y: 100 * a.ctlDecayFactor(afterNDays: i)))
         }
         return result
     }
     
-    private func atlReplacementData(forActivity a: Activity) -> [(date: Date, value: Double)]{
-        var result: [(date: Date, value: Double)] = []
+    private func atlReplacementData(forActivity a: Activity) -> [(x: Double, y: Double)]{
+        var result: [(x: Double, y: Double)] = []
         let d = Date()
         
         for i in 0...maxDaysForActivityDecay{
-            result.append((date: d.addDays(numberOfDays: i), value: 100 * a.atlReplacementTSSFactor(afterNDays: i)))
+            result.append((x: d.addDays(numberOfDays: i).timeIntervalSinceReferenceDate, y: 100 * a.atlReplacementTSSFactor(afterNDays: i)))
         }
         return result
     }
     
-    private func atlDecayData(forActivity a: Activity) -> [(date: Date, value: Double)]{
-        var result: [(date: Date, value: Double)] = []
+    private func atlDecayData(forActivity a: Activity) -> [(x: Double, y: Double)]{
+        var result: [(x: Double, y: Double)] = []
         let d = Date()
         
         for i in 0...maxDaysForActivityDecay{
-            result.append((date: d.addDays(numberOfDays: i), value: 100 * a.atlDecayFactor(afterNDays: i)))
+            result.append((x: d.addDays(numberOfDays: i).timeIntervalSinceReferenceDate, y: 100 * a.atlDecayFactor(afterNDays: i)))
         }
         return result
     }
@@ -385,9 +385,9 @@ class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource,
         let testCTLDecayData = ctlDecayData(forActivity: a)
         let testATLDecayData = atlDecayData(forActivity: a)
         
-        var testData: [(date: Date, value: Double)] = []
+        var testData: [(x: Double, y: Double)] = []
         for i in 0...maxDaysForActivityDecay{
-            testData.append((date: testCTLDecayData[i].date, value: testCTLDecayData[i].value - testATLDecayData[i].value))
+            testData.append((x: testCTLDecayData[i].x, y: testCTLDecayData[i].y - testATLDecayData[i].y))
         }
         
         let ctlGraphDefinition = GraphDefinition(name: a.name!, data: testCTLData, axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .red, fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 1.0, size: 2.0, opacity: 1.0), drawZeroes: true, priority: 1)

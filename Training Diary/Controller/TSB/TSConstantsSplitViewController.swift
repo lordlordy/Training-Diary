@@ -20,10 +20,10 @@ class TSBConstantsSplitViewController: TrainingDiarySplitViewController{
     private let replacementTSSGraph: GraphDefinition = GraphDefinition(name: "Replacement TSS", axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .blue, fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 1.0, size: 2.0, opacity: 1.0), drawZeroes: true, priority: 1)
     
     
-    private var effectDataCache: [Activity: [(date:Date, value: Double)]] = [:]
-    private var ctlDecayDataCache: [Activity: [(date:Date, value: Double)]] = [:]
-    private var atlDecayDataCache: [Activity: [(date:Date, value: Double)]] = [:]
-    private var replacementTSSDataCache: [Activity: [(date:Date, value: Double)]] = [:]
+    private var effectDataCache: [Activity: [(x:Double, y: Double)]] = [:]
+    private var ctlDecayDataCache: [Activity: [(x:Double, y: Double)]] = [:]
+    private var atlDecayDataCache: [Activity: [(x:Double, y: Double)]] = [:]
+    private var replacementTSSDataCache: [Activity: [(x:Double, y: Double)]] = [:]
     
     private let effectXAxisLabels = ["-91", "-84", "-77", "-70", "-63", "-56", "-49", "-42", "-35", "-28", "-21", "-14", "-7", "Race"]
     private let decayXAxisLabels = ["0", "7", "14", "21", "28", "35", "42", "49", "56", "63", "70", "77", "84", "91d"]
@@ -95,52 +95,52 @@ class TSBConstantsSplitViewController: TrainingDiarySplitViewController{
     
     
     
-    private func effectData(forActivity a: Activity) -> [(date: Date, value: Double)]{
+    private func effectData(forActivity a: Activity) -> [(x: Double, y: Double)]{
         if let r = effectDataCache[a]{
             return r
         }else{
-            var result: [(date: Date, value: Double)] = []
+            var result: [(x: Double, y: Double)] = []
             for i in 0...91{
-                result.append((date: Date().addDays(numberOfDays: i), value: a.effect(afterDays: Double(91-i))*100))
+                result.append((x: Date().addDays(numberOfDays: i).timeIntervalSinceReferenceDate, y: a.effect(afterDays: Double(91-i))*100))
             }
             effectDataCache[a] = result
             return result
         }
     }
     
-    private func ctlDecayData(forActivity a: Activity) -> [(date: Date, value: Double)]{
+    private func ctlDecayData(forActivity a: Activity) -> [(x: Double, y: Double)]{
         if let r = ctlDecayDataCache[a]{
             return r
         }else{
-            var result: [(date: Date, value: Double)] = []
+            var result: [(x: Double, y: Double)] = []
             for i in 0...91{
-                result.append((date: Date().addDays(numberOfDays: i), value: a.ctlDecayFactor(afterNDays: i)))
+                result.append((x: Date().addDays(numberOfDays: i).timeIntervalSinceReferenceDate, y: a.ctlDecayFactor(afterNDays: i)))
             }
             ctlDecayDataCache[a] = result
             return result
         }
     }
 
-    private func atlDecayData(forActivity a: Activity) -> [(date: Date, value: Double)]{
+    private func atlDecayData(forActivity a: Activity) -> [(x: Double, y: Double)]{
         if let r = atlDecayDataCache[a]{
             return r
         }else{
-            var result: [(date: Date, value: Double)] = []
+            var result: [(x: Double, y: Double)] = []
             for i in 0...91{
-                result.append((date: Date().addDays(numberOfDays: i), value: a.atlDecayFactor(afterNDays: i)))
+                result.append((x: Date().addDays(numberOfDays: i).timeIntervalSinceReferenceDate, y: a.atlDecayFactor(afterNDays: i)))
             }
             atlDecayDataCache[a] = result
             return result
         }
     }
 
-    private func replacementData(forActivity a: Activity) -> [(date: Date, value: Double)]{
+    private func replacementData(forActivity a: Activity) -> [(x: Double, y: Double)]{
         if let r = replacementTSSDataCache[a]{
             return r
         }else{
-            var result: [(date: Date, value: Double)] = []
+            var result: [(x: Double, y: Double)] = []
             for i in 0...91{
-                result.append((date: Date().addDays(numberOfDays: i), value: a.ctlReplacementTSSFactor(afterNDays: i)))
+                result.append((x: Date().addDays(numberOfDays: i).timeIntervalSinceReferenceDate, y: a.ctlReplacementTSSFactor(afterNDays: i)))
             }
             replacementTSSDataCache[a] = result
             return result

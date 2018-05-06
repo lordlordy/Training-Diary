@@ -51,7 +51,7 @@ class WeightHRVGraphViewController: TrainingDiaryViewController{
         toDate = to
         if let gv = graphView{
             for g in graphs{
-                if let data = cache[g.name]?.filter({$0.date >= from && $0.date <= to}){
+                if let data = cache[g.name]?.filter({$0.x >= from.timeIntervalSinceReferenceDate && $0.x <= to.timeIntervalSinceReferenceDate}){
                     g.data = data
                 }
             }
@@ -191,7 +191,7 @@ class WeightHRVGraphViewController: TrainingDiaryViewController{
 
     //MARK: - Private
     
-    private var cache: [String: [(date: Date, value: Double)]] = [:]
+    private var cache: [String: [(x: Double, y: Double)]] = [:]
     private var graphs: [GraphDefinition] = []
 
     private enum CacheKey: String{
@@ -307,25 +307,25 @@ class WeightHRVGraphViewController: TrainingDiaryViewController{
     
     private func createDataCache(){
         if let td = trainingDiary{
-            cache[CacheKey.hr.rawValue]         = td.hrDateOrder()
-            cache[CacheKey.sdnn.rawValue]       = td.sdnnDateOrder()
-            cache[CacheKey.rmssd.rawValue]      = td.rmssdDateOrder()
-            cache[CacheKey.kg.rawValue]         = td.kgAscendingDateOrder()
-            cache[CacheKey.fatPercent.rawValue] = td.fatPercentageDateOrder()
-            cache[CacheKey.bmi.rawValue]        = td.bmiAscendingDateOrder()
-            cache[CacheKey.sleep.rawValue]      = td.sleepDateOrder()
-            cache[CacheKey.motivation.rawValue] = td.motivationDateOrder()
-            cache[CacheKey.fatigue.rawValue]    = td.fatigueDateOrder()
+            cache[CacheKey.hr.rawValue]         = td.hrDateOrder().map({(x: $0.date.timeIntervalSinceReferenceDate, y: $0.value)})
+            cache[CacheKey.sdnn.rawValue]       = td.sdnnDateOrder().map({(x: $0.date.timeIntervalSinceReferenceDate, y: $0.value)})
+            cache[CacheKey.rmssd.rawValue]      = td.rmssdDateOrder().map({(x: $0.date.timeIntervalSinceReferenceDate, y: $0.value)})
+            cache[CacheKey.kg.rawValue]         = td.kgAscendingDateOrder().map({(x: $0.date.timeIntervalSinceReferenceDate, y: $0.value)})
+            cache[CacheKey.fatPercent.rawValue] = td.fatPercentageDateOrder().map({(x: $0.date.timeIntervalSinceReferenceDate, y: $0.value)})
+            cache[CacheKey.bmi.rawValue]        = td.bmiAscendingDateOrder().map({(x: $0.date.timeIntervalSinceReferenceDate, y: $0.value)})
+            cache[CacheKey.sleep.rawValue]      = td.sleepDateOrder().map({(x: $0.date.timeIntervalSinceReferenceDate, y: $0.value)})
+            cache[CacheKey.motivation.rawValue] = td.motivationDateOrder().map({(x: $0.date.timeIntervalSinceReferenceDate, y: $0.value)})
+            cache[CacheKey.fatigue.rawValue]    = td.fatigueDateOrder().map({(x: $0.date.timeIntervalSinceReferenceDate, y: $0.value)})
             
             updateRollingDataCache()
             
             let hrvData = td.calculatedHRVData()
-            cache[CacheKey.sdnnHard.rawValue] = hrvData.map({($0.date, $0.sdnnHard)})
-            cache[CacheKey.sdnnEasy.rawValue] = hrvData.map({($0.date, $0.sdnnEasy)})
-            cache[CacheKey.sdnnOff.rawValue] = hrvData.map({($0.date, $0.sdnnOff)})
-            cache[CacheKey.rmssdHard.rawValue] = hrvData.map({($0.date, $0.rmssdHard)})
-            cache[CacheKey.rmssdEasy.rawValue] = hrvData.map({($0.date, $0.rmssdEasy)})
-            cache[CacheKey.rmssdOff.rawValue] = hrvData.map({($0.date, $0.rmssdOff)})
+            cache[CacheKey.sdnnHard.rawValue] = hrvData.map({($0.date.timeIntervalSinceReferenceDate, $0.sdnnHard)})
+            cache[CacheKey.sdnnEasy.rawValue] = hrvData.map({($0.date.timeIntervalSinceReferenceDate, $0.sdnnEasy)})
+            cache[CacheKey.sdnnOff.rawValue] = hrvData.map({($0.date.timeIntervalSinceReferenceDate, $0.sdnnOff)})
+            cache[CacheKey.rmssdHard.rawValue] = hrvData.map({($0.date.timeIntervalSinceReferenceDate, $0.rmssdHard)})
+            cache[CacheKey.rmssdEasy.rawValue] = hrvData.map({($0.date.timeIntervalSinceReferenceDate, $0.rmssdEasy)})
+            cache[CacheKey.rmssdOff.rawValue] = hrvData.map({($0.date.timeIntervalSinceReferenceDate, $0.rmssdOff)})
             
         }
         
@@ -337,12 +337,12 @@ class WeightHRVGraphViewController: TrainingDiaryViewController{
         }
     }
    
-    private func createRollingData(forKey key: CacheKey) -> [(date:Date, value:Double)]{
-        var result: [(date:Date, value:Double)] = []
+    private func createRollingData(forKey key: CacheKey) -> [(x:Double, y:Double)]{
+        var result: [(x:Double, y:Double)] = []
         let rollingSum = RollingSumQueue(size: rollingDays)
         if let data = cache[key.rawValue]{
             for d in data{
-                result.append((d.date, rollingSum.addAndReturnAverage(value: d.value)))
+                result.append((d.x, rollingSum.addAndReturnAverage(value: d.y)))
             }
         }
         

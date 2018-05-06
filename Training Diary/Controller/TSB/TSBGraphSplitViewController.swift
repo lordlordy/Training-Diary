@@ -20,7 +20,7 @@ class TSBGraphSplitViewController: TrainingDiarySplitViewController{
     private var activity: String = FixedActivity.Bike.rawValue
 
 
-    private var dataCache: [String: [Unit: [(date: Date, value: Double)]]] = [:]
+    private var dataCache: [String: [Unit: [(x: Double, y: Double)]]] = [:]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,10 +65,10 @@ class TSBGraphSplitViewController: TrainingDiarySplitViewController{
     func updateGraphs(){
         let data = getData(forActivity: activity)
         
-        tsbGraph.data = data[Unit.TSB]!.filter({$0.date >= start && $0.date <= end})
-        ctlGraph.data = data[Unit.CTL]!.filter({$0.date >= start && $0.date <= end})
-        atlGraph.data = data[Unit.ATL]!.filter({$0.date >= start && $0.date <= end})
-        tssGraph.data = data[Unit.TSS]!.filter({$0.date >= start && $0.date <= end})
+        tsbGraph.data = data[Unit.TSB]!.filter({$0.x >= start.timeIntervalSinceReferenceDate && $0.x <= end.timeIntervalSinceReferenceDate})
+        ctlGraph.data = data[Unit.CTL]!.filter({$0.x >= start.timeIntervalSinceReferenceDate && $0.x <= end.timeIntervalSinceReferenceDate})
+        atlGraph.data = data[Unit.ATL]!.filter({$0.x >= start.timeIntervalSinceReferenceDate && $0.x <= end.timeIntervalSinceReferenceDate})
+        tssGraph.data = data[Unit.TSS]!.filter({$0.x >= start.timeIntervalSinceReferenceDate && $0.x <= end.timeIntervalSinceReferenceDate})
         
         if let gv = getGraphView(){
             gv.chartTitle = activity + " Training Stress Balance"
@@ -77,17 +77,17 @@ class TSBGraphSplitViewController: TrainingDiarySplitViewController{
         }
     }
     
-    private func getData(forActivity a: String) -> [Unit: [(date: Date, value: Double)]]{
+    private func getData(forActivity a: String) -> [Unit: [(x: Double, y: Double)]]{
         if let cache = dataCache[a]{
             return cache
         }else{
             //no cached data so lets create it
-            var result: [Unit: [(date: Date, value: Double)]] = [:]
+            var result: [Unit: [(x: Double, y: Double)]] = [:]
             if let td = trainingDiary{
-                result[Unit.CTL] = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: a, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: .Day, aggregationMethod: .None, unit: .CTL)
-                result[Unit.ATL] = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: a, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: .Day, aggregationMethod: .None, unit: .ATL)
-                result[Unit.TSB] = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: a, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: .Day, aggregationMethod: .None, unit: .TSB)
-                result[Unit.TSS] = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: a, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: .Day, aggregationMethod: .None, unit: .TSS)
+                result[Unit.CTL] = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: a, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: .Day, aggregationMethod: .None, unit: .CTL).map({(x: $0.date.timeIntervalSinceReferenceDate, y: $0.value)})
+                result[Unit.ATL] = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: a, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: .Day, aggregationMethod: .None, unit: .ATL).map({(x: $0.date.timeIntervalSinceReferenceDate, y: $0.value)})
+                result[Unit.TSB] = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: a, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: .Day, aggregationMethod: .None, unit: .TSB).map({(x: $0.date.timeIntervalSinceReferenceDate, y: $0.value)})
+                result[Unit.TSS] = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: a, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: .Day, aggregationMethod: .None, unit: .TSS).map({(x: $0.date.timeIntervalSinceReferenceDate, y: $0.value)})
                 
                 dataCache[a] = result
                 

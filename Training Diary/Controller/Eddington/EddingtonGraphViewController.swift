@@ -50,17 +50,17 @@ class EddingtonGraphViewController: TrainingDiaryViewController{
             if let gv = graphView{
                 
                 //start with zero for first day of diary - this ensures that scales line up.
-                let firstEntry = (date: trainingDiary!.firstDayOfDiary,value: 0.0)
-                var history: [(date: Date, value: Double)] = [firstEntry]
-                var plusOneHistory: [(date: Date, value: Double)] = [firstEntry]
-                var contributors: [(date: Date, value: Double)] = [firstEntry]
-                var annualHistory: [(date: Date, value: Double)] = [firstEntry]
-                var maturityHistory: [(date: Date, value: Double)] = [firstEntry]
+                let firstEntry = (x: trainingDiary!.firstDayOfDiary.timeIntervalSinceReferenceDate,y: 0.0)
+                var history: [(x: Double, y: Double)] = [firstEntry]
+                var plusOneHistory: [(x: Double, y: Double)] = [firstEntry]
+                var contributors: [(x: Double, y: Double)] = [firstEntry]
+                var annualHistory: [(x: Double, y: Double)] = [firstEntry]
+                var maturityHistory: [(x: Double, y: Double)] = [firstEntry]
                 
                 for e in edNum.getSortedHistory(){
-                    history.append((date: e.date!, value: Double(e.value)))
-                    plusOneHistory.append((date: e.date!, value: Double(e.value + e.plusOne)))
-                    maturityHistory.append((date: e.date!, value: e.maturity))
+                    history.append((x: e.date!.timeIntervalSinceReferenceDate, y: Double(e.value)))
+                    plusOneHistory.append((x: e.date!.timeIntervalSinceReferenceDate, y: Double(e.value + e.plusOne)))
+                    maturityHistory.append((x: e.date!.timeIntervalSinceReferenceDate, y: e.maturity))
                     
                 }
                 historyGraph.data = history
@@ -68,14 +68,14 @@ class EddingtonGraphViewController: TrainingDiaryViewController{
                 maturityGraph.data = maturityHistory
                 
                 for c in edNum.getSortedContributors(){
-                    contributors.append((c.date!, c.value))
+                    contributors.append((c.date!.timeIntervalSinceReferenceDate, c.value))
                 }
                 
                 
                 contributorsGraph.data = contributors
                 
                 for e in edNum.getSortedAnnualHistory(){
-                    annualHistory.append((date:e.date!, value: Double(e.value)))
+                    annualHistory.append((x:e.date!.timeIntervalSinceReferenceDate, y: Double(e.value)))
                 }
                 annualHistoryGraph.data = annualHistory
                 
