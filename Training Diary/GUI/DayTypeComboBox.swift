@@ -12,7 +12,7 @@ class DayTypeComboBox: NSComboBox {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        self.addItems(withObjectValues: DayType.AllTypes.map({$0.rawValue}))
+        self.addItems(withObjectValues: DayType.InputTypes.map({$0.rawValue}))
 
     }
    

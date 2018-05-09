@@ -7,11 +7,27 @@
 //
 
 import Foundation
-
+/* deprecated
 class BucketGenerator{
     
     func createBuckets(fromTrainingDiary td: TrainingDiary, buckets: BucketDefinition) -> [Bucket]{
         let values: [Double] = td.valuesFor(dataSeriesDefinition: buckets.dataSeriesDefinition).map({$0.value}).filter({$0 > 0.001})
+        let result: [Bucket] = createBuckets(buckets: buckets, from: values)
+        return result
+    }
+    
+    func createBuckets(fromTrainingDiary td: TrainingDiary, buckets: BucketDefinition, from: Date, to: Date) -> [Bucket]{
+        buckets.dataSeriesDefinition.from = from
+        buckets.dataSeriesDefinition.to = to
+
+        let values: [Double] = buckets.dataSeriesDefinition.getData().map({$0.value}).filter({$0 > 0.001})
+        
+        let result: [Bucket] = createBuckets(buckets: buckets, from: values)
+        return result
+    }
+    
+    private func createBuckets(buckets: BucketDefinition, from values: [Double]) -> [Bucket]{
+        
         let min = values.min()!
         let max = values.max()!
         print("Min: \(min)... Max: \(max)")
@@ -30,8 +46,10 @@ class BucketGenerator{
         
         return result
         
+        
     }
     
 
     
 }
+ */

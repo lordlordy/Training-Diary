@@ -21,10 +21,8 @@ class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource,
     
     //MARK: - IBActions
     @IBAction func adhoc(_ sender: Any) {
-        let bucketer = BucketGenerator()
         if let td = trainingDiary{
-            let data: DataSeriesDefinition = DataSeriesDefinition( activity: td.activity(forString: FixedActivity.Bike.rawValue), aggregationMethod: .Sum, period: .Day, unit: .Miles)
-            let result = bucketer.createBuckets(fromTrainingDiary: td, buckets: BucketDefinition(data: data, size: 10))
+            let result = BucketDefinition(data:DataSeriesDefinition( activity: td.activity(forString: FixedActivity.Bike.rawValue), aggregationMethod: .Sum, period: .Day, unit: .Miles, trainingDiary: td), size:10).createBuckets()
             
             for r in result{
                 print("\(r.name) - \(r.size)")

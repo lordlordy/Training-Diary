@@ -356,6 +356,12 @@ extension TrainingDiary{
         return []
     }
     
+    func activityStrings() -> [String]{
+        var strings = activitiesArray().map({$0.name!})
+        strings.append(ConstantString.EddingtonAll.rawValue)
+        return strings
+    }
+    
 
     
     func equipmentArray() -> [Equipment]{
@@ -371,8 +377,6 @@ extension TrainingDiary{
     func eddingtonDayTypes() -> [String]{
         var result = DayType.AllTypes.map({$0.rawValue})
         result.append(ConstantString.EddingtonAll.rawValue)
-        result.append(contentsOf: DayOfWeek.all.map({$0.rawValue}))
-        result.append(contentsOf: Month.all.map({$0.rawValue}))
         result.sort(by: {$0 < $1})
         return result
     }

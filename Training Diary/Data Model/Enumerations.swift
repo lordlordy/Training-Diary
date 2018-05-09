@@ -70,18 +70,13 @@ enum FixedActivity: String{
 }
 
 enum DayType: String{
-    case Normal
-    case Race
-    case Holiday
-    case Rest
-    case Recovery
-    case Travel
-    case Injured
-    case Niggle
-    case Ill
-    case Camp
+    case Normal, Race, Holiday, Rest, Recovery, Travel, Injured, Niggle, Ill, Camp
+    case Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
+    case January, February, March, April, May, June, July, August, September, October, November, December
+
+    static var InputTypes = [Normal, Race, Camp, Holiday, Rest, Recovery, Travel, Injured, Niggle, Ill]
     
-    static var AllTypes = [Normal, Race, Camp, Holiday, Rest, Recovery, Travel, Injured, Niggle, Ill]
+    static var AllTypes = [Normal, Race, Holiday, Rest, Recovery, Travel, Injured, Niggle, Ill, Camp,Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday, January, February, March, April, May, June, July, August, September, October, November, December]
 }
 
 enum SleepQuality: String{

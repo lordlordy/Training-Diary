@@ -34,7 +34,7 @@ class GraphDefinition: NSObject{
     }
     @objc var priority: Int = 1 //This gives relative priority of drawing. Remember that things draw on top of each other
     
-    static var observerStrings: [String] = ["axisString","typeString","display","format","colour","priority","drawZero","data"]
+    static var observerStrings: [String] = ["axisString","typeString","display","format","colour","priority","drawZero","name"]
     
     //MARK: - Initializers
     
