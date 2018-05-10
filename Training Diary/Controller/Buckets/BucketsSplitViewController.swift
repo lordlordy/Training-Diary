@@ -47,7 +47,7 @@ class BucketsSplitViewController: TrainingDiarySplitViewController{
                         gv.add(graph: g.graph)
                     }
                     if selectedGraphs.count > 0{
-                        gv.xAxisLabelStrings = selectedGraphs[0].bucketDefinition.bucketLabels
+                        gv.xAxisLabels = selectedGraphs[0].bucketDefinition.bucketLabels
                     }
                 }
                 bvc.backgroundGradientTextField.doubleValue = gradientAngle

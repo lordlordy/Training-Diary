@@ -26,7 +26,7 @@ import Foundation
     }
     @objc dynamic var bucketsName: String = "New Buckets"
     
-    var bucketLabels: [String] = []
+    var bucketLabels: [(x: Double, label: String)] = []
     
     required init(data: DataSeriesDefinition, size: Double){
         dataSeriesDefinition = data
@@ -39,7 +39,7 @@ import Foundation
     func createBuckets() -> [Bucket]{
         let values: [Double] = dataSeriesDefinition.getData().map({[$0.value,0.0].max()!})
         let result: [Bucket] = createBuckets(from: values)
-        bucketLabels = result.map({$0.name})
+        bucketLabels = result.map({(x: ($0.from + $0.to)/2.0, label:$0.name)})
         return result
     }
     
@@ -68,17 +68,18 @@ import Foundation
         
         if values.count == 0 { return [] }
         
-        let min = [values.min()!, 0.0].max()!
+ //       let min = [values.min()!, 0.0].max()!
         let max = values.max()!
-        print("Min: \(min)... Max: \(max)")
-        print("Number of values: \(values.count)")
         var bucketMin: Double = 0.0001
         var bucketMax: Double = bucketMin + bucketSize
         var result: [Bucket] = []
         
         while bucketMin <= max{
             let count = values.filter({$0 > bucketMin && $0 <= bucketMax}).count
-            let name = String(Int(bucketMin)) + "->" + String(Int(bucketMax))
+            var name = "->" + String(Int(bucketMax))
+            if bucketMin == 0.0001{
+                name = "0->" + String(Int(bucketMax))
+            }
             result.append(Bucket(name: name, from: bucketMin, to: bucketMax, size: count))
             bucketMin = bucketMax
             bucketMax = bucketMin + bucketSize

@@ -164,7 +164,7 @@ class BucketsViewController: TrainingDiaryViewController, NSTableViewDelegate, N
 
         if selectedGraphs.count > 0{
             if let gv = graphView{
-                gv.xAxisLabelStrings = selectedGraphs[0].bucketDefinition.bucketLabels
+                gv.xAxisLabels = selectedGraphs[0].bucketDefinition.bucketLabels
             }
         }
         

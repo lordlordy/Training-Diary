@@ -20,6 +20,8 @@ class BucketsGraphViewController: TrainingDiaryViewController{
             gv.backgroundGradientAngle = 90.0
             gv.backgroundGradientEndColour = .red
             gv.backgroundGradientStartColour = .green
+            gv.displayMultipleYAxisLines = false
+            gv.labelWidth = 65.0
         }
     }
     

@@ -40,19 +40,21 @@ class GraphView: NSView {
     @objc dynamic var backgroundGradientAngle: CGFloat          = 45.0 { didSet{ self.needsDisplay = true }}
     @objc var numberOfPrimaryAxisLines: Int                     = 6{ didSet{ self.needsDisplay = true }}
     @objc var numberOfSecondaryAxisLines: Int                   = 6{ didSet{ self.needsDisplay = true }}
+    @objc var displayMultipleYAxisLines: Bool                   = true { didSet{ self.needsDisplay = true}}
 
     //MARK: - public vars
-    
+    public var labelWidth: Double = 70.0
     public var primaryAxisMinimumOverride: Double?
     public var secondaryAxisMinimumOverride: Double?
     public var xAxisLabelStrings: [String] = ["1","2","3","4","5","6","7","8","9","10","11"]{
         didSet{ self.needsDisplay = true}
     }
+    public var xAxisLabels: [(x: Double, label: String)]?{
+        didSet{ self.needsDisplay = true }
+    }
     public var graphs = Set<GraphDefinition>()
     public var chartTitle: String? { didSet{ self.needsDisplay = true } }
     
- //   public var primaryAxisNumberFormatter: NumberFormatter = NumberFormatter()
-   // public var secondaryAxisNumberFormatter: NumberFormatter = NumberFormatter()
 
     //MARK: - Graph management
     
@@ -97,9 +99,7 @@ class GraphView: NSView {
         updatePlotBounds()
         
         for l in xLabels{ l.removeFromSuperview() }
-        for l in yLabels{ l.removeFromSuperview() }
         xLabels = []
-        yLabels = []
         
         titleLabel?.removeFromSuperview()
         titleLabel = nil
@@ -125,15 +125,15 @@ class GraphView: NSView {
 
         drawXAxes(dirtyRect, labelOffset: LabelOffset(position: .Start, x: -30.0, y: -(Constants.axisPadding - 10.0)) )
 
+//        for l in xLabels{ addSubview(l) }
         for l in xLabels{ addSubview(l) }
-        for l in yLabels{ addSubview(l) }
         
         if let titleName = chartTitle{
         
             let titleXPosition = dirtyRect.maxX / 2.0
             let titleYPosition = dirtyRect.maxY - CGFloat(Constants.axisPadding*0.75)
         
-            titleLabel = createLabel(value: titleName, point: CGPoint(x: titleXPosition, y: titleYPosition), size: CGSize(width: Constants.labelWidth * 3, height: Constants.labelHeight), colour: .black)
+            titleLabel = createLabel(value: titleName, point: CGPoint(x: titleXPosition, y: titleYPosition), size: CGSize(width: labelWidth * 3, height: Constants.labelHeight), colour: .black, alignment: .left)
         
             addSubview(titleLabel!)
         }
@@ -165,7 +165,6 @@ class GraphView: NSView {
 
     
     private var xLabels: [NSTextField] = []
-    private var yLabels: [NSTextField] = []
     private var titleLabel: NSTextField?
     private var gapBetweenPrimaryAxisLines:     Double{ return calcAxisLineGap(forAxis: .Primary) }
     private var gapBetweenSecondaryAxisLines:   Double{ return calcAxisLineGap(forAxis: .Secondary) }
@@ -173,7 +172,6 @@ class GraphView: NSView {
     
     private struct Constants{
         static let phaseFactorForFinalLine: Double = 0.2
-        static let labelWidth = 100.0
         static let labelHeight = 15.0
         static let pointDiameter: CGFloat = 3.0
         //how far in from the view edge the axes are
@@ -219,7 +217,7 @@ class GraphView: NSView {
         if yRange > 0.0{
             y = (yValue - _minY) * (maxYInRect / yRange)
         }
-        
+        print("dirtyRect width = \(dirtyRect.maxX - dirtyRect.minX)")
         return NSPoint(x: x + Constants.axisPadding, y: y + Constants.axisPadding)
     }
     
@@ -377,17 +375,53 @@ class GraphView: NSView {
     }
     
     private func drawXAxes(_ dirtyRect: NSRect, labelOffset: LabelOffset){
-        var count = 0.0
-        if let max = graphsXMaximum(){
-            if let min = graphsXMinimum(){
-                let factor = (max - min ) / Double(xAxisLabelStrings.count - 1)
-                for label in xAxisLabelStrings{
-                    let axisStartPoint = coordinatesInView(xValue: count, yValue: graphsYMinimum(forAxis: .Primary) ?? 0.0, forAxis: .Primary, dirtyRect)
-                    let axisEndPoint = NSPoint(x: axisStartPoint.x, y: dirtyRect.maxY - CGFloat(Constants.axisPadding))
-                    drawAxis(from: axisStartPoint, to: axisEndPoint, colour: xAxisColour, label, labelOffset: labelOffset, labelColour: xAxisLabelColour)
-                    count += factor
+        if let labels = xAxisLabels{
+            //check labels will fit
+            var labelsThatFit = labels
+            let maxLabels = Int(Double(dirtyRect.maxX - dirtyRect.minX) / labelWidth)
+            print("Max labels = \(maxLabels)")
+            while labelsThatFit.count > maxLabels{
+                var filtered: [(x: Double, label: String)] = []
+                var count: Int = 1
+                for l in labelsThatFit{
+                    if count % 2 == 1{
+                        filtered.append(l)
+                    }
+                    count += 1
                 }
-
+                labelsThatFit = filtered
+            }
+            for l in labelsThatFit{
+                let start = coordinatesInView(xValue: l.x, yValue: graphsYMinimum(forAxis: .Primary) ?? 0.0, forAxis: .Primary, dirtyRect)
+                let end = NSPoint(x: start.x, y: dirtyRect.maxY - CGFloat(Constants.axisPadding))
+     //           drawAxis(from: start, to: end, colour: xAxisColour, l.label, labelOffset: GraphView.LabelOffset.init(position: .Start, x: 0.0, y: labelOffset.y), labelColour: xAxisLabelColour, labelAlignment: .center)
+                
+                if displayMultipleYAxisLines{
+                    let path = NSBezierPath()
+                    xAxisLabelColour.setStroke()
+                    path.move(to: start)
+                    path.line(to: end)
+                    let dash: [CGFloat] = [2.0,2.0]
+                    path.setLineDash(dash, count: 2, phase: 0.0)
+                    path.stroke()
+                }
+                let labelPosition: NSPoint = NSPoint(x: start.x - CGFloat(labelWidth / 2.0), y: start.y + CGFloat(labelOffset.y))
+                let label = createLabel(value: l.label, point: labelPosition, size: CGSize(width: labelWidth, height: Constants.labelHeight), colour: xAxisLabelColour, alignment: .center)
+                xLabels.append(label)
+            }
+        }else{
+            //this is the old method and is deprecated
+            var count = 0.0
+            if let max = graphsXMaximum(){
+                if let min = graphsXMinimum(){
+                    let factor = (max - min ) / Double(xAxisLabelStrings.count - 1)
+                    for label in xAxisLabelStrings{
+                        let axisStartPoint = coordinatesInView(xValue: count, yValue: graphsYMinimum(forAxis: .Primary) ?? 0.0, forAxis: .Primary, dirtyRect)
+                        let axisEndPoint = NSPoint(x: axisStartPoint.x, y: dirtyRect.maxY - CGFloat(Constants.axisPadding))
+                        drawAxis(from: axisStartPoint, to: axisEndPoint, colour: xAxisColour, label, labelOffset: labelOffset, labelColour: xAxisLabelColour, labelAlignment: .left)
+                        count += factor
+                    }
+                }
             }
         }
     }
@@ -410,14 +444,14 @@ class GraphView: NSView {
         
         var axisStart = coordinatesInView(xValue: 0.0, yValue: 0.0, forAxis: axis, dirtyRect)
         var axisEnd = NSPoint(x: dirtyRect.maxX - CGFloat(Constants.axisPadding), y: axisStart.y)
-        drawAxis(from: axisStart, to: axisEnd, colour: strokeColour, "0", labelOffset: labelOffset, labelColour: labelColour)
+        drawAxis(from: axisStart, to: axisEnd, colour: strokeColour, "0", labelOffset: labelOffset, labelColour: labelColour, labelAlignment: .left)
         
         while factor <= maxValue{
             strokeColour = strokeColour.withAlphaComponent(strokeColour.alphaComponent * phaseFactor)
             strokeColour.setStroke()
             axisStart = coordinatesInView(xValue: 0.0, yValue: factor, forAxis: axis, dirtyRect)
             axisEnd = NSPoint(x: dirtyRect.maxX - CGFloat(Constants.axisPadding), y: axisStart.y)
-            drawAxis(from: axisStart, to: axisEnd, colour: strokeColour, numberFormatter.string(from: NSNumber(value: factor))!, labelOffset: labelOffset, labelColour: labelColour)
+            drawAxis(from: axisStart, to: axisEnd, colour: strokeColour, numberFormatter.string(from: NSNumber(value: factor))!, labelOffset: labelOffset, labelColour: labelColour, labelAlignment: .left)
             factor += lineGap
         }
         
@@ -430,7 +464,7 @@ class GraphView: NSView {
                 strokeColour.setStroke()
                 axisStart = coordinatesInView(xValue: 0.0, yValue: factor, forAxis: .Primary, dirtyRect)
                 axisEnd = NSPoint(x: dirtyRect.maxX - CGFloat(Constants.axisPadding), y: axisStart.y)
-                drawAxis(from: axisStart, to: axisEnd, colour: strokeColour, numberFormatter.string(from: NSNumber(value: factor))!, labelOffset: labelOffset, labelColour: labelColour)
+                drawAxis(from: axisStart, to: axisEnd, colour: strokeColour, numberFormatter.string(from: NSNumber(value: factor))!, labelOffset: labelOffset, labelColour: labelColour, labelAlignment: .left)
                 factor -= lineGap
             }
 
@@ -438,7 +472,7 @@ class GraphView: NSView {
         
     }
     
-    private func drawAxis(from: NSPoint, to: NSPoint, colour: NSColor, _ labelString: String, labelOffset: LabelOffset, labelColour: NSColor){
+    private func drawAxis(from: NSPoint, to: NSPoint, colour: NSColor, _ labelString: String, labelOffset: LabelOffset, labelColour: NSColor, labelAlignment: NSTextAlignment){
         let path = NSBezierPath()
         colour.setStroke()
         path.move(to: from)
@@ -454,8 +488,8 @@ class GraphView: NSView {
             labelPosition  = NSPoint(x: to.x + CGFloat(labelOffset.x), y: to.y + CGFloat(labelOffset.y))
         }
         if let p = labelPosition{
-            let label = createLabel(value: labelString, point: p, size: CGSize(width: Constants.labelWidth, height: Constants.labelHeight), colour: labelColour)
-            yLabels.append(label)
+            let label = createLabel(value: labelString, point: p, size: CGSize(width: labelWidth, height: Constants.labelHeight), colour: labelColour, alignment: labelAlignment)
+            xLabels.append(label)
         }
     }
     
@@ -472,37 +506,59 @@ class GraphView: NSView {
     private func drawBar(graph: GraphDefinition, inDirtyRect dirtyRect: NSRect ){
         if graph.data.count == 0 { return } // no data
         
-        let path = NSBezierPath()
-        if let dash = graph.dash{
-            path.setLineDash(dash, count: dash.count, phase: 0.0)
-        }
+//        let path = NSBezierPath()
+  //      if let dash = graph.dash{
+    //        path.setLineDash(dash, count: dash.count, phase: 0.0)
+      //  }
         
         
         if let start = graphsXMinimum(){
-            if let end = graphsXMaximum(){
+   //         if let end = graphsXMaximum(){
                 
                 
                 
                 //start from start of first bar
-                let origin = coordinatesInView(xValue: graph.minX(), yValue: 0.0, forAxis: graph.axis, dirtyRect)
-                path.move(to: origin)
+                let origin = coordinatesInView(xValue: 0.0, yValue: 0.0, forAxis: graph.axis, dirtyRect)
+       //         path.move(to: origin)
                 
                 let barWidth = graph.barWidth()
-                print("Bar width: \(barWidth)")
-                print("Number of bars: \(graph.data.count)")
                 
                 //this has bar end at x-value. Should amend this to centre at x-value
                 for point in graph.data {
+                    
                     let startBar = coordinatesInView(xValue:  point.x - (barWidth / 2.0) - start, yValue: point.y,forAxis: graph.axis, dirtyRect)
                     let endBar = coordinatesInView(xValue:  point.x + (barWidth / 2.0) - start, yValue: point.y,forAxis: graph.axis, dirtyRect)
                     
-                    path.line(to: NSPoint(x: startBar.x,    y: startBar.y))
-                    path.line(to: NSPoint(x: endBar.x,      y: endBar.y))
-                    path.line(to: NSPoint(x: endBar.x,      y:origin.y))
+                    let p = NSBezierPath()
+                    if let dash = graph.dash{
+                        p.setLineDash(dash, count: dash.count, phase: 0.0)
+                    }
+                    p.move(to: NSPoint(x: startBar.x, y: origin.y ))
+                    p.line(to: NSPoint(x: startBar.x,    y: startBar.y))
+                    p.line(to: NSPoint(x: endBar.x,      y: endBar.y))
+                    p.line(to: NSPoint(x: endBar.x,      y:origin.y))
+
+                    if graph.format.fill{
+                        let startColour = graph.format.fillGradientStart.withAlphaComponent(graph.format.opacity)
+                        let endColout = graph.format.fillGradientEnd.withAlphaComponent(graph.format.opacity)
+                        if let gradient = NSGradient(starting: startColour , ending: endColout){
+                            gradient.draw(in: p, angle: graph.format.gradientAngle)
+                        }else{
+                            p.fill()
+                        }
+                    }
+                    p.lineWidth = graph.format.size
+                    graph.format.colour.withAlphaComponent(graph.format.opacity).setStroke()
+                    
+                    p.stroke()
+                    
+          //          path.line(to: NSPoint(x: startBar.x,    y: startBar.y))
+            //        path.line(to: NSPoint(x: endBar.x,      y: endBar.y))
+              //      path.line(to: NSPoint(x: endBar.x,      y:origin.y))
                
                 }
                 
-                if graph.format.fill{
+        /*        if graph.format.fill{
                     let endOfXAxis = coordinatesInView(xValue: end, yValue: 0.0,forAxis: graph.axis, dirtyRect)
                     path.line(to: endOfXAxis)
                     let startColour = graph.format.fillGradientStart.withAlphaComponent(graph.format.opacity)
@@ -517,7 +573,8 @@ class GraphView: NSView {
                 graph.format.colour.withAlphaComponent(graph.format.opacity).setStroke()
                 
                 path.stroke()
-            }
+ */
+  //          }
         }
     }
         
@@ -537,7 +594,7 @@ class GraphView: NSView {
                 
                 var firstPoint: Bool = true
                 
-                if graph.startFromOrigin{
+                if graph.startFromOrigin || graph.format.fill{
                     let origin = coordinatesInView(xValue: 0.0, yValue: 0.0, forAxis: graph.axis, dirtyRect)
                     path.move(to: origin)
                     firstPoint = false
@@ -602,12 +659,12 @@ class GraphView: NSView {
         path.stroke()
     }
     
-    private func createLabel(value: String, point: CGPoint, size: CGSize, colour: NSColor) -> NSTextField {
+    private func createLabel(value: String, point: CGPoint, size: CGSize, colour: NSColor, alignment: NSTextAlignment) -> NSTextField {
         let label = NSTextField(frame: NSRect(origin: point, size: size))
         label.stringValue = value
         label.textColor = colour
         label.backgroundColor = NSColor.clear
-        label.alignment = .left
+        label.alignment = alignment
         label.isBordered = false
         
         return label
