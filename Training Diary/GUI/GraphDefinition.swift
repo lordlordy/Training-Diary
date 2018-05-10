@@ -36,7 +36,38 @@ class GraphDefinition: NSObject{
     
     static var observerStrings: [String] = ["axisString","typeString","display","format","colour","priority","drawZero","name"]
     
+    
+    func minX() -> Double{
+        let min = data.map({$0.x}).min()!
+        switch type{
+        case .Line:
+            return min
+        case .Point:
+            return min
+        case .Bar:
+            return min - (barWidth() / 2.0)
+        }
+    }
+    
+    func maxX() -> Double{
+        let max = data.map({$0.x}).max()!
+        switch type{
+        case .Line:
+            return max
+        case .Point:
+            return max
+        case .Bar:
+            return max + (barWidth() / 2.0)
+        }
+    }
+    
+    func barWidth() -> Double{
+        let xValues = data.map({$0.x})
+        return (xValues.max()! - xValues.min()!) / Double(xValues.count-1)
+    }
+    
     //MARK: - Initializers
+
     
     init(name: String,axis: Axis, type: ChartType, format: GraphFormat, drawZeroes: Bool,  priority: Int){
         self.axis = axis

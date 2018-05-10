@@ -28,9 +28,7 @@ import Foundation
     }
     
     func updateData(){
-        var data = [(x:0.0, y:0.0)]
-        data.append(contentsOf: bucketDefinition.createBuckets().map({(x:$0.to, y: Double($0.size))}))
-        graph.data = data
+        graph.data = bucketDefinition.createBuckets().map({(x:($0.from + $0.to)/2.0, y: Double($0.size))})
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {

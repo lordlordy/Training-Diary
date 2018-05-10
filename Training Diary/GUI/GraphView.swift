@@ -291,7 +291,7 @@ class GraphView: NSView {
         var minimums: [Double] = []
         for graph in graphs{
             if graph.data.count > 0{
-                minimums.append(graph.data.map({$0.x}).min()!)
+                minimums.append(graph.minX())
             }
         }
         if minimums.count > 0{
@@ -305,7 +305,7 @@ class GraphView: NSView {
         var maximums: [Double] = []
         for graph in graphs{
             if graph.data.count > 0{
-                maximums.append(graph.data.map({$0.x}).max()!)
+                maximums.append(graph.maxX())
             }
         }
         if maximums.count > 0{
@@ -332,7 +332,7 @@ class GraphView: NSView {
 
         
         //want to give axes reasonable 'round' labels. If they don't start from zero we will just leave as is. So first we check if the origin is included
-        let originIncluded: Bool = (range >= yMax && range >= abs(yMin ?? 0.0) )
+ //       let originIncluded: Bool = (range >= yMax && range >= abs(yMin ?? 0.0) )
         
 //        if originIncluded{
             //do some rounding
@@ -481,21 +481,25 @@ class GraphView: NSView {
         if let start = graphsXMinimum(){
             if let end = graphsXMaximum(){
                 
-                //start from origin
-                let origin = coordinatesInView(xValue: 0.0, yValue: 0.0, forAxis: graph.axis, dirtyRect)
+                
+                
+                //start from start of first bar
+                let origin = coordinatesInView(xValue: graph.minX(), yValue: 0.0, forAxis: graph.axis, dirtyRect)
                 path.move(to: origin)
                 
-                var previousPoint = origin
+                let barWidth = graph.barWidth()
+                print("Bar width: \(barWidth)")
+                print("Number of bars: \(graph.data.count)")
                 
                 //this has bar end at x-value. Should amend this to centre at x-value
                 for point in graph.data {
-                    let p = coordinatesInView(xValue:  point.x - start, yValue: point.y,forAxis: graph.axis, dirtyRect)
-                
-                    path.line(to: NSPoint(x: previousPoint.x, y: p.y))
-                    path.line(to:p)
-                    path.line(to: NSPoint(x:p.x,y:origin.y))
+                    let startBar = coordinatesInView(xValue:  point.x - (barWidth / 2.0) - start, yValue: point.y,forAxis: graph.axis, dirtyRect)
+                    let endBar = coordinatesInView(xValue:  point.x + (barWidth / 2.0) - start, yValue: point.y,forAxis: graph.axis, dirtyRect)
+                    
+                    path.line(to: NSPoint(x: startBar.x,    y: startBar.y))
+                    path.line(to: NSPoint(x: endBar.x,      y: endBar.y))
+                    path.line(to: NSPoint(x: endBar.x,      y:origin.y))
                
-                    previousPoint = p
                 }
                 
                 if graph.format.fill{
