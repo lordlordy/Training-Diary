@@ -285,6 +285,8 @@
 		73D91C88209E3888005A333B /* Buckets.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 73D91C86209E3880005A333B /* Buckets.storyboard */; };
 		73DB7D9B20A6268900658A3F /* Compare.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 73DB7D9A20A6268900658A3F /* Compare.storyboard */; };
 		73DB7D9C20A6268D00658A3F /* Compare.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 73DB7D9A20A6268900658A3F /* Compare.storyboard */; };
+		73DB7D9E20A6287D00658A3F /* Defaults.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 73DB7D9D20A6287D00658A3F /* Defaults.storyboard */; };
+		73DB7D9F20A6288200658A3F /* Defaults.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 73DB7D9D20A6287D00658A3F /* Defaults.storyboard */; };
 		73DC9B111FDC373700D4774A /* NumberToDetailedTimeTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DC9B101FDC373700D4774A /* NumberToDetailedTimeTransformer.swift */; };
 		73DC9B131FDC39B500D4774A /* NumberToSummaryTimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DC9B121FDC39B500D4774A /* NumberToSummaryTimeFormatter.swift */; };
 		73DE3E2A206BF4450029EF14 /* GraphSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DE3E29206BF4450029EF14 /* GraphSplitViewController.swift */; };
@@ -447,6 +449,7 @@
 		73D91919208BB15900211302 /* PlanBasicWeekViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanBasicWeekViewController.swift; sourceTree = "<group>"; };
 		73D91C86209E3880005A333B /* Buckets.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Buckets.storyboard; sourceTree = "<group>"; };
 		73DB7D9A20A6268900658A3F /* Compare.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Compare.storyboard; sourceTree = "<group>"; };
+		73DB7D9D20A6287D00658A3F /* Defaults.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Defaults.storyboard; sourceTree = "<group>"; };
 		73DC9B101FDC373700D4774A /* NumberToDetailedTimeTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberToDetailedTimeTransformer.swift; sourceTree = "<group>"; };
 		73DC9B121FDC39B500D4774A /* NumberToSummaryTimeFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberToSummaryTimeFormatter.swift; sourceTree = "<group>"; };
 		73DE3E29206BF4450029EF14 /* GraphSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphSplitViewController.swift; sourceTree = "<group>"; };
@@ -559,6 +562,7 @@
 				739C1E6D209725CA00A3D805 /* Info-Dev.plist */,
 				73B2B9EE1F894CC00044DD4E /* Info.plist */,
 				73B2B9EB1F894CC00044DD4E /* Main.storyboard */,
+				73DB7D9D20A6287D00658A3F /* Defaults.storyboard */,
 				73DB7D9A20A6268900658A3F /* Compare.storyboard */,
 				73ECC2C820A6226800F12A99 /* Physiological.storyboard */,
 				73ECC2C520A61EF600F12A99 /* Graph.storyboard */,
@@ -918,6 +922,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				73DB7D9F20A6288200658A3F /* Defaults.storyboard in Resources */,
 				73D91C88209E3888005A333B /* Buckets.storyboard in Resources */,
 				735F63AC20970BE400AE3503 /* Assets.xcassets in Resources */,
 				735F63AD20970BE400AE3503 /* Main.storyboard in Resources */,
@@ -941,6 +946,7 @@
 				73DB7D9B20A6268900658A3F /* Compare.storyboard in Resources */,
 				73FC61E1200E1D1900C61DE6 /* tableStart.txt in Resources */,
 				73ECC2C920A6226800F12A99 /* Physiological.storyboard in Resources */,
+				73DB7D9E20A6287D00658A3F /* Defaults.storyboard in Resources */,
 				73FC61E3200E1D5200C61DE6 /* tableEnd.txt in Resources */,
 				739C1E6E209725CA00A3D805 /* Info-Dev.plist in Resources */,
 				73FC61DF200E19A000C61DE6 /* filteringTable.html in Resources */,
