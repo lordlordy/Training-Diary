@@ -298,6 +298,8 @@
 		73EBA47F208346EB00426626 /* ActivityGraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73EBA47E208346EB00426626 /* ActivityGraphViewController.swift */; };
 		73EBA4812083495600426626 /* TSBConstantsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73EBA4802083495600426626 /* TSBConstantsViewController.swift */; };
 		73EBA4832083642D00426626 /* TSConstantsSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73EBA4822083642D00426626 /* TSConstantsSplitViewController.swift */; };
+		73ECC2C620A61EF600F12A99 /* Graph.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 73ECC2C520A61EF600F12A99 /* Graph.storyboard */; };
+		73ECC2C720A61EFC00F12A99 /* Graph.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 73ECC2C520A61EF600F12A99 /* Graph.storyboard */; };
 		73F2119F1FB4A06900062DAE /* JSONImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F2119E1FB4A06900062DAE /* JSONImporter.swift */; };
 		73F270621FAB0CC400D36156 /* TableViewWithColumnSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F270611FAB0CC400D36156 /* TableViewWithColumnSort.swift */; };
 		73F7097A204C38160022EC04 /* TrainingDiarySplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F70979204C38160022EC04 /* TrainingDiarySplitViewController.swift */; };
@@ -456,6 +458,7 @@
 		73EBA47E208346EB00426626 /* ActivityGraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityGraphViewController.swift; sourceTree = "<group>"; };
 		73EBA4802083495600426626 /* TSBConstantsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSBConstantsViewController.swift; sourceTree = "<group>"; };
 		73EBA4822083642D00426626 /* TSConstantsSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSConstantsSplitViewController.swift; sourceTree = "<group>"; };
+		73ECC2C520A61EF600F12A99 /* Graph.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Graph.storyboard; sourceTree = "<group>"; };
 		73F2119E1FB4A06900062DAE /* JSONImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONImporter.swift; sourceTree = "<group>"; };
 		73F270611FAB0CC400D36156 /* TableViewWithColumnSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewWithColumnSort.swift; sourceTree = "<group>"; };
 		73F70979204C38160022EC04 /* TrainingDiarySplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingDiarySplitViewController.swift; sourceTree = "<group>"; };
@@ -550,6 +553,7 @@
 				739C1E6D209725CA00A3D805 /* Info-Dev.plist */,
 				73B2B9EE1F894CC00044DD4E /* Info.plist */,
 				73B2B9EB1F894CC00044DD4E /* Main.storyboard */,
+				73ECC2C520A61EF600F12A99 /* Graph.storyboard */,
 				73D91C86209E3880005A333B /* Buckets.storyboard */,
 				735E0AAD202D47B20089C2CD /* Maths.swift */,
 				73FC61E2200E1D5200C61DE6 /* tableEnd.txt */,
@@ -909,6 +913,7 @@
 				73D91C88209E3888005A333B /* Buckets.storyboard in Resources */,
 				735F63AC20970BE400AE3503 /* Assets.xcassets in Resources */,
 				735F63AD20970BE400AE3503 /* Main.storyboard in Resources */,
+				73ECC2C720A61EFC00F12A99 /* Graph.storyboard in Resources */,
 				735F63AE20970BE400AE3503 /* tableStart.txt in Resources */,
 				735F63AF20970BE400AE3503 /* tableEnd.txt in Resources */,
 				735F63B020970BE400AE3503 /* filteringTable.html in Resources */,
@@ -920,6 +925,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				73D91C87209E3880005A333B /* Buckets.storyboard in Resources */,
+				73ECC2C620A61EF600F12A99 /* Graph.storyboard in Resources */,
 				73B2B9EA1F894CC00044DD4E /* Assets.xcassets in Resources */,
 				73B2B9ED1F894CC00044DD4E /* Main.storyboard in Resources */,
 				73FC61E1200E1D1900C61DE6 /* tableStart.txt in Resources */,
