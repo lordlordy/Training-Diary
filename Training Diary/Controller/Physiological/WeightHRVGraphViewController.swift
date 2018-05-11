@@ -50,19 +50,21 @@ class WeightHRVGraphViewController: TrainingDiaryViewController{
         fromDate = from
         toDate = to
         if let gv = graphView{
+            
+            var d = from
+            let gap: DateComponents = DateComponents(day:7)
+            var labels: [(x: Double, label: String)] = []
+            while d <= to{
+                labels.append((x:d.timeIntervalSinceReferenceDate, label: d.dateOnlyShorterString()))
+                d = Calendar.current.date(byAdding: gap, to: d)!
+            }
+            
             for g in graphs{
                 if let data = cache[g.name]?.filter({$0.x >= from.timeIntervalSinceReferenceDate && $0.x <= to.timeIntervalSinceReferenceDate}){
                     g.data = data
+                    g.xAxisLabels = labels
                 }
             }
-            //create x-axis labels
-            let gap = to.timeIntervalSince(from) / 9.0 // doing 10 labels total
-            var labels: [String] = []
-            labels.append(from.dateOnlyShorterString())
-            for i in 1...9{
-                labels.append(from.addingTimeInterval(TimeInterval.init(gap*Double(i))).dateOnlyShorterString())
-            }
-            gv.xAxisLabelStrings = labels
             gv.needsDisplay = true
         }
     }

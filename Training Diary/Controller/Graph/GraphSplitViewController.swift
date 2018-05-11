@@ -11,9 +11,7 @@ import Cocoa
 class GraphSplitViewController: TrainingDiarySplitViewController, GraphManagementDelegate{
    
     
-    fileprivate struct Constants{
-        static let numberOfXAxisLabels: Int = 12
-    }
+    private let labelGap: DateComponents = DateComponents( day: 7)
     
     @IBOutlet var graphArrayController: GraphArrayController!
     @objc dynamic var graphView: GraphView! {return getGraphView()}
@@ -205,7 +203,7 @@ class GraphSplitViewController: TrainingDiarySplitViewController, GraphManagemen
                 if let graph = getGraphView(){
                     let filteredData = g.cache.filter({$0.x >= fdp.dateValue.timeIntervalSinceReferenceDate && $0.x <= tdp.dateValue.timeIntervalSinceReferenceDate})
                     g.graph?.data = filteredData
-                    graph.xAxisLabelStrings = getXAxisLabels(fromDate: fdp.dateValue, toDate: tdp.dateValue)
+                    g.graph?.xAxisLabels = getXAxisLabels(fromDate: fdp.dateValue, toDate: tdp.dateValue)
                     graph.needsDisplay = true
                 }
             }
@@ -214,7 +212,6 @@ class GraphSplitViewController: TrainingDiarySplitViewController, GraphManagemen
     
     
     
-    //sets up to a standard TSB view
     private func initialSetUp(){
         if let fdp = getFromDatePicker(){
             if let tdp = getToDatePicker(){
@@ -225,8 +222,7 @@ class GraphSplitViewController: TrainingDiarySplitViewController, GraphManagemen
                     tdp.dateValue = to
                     
                     if let gv = getGraphView(){
-                        // this shouldn't be here. Will refactor out when sort out creating axes in GraphView
-                        gv.xAxisLabelStrings = getXAxisLabels(fromDate: from, toDate: to)
+
                         gv.numberOfPrimaryAxisLines = 6
                         gv.numberOfSecondaryAxisLines = 8
                         
@@ -290,13 +286,15 @@ class GraphSplitViewController: TrainingDiarySplitViewController, GraphManagemen
         }
     }
     
-    private func getXAxisLabels(fromDate from: Date, toDate to: Date) -> [String]{
-        let gap = to.timeIntervalSince(from) / Double(Constants.numberOfXAxisLabels)
-        var result: [String] = []
-        result.append(from.dateOnlyShorterString())
-        for i in 1...Constants.numberOfXAxisLabels{
-            result.append(from.addingTimeInterval(TimeInterval.init(gap*Double(i))).dateOnlyShorterString())
+    private func getXAxisLabels(fromDate from: Date, toDate to: Date) -> [(x: Double, label: String)]{
+        var result: [(x: Double, label: String)] = []
+        var d: Date = from
+        
+        while d <= to{
+            result.append((x: d.timeIntervalSinceReferenceDate, label: d.dateOnlyShorterString()))
+            d = Calendar.current.date(byAdding: labelGap, to: d)!
         }
+        
         return result
     }
     

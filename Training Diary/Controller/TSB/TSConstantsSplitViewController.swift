@@ -25,16 +25,24 @@ class TSBConstantsSplitViewController: TrainingDiarySplitViewController{
     private var atlDecayDataCache: [Activity: [(x:Double, y: Double)]] = [:]
     private var replacementTSSDataCache: [Activity: [(x:Double, y: Double)]] = [:]
     
-    private let effectXAxisLabels = ["-91", "-84", "-77", "-70", "-63", "-56", "-49", "-42", "-35", "-28", "-21", "-14", "-7", "Race"]
-    private let decayXAxisLabels = ["0", "7", "14", "21", "28", "35", "42", "49", "56", "63", "70", "77", "84", "91d"]
+    private var effectLabels: [(x: Double, label: String)] = []
+    private var decayLabels: [(x: Double, label: String)] = []
+    
+//    private let effectXAxisLabels = ["-91", "-84", "-77", "-70", "-63", "-56", "-49", "-42", "-35", "-28", "-21", "-14", "-7", "Race"]
+  //  private let decayXAxisLabels = ["0", "7", "14", "21", "28", "35", "42", "49", "56", "63", "70", "77", "84", "91d"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         effectGraph.data = effectData(forActivity: trainingDiary!.activity(forString: FixedActivity.Bike.rawValue)!)
+
+        effectGraph.xAxisLabels = effectLabels
+        ctlDecayGraph.xAxisLabels = decayLabels
+        atlDecayGraph.xAxisLabels = decayLabels
+        replacementTSSGraph.xAxisLabels = decayLabels
+        
         if let gv = getGraphView(){
             gv.add(graph: effectGraph)
-            gv.xAxisLabelStrings = effectXAxisLabels
         }
         
         effectGraph.startFromOrigin = true
@@ -72,21 +80,18 @@ class TSBConstantsSplitViewController: TrainingDiarySplitViewController{
                 gv.clearGraphs()
                 gv.add(graph: ctlDecayGraph)
                 gv.add(graph: atlDecayGraph)
-                gv.xAxisLabelStrings = decayXAxisLabels
             }
         case .effect:
             effectGraph.data = effectData(forActivity: a)
             if let gv = getGraphView(){
                 gv.clearGraphs()
                 gv.add(graph: effectGraph)
-                gv.xAxisLabelStrings = effectXAxisLabels
             }
         case .replacement:
             replacementTSSGraph.data = replacementData(forActivity: a)
             if let gv = getGraphView(){
                 gv.clearGraphs()
                 gv.add(graph: replacementTSSGraph)
-                gv.xAxisLabelStrings = decayXAxisLabels
             }
         }
     
@@ -100,8 +105,11 @@ class TSBConstantsSplitViewController: TrainingDiarySplitViewController{
             return r
         }else{
             var result: [(x: Double, y: Double)] = []
+            effectLabels = []
             for i in 0...91{
-                result.append((x: Date().addDays(numberOfDays: i).timeIntervalSinceReferenceDate, y: a.effect(afterDays: Double(91-i))*100))
+                let d = Date().addDays(numberOfDays: i).timeIntervalSinceReferenceDate
+                result.append((x: d, y: a.effect(afterDays: Double(91-i))*100))
+                effectLabels.append((x: d, label: String(i-91) ))
             }
             effectDataCache[a] = result
             return result
@@ -113,8 +121,11 @@ class TSBConstantsSplitViewController: TrainingDiarySplitViewController{
             return r
         }else{
             var result: [(x: Double, y: Double)] = []
+            decayLabels = []
             for i in 0...91{
-                result.append((x: Date().addDays(numberOfDays: i).timeIntervalSinceReferenceDate, y: a.ctlDecayFactor(afterNDays: i)))
+                let d = Date().addDays(numberOfDays: i).timeIntervalSinceReferenceDate
+                result.append((x: d, y: a.ctlDecayFactor(afterNDays: i)))
+                decayLabels.append((x: d, label: String(i)))
             }
             ctlDecayDataCache[a] = result
             return result

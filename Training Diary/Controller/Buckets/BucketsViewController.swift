@@ -162,11 +162,11 @@ class BucketsViewController: TrainingDiaryViewController, NSTableViewDelegate, N
     func tableViewSelectionDidChange(_ notification: Notification) {
         let selectedGraphs = graphArrayController!.selectedObjects as! [BucketGraphDefinition]
 
-        if selectedGraphs.count > 0{
-            if let gv = graphView{
-                gv.xAxisLabels = selectedGraphs[0].bucketDefinition.bucketLabels
-            }
-        }
+ //       if selectedGraphs.count > 0{
+   //         if let gv = graphView{
+     //           gv.xAxisLabels = selectedGraphs[0].bucketDefinition.bucketLabels
+       //     }
+      //  }
         
         if let p = parent as? BucketsSplitViewController{
             p.setGraphs(to: selectedGraphs.map({$0.graph}))

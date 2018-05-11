@@ -19,29 +19,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Training Diary/Controller/Buckets/BucketGraphArrayController.swift"
-            timestampString = "547563441.870327"
+            filePath = "Training Diary/Controller/Bikes/BikeViewController.swift"
+            timestampString = "547696746.762241"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "16"
-            endingLineNumber = "16"
-            landmarkName = "newObject()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Training Diary/Controller/Buckets/BucketGraphArrayController.swift"
-            timestampString = "547563477.051321"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "17"
-            endingLineNumber = "17"
-            landmarkName = "newObject()"
+            startingLineNumber = "357"
+            endingLineNumber = "357"
+            landmarkName = "updateGraphData(forBike:andProperty:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -51,60 +35,60 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Training Diary/Controller/Buckets/BucketsViewController.swift"
-            timestampString = "547656576.689684"
+            filePath = "Training Diary/Controller/Bikes/BikeViewController.swift"
+            timestampString = "547696746.762326"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "413"
+            endingLineNumber = "413"
+            landmarkName = "createXAxisLabels()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Training Diary/GUI/GraphView.swift"
+            timestampString = "547748510.8119971"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "130"
             endingLineNumber = "130"
-            landmarkName = "viewDidLoad()"
+            landmarkName = "draw(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Training Diary/Controller/Buckets/BucketGraphDefinition.swift"
-            timestampString = "547678342.131426"
+            filePath = "Training Diary/Controller/TSB/TSConstantsSplitViewController.swift"
+            timestampString = "547698395.364266"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "38"
-            endingLineNumber = "38"
-            landmarkName = "observeValue(forKeyPath:of:change:context:)"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
+            landmarkName = "effectData(forActivity:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Training Diary/GUI/GraphView.swift"
-            timestampString = "547678342.13149"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "86"
-            endingLineNumber = "86"
-            landmarkName = "observeValue(forKeyPath:of:change:context:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Training Diary/GUI/GraphView.swift"
-            timestampString = "547678342.131771"
+            timestampString = "547748510.812108"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
             landmarkName = "draw(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -115,13 +99,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Training Diary/GUI/GraphView.swift"
-            timestampString = "547678342.131994"
+            filePath = "Training Diary/Controller/Eddington/EddingtonGraphViewController.swift"
+            timestampString = "547748510.81218"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "126"
-            endingLineNumber = "126"
-            landmarkName = "draw(_:)"
+            startingLineNumber = "128"
+            endingLineNumber = "128"
+            landmarkName = "updateXAxisLabels()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Training Diary/GUI/GraphView.swift"
+            timestampString = "547748510.812537"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "383"
+            endingLineNumber = "383"
+            landmarkName = "drawXAxes(_:labelOffset:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

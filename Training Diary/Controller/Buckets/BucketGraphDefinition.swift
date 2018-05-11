@@ -29,7 +29,7 @@ import Foundation
     
     func updateData(){
         graph.data = bucketDefinition.createBuckets().map({(x:($0.from + $0.to)/2.0, y: Double($0.size))})
-        
+        graph.xAxisLabels = bucketDefinition.bucketLabels
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {

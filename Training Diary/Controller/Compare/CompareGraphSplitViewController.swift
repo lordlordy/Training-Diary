@@ -14,12 +14,11 @@ class CompareGraphSplitViewController: TrainingDiarySplitViewController, GraphMa
     
     //These are dates from the graph with most dates. All other graphs are mapped to this.
     private var baseDates: [Date] = []
+    private var xAxisLabels: [(x: Double, label: String)] = []
     private var cache: [TrainingDiary: [DatedActivityGraphDefinition]] = [:]
     private var advanceDateComponent: DateComponents?
     private var retreatDateComponent: DateComponents?
 
-    
-    //MARK: - @IBActions
     
     func retreatAPeriod() {
         if let retreat = retreatDateComponent{
@@ -232,7 +231,7 @@ class CompareGraphSplitViewController: TrainingDiarySplitViewController, GraphMa
         add(graph: datedRunGraph)
         add(graph: datedRunGraph2)
         
-        setXAxisLabels(from: start, to: end)
+   //     setXAxisLabels(from: start, to: end)
         
     }
     
@@ -246,7 +245,7 @@ class CompareGraphSplitViewController: TrainingDiarySplitViewController, GraphMa
         return earliest
     }
     
-    private func setXAxisLabels(from: Date, to: Date){
+/*    private func setXAxisLabels(from: Date, to: Date){
         if let gv = getGraphView(){
             let gap = to.timeIntervalSince(from) / 12.0
             var labels: [String] = []
@@ -262,7 +261,7 @@ class CompareGraphSplitViewController: TrainingDiarySplitViewController, GraphMa
         }
         
     }
-    
+  */
     private func randomColour() -> NSColor{
         return NSColor(calibratedRed: random(), green: random(), blue: random(), alpha: 1.0)
     }
@@ -284,9 +283,9 @@ class CompareGraphSplitViewController: TrainingDiarySplitViewController, GraphMa
                 }else{
                     mapToBaseDates(forGraph: graph)
                 }
-                
             }
         }
+        graph.updateXAxisLabels()
         if let gv = getGraphView() {gv.needsDisplay = true}
     }
     
@@ -314,12 +313,7 @@ class CompareGraphSplitViewController: TrainingDiarySplitViewController, GraphMa
     private func updateGraphPeriodTo(_ dc: DateComponents){
         for g in graphs(){
             g.to = Calendar.current.date(byAdding: dc, to: g.from) ?? g.to
-        }
-        
-        if graphs().count > 0{
-            setXAxisLabels(from: graphs()[0].from, to: graphs()[0].to)
-        }
-        
+        }        
     }
     
     private func advanceGraphs(by dc: DateComponents){
@@ -333,40 +327,5 @@ class CompareGraphSplitViewController: TrainingDiarySplitViewController, GraphMa
 }
 
 
-/*
- class CompareGraphViewController: TrainingDiarySplitViewController, GraphManagementDelegate, NSComboBoxDataSource {
- 
- @IBOutlet weak var graphView: GraphView!
- @IBOutlet var graphArrayController: GraphArrayController!
- @IBOutlet weak var graphTableView: TableViewWithColumnSort!
- @IBOutlet weak var activityComboBox: NSComboBox!
- 
- 
- 
- 
- 
 
-
- 
-
-
- 
- //MARK: - Private Functions
- 
-
-
-
- 
-
- 
-
- 
-
-
- 
- 
- 
- 
- }
- */
 

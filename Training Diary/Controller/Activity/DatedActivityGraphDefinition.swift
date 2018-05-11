@@ -39,7 +39,18 @@ import Foundation
     }
     
 
+    func updateXAxisLabels(){
+        if let g = graph{
+            var d: Date = from
+            let gap: DateComponents = DateComponents(day: 7)
+            g.xAxisLabels = []
+            while d <= to{
+                g.xAxisLabels?.append((x:d.timeIntervalSinceReferenceDate, label: d.dateOnlyShorterString()))
+                d = Calendar.current.date(byAdding: gap, to: d)!
+            }
 
+        }
+    }
 
     
     

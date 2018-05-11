@@ -43,15 +43,10 @@ class GraphView: NSView {
     @objc var displayMultipleYAxisLines: Bool                   = true { didSet{ self.needsDisplay = true}}
 
     //MARK: - public vars
-    public var labelWidth: Double = 70.0
+    public var labelWidth: Double = 80.0
     public var primaryAxisMinimumOverride: Double?
     public var secondaryAxisMinimumOverride: Double?
-    public var xAxisLabelStrings: [String] = ["1","2","3","4","5","6","7","8","9","10","11"]{
-        didSet{ self.needsDisplay = true}
-    }
-    public var xAxisLabels: [(x: Double, label: String)]?{
-        didSet{ self.needsDisplay = true }
-    }
+
     public var graphs = Set<GraphDefinition>()
     public var chartTitle: String? { didSet{ self.needsDisplay = true } }
     
@@ -98,8 +93,8 @@ class GraphView: NSView {
         
         updatePlotBounds()
         
-        for l in xLabels{ l.removeFromSuperview() }
-        xLabels = []
+        for l in labels{ l.removeFromSuperview() }
+        labels = []
         
         titleLabel?.removeFromSuperview()
         titleLabel = nil
@@ -125,8 +120,14 @@ class GraphView: NSView {
 
         drawXAxes(dirtyRect, labelOffset: LabelOffset(position: .Start, x: -30.0, y: -(Constants.axisPadding - 10.0)) )
 
-//        for l in xLabels{ addSubview(l) }
-        for l in xLabels{ addSubview(l) }
+        
+        //just for testing
+        let labelStrings: [(String, CGFloat)] = labels.map({($0.stringValue, $0.frame.minX)})
+        let g = getGraphs(forAxis: .Primary)[0].data
+        let l = getGraphs(forAxis: .Primary)[0].xAxisLabels
+        
+        
+        for l in labels{ addSubview(l) }
         
         if let titleName = chartTitle{
         
@@ -164,7 +165,7 @@ class GraphView: NSView {
     
 
     
-    private var xLabels: [NSTextField] = []
+    private var labels: [NSTextField] = []
     private var titleLabel: NSTextField?
     private var gapBetweenPrimaryAxisLines:     Double{ return calcAxisLineGap(forAxis: .Primary) }
     private var gapBetweenSecondaryAxisLines:   Double{ return calcAxisLineGap(forAxis: .Secondary) }
@@ -217,7 +218,6 @@ class GraphView: NSView {
         if yRange > 0.0{
             y = (yValue - _minY) * (maxYInRect / yRange)
         }
-        print("dirtyRect width = \(dirtyRect.maxX - dirtyRect.minX)")
         return NSPoint(x: x + Constants.axisPadding, y: y + Constants.axisPadding)
     }
     
@@ -329,40 +329,36 @@ class GraphView: NSView {
         var result: Double = range / numberOfAxisLines
 
         
-        //want to give axes reasonable 'round' labels. If they don't start from zero we will just leave as is. So first we check if the origin is included
- //       let originIncluded: Bool = (range >= yMax && range >= abs(yMin ?? 0.0) )
-        
-//        if originIncluded{
             //do some rounding
-            switch range{
-            case 0...1.5:
-                result = max(0.1, round(range / numberOfAxisLines, toNearest: 0.1))
-            case 1.5...7.0:
-                result = max(1.0, round(range / numberOfAxisLines, toNearest: 1.0))
-            case 7.0...14.0:
-                result = max(2.0, round(range / numberOfAxisLines, toNearest: 2.0))
-            case 14.0...35.0:
-                result = max(5.0, round(range / numberOfAxisLines, toNearest: 5.0))
-            case 35.0...70.0:
-                result = max(10.0, round(range / numberOfAxisLines, toNearest: 10.0))
-            case 70.0...140.0:
-                result = max(20.0, round(range / numberOfAxisLines, toNearest: 20.0))
-            case 140.0...200.0:
-                result = max(25.0, round(range / numberOfAxisLines, toNearest: 25.0))
-            case 200.0...350.0:
-                result = max(50.0, round(range / numberOfAxisLines, toNearest: 50.0))
-            case 350.0...700.0:
-                result = max(100.0, round(range / numberOfAxisLines, toNearest: 100.0))
-            case 700.0...1200.0:
-                result = max(200.0, round(range / numberOfAxisLines, toNearest: 200.0))
-            case 1200.0...2000.0:
-                result = max(250.0, round(range / numberOfAxisLines, toNearest: 250.0))
-            case 2000.0...3500.0:
-                result = max(500.0, round(range / numberOfAxisLines, toNearest: 500.0))
-            default:
-                result = max(1000.0, round(range / numberOfAxisLines, toNearest: 1000.0))
-            }
-//        }
+        switch range{
+        case 0...1.5:
+            result = max(0.1, round(range / numberOfAxisLines, toNearest: 0.1))
+        case 1.5...7.0:
+            result = max(1.0, round(range / numberOfAxisLines, toNearest: 1.0))
+        case 7.0...14.0:
+            result = max(2.0, round(range / numberOfAxisLines, toNearest: 2.0))
+        case 14.0...35.0:
+            result = max(5.0, round(range / numberOfAxisLines, toNearest: 5.0))
+        case 35.0...70.0:
+            result = max(10.0, round(range / numberOfAxisLines, toNearest: 10.0))
+        case 70.0...140.0:
+            result = max(20.0, round(range / numberOfAxisLines, toNearest: 20.0))
+        case 140.0...200.0:
+            result = max(25.0, round(range / numberOfAxisLines, toNearest: 25.0))
+        case 200.0...350.0:
+            result = max(50.0, round(range / numberOfAxisLines, toNearest: 50.0))
+        case 350.0...700.0:
+            result = max(100.0, round(range / numberOfAxisLines, toNearest: 100.0))
+        case 700.0...1200.0:
+            result = max(200.0, round(range / numberOfAxisLines, toNearest: 200.0))
+        case 1200.0...2000.0:
+            result = max(250.0, round(range / numberOfAxisLines, toNearest: 250.0))
+        case 2000.0...3500.0:
+            result = max(500.0, round(range / numberOfAxisLines, toNearest: 500.0))
+        default:
+            result = max(1000.0, round(range / numberOfAxisLines, toNearest: 1000.0))
+        }
+        
         return result
 
         
@@ -375,55 +371,52 @@ class GraphView: NSView {
     }
     
     private func drawXAxes(_ dirtyRect: NSRect, labelOffset: LabelOffset){
-        if let labels = xAxisLabels{
-            //check labels will fit
-            var labelsThatFit = labels
-            let maxLabels = Int(Double(dirtyRect.maxX - dirtyRect.minX) / labelWidth)
-            print("Max labels = \(maxLabels)")
-            while labelsThatFit.count > maxLabels{
-                var filtered: [(x: Double, label: String)] = []
-                var count: Int = 1
+        var xAxisLabels: [(x: Double, label: String)]?
+        //see if any labels are set
+        findLabel: for g in priorityOrderedGraphs{
+            if let l = g.xAxisLabels{
+                xAxisLabels = l
+                break findLabel
+            }
+        }
+        
+        if let minimumX = graphsXMinimum(){
+            if let l = xAxisLabels{
+                //check labels will fit
+                var labelsThatFit = l
+                let maxLabels = Int(Double(dirtyRect.maxX - dirtyRect.minX) / labelWidth)
+                while labelsThatFit.count > maxLabels{
+                    var filtered: [(x: Double, label: String)] = []
+                    var count: Int = 1
+                    for l in labelsThatFit{
+                        if count % 2 == 1{
+                            filtered.append(l)
+                        }
+                        count += 1
+                    }
+                    labelsThatFit = filtered
+                }
                 for l in labelsThatFit{
-                    if count % 2 == 1{
-                        filtered.append(l)
+                    let start = coordinatesInView(xValue: l.x - minimumX, yValue: graphsYMinimum(forAxis: .Primary) ?? 0.0, forAxis: .Primary, dirtyRect)
+                    let end = NSPoint(x: start.x, y: dirtyRect.maxY - CGFloat(Constants.axisPadding))
+                    
+                    if displayMultipleYAxisLines{
+                        let path = NSBezierPath()
+                        xAxisLabelColour.setStroke()
+                        path.move(to: start)
+                        path.line(to: end)
+                        let dash: [CGFloat] = [2.0,2.0]
+                        path.setLineDash(dash, count: 2, phase: 0.0)
+                        path.stroke()
                     }
-                    count += 1
-                }
-                labelsThatFit = filtered
-            }
-            for l in labelsThatFit{
-                let start = coordinatesInView(xValue: l.x, yValue: graphsYMinimum(forAxis: .Primary) ?? 0.0, forAxis: .Primary, dirtyRect)
-                let end = NSPoint(x: start.x, y: dirtyRect.maxY - CGFloat(Constants.axisPadding))
-     //           drawAxis(from: start, to: end, colour: xAxisColour, l.label, labelOffset: GraphView.LabelOffset.init(position: .Start, x: 0.0, y: labelOffset.y), labelColour: xAxisLabelColour, labelAlignment: .center)
-                
-                if displayMultipleYAxisLines{
-                    let path = NSBezierPath()
-                    xAxisLabelColour.setStroke()
-                    path.move(to: start)
-                    path.line(to: end)
-                    let dash: [CGFloat] = [2.0,2.0]
-                    path.setLineDash(dash, count: 2, phase: 0.0)
-                    path.stroke()
-                }
-                let labelPosition: NSPoint = NSPoint(x: start.x - CGFloat(labelWidth / 2.0), y: start.y + CGFloat(labelOffset.y))
-                let label = createLabel(value: l.label, point: labelPosition, size: CGSize(width: labelWidth, height: Constants.labelHeight), colour: xAxisLabelColour, alignment: .center)
-                xLabels.append(label)
-            }
-        }else{
-            //this is the old method and is deprecated
-            var count = 0.0
-            if let max = graphsXMaximum(){
-                if let min = graphsXMinimum(){
-                    let factor = (max - min ) / Double(xAxisLabelStrings.count - 1)
-                    for label in xAxisLabelStrings{
-                        let axisStartPoint = coordinatesInView(xValue: count, yValue: graphsYMinimum(forAxis: .Primary) ?? 0.0, forAxis: .Primary, dirtyRect)
-                        let axisEndPoint = NSPoint(x: axisStartPoint.x, y: dirtyRect.maxY - CGFloat(Constants.axisPadding))
-                        drawAxis(from: axisStartPoint, to: axisEndPoint, colour: xAxisColour, label, labelOffset: labelOffset, labelColour: xAxisLabelColour, labelAlignment: .left)
-                        count += factor
-                    }
+                    let labelPosition: NSPoint = NSPoint(x: start.x - CGFloat(labelWidth / 2.0), y: start.y + CGFloat(labelOffset.y))
+                    let label = createLabel(value: l.label, point: labelPosition, size: CGSize(width: labelWidth, height: Constants.labelHeight), colour: xAxisLabelColour, alignment: .center)
+                    print("Postition for \(l.label) = \(labelPosition)")
+                    labels.append(label)
                 }
             }
         }
+
     }
     
     private func drawYAxes(forAxis axis: Axis, maxValue: Double, minValue: Double, _ dirtyRect: NSRect, colour: NSColor, lineGap: Double, labelOffset: LabelOffset, labelColour: NSColor ){
@@ -489,7 +482,7 @@ class GraphView: NSView {
         }
         if let p = labelPosition{
             let label = createLabel(value: labelString, point: p, size: CGSize(width: labelWidth, height: Constants.labelHeight), colour: labelColour, alignment: labelAlignment)
-            xLabels.append(label)
+            labels.append(label)
         }
     }
     
@@ -505,76 +498,44 @@ class GraphView: NSView {
 
     private func drawBar(graph: GraphDefinition, inDirtyRect dirtyRect: NSRect ){
         if graph.data.count == 0 { return } // no data
-        
-//        let path = NSBezierPath()
-  //      if let dash = graph.dash{
-    //        path.setLineDash(dash, count: dash.count, phase: 0.0)
-      //  }
-        
-        
+    
         if let start = graphsXMinimum(){
-   //         if let end = graphsXMaximum(){
+        
+            //start from start of first bar
+            let origin = coordinatesInView(xValue: 0.0, yValue: 0.0, forAxis: graph.axis, dirtyRect)
+        
+            let barWidth = graph.barWidth()
+            
+            //this has bar end at x-value. Should amend this to centre at x-value
+            for point in graph.data {
                 
+                let startBar = coordinatesInView(xValue:  point.x - (barWidth / 2.0) - start, yValue: point.y,forAxis: graph.axis, dirtyRect)
+                let endBar = coordinatesInView(xValue:  point.x + (barWidth / 2.0) - start, yValue: point.y,forAxis: graph.axis, dirtyRect)
                 
-                
-                //start from start of first bar
-                let origin = coordinatesInView(xValue: 0.0, yValue: 0.0, forAxis: graph.axis, dirtyRect)
-       //         path.move(to: origin)
-                
-                let barWidth = graph.barWidth()
-                
-                //this has bar end at x-value. Should amend this to centre at x-value
-                for point in graph.data {
-                    
-                    let startBar = coordinatesInView(xValue:  point.x - (barWidth / 2.0) - start, yValue: point.y,forAxis: graph.axis, dirtyRect)
-                    let endBar = coordinatesInView(xValue:  point.x + (barWidth / 2.0) - start, yValue: point.y,forAxis: graph.axis, dirtyRect)
-                    
-                    let p = NSBezierPath()
-                    if let dash = graph.dash{
-                        p.setLineDash(dash, count: dash.count, phase: 0.0)
-                    }
-                    p.move(to: NSPoint(x: startBar.x, y: origin.y ))
-                    p.line(to: NSPoint(x: startBar.x,    y: startBar.y))
-                    p.line(to: NSPoint(x: endBar.x,      y: endBar.y))
-                    p.line(to: NSPoint(x: endBar.x,      y:origin.y))
-
-                    if graph.format.fill{
-                        let startColour = graph.format.fillGradientStart.withAlphaComponent(graph.format.opacity)
-                        let endColout = graph.format.fillGradientEnd.withAlphaComponent(graph.format.opacity)
-                        if let gradient = NSGradient(starting: startColour , ending: endColout){
-                            gradient.draw(in: p, angle: graph.format.gradientAngle)
-                        }else{
-                            p.fill()
-                        }
-                    }
-                    p.lineWidth = graph.format.size
-                    graph.format.colour.withAlphaComponent(graph.format.opacity).setStroke()
-                    
-                    p.stroke()
-                    
-          //          path.line(to: NSPoint(x: startBar.x,    y: startBar.y))
-            //        path.line(to: NSPoint(x: endBar.x,      y: endBar.y))
-              //      path.line(to: NSPoint(x: endBar.x,      y:origin.y))
-               
+                let p = NSBezierPath()
+                if let dash = graph.dash{
+                    p.setLineDash(dash, count: dash.count, phase: 0.0)
                 }
-                
-        /*        if graph.format.fill{
-                    let endOfXAxis = coordinatesInView(xValue: end, yValue: 0.0,forAxis: graph.axis, dirtyRect)
-                    path.line(to: endOfXAxis)
+                p.move(to: NSPoint(x: startBar.x, y: origin.y ))
+                p.line(to: NSPoint(x: startBar.x,    y: startBar.y))
+                p.line(to: NSPoint(x: endBar.x,      y: endBar.y))
+                p.line(to: NSPoint(x: endBar.x,      y:origin.y))
+
+                if graph.format.fill{
                     let startColour = graph.format.fillGradientStart.withAlphaComponent(graph.format.opacity)
                     let endColout = graph.format.fillGradientEnd.withAlphaComponent(graph.format.opacity)
                     if let gradient = NSGradient(starting: startColour , ending: endColout){
-                        gradient.draw(in: path, angle: graph.format.gradientAngle)
+                        gradient.draw(in: p, angle: graph.format.gradientAngle)
                     }else{
-                        path.fill()
+                        p.fill()
                     }
                 }
-                path.lineWidth = graph.format.size
+                p.lineWidth = graph.format.size
                 graph.format.colour.withAlphaComponent(graph.format.opacity).setStroke()
                 
-                path.stroke()
- */
-  //          }
+                p.stroke()
+             
+            }
         }
     }
         

@@ -354,6 +354,9 @@ class BikeViewController: TrainingDiaryViewController, NSTableViewDelegate, NSCo
             data = createData(forBike: bike, andProperty: p)
         }
         
+        let labels = createXAxisLabels()
+
+        
         if let graphs = graphCache[bike]{
             if let d = data{
                 if let from = fromDatePicker?.dateValue{
@@ -361,12 +364,16 @@ class BikeViewController: TrainingDiaryViewController, NSTableViewDelegate, NSCo
                         graphs.valuesGraph.data = d.values.filter({$0.x >= from.timeIntervalSinceReferenceDate && $0.x <= to.timeIntervalSinceReferenceDate})
                         graphs.ltdGraph.data = d.ltd.filter({$0.x >= from.timeIntervalSinceReferenceDate && $0.x <= to.timeIntervalSinceReferenceDate})
                         graphs.rollingGraph.data = d.rolling.filter({$0.x >= from.timeIntervalSinceReferenceDate && $0.x <= to.timeIntervalSinceReferenceDate})
+                        
+                        graphs.ltdGraph.xAxisLabels = labels
+                        graphs.rollingGraph.xAxisLabels = labels
+                        graphs.valuesGraph.xAxisLabels = labels
+                        
                     }
                 }
             }
         }
 
-        graphView!.xAxisLabelStrings = createXAxisLabels()
         
     }
     
@@ -392,14 +399,15 @@ class BikeViewController: TrainingDiaryViewController, NSTableViewDelegate, NSCo
         }
     }
     
-    private func createXAxisLabels() -> [String]{
-        let divisor = Double(GraphConstants.numberOfXAxisLabels - 1)
+    private func createXAxisLabels() -> [(x: Double, label: String)]{
         let range = dateRangeForCurrentSetUp()
-        let interval: TimeInterval = range.to.timeIntervalSince(range.from) / divisor
-        var result: [String] = []
+        var d: Date = range.from
+        let gap: DateComponents = DateComponents(day: 7)
+        var result: [(x: Double, label: String)] = []
         
-        for i in 0...(GraphConstants.numberOfXAxisLabels - 1){
-            result.append(range.from.addingTimeInterval(interval * Double(i)).dateOnlyShorterString())
+        while d <= range.to{
+            result.append((x:d.timeIntervalSinceReferenceDate, label: d.dateOnlyShorterString()))
+            d = Calendar.current.date(byAdding: gap, to: d)!
         }
         
         return result

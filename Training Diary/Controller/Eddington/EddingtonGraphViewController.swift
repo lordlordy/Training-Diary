@@ -17,30 +17,22 @@ class EddingtonGraphViewController: TrainingDiaryViewController{
     private let annualHistoryGraph = GraphDefinition(name: "annual", axis: .Primary, type: .Point, format: GraphFormat.init(fill: true, colour: .yellow, fillGradientStart: .yellow, fillGradientEnd: .yellow, gradientAngle: 0.0, size: 7.0, opacity: 1.0), drawZeroes: false, priority: 4)
     private let maturityGraph = GraphDefinition(name: "maturity", axis: .Secondary, type: .Line, format: GraphFormat.init(fill: false, colour: .cyan, fillGradientStart: .cyan, fillGradientEnd: .cyan, gradientAngle: 0.0, size: 1.0, opacity: 1.0), drawZeroes: false, priority: 5)
     
+    private var graphs: [GraphDefinition] = []
+    private var xAxisLabels: [(x: Double, label: String)] = []
+    
 
     @IBOutlet weak var graphView: GraphView!
     
     override func set(trainingDiary td: TrainingDiary){
         super.set(trainingDiary: td)
-        if let gv = graphView{
-            let range = td.lastDayOfDiary.timeIntervalSince(td.firstDayOfDiary)
-            let numberOfLabels = 6
-            let gap = range / Double(numberOfLabels - 1)
-            var labels: [String] = []
-            labels.append(td.firstDayOfDiary.dateOnlyShorterString())
-            for i in 1...(numberOfLabels-1){
-                labels.append(td.firstDayOfDiary.addingTimeInterval(TimeInterval(gap*Double(i))).dateOnlyShorterString())
-            }
-            gv.xAxisLabelStrings = labels
-        }
-        
-        
+        updateXAxisLabels()
     }
     
     //MARK: - Override
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        graphs = [historyGraph, plusOneGraph, contributorsGraph, annualHistoryGraph, maturityGraph]
         setUpGraphs()
         updateGraph()
     }
@@ -115,35 +107,28 @@ class EddingtonGraphViewController: TrainingDiaryViewController{
     private func setUpGraphs(){
         if let gv = graphView{
             
-            gv.add(graph: historyGraph)
-            gv.add(graph: plusOneGraph)
-            gv.add(graph: contributorsGraph)
-            gv.add(graph: annualHistoryGraph)
-            gv.add(graph: maturityGraph)
-            
             gv.backgroundGradientStartColour = .lightGray
             gv.backgroundGradientEndColour = .darkGray
             gv.backgroundGradientAngle = 45
             
-            //create the labels - create six
-            var xAxisLabels: [String] = []
-            if let td = trainingDiary{
-                let from = td.firstDayOfDiary
-                let to = td.lastDayOfDiary
-                let gap = to.timeIntervalSince(from) / 5.0
-                xAxisLabels.append(from.dateOnlyShorterString())
-                for i in 1...5{
-                    xAxisLabels.append(from.addingTimeInterval(gap * Double(i)).dateOnlyShorterString())
-                }
+            updateXAxisLabels()
+            
+            for g in graphs{
+                g.xAxisLabels = xAxisLabels
+                gv.add(graph: g)
             }
-            
-            gv.xAxisLabelStrings = xAxisLabels
-            
-    //        let formatter = NumberFormatter()
-      //      formatter.format = "#,##0.00"
-        //    gv.secondaryAxisNumberFormatter = formatter
-            
-            
+    
+        }
+    }
+    
+    private func updateXAxisLabels(){
+        xAxisLabels = []
+        if let td = trainingDiary{
+            var d = td.firstDayOfDiary
+            while d < td.lastDayOfDiary{
+                xAxisLabels.append((x:d.timeIntervalSinceReferenceDate, label: d.dateOnlyShorterString()))
+                d = Calendar.current.date(byAdding: DateComponents.init( year: 1), to: d)!
+            }
         }
     }
     

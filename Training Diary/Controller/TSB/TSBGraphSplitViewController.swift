@@ -69,10 +69,13 @@ class TSBGraphSplitViewController: TrainingDiarySplitViewController{
         ctlGraph.data = data[Unit.CTL]!.filter({$0.x >= start.timeIntervalSinceReferenceDate && $0.x <= end.timeIntervalSinceReferenceDate})
         atlGraph.data = data[Unit.ATL]!.filter({$0.x >= start.timeIntervalSinceReferenceDate && $0.x <= end.timeIntervalSinceReferenceDate})
         tssGraph.data = data[Unit.TSS]!.filter({$0.x >= start.timeIntervalSinceReferenceDate && $0.x <= end.timeIntervalSinceReferenceDate})
+
+        //only need to add labels to one graph. GraphView uses first labels it finds in a graph it's displaying
+        tsbGraph.xAxisLabels = getXAxisLabels(fromDate: start, toDate: end)
+
         
         if let gv = getGraphView(){
             gv.chartTitle = activity + " Training Stress Balance"
-            gv.xAxisLabelStrings = getXAxisLabels(fromDate: start, toDate: end)
             gv.needsDisplay = true
         }
     }
@@ -105,14 +108,15 @@ class TSBGraphSplitViewController: TrainingDiarySplitViewController{
         return nil
     }
     
-    private func getXAxisLabels(fromDate from: Date, toDate to: Date) -> [String]{
-        let numberOfLabels: Int = 10
-        let gap = to.timeIntervalSince(from) / Double(numberOfLabels)
-        var result: [String] = []
-        result.append(from.dateOnlyShorterString())
-        for i in 1...numberOfLabels{
-            result.append(from.addingTimeInterval(TimeInterval.init(gap*Double(i))).dateOnlyShorterString())
+    private func getXAxisLabels(fromDate from: Date, toDate to: Date) -> [(x: Double, label: String)]{
+        var result: [(x: Double, label: String)] = []
+        let gap: DateComponents = DateComponents(day:7)
+        var d: Date = from
+        while d <= to{
+            result.append((x: d.timeIntervalSinceReferenceDate, label: d.dateOnlyShorterString()))
+            d = Calendar.current.date(byAdding: gap, to: d)!
         }
+
         return result
     }
     

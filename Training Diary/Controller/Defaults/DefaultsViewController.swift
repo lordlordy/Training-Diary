@@ -256,26 +256,26 @@ class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource,
 
     override func viewDidLoad() {
         
-        updateGraphs(forActivity: trainingDiary!.activity(forString: FixedActivity.Bike.rawValue)!)
+ //       updateGraphs(forActivity: trainingDiary!.activity(forString: FixedActivity.Bike.rawValue)!)
         
     }
     
     //MARK: - NSTableViewDelegate
     func tableViewSelectionDidChange(_ notification: Notification) {
        print("Activity table selection changed")
-        if let ac = activitiesArrayController{
-            if let selection = ac.selectedObjects{
-                if selection.count > 0{
-                    if let a = selection[0] as? Activity{
-                        print(a.name as Any)
-                        if let gv = activityGraphView{
-                            gv.clearGraphs()
-                            updateGraphs(forActivity: a)
-                        }
-                    }
-                }
-            }
-        }
+ //       if let ac = activitiesArrayController{
+   //         if let selection = ac.selectedObjects{
+     //           if selection.count > 0{
+       //             if let a = selection[0] as? Activity{
+         //               print(a.name as Any)
+           //             if let gv = activityGraphView{
+             //               gv.clearGraphs()
+               //             updateGraphs(forActivity: a)
+                 //       }
+                   // }
+                //}
+            //}
+        //}
     }
     
     //MARK: - ReferenceToMainProtocol
@@ -366,7 +366,7 @@ class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource,
         return result
     }
     
-    private func updateGraphs(forActivity a: Activity){
+/*    private func updateGraphs(forActivity a: Activity){
         if let gv = activityGraphView{
             gv.clearGraphs()
             for g in graphs(forActivity: a){
@@ -375,7 +375,7 @@ class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource,
             gv.xAxisLabelStrings = ["0","3","6","9","12","15","18","21","24","27","30"]
         }
     }
-    
+ */
     private func graphs(forActivity a: Activity) -> [GraphDefinition]{
         
         let testCTLData = ctlReplacementData(forActivity: a)
