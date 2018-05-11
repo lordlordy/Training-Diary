@@ -283,6 +283,8 @@
 		73D9191A208BB15900211302 /* PlanBasicWeekViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D91919208BB15900211302 /* PlanBasicWeekViewController.swift */; };
 		73D91C87209E3880005A333B /* Buckets.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 73D91C86209E3880005A333B /* Buckets.storyboard */; };
 		73D91C88209E3888005A333B /* Buckets.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 73D91C86209E3880005A333B /* Buckets.storyboard */; };
+		73DB7D9B20A6268900658A3F /* Compare.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 73DB7D9A20A6268900658A3F /* Compare.storyboard */; };
+		73DB7D9C20A6268D00658A3F /* Compare.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 73DB7D9A20A6268900658A3F /* Compare.storyboard */; };
 		73DC9B111FDC373700D4774A /* NumberToDetailedTimeTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DC9B101FDC373700D4774A /* NumberToDetailedTimeTransformer.swift */; };
 		73DC9B131FDC39B500D4774A /* NumberToSummaryTimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DC9B121FDC39B500D4774A /* NumberToSummaryTimeFormatter.swift */; };
 		73DE3E2A206BF4450029EF14 /* GraphSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DE3E29206BF4450029EF14 /* GraphSplitViewController.swift */; };
@@ -444,6 +446,7 @@
 		73D89F9F1FD1E241002F07A2 /* DatedActivityGraphDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatedActivityGraphDefinition.swift; sourceTree = "<group>"; };
 		73D91919208BB15900211302 /* PlanBasicWeekViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanBasicWeekViewController.swift; sourceTree = "<group>"; };
 		73D91C86209E3880005A333B /* Buckets.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Buckets.storyboard; sourceTree = "<group>"; };
+		73DB7D9A20A6268900658A3F /* Compare.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Compare.storyboard; sourceTree = "<group>"; };
 		73DC9B101FDC373700D4774A /* NumberToDetailedTimeTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberToDetailedTimeTransformer.swift; sourceTree = "<group>"; };
 		73DC9B121FDC39B500D4774A /* NumberToSummaryTimeFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberToSummaryTimeFormatter.swift; sourceTree = "<group>"; };
 		73DE3E29206BF4450029EF14 /* GraphSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphSplitViewController.swift; sourceTree = "<group>"; };
@@ -556,6 +559,7 @@
 				739C1E6D209725CA00A3D805 /* Info-Dev.plist */,
 				73B2B9EE1F894CC00044DD4E /* Info.plist */,
 				73B2B9EB1F894CC00044DD4E /* Main.storyboard */,
+				73DB7D9A20A6268900658A3F /* Compare.storyboard */,
 				73ECC2C820A6226800F12A99 /* Physiological.storyboard */,
 				73ECC2C520A61EF600F12A99 /* Graph.storyboard */,
 				73D91C86209E3880005A333B /* Buckets.storyboard */,
@@ -921,6 +925,7 @@
 				735F63AE20970BE400AE3503 /* tableStart.txt in Resources */,
 				735F63AF20970BE400AE3503 /* tableEnd.txt in Resources */,
 				73ECC2CA20A6249D00F12A99 /* Physiological.storyboard in Resources */,
+				73DB7D9C20A6268D00658A3F /* Compare.storyboard in Resources */,
 				735F63B020970BE400AE3503 /* filteringTable.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -933,6 +938,7 @@
 				73ECC2C620A61EF600F12A99 /* Graph.storyboard in Resources */,
 				73B2B9EA1F894CC00044DD4E /* Assets.xcassets in Resources */,
 				73B2B9ED1F894CC00044DD4E /* Main.storyboard in Resources */,
+				73DB7D9B20A6268900658A3F /* Compare.storyboard in Resources */,
 				73FC61E1200E1D1900C61DE6 /* tableStart.txt in Resources */,
 				73ECC2C920A6226800F12A99 /* Physiological.storyboard in Resources */,
 				73FC61E3200E1D5200C61DE6 /* tableEnd.txt in Resources */,
