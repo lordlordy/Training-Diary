@@ -226,6 +226,8 @@
 		739C1E6E209725CA00A3D805 /* Info-Dev.plist in Resources */ = {isa = PBXBuildFile; fileRef = 739C1E6D209725CA00A3D805 /* Info-Dev.plist */; };
 		739E2876205415DA0058E06D /* TrainingDiaryArrayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739E2875205415DA0058E06D /* TrainingDiaryArrayController.swift */; };
 		73A06B05204D594A0088BD09 /* WorkoutSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A06B04204D594A0088BD09 /* WorkoutSplitViewController.swift */; };
+		73A2DDA420A69A53002947AF /* Workouts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 73A2DDA320A69A53002947AF /* Workouts.storyboard */; };
+		73A2DDA520A69A59002947AF /* Workouts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 73A2DDA320A69A53002947AF /* Workouts.storyboard */; };
 		73A620C62084E7A200679CE9 /* TSBGraphSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A620C52084E7A200679CE9 /* TSBGraphSplitViewController.swift */; };
 		73A620C82084E7F700679CE9 /* TSBGraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A620C72084E7F700679CE9 /* TSBGraphViewController.swift */; };
 		73A620CA2084F44A00679CE9 /* TSBSelectorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A620C92084F44A00679CE9 /* TSBSelectorsViewController.swift */; };
@@ -391,6 +393,7 @@
 		739C1E6D209725CA00A3D805 /* Info-Dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-Dev.plist"; sourceTree = "<group>"; };
 		739E2875205415DA0058E06D /* TrainingDiaryArrayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingDiaryArrayController.swift; sourceTree = "<group>"; };
 		73A06B04204D594A0088BD09 /* WorkoutSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSplitViewController.swift; sourceTree = "<group>"; };
+		73A2DDA320A69A53002947AF /* Workouts.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Workouts.storyboard; sourceTree = "<group>"; };
 		73A620C52084E7A200679CE9 /* TSBGraphSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSBGraphSplitViewController.swift; sourceTree = "<group>"; };
 		73A620C72084E7F700679CE9 /* TSBGraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSBGraphViewController.swift; sourceTree = "<group>"; };
 		73A620C92084F44A00679CE9 /* TSBSelectorsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSBSelectorsViewController.swift; sourceTree = "<group>"; };
@@ -565,6 +568,7 @@
 				739C1E6D209725CA00A3D805 /* Info-Dev.plist */,
 				73B2B9EE1F894CC00044DD4E /* Info.plist */,
 				73B2B9EB1F894CC00044DD4E /* Main.storyboard */,
+				73A2DDA320A69A53002947AF /* Workouts.storyboard */,
 				73C9E90320A696F400586DB5 /* Years.storyboard */,
 				73DB7D9D20A6287D00658A3F /* Defaults.storyboard */,
 				73DB7D9A20A6268900658A3F /* Compare.storyboard */,
@@ -934,6 +938,7 @@
 				73ECC2C720A61EFC00F12A99 /* Graph.storyboard in Resources */,
 				735F63AE20970BE400AE3503 /* tableStart.txt in Resources */,
 				735F63AF20970BE400AE3503 /* tableEnd.txt in Resources */,
+				73A2DDA520A69A59002947AF /* Workouts.storyboard in Resources */,
 				73ECC2CA20A6249D00F12A99 /* Physiological.storyboard in Resources */,
 				73DB7D9C20A6268D00658A3F /* Compare.storyboard in Resources */,
 				735F63B020970BE400AE3503 /* filteringTable.html in Resources */,
@@ -945,6 +950,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				73D91C87209E3880005A333B /* Buckets.storyboard in Resources */,
+				73A2DDA420A69A53002947AF /* Workouts.storyboard in Resources */,
 				73ECC2C620A61EF600F12A99 /* Graph.storyboard in Resources */,
 				73B2B9EA1F894CC00044DD4E /* Assets.xcassets in Resources */,
 				73C9E90420A696F400586DB5 /* Years.storyboard in Resources */,
