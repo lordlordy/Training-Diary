@@ -8,6 +8,8 @@
 
 import Cocoa
 
+/* Original days view controller - should be removed.
+*/
 class DaysViewController: TrainingDiaryViewController, NSComboBoxDataSource, NSTableViewDelegate {
 
 //    @objc dynamic var trainingDiary: TrainingDiary?

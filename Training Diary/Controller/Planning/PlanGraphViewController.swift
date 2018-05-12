@@ -115,7 +115,9 @@ class PlanGraphViewController: NSViewController{
     func setCache(planDays: [PlanDay]){
         cache = planDays.sorted(by: {$0.date! < $1.date!})
         setGraphsToSelectedActivity()
-        setXAxisLabels(from: cache[0].date!, to: cache[cache.count-1].date!, numberOfLabels: 6)
+        if cache.count > 0 {
+            setXAxisLabels(from: cache[0].date!, to: cache[cache.count-1].date!, numberOfLabels: 6)
+        }
         graphView!.needsDisplay = true
     }
     
