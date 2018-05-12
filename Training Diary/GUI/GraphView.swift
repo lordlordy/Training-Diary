@@ -411,7 +411,6 @@ class GraphView: NSView {
                     }
                     let labelPosition: NSPoint = NSPoint(x: start.x - CGFloat(labelWidth / 2.0), y: start.y + CGFloat(labelOffset.y))
                     let label = createLabel(value: l.label, point: labelPosition, size: CGSize(width: labelWidth, height: Constants.labelHeight), colour: xAxisLabelColour, alignment: .center)
-                    print("Postition for \(l.label) = \(labelPosition)")
                     labels.append(label)
                 }
             }

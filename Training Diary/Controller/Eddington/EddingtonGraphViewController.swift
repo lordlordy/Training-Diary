@@ -86,7 +86,7 @@ class EddingtonGraphViewController: TrainingDiaryViewController{
     
     private func selectedRows() -> [EddingtonNumber]{
         
-        if let controller = parent?.parent as? EddingtonSplitViewController{
+        if let controller = parent as? EddingtonSplitViewController{
             if let selectedObjects = controller.eddingtonNumberAC.selectedObjects{
                 return selectedObjects as! [EddingtonNumber]
             }else{
