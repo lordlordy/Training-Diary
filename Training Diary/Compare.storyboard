@@ -26,7 +26,7 @@
         <!--Compare-->
         <scene sceneID="VPU-xl-HPg">
             <objects>
-                <splitViewController title="Compare VC" id="oUv-gq-Zn0" userLabel="Compare" customClass="CompareGraphSplitViewController" customModule="Training_Diary" customModuleProvider="target" sceneMemberID="viewController">
+                <splitViewController title="Compare" id="oUv-gq-Zn0" userLabel="Compare" customClass="CompareGraphSplitViewController" customModule="Training_Diary" customModuleProvider="target" sceneMemberID="viewController">
                     <splitViewItems>
                         <splitViewItem id="aNR-Ko-KfI"/>
                         <splitViewItem id="CFr-Yo-cJm"/>
@@ -46,7 +46,7 @@
                     </connections>
                 </splitViewController>
                 <customObject id="zVq-WD-nS3" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <arrayController objectClassName="Training_Diary_Dev.DatedActivityGraphDefinition" id="AEE-gn-x2C" customClass="GraphArrayController" customModule="Training_Diary" customModuleProvider="target"/>
+                <arrayController objectClassName="Training_Diary.DatedActivityGraphDefinition" id="AEE-gn-x2C" customClass="GraphArrayController" customModule="Training_Diary" customModuleProvider="target"/>
             </objects>
             <point key="canvasLocation" x="1925" y="1398"/>
         </scene>
@@ -58,13 +58,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="1117" height="109"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <scrollView wantsLayer="YES" autohidesScrollers="YES" horizontalLineScroll="20" horizontalPageScroll="10" verticalLineScroll="20" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hxg-H3-d61">
+                            <scrollView wantsLayer="YES" autohidesScrollers="YES" horizontalLineScroll="43" horizontalPageScroll="10" verticalLineScroll="43" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hxg-H3-d61">
                                 <rect key="frame" x="124" y="2" width="991" height="105"/>
                                 <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="vZO-Z2-j7o">
                                     <rect key="frame" x="1" y="0.0" width="989" height="104"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveName="compareGraphView" rowHeight="20" rowSizeStyle="automatic" headerView="IuX-IM-h4I" viewBased="YES" id="zld-YS-8W4" customClass="TableViewWithColumnSort" customModule="Training_Diary" customModuleProvider="target">
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveName="compareGraphView" rowHeight="43" rowSizeStyle="automatic" headerView="IuX-IM-h4I" viewBased="YES" id="zld-YS-8W4" customClass="TableViewWithColumnSort" customModule="Training_Diary" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="1060" height="81"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="0.0"/>
