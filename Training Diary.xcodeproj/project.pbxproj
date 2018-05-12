@@ -18,6 +18,8 @@
 		730A477B20A736DC0040263E /* Eddington.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 730A477920A736D70040263E /* Eddington.storyboard */; };
 		730A477D20A74ADA0040263E /* Bikes.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 730A477C20A74ADA0040263E /* Bikes.storyboard */; };
 		730A477E20A74AE10040263E /* Bikes.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 730A477C20A74ADA0040263E /* Bikes.storyboard */; };
+		730A478020A74CBE0040263E /* TSB.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 730A477F20A74CBE0040263E /* TSB.storyboard */; };
+		730A478120A74CD30040263E /* TSB.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 730A477F20A74CBE0040263E /* TSB.storyboard */; };
 		730AE25E1FC732DB00348A63 /* ChartTypeComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730AE25D1FC732DB00348A63 /* ChartTypeComboBox.swift */; };
 		730DB7571FE132F500579A81 /* Metric+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730DB7561FE132F500579A81 /* Metric+Extension.swift */; };
 		731154272046550300C2179E /* EddingtonNumberTABViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731154262046550300C2179E /* EddingtonNumberTABViewController.swift */; };
@@ -336,6 +338,7 @@
 		7309AED51FC6CCC100054A6B /* ActivityGraphDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityGraphDefinition.swift; sourceTree = "<group>"; };
 		730A477920A736D70040263E /* Eddington.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Eddington.storyboard; sourceTree = "<group>"; };
 		730A477C20A74ADA0040263E /* Bikes.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Bikes.storyboard; sourceTree = "<group>"; };
+		730A477F20A74CBE0040263E /* TSB.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TSB.storyboard; sourceTree = "<group>"; };
 		730AE25D1FC732DB00348A63 /* ChartTypeComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartTypeComboBox.swift; sourceTree = "<group>"; };
 		730DB7561FE132F500579A81 /* Metric+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Metric+Extension.swift"; sourceTree = "<group>"; };
 		731154262046550300C2179E /* EddingtonNumberTABViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EddingtonNumberTABViewController.swift; sourceTree = "<group>"; };
@@ -577,6 +580,7 @@
 				739C1E6D209725CA00A3D805 /* Info-Dev.plist */,
 				73B2B9EE1F894CC00044DD4E /* Info.plist */,
 				73B2B9EB1F894CC00044DD4E /* Main.storyboard */,
+				730A477F20A74CBE0040263E /* TSB.storyboard */,
 				730A477C20A74ADA0040263E /* Bikes.storyboard */,
 				73A2DDA320A69A53002947AF /* Workouts.storyboard */,
 				73A2DDA920A6C555002947AF /* Calculator.storyboard */,
@@ -956,6 +960,7 @@
 				73A2DDA520A69A59002947AF /* Workouts.storyboard in Resources */,
 				73ECC2CA20A6249D00F12A99 /* Physiological.storyboard in Resources */,
 				73DB7D9C20A6268D00658A3F /* Compare.storyboard in Resources */,
+				730A478120A74CD30040263E /* TSB.storyboard in Resources */,
 				735F63B020970BE400AE3503 /* filteringTable.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -965,6 +970,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				73D91C87209E3880005A333B /* Buckets.storyboard in Resources */,
+				730A478020A74CBE0040263E /* TSB.storyboard in Resources */,
 				73A2DDA420A69A53002947AF /* Workouts.storyboard in Resources */,
 				73ECC2C620A61EF600F12A99 /* Graph.storyboard in Resources */,
 				73B2B9EA1F894CC00044DD4E /* Assets.xcassets in Resources */,
