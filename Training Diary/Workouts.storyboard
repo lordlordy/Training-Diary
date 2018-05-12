@@ -78,21 +78,24 @@
                                             <rect key="frame" x="0.0" y="0.0" width="348" height="277"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                             <rowTemplates>
-                                                <predicateEditorRowTemplate rowType="compound" id="gFo-ao-jLg">
+                                                <predicateEditorRowTemplate rowType="compound" id="kTZ-XJ-U1E">
                                                     <popUpMenus>
-                                                        <menu id="pXW-gJ-Kyt">
+                                                        <menu id="c3R-m1-dAI">
                                                             <items>
-                                                                <menuItem title="Any" state="on" id="37x-cm-kwB">
+                                                                <menuItem title="Any" state="on" id="LRU-sZ-fkv">
                                                                     <integer key="representedObject" value="2"/>
                                                                 </menuItem>
-                                                                <menuItem title="All" id="hF8-hv-oUK">
+                                                                <menuItem title="All" id="zTK-KL-7EI">
                                                                     <integer key="representedObject" value="1"/>
+                                                                </menuItem>
+                                                                <menuItem title="None" id="BRu-61-sjK">
+                                                                    <integer key="representedObject" value="0"/>
                                                                 </menuItem>
                                                             </items>
                                                         </menu>
-                                                        <menu id="ReQ-IL-yG2">
+                                                        <menu id="nof-jN-Q2r">
                                                             <items>
-                                                                <menuItem title="of the following are true" state="on" id="40b-sI-BGm"/>
+                                                                <menuItem title="of the following are true" state="on" id="nv8-ki-VgW"/>
                                                             </items>
                                                         </menu>
                                                     </popUpMenus>
@@ -146,13 +149,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="800" height="573"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X1U-aU-8z4">
+                            <scrollView autohidesScrollers="YES" horizontalLineScroll="42" horizontalPageScroll="10" verticalLineScroll="42" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X1U-aU-8z4">
                                 <rect key="frame" x="2" y="2" width="796" height="551"/>
                                 <clipView key="contentView" id="K15-Zu-1iA">
                                     <rect key="frame" x="1" y="0.0" width="794" height="550"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveName="allWorkoutsTableView" rowSizeStyle="automatic" headerView="AFM-RA-mxA" viewBased="YES" id="Q2V-n6-3P0" customClass="TableViewWithColumnSort" customModule="Training_Diary" customModuleProvider="target">
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveName="allWorkoutsTableView" rowHeight="40" rowSizeStyle="automatic" headerView="AFM-RA-mxA" viewBased="YES" id="Q2V-n6-3P0" customClass="TableViewWithColumnSort" customModule="Training_Diary" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="1122" height="527"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>

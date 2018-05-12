@@ -52,7 +52,9 @@ class BucketsViewController: TrainingDiaryViewController, NSTableViewDelegate, N
         retreatDateComponent = sender.getNegativeDateComponentsEquivalent()
         for g in selectedGraphs(){
             if let toDate = g.bucketDefinition.dataSeriesDefinition.to{
-                g.bucketDefinition.dataSeriesDefinition.from = Calendar.current.date(byAdding: retreatDateComponent!, to: toDate)
+                if let rdc = retreatDateComponent{
+                    g.bucketDefinition.dataSeriesDefinition.from = Calendar.current.date(byAdding: rdc, to: toDate)
+                }
             }
         }
     }
