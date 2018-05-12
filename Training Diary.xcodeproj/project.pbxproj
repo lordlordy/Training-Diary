@@ -16,6 +16,8 @@
 		7309AED61FC6CCC100054A6B /* ActivityGraphDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7309AED51FC6CCC100054A6B /* ActivityGraphDefinition.swift */; };
 		730A477A20A736D70040263E /* Eddington.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 730A477920A736D70040263E /* Eddington.storyboard */; };
 		730A477B20A736DC0040263E /* Eddington.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 730A477920A736D70040263E /* Eddington.storyboard */; };
+		730A477D20A74ADA0040263E /* Bikes.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 730A477C20A74ADA0040263E /* Bikes.storyboard */; };
+		730A477E20A74AE10040263E /* Bikes.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 730A477C20A74ADA0040263E /* Bikes.storyboard */; };
 		730AE25E1FC732DB00348A63 /* ChartTypeComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730AE25D1FC732DB00348A63 /* ChartTypeComboBox.swift */; };
 		730DB7571FE132F500579A81 /* Metric+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730DB7561FE132F500579A81 /* Metric+Extension.swift */; };
 		731154272046550300C2179E /* EddingtonNumberTABViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731154262046550300C2179E /* EddingtonNumberTABViewController.swift */; };
@@ -333,6 +335,7 @@
 		7302C69220931B33004B17F5 /* RollingPeriodCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollingPeriodCalculator.swift; sourceTree = "<group>"; };
 		7309AED51FC6CCC100054A6B /* ActivityGraphDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityGraphDefinition.swift; sourceTree = "<group>"; };
 		730A477920A736D70040263E /* Eddington.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Eddington.storyboard; sourceTree = "<group>"; };
+		730A477C20A74ADA0040263E /* Bikes.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Bikes.storyboard; sourceTree = "<group>"; };
 		730AE25D1FC732DB00348A63 /* ChartTypeComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartTypeComboBox.swift; sourceTree = "<group>"; };
 		730DB7561FE132F500579A81 /* Metric+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Metric+Extension.swift"; sourceTree = "<group>"; };
 		731154262046550300C2179E /* EddingtonNumberTABViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EddingtonNumberTABViewController.swift; sourceTree = "<group>"; };
@@ -574,6 +577,7 @@
 				739C1E6D209725CA00A3D805 /* Info-Dev.plist */,
 				73B2B9EE1F894CC00044DD4E /* Info.plist */,
 				73B2B9EB1F894CC00044DD4E /* Main.storyboard */,
+				730A477C20A74ADA0040263E /* Bikes.storyboard */,
 				73A2DDA320A69A53002947AF /* Workouts.storyboard */,
 				73A2DDA920A6C555002947AF /* Calculator.storyboard */,
 				73C9E90320A696F400586DB5 /* Years.storyboard */,
@@ -939,6 +943,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				73DB7D9F20A6288200658A3F /* Defaults.storyboard in Resources */,
+				730A477E20A74AE10040263E /* Bikes.storyboard in Resources */,
 				730A477B20A736DC0040263E /* Eddington.storyboard in Resources */,
 				73A2DDAB20A6C55A002947AF /* Calculator.storyboard in Resources */,
 				73D91C88209E3888005A333B /* Buckets.storyboard in Resources */,
@@ -964,6 +969,7 @@
 				73ECC2C620A61EF600F12A99 /* Graph.storyboard in Resources */,
 				73B2B9EA1F894CC00044DD4E /* Assets.xcassets in Resources */,
 				73C9E90420A696F400586DB5 /* Years.storyboard in Resources */,
+				730A477D20A74ADA0040263E /* Bikes.storyboard in Resources */,
 				73B2B9ED1F894CC00044DD4E /* Main.storyboard in Resources */,
 				730A477A20A736D70040263E /* Eddington.storyboard in Resources */,
 				73A2DDAA20A6C555002947AF /* Calculator.storyboard in Resources */,
