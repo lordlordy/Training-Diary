@@ -87,8 +87,8 @@ extension TrainingDiary{
     }
     
     //ISO format for JSON export
-    @objc dynamic var firstDate: String{ return firstDayOfDiary.iso8601Format() }
-    @objc dynamic var lastDate: String{ return lastDayOfDiary.iso8601Format() }
+//    @objc dynamic var firstDate: String{ return firstDayOfDiary.iso8601Format() }
+  //  @objc dynamic var lastDate: String{ return lastDayOfDiary.iso8601Format() }
 
     // don't think this really need @objc dynamic - check and remove
     @objc dynamic var lastDayOfDiary: Date{
@@ -807,7 +807,9 @@ extension TrainingDiary{
         var result:[(date: Double, kg: Double)] = []
         
         for w in weightsArray(){
-            result.append((w.fromDate!.timeIntervalSince1970, w.kg))
+            if let d = w.fromDate{
+                result.append((d.timeIntervalSince1970, w.kg))
+            }
         }
         
         return result
@@ -818,7 +820,9 @@ extension TrainingDiary{
         var result:[(date: Double, fatPercent: Double)] = []
         
         for w in weightsArray(){
-            result.append((w.fromDate!.timeIntervalSince1970, w.fatPercent))
+            if let d = w.fromDate{
+                result.append((d.timeIntervalSince1970, w.fatPercent))
+            }
         }
         
         return result
@@ -830,7 +834,9 @@ extension TrainingDiary{
         var result:[(date: Double, hr: Double)] = []
         
         for w in physiologicalArray(){
-            result.append((w.fromDate!.timeIntervalSince1970, w.restingHR))
+            if let d = w.fromDate{
+                result.append((d.timeIntervalSince1970, w.restingHR))
+            }
         }
         
         return result
@@ -841,7 +847,9 @@ extension TrainingDiary{
         var result:[(date: Double, sdnn: Double)] = []
         
         for w in physiologicalArray(){
-            result.append((w.fromDate!.timeIntervalSince1970, w.restingSDNN))
+            if let d = w.fromDate{
+                result.append((d.timeIntervalSince1970, w.restingSDNN))
+            }
         }
         
         return result
@@ -862,9 +870,9 @@ extension TrainingDiary{
     private func weight(forDate d: Date) -> Weight?{
         
         let array = weightsArray()
-        let weights = array.filter({$0.fromDate! <= d && d <= $0.toDate!})
-        if weights.count > 0{
-            return weights[0]
+        let weightsAfter = array.filter({$0.fromDate! >= d}).sorted(by: {$0.fromDate! < $1.fromDate!})
+        if weightsAfter.count > 0{
+            return weightsAfter[0]
         }
         return nil
     }
@@ -878,7 +886,7 @@ extension TrainingDiary{
     
     private func physiological(forDate d: Date) -> Physiological?{
         let array = physiologicalArray()
-        let physios = array.filter({$0.fromDate! <= d && d <= $0.toDate!})
+        let physios = array.filter({$0.fromDate! >= d}).sorted(by: {$0.fromDate! < $1.fromDate!})
         if physios.count > 0{
             return physios[0]
         }

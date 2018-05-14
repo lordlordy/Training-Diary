@@ -173,8 +173,9 @@ class PlanningSplitViewController: TrainingDiarySplitViewController{
     
     private func selectedPlanDaysOrdered() -> [PlanDay]{
         if let plan = selectedPlan() {
-            let pDays =  plan.planDays!.allObjects as! [PlanDay]
-            return pDays.sorted(by:{$0.date! < $1.date!})
+            if let pDays =  plan.planDays?.allObjects as? [PlanDay]{
+                return pDays.sorted(by:{$0.date! < $1.date!})
+            }
         }
         return []
     }

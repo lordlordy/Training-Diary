@@ -20,12 +20,9 @@ class PhysiologicalsArrayController: NSArrayController {
         let fromDate = gmt.date(from: dc)?.startOfDay()
         
         physio.fromDate = fromDate
-        physio.toDate = Calendar.current.date(byAdding: DateComponents(year: 99), to: fromDate!)
         let physios = self.arrangedObjects as! [Physiological]
-        let sortedPhysios = physios.sorted(by: {$0.fromDate! > $1.toDate!})
-        if sortedPhysios.count > 0{
-            sortedPhysios[0].toDate = fromDate!.yesterday().endOfDay()
-        }
+        let sortedPhysios = physios.sorted(by: {$0.fromDate! > $1.fromDate!})
+
         return physio
     }
 }

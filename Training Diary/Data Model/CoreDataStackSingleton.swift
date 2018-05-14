@@ -73,6 +73,9 @@ class CoreDataStackSingleton{
         results.append((ENTITY.Activity.rawValue,getCount(forEntity: ENTITY.Activity, forTrainingDiary: td)))
         results.append((ENTITY.ActivityType.rawValue,getCount(forEntity: ENTITY.ActivityType, forTrainingDiary: td)))
         results.append((ENTITY.Metric.rawValue,getCount(forEntity: ENTITY.Metric, forTrainingDiary: td)))
+        results.append((ENTITY.Plan.rawValue,getCount(forEntity: ENTITY.Plan, forTrainingDiary: td)))
+        results.append((ENTITY.PlanDay.rawValue,getCount(forEntity: ENTITY.PlanDay, forTrainingDiary: td)))
+        results.append((ENTITY.BasicWeekDay.rawValue,getCount(forEntity: ENTITY.BasicWeekDay, forTrainingDiary: td)))
         results.append(("LTDEddingtonNumber first nodes",getCount(forEntity: ENTITY.LTDEddingtonNumber, forTrainingDiary: td)))
         results.append(("LTDEddingtonNumber ALL nodes",getAllEntities(ofType: ENTITY.LTDEddingtonNumber).count))
 
@@ -129,7 +132,7 @@ class CoreDataStackSingleton{
     }
     
     //DEPRECATED ?
-    func deleteAll(entity e: ENTITY, forTrainingDiary td: TrainingDiary){
+ /*   func deleteAll(entity e: ENTITY, forTrainingDiary td: TrainingDiary){
         
         let eddingtonNumberRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: e.rawValue)
         eddingtonNumberRequest.predicate = NSPredicate.init(format: "trainingDiary = %@", argumentArray: [td])
@@ -143,7 +146,7 @@ class CoreDataStackSingleton{
             print(error)
         }
     }
-    
+  */
     //MARK: - New Entities
     
     func newTrainingDiary() -> TrainingDiary{
@@ -387,6 +390,8 @@ class CoreDataStackSingleton{
         switch entity{
         case .Workout, .Metric:
             return getEntityCountFor(entityName: entity.rawValue,predicate: NSPredicate.init(format: "day.trainingDiary == %@", argumentArray: [td]), sortDescriptor: nil)
+        case .BasicWeekDay, .PlanDay:
+            return getEntityCountFor(entityName: entity.rawValue, predicate: NSPredicate.init(format: "plan.trainingDiary == %@", argumentArray: [td]), sortDescriptor: nil)
         case .ActivityType:
             return getEntityCountFor(entityName: entity.rawValue,predicate: NSPredicate.init(format: "activity.trainingDiary == %@", argumentArray: [td]), sortDescriptor: nil)
         default:

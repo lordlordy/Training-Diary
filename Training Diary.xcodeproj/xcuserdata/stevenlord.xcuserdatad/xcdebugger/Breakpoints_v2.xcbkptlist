@@ -16,16 +16,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Training Diary/Controller/Bikes/BikeViewController.swift"
-            timestampString = "547696746.762241"
+            filePath = "Training Diary/Data Model/JSONImporter.swift"
+            timestampString = "548028137.550788"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "357"
-            endingLineNumber = "357"
-            landmarkName = "updateGraphData(forBike:andProperty:)"
+            startingLineNumber = "337"
+            endingLineNumber = "337"
+            landmarkName = "add(_:toTrainingDiary:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -35,29 +35,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Training Diary/Controller/Bikes/BikeViewController.swift"
-            timestampString = "547696746.762326"
+            filePath = "Training Diary/Data Model/JSONImporter.swift"
+            timestampString = "548028137.551523"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "413"
-            endingLineNumber = "413"
-            landmarkName = "createXAxisLabels()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Training Diary/GUI/GraphView.swift"
-            timestampString = "547848788.033891"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "130"
-            endingLineNumber = "130"
-            landmarkName = "draw(_:)"
+            startingLineNumber = "259"
+            endingLineNumber = "259"
+            landmarkName = "addPlans(fromJSON:toTrainingDiary:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -67,13 +51,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Training Diary/Controller/TSB/TSConstantsSplitViewController.swift"
-            timestampString = "547698395.364266"
+            filePath = "Training Diary/Data Model/JSONImporter.swift"
+            timestampString = "548028137.551875"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "114"
-            endingLineNumber = "114"
-            landmarkName = "effectData(forActivity:)"
+            startingLineNumber = "282"
+            endingLineNumber = "282"
+            landmarkName = "addPlans(fromJSON:toTrainingDiary:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -83,13 +67,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Training Diary/GUI/GraphView.swift"
-            timestampString = "547848788.033962"
+            filePath = "Training Diary/Data Model/JSONImporter.swift"
+            timestampString = "548028137.552201"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
-            landmarkName = "draw(_:)"
+            startingLineNumber = "288"
+            endingLineNumber = "288"
+            landmarkName = "addPlans(fromJSON:toTrainingDiary:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -99,14 +83,14 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Training Diary/Controller/Eddington/EddingtonGraphViewController.swift"
-            timestampString = "547848788.034003"
+            filePath = "Training Diary/Data Model/PlanDay+Extension.swift"
+            timestampString = "548028137.552545"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "128"
-            endingLineNumber = "128"
-            landmarkName = "updateXAxisLabels()"
-            landmarkType = "7">
+            startingLineNumber = "39"
+            endingLineNumber = "39"
+            landmarkName = "trainingDiary"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -115,14 +99,14 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Training Diary/GUI/GraphView.swift"
-            timestampString = "547848788.034039"
+            filePath = "Training Diary/Data Model/PlanDay+Extension.swift"
+            timestampString = "548028137.552619"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "383"
-            endingLineNumber = "383"
-            landmarkName = "drawXAxes(_:labelOffset:)"
-            landmarkType = "7">
+            startingLineNumber = "43"
+            endingLineNumber = "43"
+            landmarkName = "trainingDiary"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

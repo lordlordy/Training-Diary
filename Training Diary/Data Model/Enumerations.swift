@@ -343,6 +343,7 @@ enum BikeName: String{
 
 //MARK: - JSON Support
 // strings used in Parsing which aren't directly mapped to core data properties
+//deprecated - remove specific FileMakerPro support
 enum FPMJSONString: String, FileMakerProJSONString{
     case Date           = "Date"
     case Day            = "Day"
@@ -356,6 +357,7 @@ enum FPMJSONString: String, FileMakerProJSONString{
         return self.rawValue
     }
 }
+
 
 //MARK: - Core Data Entities and Properties
 
@@ -395,10 +397,10 @@ enum ActivityTypeProperty: String{
 enum WeightProperty: String, FileMakerProJSONString{
     
     case fatPercent, kg, lbs
-    case fromDate, toDate, recordingDate
+    case fromDate, iso8061DateString
     case trainingDiary
     
-    static let jsonProperties = [recordingDate, kg, fatPercent]
+    static let jsonProperties = [iso8061DateString, kg, fatPercent]
     
     func fmpString() -> String {
         switch self{
@@ -406,21 +408,20 @@ enum WeightProperty: String, FileMakerProJSONString{
         case .fromDate:         return "From"
         case .kg:               return "KG"
         case .lbs:              return ""
-        case .toDate:           return "To"
         case .trainingDiary:    return ""
-        case .recordingDate:    return ""
+        case .iso8061DateString:    return ""
         }
     }
 }
 
 enum PhysiologicalProperty: String, FileMakerProJSONString{
-    case fromDate, toDate, maxHR, recordingDate
+    case fromDate, maxHR, iso8061DateString
     case restingHR, restingRMSSD, restingSDNN
     case standingHR, standingRMSSD, standingSDNN
     //relationships
     case trainingDiary
     
-    static let jsonProperties = [recordingDate, restingHR, restingRMSSD, restingSDNN]
+    static let jsonProperties = [iso8061DateString, restingHR, restingRMSSD, restingSDNN]
     
     func fmpString() -> String {
         switch self{
@@ -432,8 +433,7 @@ enum PhysiologicalProperty: String, FileMakerProJSONString{
         case .standingHR:       return "Standing HR"
         case .standingSDNN:     return "Standing SDNN"
         case .standingRMSSD:    return "Standing RMSSD"
-        case .toDate:           return "To"
-        case .recordingDate:    return ""
+        case .iso8061DateString:    return ""
         case .trainingDiary:    return ""
         }
     }
@@ -441,23 +441,24 @@ enum PhysiologicalProperty: String, FileMakerProJSONString{
 
 //change all to lower case start so no need to specify teh string
 enum TrainingDiaryProperty: String, FileMakerProJSONString{
-    case name, firstDate, lastDate
-    case baseDataLastUpdate, eddingtonNumberLastUpdate
-    case swimATLDays, swimCTLDays, bikeATLDays, bikeCTLDays, runATLDays, runCTLDays, atlDays, ctlDays
+    case name
+    case athleteHeightCM, athleteName
+    case hrvEasyPercentile, hrvHardPercentile, hrvOffPercentile
+    case monotonyDays
+//    case baseDataLastUpdate, eddingtonNumberLastUpdate
+//    case swimATLDays, swimCTLDays, bikeATLDays, bikeCTLDays, runATLDays, runCTLDays, atlDays, ctlDays
 
     //relationships
     case eddingtonNumbers, ltdEddingtonNumbers
-    case days, physiologicals, weights
+    case days, physiologicals, weights, plans
     case activities
     
-    static let jsonProperties = [name, firstDate, lastDate ]
+    static let jsonProperties = [name, athleteHeightCM, athleteName, hrvEasyPercentile, hrvHardPercentile, hrvOffPercentile, monotonyDays ]
     
     func fmpString() -> String {
-        switch self{
-        case .days: return "Days"
-        default: return ""
-        }
+        return self.rawValue
     }
+ 
 }
 
 enum WorkoutProperty: String, FileMakerProJSONString{
@@ -582,7 +583,7 @@ enum DayProperty: String, FileMakerProJSONString{
     case kg, lbs, fatPercent, restingHR, restingSDNN, restingRMSSD
     case numberOfWorkouts, totalReps
     
-    static let ExportProperties = [date, fatigue, motivation, sleep, sleepQuality, type, comments]
+    static let exportProperties = [date, fatigue, motivation, sleep, sleepQuality, type, comments]
     static let jsonProperties = [iso8061DateString, fatigue, motivation, sleep, sleepQuality, type, comments]
     
     static let doubleProperties = [fatigue, motivation, sleep, swimHours, swimKJ, swimKM, swimMinutes, swimSeconds, swimTSB, swimWatts, swimATL, swimCTL, swimStrain, bikeAscentFeet, bikeAscentMetres, bikeHR, bikeHours, bikeJ, bikeKM, bikeMinutes, bikeSeconds, bikeTSB, bikeWatts, bikeATL, bikeCTL, bikeStrain, runAscentFeet, runAscentMetres, runHR, runHours, runKJ, runKM, runMinutes, runSeconds, runTSB, runWatts, runATL, runCTL, runStrain, allAscentFeet, allAscentMetres, allHR, allHours, allKJ, allKM, allMinutes, allSeconds, allTSB, allWatts, allATL, allCTL, allStrain, gymCTL, walkCTL, otherCTL, gymATL, walkATL, otherATL, kg, lbs, fatPercent, restingSDNN, restingRMSSD, totalReps]
@@ -640,8 +641,14 @@ enum Month: String{
 }
 
 enum PlanProperty: String{
-    case from, name, taperStart, taperWeeklyDecreasePercentage, to, weeklyIncreasePercentage
+    case from, name, taperStart, to, locked
+    case bikeStartATL, bikeStartCTL, runStartATL, runStartCTL, swimStartATL, swimStartCTL
     case basicWeek, planDays, trainingDiary
+    case iso8061FromString, iso8061TaperStartString, iso8061ToString
+    
+    static let jsonProperties = [iso8061FromString, iso8061TaperStartString, iso8061ToString, name, locked, bikeStartATL, bikeStartCTL, runStartATL, runStartCTL, swimStartATL, swimStartCTL]
+
+    
 }
 
 enum PlanDayProperty: String{
@@ -655,15 +662,20 @@ enum PlanDayProperty: String{
     case actualAllATL, actualAllCTL, actualAllTSS, actualAllTSB
     case basicWeekTotalSwimTSS, basicWeekTotalBikeTSS, basicWeekTotalRunTSS, basicWeekTotalAllTSS
     case date, comments, plan
+    case iso8061DateString
+    
+    static let jsonProperties = [swimATL, swimCTL, swimTSS, bikeATL, bikeCTL, bikeTSS, runATL, runCTL, runTSS, actualSwimATL, actualSwimCTL, actualSwimTSS, actualBikeATL, actualBikeCTL, actualBikeTSS, actualRunATL, actualRunCTL, actualRunTSS, iso8061DateString, comments]
+    
 }
 
 enum BasicWeekDayProperty: String{
     case swimPercentage, swimTaperPercentage, swimTSS
     case bikePercentage, bikeTaperPercentage, bikeTSS
     case runPercentage, runTaperPercentage, runTSS
-    case name, order, totalTSS
+    case name, order, totalTSS, comments
     
     static var observables: [BasicWeekDayProperty] = [.swimTSS, .bikeTSS, .runTSS]
+    static let jsonProperties = [swimPercentage, swimTaperPercentage, swimTSS, bikePercentage, bikeTaperPercentage, bikeTSS, runPercentage, runTaperPercentage, runTSS, name, order, comments]
 }
 
 

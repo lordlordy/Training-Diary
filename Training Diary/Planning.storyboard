@@ -130,14 +130,14 @@
                                     <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
-                            <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Lf-dN-ace">
+                            <scrollView autohidesScrollers="YES" horizontalLineScroll="42" horizontalPageScroll="10" verticalLineScroll="42" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Lf-dN-ace">
                                 <rect key="frame" x="21" y="1" width="428" height="187"/>
                                 <clipView key="contentView" id="7dy-h5-pHd">
                                     <rect key="frame" x="1" y="0.0" width="426" height="186"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" emptySelection="NO" rowSizeStyle="automatic" headerView="q7l-MM-3Kf" viewBased="YES" id="io6-W6-Zrq" customClass="TableViewWithColumnSort" customModule="Training_Diary" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="696" height="163"/>
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" emptySelection="NO" autosaveName="plansTable" rowHeight="40" rowSizeStyle="automatic" headerView="q7l-MM-3Kf" viewBased="YES" id="io6-W6-Zrq" customClass="TableViewWithColumnSort" customModule="Training_Diary" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="763" height="163"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -193,7 +193,7 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView misplaced="YES" id="N1D-Fh-bxd">
-                                                            <rect key="frame" x="66" y="1" width="92" height="46"/>
+                                                            <rect key="frame" x="66" y="1" width="92" height="23"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <datePicker verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ljc-qg-nL1">
@@ -234,7 +234,7 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView misplaced="YES" id="f84-wX-Efe">
-                                                            <rect key="frame" x="161" y="1" width="64" height="46"/>
+                                                            <rect key="frame" x="161" y="1" width="64" height="23"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <datePicker verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bXW-Je-Dxo">
@@ -275,7 +275,7 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView misplaced="YES" id="bac-X8-KFW">
-                                                            <rect key="frame" x="228" y="1" width="64" height="46"/>
+                                                            <rect key="frame" x="228" y="1" width="64" height="23"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <datePicker verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wxH-kj-Ae9">
@@ -524,6 +524,43 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
+                                                <tableColumn identifier="" width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="q8W-xm-uyx">
+                                                    <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Locked">
+                                                        <font key="font" metaFont="smallSystem"/>
+                                                        <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    </tableHeaderCell>
+                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="RfQ-qW-9IQ">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                    <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                                    <prototypeCellViews>
+                                                        <tableCellView id="xfr-Hk-tN3">
+                                                            <rect key="frame" x="697" y="1" width="64" height="17"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <subviews>
+                                                                <button translatesAutoresizingMaskIntoConstraints="NO" id="yrx-Ts-Qti">
+                                                                    <rect key="frame" x="-2" y="-2" width="68" height="21"/>
+                                                                    <buttonCell key="cell" type="check" title="Check" bezelStyle="regularSquare" imagePosition="only" state="on" inset="2" id="KTn-az-rBz">
+                                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                        <font key="font" metaFont="system"/>
+                                                                    </buttonCell>
+                                                                    <connections>
+                                                                        <binding destination="xfr-Hk-tN3" name="value" keyPath="objectValue.locked" id="QDi-dm-5pK"/>
+                                                                    </connections>
+                                                                </button>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstAttribute="bottom" secondItem="yrx-Ts-Qti" secondAttribute="bottom" id="5xf-TJ-Zm0"/>
+                                                                <constraint firstAttribute="trailing" secondItem="yrx-Ts-Qti" secondAttribute="trailing" id="Zq1-js-LF8"/>
+                                                                <constraint firstItem="yrx-Ts-Qti" firstAttribute="leading" secondItem="xfr-Hk-tN3" secondAttribute="leading" id="bCl-Sh-Miq"/>
+                                                                <constraint firstItem="yrx-Ts-Qti" firstAttribute="top" secondItem="xfr-Hk-tN3" secondAttribute="top" id="z69-hA-cKe"/>
+                                                            </constraints>
+                                                        </tableCellView>
+                                                    </prototypeCellViews>
+                                                </tableColumn>
                                             </tableColumns>
                                             <connections>
                                                 <binding destination="3yU-uX-0f8" name="content" keyPath="parentViewController.parentViewController.plansArrayController.arrangedObjects" id="yQ2-x0-hdV"/>
@@ -534,7 +571,7 @@
                                         </tableView>
                                     </subviews>
                                 </clipView>
-                                <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="F5f-vT-TAm">
+                                <scroller key="horizontalScroller" verticalHuggingPriority="750" doubleValue="0.99406528189910981" horizontal="YES" id="F5f-vT-TAm">
                                     <rect key="frame" x="1" y="170" width="426" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -543,7 +580,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <tableHeaderView key="headerView" id="q7l-MM-3Kf">
-                                    <rect key="frame" x="0.0" y="0.0" width="696" height="23"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="763" height="23"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableHeaderView>
                             </scrollView>
@@ -581,15 +618,20 @@
                                 </buttonCell>
                                 <connections>
                                     <action selector="createPlan:" target="zCv-nf-ViI" id="68a-95-9QF"/>
+                                    <binding destination="zCv-nf-ViI" name="enabled" keyPath="parentViewController.parentViewController.plansArrayController.selection.locked" id="5sa-Oe-Ru1">
+                                        <dictionary key="options">
+                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                        </dictionary>
+                                    </binding>
                                 </connections>
                             </button>
-                            <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dO5-ep-iMQ">
+                            <scrollView autohidesScrollers="YES" horizontalLineScroll="42" horizontalPageScroll="10" verticalLineScroll="42" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dO5-ep-iMQ">
                                 <rect key="frame" x="1" y="119" width="565" height="157"/>
                                 <clipView key="contentView" id="yzp-S0-1H9">
                                     <rect key="frame" x="1" y="0.0" width="563" height="156"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" rowSizeStyle="automatic" headerView="QsM-fZ-w8f" viewBased="YES" id="RLW-mj-SAa" customClass="TableViewWithColumnSort" customModule="Training_Diary" customModuleProvider="target">
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveName="plansTable" rowHeight="40" rowSizeStyle="automatic" headerView="QsM-fZ-w8f" viewBased="YES" id="RLW-mj-SAa" customClass="TableViewWithColumnSort" customModule="Training_Diary" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="806" height="133"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
@@ -1038,6 +1080,11 @@
                                 </buttonCell>
                                 <connections>
                                     <action selector="getStartingValuesFromTrainingDiary:" target="zCv-nf-ViI" id="XzL-sk-cyh"/>
+                                    <binding destination="zCv-nf-ViI" name="enabled" keyPath="parentViewController.parentViewController.plansArrayController.selection.locked" id="p6f-fm-EhW">
+                                        <dictionary key="options">
+                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                        </dictionary>
+                                    </binding>
                                 </connections>
                             </button>
                             <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e1z-WX-cUa">
@@ -1215,13 +1262,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <scrollView wantsLayer="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B2x-Kp-Fsu">
+                            <scrollView wantsLayer="YES" autohidesScrollers="YES" horizontalLineScroll="42" horizontalPageScroll="10" verticalLineScroll="42" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B2x-Kp-Fsu">
                                 <rect key="frame" x="1" y="1" width="297" height="232"/>
                                 <clipView key="contentView" id="QvN-Fl-XQ2">
                                     <rect key="frame" x="1" y="0.0" width="295" height="231"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveName="planOutputTable" rowSizeStyle="automatic" headerView="Jq2-ic-KmD" viewBased="YES" id="8IO-VJ-rSU" customClass="TableViewWithColumnSort" customModule="Training_Diary" customModuleProvider="target">
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveName="planOutputTable" rowHeight="40" rowSizeStyle="automatic" headerView="Jq2-ic-KmD" viewBased="YES" id="8IO-VJ-rSU" customClass="TableViewWithColumnSort" customModule="Training_Diary" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="2249" height="208"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>

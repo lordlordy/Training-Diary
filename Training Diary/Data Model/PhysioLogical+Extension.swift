@@ -10,8 +10,10 @@ import Foundation
 
 extension Physiological{
     
-    @objc dynamic var recordingDate: String{
-        return fromDate!.iso8601Format()
+    
+    //this is for JSON serialisation
+    @objc dynamic var iso8061DateString: String{
+        return fromDate?.iso8601Format() ?? ""
     }
     
     

@@ -62,7 +62,7 @@ class EddingtonTableViewController: TrainingDiaryViewController, NSComboBoxDataS
     }
     
     //MARK: - Calc / Re calc
-    @IBAction func updateSelection(_ sender: NSButton) {
+/*    @IBAction func updateSelection(_ sender: NSButton) {
         let start = Date()
         
         
@@ -100,7 +100,7 @@ class EddingtonTableViewController: TrainingDiaryViewController, NSComboBoxDataS
         }
         
     }
-    
+ */
     @IBAction func calculateSelection(_ sender: NSButton) {
         
         let start = Date()

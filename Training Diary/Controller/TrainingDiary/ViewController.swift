@@ -144,7 +144,6 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
     }
  
     //MARK: - @IBActions
-    //MARK: - Testing
 
     @IBAction func testFeature(_ sender: Any) {
         print("no feature being tested at the moment")

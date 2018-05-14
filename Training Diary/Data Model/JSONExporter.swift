@@ -20,7 +20,10 @@ class JSONExporter{
         let workoutKeys = WorkoutProperty.jsonProperties.map({$0.rawValue })
         let physiologicalKeys = PhysiologicalProperty.jsonProperties.map({$0.rawValue})
         let weightKeys = WeightProperty.jsonProperties.map({$0.rawValue})
-        
+        let planKeys = PlanProperty.jsonProperties.map({$0.rawValue})
+        let basicWeekKeys = BasicWeekDayProperty.jsonProperties.map({$0.rawValue})
+        let planDayKeys = PlanDayProperty.jsonProperties.map({$0.rawValue})
+
         var dayArray: [[String:Any]] = []
         if let days = td.days{
             for d in days{
@@ -35,13 +38,13 @@ class JSONExporter{
                         }
                     }
                     if workoutArray.count > 0{
-                        dayDictionary["workouts"] = workoutArray
+                        dayDictionary[DayProperty.workouts.rawValue] = workoutArray
                     }
                     dayArray.append(dayDictionary)
                 }
             }
         }
-        trainingDiaryDictionary["days"] = dayArray
+        trainingDiaryDictionary[TrainingDiaryProperty.days.rawValue] = dayArray
         
         var physiologicalsArray: [[String:Any]] = []
         if let physiologicals = td.physiologicals{
@@ -50,7 +53,7 @@ class JSONExporter{
                     physiologicalsArray.append(physio.dictionaryWithValues(forKeys: physiologicalKeys))
                 }
             }
-            trainingDiaryDictionary["physiologicals"] = physiologicalsArray
+            trainingDiaryDictionary[TrainingDiaryProperty.physiologicals.rawValue] = physiologicalsArray
         }
         
         var weightsArray: [[String:Any]] = []
@@ -60,8 +63,38 @@ class JSONExporter{
                     weightsArray.append(weight.dictionaryWithValues(forKeys: weightKeys))
                 }
             }
-            trainingDiaryDictionary["weights"] = weightsArray
+            trainingDiaryDictionary[TrainingDiaryProperty.weights.rawValue] = weightsArray
         }
+        
+        var plansArray: [[String:Any]] = []
+        if let plans = td.plans{
+            for p in plans{
+                if let plan = p as? Plan{
+                    var planDictionary = plan.dictionaryWithValues(forKeys: planKeys)
+                    if let basicWeekDays = plan.basicWeek{
+                        var basicWeekDaysArray: [[String:Any]] = []
+                        for b in basicWeekDays{
+                            if let bDay = b as? BasicWeekDay{
+                                basicWeekDaysArray.append(bDay.dictionaryWithValues(forKeys: basicWeekKeys))
+                            }
+                        }
+                        planDictionary[PlanProperty.basicWeek.rawValue] = basicWeekDaysArray
+                    }
+                    if let pDays = plan.planDays{
+                        var planDaysArray: [[String:Any]] = []
+                        for d in pDays{
+                            if let pDay = d as? PlanDay{
+                                planDaysArray.append(pDay.dictionaryWithValues(forKeys: planDayKeys))
+                            }
+                        }
+                        planDictionary[PlanProperty.planDays.rawValue] = planDaysArray
+                    }
+                    plansArray.append(planDictionary)
+                }
+            }
+            trainingDiaryDictionary[TrainingDiaryProperty.plans.rawValue] = plansArray
+        }
+        
         
         do {
             let data = try JSONSerialization.data(withJSONObject: trainingDiaryDictionary, options: .prettyPrinted)

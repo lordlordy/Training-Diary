@@ -29,5 +29,20 @@ extension PlanDay{
     @objc dynamic var actualAllCTL: Double { return actualSwimCTL + actualBikeCTL + actualRunCTL}
     @objc dynamic var actualAllTSB: Double { return actualAllCTL - actualAllATL}
     
+    //this is for JSON serialisation
+    @objc dynamic var iso8061DateString: String{
+        return date!.iso8601Format()
+    }
+    
+    @objc dynamic var trainingDiary: Any{
+        get{
+            print("Accessing PlanDay.trainingDiary")
+            return Date()
+        }
+        set{
+            print("Setting PlanDay.trainingDiary")
+
+        }
+    }
     
 }

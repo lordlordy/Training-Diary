@@ -9,14 +9,18 @@
 import Foundation
 
 extension Weight{
+    
+    
+    //this is for JSON serialisation
+    @objc dynamic var iso8061DateString: String{
+        return fromDate?.iso8601Format() ?? ""
+    }
+    
     //need to remove 'lbs' for core data model. Then can change this name to "lbs"
     @objc dynamic var lbs_c: Double{
         return kg * Constant.LbsPerKg.rawValue
     }
     
-    @objc dynamic var recordingDate: String{
-        return fromDate!.iso8601Format()
-    }
     
     @objc dynamic var bmi: Double{
         if let height = trainingDiary?.athleteHeightCM{

@@ -403,7 +403,6 @@ class CSVImporter{
                     trainingDiary.mutableSetValue(forKey: TrainingDiaryProperty.weights.rawValue).add(weight)
                     // for now set the date just for the day - should go through weights and put in correct toDate
                     weight.setValue(date.startOfDay() , forKey: WeightProperty.fromDate.rawValue)
-                    weight.setValue(date.endOfDay(), forKey: WeightProperty.toDate.rawValue)
                     weight.setValue(weightKG, forKey: WeightProperty.kg.rawValue)
                     if let fatIndex = columnDictionary[CSVImportString.fatPercent.rawValue]{
                         weight.setValue(Double(row[fatIndex]), forKey: WeightProperty.fatPercent.rawValue)
@@ -436,7 +435,6 @@ class CSVImporter{
                     trainingDiary.mutableSetValue(forKey: TrainingDiaryProperty.physiologicals.rawValue).add(physio)
                     // for now set the date just for the day - should go through weights and put in correct toDate
                     physio.setValue(date.startOfDay() , forKey: PhysiologicalProperty.fromDate.rawValue)
-                    physio.setValue(date.endOfDay(), forKey: PhysiologicalProperty.toDate.rawValue)
                     physio.setValue(restingHR, forKey: PhysiologicalProperty.restingHR.rawValue)
                     if let sdnnIndex = columnDictionary[CSVImportString.restingSDNN.rawValue]{
                         physio.setValue(Double(row[sdnnIndex]), forKey: PhysiologicalProperty.restingSDNN.rawValue)

@@ -75,7 +75,7 @@ class CSVExporter{
         var result: String = ""
         var isFirst: Bool = true
         
-        for property in DayProperty.ExportProperties{
+        for property in DayProperty.exportProperties{
             if isFirst{
                 isFirst = false
             }else{
@@ -123,7 +123,7 @@ class CSVExporter{
         var result: String = ""
         var isFirst: Bool = true
 
-        for property in DayProperty.ExportProperties{
+        for property in DayProperty.exportProperties{
             if isFirst{
                 isFirst = false
             }else{

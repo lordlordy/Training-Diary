@@ -21,15 +21,48 @@ class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource,
     
     //MARK: - IBActions
     @IBAction func adhoc(_ sender: Any) {
-        if let td = trainingDiary{
-            let result = BucketDefinition(data:DataSeriesDefinition( activity: td.activity(forString: FixedActivity.Bike.rawValue), aggregationMethod: .Sum, period: .Day, unit: .Miles, trainingDiary: td), size:10).createBuckets()
-            
-            for r in result{
-                print("\(r.name) - \(r.size)")
+
+        
+        let dayKeys =  DayProperty.jsonProperties.map({$0.rawValue})
+        let workoutKeys = WorkoutProperty.jsonProperties.map({$0.rawValue })
+        let physiologicalKeys = PhysiologicalProperty.jsonProperties.map({$0.rawValue})
+        let weightKeys = WeightProperty.jsonProperties.map({$0.rawValue})
+
+        print(dayKeys)
+        if let days = trainingDiary?.days?.allObjects as? [Day]{
+            if days.count > 0{
+                let day = days[0]
+                let dayDictionary = day.dictionaryWithValues(forKeys: dayKeys)
+                print(dayDictionary)
             }
-
+            findWorkout: for d in days{
+                if let workouts = d.workouts?.allObjects as? [Workout]{
+                    if workouts.count > 0{
+                        print(workoutKeys)
+                        let workoutDict = workouts[0].dictionaryWithValues(forKeys: workoutKeys)
+                        print(workoutDict)
+                        break findWorkout
+                    }
+                }
+            }
         }
-
+        
+        if let physios = trainingDiary?.physiologicals?.allObjects as? [Physiological]{
+            if physios.count > 0{
+                print(physiologicalKeys)
+                let physioDict = physios[0].dictionaryWithValues(forKeys: physiologicalKeys)
+                print(physioDict)
+            }
+        }
+        
+        if let weights = trainingDiary?.weights?.allObjects as? [Weight]{
+            if weights.count > 0{
+                print(weightKeys)
+                let weightDict = weights[0].dictionaryWithValues(forKeys: weightKeys)
+                print(weightDict)
+            }
+        }
+        
         
     }
     

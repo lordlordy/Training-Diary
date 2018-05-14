@@ -15,6 +15,18 @@ extension Plan{
     @objc dynamic var basicWeekTotalRunTSS: Double { return totalBasicWeek(forProperty: BasicWeekDayProperty.runTSS) }
     @objc dynamic var basicWeekTotalAllTSS: Double { return basicWeekTotalSwimTSS + basicWeekTotalBikeTSS + basicWeekTotalRunTSS }
 
+    
+    //this is for JSON serialisation
+    @objc dynamic var iso8061FromString: String{
+        return from!.iso8601Format()
+    }
+    @objc dynamic var iso8061TaperStartString: String{
+        return taperStart!.iso8601Format()
+    }
+    @objc dynamic var iso8061ToString: String{
+        return to!.iso8601Format()
+    }
+    
     @objc dynamic var nameNotSet: Bool{
         if let n = name{
             return n == ""
