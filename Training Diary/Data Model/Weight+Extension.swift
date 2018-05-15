@@ -22,7 +22,7 @@ extension Weight{
     }
     
     //need to remove 'lbs' for core data model. Then can change this name to "lbs"
-    @objc dynamic var lbs_c: Double{
+    @objc dynamic var lbs: Double{
         return kg * Constant.LbsPerKg.rawValue
     }
     

@@ -77,7 +77,6 @@ class EddingtonTreeViewController: TrainingDiaryViewController, ReferenceToMainP
                     html += "<td>\(l.value)</td>\n"
                     html += "<td>\(l.plusOne)</td>\n"
                     html += "</tr>"
-                    //     if count >= 9943{ break test }
                 }
             }
         }

@@ -190,7 +190,6 @@
         <attribute name="fatPercent" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="fromDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="kg" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="lbs" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="trainingDiary" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TrainingDiary" inverseName="weights" inverseEntity="TrainingDiary" syncable="YES"/>
     </entity>
     <entity name="Workout" representedClassName="Workout" syncable="YES" codeGenerationType="class">
@@ -235,7 +234,7 @@
         <element name="Plan" positionX="-227" positionY="-720" width="191" height="255"/>
         <element name="PlanDay" positionX="-486" positionY="-610" width="128" height="375"/>
         <element name="TrainingDiary" positionX="-227" positionY="-531" width="128" height="255"/>
-        <element name="Weight" positionX="-45" positionY="-160" width="128" height="120"/>
+        <element name="Weight" positionX="-45" positionY="-160" width="128" height="105"/>
         <element name="Workout" positionX="-36" positionY="-3" width="128" height="390"/>
     </elements>
 </model>
