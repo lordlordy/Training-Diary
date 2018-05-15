@@ -9,8 +9,12 @@
 import Foundation
 
 class CSVExporter{
+    
+    var weightsDictionary: [String:Weight] = [:]
+    var physioDictionary: [String:Physiological] = [:]
 
     func convertToCSV(trainingDiary td: TrainingDiary) -> (dayCSV: String, workoutCSV: String, weightsCSV: String, physiologicalsCSV: String){
+        createDictionaries(forTrainingDiary: td)
         let result = convertToCSV(forDays: td.days!.allObjects as! [Day], td)
         let weights = convertToCSV(forWeights: td.weights!.allObjects as! [Weight])
         let physios = convertToCSV(forPhysios: td.physiologicals!.allObjects as! [Physiological])
@@ -29,6 +33,7 @@ class CSVExporter{
     
         dayString += headerRowForDays(td)
         dayString += "\n"
+    
         
         for d in days{
             dayString += csv(forDay: d)
@@ -156,14 +161,8 @@ class CSVExporter{
 
     private func csv(forDay d: Day) -> String{
         var result: String = ""
-        var isFirst: Bool = true
         
         for property in DayProperty.csvProperties{
-            if isFirst{
-                isFirst = false
-            }else{
-                result += ","
-            }
             if let value = d.value(forKey: property.rawValue){
                 if let v = value as? String{
                     result += fixString(v)
@@ -173,17 +172,54 @@ class CSVExporter{
                     result += String(describing: value)
                 }
             }
+            result += ","
         }
-    
-        for a in d.trainingDiary!.activitiesArray(){
-            for u in Unit.csvExportUnits{
+        
+        if let weight = weightsDictionary[d.date!.dateOnlyString()]{
+            for p in DayProperty.weightProperties{
+                if let value = weight.value(forKey: p.rawValue) as? Double{
+                    result += String(format: "%.8f", value)
+                }
                 result += ","
-                let value: Double = d.valueFor( activity: a, unit: u)
-                result += String(format: "%.8f", value)
+            }
+        }else{
+            //just stick in the commas as no values
+            for _ in DayProperty.weightProperties{
+                result += ","
             }
         }
         
-        return result
+        if let physio = physioDictionary[d.date!.dateOnlyString()]{
+            for p in DayProperty.physiologicalProperties{
+                if let value = physio.value(forKey: p.rawValue) as? Double{
+                    result += String(format: "%.8f", value)
+                }
+                result += ","
+            }
+        }else{
+            //just commas as no values
+            for _ in DayProperty.physiologicalProperties{
+                result += ","
+            }
+        }
+        
+        for a in d.trainingDiary!.activitiesArray(){
+            for u in Unit.csvExportUnits{
+                let value: Double = d.valueFor( activity: a, unit: u)
+                result += String(format: "%.8f", value)
+                result += ","
+            }
+            if let activityType = d.activityTypeString(forActivity: a.name!){
+                result += activityType
+            }
+            result += ","
+            if let equipment = d.equipmentString(forActivity: a.name!){
+                result += equipment
+            }
+            result += ","
+        }
+        
+        return result.trimmingCharacters(in: CharacterSet(charactersIn: ","))
     }
     
     private func headerRowForWorkouts() -> String{
@@ -200,25 +236,35 @@ class CSVExporter{
     
     private func headerRowForDays(_ td: TrainingDiary) -> String{
         var result: String = ""
-        var isFirst: Bool = true
         
         for property in DayProperty.csvProperties{
-            if isFirst{
-                isFirst = false
-            }else{
-                result += ","
-            }
             result += property.rawValue
+            result += ","
+        }
+        
+        for property in DayProperty.weightProperties{
+            result += ENTITY.Weight.rawValue + ":" + property.rawValue
+            result += ","
+        }
+
+        for property in DayProperty.physiologicalProperties{
+            result += ENTITY.Physiological.rawValue + ":" + property.rawValue
+            result += ","
         }
         
         for a in td.activitiesArray(){
             for u in Unit.csvExportUnits{
+                result += ENTITY.Activity.rawValue + ":" + a.name! + ":" + u.rawValue
                 result += ","
-                result += a.name! + "~" + u.rawValue
             }
+            result += ENTITY.Activity.rawValue + ":" + a.name! + ":" + WorkoutProperty.activityTypeString.rawValue
+            result += ","
+            result += ENTITY.Activity.rawValue + ":" + a.name! + ":" + WorkoutProperty.equipmentName.rawValue
+            result += ","
+
         }
         
-        return result
+        return result.trimmingCharacters(in: CharacterSet(charactersIn: ","))
         
     }
 
@@ -229,6 +275,24 @@ class CSVExporter{
         result += "\""
 
         return result
+    }
+    
+    private func createDictionaries(forTrainingDiary td: TrainingDiary){
+        weightsDictionary = [:]
+        physioDictionary = [:]
+        
+        if let weights = td.weights?.allObjects as? [Weight]{
+            for w in weights{
+                weightsDictionary[w.fromDateString] = w
+            }
+        }
+        
+        if let physios = td.physiologicals?.allObjects as? [Physiological]{
+            for p in physios{
+                physioDictionary[p.fromDateString] = p
+            }
+        }
+        
     }
     
 }

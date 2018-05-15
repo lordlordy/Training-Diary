@@ -21,7 +21,7 @@ class JSONImporter{
                 }
             }
             
-            td.setValue("IMPORT - \(Date().dateOnlyShorterString())", forKey: "name")
+            td.setValue("JSON IMPORT - \(Date().dateOnlyShorterString())", forKey: "name")
             add(json, toTrainingDiary: td )
         }
     }

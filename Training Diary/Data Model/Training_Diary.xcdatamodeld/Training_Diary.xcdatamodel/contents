@@ -5,7 +5,7 @@
         <attribute name="atlImpact" optional="YES" attributeType="Double" defaultValueString="7" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="ctlDecay" optional="YES" attributeType="Double" defaultValueString="42" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="ctlImpact" optional="YES" attributeType="Double" defaultValueString="42" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="includeInEddingtonCalcs" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="includeInEddingtonCalcs" optional="YES" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="activityTypes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ActivityType" inverseName="activity" inverseEntity="ActivityType" syncable="YES"/>
         <relationship name="equipment" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Equipment" inverseName="activity" inverseEntity="Equipment" syncable="YES"/>

@@ -211,7 +211,15 @@ extension Day:PeriodNode{
     
     //this is for csv serialisation
     @objc dynamic var dateCSVString: String{
-        return date?.dateOnlyString() ?? ""
+        get{
+            return date?.dateOnlyString() ?? ""
+        }set{
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            if let d = formatter.date(from: newValue){
+                date = d.noonGMT()
+            }
+        }
     }
     
     //MARK: - Calculated properties - these are for display in GUI
@@ -491,6 +499,27 @@ extension Day:PeriodNode{
         return metric(forActivity: a.name!, andMetric: m)
     }
 
+    //MARK: - CSV Serialisation support.
+    
+    //this returns the Activity Type string of the first workout of this activity type.
+    func activityTypeString(forActivity a: String) -> String?{
+        for w in getWorkouts(){
+            if w.activityString == a{
+                return w.activityTypeString
+            }
+        }
+        return nil
+    }
+    //this returns the equipment string of the first workout of this activity type.
+    func equipmentString(forActivity a: String) -> String?{
+        for w in getWorkouts(){
+            if w.activityString == a{
+                return w.equipmentName
+            }
+        }
+        return nil
+    }
+    
 
     //MARK:- private
     

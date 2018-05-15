@@ -460,32 +460,20 @@ enum DayProperty: String{
     case numberOfWorkouts, totalReps
     
     static let csvProperties = [dateCSVString, fatigue, motivation, sleep, sleepQuality, type, comments]
+    static let weightProperties = [kg, fatPercent]
+    static let physiologicalProperties = [restingHR, restingSDNN, restingRMSSD]
     static let jsonProperties = [iso8061DateString, fatigue, motivation, sleep, sleepQuality, type, comments]
     static let workoutProperties = [bikeKM, bikeAscentMetres, bikeHR, bikeKJ, bikeSeconds, bikeTSS, bikeWatts, runKM, runAscentMetres, runHR, runKJ, runSeconds, runTSS, runWatts, swimKM, swimKJ, swimSeconds, swimTSS, swimWatts, totalReps, numberOfWorkouts]
     
     
     static let doubleProperties = [fatigue, motivation, sleep, swimHours, swimKJ, swimKM, swimMinutes, swimSeconds, swimTSB, swimWatts, swimATL, swimCTL, swimStrain, bikeAscentFeet, bikeAscentMetres, bikeHR, bikeHours, bikeKJ, bikeKM, bikeMinutes, bikeSeconds, bikeTSB, bikeWatts, bikeATL, bikeCTL, bikeStrain, runAscentFeet, runAscentMetres, runHR, runHours, runKJ, runKM, runMinutes, runSeconds, runTSB, runWatts, runATL, runCTL, runStrain, allAscentFeet, allAscentMetres, allHR, allHours, allKJ, allKM, allMinutes, allSeconds, allTSB, allWatts, allATL, allCTL, allStrain, gymCTL, walkCTL, otherCTL, gymATL, walkATL, otherATL, kg, lbs, fatPercent, restingSDNN, restingRMSSD, totalReps]
-    static let stringProperties = [comments, sleepQuality, type]
+    static let stringProperties = [comments, sleepQuality, type, iso8061DateString, dateCSVString]
     static let intProperties = [restingHR, numberOfWorkouts]
     static let dateProperties = [date]
     
     //relationships
     case trainingDiary, workouts, metrics
 
-/*    func fmpString() -> String {
-        switch self{
-        case .comments:         return "Comments"
-        case .date:             return "Date"
-        case .fatigue:          return "Fatigue"
-        case .motivation:       return "Motivation"
-        case .sleep:            return "Sleep Hours"
-        case .sleepQuality:     return "Sleep Quality"
-        case .type:             return "Type"
-        case .workouts:         return "Workouts"
-        default: return ""
-        }
-    }
- */
 }
 
 

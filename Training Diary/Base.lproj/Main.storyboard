@@ -101,16 +101,16 @@
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Export Diary" id="FvF-4Q-rXV">
                                                 <items>
-                                                    <menuItem title="CSV..." id="A53-Cw-a0j">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                        <connections>
-                                                            <action selector="exportCSV:" target="Ady-hI-5gd" id="Hrh-hP-fhX"/>
-                                                        </connections>
-                                                    </menuItem>
                                                     <menuItem title="JSON..." id="zZ2-U0-NWo">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
                                                             <action selector="exportJSON:" target="Ady-hI-5gd" id="KbY-na-NvJ"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="CSV..." id="A53-Cw-a0j">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="exportCSV:" target="Ady-hI-5gd" id="Hrh-hP-fhX"/>
                                                         </connections>
                                                     </menuItem>
                                                     <menuItem title="HTML..." id="9aK-2z-EfH">
