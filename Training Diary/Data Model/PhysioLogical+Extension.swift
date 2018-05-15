@@ -16,5 +16,9 @@ extension Physiological{
         return fromDate?.iso8601Format() ?? ""
     }
     
+    //for csv serialisation - simple data
+    @objc dynamic var fromDateString: String{
+        return fromDate?.dateOnlyString() ?? ""
+    }
     
 }

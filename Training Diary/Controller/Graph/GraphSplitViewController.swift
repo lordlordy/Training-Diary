@@ -226,9 +226,9 @@ class GraphSplitViewController: TrainingDiarySplitViewController, GraphManagemen
                         gv.numberOfPrimaryAxisLines = 6
                         gv.numberOfSecondaryAxisLines = 8
                         
-                        let strainGraph = createGraphDefinition(forActivity: FixedActivity.Bike.rawValue, period: .Day, unit: .Strain, aggregationMethod: .Sum, type: .Line, axis: .Primary, drawZeroes: true, priority: 1, format: GraphFormat(fill: false, colour: .red, fillGradientStart: .green, fillGradientEnd: .red, gradientAngle: 90, size: 2.0, opacity: 1.0))
-                        let tssGraph = createGraphDefinition(forActivity: FixedActivity.Bike.rawValue, period: .Day, unit: .TSS, aggregationMethod: .Sum, type: .Point, axis: .Secondary, drawZeroes: false, priority: 2, format: GraphFormat(fill: true, colour: .black, fillGradientStart: .cyan, fillGradientEnd: .cyan, gradientAngle: 90.0, size: 6.0, opacity: 1.0))
-                        let tssRweekGraph = createGraphDefinition(forActivity: FixedActivity.Bike.rawValue, period: .rWeek, unit: .TSS, aggregationMethod: .Mean, type: .Bar, axis: .Secondary, drawZeroes: false, priority: 3, format: GraphFormat(fill: true, colour: .black, fillGradientStart: .green, fillGradientEnd: .red, gradientAngle: 90.0, size: 1.0, opacity: 1.0))
+                        let strainGraph = createGraphDefinition(forActivity: FixedActivity.Bike.rawValue, period: .Day, unit: .strain, aggregationMethod: .Sum, type: .Line, axis: .Primary, drawZeroes: true, priority: 1, format: GraphFormat(fill: false, colour: .red, fillGradientStart: .green, fillGradientEnd: .red, gradientAngle: 90, size: 2.0, opacity: 1.0))
+                        let tssGraph = createGraphDefinition(forActivity: FixedActivity.Bike.rawValue, period: .Day, unit: .tss, aggregationMethod: .Sum, type: .Point, axis: .Secondary, drawZeroes: false, priority: 2, format: GraphFormat(fill: true, colour: .black, fillGradientStart: .cyan, fillGradientEnd: .cyan, gradientAngle: 90.0, size: 6.0, opacity: 1.0))
+                        let tssRweekGraph = createGraphDefinition(forActivity: FixedActivity.Bike.rawValue, period: .rWeek, unit: .tss, aggregationMethod: .Mean, type: .Bar, axis: .Secondary, drawZeroes: false, priority: 3, format: GraphFormat(fill: true, colour: .black, fillGradientStart: .green, fillGradientEnd: .red, gradientAngle: 90.0, size: 1.0, opacity: 1.0))
                         
                         strainGraph.graph!.startFromOrigin = true
                         

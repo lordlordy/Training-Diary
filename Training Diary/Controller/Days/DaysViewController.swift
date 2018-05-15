@@ -111,7 +111,7 @@ class DaysViewController: TrainingDiaryViewController, NSComboBoxDataSource, NST
         }        
     }
     
-    @IBAction func exportCSV(_ sender: NSButton) {
+ /*   @IBAction func exportCSV(_ sender: NSButton) {
         let exporter = CSVExporter()
         let csv = exporter.convertToCVS(forDays: arrangedDays())
         
@@ -129,7 +129,7 @@ class DaysViewController: TrainingDiaryViewController, NSComboBoxDataSource, NST
             print(error)
         }
     }
-    
+ */
     @IBAction func fromDateChange(_ sender: NSDatePicker)   { setFilterPredicate() }
     @IBAction func toDateChange(_ sender: NSDatePicker)     { setFilterPredicate() }
     
@@ -309,14 +309,14 @@ class DaysViewController: TrainingDiaryViewController, NSComboBoxDataSource, NST
         }
     }
     
-    private func arrangedDays() -> [Day]{
+ /*   private func arrangedDays() -> [Day]{
         if let dac = daysArrayController{
             return dac.arrangedObjects as! [Day]
         }else{
             return []
         }
     }
-    
+   */
     private func latestSelectedDate() -> Date?{
         var latestDate: Date?
         for d in selectedDays(){

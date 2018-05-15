@@ -105,11 +105,11 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         periodCB.stringValue = Period.YearToDate.rawValue
-        totalUnitCB.stringValue = Unit.Hours.rawValue
-        swimUnitCB.stringValue = Unit.KM.rawValue
-        bikeUnitCB.stringValue = Unit.KM.rawValue
-        runUnitCB.stringValue = Unit.KM.rawValue
-        gymUnitCB.stringValue = Unit.Reps.rawValue
+        totalUnitCB.stringValue = Unit.hours.rawValue
+        swimUnitCB.stringValue = Unit.km.rawValue
+        bikeUnitCB.stringValue = Unit.km.rawValue
+        runUnitCB.stringValue = Unit.km.rawValue
+        gymUnitCB.stringValue = Unit.reps.rawValue
         if let currentYear = getSelectedTrainingDiary()?.lastDayOfDiary.year(){
             comparisonYear.stringValue = String(currentYear - 1)
         }else{
@@ -258,7 +258,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
         let csvExporter = CSVExporter()
         
         if let td = getSelectedTrainingDiary(){
-            let csv = csvExporter.convertToCVS(trainingDiary: td)
+            let csv = csvExporter.convertToCSV(trainingDiary: td)
             
             if let saveFolder = selectPathFromModalDialogue(createSubFolder: "Data-\(Date().dateOnlyString())"){
                 var saveFileName = saveFolder.appendingPathComponent("workouts.csv")
@@ -270,6 +270,18 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
                 saveFileName = saveFolder.appendingPathComponent("days.csv")
                 do{
                     try csv.dayCSV.write(to: saveFileName, atomically: false, encoding: .utf8)
+                }catch let error as NSError{
+                    print(error)
+                }
+                saveFileName = saveFolder.appendingPathComponent("weights.csv")
+                do{
+                    try csv.weightsCSV.write(to: saveFileName, atomically: false, encoding: .utf8)
+                }catch let error as NSError{
+                    print(error)
+                }
+                saveFileName = saveFolder.appendingPathComponent("physiologicals.csv")
+                do{
+                    try csv.physiologicalsCSV.write(to: saveFileName, atomically: false, encoding: .utf8)
                 }catch let error as NSError{
                     print(error)
                 }

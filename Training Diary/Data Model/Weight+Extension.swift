@@ -16,6 +16,11 @@ extension Weight{
         return fromDate?.iso8601Format() ?? ""
     }
     
+    //for csv serialisation - simple data
+    @objc dynamic var fromDateString: String{
+        return fromDate?.dateOnlyString() ?? ""
+    }
+    
     //need to remove 'lbs' for core data model. Then can change this name to "lbs"
     @objc dynamic var lbs_c: Double{
         return kg * Constant.LbsPerKg.rawValue

@@ -589,7 +589,7 @@ extension TrainingDiary{
         case .Mean:
             aggregator = MeanAggregator(dayType: dt, activity: a, activityType: at, equipment: e, period: period, unit: unit, weighting: nil, from: from, to: to)
         case .WeightedMean:
-            aggregator = MeanAggregator(dayType: dt, activity: a, activityType: at, equipment: e, period: period, unit: unit, weighting: Unit.Seconds, from: from, to: to)
+            aggregator = MeanAggregator(dayType: dt, activity: a, activityType: at, equipment: e, period: period, unit: unit, weighting: Unit.seconds, from: from, to: to)
         case .None:
             aggregator = DayAggregator(dayType: dt, activity: a, activityType: at, equipment: e, period: period, unit: unit, from: from, to: to)
         }
@@ -613,22 +613,22 @@ extension TrainingDiary{
         let start = Date()
         
         for day in self.ascendingOrderedDays(fromDate: d){
-            let tss = day.valueFor(activity: activity, unit: Unit.TSS)
+            let tss = day.valueFor(activity: activity, unit: Unit.tss)
    
             var yCTL = 0.0
             var yATL = 0.0
             
             if let yesterday = day.yesterday{
-                yATL = yesterday.metric(forActivity: activity, andMetric: Unit.ATL)?.value ?? 0.0
-                yCTL = yesterday.metric(forActivity: activity, andMetric: Unit.CTL)?.value ?? 0.0
+                yATL = yesterday.metric(forActivity: activity, andMetric: Unit.atl)?.value ?? 0.0
+                yCTL = yesterday.metric(forActivity: activity, andMetric: Unit.ctl)?.value ?? 0.0
             }
   
             let ctl = activity.ctl(yesterdayCTL: yCTL, tss: tss)
             let atl = activity.atl(yesterdayATL: yATL, tss: tss)
             
-            day.setMetricValue(forActivity: activity, andMetric: Unit.ATL, toValue: atl)
-            day.setMetricValue(forActivity: activity, andMetric: Unit.CTL, toValue: ctl)
-            day.setMetricValue(forActivity: activity, andMetric: Unit.TSB, toValue: ctl - atl)
+            day.setMetricValue(forActivity: activity, andMetric: Unit.atl, toValue: atl)
+            day.setMetricValue(forActivity: activity, andMetric: Unit.ctl, toValue: ctl)
+            day.setMetricValue(forActivity: activity, andMetric: Unit.tsb, toValue: ctl - atl)
             
         }
         print("Calc TSB for \(activity.name!) took \(Date().timeIntervalSince(start)) seconds")
@@ -651,15 +651,15 @@ extension TrainingDiary{
         let orderedDays = ascendingOrderedDays()
         //need to pre load the RollingSumQ
         for d in orderedDays.filter({$0.date! >= fromDate.addDays(numberOfDays: Int(-monotonyDays)) && $0.date! < fromDate} ){
-            _ = q.addAndReturnAverage(value: d.valueFor(activity: a, unit: Unit.TSS))
+            _ = q.addAndReturnAverage(value: d.valueFor(activity: a, unit: Unit.tss))
         }
         
         let mathematics = Maths()
         for d in orderedDays.filter({$0.date! >= fromDate}){
-            _ = q.addAndReturnAverage(value: d.valueFor(activity: a, unit: Unit.TSS))
+            _ = q.addAndReturnAverage(value: d.valueFor(activity: a, unit: Unit.tss))
             let mAndStrain = mathematics.monotonyAndStrain(q.array())
-            d.setMetricValue(forActivity: a, andMetric: Unit.Monotony, toValue: mAndStrain.monotony)
-            d.setMetricValue(forActivity: a, andMetric: Unit.Strain, toValue: mAndStrain.strain)
+            d.setMetricValue(forActivity: a, andMetric: Unit.monotony, toValue: mAndStrain.monotony)
+            d.setMetricValue(forActivity: a, andMetric: Unit.strain, toValue: mAndStrain.strain)
         }
         print("Calc strain for \(String(describing: a.name)) took \(Date().timeIntervalSince(start))s")
     }

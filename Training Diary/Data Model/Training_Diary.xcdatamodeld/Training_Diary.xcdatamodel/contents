@@ -81,7 +81,7 @@
         <attribute name="lastUpdated" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="maxContributor" optional="YES" attributeType="Double" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="period" attributeType="String" defaultValueString="Day" syncable="YES"/>
-        <attribute name="unit" attributeType="String" defaultValueString="KM" syncable="YES"/>
+        <attribute name="unit" attributeType="String" defaultValueString="km" syncable="YES"/>
         <attribute name="value" attributeType="Integer 16" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="annualContributors" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="EddingtonAnnualContributor" inverseName="eddingtonNumber" inverseEntity="EddingtonAnnualContributor" syncable="YES"/>
         <relationship name="annualHistory" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="EddingtonAnnualHistory" inverseName="eddingtonNumber" inverseEntity="EddingtonAnnualHistory" syncable="YES"/>

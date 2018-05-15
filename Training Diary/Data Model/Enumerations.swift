@@ -9,11 +9,6 @@
 
 import Foundation
 
-//provides string used in FMP JSON
-protocol FileMakerProJSONString{
-    func fmpString() -> String
-}
-
 enum JSONGenerator: String{
     case SwiftTrainingDiary, FileMakerProTrainingDiary
 }
@@ -218,33 +213,33 @@ enum UnitType: String{
  property in Core Data this should match it
  */
 enum Unit: String{
-    case AscentFeet, AscentMetres, Brick, Cadence, Hours
-    case HR, KJ, KM, Miles, Minutes, Reps, RPETSS, Seconds
-    case TSS, Watts, ATL, CTL, TSB, Monotony, Strain
+    case ascentFeet, ascentMetres, brick, cadence, hours
+    case hr, kj, km, miles, minutes, reps, rpeTSS, seconds, rpe
+    case tss, watts, atl, ctl, tsb, monotony, strain
     //do we want these here. They're day based units - not activity based units
     case fatigue, fatPercent, kg, lbs, motivation, restingHR, restingSDNN, restingRMSSD, sleep, sleepMinutes
     
-    static var activityUnits = [AscentMetres,AscentFeet, Cadence, Hours, HR, KJ, KM, Miles, Minutes, Reps, RPETSS, Seconds, TSS, Watts]
+    static var activityUnits = [ascentMetres, ascentFeet,cadence, hours, hr, kj, km, miles, minutes, reps, rpeTSS, seconds, tss, watts, brick]
     static var dayUnits = [ fatigue, fatPercent, kg, lbs, motivation, restingHR, restingSDNN, restingRMSSD, sleep, sleepMinutes]
-    static var allUnits = [AscentMetres,AscentFeet, Cadence, Hours, HR, KJ, KM, Miles, Minutes, Reps, RPETSS, Seconds, TSS, Watts, ATL, CTL, TSB, Monotony, Strain, fatigue, fatPercent, kg, lbs, motivation, restingHR, restingSDNN, restingRMSSD, sleep, sleepMinutes]
-    static var metrics = [ATL, CTL, TSB, Monotony, Strain]
+    static var allUnits = [ascentMetres, ascentFeet, cadence, hours, hr, kj, km, miles, minutes, reps, rpeTSS, seconds, tss, watts, atl, ctl, tsb, monotony, strain, fatigue, fatPercent, kg, lbs, motivation, restingHR, restingSDNN, restingRMSSD, sleep, sleepMinutes]
+    static var metrics = [atl, ctl, tsb, monotony, strain]
+    static var csvExportUnits = [ascentMetres, brick, cadence, hr, kj, km, reps, rpe, tss, watts, seconds ]
     
-    //deprecated
-    var summable: Bool{
+ /*   var summable: Bool{
         switch self{
-        case .Cadence, .HR, .Watts, .fatigue, .fatPercent, .kg, .lbs, .motivation, .restingHR, .ATL, .CTL, .TSB: return false
+        case .cadence, .hr, .watts, .fatigue, .fatPercent, .kg, .lbs, .motivation, .restingHR, .atl, .ctl, .tsb: return false
         default: return true
         }
     }
-    
+ */
     var isActivityBased:    Bool{ return Unit.activityUnits.contains(self) || Unit.metrics.contains(self) }
     var isMetric:           Bool{ return Unit.metrics.contains(self) }
     var allKey:             String{ return "all" + self.rawValue}
     
     func defaultAggregator() -> AggregationMethod{
         switch self{
-        case .Cadence, .HR, .Watts: return AggregationMethod.WeightedMean
-        case .fatigue, .fatPercent, .kg, .lbs, .motivation, .restingHR, .ATL, .CTL, .TSB: return AggregationMethod.Mean
+        case .cadence, .hr, .watts, .rpe: return AggregationMethod.WeightedMean
+        case .fatigue, .fatPercent, .kg, .lbs, .motivation, .restingHR, .atl, .ctl, .tsb: return AggregationMethod.Mean
         default: return AggregationMethod.Sum
         }
         
@@ -258,7 +253,7 @@ enum Unit: String{
         }
     }
     
-    func workoutPropertyName() -> String?{
+ /*   func workoutPropertyName() -> String?{
         switch self{
         case .AscentFeet:    return "ascentFeet"
         case .AscentMetres:  return "ascentMetres"
@@ -295,69 +290,28 @@ enum Unit: String{
         }
  
     }
-    
+ */
     /* Responds if a unit is derived from another unit.
      */
     func isDerived() -> Bool{
         switch self{
-        case .AscentFeet, .Hours, .Minutes, .Miles, .sleepMinutes: return true
+        case .ascentFeet, .hours, .minutes, .miles, .sleepMinutes: return true
         default: return false
         }
     }
     
     func dataForDerivation() -> (unit: Unit, multiple: Constant)?{
         switch self{
-        case .AscentFeet: return (unit: .AscentMetres, multiple: Constant.FeetPerMetre)
-        case .Minutes: return (unit: .Seconds, multiple: Constant.MinutesPerSecond)
-        case .Hours: return (unit: .Seconds, multiple: Constant.HoursPerSecond)
-        case .Miles: return (unit: .KM, multiple: Constant.MilesPerKM)
+        case .ascentFeet: return (unit: .ascentMetres, multiple: Constant.FeetPerMetre)
+        case .minutes: return (unit: .seconds, multiple: Constant.MinutesPerSecond)
+        case .hours: return (unit: .seconds, multiple: Constant.HoursPerSecond)
+        case .miles: return (unit: .km, multiple: Constant.MilesPerKM)
         case .sleepMinutes: return (unit: .sleep, multiple: Constant.SecondsPerMinute)
         default: return nil
         }
     }
 
 }
-
-//TO DO - This should not be an enum as the user needs to be able to set up bikes
-enum BikeName: String{
-    case IFXS       = "IF XS"
-    case Merckx     = "Merckx"
-    case P3C        = "P3C"
-    case Pista      = "Pista"
-    case Look576    = "Look 576"
-    case Roberts    = "Roberts"
-    case IFTiTT     = "IF Ti TT"
-    case QRCD01     = "QR CD0.1"
-    case IFSSX      = "IF SSX"
-    case Giant      = "Giant"
-    case Pretorius  = "Pretorius Fixed"
-    case Soma       = "Soma"
-    case Cannondale = "Cannondale"
-    case DEMO       = "Demo Bikes"
-    case Moots      = "Moots"
-    case All        = "All"
-    
-    static var ActiveBikes = [IFXS, Merckx, P3C, Pista, Look576, Roberts, IFTiTT, IFSSX, Pretorius, DEMO]
-    static var AllBikes = [IFXS, Merckx, P3C, Pista, Look576, Roberts, IFTiTT, QRCD01, IFSSX, Giant, Pretorius, Soma, Cannondale, DEMO, Moots, All]
-}
-
-//MARK: - JSON Support
-// strings used in Parsing which aren't directly mapped to core data properties
-//deprecated - remove specific FileMakerPro support
-enum FPMJSONString: String, FileMakerProJSONString{
-    case Date           = "Date"
-    case Day            = "Day"
-    case Created        = "Created"
-    case Workout        = "Workout"
-    case Physiological  = "Physiological"
-    case Measurement    = "Measurement"
-    case Weight         = "Weight"
-    
-    func fmpString() -> String {
-        return self.rawValue
-    }
-}
-
 
 //MARK: - Core Data Entities and Properties
 
@@ -394,59 +348,35 @@ enum ActivityTypeProperty: String{
     case name, activity
 }
 
-enum WeightProperty: String, FileMakerProJSONString{
+enum WeightProperty: String{
     
     case fatPercent, kg, lbs
-    case fromDate, iso8061DateString
+    case fromDate, iso8061DateString, fromDateString
     case trainingDiary
     
     static let jsonProperties = [iso8061DateString, kg, fatPercent]
-    
-    func fmpString() -> String {
-        switch self{
-        case .fatPercent:       return "Body Fat"
-        case .fromDate:         return "From"
-        case .kg:               return "KG"
-        case .lbs:              return ""
-        case .trainingDiary:    return ""
-        case .iso8061DateString:    return ""
-        }
-    }
+    static let csvProperties = [fromDateString, kg, fatPercent]
+
 }
 
-enum PhysiologicalProperty: String, FileMakerProJSONString{
-    case fromDate, maxHR, iso8061DateString
+enum PhysiologicalProperty: String{
+    case fromDate, maxHR, iso8061DateString, fromDateString
     case restingHR, restingRMSSD, restingSDNN
     case standingHR, standingRMSSD, standingSDNN
     //relationships
     case trainingDiary
     
     static let jsonProperties = [iso8061DateString, restingHR, restingRMSSD, restingSDNN]
-    
-    func fmpString() -> String {
-        switch self{
-        case .fromDate:         return "From"
-        case .maxHR:            return "Max HR"
-        case .restingHR:        return "Resting HR"
-        case .restingSDNN:      return "Resting SDNN"
-        case .restingRMSSD:     return "Resting rMSSD"
-        case .standingHR:       return "Standing HR"
-        case .standingSDNN:     return "Standing SDNN"
-        case .standingRMSSD:    return "Standing RMSSD"
-        case .iso8061DateString:    return ""
-        case .trainingDiary:    return ""
-        }
-    }
+    static let csvProperties = [fromDateString, restingHR, restingRMSSD, restingSDNN]
+
 }
 
 //change all to lower case start so no need to specify teh string
-enum TrainingDiaryProperty: String, FileMakerProJSONString{
+enum TrainingDiaryProperty: String{
     case name
     case athleteHeightCM, athleteName
     case hrvEasyPercentile, hrvHardPercentile, hrvOffPercentile
     case monotonyDays
-//    case baseDataLastUpdate, eddingtonNumberLastUpdate
-//    case swimATLDays, swimCTLDays, bikeATLDays, bikeCTLDays, runATLDays, runCTLDays, atlDays, ctlDays
 
     //relationships
     case eddingtonNumbers, ltdEddingtonNumbers
@@ -455,20 +385,15 @@ enum TrainingDiaryProperty: String, FileMakerProJSONString{
     
     static let jsonProperties = [name, athleteHeightCM, athleteName, hrvEasyPercentile, hrvHardPercentile, hrvOffPercentile, monotonyDays ]
     
-    func fmpString() -> String {
-        return self.rawValue
-    }
- 
 }
 
-enum WorkoutProperty: String, FileMakerProJSONString{
+enum WorkoutProperty: String{
     case activity, activityType, equipment, ascentFeet, ascentMetres, equipmentName, brick, cadence, comments, hr
     case isRace, keywords, kj, km, reps, rpe, seconds, rpeTSS, hours, miles
     case tss, tssMethod, watts, wattsEstimated, notBike, estimatedKJ
     case activityString, activityTypeString, equipmentOK, activityTypeOK
     
     static var AllProperties = [activity, activityType, activityString, activityTypeString, ascentFeet, ascentMetres, equipment, equipmentName, brick, cadence, comments, estimatedKJ, hours, hr, isRace, keywords, kj, km, reps, rpe, seconds, rpeTSS, tss, tssMethod, watts, wattsEstimated, equipmentOK, activityTypeOK]
-    static var ExportProperties = [activity, activityType, equipmentName, seconds, km, rpe, tss, tssMethod, watts, wattsEstimated, hr, kj, ascentMetres, brick, cadence, isRace, keywords, reps, comments]
     static var jsonProperties = [activityString, activityTypeString, equipmentName, seconds, km, rpe, tss, tssMethod, watts, wattsEstimated, hr, kj, ascentMetres, brick, cadence, isRace, keywords, reps, comments]
     static var DoubleProperties = [ascentFeet, ascentMetres, cadence, estimatedKJ, hr, hours, kj, km, miles, reps, rpe, seconds, rpeTSS, tss, watts]
     static var StringProperties = [activityString, activityTypeString, equipmentName, comments, keywords, tssMethod]
@@ -481,76 +406,27 @@ enum WorkoutProperty: String, FileMakerProJSONString{
         }
     }
     
-    //this is the string used by Filemaker Pro DB as the marker in it's JSON
-    func fmpString() -> String{
-        switch self{
-        case .activity:             return ""
-        case .activityString:       return "Sport"
-        case .activityType:         return ""
-        case .activityTypeOK:       return ""
-        case .activityTypeString:   return "Type"
-        case .ascentMetres:         return "Ascent"
-        case .ascentFeet:           return ""
-        case .equipment:            return ""
-        case .equipmentName:        return "Bike"
-        case .equipmentOK:      return ""
-        case .brick:            return "Brick"
-        case .cadence:          return "Cadence"
-        case .comments:         return "Comments"
-        case .estimatedKJ:      return ""
-        case .hours:            return ""
-        case .hr:               return "Heart Rate"
-        case .isRace:           return "Race"
-        case .keywords:         return "Keywords"
-        case .kj:               return "Kj"
-        case .km:               return "KM"
-        case .miles:            return ""
-        case .notBike:          return ""
-        case .reps:             return "Reps"
-        case .rpe:              return "RPE"
-        case .rpeTSS:           return "RPE TSS"
-        case .seconds:          return "Seconds"
-        case .tss:              return "TSS"
-        case .tssMethod:        return "TSS Method"
-        case .watts:            return "Power"
-        case .wattsEstimated:   return "Power is estimated"
-        }
-    }
-    
     func unit() -> Unit?{
         switch self{
-        case .activity:             return nil
-        case .activityString:       return nil
-        case .activityType:         return nil
-        case .activityTypeOK:       return nil
-        case .activityTypeString:   return nil
-        case .ascentMetres:         return Unit.AscentMetres
-        case .ascentFeet:       return Unit.AscentFeet
-        case .equipment:        return nil
-        case .equipmentName:    return nil
-        case .equipmentOK:      return nil
-        case .brick:            return Unit.Brick
-        case .cadence:          return Unit.Cadence
-        case .comments:         return nil
-        case .estimatedKJ:      return nil
-        case .hours:            return Unit.Hours
-        case .hr:               return Unit.HR
-        case .isRace:           return nil
-        case .keywords:         return nil
-        case .kj:               return Unit.KJ
-        case .km:               return Unit.KM
-        case .miles:            return Unit.Miles
-        case .notBike:          return nil
-        case .reps:             return Unit.Reps
-        case .rpe:              return nil
-        case .rpeTSS:           return Unit.RPETSS
-        case .seconds:          return Unit.Seconds
-        case .tss:              return Unit.TSS
-        case .tssMethod:        return nil
-        case .watts:            return Unit.Watts
-        case .wattsEstimated:   return nil
+        case .ascentMetres:     return Unit.ascentMetres
+        case .ascentFeet:       return Unit.ascentFeet
+        case .brick:            return Unit.brick
+        case .cadence:          return Unit.cadence
+        case .hours:            return Unit.hours
+        case .hr:               return Unit.hr
+        case .kj:               return Unit.kj
+        case .km:               return Unit.km
+        case .miles:            return Unit.miles
+        case .reps:             return Unit.reps
+        case .rpeTSS:           return Unit.rpeTSS
+        case .seconds:          return Unit.seconds
+        case .tss:              return Unit.tss
+        case .watts:            return Unit.watts
+        case .activity, .activityString, .activityType, .activityTypeOK, .activityTypeString, .equipment, .equipmentName, .equipmentOK, .comments, .estimatedKJ, .isRace, .keywords, .notBike, .rpe, .tssMethod, .wattsEstimated:
+            return nil
         }
     }
+ 
 }
 
 
@@ -558,7 +434,7 @@ enum WorkoutProperty: String, FileMakerProJSONString{
  */
 enum DayCalculatedProperty: String{
     case allKM, allAscentFeet, allAscentMetres, allHours, allKJ, allMinutes, allSeconds, allTSS, allTSB, allATL, allCTL
-    case bikeKM, bikeAscentFeet, bikeAscentMetres, bikeHours, BikeHR, bikeKJ, bikeMinutes, bikeSeconds, bikeTSS, bikeTSB, bikeWatts
+    case bikeKM, bikeAscentFeet, bikeAscentMetres, bikeHours, bikeHR, bikeKJ, bikeMinutes, bikeSeconds, bikeTSS, bikeTSB, bikeWatts
     case runKM, runAscentFeet, runAscentMetres, runHours, runHR, runKJ, runMinutes, runSeconds, runTSS, runTSB, runWatts
     case swimKM, swimHours, swimKJ, swimMinutes, swimSeconds, swimTSS, swimTSB, swimWatts
     case totalReps
@@ -567,26 +443,28 @@ enum DayCalculatedProperty: String{
     
     case numberOfWorkouts
 
-    static let ALL = [ allKM, allAscentFeet, allAscentMetres, allHours, allKJ, allMinutes, allSeconds, allTSS, allATL, allCTL, bikeKM, bikeAscentFeet, bikeAscentMetres, bikeHours, BikeHR, bikeKJ, bikeMinutes, bikeSeconds, bikeTSS, bikeWatts, runKM, runAscentFeet, runAscentMetres, runHours, runHR, runKJ, runMinutes, runSeconds, runTSS, runWatts, swimKM, swimHours, swimKJ, swimMinutes, swimSeconds, swimTSS, swimWatts,allTSB, swimTSB, bikeTSB, runTSB, totalReps, gymTSB, walkTSB, otherTSB, numberOfWorkouts]
+    static let ALL = [ allKM, allAscentFeet, allAscentMetres, allHours, allKJ, allMinutes, allSeconds, allTSS, allATL, allCTL, bikeKM, bikeAscentFeet, bikeAscentMetres, bikeHours, bikeHR, bikeKJ, bikeMinutes, bikeSeconds, bikeTSS, bikeWatts, runKM, runAscentFeet, runAscentMetres, runHours, runHR, runKJ, runMinutes, runSeconds, runTSS, runWatts, swimKM, swimHours, swimKJ, swimMinutes, swimSeconds, swimTSS, swimWatts,allTSB, swimTSB, bikeTSB, runTSB, totalReps, gymTSB, walkTSB, otherTSB, numberOfWorkouts]
     
 }
 
-enum DayProperty: String, FileMakerProJSONString{
-    case comments, date, iso8061DateString, fatigue, motivation, sleep, sleepQuality, type
+enum DayProperty: String{
+    case comments, date, iso8061DateString, dateCSVString, fatigue, motivation, sleep, sleepQuality, type
     case workoutChanged
-    case swimHours, swimKJ, swimKM, swimMinutes, swimSeconds, swimTSB, swimWatts, swimATL, swimCTL, swimStrain
-    case bikeAscentFeet, bikeAscentMetres, bikeHR, bikeHours, bikeJ, bikeKM, bikeMinutes, bikeSeconds, bikeTSB, bikeWatts, bikeATL, bikeCTL, bikeStrain
-    case runAscentFeet, runAscentMetres, runHR, runHours, runKJ, runKM, runMinutes, runSeconds, runTSB, runWatts, runATL, runCTL, runStrain
+    case swimHours, swimKJ, swimKM, swimMinutes, swimSeconds, swimTSB, swimWatts, swimATL, swimCTL, swimStrain, swimTSS
+    case bikeAscentFeet, bikeAscentMetres, bikeHR, bikeHours, bikeKJ, bikeKM, bikeMinutes, bikeSeconds, bikeTSB, bikeWatts, bikeATL, bikeCTL, bikeStrain, bikeTSS
+    case runAscentFeet, runAscentMetres, runHR, runHours, runKJ, runKM, runMinutes, runSeconds, runTSB, runWatts, runATL, runCTL, runStrain, runTSS
     case allAscentFeet, allAscentMetres, allHR, allHours, allKJ, allKM, allMinutes, allSeconds, allTSB, allWatts, allATL, allCTL, allStrain
     case gymCTL, walkCTL, otherCTL
     case gymATL, walkATL, otherATL
     case kg, lbs, fatPercent, restingHR, restingSDNN, restingRMSSD
     case numberOfWorkouts, totalReps
     
-    static let exportProperties = [date, fatigue, motivation, sleep, sleepQuality, type, comments]
+    static let csvProperties = [dateCSVString, fatigue, motivation, sleep, sleepQuality, type, comments]
     static let jsonProperties = [iso8061DateString, fatigue, motivation, sleep, sleepQuality, type, comments]
+    static let workoutProperties = [bikeKM, bikeAscentMetres, bikeHR, bikeKJ, bikeSeconds, bikeTSS, bikeWatts, runKM, runAscentMetres, runHR, runKJ, runSeconds, runTSS, runWatts, swimKM, swimKJ, swimSeconds, swimTSS, swimWatts, totalReps, numberOfWorkouts]
     
-    static let doubleProperties = [fatigue, motivation, sleep, swimHours, swimKJ, swimKM, swimMinutes, swimSeconds, swimTSB, swimWatts, swimATL, swimCTL, swimStrain, bikeAscentFeet, bikeAscentMetres, bikeHR, bikeHours, bikeJ, bikeKM, bikeMinutes, bikeSeconds, bikeTSB, bikeWatts, bikeATL, bikeCTL, bikeStrain, runAscentFeet, runAscentMetres, runHR, runHours, runKJ, runKM, runMinutes, runSeconds, runTSB, runWatts, runATL, runCTL, runStrain, allAscentFeet, allAscentMetres, allHR, allHours, allKJ, allKM, allMinutes, allSeconds, allTSB, allWatts, allATL, allCTL, allStrain, gymCTL, walkCTL, otherCTL, gymATL, walkATL, otherATL, kg, lbs, fatPercent, restingSDNN, restingRMSSD, totalReps]
+    
+    static let doubleProperties = [fatigue, motivation, sleep, swimHours, swimKJ, swimKM, swimMinutes, swimSeconds, swimTSB, swimWatts, swimATL, swimCTL, swimStrain, bikeAscentFeet, bikeAscentMetres, bikeHR, bikeHours, bikeKJ, bikeKM, bikeMinutes, bikeSeconds, bikeTSB, bikeWatts, bikeATL, bikeCTL, bikeStrain, runAscentFeet, runAscentMetres, runHR, runHours, runKJ, runKM, runMinutes, runSeconds, runTSB, runWatts, runATL, runCTL, runStrain, allAscentFeet, allAscentMetres, allHR, allHours, allKJ, allKM, allMinutes, allSeconds, allTSB, allWatts, allATL, allCTL, allStrain, gymCTL, walkCTL, otherCTL, gymATL, walkATL, otherATL, kg, lbs, fatPercent, restingSDNN, restingRMSSD, totalReps]
     static let stringProperties = [comments, sleepQuality, type]
     static let intProperties = [restingHR, numberOfWorkouts]
     static let dateProperties = [date]
@@ -594,7 +472,7 @@ enum DayProperty: String, FileMakerProJSONString{
     //relationships
     case trainingDiary, workouts, metrics
 
-    func fmpString() -> String {
+/*    func fmpString() -> String {
         switch self{
         case .comments:         return "Comments"
         case .date:             return "Date"
@@ -607,6 +485,7 @@ enum DayProperty: String, FileMakerProJSONString{
         default: return ""
         }
     }
+ */
 }
 
 

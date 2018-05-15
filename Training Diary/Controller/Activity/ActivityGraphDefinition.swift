@@ -59,7 +59,7 @@ import Foundation
         self.activity = ConstantString.EddingtonAll.rawValue
         self.activityType = ConstantString.EddingtonAll.rawValue
         self.equipment = ConstantString.EddingtonAll.rawValue
-        self.unit = Unit.KM
+        self.unit = Unit.km
         self.period = Period.Day
         self.aggregationMethod = AggregationMethod.Sum
         graph = GraphDefinition(name: "new", axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .black, fillGradientStart: .black, fillGradientEnd: .black, gradientAngle: 0.0, size: 1.0, opacity: 1.0), drawZeroes: true, priority: 1)

@@ -71,6 +71,7 @@ extension Workout: PeriodNode{
             return TimeInterval(0.0)
         }
     }
+
     @objc var swimTSS: Double {
         if activityString! == FixedActivity.Swim.rawValue{
             return tss
@@ -138,7 +139,6 @@ extension Workout: PeriodNode{
         print("Can't add children to Workouts")
     }
 
-    //MARK: - TrainingDiaryValues protocol implementation
 
     func valueFor( activity a: String, activityType at: String, equipment e: String, period p: Period, unit u: Unit) -> Double{
 
@@ -148,17 +148,22 @@ extension Workout: PeriodNode{
             if (isOfType(activity: a, activityType: at, equipment: e) && !u.isMetric){
                 if(u.isDerived()){
                     if let derivation = u.dataForDerivation(){
-                        if let d = value(forKey: derivation.unit.workoutPropertyName()!){
+                        if let d = value(forKey: derivation.unit.rawValue){
                             v = (d as! Double) * derivation.multiple.rawValue
                         }else{
-                            print("couldn't get value for \(String(describing: derivation.unit.workoutPropertyName()))")
+                            print("couldn't get value for \(String(describing: derivation.unit.rawValue))")
                         }
                     }else{
                         print("derived data nil for \(u)")
                     }
                 }else{
-                    if let d = value(forKey: u.workoutPropertyName()!){
-                        v = d as! Double
+                    if let d = value(forKey: u.rawValue){
+                        if let dd = d as? Double{
+                            v = dd
+                        }else if let b = d as? Bool{
+                            if b { v = 1.0 }
+                        }
+                        
                     }
                 }
             }

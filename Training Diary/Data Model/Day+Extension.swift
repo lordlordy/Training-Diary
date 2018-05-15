@@ -31,7 +31,9 @@ extension Day:PeriodNode{
                         return baseValue * d.multiple.rawValue
                     }
                 }else{
-                    return value(forKey: u.rawValue) as! Double
+                    if let v = value(forKey: u.rawValue) as? Double{
+                        return v
+                    }
                 }
             }
             
@@ -53,7 +55,7 @@ extension Day:PeriodNode{
             //check for metric here as they are held by the Day not the workout
             if u.isMetric{
                 return metricValue(forActivity: a, andMetric: u)
-            }else if u.summable{
+            }else if u.defaultAggregator() == AggregationMethod.Sum{
                 result = sumOverWorkouts(activity: a, activityType : at, equipment: e, unit: u)
             }else{
                 result = weightedAverageOverWorkouts(activity: a, activityType: at, equipment: e, unit: u)
@@ -207,6 +209,11 @@ extension Day:PeriodNode{
         return date!.iso8601Format()
     }
     
+    //this is for csv serialisation
+    @objc dynamic var dateCSVString: String{
+        return date?.dateOnlyString() ?? ""
+    }
+    
     //MARK: - Calculated properties - these are for display in GUI
     
     @objc dynamic var trainingDiaryName: String{ return trainingDiary?.name ?? "Missing"}
@@ -216,15 +223,15 @@ extension Day:PeriodNode{
     @objc dynamic var gmt: String { return date!.gmt() }
     
     @objc dynamic var swimATL: Double{
-        return metricValue(forActivity: FixedActivity.Swim.rawValue, andMetric: Unit.ATL)
+        return metricValue(forActivity: FixedActivity.Swim.rawValue, andMetric: Unit.atl)
     }
 
     @objc dynamic var swimCTL: Double{
-        return metricValue(forActivity: FixedActivity.Swim.rawValue, andMetric: Unit.CTL)
+        return metricValue(forActivity: FixedActivity.Swim.rawValue, andMetric: Unit.ctl)
     }
     
     @objc dynamic var swimStrain: Double{
-        return metricValue(forActivity: FixedActivity.Swim.rawValue, andMetric: Unit.Strain)
+        return metricValue(forActivity: FixedActivity.Swim.rawValue, andMetric: Unit.strain)
     }
 
     @objc dynamic var swimHours: Double{
@@ -244,7 +251,7 @@ extension Day:PeriodNode{
         return sumOverWorkouts(activity: activitySwim().name!, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, unit: WorkoutProperty.seconds.unit()!)
     }
     @objc dynamic var swimTSB: Double{
-        return metricValue(forActivity: FixedActivity.Swim.rawValue, andMetric: Unit.TSB)
+        return metricValue(forActivity: FixedActivity.Swim.rawValue, andMetric: Unit.tsb)
     }
     @objc dynamic var swimTSS: Double{
         return sumOverWorkouts(activity: activitySwim().name!, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, unit: WorkoutProperty.tss.unit()!)
@@ -254,15 +261,15 @@ extension Day:PeriodNode{
     }
     
     @objc dynamic var bikeATL: Double{
-        return metricValue(forActivity: FixedActivity.Bike.rawValue, andMetric: Unit.ATL)
+        return metricValue(forActivity: FixedActivity.Bike.rawValue, andMetric: Unit.atl)
     }
     
     @objc dynamic var bikeCTL: Double{
-        return metricValue(forActivity: FixedActivity.Bike.rawValue, andMetric: Unit.CTL)
+        return metricValue(forActivity: FixedActivity.Bike.rawValue, andMetric: Unit.ctl)
     }
     
     @objc dynamic var bikeStrain: Double{
-        return metricValue(forActivity: FixedActivity.Bike.rawValue, andMetric: Unit.Strain)
+        return metricValue(forActivity: FixedActivity.Bike.rawValue, andMetric: Unit.strain)
     }
 
     
@@ -294,7 +301,7 @@ extension Day:PeriodNode{
         return sumOverWorkouts(activity: activityBike().name!, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, unit: WorkoutProperty.tss.unit()!)
     }
     @objc dynamic var bikeTSB: Double{
-        return metricValue(forActivity: FixedActivity.Bike.rawValue, andMetric: Unit.TSB)
+        return metricValue(forActivity: FixedActivity.Bike.rawValue, andMetric: Unit.tsb)
     }
 
     @objc dynamic var bikeWatts: Double{
@@ -302,15 +309,15 @@ extension Day:PeriodNode{
     }
     
     @objc dynamic var runATL: Double{
-        return metricValue(forActivity: FixedActivity.Run.rawValue, andMetric: Unit.ATL)
+        return metricValue(forActivity: FixedActivity.Run.rawValue, andMetric: Unit.atl)
     }
     
     @objc dynamic var runCTL: Double{
-        return metricValue(forActivity: FixedActivity.Run.rawValue, andMetric: Unit.CTL)
+        return metricValue(forActivity: FixedActivity.Run.rawValue, andMetric: Unit.ctl)
     }
     
     @objc dynamic var runStrain: Double{
-        return metricValue(forActivity: FixedActivity.Run.rawValue, andMetric: Unit.Strain)
+        return metricValue(forActivity: FixedActivity.Run.rawValue, andMetric: Unit.strain)
     }
 
     
@@ -342,7 +349,7 @@ extension Day:PeriodNode{
         return sumOverWorkouts(activity: activityRun().name!, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, unit: WorkoutProperty.tss.unit()!)
     }
     @objc dynamic var runTSB: Double{
-        return metricValue(forActivity: FixedActivity.Run.rawValue, andMetric: Unit.TSB)
+        return metricValue(forActivity: FixedActivity.Run.rawValue, andMetric: Unit.tsb)
     }
     @objc dynamic var runWatts: Double{
         return weightedAverageOverWorkouts(activity: activityRun().name!, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, unit: WorkoutProperty.watts.unit()!)
@@ -374,32 +381,32 @@ extension Day:PeriodNode{
     }
     
     @objc dynamic var allATL: Double{
-        return metricValue(forActivity: ConstantString.EddingtonAll.rawValue, andMetric: Unit.ATL)
+        return metricValue(forActivity: ConstantString.EddingtonAll.rawValue, andMetric: Unit.atl)
     }
     
     @objc dynamic var allCTL: Double{
-        return metricValue(forActivity: ConstantString.EddingtonAll.rawValue, andMetric: Unit.CTL)
+        return metricValue(forActivity: ConstantString.EddingtonAll.rawValue, andMetric: Unit.ctl)
     }
     
     @objc dynamic var allStrain: Double{
-        return metricValue(forActivity: ConstantString.EddingtonAll.rawValue, andMetric: Unit.Strain)
+        return metricValue(forActivity: ConstantString.EddingtonAll.rawValue, andMetric: Unit.strain)
     }
 
     
     @objc dynamic var allTSB: Double{
-        return metricValue(forActivity: ConstantString.EddingtonAll.rawValue, andMetric: Unit.TSB)
+        return metricValue(forActivity: ConstantString.EddingtonAll.rawValue, andMetric: Unit.tsb)
     }
     
     @objc dynamic var gymATL: Double{
-        return metricValue(forActivity: FixedActivity.Gym.rawValue, andMetric: Unit.ATL)
+        return metricValue(forActivity: FixedActivity.Gym.rawValue, andMetric: Unit.atl)
     }
     
     @objc dynamic var gymCTL: Double{
-        return metricValue(forActivity: FixedActivity.Gym.rawValue, andMetric: Unit.CTL)
+        return metricValue(forActivity: FixedActivity.Gym.rawValue, andMetric: Unit.ctl)
     }
     
     @objc dynamic var gymTSB: Double{
-        return metricValue(forActivity: FixedActivity.Gym.rawValue, andMetric: Unit.TSB)
+        return metricValue(forActivity: FixedActivity.Gym.rawValue, andMetric: Unit.tsb)
     }
     
     @objc dynamic var kg: Double{
@@ -448,7 +455,7 @@ extension Day:PeriodNode{
         }
     }
     @objc dynamic var totalReps: Double{
-        return sumOverWorkouts(activity: FixedActivity.Gym.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, unit: Unit.Reps)
+        return sumOverWorkouts(activity: FixedActivity.Gym.rawValue, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, unit: Unit.reps)
     }
     
     //MARK: - utility functions
@@ -574,7 +581,7 @@ extension Day:PeriodNode{
         var weightedSum = 0.0
         for w in getWorkouts(){
             let value = w.valueFor( activity: a, activityType: at, equipment: e, period: Period.Day, unit: u)
-            let weight = w.valueFor( activity: a, activityType: at, equipment: e, period: Period.Day, unit: Unit.Seconds)
+            let weight = w.valueFor( activity: a, activityType: at, equipment: e, period: Period.Day, unit: Unit.seconds)
             if (value > 0.0){
                 weighting += weight
                 weightedSum += value*weight

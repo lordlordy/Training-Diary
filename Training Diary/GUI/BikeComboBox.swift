@@ -7,7 +7,7 @@
 //
 
 import Cocoa
-
+/*
 class BikeComboBox: NSComboBox {
 
     required init?(coder: NSCoder) {
@@ -20,3 +20,4 @@ class BikeComboBox: NSComboBox {
     }
     
 }
+*/

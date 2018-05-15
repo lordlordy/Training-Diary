@@ -10,11 +10,14 @@ import Foundation
 
 class CSVExporter{
 
-    func convertToCVS(trainingDiary td: TrainingDiary) -> (dayCSV: String, workoutCSV: String){
-        return convertToCVS(forDays: td.days!.allObjects as! [Day])
+    func convertToCSV(trainingDiary td: TrainingDiary) -> (dayCSV: String, workoutCSV: String, weightsCSV: String, physiologicalsCSV: String){
+        let result = convertToCSV(forDays: td.days!.allObjects as! [Day], td)
+        let weights = convertToCSV(forWeights: td.weights!.allObjects as! [Weight])
+        let physios = convertToCSV(forPhysios: td.physiologicals!.allObjects as! [Physiological])
+        return (result.dayCSV, result.workoutCSV, weights, physios)
     }
     
-    func convertToCVS(forDays days: [Day]) -> (dayCSV: String, workoutCSV: String){
+    func convertToCSV(forDays days: [Day], _ td: TrainingDiary) -> (dayCSV: String, workoutCSV: String){
         
         var workoutString: String = "date"
         var dayString: String = ""
@@ -24,7 +27,7 @@ class CSVExporter{
         workoutString += headerRowForWorkouts()
         workoutString += "\n"
     
-        dayString += headerRowForDays()
+        dayString += headerRowForDays(td)
         dayString += "\n"
         
         for d in days{
@@ -49,11 +52,91 @@ class CSVExporter{
 
         return (dayCSV: dayString, workoutCSV: workoutString)
     }
+    
+    private func convertToCSV(forWeights weights: [Weight]) -> String{
+        
+        var weightString: String = ""
+        var isFirst: Bool = true
+        
+        for property in WeightProperty.jsonProperties{
+            if isFirst{
+                isFirst = false
+            }else{
+                weightString += ","
+            }
+            weightString += property.rawValue
+        }
+        weightString += "\n"
+        
+        
+        for w in weights{
+            isFirst = true
+            for p in WeightProperty.jsonProperties{
+                if isFirst{
+                    isFirst = false
+                }else{
+                    weightString += ","
+                }
+                if let value = w.value(forKey: p.rawValue){
+                    if let v = value as? String{
+                        weightString += fixString(v)
+                    }else if let d = value as? Double{
+                        weightString += String(format: "%.8f",d)
+                    }else{
+                        weightString += String(describing: value)
+                    }
+                }
+            }
+            weightString += "\n"
+        }
+        
+        return weightString
+    }
+    
+    private func convertToCSV(forPhysios physios: [Physiological]) -> String{
+        
+        var physioString: String = ""
+        var isFirst: Bool = true
+        
+        for property in PhysiologicalProperty.csvProperties{
+            if isFirst{
+                isFirst = false
+            }else{
+                physioString += ","
+            }
+            physioString += property.rawValue
+        }
+        physioString += "\n"
+        
+        
+        for phys in physios{
+            isFirst = true
+            for p in PhysiologicalProperty.csvProperties{
+                if isFirst{
+                    isFirst = false
+                }else{
+                    physioString += ","
+                }
+                if let value = phys.value(forKey: p.rawValue){
+                    if let v = value as? String{
+                        physioString += fixString(v)
+                    }else if let d = value as? Double{
+                        physioString += String(format: "%.8f",d)
+                    }else{
+                        physioString += String(describing: value)
+                    }
+                }
+            }
+            physioString += "\n"
+        }
+        
+        return physioString
+    }
 
     private func csv(forWorkout w: Workout) -> String{
         var result: String = ""
         
-        for property in WorkoutProperty.ExportProperties{
+        for property in WorkoutProperty.jsonProperties{
             result += ","
             if let value = w.value(forKey: property.rawValue){
                 if let v = value as? String{
@@ -75,7 +158,7 @@ class CSVExporter{
         var result: String = ""
         var isFirst: Bool = true
         
-        for property in DayProperty.exportProperties{
+        for property in DayProperty.csvProperties{
             if isFirst{
                 isFirst = false
             }else{
@@ -91,16 +174,12 @@ class CSVExporter{
                 }
             }
         }
-        for property in DayCalculatedProperty.ALL{
-            result += ","
-            if let value = d.value(forKey: property.rawValue){
-                if let v = value as? String{
-                    result += fixString(v)
-                }else if let d = value as? Double{
-                    result += String(format: "%.8f",d)
-                }else{
-                    result += String(describing: value)
-                }
+    
+        for a in d.trainingDiary!.activitiesArray(){
+            for u in Unit.csvExportUnits{
+                result += ","
+                let value: Double = d.valueFor( activity: a, unit: u)
+                result += String(format: "%.8f", value)
             }
         }
         
@@ -110,7 +189,7 @@ class CSVExporter{
     private func headerRowForWorkouts() -> String{
         var result: String = ""
         
-        for property in WorkoutProperty.ExportProperties{
+        for property in WorkoutProperty.jsonProperties{
             result += ","
             result += property.rawValue
         }
@@ -119,11 +198,11 @@ class CSVExporter{
         
     }
     
-    private func headerRowForDays() -> String{
+    private func headerRowForDays(_ td: TrainingDiary) -> String{
         var result: String = ""
         var isFirst: Bool = true
-
-        for property in DayProperty.exportProperties{
+        
+        for property in DayProperty.csvProperties{
             if isFirst{
                 isFirst = false
             }else{
@@ -131,10 +210,14 @@ class CSVExporter{
             }
             result += property.rawValue
         }
-        for property in DayCalculatedProperty.ALL{
-            result += ","
-            result += property.rawValue
+        
+        for a in td.activitiesArray(){
+            for u in Unit.csvExportUnits{
+                result += ","
+                result += a.name! + "~" + u.rawValue
+            }
         }
+        
         return result
         
     }

@@ -199,10 +199,7 @@ class JSONImporter{
                             print("Failed to import workouts for \(d)")
                         }
                     default:
-                        if !(p.key == FPMJSONString.Created.fmpString()){
-                            // we're not importing created.
-                            print("JSON not added for Key: *\(p.key)* with value: \(p.value)")
-                        }
+                        print("JSON not added for Key: *\(p.key)* with value: \(p.value)")
                     }
                 }
                 CoreDataStackSingleton.shared.populateMetricPlaceholders(forDay: day as! Day)

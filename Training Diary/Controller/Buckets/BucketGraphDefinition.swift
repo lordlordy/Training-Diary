@@ -15,7 +15,7 @@ import Foundation
     @objc dynamic var bucketDefinition: BucketDefinition
 
     override init(){
-        bucketDefinition = BucketDefinition.init(data: DataSeriesDefinition(aggregationMethod: .Sum, period: .Day, unit: .Hours), size: 10.0)
+        bucketDefinition = BucketDefinition.init(data: DataSeriesDefinition(aggregationMethod: .Sum, period: .Day, unit: .hours), size: 10.0)
         super.init()
         setUpObserving()
     }
