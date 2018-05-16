@@ -17,7 +17,7 @@ class TSBGraphSplitViewController: TrainingDiarySplitViewController{
     
     private var end: Date = Date().endOfDay()
     private var start: Date = Date().addDays(numberOfDays: -365).startOfDay()
-    private var activity: String = FixedActivity.Bike.rawValue
+    private var activity: String = ConstantString.EddingtonAll.rawValue
 
 
     private var dataCache: [String: [Unit: [(x: Double, y: Double)]]] = [:]

@@ -73,7 +73,7 @@ class TSBSelectorsViewController: TrainingDiaryViewController, NSComboBoxDataSou
         
         fromDatePicker.dateValue = Date().addDays(numberOfDays: -365)
         toDatePicker.dateValue = Date()
-        activityComboBox.stringValue = FixedActivity.Bike.rawValue
+        activityComboBox.stringValue = ConstantString.EddingtonAll.rawValue
         
         
     }

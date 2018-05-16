@@ -59,7 +59,7 @@ class CSVImporter{
                 objDict[ENTITY.Day.rawValue] = day
 
                 for c in row{
-                    let col = c.trimmingCharacters(in: CharacterSet.init(charactersIn: "\""))
+                    let col = c.trimmingCharacters(in: CharacterSet.init(charactersIn: "\"\r"))
                     if let colDetails = dictionary[colIndex]{
                         var mObject: NSManagedObject
                         if let managedObj = objDict[dictStr(colDetails)]{
@@ -149,7 +149,11 @@ class CSVImporter{
                 if DayProperty.stringProperties.contains(p){
                     value = col
                 }else if DayProperty.doubleProperties.contains(p){
-                    value = Double(col) as Any
+                    if col == "" {
+                        value = 0.0 as Any
+                    }else{
+                        value = Double(col) as Any
+                    }
                 }
             }
         case .Workout:
@@ -157,7 +161,11 @@ class CSVImporter{
                 if WorkoutProperty.StringProperties.contains(p){
                     value = col
                 }else if WorkoutProperty.DoubleProperties.contains(p){
-                    value = Double(col)  as Any
+                    if col == ""{
+                        value = 0.0 as Any
+                    }else{
+                        value = Double(col)  as Any
+                    }
                 }else if WorkoutProperty.BooleanProperties.contains(p){
                     if let i = Double(col){
                         let result: Bool = Int(i) == 1
@@ -201,7 +209,7 @@ class CSVImporter{
             let w = CoreDataStackSingleton.shared.newWorkout()
             day.mutableSetValue(forKey: DayProperty.workouts.rawValue).add(w)
             if let activityString = col.activity{
-                w.activity = td.activity(forString: activityString)
+                w.activity = td.addActivity(forString: activityString)
                 w.activityString = w.activity!.name
                 w.tssMethod = "~Imported~"
             }
@@ -251,7 +259,7 @@ class CSVImporter{
     private func setUpIndexes(_ columnHeaders: [String]){
         var index: Int = 0
         for item in columnHeaders{
-            let trimmedItem = item.trimmingCharacters(in: .whitespaces)
+            let trimmedItem = item.trimmingCharacters(in: .whitespaces).trimmingCharacters(in: CharacterSet.init(charactersIn: "\r"))
 
             var split = trimmedItem.split(separator: ":")
             if split.count == 1{
@@ -261,7 +269,7 @@ class CSVImporter{
                     dictionary[index] = ColumnDetails(entity: entity, activity: nil, property: String(split[1]))
                 }
             }else if split.count == 3{
-                dictionary[index] = ColumnDetails(entity: ENTITY.Workout, activity: String(split[1]), property: String(split[2]))
+                dictionary[index] = ColumnDetails(entity: ENTITY.Workout, activity: String(split[1]), property: String(split[2]).trimmingCharacters(in: .init(charactersIn: "\r")))
 
             }
             

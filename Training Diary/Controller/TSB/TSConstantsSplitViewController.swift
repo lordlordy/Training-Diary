@@ -28,9 +28,6 @@ class TSBConstantsSplitViewController: TrainingDiarySplitViewController{
     private var effectLabels: [(x: Double, label: String)] = []
     private var decayLabels: [(x: Double, label: String)] = []
     
-//    private let effectXAxisLabels = ["-91", "-84", "-77", "-70", "-63", "-56", "-49", "-42", "-35", "-28", "-21", "-14", "-7", "Race"]
-  //  private let decayXAxisLabels = ["0", "7", "14", "21", "28", "35", "42", "49", "56", "63", "70", "77", "84", "91d"]
-
     override func viewDidLoad() {
         super.viewDidLoad()
         

@@ -25,8 +25,12 @@ import Foundation
     }
     
     convenience init(activity a: Activity, unit u: Unit, period p: Period, fromDate f: Date, toDate t: Date) {
+        self.init(activity: a.name!, unit: u, period: p, fromDate: f, toDate: t)
+    }
+
+    convenience init(activity a: String, unit u: Unit, period p: Period, fromDate f: Date, toDate t: Date) {
         self.init()
-        self.activity = a.name!
+        self.activity = a
         self.unit = u
         self.period = p
         self.from = f
@@ -34,6 +38,11 @@ import Foundation
     }
     
     convenience init(graph: GraphDefinition,activity a: Activity, unit u: Unit, period p: Period, fromDate f: Date, toDate t: Date) {
+        self.init(graph: graph, activity: a.name!, unit: u, period: p, fromDate: f, toDate: t)
+
+    }
+    
+    convenience init(graph: GraphDefinition,activity a: String, unit u: Unit, period p: Period, fromDate f: Date, toDate t: Date){
         self.init(activity: a, unit: u, period: p, fromDate: f, toDate: t)
         self.graph = graph
     }

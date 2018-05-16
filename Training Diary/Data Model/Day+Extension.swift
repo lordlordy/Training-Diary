@@ -216,6 +216,7 @@ extension Day:PeriodNode{
         }set{
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd"
+            formatter.timeZone = TimeZone.init(secondsFromGMT: 0)
             if let d = formatter.date(from: newValue){
                 date = d.noonGMT()
             }

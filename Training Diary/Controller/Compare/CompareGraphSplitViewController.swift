@@ -216,22 +216,21 @@ class CompareGraphSplitViewController: TrainingDiarySplitViewController, GraphMa
         let end2 = Calendar.current.date(byAdding: DateComponents(year:-1), to: end)!
         let start2 = end2.startOfYear()
         
-        let runGraph = GraphDefinition(name: String(end.year()), axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .red, fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 0.0, size: 2.0, opacity: 1.0), drawZeroes: true, priority: 2)
-        let runGraph2 = GraphDefinition(name: String(end2.year()), axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .blue, fillGradientStart: .blue, fillGradientEnd: .blue, gradientAngle: 0.0, size: 2.0, opacity: 1.0), drawZeroes: true, priority: 1)
+        let hoursGraph = GraphDefinition(name: String(end.year()), axis: .Primary, type: .Line, format: GraphFormat.init(fill: true, colour: .red, fillGradientStart: .magenta, fillGradientEnd: .blue, gradientAngle: 90.0, size: 3.0, opacity: 1.0), drawZeroes: true, priority: 2)
+        let hoursGraph2 = GraphDefinition(name: String(end2.year()), axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .green, fillGradientStart: .blue, fillGradientEnd: .blue, gradientAngle: 0.0, size: 3.0, opacity: 1.0), drawZeroes: true, priority: 1)
         
-        let datedRunGraph = DatedActivityGraphDefinition(graph: runGraph, activity: trainingDiary!.activity(forString: FixedActivity.Run.rawValue)!, unit: .km, period: .YearToDate, fromDate: start, toDate: end)
-        let datedRunGraph2 = DatedActivityGraphDefinition(graph: runGraph2, activity: trainingDiary!.activity(forString: FixedActivity.Run.rawValue)!, unit: .km, period: .YearToDate, fromDate: start2, toDate: end2)
+        let datedHoursGraph = DatedActivityGraphDefinition(graph: hoursGraph, activity: ConstantString.EddingtonAll.rawValue, unit: .hours, period: .rWeek, fromDate: start, toDate: end)
+        let datedHoursGraph2 = DatedActivityGraphDefinition(graph: hoursGraph2, activity: ConstantString.EddingtonAll.rawValue, unit: .hours, period: .rWeek, fromDate: start2, toDate: end2)
         
         // add to ArrayController first so they are here when we add into plot - this is needed to adjust dates to
         // same axis.
         if let gac = graphArrayController{
-            gac.add(contentsOf: [datedRunGraph, datedRunGraph2 ])
+            gac.add(contentsOf: [datedHoursGraph, datedHoursGraph2 ])
         }
         
-        add(graph: datedRunGraph)
-        add(graph: datedRunGraph2)
+        add(graph: datedHoursGraph)
+        add(graph: datedHoursGraph2)
         
-   //     setXAxisLabels(from: start, to: end)
         
     }
     
