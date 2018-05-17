@@ -50,6 +50,14 @@ enum WeekDay: Int{
     
 }
 
+enum FileExtension: String{
+    case json, csv, html
+    
+    static let exportTypes = [json, csv, html]
+    static let importTypes = [json, csv]
+    
+}
+
 enum TSSMethod: String{
     case RPE
     case TRIMPS

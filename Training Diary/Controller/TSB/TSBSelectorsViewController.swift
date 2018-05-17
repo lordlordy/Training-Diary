@@ -71,7 +71,7 @@ class TSBSelectorsViewController: TrainingDiaryViewController, NSComboBoxDataSou
     override func viewDidLoad(){
         super.viewDidLoad()
         
-        fromDatePicker.dateValue = Date().addDays(numberOfDays: -365)
+        fromDatePicker.dateValue = Calendar.current.date(byAdding: DateComponents.init(month: -6), to: Date())!
         toDatePicker.dateValue = Date()
         activityComboBox.stringValue = ConstantString.EddingtonAll.rawValue
         

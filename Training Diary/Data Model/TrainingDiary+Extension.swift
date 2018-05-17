@@ -279,7 +279,7 @@ extension TrainingDiary{
             at.name = t
             let activityTypeSet = activity.mutableSetValue(forKey: ActivityProperty.activityTypes.rawValue)
             activityTypeSet.add(at)
-            print("Created new activity type in Training Diary - type \(String(describing: at.name)) added to \(String(describing: activity.name))")
+            print("Created activity type: \(String(describing: at.name)) added to \(String(describing: activity.name))")
             return at
         }else{
             print("Can't add new Activity Type \(t) for activity \(a) as that activity does not exist")
@@ -310,7 +310,7 @@ extension TrainingDiary{
             e.name = n
             let equipmentSet = activity.mutableSetValue(forKey: ActivityProperty.equipment.rawValue)
             equipmentSet.add(e)
-            print("Created new equipment in Training Diary - type \(String(describing: e.name)) added to \(String(describing: activity.name))")
+            print("Created equipment: \(String(describing: e.name)) added to \(String(describing: activity.name))")
             return e
         }else{
             print("Can't add new equipment \(n) for activity \(a) as that activity does not exist")

@@ -22,26 +22,26 @@ class JSONImporter{
             }
             
             td.setValue("JSON IMPORT - \(Date().dateOnlyShorterString())", forKey: "name")
-            add(json, toTrainingDiary: td )
+            add(json, toTrainingDiary: td, merge: false )
         }
     }
     
     public func merge(fromURL url: URL, intoDiary td: TrainingDiary){
         if let json = importJSON(fromURL: url){
-            add(json, toTrainingDiary: td)
+            add(json, toTrainingDiary: td, merge: true)
         }
     }
     
     
     
-    //MARK: - possibly private
+    //MARK: - Private
     
     private func importJSON(fromURL url: URL) -> [String:Any]?{
         
         print("Loading JSON from URL = \(url) ...")
         do{
             let data: Data = try Data.init(contentsOf: url)
-            let jsonData  = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments)
+            let jsonData  = try JSONSerialization.jsonObject(with: data, options: [.allowFragments, .mutableContainers])
             let jsonDict = jsonData as? [String:Any]
             return jsonDict
         }catch{
@@ -50,88 +50,118 @@ class JSONImporter{
         }
     }
     
+
     
-    private func addPhysiological(fromJSON json: [String: Any], toTrainingDiary trainingDiary: TrainingDiary){
-        
-        let persistentContainer = CoreDataStackSingleton.shared.trainingDiaryPC
-        
-        let physiologicalMOSet = trainingDiary.mutableSetValue(forKey: TrainingDiaryProperty.physiologicals.rawValue)
-        
-        //perhaps place this in a singleton.
-        let dateFormatter = ISO8601DateFormatter()
-        
-        let physiological = json[TrainingDiaryProperty.physiologicals.rawValue] as! [Any]
-        
-        for m in physiological{
-            // we have a physio record. So create a Physiological ManagedObject
-            let physio = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.Physiological.rawValue, in: persistentContainer.viewContext)!, insertInto: persistentContainer.viewContext)
-            physiologicalMOSet.add(physio)
-            let pair = m as! [String: Any]
-            for p in pair{
-                switch p.key{
-                case PhysiologicalProperty.iso8061DateString.rawValue:
-                    if let date = dateFormatter.date(from: p.value as! String){
-                        physio.setValue(date, forKey: PhysiologicalProperty.fromDate.rawValue)
-                    }else{
-                        print("failed to import physio to date: \(p.key) : \(p.value)")
-                    }
-                case PhysiologicalProperty.maxHR.rawValue, PhysiologicalProperty.restingHR.rawValue, PhysiologicalProperty.restingSDNN.rawValue, PhysiologicalProperty.restingRMSSD.rawValue, PhysiologicalProperty.standingHR.rawValue, PhysiologicalProperty.standingSDNN.rawValue, PhysiologicalProperty.standingRMSSD.rawValue:
-                    if p.value is NSNull {
-                        print("\(p) is nil")
-                    }else{
-                        physio.setValue(p.value, forKey: p.key)
-                    }
-                default:
-                    print("PHYSIOLOGICAL JSON not added for Key: \(p.key) with value: \(p.value)")
+    
+    fileprivate func addPhysiological(_ td: TrainingDiary, _ pDict: [String : Any]) {
+        // we have a physio record. So create a Physiological ManagedObject
+        let physio = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.Physiological.rawValue, in: CoreDataStackSingleton.shared.trainingDiaryPC.viewContext)!, insertInto: CoreDataStackSingleton.shared.trainingDiaryPC.viewContext)
+        td.mutableSetValue(forKey: TrainingDiaryProperty.physiologicals.rawValue).add(physio)
+        for p in pDict{
+            switch p.key{
+            case PhysiologicalProperty.iso8061DateString.rawValue:
+                if let date = ISO8601DateFormatter().date(from: p.value as! String){
+                    physio.setValue(date, forKey: PhysiologicalProperty.fromDate.rawValue)
+                }else{
+                    print("failed to import physio to date: \(p.key) : \(p.value)")
                 }
+            case PhysiologicalProperty.maxHR.rawValue, PhysiologicalProperty.restingHR.rawValue, PhysiologicalProperty.restingSDNN.rawValue, PhysiologicalProperty.restingRMSSD.rawValue, PhysiologicalProperty.standingHR.rawValue, PhysiologicalProperty.standingSDNN.rawValue, PhysiologicalProperty.standingRMSSD.rawValue:
+                if p.value is NSNull {
+                    //    print("\(p) is nil")
+                }else{
+                    physio.setValue(p.value, forKey: p.key)
+                }
+            default:
+                print("PHYSIOLOGICAL JSON not added for Key: \(p.key) with value: \(p.value)")
             }
         }
     }
     
-    private func addWeight(fromJSON json: [String: Any], toTrainingDiary trainingDiary: TrainingDiary){
+    private func addPhysiologicals(fromJSON json: [String: Any], toTrainingDiary td: TrainingDiary, merge: Bool){
         
-        let persistentContainer = CoreDataStackSingleton.shared.trainingDiaryPC
+        var trainingDiaryPhysiologicalDateStrings: [String] = []
+        var addedCount: Int = 0
         
-        let weightMOSet = trainingDiary.mutableSetValue(forKey: TrainingDiaryProperty.weights.rawValue)
-        
-        //perhaps place this in a singleton.
-        let dateFormatter = ISO8601DateFormatter()
-        
-        let measurements = json[TrainingDiaryProperty.weights.rawValue] as! [Any]
-        
-        for m in measurements{
-            // we have a weight record. So create a Weight ManagedObject
-            let weight = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.Weight.rawValue, in: persistentContainer.viewContext)!, insertInto: persistentContainer.viewContext)
-            weightMOSet.add(weight)
-            let pair = m as! [String: Any]
-            for p in pair{
-                switch p.key{
-                case WeightProperty.iso8061DateString.rawValue:
-                    if let date = dateFormatter.date(from: p.value as! String){
-                        weight.setValue(date, forKey: WeightProperty.fromDate.rawValue)
-                    }else{
-                        print("failed to import weight from date: \(p.key) : \(p.value)")
-                    }
-                case WeightProperty.kg.rawValue, WeightProperty.fatPercent.rawValue:
-                    weight.setValue(p.value, forKey: p.key)
-                default:
-                    print("WEIGHT JSON not added for Key: \(p.key) with value: \(p.value)")
+        if merge{
+            if let physios = td.physiologicals?.allObjects as? [Physiological]{
+                trainingDiaryPhysiologicalDateStrings = physios.map({$0.fromDate!.dateOnlyString()})
+            }
+        }
+
+        for pDict in json[TrainingDiaryProperty.physiologicals.rawValue] as! [[String:Any]]{
+            if let dateString = pDict[PhysiologicalProperty.iso8061DateString.rawValue] as? String{
+                let dateOnly = dateString.split(separator: "T")[0]
+                if trainingDiaryPhysiologicalDateStrings.contains(String(dateOnly)){
+                    print("TrainingDiary already includes Physiological for \(dateOnly)")
+                }else{
+                    addPhysiological(td, pDict)
+                    addedCount += 1
                 }
+            }else{
+                print("No iso8061DateString value for Physiological so can't add \(pDict)")
+            }
+        }
+        print("Added \(addedCount) Physiologicals")
+    }
+    
+    fileprivate func addWeight(_ td: TrainingDiary, _ mDict: [String : Any]) {
+        // add this Weight
+        // we have a weight record. So create a Weight ManagedObject
+        let weight = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.Weight.rawValue, in: CoreDataStackSingleton.shared.trainingDiaryPC.viewContext)!, insertInto: CoreDataStackSingleton.shared.trainingDiaryPC.viewContext)
+        td.mutableSetValue(forKey: TrainingDiaryProperty.weights.rawValue).add(weight)
+        for p in mDict{
+            switch p.key{
+            case WeightProperty.iso8061DateString.rawValue:
+                if let date = ISO8601DateFormatter().date(from: p.value as! String){
+                    weight.setValue(date, forKey: WeightProperty.fromDate.rawValue)
+                }else{
+                    print("failed to import weight from date: \(p.key) : \(p.value)")
+                }
+            case WeightProperty.kg.rawValue, WeightProperty.fatPercent.rawValue:
+                weight.setValue(p.value, forKey: p.key)
+            default:
+                print("WEIGHT JSON not added for Key: \(p.key) with value: \(p.value)")
             }
         }
     }
     
-    fileprivate func addWorkouts(_ workoutsItems: [Any], _ persistentContainer: NSPersistentContainer, _ workoutsMOSet: NSMutableSet, _ trainingDiary: TrainingDiary) {
-        for w in workoutsItems{
+    private func addWeights(fromJSON json: [String: Any], toTrainingDiary td: TrainingDiary, merge: Bool){
+        
+        var trainingDiaryWeightDateStrings: [String] = []
+        var addedCount: Int = 0
+        
+        if merge{
+            if let weights = td.weights?.allObjects as? [Weight]{
+                trainingDiaryWeightDateStrings = weights.map({$0.fromDate!.dateOnlyString()})
+            }
+        }
+        
+        for mDict in json[TrainingDiaryProperty.weights.rawValue] as! [[String:Any]]{
+            if let dateString = mDict[WeightProperty.iso8061DateString.rawValue] as? String{
+                let dateOnly = dateString.split(separator: "T")[0]
+                if trainingDiaryWeightDateStrings.contains(String(dateOnly)){
+                    print("TrainingDiary already includes Weight for \(dateOnly)")
+                }else{
+                    addWeight(td, mDict)
+                    addedCount += 1
+                }
+            }else{
+                print("No iso8061DateString value for Weight so can't add \(mDict)")
+            }
+        }
+        print("Added \(addedCount) Weights ")
+    }
+    
+    fileprivate func addWorkouts(_ workouts: [[String:Any]], toDay day: NSManagedObject, _ persistentContainer: NSPersistentContainer, _ trainingDiary: TrainingDiary) {
+        for workoutDict in workouts{
             //we have a workout
             let workout = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.Workout.rawValue, in: persistentContainer.viewContext)!, insertInto: persistentContainer.viewContext)
-            workoutsMOSet.add(workout)
-            let workoutItems = w as! [String: Any]
-            for wp in workoutItems{
+            day.mutableSetValue(forKey: DayProperty.workouts.rawValue).add(workout)
+            for wp in workoutDict{
                 switch wp.key{
                 case WorkoutProperty.activityString.rawValue, WorkoutProperty.activityTypeString.rawValue, WorkoutProperty.ascentMetres.rawValue, WorkoutProperty.equipmentName.rawValue, WorkoutProperty.cadence.rawValue, WorkoutProperty.hr.rawValue, WorkoutProperty.kj.rawValue, WorkoutProperty.km.rawValue, WorkoutProperty.reps.rawValue, WorkoutProperty.rpe.rawValue, WorkoutProperty.seconds.rawValue, WorkoutProperty.tss.rawValue, WorkoutProperty.tssMethod.rawValue, WorkoutProperty.watts.rawValue, WorkoutProperty.comments.rawValue, WorkoutProperty.keywords.rawValue:
                     if wp.value is NSNull {
-                        print("\(wp) is nil")
+                   //     print("\(wp) is nil")
                     }else{
                         workout.setValue(wp.value, forKey: wp.key)
                     }
@@ -159,54 +189,72 @@ class JSONImporter{
         }
     }
     
-    private func addDaysAndWorkouts(fromJSON json: [String: Any], toTrainingDiary trainingDiary: TrainingDiary){
+    fileprivate func addDay(_ td: TrainingDiary, _ dayDict: [String : Any]) {
+        // Create a Day ManagedObject
+        let day = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.Day.rawValue, in: CoreDataStackSingleton.shared.trainingDiaryPC.viewContext)!, insertInto: CoreDataStackSingleton.shared.trainingDiaryPC.viewContext)
+        // add to training diary
+        td.mutableSetValue(forKey: TrainingDiaryProperty.days.rawValue).add(day)
         
-        let persistentContainer = CoreDataStackSingleton.shared.trainingDiaryPC
-        
-        let daysMOSet = trainingDiary.mutableSetValue(forKey: TrainingDiaryProperty.days.rawValue)
-        
-        let dateFormatter = ISO8601DateFormatter()
-        
-        if let days = json[TrainingDiaryProperty.days.rawValue] as? [ Any]{
-            for d in days{
-                // we have a day. So create a Day ManagedObject
-                let day = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.Day.rawValue, in: persistentContainer.viewContext)!, insertInto: persistentContainer.viewContext)
-                
-                daysMOSet.add(day)
-                let workoutsMOSet = day.mutableSetValue(forKey: DayProperty.workouts.rawValue)
-                let pairs = d as! [String: Any]
-                for p in pairs{
-                    switch p.key{
-                    case DayProperty.iso8061DateString.rawValue:
-                        if let d = dateFormatter.date(from: p.value as! String){
-                            day.setValue(d, forKey: DayProperty.date.rawValue)
-                        }else{
-                            print("Unable to format date from \(p.value)")
-                        }
-                    case DayProperty.sleep.rawValue, DayProperty.sleepQuality.rawValue, DayProperty.type.rawValue, DayProperty.motivation.rawValue, DayProperty.fatigue.rawValue:
-                        day.setValue(p.value, forKey: p.key)
-                    case DayProperty.comments.rawValue:
-                        if p.value is NSNull {
-                            print("\(p) is nil")
-                        }else{
-                            day.setValue(p.value, forKey: p.key)
-                        }
-                    case DayProperty.workouts.rawValue:
-                        if let workoutsItems  = p.value as? [Any]{
-                            addWorkouts(workoutsItems, persistentContainer, workoutsMOSet, trainingDiary)
-
-                        }else{
-                            print("Failed to import workouts for \(d)")
-                        }
-                    default:
-                        print("JSON not added for Key: *\(p.key)* with value: \(p.value)")
-                    }
+        for p in dayDict{
+            switch p.key{
+            case DayProperty.iso8061DateString.rawValue:
+                if let d = ISO8601DateFormatter().date(from: p.value as! String){
+                    day.setValue(d, forKey: DayProperty.date.rawValue)
+                }else{
+                    print("Unable to format date from \(p.value)")
                 }
-                CoreDataStackSingleton.shared.populateMetricPlaceholders(forDay: day as! Day)
+            case DayProperty.sleep.rawValue, DayProperty.sleepQuality.rawValue, DayProperty.type.rawValue, DayProperty.motivation.rawValue, DayProperty.fatigue.rawValue:
+                day.setValue(p.value, forKey: p.key)
+            case DayProperty.comments.rawValue:
+                if p.value is NSNull {
+              //      print("\(p) is nil")
+                }else{
+                    day.setValue(p.value, forKey: p.key)
+                }
+            case DayProperty.workouts.rawValue:
+                if let workouts  = p.value as? [[String:Any]]{
+                    addWorkouts(workouts, toDay: day, CoreDataStackSingleton.shared.trainingDiaryPC, td)
+                    
+                }else{
+                    print("Failed to import workouts for \(dayDict)")
+                }
+            default:
+                print("JSON not added for Key: *\(p.key)* with value: \(p.value)")
             }
-            let addedDays: [Day] = daysMOSet.allObjects as! [Day]
+        }
+        CoreDataStackSingleton.shared.populateMetricPlaceholders(forDay: day as! Day)
+    }
+    
+    private func addDaysAndWorkouts(fromJSON json: [String: Any], toTrainingDiary td: TrainingDiary, merge: Bool){
+        
+        var trainingDiaryDateString: [String] = []
+        var addedCount: Int = 0
+        
+        if merge{
+            //we're merging values so get date strings to compare against
+            trainingDiaryDateString = td.ascendingOrderedDays().map({$0.date!.dateOnlyString()})
+        }
+        
+        if let days = json[TrainingDiaryProperty.days.rawValue] as? [[String:Any]]{
+            for dayDict in days{
+                if let dateString = dayDict[DayProperty.iso8061DateString.rawValue] as? String{
+                    let dateOnly = dateString.split(separator: "T")[0]
+                    if trainingDiaryDateString.contains(String(dateOnly)){
+                        print("TrainingDiary already includes day for \(dateOnly)")
+                    }else{
+                        // add this day
+                        addDay(td, dayDict)
+                        addedCount += 1
+                    }
+                }else{
+                    print("No iso8061DateString value so can't add \(dayDict)")
+                }
+            }
+            let addedDays: [Day] = td.mutableSetValue(forKey: TrainingDiaryProperty.days.rawValue).allObjects as! [Day]
             insertYesterdayAndTomorrow(forDays: addedDays)
         }
+        
+        print("Added \(addedCount) days")
         
     }
     
@@ -326,12 +374,15 @@ class JSONImporter{
     }
     
     
-    private func add(_ json: [String: Any], toTrainingDiary td: TrainingDiary){
+    private func add(_ json: [String: Any], toTrainingDiary td: TrainingDiary, merge: Bool){
     
-        addDaysAndWorkouts(fromJSON: json, toTrainingDiary: td)
-        addWeight(fromJSON: json, toTrainingDiary: td)
-        addPhysiological(fromJSON: json, toTrainingDiary: td)
-        addPlans(fromJSON: json, toTrainingDiary: td)
+        addDaysAndWorkouts(fromJSON: json, toTrainingDiary: td, merge: merge)
+        addWeights(fromJSON: json, toTrainingDiary: td, merge: merge)
+        addPhysiologicals(fromJSON: json, toTrainingDiary: td, merge: merge)
+        if !merge{
+            // not implemented merge yet for these
+            addPlans(fromJSON: json, toTrainingDiary: td)
+        }
         
         for e in CoreDataStackSingleton.shared.getEntityCounts(forDiary: td){
             print("\(e.entity) = \(e.count)")

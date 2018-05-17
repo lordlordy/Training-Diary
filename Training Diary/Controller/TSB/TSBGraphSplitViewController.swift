@@ -11,14 +11,14 @@ import Foundation
 class TSBGraphSplitViewController: TrainingDiarySplitViewController{
     
     private let tsbGraph: GraphDefinition = GraphDefinition(name: "TSB", axis: .Primary, type: .Line, format: GraphFormat.init(fill: true, colour: .black, fillGradientStart: .red, fillGradientEnd: .blue, gradientAngle: 90.0, size: 1.0, opacity: 1.0), drawZeroes: true, priority: 4)
-    private let ctlGraph: GraphDefinition = GraphDefinition(name: "CTL", axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .red, fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 0.0, size: 2.0, opacity: 1.0), drawZeroes: true, priority: 3)
+    private let ctlGraph: GraphDefinition = GraphDefinition(name: "CTL", axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .red, fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 0.0, size: 2.0, opacity: 1.0), drawZeroes: true, priority: 1)
     private let atlGraph: GraphDefinition = GraphDefinition(name: "ATL", axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .green, fillGradientStart: .green, fillGradientEnd: .green, gradientAngle: 0.0, size: 2.0, opacity: 1.0), drawZeroes: true, priority: 2)
-    private let tssGraph: GraphDefinition = GraphDefinition(name: "TSS", axis: .Secondary, type: .Bar, format: GraphFormat.init(fill: true, colour: .black, fillGradientStart: .yellow, fillGradientEnd: .yellow, gradientAngle: 0.0, size: 1.0, opacity: 0.5), drawZeroes: false, priority: 1)
+    private let tssGraph: GraphDefinition = GraphDefinition(name: "TSS", axis: .Secondary, type: .Bar, format: GraphFormat.init(fill: true, colour: .black, fillGradientStart: .yellow, fillGradientEnd: .yellow, gradientAngle: 0.0, size: 1.0, opacity: 0.5), drawZeroes: false, priority: 3)
     
     private var end: Date = Date().endOfDay()
-    private var start: Date = Date().addDays(numberOfDays: -365).startOfDay()
+    private var start: Date = Calendar.current.date(byAdding: DateComponents.init(month: -6), to: Date())!.startOfDay()
+//    private var start: Date = Date().addDays(numberOfDays: -365).startOfDay()
     private var activity: String = ConstantString.EddingtonAll.rawValue
-
 
     private var dataCache: [String: [Unit: [(x: Double, y: Double)]]] = [:]
 
@@ -27,7 +27,10 @@ class TSBGraphSplitViewController: TrainingDiarySplitViewController{
         
         tsbGraph.startFromOrigin = true
         
+        var start: Date = Date()
         updateGraphs()
+        print("Updating TSB graphs took \(Date().timeIntervalSince(start))s")
+        start = Date()
         
         if let gv = getGraphView(){
             gv.add(graph: tsbGraph)
@@ -35,6 +38,7 @@ class TSBGraphSplitViewController: TrainingDiarySplitViewController{
             gv.add(graph: atlGraph)
             gv.add(graph: tssGraph)
         }
+        print("Adding TSB graphs to GraphView took \(Date().timeIntervalSince(start))s")
     }
     
     func updateStart(toDate d: Date){
@@ -87,11 +91,19 @@ class TSBGraphSplitViewController: TrainingDiarySplitViewController{
             //no cached data so lets create it
             var result: [Unit: [(x: Double, y: Double)]] = [:]
             if let td = trainingDiary{
+                var start: Date = Date()
                 result[Unit.ctl] = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: a, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: .Day, aggregationMethod: .None, unit: .ctl).map({(x: $0.date.timeIntervalSinceReferenceDate, y: $0.value)})
+                print("Getting \(a):CTL data took \(Date().timeIntervalSince(start))s")
+                start = Date()
                 result[Unit.atl] = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: a, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: .Day, aggregationMethod: .None, unit: .atl).map({(x: $0.date.timeIntervalSinceReferenceDate, y: $0.value)})
+                print("Getting \(a):ATL data took \(Date().timeIntervalSince(start))s")
+                start = Date()
                 result[Unit.tsb] = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: a, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: .Day, aggregationMethod: .None, unit: .tsb).map({(x: $0.date.timeIntervalSinceReferenceDate, y: $0.value)})
+                print("Getting \(a):TSB data took \(Date().timeIntervalSince(start))s")
+                start = Date()
                 result[Unit.tss] = td.valuesFor(dayType: ConstantString.EddingtonAll.rawValue, activity: a, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, period: .Day, aggregationMethod: .None, unit: .tss).map({(x: $0.date.timeIntervalSinceReferenceDate, y: $0.value)})
-                
+                print("Getting \(a):TSS data took \(Date().timeIntervalSince(start))s")
+
                 dataCache[a] = result
                 
             }

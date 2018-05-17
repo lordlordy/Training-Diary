@@ -119,22 +119,15 @@ class GraphView: NSView {
         }
 
         drawXAxes(dirtyRect, labelOffset: LabelOffset(position: .Start, x: -30.0, y: -(Constants.axisPadding - 10.0)) )
-
-        
-        //just for testing
-        let labelStrings: [(String, CGFloat)] = labels.map({($0.stringValue, $0.frame.minX)})
-        let g = getGraphs(forAxis: .Primary)[0].data
-        let l = getGraphs(forAxis: .Primary)[0].xAxisLabels
-        
         
         for l in labels{ addSubview(l) }
         
         if let titleName = chartTitle{
         
-            let titleXPosition = dirtyRect.maxX / 2.0
+            let titleXPosition = (dirtyRect.maxX - CGFloat(Constants.titleLabelWidth)) / 2.0 
             let titleYPosition = dirtyRect.maxY - CGFloat(Constants.axisPadding*0.75)
         
-            titleLabel = createLabel(value: titleName, point: CGPoint(x: titleXPosition, y: titleYPosition), size: CGSize(width: labelWidth * 3, height: Constants.labelHeight), colour: .black, alignment: .left)
+            titleLabel = createLabel(value: titleName, point: CGPoint(x: titleXPosition, y: titleYPosition), size: CGSize(width: Constants.titleLabelWidth, height: Constants.titleLabelHeight), colour: .black, alignment: .center, fontSize: Constants.titleFontSize, bold: true)
         
             addSubview(titleLabel!)
         }
@@ -173,11 +166,14 @@ class GraphView: NSView {
     
     private struct Constants{
         static let phaseFactorForFinalLine: Double = 0.2
-        static let labelHeight = 15.0
+        static let labelHeight: Double = 15.0
+        static let titleLabelHeight: Double = 18.0
+        static let titleFontSize: CGFloat = 15.0
+        static let titleLabelWidth: Double = 300.0
         static let pointDiameter: CGFloat = 3.0
         //how far in from the view edge the axes are
-        static let axisPadding = 30.0
-        static let zero = 0.1
+        static let axisPadding: Double = 30.0
+        static let zero:Double = 0.1
     }
     
     private struct LabelOffset{
@@ -619,13 +615,21 @@ class GraphView: NSView {
         path.stroke()
     }
     
-    private func createLabel(value: String, point: CGPoint, size: CGSize, colour: NSColor, alignment: NSTextAlignment) -> NSTextField {
+    private func createLabel(value: String, point: CGPoint, size: CGSize, colour: NSColor, alignment: NSTextAlignment, fontSize: CGFloat? = nil, bold: Bool? = false) -> NSTextField {
         let label = NSTextField(frame: NSRect(origin: point, size: size))
         label.stringValue = value
         label.textColor = colour
         label.backgroundColor = NSColor.clear
         label.alignment = alignment
         label.isBordered = false
+
+        if let s = fontSize{
+            label.font = NSFont.labelFont(ofSize: s)
+        }
+
+        if bold!{
+            label.font = NSFont.boldSystemFont(ofSize: label.font!.pointSize)
+        }
         
         return label
     }

@@ -62,40 +62,17 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="File" id="bib-Uj-vzu">
                                     <items>
-                                        <menuItem title="Import Diary" id="dcQ-nr-axI">
+                                        <menuItem title="Import Diary..." id="5pc-gK-dyT">
                                             <modifierMask key="keyEquivalentModifierMask"/>
-                                            <menu key="submenu" title="Import Diary" id="G4r-WY-DZP">
-                                                <items>
-                                                    <menuItem title="JSON..." id="5pc-gK-dyT">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                        <connections>
-                                                            <action selector="loadFromFile:" target="Ady-hI-5gd" id="xZG-Qh-TTu"/>
-                                                        </connections>
-                                                    </menuItem>
-                                                    <menuItem title="CSV..." id="b04-mP-Jn3">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                        <connections>
-                                                            <action selector="importCSV:" target="Ady-hI-5gd" id="pkH-LS-Zhx"/>
-                                                        </connections>
-                                                    </menuItem>
-                                                </items>
-                                            </menu>
+                                            <connections>
+                                                <action selector="loadFromFile:" target="Ady-hI-5gd" id="xZG-Qh-TTu"/>
+                                            </connections>
                                         </menuItem>
-                                        <menuItem title="Add to Diary" id="2Z5-ce-Vx4">
+                                        <menuItem title="Add to Diary..." id="0Vw-sG-J2G">
                                             <modifierMask key="keyEquivalentModifierMask"/>
-                                            <menu key="submenu" title="Add to Diary" id="aKY-cS-pyC">
-                                                <items>
-                                                    <menuItem title="JSON..." id="0Vw-sG-J2G">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                        <connections>
-                                                            <action selector="mergeFromFile:" target="Ady-hI-5gd" id="Q0q-ob-m1V"/>
-                                                        </connections>
-                                                    </menuItem>
-                                                    <menuItem title="CSV..." id="HdD-x5-CDW">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                    </menuItem>
-                                                </items>
-                                            </menu>
+                                            <connections>
+                                                <action selector="mergeFromFile:" target="Ady-hI-5gd" id="Q0q-ob-m1V"/>
+                                            </connections>
                                         </menuItem>
                                         <menuItem title="Export Diary" id="6dy-NY-1cs">
                                             <modifierMask key="keyEquivalentModifierMask"/>

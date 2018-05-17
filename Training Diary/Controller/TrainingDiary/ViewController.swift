@@ -145,13 +145,13 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
  
     //MARK: - @IBActions
 
-    @IBAction func testFeature(_ sender: Any) {
+/*    @IBAction func testFeature(_ sender: Any) {
         print("no feature being tested at the moment")
         let button: NSButton = sender as! NSButton
         print("\(button)")
     }
- 
-    @IBAction func deleteALL(_ sender: Any) {
+ */
+ /*   @IBAction func deleteALL(_ sender: Any) {
         
         let dialog = NSAlert()
         dialog.alertStyle = .warning
@@ -193,14 +193,25 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
             }
         }
     }
-
+*/
 
     // MARK: -  JSON Support
     
     @IBAction func loadFromFile(_ sender: Any) {
-        if let url = getPathFromModelDialogue(withTitle: "chose .json file",andFileTypes: ["json"]) {
-            let jsonImporter = JSONImporter()
-            jsonImporter.importDiary(fromURL: url)
+        if let url = getPathFromModelDialogue(withTitle: "chose .json or .csv file",andFileTypes: FileExtension.importTypes.map({$0.rawValue})) {
+
+            if let fileExtension = FileExtension(rawValue: url.pathExtension){
+                switch fileExtension{
+                case FileExtension.json:
+                    let jsonImporter = JSONImporter()
+                    jsonImporter.importDiary(fromURL: url)
+                case FileExtension.csv:
+                    let csvImporter = CSVImporter()
+                    csvImporter.importDiary(fromURL: url)
+                case FileExtension.html:
+                    print("Cannot import html")
+                }
+            }
         }
     }
     
@@ -291,7 +302,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
     
     //MARK: - CSV Support
     
-    @IBAction func importCSV(_ sender: NSMenuItem){
+ /*   @IBAction func importCSV(_ sender: NSMenuItem){
         if let url = getPathFromModelDialogue(withTitle: "chose .csv file to import", andFileTypes: ["csv"]) {
             let start = Date()
             let csvImporter = CSVImporter()
@@ -300,6 +311,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
         }
        
     }
+ */
 
 
     
