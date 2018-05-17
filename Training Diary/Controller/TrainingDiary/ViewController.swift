@@ -217,19 +217,25 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
     
     @IBAction func mergeFromFile(_ sender: NSMenuItem) {
         if let td = getSelectedTrainingDiary(){
-            let jsonImporter = JSONImporter()
             
             //this will bring up file choser for user to select file to merge and then
             //parse the file returning top level json dictionary
             //not this may return nil if user hits 'cancel' for instance
-            if let url = getPathFromModelDialogue(withTitle: "chose .json file",andFileTypes: ["json"]){
-                let s = Date()
-                jsonImporter.merge(fromURL: url, intoDiary: td)
-                print("Merge took \(Date().timeIntervalSince(s)) seconds")
+            if let url = getPathFromModelDialogue(withTitle: "chose .json or .csv file",andFileTypes: FileExtension.importTypes.map({$0.rawValue})){
+                if let fileExtension = FileExtension(rawValue: url.pathExtension){
+                    switch fileExtension{
+                    case FileExtension.json:
+                        let jsonImporter = JSONImporter()
+                        jsonImporter.merge(fromURL: url, intoDiary: td)
+                    case FileExtension.csv:
+                        let csvImporter = CSVImporter()
+                        csvImporter.merge(fromURL: url, intoDiary: td)
+                    case FileExtension.html:
+                        print("Cannot import html")
+                    }
+                }
             }
-
         }
-        
     }
 
     @IBAction func exportHTML(_ sender: NSMenuItem){

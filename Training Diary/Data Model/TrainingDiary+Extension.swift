@@ -468,32 +468,38 @@ extension TrainingDiary{
     func firstYear() -> Int{ return Calendar.current.dateComponents([.year], from: firstDayOfDiary).year! }
     func lastYear() -> Int{ return Calendar.current.dateComponents([.year], from: lastDayOfDiary).year! }
     
+    func weightsArray() -> [Weight]{
+        return weights?.allObjects as? [Weight] ?? []
+    }
+    
+    func physiologicalArray() -> [Physiological]{
+        return physiologicals?.allObjects as? [Physiological] ?? []
+    }
+    
+    func daysArray() -> [Day]{
+        return days?.allObjects as? [Day] ?? []
+    }
+    
     func kgAscendingDateOrder() -> [(date: Date, value: Double)]{
         var result: [(date: Date, value: Double)] = []
-        if let orderedWeights = weightsAscendingDateOrder(){
-            for w in orderedWeights{
-                result.append((w.fromDate!, w.kg))
-            }
+        for w in weightsAscendingDateOrder(){
+            result.append((w.fromDate!, w.kg))
         }
         return result
     }
     
     func fatPercentageDateOrder() -> [(date: Date, value: Double)]{
         var result: [(date: Date, value: Double)] = []
-        if let orderedWeights = weightsAscendingDateOrder(){
-            for w in orderedWeights{
-                result.append((w.fromDate!, w.fatPercent))
-            }
+        for w in weightsAscendingDateOrder(){
+            result.append((w.fromDate!, w.fatPercent))
         }
         return result
     }
 
     func bmiAscendingDateOrder() -> [(date: Date, value: Double)]{
         var result: [(date: Date, value: Double)] = []
-        if let orderedWeights = weightsAscendingDateOrder(){
-            for w in orderedWeights{
-                result.append((w.fromDate!, w.bmi))
-            }
+        for w in weightsAscendingDateOrder(){
+            result.append((w.fromDate!, w.bmi))
         }
         return result
     }
@@ -524,30 +530,24 @@ extension TrainingDiary{
     
     func hrDateOrder() -> [(date: Date, value: Double)]{
         var result: [(date: Date, value: Double)] = []
-        if let orderedPhysios = physiologicalsAscendingDateOrder(){
-            for o in orderedPhysios{
-                result.append((o.fromDate!, o.restingHR))
-            }
+        for o in physiologicalsAscendingDateOrder(){
+            result.append((o.fromDate!, o.restingHR))
         }
         return result
     }
     
     func sdnnDateOrder() -> [(date: Date, value: Double)]{
         var result: [(date: Date, value: Double)] = []
-        if let orderedPhysios = physiologicalsAscendingDateOrder(){
-            for o in orderedPhysios{
-                result.append((o.fromDate!, o.restingSDNN))
-            }
+        for o in physiologicalsAscendingDateOrder(){
+            result.append((o.fromDate!, o.restingSDNN))
         }
         return result
     }
 
     func rmssdDateOrder() -> [(date: Date, value: Double)]{
         var result: [(date: Date, value: Double)] = []
-        if let orderedPhysios = physiologicalsAscendingDateOrder(){
-            for o in orderedPhysios{
-                result.append((o.fromDate!, o.restingRMSSD))
-            }
+        for o in physiologicalsAscendingDateOrder(){
+            result.append((o.fromDate!, o.restingRMSSD))
         }
         return result
     }
@@ -877,12 +877,6 @@ extension TrainingDiary{
         return nil
     }
     
-    private func weightsArray() -> [Weight]{
-        if let ws = self.weights{
-            return ws.allObjects as! [Weight]
-        }
-        return []
-    }
     
     private func physiological(forDate d: Date) -> Physiological?{
         let array = physiologicalArray()
@@ -893,27 +887,20 @@ extension TrainingDiary{
         return nil
     }
     
-    private func physiologicalArray() -> [Physiological]{
-        if let ps = self.physiologicals{
-            return ps.allObjects as! [Physiological]
-        }
-        return []
-    }
-    
-    private func weightsAscendingDateOrder() -> [Weight]?{
+    private func weightsAscendingDateOrder() -> [Weight]{
         if let ws = self.weights{
             let weightsArray = ws.allObjects as! [Weight]
             return weightsArray.sorted(by: { $0.fromDate! < $1.fromDate! })
         }
-        return nil
+        return []
     }
     
-    private func physiologicalsAscendingDateOrder() -> [Physiological]?{
+    private func physiologicalsAscendingDateOrder() -> [Physiological]{
         if let ps = self.physiologicals{
             let physios = ps.allObjects as! [Physiological]
             return physios.sorted(by: { $0.fromDate! < $1.fromDate! })
         }
-        return nil
+        return []
     }
     
     private func total(forKey: String) ->Double{

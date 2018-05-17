@@ -199,11 +199,9 @@ class EddingtonTreeViewController: TrainingDiaryViewController, ReferenceToMainP
                 if dt == ConstantString.EddingtonAll.rawValue{
                     periods = Period.eddingtonNumberPeriods
                 }
-     //           for a in self.trainingDiary!.eddingtonActivities(){
-                    for a in ["Bike"]{
+                for a in self.trainingDiary!.eddingtonActivities(){
                         for e in self.trainingDiary!.eddingtonEquipment(forActivityString: a){
-//                            for at in self.trainingDiary!.eddingtonActivityTypes(forActivityString: a){
-                                for at in ["Zwift"]{
+                            for at in self.trainingDiary!.eddingtonActivityTypes(forActivityString: a){
 
                             var units = Unit.activityUnits
                             
