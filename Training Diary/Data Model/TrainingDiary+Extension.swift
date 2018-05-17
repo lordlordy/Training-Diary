@@ -26,7 +26,6 @@ struct HRVData{
 }
 
 extension TrainingDiary{
-//    extension TrainingDiary: TrainingDiaryValues{
 
     
     //MARK: - Lifetime for display in GUI summary

@@ -11,12 +11,12 @@ import Foundation
 
 class DayAggregator: DayAggregatorProtocol{
         
-        private var dayType: DayType?
-        private var activity: Activity?
-        private var activityType: ActivityType?
-        private var equipment: Equipment?
-        private var period: Period
-        private var unit: Unit
+    private var dayType: DayType?
+    private var activity: Activity?
+    private var activityType: ActivityType?
+    private var equipment: Equipment?
+    private var period: Period
+    private var unit: Unit
     private var from: Date
     private var to: Date
         
