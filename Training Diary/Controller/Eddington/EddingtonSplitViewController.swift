@@ -31,7 +31,7 @@ class EddingtonSplitViewController: TrainingDiarySplitViewController {
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         switch keyPath!{
         case "selection":
-            if let controller = findGraphVC([self]){
+            if let controller = getGraphView(){
                 controller.updateGraph()
             }
         default:
@@ -41,6 +41,18 @@ class EddingtonSplitViewController: TrainingDiarySplitViewController {
     
     
     
+    private func getGraphView() -> EddingtonGraphViewController?{
+        for child in childViewControllers{
+            for grandChild in child.childViewControllers{
+                if let result = grandChild as? EddingtonGraphViewController{
+                    return result
+                }
+            }
+        }
+        return nil
+    }
+    
+  /*
     private func findGraphVC(_ vcs: [NSViewController]) -> EddingtonGraphViewController?{
 
         for v in vcs{
@@ -58,5 +70,5 @@ class EddingtonSplitViewController: TrainingDiarySplitViewController {
         return nil
         
     }
-    
+ */
 }
