@@ -78,8 +78,13 @@ enum DayType: String{
     case January, February, March, April, May, June, July, August, September, October, November, December
 
     static var InputTypes = [Normal, Race, Camp, Holiday, Rest, Recovery, Travel, Injured, Niggle, Ill]
+    static var DerivedTypes = [Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday, January, February, March, April, May, June, July, August, September, October, November, December]
     
     static var AllTypes = [Normal, Race, Holiday, Rest, Recovery, Travel, Injured, Niggle, Ill, Camp,Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday, January, February, March, April, May, June, July, August, September, October, November, December]
+    
+    func isDerived() -> Bool{
+        return DayType.DerivedTypes.contains(self)
+    }
 }
 
 enum SleepQuality: String{

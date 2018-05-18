@@ -31,7 +31,7 @@ class DayAggregator: DayAggregatorProtocol{
             to = t
         }
         
-        func aggregate(data: [Day]) -> [(date: Date, value: Double)]{
+        func aggregate(data: [DayValueProtocol]) -> [(date: Date, value: Double)]{
             var result: [(date: Date, value: Double)] = []
             
             for d in data.filter({$0.date! >= from.startOfDay() && $0.date! <= to.endOfDay()}).sorted(by: {$0.date! < $1.date!}){

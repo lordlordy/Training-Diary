@@ -41,10 +41,13 @@ public class EddingtonNumberCalculator: NSObject{
     private var currentMax: Double = 1.0
 
     func quickCaclulation(forDayType dt: String, forActivity a: String, andType at: String, equipment e: String, andPeriod p: Period, andUnit u: Unit, inTrainingDiary td: TrainingDiary) -> (ednum: Int,plusOne: Int, maturity: Double ){
-        
+        var start = Date()
         let values = td.valuesFor(dayType: dt, activity: a, activityType: at, equipment: e, period: p, aggregationMethod: u.defaultAggregator(), unit: u)
-        return quickEddingNumberCalc(forDoubleValues: values.map({$0.value}).filter({$0 >= 1.0}))
-        
+        print("Time to get values: \(Date().timeIntervalSince(start))")
+        start = Date()
+        let result = quickEddingNumberCalc(forDoubleValues: values.map({$0.value}).filter({$0 >= 1.0}))
+        print("Time to calculate: \(Date().timeIntervalSince(start))")
+        return result
     }
     
     func calculate(eddingtonNumber e: EddingtonNumber){

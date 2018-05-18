@@ -760,7 +760,7 @@
                             <stackView distribution="fill" orientation="horizontal" alignment="top" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RTw-fN-W1w">
                                 <rect key="frame" x="2" y="339" width="266" height="16"/>
                                 <subviews>
-                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="e3j-Oa-Q4H">
+                                    <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e3j-Oa-Q4H">
                                         <rect key="frame" x="-1" y="0.0" width="74" height="16"/>
                                         <buttonCell key="cell" type="push" title="Save HTML" bezelStyle="rounded" alignment="center" controlSize="mini" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="DcC-V4-IIa">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -770,7 +770,7 @@
                                             <action selector="saveAsHTML:" target="vs4-7L-kuD" id="ut3-aj-U2K"/>
                                         </connections>
                                     </button>
-                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="094-NG-cgO">
+                                    <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="094-NG-cgO">
                                         <rect key="frame" x="71" y="0.0" width="88" height="16"/>
                                         <buttonCell key="cell" type="push" title="Calc Selection" bezelStyle="rounded" alignment="center" controlSize="mini" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lnP-7G-cBL">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -780,8 +780,8 @@
                                             <action selector="calculateTreeSelection:" target="vs4-7L-kuD" id="NkP-mf-7KM"/>
                                         </connections>
                                     </button>
-                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WEB-32-SF2">
-                                        <rect key="frame" x="157" y="0.0" width="63" height="16"/>
+                                    <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WEB-32-SF2">
+                                        <rect key="frame" x="157" y="0.0" width="47" height="16"/>
                                         <buttonCell key="cell" type="push" title="Calc ALL" bezelStyle="rounded" alignment="center" controlSize="mini" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="diC-bg-aI4">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="miniSystem"/>
@@ -791,7 +791,7 @@
                                         </connections>
                                     </button>
                                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Wtd-wr-eXJ">
-                                        <rect key="frame" x="219" y="0.0" width="47" height="16"/>
+                                        <rect key="frame" x="203" y="0.0" width="47" height="16"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="47" id="htb-xp-Ef8"/>
                                         </constraints>
@@ -804,6 +804,20 @@
                                             <binding destination="vs4-7L-kuD" name="value" keyPath="trainingDiary.ltdEdNumCount" id="Vit-lF-6tG"/>
                                         </connections>
                                     </textField>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VIz-ML-gYM">
+                                        <rect key="frame" x="250" y="-1" width="16" height="18"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="16" id="ABJ-Ef-kC4"/>
+                                            <constraint firstAttribute="height" constant="16" id="PBU-dC-yfq"/>
+                                        </constraints>
+                                        <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSRemoveTemplate" imagePosition="overlaps" alignment="center" controlSize="mini" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="m88-F6-aYV">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="miniSystem"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="remove:" target="NUS-qz-lc3" id="B5R-H7-11O"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="16" id="YnM-RM-eU0"/>
@@ -816,8 +830,10 @@
                                     <integer value="1000"/>
                                     <integer value="1000"/>
                                     <integer value="1000"/>
+                                    <integer value="1000"/>
                                 </visibilityPriorities>
                                 <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>

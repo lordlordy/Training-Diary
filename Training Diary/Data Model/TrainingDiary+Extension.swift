@@ -84,10 +84,7 @@ extension TrainingDiary{
         }
         return Date()
     }
-    
-    //ISO format for JSON export
-//    @objc dynamic var firstDate: String{ return firstDayOfDiary.iso8601Format() }
-  //  @objc dynamic var lastDate: String{ return lastDayOfDiary.iso8601Format() }
+
 
     // don't think this really need @objc dynamic - check and remove
     @objc dynamic var lastDayOfDiary: Date{
@@ -107,6 +104,19 @@ extension TrainingDiary{
     }
     @objc dynamic var ltdLeafsCount: Int{
         return ltdEddingtonNumberLeafs.count
+    }
+    
+    // currently returns zero for derived day types
+    func dayCount(forTypeString t: String) -> Int{
+        if let d = days?.allObjects as? [Day]{
+            return d.filter({$0.type! == t}).count
+        }
+        return 0
+    }
+    
+    // currently returns zero for derived day types
+    func dayCount(forType t: DayType) -> Int{
+        return dayCount(forTypeString: t.rawValue)
     }
     
 
@@ -593,7 +603,16 @@ extension TrainingDiary{
             aggregator = DayAggregator(dayType: dt, activity: a, activityType: at, equipment: e, period: period, unit: unit, from: from, to: to)
         }
         
-        let results = aggregator.aggregate(data: days?.allObjects as? [Day] ?? [])
+        
+        if DayCache.shared.getCache(forTrainingDiary: self).count == 0{
+            DayCache.shared.setCache(daysArray(), forTrainingDiary: self)
+        }
+        
+        let results = aggregator.aggregate(data: DayCache.shared.getCache(forTrainingDiary: self))
+        if let a = aggregator as? SumAggregator{
+            print("Getting values took: \(a.gettingValues)s")
+            print("aggregating took: \(a.aggregating)s")
+        }
         return results
         
     }
@@ -940,13 +959,6 @@ extension TrainingDiary{
             }
         }
         return nil
-    }
-    
-    private func dayCount(forType t: DayType) -> Int{
-        if let d = days?.allObjects as? [Day]{
-            return d.filter({$0.type! == t.rawValue}).count
-        }
-        return 0
     }
     
     //the string is the result of dateOnlyShorterString() call on date

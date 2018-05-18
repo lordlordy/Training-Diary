@@ -8,10 +8,8 @@
 
 import Foundation
 
-extension Day:PeriodNode{
+extension Day: PeriodNode, DayValueProtocol{
 
-    
-    
     /* We do not want this to fail as when requesting a value for a particular combination of activity, type and unit a valid answer is zero. For example: if this gets asked what the swim squad ascent is then the correct answer is zero.
     */
     func valueFor(dayType dt: DayType? = nil, activity a: Activity? = nil, activityType at: ActivityType? = nil, equipment e: Equipment? = nil, unit u: Unit) -> Double{
@@ -103,12 +101,12 @@ extension Day:PeriodNode{
         }
     }
     
-    func valuesFor(dayType dt: DayType? = nil, activity a: Activity? = nil, activityType at: ActivityType? = nil, equipment e: Equipment? = nil, period p: Period, unit u: Unit) -> [(date: Date, value: Double)]{
+/*    func valuesFor(dayType dt: DayType? = nil, activity a: Activity? = nil, activityType at: ActivityType? = nil, equipment e: Equipment? = nil, period p: Period, unit u: Unit) -> [(date: Date, value: Double)]{
         let ALL = ConstantString.EddingtonAll.rawValue
         return valuesFor(dayType: dt?.rawValue ?? ALL, activity: a?.name ?? ALL, activityType: at?.name ?? ALL, equipment: e?.name ?? ALL, period: p, unit: u)
     }
-    
-    func valuesFor(dayType dt: String, activity a: String, activityType at: String, equipment e: String, period p: Period, unit u: Unit) -> [(date: Date, value: Double)]{
+  */
+/*    func valuesFor(dayType dt: String, activity a: String, activityType at: String, equipment e: String, period p: Period, unit u: Unit) -> [(date: Date, value: Double)]{
 
         var v: Double = 0.0
                 
@@ -186,7 +184,7 @@ extension Day:PeriodNode{
         return [(date!,v)]
     }
 
-    
+ */
     //MARK: - Core Data dependent key values
     
     /*This is the method that needs implementing to ensure calculated properties update when the properties
@@ -592,8 +590,8 @@ extension Day:PeriodNode{
         return sum
     }
 
-    private func recursiveAdd(toDate d: Date, dayType dt: String, activity a: String, activityType at: String, equipment e: String, unit u: Unit) -> Double{
-        var result = self.valuesFor(dayType: dt, activity: a, activityType: at, equipment: e, period: Period.Day, unit: u)[0].value
+/*    private func recursiveAdd(toDate d: Date, dayType dt: String, activity a: String, activityType at: String, equipment e: String, unit u: Unit) -> Double{
+        var result = self.valueFor(dayType: dt, activity: a, activityType: at, equipment: e, period: Period.Day, unit: u)[0].value
         if self.date!.isSameDate(asDate: d){
             return result
         }else{
@@ -605,7 +603,7 @@ extension Day:PeriodNode{
         }
         return result
     }
-    
+    */
     private func weightedAverageOverWorkouts(activity a: String, activityType at: String, equipment e: String,  unit u: Unit) ->  Double{
         var weighting = 0.0
         var weightedSum = 0.0
@@ -650,5 +648,7 @@ extension Day:PeriodNode{
         
         return result
     }
+    
+
     
 }

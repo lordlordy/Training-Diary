@@ -36,9 +36,9 @@
     <entity name="Day" representedClassName="Day" syncable="YES" codeGenerationType="class">
         <attribute name="comments" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="date" attributeType="Date" defaultDateTimeInterval="529099260" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="fatigue" optional="YES" attributeType="Double" minValueString="0" maxValueString="10" defaultValueString="5" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="motivation" optional="YES" attributeType="Double" minValueString="0" maxValueString="10" defaultValueString="5" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="sleep" optional="YES" attributeType="Double" minValueString="0" defaultValueString="8" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="fatigue" optional="YES" attributeType="Double" minValueString="0" maxValueString="10" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="motivation" optional="YES" attributeType="Double" minValueString="0" maxValueString="10" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="sleep" optional="YES" attributeType="Double" minValueString="0" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="sleepQuality" optional="YES" attributeType="String" defaultValueString="Average" syncable="YES"/>
         <attribute name="test" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" defaultValueString="Normal" syncable="YES"/>
@@ -221,7 +221,7 @@
         <element name="Activity" positionX="160" positionY="-513" width="128" height="195"/>
         <element name="ActivityType" positionX="412" positionY="-279" width="128" height="105"/>
         <element name="BasicWeekDay" positionX="-432" positionY="-801" width="128" height="238"/>
-        <element name="Day" positionX="-279" positionY="-165" width="128" height="255"/>
+        <element name="Day" positionX="-279" positionY="-165" width="128" height="253"/>
         <element name="EddingtonAnnualContributor" positionX="-477" positionY="135" width="128" height="90"/>
         <element name="EddingtonAnnualHistory" positionX="-630" positionY="147" width="128" height="103"/>
         <element name="EddingtonContributor" positionX="-621" positionY="-234" width="128" height="90"/>

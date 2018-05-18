@@ -19,6 +19,8 @@ class SumAggregator:DayAggregatorProtocol{
     internal var weighting: Unit?
     internal var from: Date
     internal var to: Date
+    var gettingValues: TimeInterval = 0.0
+    var aggregating: TimeInterval = 0.0
 
     internal var calculator: RollingPeriodCalculator?
     
@@ -37,21 +39,25 @@ class SumAggregator:DayAggregatorProtocol{
         calculator = createRollingPeriodCalculator()
     }
     
-    func aggregate(data: [Day]) -> [(date: Date, value: Double)]{
+    func aggregate(data: [DayValueProtocol]) -> [(date: Date, value: Double)]{
         var result: [(date: Date, value: Double)] = []
         
         if let rSum = calculator{
             for d in data.filter({$0.date! >= preloadDate() && $0.date! <= to}).sorted(by: {$0.date! < $1.date!}){
+                var start = Date()
                 let v = d.valueFor(dayType: dayType, activity: activity, activityType: activityType, equipment: equipment, unit: unit)
                 var weight = 1.0
                 if let w = weighting{
                     weight = d.valueFor(dayType: dayType, activity: activity, activityType: activityType, equipment: equipment, unit: w)
                 }
+                gettingValues += Date().timeIntervalSince(start)
+                start = Date()
                 if let sum = rSum.addAndReturnValue(forDate: d.date!, value: v, weighting: weight){
                     if d.date! >= from{
                         result.append((d.date!, sum))
                     }
                 }
+                aggregating += Date().timeIntervalSince(start)
             }
         }
         

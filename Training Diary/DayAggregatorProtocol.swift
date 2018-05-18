@@ -9,5 +9,5 @@
 import Foundation
 
 protocol DayAggregatorProtocol{
-    func aggregate(data: [Day]) -> [(date: Date, value: Double)]
+    func aggregate(data: [DayValueProtocol]) -> [(date: Date, value: Double)]
 }

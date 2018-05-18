@@ -23,9 +23,9 @@ class CSVImporter{
         let result = dictionary.reduce(0, {(result, colDetails) in
             if colDetails.value.property == DayProperty.dateCSVString.rawValue{
                 foundDate = true
-                return colDetails.value.index
+                return result + colDetails.value.index
             }else{
-                return 0
+                return result
             }
         })
         if foundDate{

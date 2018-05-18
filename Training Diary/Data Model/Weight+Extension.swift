@@ -39,7 +39,7 @@ extension Weight{
     override public class func keyPathsForValuesAffectingValue(forKey key: String) -> Set<String>{
         let keyPaths = super.keyPathsForValuesAffectingValue(forKey: key)
         switch key {
-        case "lbs_c":
+        case "lbs":
             return keyPaths.union(Set(["kg"]))
         default:
             return keyPaths
