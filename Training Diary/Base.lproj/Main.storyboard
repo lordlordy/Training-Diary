@@ -935,20 +935,6 @@
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
-                        <toolbar key="toolbar" implicitIdentifier="106653BB-55AD-4351-981D-D6C2F9F0CAD0" autosavesConfiguration="NO" displayMode="labelOnly" sizeMode="small" id="Dot-ne-mui">
-                            <allowedToolbarItems>
-                                <toolbarItem implicitItemIdentifier="NSToolbarShowColorsItem" id="0Yt-nh-ez9"/>
-                                <toolbarItem implicitItemIdentifier="NSToolbarShowFontsItem" id="xCs-gV-x5I"/>
-                                <toolbarItem implicitItemIdentifier="NSToolbarPrintItem" id="6mH-Hh-UL7"/>
-                                <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="zWq-lL-A8j"/>
-                                <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="BTd-OZ-cRK"/>
-                            </allowedToolbarItems>
-                            <defaultToolbarItems>
-                                <toolbarItem reference="0Yt-nh-ez9"/>
-                                <toolbarItem reference="xCs-gV-x5I"/>
-                                <toolbarItem reference="6mH-Hh-UL7"/>
-                            </defaultToolbarItems>
-                        </toolbar>
                         <connections>
                             <outlet property="delegate" destination="B8D-0N-5wS" id="98r-iN-zZc"/>
                         </connections>

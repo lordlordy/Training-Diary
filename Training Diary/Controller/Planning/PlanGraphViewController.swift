@@ -32,7 +32,7 @@ class PlanGraphViewController: NSViewController{
     private let tsbGraphActual: GraphDefinition = GraphDefinition(name: GraphName.actualTSB.rawValue, axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .black, fillGradientStart: .red, fillGradientEnd: .blue, gradientAngle: 90.0, size: 3.0, opacity: 1.0), drawZeroes: true, priority: 4)
     private let ctlGraphActual: GraphDefinition = GraphDefinition(name: GraphName.actualCTL.rawValue, axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: NSColor.yellow, fillGradientStart: .systemPink, fillGradientEnd: .systemPink, gradientAngle: 0.0, size: 2.0, opacity: 1.0), drawZeroes: true, priority: 3)
     private let atlGraphActual: GraphDefinition = GraphDefinition(name: GraphName.actualATL.rawValue, axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: NSColor.cyan, fillGradientStart: .cyan, fillGradientEnd: .cyan, gradientAngle: 0.0, size: 2.0, opacity: 1.0), drawZeroes: true, priority: 2)
-    private let tssGraphActual: GraphDefinition = GraphDefinition(name: GraphName.actualTSS.rawValue, axis: .Secondary, type: .Bar, format: GraphFormat.init(fill: true, colour: .green, fillGradientStart: .green, fillGradientEnd: .green, gradientAngle: 0.0, size: 1.0, opacity: 0.5), drawZeroes: false, priority: 1)
+    private let tssGraphActual: GraphDefinition = GraphDefinition(name: GraphName.actualTSS.rawValue, axis: .Secondary, type: .TBar, format: GraphFormat.init(fill: true, colour: .green, fillGradientStart: .green, fillGradientEnd: .green, gradientAngle: 0.0, size: 2.0, opacity: 1.0), drawZeroes: false, priority: 1)
     
     
     private var planGraphs: [GraphDefinition] = []

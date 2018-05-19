@@ -224,6 +224,8 @@
 		7369D9F61FB24F8C00ECAA1E /* TSSMethodComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7369D9F51FB24F8C00ECAA1E /* TSSMethodComboBox.swift */; };
 		7369D9F81FB25B7600ECAA1E /* SleepQualityComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7369D9F71FB25B7600ECAA1E /* SleepQualityComboBox.swift */; };
 		7369D9FA1FB2C97400ECAA1E /* TrainingDiary+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7369D9F91FB2C97400ECAA1E /* TrainingDiary+Extension.swift */; };
+		7372FBF520B0046800287C6A /* HTMLGenerateAndSave.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7372FBF420B0046800287C6A /* HTMLGenerateAndSave.swift */; };
+		7372FBF620B0057F00287C6A /* HTMLGenerateAndSave.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7372FBF420B0046800287C6A /* HTMLGenerateAndSave.swift */; };
 		73789C8E2010CE61002D2393 /* CSVExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73789C8D2010CE61002D2393 /* CSVExporter.swift */; };
 		73789C9020123C69002D2393 /* PeriodTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73789C8F20123C69002D2393 /* PeriodTextField.swift */; };
 		7385C4791FAA600A00F48685 /* DaysViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7385C4781FAA600A00F48685 /* DaysViewController.swift */; };
@@ -408,6 +410,7 @@
 		7369D9F51FB24F8C00ECAA1E /* TSSMethodComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSSMethodComboBox.swift; sourceTree = "<group>"; };
 		7369D9F71FB25B7600ECAA1E /* SleepQualityComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepQualityComboBox.swift; sourceTree = "<group>"; };
 		7369D9F91FB2C97400ECAA1E /* TrainingDiary+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrainingDiary+Extension.swift"; sourceTree = "<group>"; };
+		7372FBF420B0046800287C6A /* HTMLGenerateAndSave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLGenerateAndSave.swift; sourceTree = "<group>"; };
 		73789C8D2010CE61002D2393 /* CSVExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVExporter.swift; sourceTree = "<group>"; };
 		73789C8F20123C69002D2393 /* PeriodTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodTextField.swift; sourceTree = "<group>"; };
 		7385C4781FAA600A00F48685 /* DaysViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaysViewController.swift; sourceTree = "<group>"; };
@@ -695,6 +698,7 @@
 				73339CC720513AF3007CD288 /* EddingtonSplitViewController.swift */,
 				73339CC920513E90007CD288 /* EddingtonTableViewController.swift */,
 				73C65C5A20517C1400A3FBC3 /* EddingtonTreeViewController.swift */,
+				7372FBF420B0046800287C6A /* HTMLGenerateAndSave.swift */,
 			);
 			path = Eddington;
 			sourceTree = "<group>";
@@ -1136,6 +1140,7 @@
 				735F638B20970BE400AE3503 /* CoreDataStackSingleton.swift in Sources */,
 				735F638C20970BE400AE3503 /* PlanningSplitViewController.swift in Sources */,
 				7364486420A0DF1B00E6292B /* BucketGraphArrayController.swift in Sources */,
+				7372FBF620B0057F00287C6A /* HTMLGenerateAndSave.swift in Sources */,
 				735F638D20970BE400AE3503 /* EddingtonSearchViewController.swift in Sources */,
 				735F638E20970BE400AE3503 /* EddingtonTreeViewController.swift in Sources */,
 				735F638F20970BE400AE3503 /* PeriodWeightedAverage.swift in Sources */,
@@ -1289,6 +1294,7 @@
 				73B2B9F81F894E870044DD4E /* CoreDataStackSingleton.swift in Sources */,
 				73E3C6DE208B1F2100B39235 /* PlanningSplitViewController.swift in Sources */,
 				7364486320A0DE4C00E6292B /* BucketGraphArrayController.swift in Sources */,
+				7372FBF520B0046800287C6A /* HTMLGenerateAndSave.swift in Sources */,
 				73C56FE62045D0BD00E05AA3 /* EddingtonSearchViewController.swift in Sources */,
 				73C65C5B20517C1400A3FBC3 /* EddingtonTreeViewController.swift in Sources */,
 				73D89F9A1FD15FEB002F07A2 /* PeriodWeightedAverage.swift in Sources */,

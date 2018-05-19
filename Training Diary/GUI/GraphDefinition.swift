@@ -46,7 +46,7 @@ class GraphDefinition: NSObject{
             return min
         case .Point:
             return min
-        case .Bar:
+        case .Bar, .TBar:
             return min - (barWidth() / 2.0)
         }
     }
@@ -58,7 +58,7 @@ class GraphDefinition: NSObject{
             return max
         case .Point:
             return max
-        case .Bar:
+        case .Bar, .TBar:
             return max + (barWidth() / 2.0)
         }
     }

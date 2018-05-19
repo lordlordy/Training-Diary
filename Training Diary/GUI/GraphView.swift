@@ -15,8 +15,8 @@ enum Axis: String{
     static var AllAxes = [Primary, Secondary]
 }
 enum ChartType: String{
-    case Line, Bar, Point
-    static var AllChartTypes = [Line, Bar, Point]
+    case Line, Bar, Point, TBar
+    static var AllChartTypes = [Line, Bar, TBar, Point]
 }
 
 /* Refactor this - generalise this to add as many lines as you like.
@@ -484,11 +484,56 @@ class GraphView: NSView {
     private func draw(graph: GraphDefinition, inDirtyRect dirtyRect: NSRect ){
         switch graph.type{
         case .Bar:      drawBar(graph: graph, inDirtyRect: dirtyRect)
+        case .TBar:     drawTBar(graph: graph, inDirtyRect: dirtyRect)
         case .Line:     drawLine(graph: graph, inDirtyRect: dirtyRect)
         case .Point:    drawPoints(graph: graph, inDirtyRect: dirtyRect)
         }
 
         
+    }
+    
+    private func drawTBar(graph: GraphDefinition, inDirtyRect dirtyRect: NSRect ){
+        if graph.data.count == 0 { return } // no data
+        
+        if let start = graphsXMinimum(){
+            
+            //start from start of first bar
+            let origin = coordinatesInView(xValue: 0.0, yValue: 0.0, forAxis: graph.axis, dirtyRect)
+            
+            let barWidth = graph.barWidth()
+            
+            //this has bar end at x-value. Should amend this to centre at x-value
+            for point in graph.data {
+                
+                if point.y > 0.0{
+                    let startBar = coordinatesInView(xValue:  point.x - (barWidth / 2.0) - start, yValue: point.y,forAxis: graph.axis, dirtyRect)
+                    let endBar = coordinatesInView(xValue:  point.x + (barWidth / 2.0) - start, yValue: point.y,forAxis: graph.axis, dirtyRect)
+                    
+                    let p = NSBezierPath()
+                    if let dash = graph.dash{
+                        p.setLineDash(dash, count: dash.count, phase: 0.0)
+                    }
+                    p.move(to: NSPoint(x: (startBar.x + endBar.x) / 2.0,   y: origin.y ))
+                    p.line(to: NSPoint(x: (startBar.x + endBar.x) / 2.0,   y: startBar.y))
+                    p.move(to: NSPoint(x: startBar.x,     y: startBar.y))
+                    p.line(to: NSPoint(x: endBar.x,     y:endBar.y))
+                    
+                    if graph.format.fill{
+                        let startColour = graph.format.fillGradientStart.withAlphaComponent(graph.format.opacity)
+                        let endColout = graph.format.fillGradientEnd.withAlphaComponent(graph.format.opacity)
+                        if let gradient = NSGradient(starting: startColour , ending: endColout){
+                            gradient.draw(in: p, angle: graph.format.gradientAngle)
+                        }else{
+                            p.fill()
+                        }
+                    }
+                    p.lineWidth = graph.format.size
+                    graph.format.colour.withAlphaComponent(graph.format.opacity).setStroke()
+                    
+                    p.stroke()
+                }
+            }
+        }
     }
 
     private func drawBar(graph: GraphDefinition, inDirtyRect dirtyRect: NSRect ){
@@ -511,10 +556,10 @@ class GraphView: NSView {
                 if let dash = graph.dash{
                     p.setLineDash(dash, count: dash.count, phase: 0.0)
                 }
-                p.move(to: NSPoint(x: startBar.x, y: origin.y ))
-                p.line(to: NSPoint(x: startBar.x,    y: startBar.y))
-                p.line(to: NSPoint(x: endBar.x,      y: endBar.y))
-                p.line(to: NSPoint(x: endBar.x,      y:origin.y))
+                p.move(to: NSPoint(x: startBar.x,   y: origin.y ))
+                p.line(to: NSPoint(x: startBar.x,   y: startBar.y))
+                p.line(to: NSPoint(x: endBar.x,     y: endBar.y))
+                p.line(to: NSPoint(x: endBar.x,     y:origin.y))
 
                 if graph.format.fill{
                     let startColour = graph.format.fillGradientStart.withAlphaComponent(graph.format.opacity)

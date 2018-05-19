@@ -571,7 +571,7 @@
                                         </tableView>
                                     </subviews>
                                 </clipView>
-                                <scroller key="horizontalScroller" verticalHuggingPriority="750" doubleValue="0.99406528189910981" horizontal="YES" id="F5f-vT-TAm">
+                                <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="F5f-vT-TAm">
                                     <rect key="frame" x="1" y="170" width="426" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -1009,7 +1009,7 @@
                                                     </prototypeCellViews>
                                                 </tableColumn>
                                                 <tableColumn identifier="totalTSS" width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="hiy-lY-zt3">
-                                                    <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
+                                                    <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Total TSS">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

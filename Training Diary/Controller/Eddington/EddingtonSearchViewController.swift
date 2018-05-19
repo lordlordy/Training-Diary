@@ -80,76 +80,13 @@ class EddingtonSearchViewController: TrainingDiaryViewController {
 
     
     private func saveFilteredHTML(){
-        var html: String = """
-            <!DOCTYPE html>
-            <html>
-            <head>
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <style>
-            * {
-            box-sizing: border-box;
-            }
-
-            #edNumTable {
-            border-collapse: collapse;
-            border: 1px solid #ddd;
-            font-size: 12px;
-            }
-
-            #edNumTable th, #edNumTable td {
-            border: 1px solid #ddd;
-            text-align: left;
-            padding: 2px;
-            }
-
-            #edNumTable tr {
-            border-bottom: 1px solid #ddd;
-            }
-
-            #edNumTable tr.header, #edNumTable tr:hover {
-            background-color: #f1f1f1;
-            }
-            </style>
-            </head>
-            <body>
-            <table id="edNumTable">
-            <tr class="Header">
-            <th >Code</th>
-            <th >#</th>
-            <th >+1</th>
-            <th >Maturity</th>
-            </tr>
-            """
-        
-
-        let formatter = NumberFormatter.init()
-        formatter.format = "0.00"
-        
+       
         if let edNumSet = eddingtonNumberAC.arrangedObjects as? [LTDEddingtonNumber]{
-            for e in edNumSet{
-                let maturity = formatter.string(from: NSNumber(value: e.maturity)) ?? ""
-                html += "<tr>\n"
-                html += "<td>\(e.code)</td>\n"
-                html += "<td>\(e.value)</td>\n"
-                html += "<td>\(e.plusOne)</td>\n"
-                html += "<td>\(maturity)</td>\n"
-                html += "</tr>"
-            }
+            let htmlSaver = HTMLGenerateAndSave()
+            htmlSaver.saveAsHTML(edNumSet, fromView: view)
         }
         
-        html += "</table>"
-        html += "</body>"
-        html += "</html>"
 
-
-        
-        let homeDir = FileManager.default.homeDirectoryForCurrentUser
-        let saveFileName = homeDir.appendingPathComponent("selectedLTDEddingtonNumbers.html")
-        do{
-            try html.write(to: saveFileName, atomically: false, encoding: .ascii)
-        }catch let error as NSError{
-            print(error)
-        }
     }
     
 }

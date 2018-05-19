@@ -52,67 +52,13 @@ class EddingtonTreeViewController: TrainingDiaryViewController, ReferenceToMainP
     }
     
     @IBAction func saveAsHTML(_ sender: Any) {
-        var html: String = ""
-        
-        if let tableStart = Bundle.main.url(forResource: "tableStart", withExtension: "txt"){
-            do{
-                let contents = try String.init(contentsOf: tableStart)
-                html += contents
-            }catch{
-                print("tableStart.txt not loaded")
-            }
+
+        if let edNumSet = trainingDiary?.ltdEddingtonNumbers?.allObjects as? [LTDEddingtonNumber]{
+            
+            let htmlSaver = HTMLGenerateAndSave()
+            htmlSaver.saveAsHTML(edNumSet, fromView: view)
+            
         }
-        var count: Int = 0
-        test: if let edNumSet = trainingDiary?.ltdEddingtonNumbers?.allObjects as? [LTDEddingtonNumber]{
-            for e in edNumSet.sorted(by: {$0.code < $1.code}){
-                for l in e.getLeaves().sorted(by: {$0.code < $1.code}){
-                    count += 1
-                    html += "<tr>\n"
-                    html += "<td>\(l.dayType!)</td>\n"
-                    html += "<td>\(l.activity!)</td>\n"
-                    html += "<td>\(l.equipment!)</td>\n"
-                    html += "<td>\(l.activityType!)</td>\n"
-                    html += "<td>\(l.period!)</td>\n"
-                    html += "<td>\(l.unit!)</td>\n"
-                    html += "<td>\(l.value)</td>\n"
-                    html += "<td>\(l.plusOne)</td>\n"
-                    html += "</tr>"
-                }
-            }
-        }
-    
-        if let tableEnd = Bundle.main.url(forResource: "tableEnd", withExtension: "txt"){
-            do{
-                let contents = try String.init(contentsOf: tableEnd)
-                html += contents
-            }catch{
-                print("tableEnd.txt not loaded")
-            }
-        }
-        
-        guard let window = view.window else {
-            print("Failed to get window")
-            return
-        }
-        
-        let panel = NSSavePanel()
-        panel.directoryURL = FileManager.default.homeDirectoryForCurrentUser
-        panel.allowedFileTypes = ["html"]
-        panel.canCreateDirectories = true
-        panel.nameFieldStringValue = "ltdEddingtonNumbers.html"
-        
-        panel.beginSheetModal(for: window) {(result) in
-            if result.rawValue == NSFileHandlingPanelOKButton,
-                let url = panel.url{
-         
-                do{
-                    try html.write(to: url, atomically: true, encoding: .utf8)
-                }catch{
-                    print("Unable to save HTML")
-                    print(error)
-                }
-            }
-         }
         
     }
     
