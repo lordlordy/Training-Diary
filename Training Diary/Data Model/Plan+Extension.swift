@@ -101,7 +101,6 @@ extension Plan{
             var yesterday: PlanDay? = nil
             let today = Date()
             
-            
             for d in orderedPlanDays(){
                 if let y = yesterday{
                     d.swimATL = swim.atl(yesterdayATL: y.swimATL, tss: d.swimTSS)
@@ -111,27 +110,20 @@ extension Plan{
                     d.runATL = run.atl(yesterdayATL: y.runATL, tss: d.runTSS)
                     d.runCTL = run.ctl(yesterdayCTL: y.runCTL, tss: d.runTSS)
 
-                    var todayPassed: Bool = false
-                    
-
                     if cal.compare(d.date!, to: today, toGranularity: .day) == ComparisonResult.orderedDescending{
                         //after today so no actual
-                        if todayPassed{
-                            d.actualSwimATL = swim.atl(yesterdayATL: y.swimATL, tss: d.swimTSS)
-                            d.actualSwimCTL = swim.ctl(yesterdayCTL: y.swimCTL, tss: d.swimTSS)
-                            d.actualBikeATL = bike.atl(yesterdayATL: y.bikeATL, tss: d.bikeTSS)
-                            d.actualBikeCTL = bike.ctl(yesterdayCTL: y.bikeCTL, tss: d.bikeTSS)
-                            d.actualRunATL = run.atl(yesterdayATL: y.runATL, tss: d.runTSS)
-                            d.actualRunCTL = run.ctl(yesterdayCTL: y.runCTL, tss: d.runTSS)
-                        }else{
-                            d.actualSwimATL = swim.atl(yesterdayATL: y.actualSwimATL, tss: d.swimTSS)
-                            d.actualSwimCTL = swim.ctl(yesterdayCTL: y.actualSwimCTL, tss: d.swimTSS)
-                            d.actualBikeATL = bike.atl(yesterdayATL: y.actualBikeATL, tss: d.bikeTSS)
-                            d.actualBikeCTL = bike.ctl(yesterdayCTL: y.actualBikeCTL, tss: d.bikeTSS)
-                            d.actualRunATL = run.atl(yesterdayATL: y.actualRunATL, tss: d.runTSS)
-                            d.actualRunCTL = run.ctl(yesterdayCTL: y.actualRunCTL, tss: d.runTSS)
-                            todayPassed = true
-                        }
+                        d.actualSwimATL = swim.atl(yesterdayATL: y.actualSwimATL, tss: 0.0)
+                        d.actualSwimCTL = swim.ctl(yesterdayCTL: y.actualSwimCTL, tss: 0.0)
+                        d.actualBikeATL = bike.atl(yesterdayATL: y.actualBikeATL, tss: 0.0)
+                        d.actualBikeCTL = bike.ctl(yesterdayCTL: y.actualBikeCTL, tss: 0.0)
+                        d.actualRunATL = run.atl(yesterdayATL: y.actualRunATL, tss: 0.0)
+                        d.actualRunCTL = run.ctl(yesterdayCTL: y.actualRunCTL, tss: 0.0)
+                        d.actualThenPlanSwimATL = swim.atl(yesterdayATL: y.actualThenPlanSwimATL, tss: d.swimTSS)
+                        d.actualThenPlanSwimCTL = swim.ctl(yesterdayCTL: y.actualThenPlanSwimCTL, tss: d.swimTSS)
+                        d.actualThenPlanBikeATL = bike.atl(yesterdayATL: y.actualThenPlanBikeATL, tss: d.bikeTSS)
+                        d.actualThenPlanBikeCTL = bike.ctl(yesterdayCTL: y.actualThenPlanBikeCTL, tss: d.bikeTSS)
+                        d.actualThenPlanRunATL = run.atl(yesterdayATL: y.actualThenPlanRunATL, tss: d.runTSS)
+                        d.actualThenPlanRunCTL = run.ctl(yesterdayCTL: y.actualThenPlanRunCTL, tss: d.runTSS)
                     }else{
                         //before today or today so use actual TSS
                         d.actualSwimATL = swim.atl(yesterdayATL: y.actualSwimATL, tss: d.actualSwimTSS)
@@ -140,6 +132,12 @@ extension Plan{
                         d.actualBikeCTL = bike.ctl(yesterdayCTL: y.actualBikeCTL, tss: d.actualBikeTSS)
                         d.actualRunATL = run.atl(yesterdayATL: y.actualRunATL, tss: d.actualRunTSS)
                         d.actualRunCTL = run.ctl(yesterdayCTL: y.actualRunCTL, tss: d.actualRunTSS)
+                        d.actualThenPlanSwimATL = d.actualSwimATL
+                        d.actualThenPlanSwimCTL = d.actualSwimCTL
+                        d.actualThenPlanBikeATL = d.actualBikeATL
+                        d.actualThenPlanBikeCTL = d.actualBikeCTL
+                        d.actualThenPlanRunATL = d.actualRunATL
+                        d.actualThenPlanRunCTL = d.actualRunCTL
                     }
  
                 }

@@ -540,11 +540,15 @@ enum PlanDayProperty: String{
     case actualBikeATL, actualBikeCTL, actualBikeTSS, actualBikeTSB
     case actualRunATL, actualRunCTL, actualRunTSS, actualRunTSB
     case actualAllATL, actualAllCTL, actualAllTSS, actualAllTSB
+    case actualThenPlanSwimATL, actualThenPlanSwimCTL, actualThenPlanSwimTSS, actualThenPlanSwimTSB
+    case actualThenPlanBikeATL, actualThenPlanBikeCTL, actualThenPlanBikeTSS, actualThenPlanBikeTSB
+    case actualThenPlanRunATL, actualThenPlanRunCTL, actualThenPlanRunTSS, actualThenPlanRunTSB
+    case actualThenPlanAllATL, actualThenPlanAllCTL, actualThenPlanAllTSB
     case basicWeekTotalSwimTSS, basicWeekTotalBikeTSS, basicWeekTotalRunTSS, basicWeekTotalAllTSS
     case date, comments, plan
     case iso8061DateString
     
-    static let jsonProperties = [swimATL, swimCTL, swimTSS, bikeATL, bikeCTL, bikeTSS, runATL, runCTL, runTSS, actualSwimATL, actualSwimCTL, actualSwimTSS, actualBikeATL, actualBikeCTL, actualBikeTSS, actualRunATL, actualRunCTL, actualRunTSS, iso8061DateString, comments]
+    static let jsonProperties = [swimATL, swimCTL, swimTSS, bikeATL, bikeCTL, bikeTSS, runATL, runCTL, runTSS, actualSwimATL, actualSwimCTL, actualSwimTSS, actualBikeATL, actualBikeCTL, actualBikeTSS, actualRunATL, actualRunCTL, actualRunTSS, actualThenPlanSwimATL, actualThenPlanSwimCTL, actualThenPlanSwimTSS, actualThenPlanSwimTSB, actualThenPlanBikeATL, actualThenPlanBikeCTL, actualThenPlanBikeTSS, actualThenPlanBikeTSB, actualThenPlanRunATL, actualThenPlanRunCTL, actualThenPlanRunTSS, actualThenPlanRunTSB, actualThenPlanAllATL, actualThenPlanAllCTL, actualThenPlanAllTSB, iso8061DateString, comments]
     
 }
 

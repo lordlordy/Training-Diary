@@ -23,11 +23,19 @@ extension PlanDay{
     @objc dynamic var actualSwimTSB: Double { return actualSwimCTL - actualSwimATL    }
     @objc dynamic var actualBikeTSB: Double { return actualBikeCTL - actualBikeATL    }
     @objc dynamic var actualRunTSB: Double { return actualRunCTL - actualRunATL    }
+
+    @objc dynamic var actualThenPlanSwimTSB: Double { return actualThenPlanSwimCTL - actualThenPlanSwimATL    }
+    @objc dynamic var actualThenPlanBikeTSB: Double { return actualThenPlanBikeCTL - actualThenPlanBikeATL    }
+    @objc dynamic var actualThenPlanRunTSB: Double { return actualThenPlanRunCTL - actualThenPlanRunATL    }
     
     @objc dynamic var actualAllTSS: Double { return actualSwimTSS + actualBikeTSS + actualRunTSS}
     @objc dynamic var actualAllATL: Double { return actualSwimATL + actualBikeATL + actualRunATL}
     @objc dynamic var actualAllCTL: Double { return actualSwimCTL + actualBikeCTL + actualRunCTL}
     @objc dynamic var actualAllTSB: Double { return actualAllCTL - actualAllATL}
+
+    @objc dynamic var actualThenPlanAllATL: Double { return actualThenPlanSwimATL + actualThenPlanBikeATL + actualThenPlanRunATL}
+    @objc dynamic var actualThenPlanAllCTL: Double { return actualThenPlanSwimCTL + actualThenPlanBikeCTL + actualThenPlanRunCTL}
+    @objc dynamic var actualThenPlanAllTSB: Double { return actualThenPlanAllCTL - actualThenPlanAllATL}
     
     //this is for JSON serialisation
     @objc dynamic var iso8061DateString: String{

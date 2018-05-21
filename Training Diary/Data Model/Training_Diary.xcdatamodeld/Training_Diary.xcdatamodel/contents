@@ -156,6 +156,12 @@
         <attribute name="actualSwimATL" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="actualSwimCTL" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="actualSwimTSS" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="actualThenPlanBikeATL" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="actualThenPlanBikeCTL" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="actualThenPlanRunATL" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="actualThenPlanRunCTL" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="actualThenPlanSwimATL" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="actualThenPlanSwimCTL" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="bikeATL" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="bikeCTL" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="bikeTSS" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
@@ -232,7 +238,7 @@
         <element name="Metric" positionX="-299" positionY="158" width="128" height="103"/>
         <element name="Physiological" positionX="-36" positionY="-375" width="128" height="180"/>
         <element name="Plan" positionX="-227" positionY="-720" width="191" height="255"/>
-        <element name="PlanDay" positionX="-486" positionY="-610" width="128" height="375"/>
+        <element name="PlanDay" positionX="-486" positionY="-610" width="128" height="465"/>
         <element name="TrainingDiary" positionX="-227" positionY="-531" width="128" height="255"/>
         <element name="Weight" positionX="-45" positionY="-160" width="128" height="105"/>
         <element name="Workout" positionX="-36" positionY="-3" width="128" height="390"/>

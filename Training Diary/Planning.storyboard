@@ -2938,7 +2938,7 @@
                                 <rect key="frame" x="0.0" y="280" width="450" height="20"/>
                                 <subviews>
                                     <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iM8-gE-3rf">
-                                        <rect key="frame" x="0.0" y="-4" width="90" height="26"/>
+                                        <rect key="frame" x="0.0" y="-4" width="115" height="26"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="Dm4-bA-4UG"/>
                                         </constraints>
@@ -2958,7 +2958,7 @@
                                         </connections>
                                     </comboBox>
                                     <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4jx-Ak-3n6" userLabel="TSB Combo Box">
-                                        <rect key="frame" x="88" y="-4" width="90" height="26"/>
+                                        <rect key="frame" x="113" y="-4" width="114.5" height="26"/>
                                         <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" numberOfVisibleItems="5" id="gRs-ec-iQT">
                                             <font key="font" metaFont="system"/>
                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -2976,7 +2976,7 @@
                                         </connections>
                                     </comboBox>
                                     <popUpButton translatesAutoresizingMaskIntoConstraints="NO" id="Oe1-ga-4OY">
-                                        <rect key="frame" x="174" y="-2" width="91" height="24"/>
+                                        <rect key="frame" x="223.5" y="-2" width="34.5" height="24"/>
                                         <popUpButtonCell key="cell" type="check" bezelStyle="regularSquare" imagePosition="left" lineBreakMode="truncatingTail" borderStyle="bezel" inset="2" id="Qc7-3T-FOa">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="menu"/>
@@ -2984,23 +2984,29 @@
                                         </popUpButtonCell>
                                     </popUpButton>
                                     <popUpButton translatesAutoresizingMaskIntoConstraints="NO" id="PVC-bl-Gmw" userLabel="Actual Pop Up Button">
-                                        <rect key="frame" x="262" y="-2" width="91" height="24"/>
+                                        <rect key="frame" x="255" y="-2" width="100" height="24"/>
                                         <popUpButtonCell key="cell" type="check" bezelStyle="regularSquare" imagePosition="left" lineBreakMode="truncatingTail" borderStyle="bezel" inset="2" id="6Ef-zk-cyC">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="menu"/>
                                             <menu key="menu" id="kzm-Jc-m4X"/>
                                         </popUpButtonCell>
                                     </popUpButton>
-                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="5Bg-gB-TPr">
-                                        <rect key="frame" x="350" y="-2" width="102" height="18"/>
-                                        <buttonCell key="cell" type="check" title="Actual + Plan" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="8nf-94-6kd">
-                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KUc-h0-zg7">
+                                        <rect key="frame" x="354" y="-4" width="99" height="26"/>
+                                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" numberOfVisibleItems="5" id="8WJ-7i-KgA">
                                             <font key="font" metaFont="system"/>
-                                        </buttonCell>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            <objectValues>
+                                                <string>Actual Only</string>
+                                                <string>Actual Then Plan</string>
+                                                <string>Actual Then Decay</string>
+                                            </objectValues>
+                                        </comboBoxCell>
                                         <connections>
-                                            <action selector="actualPlanButtonChanged:" target="cOp-ap-Dy5" id="gWy-7O-Tyl"/>
+                                            <action selector="actualThenPlanComboBoxChanged:" target="cOp-ap-Dy5" id="lHh-Ua-8mK"/>
                                         </connections>
-                                    </button>
+                                    </comboBox>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="2rn-bh-7gD"/>
@@ -3033,8 +3039,8 @@
                     </view>
                     <connections>
                         <outlet property="activityComboBox" destination="iM8-gE-3rf" id="dRH-D2-KAz"/>
-                        <outlet property="actualPlanButton" destination="5Bg-gB-TPr" id="H6c-RR-A36"/>
                         <outlet property="actualPopUpButton" destination="PVC-bl-Gmw" id="jPd-F8-ndM"/>
+                        <outlet property="actualThenPlanComboBox" destination="KUc-h0-zg7" id="XmY-Oy-TGW"/>
                         <outlet property="graphView" destination="hoS-bk-jay" id="mr4-9V-9fz"/>
                         <outlet property="planPopUpButton" destination="Oe1-ga-4OY" id="3nB-I3-lXp"/>
                         <outlet property="tsbComboBox" destination="4jx-Ak-3n6" id="eNU-p8-7Mz"/>

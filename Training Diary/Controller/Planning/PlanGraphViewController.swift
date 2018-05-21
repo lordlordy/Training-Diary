@@ -12,16 +12,24 @@ class PlanGraphViewController: NSViewController{
     
     enum GraphName: String{
         case planTSB, planCTL, planATL, planTSS
+        case actualThenPlanTSB, actualThenPlanCTL, actualThenPlanATL
         case actualTSB, actualCTL, actualATL, actualTSS
         
-        static let allNames: [GraphName] = [.planTSB, .planCTL, .planATL, .planTSS,.actualTSB, .actualCTL, .actualATL, .actualTSS]
+        static let allNames: [GraphName] = [.planTSB, .planCTL, .planATL, .planTSS,.actualThenPlanTSB, .actualThenPlanCTL, .actualThenPlanATL, .actualTSS, actualTSB, actualCTL, actualATL]
         static let planName: [GraphName] = [.planTSB, .planCTL, .planATL, .planTSS]
+        static let actualThenPlanName: [GraphName] = [.actualThenPlanTSB, .actualThenPlanCTL, .actualThenPlanATL]
         static let actualName: [GraphName] = [.actualTSB, .actualCTL, .actualATL, .actualTSS]
-        static let atlNames: [GraphName] = [.planATL, actualATL]
-        static let ctlNames: [GraphName] = [.planCTL, actualCTL]
-        static let tsbNames: [GraphName] = [.planTSB, actualTSB]
+        static let atlNames: [GraphName] = [.planATL, actualThenPlanATL, .actualATL]
+        static let ctlNames: [GraphName] = [.planCTL, actualThenPlanCTL, .actualCTL]
+        static let tsbNames: [GraphName] = [.planTSB, actualThenPlanTSB, actualTSB]
         static let tssNames: [GraphName] = [.planTSS, actualTSS]
         
+    }
+    
+    enum ActualThenPlanNames: String{
+        case actualOnly = "Actual Only"
+        case actualThenPlan = "Actual Then Plan"
+        case actualThenDecay = "Actual Then Decay"
     }
     
     private let tsbGraph: GraphDefinition = GraphDefinition(name: GraphName.planTSB.rawValue, axis: .Primary, type: .Line, format: GraphFormat.init(fill: true, colour: .darkGray, fillGradientStart: .red, fillGradientEnd: .blue, gradientAngle: 90.0, size: 1.0, opacity: 1.0), drawZeroes: true, priority: 8)
@@ -29,16 +37,24 @@ class PlanGraphViewController: NSViewController{
     private let atlGraph: GraphDefinition = GraphDefinition(name: GraphName.planATL.rawValue, axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .blue, fillGradientStart: .blue, fillGradientEnd: .blue, gradientAngle: 0.0, size: 2.0, opacity: 1.0), drawZeroes: true, priority: 6)
     private let tssGraph: GraphDefinition = GraphDefinition(name: GraphName.planTSS.rawValue, axis: .Secondary, type: .Bar, format: GraphFormat.init(fill: true, colour: .black, fillGradientStart: .yellow, fillGradientEnd: .yellow, gradientAngle: 0.0, size: 1.0, opacity: 0.5), drawZeroes: false, priority: 5)
     
+    private let tsbGraphActualThenPlan: GraphDefinition = GraphDefinition(name: GraphName.actualThenPlanTSB.rawValue, axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .black, fillGradientStart: .red, fillGradientEnd: .blue, gradientAngle: 90.0, size: 3.0, opacity: 1.0), drawZeroes: true, priority: 4)
+    private let ctlGraphActualThenPlan: GraphDefinition = GraphDefinition(name: GraphName.actualThenPlanCTL.rawValue, axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: NSColor.yellow, fillGradientStart: .systemPink, fillGradientEnd: .systemPink, gradientAngle: 0.0, size: 2.0, opacity: 1.0), drawZeroes: true, priority: 3)
+    private let atlGraphActualThenPlan: GraphDefinition = GraphDefinition(name: GraphName.actualThenPlanATL.rawValue, axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: NSColor.cyan, fillGradientStart: .cyan, fillGradientEnd: .cyan, gradientAngle: 0.0, size: 2.0, opacity: 1.0), drawZeroes: true, priority: 2)
+
+    
+    
     private let tsbGraphActual: GraphDefinition = GraphDefinition(name: GraphName.actualTSB.rawValue, axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .black, fillGradientStart: .red, fillGradientEnd: .blue, gradientAngle: 90.0, size: 3.0, opacity: 1.0), drawZeroes: true, priority: 4)
     private let ctlGraphActual: GraphDefinition = GraphDefinition(name: GraphName.actualCTL.rawValue, axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: NSColor.yellow, fillGradientStart: .systemPink, fillGradientEnd: .systemPink, gradientAngle: 0.0, size: 2.0, opacity: 1.0), drawZeroes: true, priority: 3)
     private let atlGraphActual: GraphDefinition = GraphDefinition(name: GraphName.actualATL.rawValue, axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: NSColor.cyan, fillGradientStart: .cyan, fillGradientEnd: .cyan, gradientAngle: 0.0, size: 2.0, opacity: 1.0), drawZeroes: true, priority: 2)
-    private let tssGraphActual: GraphDefinition = GraphDefinition(name: GraphName.actualTSS.rawValue, axis: .Secondary, type: .TBar, format: GraphFormat.init(fill: true, colour: .green, fillGradientStart: .green, fillGradientEnd: .green, gradientAngle: 0.0, size: 2.0, opacity: 1.0), drawZeroes: false, priority: 1)
+        private let tssGraphActual: GraphDefinition = GraphDefinition(name: GraphName.actualTSS.rawValue, axis: .Secondary, type: .TBar, format: GraphFormat.init(fill: true, colour: .green, fillGradientStart: .green, fillGradientEnd: .green, gradientAngle: 0.0, size: 2.0, opacity: 1.0), drawZeroes: false, priority: 1)
     
     
     private var planGraphs: [GraphDefinition] = []
+    private var actualThenPlanGraphs: [GraphDefinition] = []
     private var actualGraphs: [GraphDefinition] = []
     private var planGraphStates: [String: NSControl.StateValue ] = [:]
-    private var actualGraphStates: [String: NSControl.StateValue ] = [:]
+    private var actualThenPlanGraphStates: [String: NSControl.StateValue ] = [:]
+    private var actualGraphStates: [String: NSControl.StateValue] = [:]
 
     private var cache: [PlanDay] = []
     
@@ -47,7 +63,7 @@ class PlanGraphViewController: NSViewController{
     @IBOutlet weak var tsbComboBox: NSComboBox!
     @IBOutlet weak var planPopUpButton: NSPopUpButton!
     @IBOutlet weak var actualPopUpButton: NSPopUpButton!
-    @IBOutlet weak var actualPlanButton: NSButton!
+    @IBOutlet weak var actualThenPlanComboBox: NSComboBox!
     
     @IBAction func activityChanged(_ sender: Any) {
         setGraphsToSelectedActivity()
@@ -66,11 +82,11 @@ class PlanGraphViewController: NSViewController{
         }
     }
     
-    
-    
-    @IBAction func actualPlanButtonChanged(_ sender: Any) {
+    @IBAction func actualThenPlanComboBoxChanged(_ sender: NSComboBox) {
         setGraphsToSelectedActivity()
     }
+    
+
     
     @objc func planPopUpSelected(_ item: NSMenuItem){
         togglePlanState(forItem: item.title)
@@ -91,17 +107,28 @@ class PlanGraphViewController: NSViewController{
         super.viewDidLoad()
         
         planGraphs = [tsbGraph, atlGraph, ctlGraph, tssGraph]
-        actualGraphs = [tsbGraphActual, atlGraphActual, ctlGraphActual, tssGraphActual]
-        
+        actualThenPlanGraphs = [tsbGraphActualThenPlan, atlGraphActualThenPlan, ctlGraphActualThenPlan, tssGraphActual]
+        actualGraphs = [tsbGraphActual, atlGraphActual, ctlGraphActual]
+
         tsbGraph.startFromOrigin = true
+        tsbGraphActualThenPlan.startFromOrigin = true
         tsbGraphActual.startFromOrigin = true
+        
+        tsbGraphActual.dash = [2.0, 2.0]
+        atlGraphActual.dash = [3.0, 3.0]
+        ctlGraphActual.dash = [4.0, 4.0]
         
         if let acb = activityComboBox{
             acb.stringValue = "All"
         }
         
+    
+        
         if let gv = graphView{
             for g in planGraphs{
+                gv.add(graph: g)
+            }
+            for g in actualThenPlanGraphs{
                 gv.add(graph: g)
             }
             for g in actualGraphs{
@@ -136,10 +163,21 @@ class PlanGraphViewController: NSViewController{
     
     private func setGraphsToSelectedActivity(){
         if let a = activityComboBox?.stringValue{
-            var filterOutPostToday = false
-            if let b = actualPlanButton{
-                if b.state == .off{
-                    filterOutPostToday = true
+            var filterOutPlanPostToday = false
+            var filterOutDecayPostToday = false
+            if let atpcb = actualThenPlanComboBox{
+                switch atpcb.stringValue{
+                case ActualThenPlanNames.actualOnly.rawValue:
+                    filterOutPlanPostToday = true
+                    filterOutDecayPostToday = true
+                case ActualThenPlanNames.actualThenDecay.rawValue:
+                    filterOutPlanPostToday = true
+                    filterOutDecayPostToday = false
+                case ActualThenPlanNames.actualThenPlan.rawValue:
+                    filterOutPlanPostToday = false
+                    filterOutDecayPostToday = true
+                default:
+                    print("Unknow value for ActualThenPlanComboBox: \(atpcb.stringValue)")
                 }
             }
             switch a{
@@ -148,37 +186,57 @@ class PlanGraphViewController: NSViewController{
                 atlGraph.data = getData(forProperty: .swimATL)
                 ctlGraph.data = getData(forProperty: .swimCTL)
                 tssGraph.data = getData(forProperty: .swimTSS)
-                tsbGraphActual.data = getData(forProperty: .actualSwimTSB, filterOutPlanFromActual: filterOutPostToday)
-                atlGraphActual.data = getData(forProperty: .actualSwimATL, filterOutPlanFromActual: filterOutPostToday)
-                ctlGraphActual.data = getData(forProperty: .actualSwimCTL, filterOutPlanFromActual: filterOutPostToday)
-                tssGraphActual.data = getData(forProperty: .actualSwimTSS, filterOutPlanFromActual: filterOutPostToday)
+                
+                tsbGraphActual.data = getData(forProperty: .actualSwimTSB, filterOutPostToday: filterOutDecayPostToday)
+                atlGraphActual.data = getData(forProperty: .actualSwimATL, filterOutPostToday: filterOutDecayPostToday)
+                ctlGraphActual.data = getData(forProperty: .actualSwimCTL, filterOutPostToday: filterOutDecayPostToday)
+                tssGraphActual.data = getData(forProperty: .actualSwimTSS)
+
+                tsbGraphActualThenPlan.data = getData(forProperty: .actualThenPlanSwimTSB, filterOutPostToday: filterOutPlanPostToday)
+                atlGraphActualThenPlan.data = getData(forProperty: .actualThenPlanSwimATL, filterOutPostToday: filterOutPlanPostToday)
+                ctlGraphActualThenPlan.data = getData(forProperty: .actualThenPlanSwimCTL, filterOutPostToday: filterOutPlanPostToday)
             case "Bike":
                 tsbGraph.data = getData(forProperty: .bikeTSB)
                 atlGraph.data = getData(forProperty: .bikeATL)
                 ctlGraph.data = getData(forProperty: .bikeCTL)
                 tssGraph.data = getData(forProperty: .bikeTSS)
-                tsbGraphActual.data = getData(forProperty: .actualBikeTSB, filterOutPlanFromActual: filterOutPostToday)
-                atlGraphActual.data = getData(forProperty: .actualBikeATL, filterOutPlanFromActual: filterOutPostToday)
-                ctlGraphActual.data = getData(forProperty: .actualBikeCTL, filterOutPlanFromActual: filterOutPostToday)
-                tssGraphActual.data = getData(forProperty: .actualBikeTSS, filterOutPlanFromActual: filterOutPostToday)
+
+                tsbGraphActual.data = getData(forProperty: .actualBikeTSB, filterOutPostToday: filterOutDecayPostToday)
+                atlGraphActual.data = getData(forProperty: .actualBikeATL, filterOutPostToday: filterOutDecayPostToday)
+                ctlGraphActual.data = getData(forProperty: .actualBikeCTL, filterOutPostToday: filterOutDecayPostToday)
+                tssGraphActual.data = getData(forProperty: .actualBikeTSS)
+
+                tsbGraphActualThenPlan.data = getData(forProperty: .actualThenPlanBikeTSB, filterOutPostToday: filterOutPlanPostToday)
+                atlGraphActualThenPlan.data = getData(forProperty: .actualThenPlanBikeATL, filterOutPostToday: filterOutPlanPostToday)
+                ctlGraphActualThenPlan.data = getData(forProperty: .actualThenPlanBikeCTL, filterOutPostToday: filterOutPlanPostToday)
             case "Run":
                 tsbGraph.data = getData(forProperty: .runTSB)
                 atlGraph.data = getData(forProperty: .runATL)
                 ctlGraph.data = getData(forProperty: .runCTL)
                 tssGraph.data = getData(forProperty: .runTSS)
-                tsbGraphActual.data = getData(forProperty: .actualRunTSB, filterOutPlanFromActual: filterOutPostToday)
-                atlGraphActual.data = getData(forProperty: .actualRunATL, filterOutPlanFromActual: filterOutPostToday)
-                ctlGraphActual.data = getData(forProperty: .actualRunCTL, filterOutPlanFromActual: filterOutPostToday)
-                tssGraphActual.data = getData(forProperty: .actualRunTSS, filterOutPlanFromActual: filterOutPostToday)
+                
+                tsbGraphActual.data = getData(forProperty: .actualRunTSB, filterOutPostToday: filterOutDecayPostToday)
+                atlGraphActual.data = getData(forProperty: .actualRunATL, filterOutPostToday: filterOutDecayPostToday)
+                ctlGraphActual.data = getData(forProperty: .actualRunCTL, filterOutPostToday: filterOutDecayPostToday)
+                tssGraphActual.data = getData(forProperty: .actualRunTSS)
+
+                tsbGraphActualThenPlan.data = getData(forProperty: .actualThenPlanRunTSB, filterOutPostToday: filterOutPlanPostToday)
+                atlGraphActualThenPlan.data = getData(forProperty: .actualThenPlanRunATL, filterOutPostToday: filterOutPlanPostToday)
+                ctlGraphActualThenPlan.data = getData(forProperty: .actualThenPlanRunCTL, filterOutPostToday: filterOutPlanPostToday)
             case "All":
                 tsbGraph.data = getData(forProperty: .allTSB)
                 atlGraph.data = getData(forProperty: .allATL)
                 ctlGraph.data = getData(forProperty: .allCTL)
                 tssGraph.data = getData(forProperty: .allTSS)
-                tsbGraphActual.data = getData(forProperty: .actualAllTSB, filterOutPlanFromActual: filterOutPostToday)
-                atlGraphActual.data = getData(forProperty: .actualAllATL, filterOutPlanFromActual: filterOutPostToday)
-                ctlGraphActual.data = getData(forProperty: .actualAllCTL, filterOutPlanFromActual: filterOutPostToday)
-                tssGraphActual.data = getData(forProperty: .actualAllTSS, filterOutPlanFromActual: filterOutPostToday)
+                
+                tsbGraphActual.data = getData(forProperty: .actualAllTSB, filterOutPostToday: filterOutDecayPostToday)
+                atlGraphActual.data = getData(forProperty: .actualAllATL, filterOutPostToday: filterOutDecayPostToday)
+                ctlGraphActual.data = getData(forProperty: .actualAllCTL, filterOutPostToday: filterOutDecayPostToday)
+                tssGraphActual.data = getData(forProperty: .actualAllTSS)
+
+                tsbGraphActualThenPlan.data = getData(forProperty: .actualThenPlanAllTSB, filterOutPostToday: filterOutPlanPostToday)
+                atlGraphActualThenPlan.data = getData(forProperty: .actualThenPlanAllATL, filterOutPostToday: filterOutPlanPostToday)
+                ctlGraphActualThenPlan.data = getData(forProperty: .actualThenPlanAllCTL, filterOutPostToday: filterOutPlanPostToday)
             default:
                 print("Shouldn't be able to select \(a)")
             }
@@ -187,8 +245,8 @@ class PlanGraphViewController: NSViewController{
     }
     
     
-    private func getData(forProperty p: PlanDayProperty, filterOutPlanFromActual: Bool? = false) -> [(x: Double, y: Double)]{
-        if filterOutPlanFromActual!{
+    private func getData(forProperty p: PlanDayProperty, filterOutPostToday: Bool? = false) -> [(x: Double, y: Double)]{
+        if filterOutPostToday!{
             return cache.filter({$0.date! < Date().endOfDay()}).map({(x: $0.date!.timeIntervalSinceReferenceDate, y: $0.value(forKey: p.rawValue) as! Double)})
         }else{
             return cache.map({(x: $0.date!.timeIntervalSinceReferenceDate, y: $0.value(forKey: p.rawValue) as! Double)})
@@ -209,12 +267,12 @@ class PlanGraphViewController: NSViewController{
             }
         }
         if let p = actualPopUpButton{
-            for g in actualGraphs{
+            for g in actualThenPlanGraphs{
                 let item = p.menu!.addItem(withTitle: g.name, action: #selector(PlanGraphViewController.actualPopUpSelected), keyEquivalent: "")
                 item.target = self
                 item.representedObject = g
                 item.state = .on
-                actualGraphStates[g.name] = .on
+                actualThenPlanGraphStates[g.name] = .on
             }
         }
     }
@@ -244,15 +302,15 @@ class PlanGraphViewController: NSViewController{
     }
     
     private func toggleActualState(forItem name: String){
-        if let s = actualGraphStates[name]{
+        if let s = actualThenPlanGraphStates[name]{
             if s == .on{
-                actualGraphStates[name] = .off
+                actualThenPlanGraphStates[name] = .off
             }else{
-                actualGraphStates[name] = .on
+                actualThenPlanGraphStates[name] = .on
             }
         }
-        for g in actualGraphs{
-            if let s = actualGraphStates[g.name]{
+        for g in actualThenPlanGraphs{
+            if let s = actualThenPlanGraphStates[g.name]{
                 if s == .on{
                     g.display = true
                 }else{
@@ -261,7 +319,7 @@ class PlanGraphViewController: NSViewController{
             }
         }
         for i in actualPopUpButton!.menu!.items{
-            if let s = actualGraphStates[i.title]{
+            if let s = actualThenPlanGraphStates[i.title]{
                 i.state = s
             }
         }
@@ -269,7 +327,7 @@ class PlanGraphViewController: NSViewController{
     
     private func switchOnOnly(graphNames names: [GraphName]){
         let nameStrings = names.map({$0.rawValue})
-        for g in actualGraphs{
+        for g in actualThenPlanGraphs{
             if nameStrings.contains(g.name){
                 g.display = true
             }else{
@@ -277,6 +335,13 @@ class PlanGraphViewController: NSViewController{
             }
         }
         for g in planGraphs{
+            if nameStrings.contains(g.name){
+                g.display = true
+            }else{
+                g.display = false
+            }
+        }
+        for g in actualGraphs{
             if nameStrings.contains(g.name){
                 g.display = true
             }else{
