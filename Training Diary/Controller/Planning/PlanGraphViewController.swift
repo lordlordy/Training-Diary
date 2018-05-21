@@ -27,6 +27,7 @@ class PlanGraphViewController: NSViewController{
     }
     
     enum ActualThenPlanNames: String{
+        case all = "All"
         case actualOnly = "Actual Only"
         case actualThenPlan = "Actual Then Plan"
         case actualThenDecay = "Actual Then Decay"
@@ -167,6 +168,9 @@ class PlanGraphViewController: NSViewController{
             var filterOutDecayPostToday = false
             if let atpcb = actualThenPlanComboBox{
                 switch atpcb.stringValue{
+                case ActualThenPlanNames.all.rawValue:
+                    filterOutPlanPostToday = false
+                    filterOutDecayPostToday = false
                 case ActualThenPlanNames.actualOnly.rawValue:
                     filterOutPlanPostToday = true
                     filterOutDecayPostToday = true
