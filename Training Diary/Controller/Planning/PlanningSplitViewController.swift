@@ -57,26 +57,38 @@ class PlanningSplitViewController: TrainingDiarySplitViewController{
                         p.runStartATL = d.runATL * run.atlDecayFactor(afterNDays: daysPostDiary)
                     }
                 }
-                let opd = p.orderedPlanDays()
-                if opd.count > 0{
-                    let firstPlanDay = opd[0]
-                    firstPlanDay.bikeATL = p.bikeStartATL
-                    firstPlanDay.bikeCTL = p.bikeStartCTL
-                    firstPlanDay.runATL = p.runStartATL
-                    firstPlanDay.runCTL = p.runStartCTL
-                    firstPlanDay.swimATL = p.swimStartATL
-                    firstPlanDay.swimCTL = p.swimStartCTL
-
-                    firstPlanDay.actualBikeATL = p.bikeStartATL
-                    firstPlanDay.actualBikeCTL = p.bikeStartCTL
-                    firstPlanDay.actualRunATL = p.runStartATL
-                    firstPlanDay.actualRunCTL = p.runStartCTL
-                    firstPlanDay.actualSwimATL = p.swimStartATL
-                    firstPlanDay.actualSwimCTL = p.swimStartCTL
-                }
             }
         }
 
+    }
+    
+    func copyStartingTSBValuesToFirstPlanDay(){
+        if let p = selectedPlan(){
+            let opd = p.orderedPlanDays()
+            if opd.count > 0{
+                let firstPlanDay = opd[0]
+                firstPlanDay.bikeATL = p.bikeStartATL
+                firstPlanDay.bikeCTL = p.bikeStartCTL
+                firstPlanDay.runATL = p.runStartATL
+                firstPlanDay.runCTL = p.runStartCTL
+                firstPlanDay.swimATL = p.swimStartATL
+                firstPlanDay.swimCTL = p.swimStartCTL
+                
+                firstPlanDay.actualBikeATL = p.bikeStartATL
+                firstPlanDay.actualBikeCTL = p.bikeStartCTL
+                firstPlanDay.actualRunATL = p.runStartATL
+                firstPlanDay.actualRunCTL = p.runStartCTL
+                firstPlanDay.actualSwimATL = p.swimStartATL
+                firstPlanDay.actualSwimCTL = p.swimStartCTL
+                
+                firstPlanDay.actualThenPlanBikeATL = p.bikeStartATL
+                firstPlanDay.actualThenPlanBikeCTL = p.bikeStartCTL
+                firstPlanDay.actualThenPlanRunATL = p.runStartATL
+                firstPlanDay.actualThenPlanRunCTL = p.runStartCTL
+                firstPlanDay.actualThenPlanSwimATL = p.swimStartATL
+                firstPlanDay.actualThenPlanSwimCTL = p.swimStartCTL
+            }
+        }
     }
     
     func updateActuals(){

@@ -23,6 +23,18 @@ class PlansTableViewController: TrainingDiaryViewController, NSTableViewDelegate
         }
     }
     
+    @IBAction func startingFromDiaryPressed(_ sender: Any) {
+        if let p = parent?.parent as? PlanningSplitViewController{
+            p.setStartingTSBValuesFromTrainingDiary()
+        }
+    }
+    
+    @IBAction func copyStartingToPlanPressed(_ sender: Any) {
+        if let p = parent?.parent as? PlanningSplitViewController{
+            p.copyStartingTSBValuesToFirstPlanDay()
+        }
+    }
+    
     //NSTableViewDelegate
     func tableViewSelectionDidChange(_ notification: Notification) {
         if let p = parent?.parent as? PlanningSplitViewController{

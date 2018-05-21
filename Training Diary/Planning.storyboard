@@ -87,39 +87,89 @@
                         <rect key="frame" x="0.0" y="0.0" width="450" height="189"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <stackView distribution="fillEqually" orientation="vertical" alignment="leading" spacing="1" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qEy-ES-8ef">
-                                <rect key="frame" x="1" y="149" width="19" height="39"/>
+                            <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8w7-6f-2Td">
+                                <rect key="frame" x="1" y="167" width="448" height="21"/>
                                 <subviews>
-                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UwD-Wm-IEe">
-                                        <rect key="frame" x="0.0" y="19" width="19" height="21"/>
+                                    <stackView distribution="fillEqually" orientation="horizontal" alignment="top" spacing="1" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qEy-ES-8ef">
+                                        <rect key="frame" x="0.0" y="2" width="40" height="19"/>
+                                        <subviews>
+                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UwD-Wm-IEe">
+                                                <rect key="frame" x="1" y="-1" width="19" height="21"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="UwD-Wm-IEe" secondAttribute="height" multiplier="20:20" id="6Nc-YF-L6a"/>
+                                                </constraints>
+                                                <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSAddTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="UMc-Js-fyy">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                    <font key="font" metaFont="system"/>
+                                                </buttonCell>
+                                                <connections>
+                                                    <action selector="add:" target="3yU-uX-0f8" id="h6A-rn-TzK"/>
+                                                </connections>
+                                            </button>
+                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iyi-Bl-RxL">
+                                                <rect key="frame" x="21" y="-1" width="19" height="21"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="iyi-Bl-RxL" secondAttribute="height" multiplier="20:20" id="TLX-ey-nPs"/>
+                                                </constraints>
+                                                <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSRemoveTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hhi-Ny-ndf">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                    <font key="font" metaFont="system"/>
+                                                </buttonCell>
+                                                <connections>
+                                                    <action selector="remove:" target="3yU-uX-0f8" id="wn8-FL-0dd"/>
+                                                    <binding destination="3yU-uX-0f8" name="enabled" keyPath="parentViewController.parentViewController.plansArrayController.selection.nameNotSet" id="BNG-Zb-c83"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
                                         <constraints>
-                                            <constraint firstAttribute="width" secondItem="UwD-Wm-IEe" secondAttribute="height" multiplier="20:20" id="6Nc-YF-L6a"/>
+                                            <constraint firstAttribute="height" constant="19" id="Mum-hT-aH7"/>
+                                            <constraint firstAttribute="width" constant="40" id="OJ4-2D-VNM"/>
                                         </constraints>
-                                        <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSAddTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="UMc-Js-fyy">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                        <connections>
-                                            <action selector="add:" target="3yU-uX-0f8" id="h6A-rn-TzK"/>
-                                        </connections>
-                                    </button>
-                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iyi-Bl-RxL">
-                                        <rect key="frame" x="0.0" y="-1" width="19" height="21"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="iyi-Bl-RxL" secondAttribute="height" multiplier="20:20" id="TLX-ey-nPs"/>
-                                        </constraints>
-                                        <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSRemoveTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hhi-Ny-ndf">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                        <connections>
-                                            <action selector="remove:" target="3yU-uX-0f8" id="wn8-FL-0dd"/>
-                                            <binding destination="3yU-uX-0f8" name="enabled" keyPath="parentViewController.parentViewController.plansArrayController.selection.nameNotSet" id="BNG-Zb-c83"/>
-                                        </connections>
-                                    </button>
+                                        <visibilityPriorities>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                        </visibilityPriorities>
+                                        <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                        </customSpacing>
+                                    </stackView>
+                                    <stackView distribution="fillEqually" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cqr-GC-nna">
+                                        <rect key="frame" x="48" y="0.0" width="400" height="21"/>
+                                        <subviews>
+                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9EZ-po-DCf">
+                                                <rect key="frame" x="-6" y="-7" width="208" height="32"/>
+                                                <buttonCell key="cell" type="push" title="Starting From Diary" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ZrY-50-Dfl">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                    <font key="font" metaFont="system"/>
+                                                </buttonCell>
+                                                <connections>
+                                                    <action selector="startingFromDiaryPressed:" target="3yU-uX-0f8" id="F2A-pl-aXS"/>
+                                                </connections>
+                                            </button>
+                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="B75-9s-fTC">
+                                                <rect key="frame" x="198" y="-7" width="208" height="32"/>
+                                                <buttonCell key="cell" type="push" title="Copy Starting In To Plan" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="uRV-79-sVs">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                    <font key="font" metaFont="system"/>
+                                                </buttonCell>
+                                                <connections>
+                                                    <action selector="copyStartingToPlanPressed:" target="3yU-uX-0f8" id="aBN-D9-1Xq"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <visibilityPriorities>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                        </visibilityPriorities>
+                                        <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                        </customSpacing>
+                                    </stackView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="19" id="JiH-kL-b5Z"/>
+                                    <constraint firstAttribute="height" constant="21" id="278-SA-OGb"/>
                                 </constraints>
                                 <visibilityPriorities>
                                     <integer value="1000"/>
@@ -131,13 +181,13 @@
                                 </customSpacing>
                             </stackView>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="42" horizontalPageScroll="10" verticalLineScroll="42" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Lf-dN-ace">
-                                <rect key="frame" x="21" y="1" width="428" height="187"/>
+                                <rect key="frame" x="1" y="1" width="448" height="164"/>
                                 <clipView key="contentView" id="7dy-h5-pHd">
-                                    <rect key="frame" x="1" y="0.0" width="426" height="186"/>
+                                    <rect key="frame" x="1" y="0.0" width="446" height="163"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" emptySelection="NO" autosaveName="plansTable" rowHeight="40" rowSizeStyle="automatic" headerView="q7l-MM-3Kf" viewBased="YES" id="io6-W6-Zrq" customClass="TableViewWithColumnSort" customModule="Training_Diary" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="763" height="163"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="763" height="140"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -572,7 +622,7 @@
                                     </subviews>
                                 </clipView>
                                 <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="F5f-vT-TAm">
-                                    <rect key="frame" x="1" y="170" width="426" height="16"/>
+                                    <rect key="frame" x="1" y="147" width="446" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="9ST-Dc-Nrn">
@@ -586,49 +636,143 @@
                             </scrollView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="qEy-ES-8ef" firstAttribute="leading" secondItem="Jb8-ER-hP8" secondAttribute="leading" constant="1" id="8Ho-pC-Er1"/>
-                            <constraint firstAttribute="trailing" secondItem="7Lf-dN-ace" secondAttribute="trailing" constant="1" id="FfK-g4-nop"/>
-                            <constraint firstItem="qEy-ES-8ef" firstAttribute="top" secondItem="Jb8-ER-hP8" secondAttribute="top" constant="1" id="ZjH-fj-kmy"/>
-                            <constraint firstItem="7Lf-dN-ace" firstAttribute="leading" secondItem="qEy-ES-8ef" secondAttribute="trailing" constant="1" id="ZkZ-GN-LI9"/>
-                            <constraint firstItem="7Lf-dN-ace" firstAttribute="top" secondItem="Jb8-ER-hP8" secondAttribute="top" constant="1" id="cgN-dR-Yhg"/>
-                            <constraint firstAttribute="bottom" secondItem="7Lf-dN-ace" secondAttribute="bottom" constant="1" id="oOy-SG-tcO"/>
+                            <constraint firstItem="7Lf-dN-ace" firstAttribute="leading" secondItem="Jb8-ER-hP8" secondAttribute="leading" constant="1" id="JN7-r0-O8E"/>
+                            <constraint firstItem="7Lf-dN-ace" firstAttribute="top" secondItem="8w7-6f-2Td" secondAttribute="bottom" constant="2" id="JVc-iR-MjD"/>
+                            <constraint firstAttribute="trailing" secondItem="8w7-6f-2Td" secondAttribute="trailing" constant="1" id="dSr-TR-3xh"/>
+                            <constraint firstItem="8w7-6f-2Td" firstAttribute="leading" secondItem="Jb8-ER-hP8" secondAttribute="leading" constant="1" id="dhm-lW-Igb"/>
+                            <constraint firstAttribute="bottom" secondItem="7Lf-dN-ace" secondAttribute="bottom" constant="1" id="sFW-Zo-nxk"/>
+                            <constraint firstAttribute="trailing" secondItem="7Lf-dN-ace" secondAttribute="trailing" constant="1" id="vqt-CO-6iZ"/>
+                            <constraint firstItem="8w7-6f-2Td" firstAttribute="top" secondItem="Jb8-ER-hP8" secondAttribute="top" constant="1" id="yNV-gj-f1W"/>
                         </constraints>
                     </view>
                 </viewController>
                 <customObject id="hc4-V9-szT" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3034" y="66"/>
+            <point key="canvasLocation" x="3034" y="65.5"/>
         </scene>
         <!--Basic Week-->
         <scene sceneID="BMV-m7-ama">
             <objects>
                 <viewController title="Basic Week" id="zCv-nf-ViI" customClass="PlanBasicWeekViewController" customModule="Training_Diary" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="RMm-R0-Xv2">
-                        <rect key="frame" x="0.0" y="0.0" width="567" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DoC-Rb-bzI">
-                                <rect key="frame" x="-5" y="270" width="112" height="33"/>
+                            <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SW6-HU-VTH">
+                                <rect key="frame" x="1" y="277" width="412" height="22"/>
+                                <subviews>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DoC-Rb-bzI">
+                                        <rect key="frame" x="-6" y="-6" width="112" height="32"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="100" id="3rJ-iR-EPN"/>
+                                        </constraints>
+                                        <buttonCell key="cell" type="push" title="Create Plan" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Uep-8Y-Wtk">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="createPlan:" target="zCv-nf-ViI" id="68a-95-9QF"/>
+                                            <binding destination="zCv-nf-ViI" name="enabled" keyPath="parentViewController.parentViewController.plansArrayController.selection.locked" id="5sa-Oe-Ru1">
+                                                <dictionary key="options">
+                                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                </dictionary>
+                                            </binding>
+                                        </connections>
+                                    </button>
+                                    <stackView distribution="fillEqually" orientation="horizontal" alignment="top" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KUe-dt-0bh">
+                                        <rect key="frame" x="108" y="0.0" width="304" height="22"/>
+                                        <subviews>
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="En3-z4-csU">
+                                                <rect key="frame" x="-2" y="5" width="78" height="17"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="8N8-th-XPK"/>
+                                                </constraints>
+                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="TSS (S,B,R):" id="Zf0-AZ-dDe">
+                                                    <font key="font" metaFont="system"/>
+                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="GMF-WP-x9p">
+                                                <rect key="frame" x="74" y="0.0" width="57.5" height="22"/>
+                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="84f-qB-0IU">
+                                                    <font key="font" metaFont="system"/>
+                                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                                <connections>
+                                                    <binding destination="zCv-nf-ViI" name="value" keyPath="parentViewController.parentViewController.plansArrayController.selection.basicWeekTotalSwimTSS" id="yfg-P7-4py"/>
+                                                </connections>
+                                            </textField>
+                                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xeh-6M-PDz">
+                                                <rect key="frame" x="131.5" y="0.0" width="57.5" height="22"/>
+                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="Rij-q4-g5I">
+                                                    <font key="font" metaFont="system"/>
+                                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                                <connections>
+                                                    <binding destination="zCv-nf-ViI" name="value" keyPath="parentViewController.parentViewController.plansArrayController.selection.basicWeekTotalBikeTSS" id="sLs-Z5-Yu4"/>
+                                                </connections>
+                                            </textField>
+                                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="D4m-6J-KPu">
+                                                <rect key="frame" x="189" y="0.0" width="57.5" height="22"/>
+                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="GFn-hK-9HI">
+                                                    <font key="font" metaFont="system"/>
+                                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                                <connections>
+                                                    <binding destination="zCv-nf-ViI" name="value" keyPath="parentViewController.parentViewController.plansArrayController.selection.basicWeekTotalRunTSS" id="njw-vz-02H"/>
+                                                </connections>
+                                            </textField>
+                                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5g4-J5-rhS">
+                                                <rect key="frame" x="246.5" y="0.0" width="57.5" height="22"/>
+                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="dkN-eH-4a0">
+                                                    <font key="font" metaFont="system"/>
+                                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                                <connections>
+                                                    <binding destination="zCv-nf-ViI" name="value" keyPath="parentViewController.parentViewController.plansArrayController.selection.basicWeekTotalAllTSS" id="zx4-E4-AIP"/>
+                                                </connections>
+                                            </textField>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="0HQ-Gc-856"/>
+                                        </constraints>
+                                        <visibilityPriorities>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                        </visibilityPriorities>
+                                        <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                        </customSpacing>
+                                    </stackView>
+                                </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="3rJ-iR-EPN"/>
+                                    <constraint firstAttribute="height" constant="22" id="ApN-At-M74"/>
                                 </constraints>
-                                <buttonCell key="cell" type="push" title="Create Plan" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Uep-8Y-Wtk">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="createPlan:" target="zCv-nf-ViI" id="68a-95-9QF"/>
-                                    <binding destination="zCv-nf-ViI" name="enabled" keyPath="parentViewController.parentViewController.plansArrayController.selection.locked" id="5sa-Oe-Ru1">
-                                        <dictionary key="options">
-                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                        </dictionary>
-                                    </binding>
-                                </connections>
-                            </button>
+                                <visibilityPriorities>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                </visibilityPriorities>
+                                <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                </customSpacing>
+                            </stackView>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="42" horizontalPageScroll="10" verticalLineScroll="42" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dO5-ep-iMQ">
-                                <rect key="frame" x="1" y="119" width="565" height="157"/>
+                                <rect key="frame" x="1" y="119" width="412" height="157"/>
                                 <clipView key="contentView" id="yzp-S0-1H9">
-                                    <rect key="frame" x="1" y="0.0" width="563" height="156"/>
+                                    <rect key="frame" x="1" y="0.0" width="410" height="156"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveName="plansTable" rowHeight="40" rowSizeStyle="automatic" headerView="QsM-fZ-w8f" viewBased="YES" id="RLW-mj-SAa" customClass="TableViewWithColumnSort" customModule="Training_Diary" customModuleProvider="target">
@@ -1054,10 +1198,10 @@
                                     </subviews>
                                 </clipView>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="157" id="aX4-is-Hqh"/>
+                                    <constraint firstAttribute="height" constant="157" id="LQV-pr-LiT"/>
                                 </constraints>
                                 <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="uxe-eE-Q6g">
-                                    <rect key="frame" x="1" y="140" width="563" height="16"/>
+                                    <rect key="frame" x="1" y="140" width="410" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="r1X-eI-89b">
@@ -1069,35 +1213,17 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableHeaderView>
                             </scrollView>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ksk-Fs-Xfk">
-                                <rect key="frame" x="96" y="270" width="158" height="33"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="135" id="Pyz-a7-WEt"/>
-                                </constraints>
-                                <buttonCell key="cell" type="push" title="Starting From Diary" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="OHs-In-qcc">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="getStartingValuesFromTrainingDiary:" target="zCv-nf-ViI" id="XzL-sk-cyh"/>
-                                    <binding destination="zCv-nf-ViI" name="enabled" keyPath="parentViewController.parentViewController.plansArrayController.selection.locked" id="p6f-fm-EhW">
-                                        <dictionary key="options">
-                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                        </dictionary>
-                                    </binding>
-                                </connections>
-                            </button>
                             <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e1z-WX-cUa">
-                                <rect key="frame" x="1" y="1" width="565" height="117"/>
+                                <rect key="frame" x="1" y="1" width="412" height="117"/>
                                 <clipView key="contentView" id="ofk-MM-7ZI">
-                                    <rect key="frame" x="1" y="1" width="563" height="115"/>
+                                    <rect key="frame" x="1" y="1" width="410" height="115"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView importsGraphics="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="vqp-E7-bfG">
-                                            <rect key="frame" x="0.0" y="0.0" width="563" height="115"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="410" height="115"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <size key="minSize" width="563" height="115"/>
+                                            <size key="minSize" width="410" height="115"/>
                                             <size key="maxSize" width="565" height="10000000"/>
                                             <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                             <connections>
@@ -1116,105 +1242,25 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="nbZ-wo-8PK">
-                                    <rect key="frame" x="548" y="1" width="16" height="115"/>
+                                    <rect key="frame" x="395" y="1" width="16" height="115"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="En3-z4-csU">
-                                <rect key="frame" x="247" y="277" width="78" height="22"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="8N8-th-XPK"/>
-                                </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="TSS (S,B,R):" id="Zf0-AZ-dDe">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <stackView distribution="fillEqually" orientation="horizontal" alignment="top" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KUe-dt-0bh">
-                                <rect key="frame" x="324" y="277" width="200" height="22"/>
-                                <subviews>
-                                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="GMF-WP-x9p">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="22"/>
-                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="84f-qB-0IU">
-                                            <font key="font" metaFont="system"/>
-                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                        <connections>
-                                            <binding destination="zCv-nf-ViI" name="value" keyPath="parentViewController.parentViewController.plansArrayController.selection.basicWeekTotalSwimTSS" id="yfg-P7-4py"/>
-                                        </connections>
-                                    </textField>
-                                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xeh-6M-PDz">
-                                        <rect key="frame" x="50" y="0.0" width="50" height="22"/>
-                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="Rij-q4-g5I">
-                                            <font key="font" metaFont="system"/>
-                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                        <connections>
-                                            <binding destination="zCv-nf-ViI" name="value" keyPath="parentViewController.parentViewController.plansArrayController.selection.basicWeekTotalBikeTSS" id="sLs-Z5-Yu4"/>
-                                        </connections>
-                                    </textField>
-                                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="D4m-6J-KPu">
-                                        <rect key="frame" x="100" y="0.0" width="50" height="22"/>
-                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="GFn-hK-9HI">
-                                            <font key="font" metaFont="system"/>
-                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                        <connections>
-                                            <binding destination="zCv-nf-ViI" name="value" keyPath="parentViewController.parentViewController.plansArrayController.selection.basicWeekTotalRunTSS" id="njw-vz-02H"/>
-                                        </connections>
-                                    </textField>
-                                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5g4-J5-rhS">
-                                        <rect key="frame" x="150" y="0.0" width="50" height="22"/>
-                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="dkN-eH-4a0">
-                                            <font key="font" metaFont="system"/>
-                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                        <connections>
-                                            <binding destination="zCv-nf-ViI" name="value" keyPath="parentViewController.parentViewController.plansArrayController.selection.basicWeekTotalAllTSS" id="zx4-E4-AIP"/>
-                                        </connections>
-                                    </textField>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="VrT-eQ-bTY"/>
-                                </constraints>
-                                <visibilityPriorities>
-                                    <integer value="1000"/>
-                                    <integer value="1000"/>
-                                    <integer value="1000"/>
-                                    <integer value="1000"/>
-                                </visibilityPriorities>
-                                <customSpacing>
-                                    <real value="3.4028234663852886e+38"/>
-                                    <real value="3.4028234663852886e+38"/>
-                                    <real value="3.4028234663852886e+38"/>
-                                    <real value="3.4028234663852886e+38"/>
-                                </customSpacing>
-                            </stackView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="En3-z4-csU" firstAttribute="leading" secondItem="ksk-Fs-Xfk" secondAttribute="trailing" constant="1" id="3iW-l2-tNA"/>
-                            <constraint firstItem="KUe-dt-0bh" firstAttribute="top" secondItem="RMm-R0-Xv2" secondAttribute="top" constant="1" id="5aS-I7-fS3"/>
-                            <constraint firstItem="ksk-Fs-Xfk" firstAttribute="top" secondItem="RMm-R0-Xv2" secondAttribute="top" constant="1" id="7Gy-WH-oRa"/>
+                            <constraint firstItem="e1z-WX-cUa" firstAttribute="leading" secondItem="RMm-R0-Xv2" secondAttribute="leading" constant="1" id="79y-BS-ok0"/>
                             <constraint firstItem="e1z-WX-cUa" firstAttribute="leading" secondItem="RMm-R0-Xv2" secondAttribute="leading" constant="1" id="COf-zs-YPk"/>
-                            <constraint firstAttribute="trailing" secondItem="dO5-ep-iMQ" secondAttribute="trailing" constant="1" id="GIk-FX-3hn"/>
-                            <constraint firstItem="DoC-Rb-bzI" firstAttribute="top" secondItem="RMm-R0-Xv2" secondAttribute="top" constant="1" id="GpK-zB-ooS"/>
-                            <constraint firstItem="dO5-ep-iMQ" firstAttribute="leading" secondItem="RMm-R0-Xv2" secondAttribute="leading" constant="1" id="JYy-gi-r7W"/>
-                            <constraint firstItem="dO5-ep-iMQ" firstAttribute="top" secondItem="KUe-dt-0bh" secondAttribute="bottom" constant="1" id="LFw-47-rE4"/>
-                            <constraint firstItem="dO5-ep-iMQ" firstAttribute="top" secondItem="En3-z4-csU" secondAttribute="bottom" constant="1" id="MzH-hG-P0M"/>
-                            <constraint firstItem="DoC-Rb-bzI" firstAttribute="leading" secondItem="RMm-R0-Xv2" secondAttribute="leading" constant="1" id="PdQ-L4-UEj"/>
-                            <constraint firstItem="ksk-Fs-Xfk" firstAttribute="leading" secondItem="DoC-Rb-bzI" secondAttribute="trailing" constant="1" id="Tgl-Xi-rMO"/>
+                            <constraint firstAttribute="bottom" secondItem="e1z-WX-cUa" secondAttribute="bottom" constant="1" id="GCn-fu-f4f"/>
+                            <constraint firstAttribute="trailing" secondItem="e1z-WX-cUa" secondAttribute="trailing" constant="1" id="GUb-cn-zGz"/>
+                            <constraint firstItem="SW6-HU-VTH" firstAttribute="top" secondItem="RMm-R0-Xv2" secondAttribute="top" constant="1" id="Sol-K5-CGa"/>
+                            <constraint firstItem="dO5-ep-iMQ" firstAttribute="leading" secondItem="RMm-R0-Xv2" secondAttribute="leading" constant="1" id="V50-JI-hWg"/>
                             <constraint firstAttribute="trailing" secondItem="e1z-WX-cUa" secondAttribute="trailing" constant="1" id="Wiq-4g-Mrf"/>
-                            <constraint firstItem="KUe-dt-0bh" firstAttribute="leading" secondItem="En3-z4-csU" secondAttribute="trailing" constant="1" id="YkC-Qz-FKt"/>
-                            <constraint firstItem="dO5-ep-iMQ" firstAttribute="top" secondItem="DoC-Rb-bzI" secondAttribute="bottom" constant="1" id="bba-Jv-rKj"/>
+                            <constraint firstAttribute="trailing" secondItem="SW6-HU-VTH" secondAttribute="trailing" constant="1" id="XSJ-Gj-ny3"/>
+                            <constraint firstItem="dO5-ep-iMQ" firstAttribute="top" secondItem="SW6-HU-VTH" secondAttribute="bottom" constant="1" id="XgE-pz-QM9"/>
                             <constraint firstAttribute="bottom" secondItem="e1z-WX-cUa" secondAttribute="bottom" constant="1" id="ca7-Xs-z5U"/>
-                            <constraint firstItem="e1z-WX-cUa" firstAttribute="top" secondItem="dO5-ep-iMQ" secondAttribute="bottom" constant="1" id="eyo-Yd-L7P"/>
-                            <constraint firstItem="dO5-ep-iMQ" firstAttribute="top" secondItem="ksk-Fs-Xfk" secondAttribute="bottom" constant="1" id="rTn-gL-k0G"/>
-                            <constraint firstItem="En3-z4-csU" firstAttribute="top" secondItem="RMm-R0-Xv2" secondAttribute="top" constant="1" id="sMa-mH-fI8"/>
+                            <constraint firstItem="e1z-WX-cUa" firstAttribute="top" secondItem="dO5-ep-iMQ" secondAttribute="bottom" constant="1" id="ilM-8B-uXt"/>
+                            <constraint firstAttribute="trailing" secondItem="dO5-ep-iMQ" secondAttribute="trailing" constant="1" id="kuk-Sr-YTJ"/>
+                            <constraint firstItem="SW6-HU-VTH" firstAttribute="leading" secondItem="RMm-R0-Xv2" secondAttribute="leading" constant="1" id="qKg-2t-qPu"/>
                         </constraints>
                     </view>
                     <connections>
@@ -1227,7 +1273,7 @@
                 </viewController>
                 <customObject id="t7X-FE-0of" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3093" y="411"/>
+            <point key="canvasLocation" x="3028.5" y="411"/>
         </scene>
         <!--Output-->
         <scene sceneID="h1M-Qo-CmQ">

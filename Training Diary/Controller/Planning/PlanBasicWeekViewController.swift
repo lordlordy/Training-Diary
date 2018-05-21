@@ -25,9 +25,4 @@ class PlanBasicWeekViewController: TrainingDiaryViewController{
         
     }
     
-    @IBAction func getStartingValuesFromTrainingDiary(_ sender: Any) {
-        if let p = parent?.parent as? PlanningSplitViewController{
-            p.setStartingTSBValuesFromTrainingDiary()
-        }
-    }
 }
