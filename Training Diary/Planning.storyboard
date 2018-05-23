@@ -94,7 +94,7 @@
                                         <rect key="frame" x="0.0" y="2" width="40" height="19"/>
                                         <subviews>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UwD-Wm-IEe">
-                                                <rect key="frame" x="1" y="-1" width="19" height="21"/>
+                                                <rect key="frame" x="0.0" y="-1" width="19" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="UwD-Wm-IEe" secondAttribute="height" multiplier="20:20" id="6Nc-YF-L6a"/>
                                                 </constraints>
@@ -107,7 +107,7 @@
                                                 </connections>
                                             </button>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iyi-Bl-RxL">
-                                                <rect key="frame" x="21" y="-1" width="19" height="21"/>
+                                                <rect key="frame" x="20" y="-1" width="20" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="iyi-Bl-RxL" secondAttribute="height" multiplier="20:20" id="TLX-ey-nPs"/>
                                                 </constraints>
@@ -2984,7 +2984,7 @@
                                 <rect key="frame" x="0.0" y="280" width="450" height="20"/>
                                 <subviews>
                                     <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iM8-gE-3rf">
-                                        <rect key="frame" x="0.0" y="-4" width="115" height="26"/>
+                                        <rect key="frame" x="0.0" y="-4" width="92" height="26"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="Dm4-bA-4UG"/>
                                         </constraints>
@@ -3004,7 +3004,7 @@
                                         </connections>
                                     </comboBox>
                                     <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4jx-Ak-3n6" userLabel="TSB Combo Box">
-                                        <rect key="frame" x="113" y="-4" width="114.5" height="26"/>
+                                        <rect key="frame" x="90" y="-4" width="92.5" height="26"/>
                                         <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" numberOfVisibleItems="5" id="gRs-ec-iQT">
                                             <font key="font" metaFont="system"/>
                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -3022,7 +3022,7 @@
                                         </connections>
                                     </comboBox>
                                     <popUpButton translatesAutoresizingMaskIntoConstraints="NO" id="Oe1-ga-4OY">
-                                        <rect key="frame" x="223.5" y="-2" width="34.5" height="24"/>
+                                        <rect key="frame" x="178.5" y="-2" width="93.5" height="24"/>
                                         <popUpButtonCell key="cell" type="check" bezelStyle="regularSquare" imagePosition="left" lineBreakMode="truncatingTail" borderStyle="bezel" inset="2" id="Qc7-3T-FOa">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="menu"/>
@@ -3030,7 +3030,7 @@
                                         </popUpButtonCell>
                                     </popUpButton>
                                     <popUpButton translatesAutoresizingMaskIntoConstraints="NO" id="PVC-bl-Gmw" userLabel="Actual Pop Up Button">
-                                        <rect key="frame" x="255" y="-2" width="100" height="24"/>
+                                        <rect key="frame" x="269" y="-2" width="93" height="24"/>
                                         <popUpButtonCell key="cell" type="check" bezelStyle="regularSquare" imagePosition="left" lineBreakMode="truncatingTail" borderStyle="bezel" inset="2" id="6Ef-zk-cyC">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="menu"/>
@@ -3038,7 +3038,7 @@
                                         </popUpButtonCell>
                                     </popUpButton>
                                     <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KUc-h0-zg7">
-                                        <rect key="frame" x="354" y="-4" width="99" height="26"/>
+                                        <rect key="frame" x="361" y="-4" width="92" height="26"/>
                                         <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" numberOfVisibleItems="5" id="8WJ-7i-KgA">
                                             <font key="font" metaFont="system"/>
                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>

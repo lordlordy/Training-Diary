@@ -408,6 +408,7 @@ enum WorkoutProperty: String{
     
     static var AllProperties = [activity, activityType, activityString, activityTypeString, ascentFeet, ascentMetres, equipment, equipmentName, brick, cadence, comments, estimatedKJ, hours, hr, isRace, keywords, kj, km, reps, rpe, seconds, rpeTSS, tss, tssMethod, watts, wattsEstimated, equipmentOK, activityTypeOK]
     static var jsonProperties = [activityString, activityTypeString, equipmentName, seconds, km, rpe, tss, tssMethod, watts, wattsEstimated, hr, kj, ascentMetres, brick, cadence, isRace, keywords, reps, comments]
+    static var csvProperties = [activityString, activityTypeString, equipmentName, seconds, km, rpe, tss, tssMethod, watts, wattsEstimated, hr, kj, ascentMetres, brick, cadence, isRace, keywords, reps, comments]
     static var DoubleProperties = [ascentFeet, ascentMetres, cadence, estimatedKJ, hr, hours, kj, km, miles, reps, rpe, seconds, rpeTSS, tss, watts]
     static var StringProperties = [activityString, activityTypeString, equipmentName, comments, keywords, tssMethod]
     static var BooleanProperties = [brick, isRace, wattsEstimated, equipmentOK, activityTypeOK]
@@ -496,6 +497,9 @@ enum EddingtonNumberProperty: String{
     case annualContributors, annualHistory, contributors, history, trainingDiary
     //calculated:
     case eddingtonCode
+    
+    static var jsonProperties = [activity, activityType, maturity, period, plusOne, unit, value, eddingtonCode]
+    static var csvProperties = [activity, activityType, maturity, period, plusOne, unit, value, eddingtonCode]
 }
 
 enum LTDEddingtonNumberProperty: String{
@@ -504,8 +508,37 @@ enum LTDEddingtonNumberProperty: String{
     case children, parent
     
     static var StringProperties = [activity, activityType, dayType, equipment, period, unit, code, shortCode]
+    static var jsonProperties = [activity, activityType, dayType, equipment, period, unit, code, shortCode, maturity, plusOne, value]
+    static var csvProperties = [activity, activityType, dayType, equipment, period, unit, code, shortCode, maturity, plusOne, value]
+}
+
+enum EddingtonHistoryProperty: String{
+    case date, max, plusOne, value
+    case maturity, iso8061DateString, dateCSVString
+    
+    static let jsonProperties = [max, plusOne, value, maturity, iso8061DateString]
+    static let csvProperties = [max, plusOne, value, maturity, dateCSVString]
     
 }
+
+enum EddingtonAnnualHistoryProperty: String{
+    case date, plusOne, value
+    case iso8061DateString, dateCSVString
+    
+    static let jsonProperties = [plusOne, value, iso8061DateString]
+    static let csvProperties = [plusOne, value, dateCSVString]
+    
+}
+
+enum EddingtonContributorProperty: String{
+    case date, value
+    case iso8061DateString, dateCSVString
+    
+    static let jsonProperties = [value, iso8061DateString]
+    static let csvProperties = [value, dateCSVString]
+    
+}
+
 
 enum DayOfWeek: String{
     case Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
@@ -525,8 +558,10 @@ enum PlanProperty: String{
     case bikeStartATL, bikeStartCTL, runStartATL, runStartCTL, swimStartATL, swimStartCTL
     case basicWeek, planDays, trainingDiary
     case iso8061FromString, iso8061TaperStartString, iso8061ToString
-    
+    case csvFromString, csvTaperStartString, csvToString
+
     static let jsonProperties = [iso8061FromString, iso8061TaperStartString, iso8061ToString, name, locked, bikeStartATL, bikeStartCTL, runStartATL, runStartCTL, swimStartATL, swimStartCTL]
+    static let csvProperties = [csvFromString, csvTaperStartString, csvToString, name, locked, bikeStartATL, bikeStartCTL, runStartATL, runStartCTL, swimStartATL, swimStartCTL]
 
     
 }
@@ -540,15 +575,18 @@ enum PlanDayProperty: String{
     case actualBikeATL, actualBikeCTL, actualBikeTSS, actualBikeTSB
     case actualRunATL, actualRunCTL, actualRunTSS, actualRunTSB
     case actualAllATL, actualAllCTL, actualAllTSS, actualAllTSB
-    case actualThenPlanSwimATL, actualThenPlanSwimCTL, actualThenPlanSwimTSS, actualThenPlanSwimTSB
-    case actualThenPlanBikeATL, actualThenPlanBikeCTL, actualThenPlanBikeTSS, actualThenPlanBikeTSB
-    case actualThenPlanRunATL, actualThenPlanRunCTL, actualThenPlanRunTSS, actualThenPlanRunTSB
+    case actualThenPlanSwimATL, actualThenPlanSwimCTL, actualThenPlanSwimTSB
+    case actualThenPlanBikeATL, actualThenPlanBikeCTL, actualThenPlanBikeTSB
+    case actualThenPlanRunATL, actualThenPlanRunCTL, actualThenPlanRunTSB
     case actualThenPlanAllATL, actualThenPlanAllCTL, actualThenPlanAllTSB
     case basicWeekTotalSwimTSS, basicWeekTotalBikeTSS, basicWeekTotalRunTSS, basicWeekTotalAllTSS
     case date, comments, plan
     case iso8061DateString
+    case csvDateString, planName
     
-    static let jsonProperties = [swimATL, swimCTL, swimTSS, bikeATL, bikeCTL, bikeTSS, runATL, runCTL, runTSS, actualSwimATL, actualSwimCTL, actualSwimTSS, actualBikeATL, actualBikeCTL, actualBikeTSS, actualRunATL, actualRunCTL, actualRunTSS, actualThenPlanSwimATL, actualThenPlanSwimCTL, actualThenPlanSwimTSS, actualThenPlanSwimTSB, actualThenPlanBikeATL, actualThenPlanBikeCTL, actualThenPlanBikeTSS, actualThenPlanBikeTSB, actualThenPlanRunATL, actualThenPlanRunCTL, actualThenPlanRunTSS, actualThenPlanRunTSB, actualThenPlanAllATL, actualThenPlanAllCTL, actualThenPlanAllTSB, iso8061DateString, comments]
+    static let jsonProperties = [swimATL, swimCTL, swimTSS, bikeATL, bikeCTL, bikeTSS, runATL, runCTL, runTSS, actualSwimATL, actualSwimCTL, actualSwimTSS, actualBikeATL, actualBikeCTL, actualBikeTSS, actualRunATL, actualRunCTL, actualRunTSS, actualThenPlanSwimATL, actualThenPlanSwimCTL, actualThenPlanSwimTSB, actualThenPlanBikeATL, actualThenPlanBikeCTL, actualThenPlanBikeTSB, actualThenPlanRunATL, actualThenPlanRunCTL, actualThenPlanRunTSB, actualThenPlanAllATL, actualThenPlanAllCTL, actualThenPlanAllTSB, iso8061DateString, comments]
+
+        static let csvProperties = [swimATL, swimCTL, swimTSS, bikeATL, bikeCTL, bikeTSS, runATL, runCTL, runTSS, actualSwimATL, actualSwimCTL, actualSwimTSS, actualBikeATL, actualBikeCTL, actualBikeTSS, actualRunATL, actualRunCTL, actualRunTSS, actualThenPlanSwimATL, actualThenPlanSwimCTL, actualThenPlanSwimTSB, actualThenPlanBikeATL, actualThenPlanBikeCTL, actualThenPlanBikeTSB, actualThenPlanRunATL, actualThenPlanRunCTL, actualThenPlanRunTSB, actualThenPlanAllATL, actualThenPlanAllCTL, actualThenPlanAllTSB, csvDateString, comments, planName]
     
 }
 
@@ -557,9 +595,13 @@ enum BasicWeekDayProperty: String{
     case bikePercentage, bikeTaperPercentage, bikeTSS
     case runPercentage, runTaperPercentage, runTSS
     case name, order, totalTSS, comments
+    case planName
     
     static var observables: [BasicWeekDayProperty] = [.swimTSS, .bikeTSS, .runTSS]
     static let jsonProperties = [swimPercentage, swimTaperPercentage, swimTSS, bikePercentage, bikeTaperPercentage, bikeTSS, runPercentage, runTaperPercentage, runTSS, name, order, comments]
+    static var csvProperties = [swimPercentage, swimTaperPercentage, swimTSS, bikePercentage, bikeTaperPercentage, bikeTSS, runPercentage, runTaperPercentage, runTSS, name, order, comments, planName]
 }
+
+
 
 

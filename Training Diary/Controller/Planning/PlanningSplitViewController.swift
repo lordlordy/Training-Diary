@@ -17,6 +17,48 @@ class PlanningSplitViewController: TrainingDiarySplitViewController{
     
     private var basicWeekDays: [BasicWeekDay] = []
     
+    @IBAction func exportSelectionAsJSON(_ sender: Any) {
+        if let selectedPlan = selectedPlan(){
+            if let url = OpenAndSaveDialogues().saveFilePath(suggestedFileName: "Plan", allowFileTypes: ["json"]){
+                if let jsonString = JSONExporter().createJSON(forPlan: selectedPlan){
+                    do{
+                        try jsonString.write(to: url, atomically: true, encoding: String.Encoding.utf8.rawValue)
+                    }catch{
+                        print("Unable to save JSON")
+                        print(error)
+                    }
+                }
+            }
+        }
+    }
+    
+    @IBAction func exportSelectionAsCSV(_ sender: Any) {
+        if let selectedPlan = selectedPlan(){
+            if let directoryURL = OpenAndSaveDialogues().chooseFolderForSave(createSubFolder: "Data-\(Date().dateOnlyString())"){
+                
+                let csv = CSVExporter().convertToCSV(trainingDiary!,[], [], [], [selectedPlan])
+                var saveFileName = directoryURL.appendingPathComponent("plans.csv")
+                do{
+                    try csv.plans.write(to: saveFileName, atomically: false, encoding: .utf8)
+                }catch let error as NSError{
+                    print(error)
+                }
+                saveFileName = directoryURL.appendingPathComponent("basicWeek.csv")
+                do{
+                    try csv.basicWeek.write(to: saveFileName, atomically: false, encoding: .utf8)
+                }catch let error as NSError{
+                    print(error)
+                }
+                saveFileName = directoryURL.appendingPathComponent("planDays.csv")
+                do{
+                    try csv.planDays.write(to: saveFileName, atomically: false, encoding: .utf8)
+                }catch let error as NSError{
+                    print(error)
+                }
+            }
+        }
+    }
+    
     override func viewDidLoad(){
         super.viewDidLoad()
         if let bwac = basicWeekArrayController{
@@ -157,10 +199,10 @@ class PlanningSplitViewController: TrainingDiarySplitViewController{
                     vc.runTextField.doubleValue = lastDay.runCTL
                     vc.allTextField.doubleValue = lastDay.allCTL
                     
-                    vc.swimPredictedTextField.doubleValue = lastDay.actualSwimCTL
-                    vc.bikePredictedTextField.doubleValue = lastDay.actualBikeCTL
-                    vc.runPredictedTextField.doubleValue = lastDay.actualRunCTL
-                    vc.allPredictedTextField.doubleValue = lastDay.actualAllCTL
+                    vc.swimPredictedTextField.doubleValue = lastDay.actualThenPlanSwimCTL
+                    vc.bikePredictedTextField.doubleValue = lastDay.actualThenPlanBikeCTL
+                    vc.runPredictedTextField.doubleValue = lastDay.actualThenPlanRunCTL
+                    vc.allPredictedTextField.doubleValue = lastDay.actualThenPlanAllCTL
                 }
             }
         }
@@ -251,4 +293,6 @@ class PlanningSplitViewController: TrainingDiarySplitViewController{
             }
         }
     }
+    
+
 }

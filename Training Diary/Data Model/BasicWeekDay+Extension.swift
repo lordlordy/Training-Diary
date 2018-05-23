@@ -12,6 +12,10 @@ extension BasicWeekDay{
     
     @objc dynamic var totalTSS: Double { return swimTSS + runTSS + bikeTSS}
     
+    @objc dynamic var planName: String{
+        return plan?.name ?? "Unkown Plan"
+    }
+    
     /*This is the method that needs implementing to ensure calculated properties update when the properties
      they depend on change.
      */

@@ -10,6 +10,8 @@ import Foundation
 
 extension EddingtonNumber{
     
+    static var codeDelimiter: String = ":"
+    
     static func code(dayType dt: String?, activity: String?, activityType: String?, equipment: String?, period: String, unit: String) -> String{
         return eddingtonCode(dt, activity, activityType, equipment, period, unit)
     }
@@ -308,11 +310,11 @@ extension EddingtonNumber{
     
     private static func eddingtonCode(_ dayType: String?, _ activity: String?, _ activityType: String?, _ equipment: String?, _ period: String, _ unit: String) -> String{
         var result = dayType ?? ConstantString.EddingtonAll.rawValue
-        result += ":" + (activity ?? ConstantString.EddingtonAll.rawValue)
-        result += ":" + (equipment ?? ConstantString.EddingtonAll.rawValue)
-        result += ":" + (activityType ?? ConstantString.EddingtonAll.rawValue)
-        result += ":" + period
-        result += ":" + unit
+        result += codeDelimiter + (activity ?? ConstantString.EddingtonAll.rawValue)
+        result += codeDelimiter + (equipment ?? ConstantString.EddingtonAll.rawValue)
+        result += codeDelimiter + (activityType ?? ConstantString.EddingtonAll.rawValue)
+        result += codeDelimiter + period
+        result += codeDelimiter + unit
         return result.trimmingCharacters(in: CharacterSet.init(charactersIn: ":"))
     }
     
@@ -325,18 +327,18 @@ extension EddingtonNumber{
         }
         if let a = activity {
             if a != ConstantString.EddingtonAll.rawValue && (equipment == nil || equipment == ConstantString.EddingtonAll.rawValue ){
-                result += ":" + a
+                result += codeDelimiter + a
             }
         }
         if let e = equipment {
-            if e != ConstantString.EddingtonAll.rawValue{ result += ":" + e }
+            if e != ConstantString.EddingtonAll.rawValue{ result += codeDelimiter + e }
         }
         if let at = activityType {
-            if at != ConstantString.EddingtonAll.rawValue{ result += ":" + at }
+            if at != ConstantString.EddingtonAll.rawValue{ result += codeDelimiter + at }
         }
-        result += ":" + period
-        result += ":" + unit
-        return result.trimmingCharacters(in: CharacterSet.init(charactersIn: ":"))
+        result += codeDelimiter + period
+        result += codeDelimiter + unit
+        return result.trimmingCharacters(in: CharacterSet.init(charactersIn: codeDelimiter))
     }
     
     

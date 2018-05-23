@@ -658,7 +658,11 @@
                                 <rect key="frame" x="754" y="548" width="353" height="22"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tVs-pc-gLW">
-                                        <rect key="frame" x="0.0" y="-1" width="13" height="21"/>
+                                        <rect key="frame" x="0.0" y="-1" width="19" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="19" id="bbH-Wf-Jpi"/>
+                                            <constraint firstAttribute="width" secondItem="tVs-pc-gLW" secondAttribute="height" multiplier="1:1" id="c2k-Ki-UiX"/>
+                                        </constraints>
                                         <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSRemoveTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Qqe-dw-lOk">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -668,7 +672,7 @@
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2HJ-aH-DYm">
-                                        <rect key="frame" x="9" y="-7" width="127" height="32"/>
+                                        <rect key="frame" x="15" y="-7" width="127" height="32"/>
                                         <buttonCell key="cell" type="push" title="Calc Selection" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="p8s-ke-RaD">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -677,22 +681,12 @@
                                             <action selector="calcSelection:" target="6nh-Za-dx5" id="uix-5H-6gP"/>
                                         </connections>
                                     </button>
-                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zgB-v0-ZXJ">
-                                        <rect key="frame" x="126" y="-7" width="127" height="32"/>
-                                        <buttonCell key="cell" type="push" title="Save as HTML" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ZjE-wK-0OC">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                        <connections>
-                                            <action selector="saveAsHTML:" target="6nh-Za-dx5" id="FEi-dk-Weo"/>
-                                        </connections>
-                                    </button>
                                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pRL-Aw-NC3">
-                                        <rect key="frame" x="249" y="0.0" width="104" height="22"/>
-                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="zM7-S9-DRJ">
+                                        <rect key="frame" x="138" y="0.0" width="215" height="17"/>
+                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" alignment="right" drawsBackground="YES" id="zM7-S9-DRJ">
                                             <font key="font" metaFont="system"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" red="0.10570669420000001" green="0.0310975062" blue="0.040409527110000003" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
                                         </textFieldCell>
                                         <connections>
                                             <binding destination="tp7-iY-0Wb" name="value" keyPath="arrangedObjects.@count" id="81h-uA-ijx"/>
@@ -703,17 +697,14 @@
                                     <constraint firstAttribute="bottom" secondItem="tVs-pc-gLW" secondAttribute="bottom" id="UQf-d7-3pd"/>
                                     <constraint firstAttribute="height" constant="22" id="Wpt-Xj-iEb"/>
                                     <constraint firstAttribute="bottom" secondItem="2HJ-aH-DYm" secondAttribute="bottom" id="a7p-8O-qdm"/>
-                                    <constraint firstAttribute="bottom" secondItem="zgB-v0-ZXJ" secondAttribute="bottom" id="ojg-A7-cOm"/>
                                     <constraint firstAttribute="bottom" secondItem="pRL-Aw-NC3" secondAttribute="bottom" id="uWl-Wi-8Rc"/>
                                 </constraints>
                                 <visibilityPriorities>
                                     <integer value="1000"/>
                                     <integer value="1000"/>
                                     <integer value="1000"/>
-                                    <integer value="1000"/>
                                 </visibilityPriorities>
                                 <customSpacing>
-                                    <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
@@ -758,54 +749,10 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <stackView distribution="fill" orientation="horizontal" alignment="top" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RTw-fN-W1w">
-                                <rect key="frame" x="2" y="339" width="266" height="16"/>
+                                <rect key="frame" x="2" y="335" width="425" height="20"/>
                                 <subviews>
-                                    <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e3j-Oa-Q4H">
-                                        <rect key="frame" x="-1" y="0.0" width="74" height="16"/>
-                                        <buttonCell key="cell" type="push" title="Save HTML" bezelStyle="rounded" alignment="center" controlSize="mini" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="DcC-V4-IIa">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="miniSystem"/>
-                                        </buttonCell>
-                                        <connections>
-                                            <action selector="saveAsHTML:" target="vs4-7L-kuD" id="ut3-aj-U2K"/>
-                                        </connections>
-                                    </button>
-                                    <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="094-NG-cgO">
-                                        <rect key="frame" x="71" y="0.0" width="88" height="16"/>
-                                        <buttonCell key="cell" type="push" title="Calc Selection" bezelStyle="rounded" alignment="center" controlSize="mini" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lnP-7G-cBL">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="miniSystem"/>
-                                        </buttonCell>
-                                        <connections>
-                                            <action selector="calculateTreeSelection:" target="vs4-7L-kuD" id="NkP-mf-7KM"/>
-                                        </connections>
-                                    </button>
-                                    <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WEB-32-SF2">
-                                        <rect key="frame" x="157" y="0.0" width="47" height="16"/>
-                                        <buttonCell key="cell" type="push" title="Calc ALL" bezelStyle="rounded" alignment="center" controlSize="mini" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="diC-bg-aI4">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="miniSystem"/>
-                                        </buttonCell>
-                                        <connections>
-                                            <action selector="calculateAll:" target="vs4-7L-kuD" id="3hH-mn-Axr"/>
-                                        </connections>
-                                    </button>
-                                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Wtd-wr-eXJ">
-                                        <rect key="frame" x="203" y="0.0" width="47" height="16"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="47" id="htb-xp-Ef8"/>
-                                        </constraints>
-                                        <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" drawsBackground="YES" id="0M1-8F-gAY">
-                                            <font key="font" metaFont="miniSystem"/>
-                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                        <connections>
-                                            <binding destination="vs4-7L-kuD" name="value" keyPath="trainingDiary.ltdEdNumCount" id="Vit-lF-6tG"/>
-                                        </connections>
-                                    </textField>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VIz-ML-gYM">
-                                        <rect key="frame" x="250" y="-1" width="16" height="18"/>
+                                        <rect key="frame" x="0.0" y="3" width="16" height="18"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="16" id="ABJ-Ef-kC4"/>
                                             <constraint firstAttribute="height" constant="16" id="PBU-dC-yfq"/>
@@ -818,15 +765,42 @@
                                             <action selector="remove:" target="NUS-qz-lc3" id="B5R-H7-11O"/>
                                         </connections>
                                     </button>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="094-NG-cgO">
+                                        <rect key="frame" x="10" y="-7" width="127" height="31"/>
+                                        <buttonCell key="cell" type="push" title="Calc Selection" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lnP-7G-cBL">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="calculateTreeSelection:" target="vs4-7L-kuD" id="NkP-mf-7KM"/>
+                                        </connections>
+                                    </button>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WEB-32-SF2">
+                                        <rect key="frame" x="125" y="-7" width="94" height="31"/>
+                                        <buttonCell key="cell" type="push" title="Calc ALL" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="diC-bg-aI4">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="calculateAll:" target="vs4-7L-kuD" id="3hH-mn-Axr"/>
+                                        </connections>
+                                    </button>
+                                    <textField horizontalHuggingPriority="249" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Wtd-wr-eXJ">
+                                        <rect key="frame" x="211" y="3" width="216" height="17"/>
+                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" state="on" alignment="right" id="0M1-8F-gAY">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" red="0.10570669420000001" green="0.0310975062" blue="0.040409527110000003" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
+                                        </textFieldCell>
+                                        <connections>
+                                            <binding destination="vs4-7L-kuD" name="value" keyPath="trainingDiary.ltdEdNumCount" id="Vit-lF-6tG"/>
+                                        </connections>
+                                    </textField>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="16" id="YnM-RM-eU0"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="16" id="gv0-fW-NSc"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="266" id="jgN-JD-T56"/>
-                                    <constraint firstAttribute="width" constant="266" id="pk6-Sv-7An"/>
+                                    <constraint firstAttribute="height" constant="20" id="YnM-RM-eU0"/>
                                 </constraints>
                                 <visibilityPriorities>
-                                    <integer value="1000"/>
                                     <integer value="1000"/>
                                     <integer value="1000"/>
                                     <integer value="1000"/>
@@ -837,17 +811,16 @@
                                     <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
-                                    <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="14" horizontalPageScroll="10" verticalLineScroll="14" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="alJ-KR-mTu">
-                                <rect key="frame" x="2" y="2" width="425" height="335"/>
+                                <rect key="frame" x="2" y="2" width="425" height="331"/>
                                 <clipView key="contentView" id="TAb-90-QyQ">
-                                    <rect key="frame" x="1" y="0.0" width="423" height="334"/>
+                                    <rect key="frame" x="1" y="0.0" width="423" height="330"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="firstColumnOnly" alternatingRowBackgroundColors="YES" autosaveName="EddingtonNumberOutlineView" rowHeight="14" rowSizeStyle="automatic" headerView="h0H-F9-wKe" viewBased="YES" indentationPerLevel="10" autosaveExpandedItems="YES" autoresizesOutlineColumn="YES" outlineTableColumn="uOW-DJ-zUX" id="wNb-vt-tex">
-                                            <rect key="frame" x="0.0" y="0.0" width="538" height="311"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="538" height="307"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="2" height="0.0"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1320,7 +1293,7 @@
                                     </subviews>
                                 </clipView>
                                 <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="gY6-M4-V3C">
-                                    <rect key="frame" x="1" y="318" width="423" height="16"/>
+                                    <rect key="frame" x="1" y="314" width="423" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="86r-ZU-XHe">
@@ -1339,6 +1312,7 @@
                             <constraint firstItem="alJ-KR-mTu" firstAttribute="leading" secondItem="ybt-xR-fso" secondAttribute="leading" constant="2" id="EkG-DH-yIC"/>
                             <constraint firstAttribute="bottom" secondItem="alJ-KR-mTu" secondAttribute="bottom" constant="2" id="S4p-BI-m4N"/>
                             <constraint firstItem="alJ-KR-mTu" firstAttribute="top" secondItem="RTw-fN-W1w" secondAttribute="bottom" constant="2" id="ZFc-FD-j1Y"/>
+                            <constraint firstAttribute="trailing" secondItem="RTw-fN-W1w" secondAttribute="trailing" constant="2" id="hvP-ud-cnT"/>
                             <constraint firstItem="RTw-fN-W1w" firstAttribute="top" secondItem="ybt-xR-fso" secondAttribute="top" constant="2" id="j2a-Kf-0wK"/>
                         </constraints>
                     </view>
@@ -1519,7 +1493,7 @@
                                                                                         <constraint firstAttribute="height" constant="17" id="60l-aQ-PMT"/>
                                                                                     </constraints>
                                                                                     <textFieldCell key="cell" controlSize="small" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="dRs-lJ-Q54">
-                                                                                        <dateFormatter key="formatter" formatterBehavior="custom10_4" dateStyle="short" dateFormat="y" id="HrG-A2-ahW"/>
+                                                                                        <dateFormatter key="formatter" formatterBehavior="custom10_4" dateStyle="short" dateFormat="y-MM-dd" id="Qch-7G-toa"/>
                                                                                         <font key="font" metaFont="smallSystem"/>
                                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -1746,7 +1720,7 @@
                                                                                         <constraint firstAttribute="height" constant="17" id="Etn-R5-7Sz"/>
                                                                                     </constraints>
                                                                                     <textFieldCell key="cell" controlSize="small" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="Pgf-Zh-0qo">
-                                                                                        <dateFormatter key="formatter" dateStyle="short" id="c0Y-yl-28g"/>
+                                                                                        <dateFormatter key="formatter" formatterBehavior="custom10_4" dateStyle="short" dateFormat="y-MM-dd" id="9Tl-hc-fR1"/>
                                                                                         <font key="font" metaFont="smallSystem"/>
                                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -1924,7 +1898,7 @@
                                                                                         <constraint firstAttribute="height" constant="17" id="QQg-SV-Otl"/>
                                                                                     </constraints>
                                                                                     <textFieldCell key="cell" controlSize="small" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="XM7-ZE-Wea">
-                                                                                        <dateFormatter key="formatter" dateStyle="short" id="N5x-eX-zu5"/>
+                                                                                        <dateFormatter key="formatter" formatterBehavior="custom10_4" dateStyle="short" dateFormat="y-MM-dd" id="N5x-eX-zu5"/>
                                                                                         <font key="font" metaFont="smallSystem"/>
                                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>

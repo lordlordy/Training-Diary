@@ -16,7 +16,7 @@
                         <splitViewItem id="e83-MB-Znf"/>
                     </splitViewItems>
                     <splitView key="splitView" dividerStyle="paneSplitter" vertical="YES" id="lpW-lq-g7f">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="432" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <connections>
                             <outlet property="delegate" destination="D0L-yU-DrX" id="wXe-hx-5wb"/>
@@ -24,7 +24,7 @@
                     </splitView>
                     <connections>
                         <outlet property="splitView" destination="lpW-lq-g7f" id="lZG-1Z-wVQ"/>
-                        <outlet property="workoutsArrayController" destination="RZG-t5-MnX" id="T7p-iS-9FP"/>
+                        <outlet property="workoutsArrayController" destination="RZG-t5-MnX" id="7JW-AY-J1N"/>
                         <segue destination="Mgk-Mn-Xa0" kind="relationship" relationship="splitItems" id="Cxf-mh-Mqa"/>
                         <segue destination="Y4R-Xy-GHy" kind="relationship" relationship="splitItems" id="Lcn-Lh-R4Y"/>
                     </connections>
@@ -36,7 +36,7 @@
                     </connections>
                 </arrayController>
             </objects>
-            <point key="canvasLocation" x="-2405" y="1969"/>
+            <point key="canvasLocation" x="-2414" y="1969"/>
         </scene>
         <!--Workout Predicate View Controller-->
         <scene sceneID="7A7-BF-s5b">
@@ -144,7 +144,7 @@
         <!--Workouts-->
         <scene sceneID="wEC-LL-bpz">
             <objects>
-                <viewController title="Workout" id="Y4R-Xy-GHy" userLabel="Workouts" customClass="WorkoutsViewController" customModule="Training_Diary" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Workout" id="Y4R-Xy-GHy" userLabel="Workouts" sceneMemberID="viewController">
                     <view key="view" id="MtE-tZ-dSF">
                         <rect key="frame" x="0.0" y="0.0" width="800" height="573"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -155,7 +155,7 @@
                                     <rect key="frame" x="1" y="0.0" width="794" height="550"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveName="allWorkoutsTableView" rowHeight="40" rowSizeStyle="automatic" headerView="AFM-RA-mxA" viewBased="YES" id="Q2V-n6-3P0" customClass="TableViewWithColumnSort" customModule="Training_Diary" customModuleProvider="target">
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" autosaveName="allWorkoutsTableView" rowHeight="40" rowSizeStyle="automatic" headerView="AFM-RA-mxA" viewBased="YES" id="Q2V-n6-3P0" customClass="TableViewWithColumnSort" customModule="Training_Diary" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="1122" height="527"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>

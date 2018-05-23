@@ -10,13 +10,41 @@ import Cocoa
 
 class EddingtonSearchViewController: TrainingDiaryViewController {
     
-//    @objc dynamic var trainingDiary: TrainingDiary?
     @IBOutlet weak var predicateEditor: NSPredicateEditor!
     @IBOutlet var eddingtonNumberAC: NSArrayController!
     @IBOutlet weak var tableView: TableViewWithColumnSort!
     
-    @IBAction func saveAsHTML(_ sender: Any) {
-        saveFilteredHTML()
+    @IBAction func exportSelectionAsHTML(_ sender: Any) {
+        HTMLGenerateAndSave().saveAsHTML(selectedEddingtonNumbers().sorted(by: {$0.code < $1.code}), fromView: view)
+    }
+    
+    @IBAction func exportSelectionAsJSON(_ sender: Any) {
+        
+        if let url = OpenAndSaveDialogues().saveFilePath(suggestedFileName: "LTDEddingtonNumbers", allowFileTypes: ["json"]){
+            
+            if let jsonString = JSONExporter().createJSON(forLTDEddingtonNumbers: Array(selectedEddingtonNumbers())){
+                do{
+                    try jsonString.write(to: url, atomically: true, encoding: String.Encoding.utf8.rawValue)
+                }catch{
+                    print("Unable to save JSON")
+                    print(error)
+                }
+            }
+        }
+        
+    }
+    
+    @IBAction func exportSelectionAsCSV(_ sender: Any) {
+        
+        if let url = OpenAndSaveDialogues().saveFilePath(suggestedFileName: "LTDEddingtonNumbers", allowFileTypes: ["csv"]){
+            do{
+                try CSVExporter().convertToCSV(Array(selectedEddingtonNumbers())).write(to: url, atomically: true, encoding: .utf8)
+            }catch{
+                print("Unable to save CSV")
+                print(error)
+            }
+        }
+        
     }
     
     @IBAction func removeSelection(_ sender: Any) {
@@ -29,15 +57,8 @@ class EddingtonSearchViewController: TrainingDiaryViewController {
     }
     
     @IBAction func calcSelection(_ sender: Any) {
-        var edNums = Set<LTDEddingtonNumber>()
-        for s in eddingtonNumberAC!.selectedObjects{
-            if let leaf = s as? LTDEddingtonNumber{
-                edNums.insert(leaf)
-                
-            }
-        }
         let calculator = EddingtonNumberCalculator()
-        for e in edNums{
+        for e in selectedEddingtonNumbers(){
             let result = calculator.quickCaclulation(forDayType: e.dayType!,forActivity: e.activity!, andType: e.activityType!, equipment: e.equipment!, andPeriod: Period(rawValue: e.period!)!, andUnit: Unit(rawValue: e.unit!)!, inTrainingDiary: trainingDiary!)
             trainingDiary!.addLTDEddingtonNumber(forDayType: e.dayType!, forActivity: e.activity!, type: e.activityType!, equipment: e.equipment!, period: Period(rawValue: e.period!)!, unit: Unit(rawValue: e.unit!)!, value: result.ednum, plusOne: result.plusOne, maturity: result.maturity)
             
@@ -77,16 +98,16 @@ class EddingtonSearchViewController: TrainingDiaryViewController {
         }
         
     }
-
     
-    private func saveFilteredHTML(){
-       
-        if let edNumSet = eddingtonNumberAC.arrangedObjects as? [LTDEddingtonNumber]{
-            let htmlSaver = HTMLGenerateAndSave()
-            htmlSaver.saveAsHTML(edNumSet, fromView: view)
+    private func selectedEddingtonNumbers() -> Set<LTDEddingtonNumber>{
+        var edNums = Set<LTDEddingtonNumber>()
+        for s in eddingtonNumberAC!.selectedObjects{
+            if let leaf = s as? LTDEddingtonNumber{
+                edNums.insert(leaf)
+                
+            }
         }
-        
-
+        return edNums
     }
     
 }

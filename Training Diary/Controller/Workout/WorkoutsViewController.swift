@@ -11,16 +11,46 @@ import Cocoa
 class WorkoutsViewController: TrainingDiarySplitViewController {
     
     
-    
     @IBOutlet var workoutsArrayController: NSArrayController!
     
     
     
+    @IBAction func exportSelectionAsCSV(_ sender: Any) {
+        
+        if let directoryURL = OpenAndSaveDialogues().saveFilePath(suggestedFileName: "Workouts", allowFileTypes: ["csv"]){
+            if let workouts = workoutsArrayController?.selectedObjects as? [Workout]{
+                
+                let csv = CSVExporter().convertToCSV(workouts)
+                do{
+                    try csv.write(to: directoryURL, atomically: false, encoding: .utf8)
+                }catch let error as NSError{
+                    print(error)
+                }
+
+            }else{
+                print("Failed to get any selected Workouts from Array Controller: \(workoutsArrayController)")
+            }
+        }
+    }
     
+    @IBAction func exportSelectionAsJSON(_ sender: Any) {
+        
+        if let url = OpenAndSaveDialogues().saveFilePath(suggestedFileName: "Workouts", allowFileTypes: ["json"]){
+            
+            if let jsonString = JSONExporter().createJSON(forWorkouts: workoutsArrayController?.selectedObjects as? [Workout] ?? []){
+                do{
+                    try jsonString.write(to: url, atomically: true, encoding: String.Encoding.utf8.rawValue)
+                }catch{
+                    print("Unable to save JSON")
+                    print(error)
+                }
+            }
+        }
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         
         if let editor = predicateEditor(){
             editor.addRow(nil)

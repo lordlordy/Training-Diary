@@ -27,6 +27,7 @@
 		730AE25E1FC732DB00348A63 /* ChartTypeComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730AE25D1FC732DB00348A63 /* ChartTypeComboBox.swift */; };
 		730DB7571FE132F500579A81 /* Metric+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730DB7561FE132F500579A81 /* Metric+Extension.swift */; };
 		731154272046550300C2179E /* EddingtonNumberTABViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731154262046550300C2179E /* EddingtonNumberTABViewController.swift */; };
+		7317E1C320B5E63800128A21 /* EddingtonAnnualHistory+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734E75F720B5E0EF003281BC /* EddingtonAnnualHistory+Extension.swift */; };
 		731CF8051F981C3300C59AA8 /* RollingSum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731CF8041F981C3300C59AA8 /* RollingSum.swift */; };
 		731CF8071F98467A00C59AA8 /* TSBCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731CF8061F98467A00C59AA8 /* TSBCalculator.swift */; };
 		731FA62B201FD890004EF572 /* ActivityType+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731FA62A201FD890004EF572 /* ActivityType+Extension.swift */; };
@@ -54,6 +55,11 @@
 		73444C3F1F96AB9B00B3E84D /* Enumerations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73444C3E1F96AB9B00B3E84D /* Enumerations.swift */; };
 		73475E9D2021CD67002407CB /* TreeNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73475E9C2021CD67002407CB /* TreeNode.swift */; };
 		734C9C50204BDDE90007F5B1 /* TrainingDiaryViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734C9C4F204BDDE90007F5B1 /* TrainingDiaryViewControllerProtocol.swift */; };
+		734CE27820B58AB100F5F3E7 /* OpenAndSaveDialogues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734CE27720B58AB100F5F3E7 /* OpenAndSaveDialogues.swift */; };
+		734CE27920B58B6700F5F3E7 /* OpenAndSaveDialogues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734CE27720B58AB100F5F3E7 /* OpenAndSaveDialogues.swift */; };
+		734E75F520B5E0CB003281BC /* EddingtonContributor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734E75F420B5E0CB003281BC /* EddingtonContributor+Extension.swift */; };
+		734E75F620B5E0DE003281BC /* EddingtonContributor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734E75F420B5E0CB003281BC /* EddingtonContributor+Extension.swift */; };
+		734E75F820B5E0EF003281BC /* EddingtonAnnualHistory+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734E75F720B5E0EF003281BC /* EddingtonAnnualHistory+Extension.swift */; };
 		7352E1EB20932B4500C64FD5 /* AggregationMethodComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7352E1EA20932B4500C64FD5 /* AggregationMethodComboBox.swift */; };
 		7355D4B4208FD0AB00C2F430 /* BasicWeekDay+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355D4B3208FD0AB00C2F430 /* BasicWeekDay+Extension.swift */; };
 		73593314201F7C6F007BB525 /* ActivityToStringTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73593313201F7C6F007BB525 /* ActivityToStringTransformer.swift */; };
@@ -383,6 +389,9 @@
 		73444C3E1F96AB9B00B3E84D /* Enumerations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enumerations.swift; sourceTree = "<group>"; };
 		73475E9C2021CD67002407CB /* TreeNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreeNode.swift; sourceTree = "<group>"; };
 		734C9C4F204BDDE90007F5B1 /* TrainingDiaryViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingDiaryViewControllerProtocol.swift; sourceTree = "<group>"; };
+		734CE27720B58AB100F5F3E7 /* OpenAndSaveDialogues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAndSaveDialogues.swift; sourceTree = "<group>"; };
+		734E75F420B5E0CB003281BC /* EddingtonContributor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EddingtonContributor+Extension.swift"; sourceTree = "<group>"; };
+		734E75F720B5E0EF003281BC /* EddingtonAnnualHistory+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EddingtonAnnualHistory+Extension.swift"; sourceTree = "<group>"; };
 		7352E1EA20932B4500C64FD5 /* AggregationMethodComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AggregationMethodComboBox.swift; sourceTree = "<group>"; };
 		7355D4B3208FD0AB00C2F430 /* BasicWeekDay+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BasicWeekDay+Extension.swift"; sourceTree = "<group>"; };
 		73593313201F7C6F007BB525 /* ActivityToStringTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityToStringTransformer.swift; sourceTree = "<group>"; };
@@ -437,7 +446,6 @@
 		73B2B9E91F894CC00044DD4E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		73B2B9EC1F894CC00044DD4E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		73B2B9EE1F894CC00044DD4E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		73B2B9EF1F894CC00044DD4E /* Training_Diary.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Training_Diary.entitlements; sourceTree = "<group>"; };
 		73B2B9F71F894E870044DD4E /* CoreDataStackSingleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStackSingleton.swift; sourceTree = "<group>"; };
 		73B2B9FB1F896F920044DD4E /* TransformerNSNumberToTimeFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransformerNSNumberToTimeFormat.swift; sourceTree = "<group>"; };
 		73B2B9FF1F898BF30044DD4E /* Workout+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Workout+Extension.swift"; sourceTree = "<group>"; };
@@ -615,7 +623,6 @@
 				73FC61E2200E1D5200C61DE6 /* tableEnd.txt */,
 				73FC61E0200E1D1900C61DE6 /* tableStart.txt */,
 				73E6A3EE20525CBD00551C85 /* Training Diary.entitlements */,
-				73B2B9EF1F894CC00044DD4E /* Training_Diary.entitlements */,
 				73B3188B1FAB78AD00B75550 /* Type Extensions */,
 			);
 			path = "Training Diary";
@@ -764,6 +771,7 @@
 				73C13FB32049408100199D47 /* TrainingDiaryTabViewControler.swift */,
 				733837D61FD99BDD0082C45B /* TrainingDiaryViewController.swift */,
 				73B2B9E41F894CC00044DD4E /* ViewController.swift */,
+				734CE27720B58AB100F5F3E7 /* OpenAndSaveDialogues.swift */,
 			);
 			path = TrainingDiary;
 			sourceTree = "<group>";
@@ -859,6 +867,8 @@
 				73B2BA011F898C060044DD4E /* Day+Extension.swift */,
 				73E1F3D620AEB325008AE0FC /* DayValueProtocol.swift */,
 				73AB477B202354CF0093B8A4 /* EddingtonHistory+Extension.swift */,
+				734E75F420B5E0CB003281BC /* EddingtonContributor+Extension.swift */,
+				734E75F720B5E0EF003281BC /* EddingtonAnnualHistory+Extension.swift */,
 				73C58CA61FA8EFD200F57BAE /* EddingtonNumber+Extension.swift */,
 				73C3B37C1F97AC1400ED6108 /* EddingtonNumberCalculator.swift */,
 				73444C3E1F96AB9B00B3E84D /* Enumerations.swift */,
@@ -1036,6 +1046,7 @@
 				735F632C20970BE400AE3503 /* TSConstantsSplitViewController.swift in Sources */,
 				735F632D20970BE400AE3503 /* RollingPeriodWeightedAverage.swift in Sources */,
 				735F632E20970BE400AE3503 /* ActivityType+Extension.swift in Sources */,
+				7317E1C320B5E63800128A21 /* EddingtonAnnualHistory+Extension.swift in Sources */,
 				735F632F20970BE400AE3503 /* ActivityGraphDefinition.swift in Sources */,
 				735F633020970BE400AE3503 /* DaysInputViewController.swift in Sources */,
 				735F633120970BE400AE3503 /* NumberToDetailedTimeTransformer.swift in Sources */,
@@ -1070,6 +1081,7 @@
 				735F634C20970BE400AE3503 /* GraphManagementDelegate.swift in Sources */,
 				735F634D20970BE400AE3503 /* WeightHRVSplitViewController.swift in Sources */,
 				735F634E20970BE400AE3503 /* TrainingDiaryValues.swift in Sources */,
+				734CE27920B58B6700F5F3E7 /* OpenAndSaveDialogues.swift in Sources */,
 				735F634F20970BE400AE3503 /* NumberToSummaryTimeFormatter.swift in Sources */,
 				735F635020970BE400AE3503 /* TSBConstant+Extension.swift in Sources */,
 				735F635120970BE400AE3503 /* AppDelegate.swift in Sources */,
@@ -1129,6 +1141,7 @@
 				7364486120A0C6FA00E6292B /* BucketGraphDefinition.swift in Sources */,
 				735F638120970BE400AE3503 /* WeightsArrayController.swift in Sources */,
 				735F638220970BE400AE3503 /* PlanOutputViewController.swift in Sources */,
+				734E75F620B5E0DE003281BC /* EddingtonContributor+Extension.swift in Sources */,
 				735F638320970BE400AE3503 /* PlanGraphViewController.swift in Sources */,
 				735F638420970BE400AE3503 /* BikeGraphs.swift in Sources */,
 				735F638520970BE400AE3503 /* Equipment+Extension.swift in Sources */,
@@ -1190,6 +1203,7 @@
 				73EBA4832083642D00426626 /* TSConstantsSplitViewController.swift in Sources */,
 				732EF2141FD0B5E6008768C0 /* RollingPeriodWeightedAverage.swift in Sources */,
 				731FA62B201FD890004EF572 /* ActivityType+Extension.swift in Sources */,
+				734E75F820B5E0EF003281BC /* EddingtonAnnualHistory+Extension.swift in Sources */,
 				73E1F3D520AEB161008AE0FC /* CacheingDay.swift in Sources */,
 				7309AED61FC6CCC100054A6B /* ActivityGraphDefinition.swift in Sources */,
 				73E1F3D720AEB325008AE0FC /* DayValueProtocol.swift in Sources */,
@@ -1224,6 +1238,7 @@
 				73B9FCBD200B703600C57D25 /* AllBikesComboBox.swift in Sources */,
 				7302C68720924C5D004B17F5 /* SumAggregator.swift in Sources */,
 				73C2E4991FD8967900C30316 /* GraphManagementDelegate.swift in Sources */,
+				734CE27820B58AB100F5F3E7 /* OpenAndSaveDialogues.swift in Sources */,
 				735C8C602090A1BD00149F96 /* WeightHRVSplitViewController.swift in Sources */,
 				7364157A201C8FF5009D5817 /* TrainingDiaryValues.swift in Sources */,
 				73DC9B131FDC39B500D4774A /* NumberToSummaryTimeFormatter.swift in Sources */,
@@ -1283,6 +1298,7 @@
 				7364486020A0C53B00E6292B /* BucketGraphDefinition.swift in Sources */,
 				73CFDB84208CA27900534553 /* PlanGraphViewController.swift in Sources */,
 				73D3738720176FD600E44427 /* BikeGraphs.swift in Sources */,
+				734E75F520B5E0CB003281BC /* EddingtonContributor+Extension.swift in Sources */,
 				73308C3F209D0F6500AC8832 /* Bucket.swift in Sources */,
 				73C2F03E20206E480073323D /* Equipment+Extension.swift in Sources */,
 				7369D9F61FB24F8C00ECAA1E /* TSSMethodComboBox.swift in Sources */,

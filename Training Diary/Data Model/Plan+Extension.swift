@@ -26,6 +26,17 @@ extension Plan{
     @objc dynamic var iso8061ToString: String{
         return to!.iso8601Format()
     }
+
+    //this is for CSV serialisation
+    @objc dynamic var csvFromString: String{
+        return from!.dateOnlyString()
+    }
+    @objc dynamic var csvTaperStartString: String{
+        return taperStart!.dateOnlyString()
+    }
+    @objc dynamic var csvToString: String{
+        return to!.dateOnlyString()
+    }
     
     @objc dynamic var nameNotSet: Bool{
         if let n = name{

@@ -145,60 +145,12 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
  
     //MARK: - @IBActions
 
-/*    @IBAction func testFeature(_ sender: Any) {
-        print("no feature being tested at the moment")
-        let button: NSButton = sender as! NSButton
-        print("\(button)")
-    }
- */
- /*   @IBAction func deleteALL(_ sender: Any) {
-        
-        let dialog = NSAlert()
-        dialog.alertStyle = .warning
-        dialog.informativeText = "Are you sure?"
-        dialog.messageText = "This will delete all entries in all diaries"
-        dialog.addButton(withTitle: "Cancel")
-        dialog.addButton(withTitle: "DELETE ALL")
-    
-        
-        if (dialog.runModal() == NSApplication.ModalResponse.alertSecondButtonReturn) {
-            let weightRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: ENTITY.Weight.rawValue)
-            let physioRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: ENTITY.Physiological.rawValue)
-            let workoutRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: ENTITY.Workout.rawValue)
-            let dayRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: ENTITY.Day.rawValue)
-            let trainingDiaryRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: ENTITY.TrainingDiary.rawValue)
-            do {
-                let tds = try CoreDataStackSingleton.shared.trainingDiaryPC.viewContext.fetch(trainingDiaryRequest)
-                for t in tds{
-                    CoreDataStackSingleton.shared.trainingDiaryPC.viewContext.delete(t as! NSManagedObject)
-                }
-                let days = try CoreDataStackSingleton.shared.trainingDiaryPC.viewContext.fetch(dayRequest)
-                for d in days{
-                    CoreDataStackSingleton.shared.trainingDiaryPC.viewContext.delete(d as! NSManagedObject)
-                }
-                let workouts = try CoreDataStackSingleton.shared.trainingDiaryPC.viewContext.fetch(workoutRequest)
-                for r in workouts{
-                    CoreDataStackSingleton.shared.trainingDiaryPC.viewContext.delete(r as! NSManagedObject)
-                }
-                let ws = try CoreDataStackSingleton.shared.trainingDiaryPC.viewContext.fetch(weightRequest)
-                for w in ws{
-                    CoreDataStackSingleton.shared.trainingDiaryPC.viewContext.delete(w as! NSManagedObject)
-                }
-                let ps = try CoreDataStackSingleton.shared.trainingDiaryPC.viewContext.fetch(physioRequest)
-                for p in ps{
-                    CoreDataStackSingleton.shared.trainingDiaryPC.viewContext.delete(p as! NSManagedObject)
-                }
-            } catch {
-                // do something
-            }
-        }
-    }
-*/
+
 
     // MARK: -  JSON Support
     
     @IBAction func loadFromFile(_ sender: Any) {
-        if let url = getPathFromModelDialogue(withTitle: "chose .json or .csv file",andFileTypes: FileExtension.importTypes.map({$0.rawValue})) {
+        if let url = OpenAndSaveDialogues().selectedPath(withTitle: "chose .json or .csv file",andFileTypes: FileExtension.importTypes.map({$0.rawValue})) {
 
             if let fileExtension = FileExtension(rawValue: url.pathExtension){
                 switch fileExtension{
@@ -221,7 +173,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
             //this will bring up file choser for user to select file to merge and then
             //parse the file returning top level json dictionary
             //not this may return nil if user hits 'cancel' for instance
-            if let url = getPathFromModelDialogue(withTitle: "chose .json or .csv file",andFileTypes: FileExtension.importTypes.map({$0.rawValue})){
+            if let url = OpenAndSaveDialogues().selectedPath(withTitle: "chose .json or .csv file",andFileTypes: FileExtension.importTypes.map({$0.rawValue})){
                 if let fileExtension = FileExtension(rawValue: url.pathExtension){
                     switch fileExtension{
                     case FileExtension.json:
@@ -244,31 +196,18 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
     
     @IBAction func exportJSON(_ sender: NSMenuItem){
         if let td = getSelectedTrainingDiary(){
-            guard let window = view.window else { return }
             
-            let panel = NSSavePanel()
-            panel.directoryURL = FileManager.default.homeDirectoryForCurrentUser
-            panel.allowedFileTypes = ["json"]
-            panel.canCreateDirectories = true
-            panel.nameFieldStringValue = "TrainingDiary.json"
-            
-            panel.beginSheetModal(for: window) {(result) in
-                if result.rawValue == NSFileHandlingPanelOKButton,
-                    let url = panel.url{
-                    
-                    let exporter = JSONExporter()
-                    if let jsonString = exporter.createJSON(forTrainingDiary: td){
-                        do{
-                            try jsonString.write(to: url, atomically: true, encoding: String.Encoding.utf8.rawValue)
-                        }catch{
-                            print("Unable to save HTML")
-                            print(error)
-                        }
+            if let url = OpenAndSaveDialogues().saveFilePath(suggestedFileName: "TrainingDiary", allowFileTypes: ["json"]){
+                if let jsonString = JSONExporter().createJSON(forTrainingDiary: td){
+                    do{
+                        try jsonString.write(to: url, atomically: true, encoding: String.Encoding.utf8.rawValue)
+                    }catch{
+                        print("Unable to save JSON")
+                        print(error)
                     }
                 }
             }
         }
-        
     }
     
     @IBAction func exportCSV(_ sender: NSMenuItem){
@@ -277,28 +216,46 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
         if let td = getSelectedTrainingDiary(){
             let csv = csvExporter.convertToCSV(trainingDiary: td)
             
-            if let saveFolder = selectPathFromModalDialogue(createSubFolder: "Data-\(Date().dateOnlyString())"){
+            if let saveFolder = OpenAndSaveDialogues().chooseFolderForSave(createSubFolder: "Data-\(Date().dateOnlyString())"){
                 var saveFileName = saveFolder.appendingPathComponent("workouts.csv")
                 do{
-                    try csv.workoutCSV.write(to: saveFileName, atomically: false, encoding: .utf8)
+                    try csv.workouts.write(to: saveFileName, atomically: false, encoding: .utf8)
                 }catch let error as NSError{
                     print(error)
                 }
                 saveFileName = saveFolder.appendingPathComponent("days.csv")
                 do{
-                    try csv.dayCSV.write(to: saveFileName, atomically: false, encoding: .utf8)
+                    try csv.days.write(to: saveFileName, atomically: false, encoding: .utf8)
                 }catch let error as NSError{
                     print(error)
                 }
                 saveFileName = saveFolder.appendingPathComponent("weights.csv")
                 do{
-                    try csv.weightsCSV.write(to: saveFileName, atomically: false, encoding: .utf8)
+                    try csv.weights.write(to: saveFileName, atomically: false, encoding: .utf8)
                 }catch let error as NSError{
                     print(error)
                 }
                 saveFileName = saveFolder.appendingPathComponent("physiologicals.csv")
                 do{
-                    try csv.physiologicalsCSV.write(to: saveFileName, atomically: false, encoding: .utf8)
+                    try csv.physiologicals.write(to: saveFileName, atomically: false, encoding: .utf8)
+                }catch let error as NSError{
+                    print(error)
+                }
+                saveFileName = saveFolder.appendingPathComponent("plans.csv")
+                do{
+                    try csv.plans.write(to: saveFileName, atomically: false, encoding: .utf8)
+                }catch let error as NSError{
+                    print(error)
+                }
+                saveFileName = saveFolder.appendingPathComponent("basicWeekDays.csv")
+                do{
+                    try csv.basicWeek.write(to: saveFileName, atomically: false, encoding: .utf8)
+                }catch let error as NSError{
+                    print(error)
+                }
+                saveFileName = saveFolder.appendingPathComponent("planDays.csv")
+                do{
+                    try csv.planDays.write(to: saveFileName, atomically: false, encoding: .utf8)
                 }catch let error as NSError{
                     print(error)
                 }
@@ -307,19 +264,6 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
     }
     
     //MARK: - CSV Support
-    
- /*   @IBAction func importCSV(_ sender: NSMenuItem){
-        if let url = getPathFromModelDialogue(withTitle: "chose .csv file to import", andFileTypes: ["csv"]) {
-            let start = Date()
-            let csvImporter = CSVImporter()
-            csvImporter.importDiary(fromURL: url)
-            print("\(Date().timeIntervalSince(start)) seconds to import from \(url.absoluteString) ")
-        }
-       
-    }
- */
-
-
     
     
     //MARK: - Private functions
@@ -331,73 +275,6 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
             return selectedObject as? TrainingDiary
         }
         return nil
-    }
-    
-
-
-    private func getPathFromModelDialogue(withTitle title: String, andFileTypes fileTypes: [String]) -> URL?{
-        
-        let dialog = NSOpenPanel()
-        
-        dialog.title                   = title
-        dialog.showsResizeIndicator    = true
-        dialog.showsHiddenFiles        = false
-        dialog.canChooseDirectories    = true
-        dialog.canCreateDirectories    = true
-        dialog.allowsMultipleSelection = false
-        dialog.allowedFileTypes        = fileTypes
-        
-        
-        
-        if (dialog.runModal() == NSApplication.ModalResponse.OK) {
-            return dialog.url // Pathname of the file
-        } else {
-            // User clicked on "Cancel"
-            return nil
-        }
-    }
-    
-    func selectPathFromModalDialogue(createSubFolder folder: String? = nil) -> URL?{
-        //see about selecting a directory for the save
-        let dialog = NSOpenPanel()
-        dialog.message = "Choose directory for save."
-        if let f = folder{
-            dialog.message = "Choose directory for save. (a sub folder called \(f) will be created"
-        }
-        dialog.showsResizeIndicator    = true
-        dialog.showsHiddenFiles        = false
-        dialog.canChooseDirectories    = true
-        dialog.canCreateDirectories    = true
-        dialog.allowsMultipleSelection = false
-        dialog.canChooseFiles           = false
-        dialog.prompt = "Select"
-        
-        if (dialog.runModal() == NSApplication.ModalResponse.OK) {
-            if let directory = dialog.url{
-                var saveFolder = directory
-                if let f = folder{
-                     saveFolder = directory.appendingPathComponent(f)
-                }
-                
-                //check for this folder
-                var isDirectory: ObjCBool = false
-                FileManager.default.fileExists(atPath: saveFolder.path, isDirectory: &isDirectory)
-                
-                if !isDirectory.boolValue{
-                    print("\(saveFolder) does not exist. Will create")
-                    do{
-                        try FileManager.default.createDirectory(at: saveFolder, withIntermediateDirectories: true, attributes: nil)
-                    }catch{
-                        print(error)
-                        return nil
-                    }
-                }
-                return saveFolder
-                
-            }
-        }
-        
-       return nil
     }
     
     private func selectedTrainingDiary() -> TrainingDiary?{

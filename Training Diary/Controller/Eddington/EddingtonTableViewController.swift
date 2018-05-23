@@ -61,46 +61,64 @@ class EddingtonTableViewController: TrainingDiaryViewController, NSComboBoxDataS
         }
     }
     
-    //MARK: - Calc / Re calc
-/*    @IBAction func updateSelection(_ sender: NSButton) {
-        let start = Date()
-        
-        
-        DispatchQueue.global(qos: .userInitiated).async {
-            var count: Double = 0.0
-            let total: Double = Double(self.selectedRows().count)
-            for edNum in self.selectedRows(){
-                count += 1
-                let secs = Int(Date().timeIntervalSince(start))
-                DispatchQueue.main.sync {
-                    self.mainViewController!.mainStatusField.stringValue = "EDDINGTON NUMBER UPDATE: \(Int(count)) of \(Int(total)) : \(edNum.eddingtonCode) (\(secs)s) ..."
+    @IBAction func exportSelectionAsJSON(_ sender: Any) {
+        if let url = OpenAndSaveDialogues().saveFilePath(suggestedFileName: "EddingtonNumbers", allowFileTypes: ["json"]){
+            if let jsonString = JSONExporter().createJSON(forEddingtonNumbers: selectedRows()){
+                do{
+                    try jsonString.write(to: url, atomically: true, encoding: String.Encoding.utf8.rawValue)
+                }catch{
+                    print("Unable to save JSON")
+                    print(error)
                 }
-                let subStart = Date()
-                let calculator = EddingtonNumberCalculator()
-                calculator.update(eddingtonNumber: edNum)
-                DispatchQueue.main.async {
-                    
-                    print("starting ednum update \(Date().timeIntervalSince(start))s from start")
-                    edNum.update(forCalculator: calculator)
-                    print("finished ednum update \(Date().timeIntervalSince(start))s from start")
-                    
-                    self.mainViewController!.mainProgressBar!.doubleValue = 100.0 * count / total
-                }
-                let timeTaken = Date().timeIntervalSince(subStart)
-                print("Time taken for \(edNum.eddingtonCode): \(timeTaken) seconds")
             }
-            let seconds = Date().timeIntervalSince(start)
-            print("Time taken for new Ed num update: \(seconds) seconds.")
-            DispatchQueue.main.async {
-                self.mainViewController!.mainStatusField.stringValue = "EDDINGTON NUMBER UPDATE: Update complete in \(Int(Date().timeIntervalSince(start)))s"
-                print("update graph called \(Date().timeIntervalSince(start))s since start")
-                print("graph updated  \(Date().timeIntervalSince(start))s since start")
-                print("TOTAL TIME = \(Date().timeIntervalSince(start))s")
+        }
+    }
+    
+    @IBAction func exportSelectionAsCSV(_ sender: Any) {
+        
+        if let directoryURL = OpenAndSaveDialogues().chooseFolderForSave(createSubFolder: "Data-\(Date().dateOnlyString())"){
+            
+            let csv = CSVExporter().convertToCSV(selectedRows())
+            
+            var saveFileName = directoryURL.appendingPathComponent("eddingtonNumbers.csv")
+            do{
+                try csv.eddingtonNumbers.write(to: saveFileName, atomically: false, encoding: .utf8)
+            }catch let error as NSError{
+                print(error)
+            }
+            for d in csv.annualHistory{
+                let adjustedKey: String = d.key.replacingOccurrences(of: EddingtonNumber.codeDelimiter, with: "~")
+                saveFileName = directoryURL.appendingPathComponent(adjustedKey + "-AnnualHistory.csv")
+                do{
+                    try d.value.write(to: saveFileName, atomically: false, encoding: .utf8)
+                }catch let error as NSError{
+                    print(error)
+                }
+            }
+            for d in csv.contributors{
+                let adjustedKey: String = d.key.replacingOccurrences(of: EddingtonNumber.codeDelimiter, with: "~")
+                saveFileName = directoryURL.appendingPathComponent(adjustedKey + "-Contributors.csv")
+                do{
+                    try d.value.write(to: saveFileName, atomically: false, encoding: .utf8)
+                }catch let error as NSError{
+                    print(error)
+                }
+            }
+            for d in csv.history{
+                let adjustedKey: String = d.key.replacingOccurrences(of: EddingtonNumber.codeDelimiter, with: "~")
+                saveFileName = directoryURL.appendingPathComponent(adjustedKey + "-History.csv")
+                do{
+                    try d.value.write(to: saveFileName, atomically: false, encoding: .utf8)
+                }catch let error as NSError{
+                    print(error)
+                }
             }
         }
         
     }
- */
+    
+    //MARK: - Calc
+
     @IBAction func calculateSelection(_ sender: NSButton) {
         
         let start = Date()

@@ -35,6 +35,44 @@ class WeightHRVTablesViewController: TrainingDiaryViewController{
     }
     
 
+    @IBAction func exportSelectionAsJSON(_ sender: Any) {
+        let weights: [Weight] = weightArrayController.selectedObjects as? [Weight] ?? []
+        let physios: [Physiological] = hrArrayController.selectedObjects as? [Physiological] ?? []
+        
+        if let url = OpenAndSaveDialogues().saveFilePath(suggestedFileName: "WeightsAndPhysiologicals", allowFileTypes: ["json"]){
+            
+            if let jsonString = JSONExporter().createJSON(forTrainingDiary: trainingDiary!,  forDays: [], forPhysiologicals: physios, forWeights: weights, forPlans: []){
+                do{
+                    try jsonString.write(to: url, atomically: true, encoding: String.Encoding.utf8.rawValue)
+                }catch{
+                    print("Unable to save JSON")
+                    print(error)
+                }
+            }
+        }
+    }
+    
+    @IBAction func exportSelectionAsCSV(_ sender: Any) {
+        if let directoryURL = OpenAndSaveDialogues().chooseFolderForSave(createSubFolder: "Data-\(Date().dateOnlyString())"){
+           
+            let weights: [Weight] = weightArrayController.selectedObjects as? [Weight] ?? []
+            let physios: [Physiological] = hrArrayController.selectedObjects as? [Physiological] ?? []
+            
+            let csv = CSVExporter().convertToCSV(trainingDiary!, [], weights, physios, [])
+            var saveFileName = directoryURL.appendingPathComponent("weights.csv")
+            do{
+                try csv.weights.write(to: saveFileName, atomically: false, encoding: .utf8)
+            }catch let error as NSError{
+                print(error)
+            }
+            saveFileName = directoryURL.appendingPathComponent("physiologicals.csv")
+            do{
+                try csv.physiologicals.write(to: saveFileName, atomically: false, encoding: .utf8)
+            }catch let error as NSError{
+                print(error)
+            }
+        }
+    }
     
     @IBAction func fromDatePickerChanged(_ sender: Any) { datePickerChanged() }
     @IBAction func toDatePickerChanged(_ sender: Any) { datePickerChanged() }

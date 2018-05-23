@@ -10,25 +10,121 @@ import Foundation
 
 class CSVExporter{
     
+    struct TrainingDiaryCVSStrings{
+        var days: String
+        var workouts: String
+        var weights: String
+        var physiologicals: String
+        var plans: String
+        var basicWeek: String
+        var planDays: String
+    }
+    
+    struct EddingtonNumberStrings{
+        var eddingtonNumbers: String
+        //the following are dictionaries with the key the eddington code
+        var history: [String:String]
+        var contributors: [String:String]
+        var annualHistory: [String:String]
+    }
+    
     var weightsDictionary: [String:Weight] = [:]
     var physioDictionary: [String:Physiological] = [:]
 
-    func convertToCSV(trainingDiary td: TrainingDiary) -> (dayCSV: String, workoutCSV: String, weightsCSV: String, physiologicalsCSV: String){
-        createDictionaries(forTrainingDiary: td)
-        let result = convertToCSV(forDays: td.days!.allObjects as! [Day], td)
-        let weights = convertToCSV(forWeights: td.weights!.allObjects as! [Weight])
-        let physios = convertToCSV(forPhysios: td.physiologicals!.allObjects as! [Physiological])
-        return (result.dayCSV, result.workoutCSV, weights, physios)
+    func convertToCSV(trainingDiary td: TrainingDiary) -> TrainingDiaryCVSStrings{
+        return convertToCSV(td, td.days?.allObjects as? [Day] ?? [], td.weights?.allObjects as? [Weight] ?? [], td.physiologicals?.allObjects as? [Physiological] ?? [], td.plans?.allObjects as? [Plan] ?? [])
     }
     
-    func convertToCSV(forDays days: [Day], _ td: TrainingDiary) -> (dayCSV: String, workoutCSV: String){
+    //this is split out to allow the conversion of a selection to CSV
+    func convertToCSV(_ td: TrainingDiary, _ days: [Day], _ weights: [Weight], _ physiologicals: [Physiological], _ plans: [Plan]) -> TrainingDiaryCVSStrings{
         
-        var workoutString: String = "date"
+        createDictionaries(weights, physiologicals)
+        let result = convertToCSV(days, td)
+        let weights = convertToCSV(forWeights: weights)
+        let physios = convertToCSV(forPhysios: physiologicals)
+        let plans = convertToCSV(plans)
+        return TrainingDiaryCVSStrings(days: result.dayCSV, workouts: result.workoutCSV, weights: weights, physiologicals: physios, plans: plans.plan, basicWeek: plans.basicWeek, planDays: plans.planDays)
+    
+    }
+    
+    
+    func convertToCSV(_ workouts: [Workout]) -> String{
+        var workoutString: String = createHeaderRow(WorkoutProperty.csvProperties.map({$0.rawValue}))
+        workoutString += "\n"
+        for w in workouts{
+            workoutString += w.day!.date!.dateOnlyString()
+            workoutString += csv(w, WorkoutProperty.csvProperties.map({$0.rawValue}))
+            workoutString += "\n"
+        }
+        return workoutString
+    }
+
+    func convertToCSV(_ ltdEdNums: [LTDEddingtonNumber]) -> String{
+        var edNumString: String = createHeaderRow(LTDEddingtonNumberProperty.csvProperties.map({$0.rawValue}))
+        edNumString += "\n"
+        for l in ltdEdNums{
+            edNumString += csv(l, LTDEddingtonNumberProperty.csvProperties.map({$0.rawValue}))
+            edNumString += "\n"
+        }
+        return edNumString
+    }
+    
+    func convertToCSV(_ edNums: [EddingtonNumber]) -> EddingtonNumberStrings{
+        var edNumString: String = createHeaderRow(EddingtonNumberProperty.csvProperties.map({$0.rawValue}))
+        edNumString += "\n"
+        
+        var historyDict: [String:String] = [:]
+        var contributorsDict: [String:String] = [:]
+        var annualHistoryDict: [String:String] = [:]
+        
+        for e in edNums{
+            edNumString += csv(e, EddingtonNumberProperty.csvProperties.map({$0.rawValue}))
+            edNumString += "\n"
+            
+            if let history = e.history?.allObjects as? [EddingtonHistory]{
+                var historyString: String = createHeaderRow(EddingtonHistoryProperty.csvProperties.map({$0.rawValue}))
+                historyString += "\n"
+                for h in history{
+                    historyString += csv(h, EddingtonHistoryProperty.csvProperties.map({$0.rawValue}))
+                    historyString += "\n"
+                }
+                historyDict[e.eddingtonCode] = historyString
+            }
+            
+            if let contributors = e.contributors?.allObjects as? [EddingtonContributor]{
+                var contributorString: String = createHeaderRow(EddingtonContributorProperty.csvProperties.map({$0.rawValue}))
+                contributorString += "\n"
+                for c in contributors{
+                    contributorString += csv(c, EddingtonContributorProperty.csvProperties.map({$0.rawValue}))
+                    contributorString += "\n"
+                }
+                contributorsDict[e.eddingtonCode] = contributorString
+            }
+            
+            if let annualHistory = e.annualHistory?.allObjects as? [EddingtonAnnualHistory]{
+                var annualString: String = createHeaderRow(EddingtonAnnualHistoryProperty.csvProperties.map({$0.rawValue}))
+                annualString += "\n"
+                for a in annualHistory{
+                    annualString += csv(a, EddingtonAnnualHistoryProperty.csvProperties.map({$0.rawValue}))
+                    annualString += "\n"
+                }
+                annualHistoryDict[e.eddingtonCode] = annualString
+            }
+            
+        }
+        
+        return EddingtonNumberStrings(eddingtonNumbers: edNumString, history: historyDict, contributors: contributorsDict, annualHistory: annualHistoryDict)
+        
+    }
+    
+    private func convertToCSV(_ days: [Day], _ td: TrainingDiary) -> (dayCSV: String, workoutCSV: String){
+        
+        var workoutString: String = "date,"
         var dayString: String = ""
         var workoutCount: Int = 0
         var dayCount: Int = 0
     
-        workoutString += headerRowForWorkouts()
+        workoutString += createHeaderRow(WorkoutProperty.csvProperties.map({$0.rawValue}))
         workoutString += "\n"
     
         dayString += headerRowForDays(td)
@@ -45,7 +141,7 @@ class CSVExporter{
                     for w in workouts{
                         workoutCount += 1
                         workoutString += dateString
-                        workoutString += csv(forWorkout: w as! Workout)
+                        workoutString += csv(w as! Workout, WorkoutProperty.csvProperties.map({$0.rawValue}))
                         workoutString += "\n"
                     }
                 }
@@ -58,122 +154,69 @@ class CSVExporter{
         return (dayCSV: dayString, workoutCSV: workoutString)
     }
     
-    private func convertToCSV(forWeights weights: [Weight]) -> String{
+    private func convertToCSV(_ plans: [Plan]) -> (plan: String, basicWeek: String, planDays: String){
         
-        var weightString: String = ""
-        var isFirst: Bool = true
+        var planString: String = createHeaderRow(PlanProperty.csvProperties.map({$0.rawValue}))
+        planString += "\n"
         
-        for property in WeightProperty.jsonProperties{
-            if isFirst{
-                isFirst = false
-            }else{
-                weightString += ","
-            }
-            weightString += property.rawValue
-        }
-        weightString += "\n"
+        var basicWeekString: String = createHeaderRow(BasicWeekDayProperty.csvProperties.map({$0.rawValue}))
+        basicWeekString += "\n"
         
+        var planDaysString: String = createHeaderRow(PlanDayProperty.csvProperties.map({$0.rawValue}))
+        planDaysString += "\n"
         
-        for w in weights{
-            isFirst = true
-            for p in WeightProperty.jsonProperties{
-                if isFirst{
-                    isFirst = false
-                }else{
-                    weightString += ","
-                }
-                if let value = w.value(forKey: p.rawValue){
-                    if let v = value as? String{
-                        weightString += fixString(v)
-                    }else if let d = value as? Double{
-                        weightString += String(format: "%.8f",d)
-                    }else{
-                        weightString += String(describing: value)
-                    }
+        for p in plans{
+            planString += csv(p, PlanProperty.csvProperties.map({$0.rawValue}))
+            planString += "\n"
+            if let basicWeek = p.basicWeek?.allObjects as? [BasicWeekDay]{
+                for b in basicWeek{
+                    basicWeekString += csv(b, BasicWeekDayProperty.csvProperties.map({$0.rawValue}))
+                    basicWeekString += "\n"
                 }
             }
-            weightString += "\n"
+            if let planDays = p.planDays?.allObjects as? [PlanDay]{
+                for p in planDays{
+                    planDaysString += csv(p, PlanDayProperty.csvProperties.map({$0.rawValue}))
+                    planDaysString += "\n"
+                }
+            }
         }
         
-        return weightString
+        
+        return (planString, basicWeekString, planDaysString)
     }
+    
     
     private func convertToCSV(forPhysios physios: [Physiological]) -> String{
         
-        var physioString: String = ""
-        var isFirst: Bool = true
-        
-        for property in PhysiologicalProperty.csvProperties{
-            if isFirst{
-                isFirst = false
-            }else{
-                physioString += ","
-            }
-            physioString += property.rawValue
-        }
+        let properties: [String] = PhysiologicalProperty.csvProperties.map({$0.rawValue})
+        var physioString: String = createHeaderRow(properties)
         physioString += "\n"
         
-        
         for phys in physios{
-            isFirst = true
-            for p in PhysiologicalProperty.csvProperties{
-                if isFirst{
-                    isFirst = false
-                }else{
-                    physioString += ","
-                }
-                if let value = phys.value(forKey: p.rawValue){
-                    if let v = value as? String{
-                        physioString += fixString(v)
-                    }else if let d = value as? Double{
-                        physioString += String(format: "%.8f",d)
-                    }else{
-                        physioString += String(describing: value)
-                    }
-                }
-            }
+            physioString += csv(phys, properties)
             physioString += "\n"
         }
         
         return physioString
     }
 
-    private func csv(forWorkout w: Workout) -> String{
-        var result: String = ""
+    
+    private func convertToCSV(forWeights weights: [Weight]) -> String{
         
-        for property in WorkoutProperty.jsonProperties{
-            result += ","
-            if let value = w.value(forKey: property.rawValue){
-                if let v = value as? String{
-                    result += fixString(v)
-                }else if let d = value as? Double{
-                    result += String(format: "%.8f",d)
-                }else if let category = value as? CategoryProtocol{
-                    result += category.categoryName()
-                }else{
-                    result += String(describing: value)
-                }
-            }
+        var weightString: String = createHeaderRow(WeightProperty.csvProperties.map({$0.rawValue}))
+        weightString += "\n"
+        
+        for w in weights{
+            weightString += csv(w, WeightProperty.csvProperties.map({$0.rawValue}))
+            weightString += "\n"
         }
-
-        return result
+        
+        return weightString
     }
 
     private func csv(forDay d: Day) -> String{
-        var result: String = ""
-        
-        for property in DayProperty.csvProperties{
-            if let value = d.value(forKey: property.rawValue){
-                if let v = value as? String{
-                    result += fixString(v)
-                }else if let d = value as? Double{
-                    result += String(format: "%.8f",d)
-                }else{
-                    result += String(describing: value)
-                }
-            }
-            result += ","
-        }
+        var result: String = csv(d, DayProperty.csvProperties.map({$0.rawValue}))
         
         if let weight = weightsDictionary[d.date!.dateOnlyString()]{
             for p in DayProperty.weightProperties{
@@ -221,17 +264,34 @@ class CSVExporter{
         
         return result.trimmingCharacters(in: CharacterSet(charactersIn: ","))
     }
-    
-    private func headerRowForWorkouts() -> String{
+
+    private func csv(_ obj: NSObject, _ properties: [String]) -> String{
         var result: String = ""
         
-        for property in WorkoutProperty.jsonProperties{
+        for p in properties{
+            if let value = obj.value(forKey: p){
+                if let v = value as? String{
+                    result += fixString(v)
+                }else if let d = value as? Double{
+                    result += String(format: "%.8f",d)
+                }else{
+                    result += String(describing: value)
+                }
+            }
             result += ","
-            result += property.rawValue
+        }
+        return result.trimmingCharacters(in: CharacterSet(charactersIn: ","))
+    }
+    
+    private func createHeaderRow(_ properties: [String]) -> String{
+        var result: String = ""
+        
+        for p in properties{
+            result += p
+            result += ","
         }
         
-        return result
-        
+        return result.trimmingCharacters(in: CharacterSet.init(charactersIn: ","))
     }
     
     private func headerRowForDays(_ td: TrainingDiary) -> String{
@@ -277,22 +337,19 @@ class CSVExporter{
         return result
     }
     
-    private func createDictionaries(forTrainingDiary td: TrainingDiary){
+    private func createDictionaries(_ weights: [Weight], _ physios: [Physiological]){
         weightsDictionary = [:]
         physioDictionary = [:]
         
-        if let weights = td.weights?.allObjects as? [Weight]{
-            for w in weights{
-                weightsDictionary[w.fromDateString] = w
-            }
+        for w in weights{
+            weightsDictionary[w.fromDateString] = w
         }
         
-        if let physios = td.physiologicals?.allObjects as? [Physiological]{
-            for p in physios{
-                physioDictionary[p.fromDateString] = p
-            }
-        }
         
+        for p in physios{
+            physioDictionary[p.fromDateString] = p
+        }
+    
     }
     
 }

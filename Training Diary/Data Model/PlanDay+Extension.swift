@@ -41,6 +41,15 @@ extension PlanDay{
     @objc dynamic var iso8061DateString: String{
         return date!.iso8601Format()
     }
+
+    //this is for CSV serialisation
+    @objc dynamic var csvDateString: String{
+        return date!.dateOnlyString()
+    }
+    
+    @objc dynamic var planName: String{
+        return plan?.name ?? "Unkown Plan"
+    }
     
     @objc dynamic var trainingDiary: Any{
         get{

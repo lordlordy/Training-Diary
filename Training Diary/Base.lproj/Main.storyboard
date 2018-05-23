@@ -935,6 +935,35 @@
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+                        <toolbar key="toolbar" implicitIdentifier="F9AECA41-3B1A-4191-ABFB-4C91B8938A4A" displayMode="iconAndLabel" sizeMode="small" id="MAD-zA-pbs">
+                            <allowedToolbarItems>
+                                <toolbarItem implicitItemIdentifier="2B7BE9A8-4A69-4856-92DD-B8FE9B1D3B74" label="Export JSON" paletteLabel="Export JSON" toolTip="Save Selection As JSON" tag="-1" image="NSShareTemplate" id="GHa-sp-fQw">
+                                    <connections>
+                                        <action selector="exportSelectionAsJSON:" target="Oky-zY-oP4" id="EaZ-2E-MKJ"/>
+                                    </connections>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="15D4F87F-4885-4EA5-A40D-3328418EA8F6" label="Export CSV" paletteLabel="Export CSV" toolTip="Save Selection As CSV" tag="-1" image="NSShareTemplate" id="FVF-DA-jby">
+                                    <connections>
+                                        <action selector="exportSelectionAsCSV:" target="Oky-zY-oP4" id="Znb-1o-13P"/>
+                                    </connections>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="301E731D-F4CE-4E07-8605-DD8B18CC0848" label="Export HTML" paletteLabel="Export HTML" toolTip="Save Selection As HTML" tag="-1" image="NSShareTemplate" id="Bd4-XE-aRI">
+                                    <connections>
+                                        <action selector="exportSelectionAsHTML:" target="Oky-zY-oP4" id="3rq-BZ-cn5"/>
+                                    </connections>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="NSToolbarShowColorsItem" id="hOj-H6-PHR"/>
+                                <toolbarItem implicitItemIdentifier="NSToolbarShowFontsItem" id="c3C-OA-gKc"/>
+                                <toolbarItem implicitItemIdentifier="NSToolbarPrintItem" id="jZY-be-Gjl"/>
+                                <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="yS7-vQ-AjN"/>
+                                <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="nm2-74-Qzi"/>
+                            </allowedToolbarItems>
+                            <defaultToolbarItems>
+                                <toolbarItem reference="GHa-sp-fQw"/>
+                                <toolbarItem reference="FVF-DA-jby"/>
+                                <toolbarItem reference="Bd4-XE-aRI"/>
+                            </defaultToolbarItems>
+                        </toolbar>
                         <connections>
                             <outlet property="delegate" destination="B8D-0N-5wS" id="98r-iN-zZc"/>
                         </connections>
@@ -2030,5 +2059,6 @@
     <resources>
         <image name="NSAddTemplate" width="11" height="11"/>
         <image name="NSRemoveTemplate" width="11" height="11"/>
+        <image name="NSShareTemplate" width="11" height="16"/>
     </resources>
 </document>
