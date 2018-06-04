@@ -44,7 +44,9 @@ class EddingtonTreeViewController: TrainingDiaryViewController, ReferenceToMainP
     }
     
     @IBAction func exportSelectionAsHTML(_ sender: Any) {
-        HTMLGenerateAndSave().saveAsHTML(selectedEddingtonNumbers().sorted(by: {$0.code < $1.code}), fromView: view)
+        let edNums: [LTDEddingtonNumber] = selectedEddingtonNumbers().sorted(by: {$0.code < $1.code})
+        let paragraph: String = "Here are \(edNums.count) of my Eddington Numbers"
+        HTMLGenerateAndSave().saveStandardTableHTML(edNums, withOpeningParagraph: paragraph)
     }
     
     @IBAction func exportSelectionAsJSON(_ sender: Any) {

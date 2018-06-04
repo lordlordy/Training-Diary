@@ -13,6 +13,10 @@
 		7302C68D2092DBF1004B17F5 /* DayAggregator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7302C68C2092DBF1004B17F5 /* DayAggregator.swift */; };
 		7302C68F20930686004B17F5 /* DayAggregatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7302C68E20930686004B17F5 /* DayAggregatorProtocol.swift */; };
 		7302C69320931B33004B17F5 /* RollingPeriodCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7302C69220931B33004B17F5 /* RollingPeriodCalculator.swift */; };
+		730561BF20B72C9F00EC357B /* HTMLGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730561BE20B72C9F00EC357B /* HTMLGenerator.swift */; };
+		730561C020B72CA400EC357B /* HTMLGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730561BE20B72C9F00EC357B /* HTMLGenerator.swift */; };
+		730561C220B8B8D800EC357B /* Calculator.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 730561C120B8B8D800EC357B /* Calculator.storyboard */; };
+		730561C320B8B8DD00EC357B /* Calculator.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 730561C120B8B8D800EC357B /* Calculator.storyboard */; };
 		7309AED61FC6CCC100054A6B /* ActivityGraphDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7309AED51FC6CCC100054A6B /* ActivityGraphDefinition.swift */; };
 		730A477A20A736D70040263E /* Eddington.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 730A477920A736D70040263E /* Eddington.storyboard */; };
 		730A477B20A736DC0040263E /* Eddington.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 730A477920A736D70040263E /* Eddington.storyboard */; };
@@ -246,8 +250,6 @@
 		73A06B05204D594A0088BD09 /* WorkoutSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A06B04204D594A0088BD09 /* WorkoutSplitViewController.swift */; };
 		73A2DDA420A69A53002947AF /* Workouts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 73A2DDA320A69A53002947AF /* Workouts.storyboard */; };
 		73A2DDA520A69A59002947AF /* Workouts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 73A2DDA320A69A53002947AF /* Workouts.storyboard */; };
-		73A2DDAA20A6C555002947AF /* Calculator.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 73A2DDA920A6C555002947AF /* Calculator.storyboard */; };
-		73A2DDAB20A6C55A002947AF /* Calculator.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 73A2DDA920A6C555002947AF /* Calculator.storyboard */; };
 		73A620C62084E7A200679CE9 /* TSBGraphSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A620C52084E7A200679CE9 /* TSBGraphSplitViewController.swift */; };
 		73A620C82084E7F700679CE9 /* TSBGraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A620C72084E7F700679CE9 /* TSBGraphViewController.swift */; };
 		73A620CA2084F44A00679CE9 /* TSBSelectorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A620C92084F44A00679CE9 /* TSBSelectorsViewController.swift */; };
@@ -295,6 +297,12 @@
 		73CAFEAA20292284003E4D6B /* PeriodNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73CAFEA920292284003E4D6B /* PeriodNode.swift */; };
 		73CFDB82208CA00500534553 /* Plan+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73CFDB81208CA00500534553 /* Plan+Extension.swift */; };
 		73CFDB84208CA27900534553 /* PlanGraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73CFDB83208CA27900534553 /* PlanGraphViewController.swift */; };
+		73D1B42620B6A65600193EC6 /* eddingtonTableStart.txt in Resources */ = {isa = PBXBuildFile; fileRef = 73D1B42520B6A65600193EC6 /* eddingtonTableStart.txt */; };
+		73D1B42820B6A68300193EC6 /* eddingtonTableStyle.txt in Resources */ = {isa = PBXBuildFile; fileRef = 73D1B42720B6A68300193EC6 /* eddingtonTableStyle.txt */; };
+		73D1B42A20B6A6A800193EC6 /* EddingtonTableScripts.txt in Resources */ = {isa = PBXBuildFile; fileRef = 73D1B42920B6A6A800193EC6 /* EddingtonTableScripts.txt */; };
+		73D1B42B20B6AAA300193EC6 /* eddingtonTableStart.txt in Resources */ = {isa = PBXBuildFile; fileRef = 73D1B42520B6A65600193EC6 /* eddingtonTableStart.txt */; };
+		73D1B42C20B6AAA700193EC6 /* eddingtonTableStyle.txt in Resources */ = {isa = PBXBuildFile; fileRef = 73D1B42720B6A68300193EC6 /* eddingtonTableStyle.txt */; };
+		73D1B42D20B6AAAA00193EC6 /* EddingtonTableScripts.txt in Resources */ = {isa = PBXBuildFile; fileRef = 73D1B42920B6A6A800193EC6 /* EddingtonTableScripts.txt */; };
 		73D3171D2018BEA90070C40B /* TextViewToStringTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D3171C2018BEA90070C40B /* TextViewToStringTransformer.swift */; };
 		73D3738720176FD600E44427 /* BikeGraphs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D3738620176FD600E44427 /* BikeGraphs.swift */; };
 		73D6CC711FC80A75006830DA /* GraphFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D6CC701FC80A75006830DA /* GraphFormat.swift */; };
@@ -353,6 +361,8 @@
 		7302C68C2092DBF1004B17F5 /* DayAggregator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayAggregator.swift; sourceTree = "<group>"; };
 		7302C68E20930686004B17F5 /* DayAggregatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayAggregatorProtocol.swift; sourceTree = "<group>"; };
 		7302C69220931B33004B17F5 /* RollingPeriodCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollingPeriodCalculator.swift; sourceTree = "<group>"; };
+		730561BE20B72C9F00EC357B /* HTMLGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLGenerator.swift; sourceTree = "<group>"; };
+		730561C120B8B8D800EC357B /* Calculator.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Calculator.storyboard; sourceTree = "<group>"; };
 		7309AED51FC6CCC100054A6B /* ActivityGraphDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityGraphDefinition.swift; sourceTree = "<group>"; };
 		730A477920A736D70040263E /* Eddington.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Eddington.storyboard; sourceTree = "<group>"; };
 		730A477C20A74ADA0040263E /* Bikes.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Bikes.storyboard; sourceTree = "<group>"; };
@@ -429,7 +439,6 @@
 		739E2875205415DA0058E06D /* TrainingDiaryArrayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingDiaryArrayController.swift; sourceTree = "<group>"; };
 		73A06B04204D594A0088BD09 /* WorkoutSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSplitViewController.swift; sourceTree = "<group>"; };
 		73A2DDA320A69A53002947AF /* Workouts.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Workouts.storyboard; sourceTree = "<group>"; };
-		73A2DDA920A6C555002947AF /* Calculator.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Calculator.storyboard; sourceTree = "<group>"; };
 		73A620C52084E7A200679CE9 /* TSBGraphSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSBGraphSplitViewController.swift; sourceTree = "<group>"; };
 		73A620C72084E7F700679CE9 /* TSBGraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSBGraphViewController.swift; sourceTree = "<group>"; };
 		73A620C92084F44A00679CE9 /* TSBSelectorsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSBSelectorsViewController.swift; sourceTree = "<group>"; };
@@ -478,6 +487,9 @@
 		73CAFEA920292284003E4D6B /* PeriodNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodNode.swift; sourceTree = "<group>"; };
 		73CFDB81208CA00500534553 /* Plan+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Plan+Extension.swift"; sourceTree = "<group>"; };
 		73CFDB83208CA27900534553 /* PlanGraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanGraphViewController.swift; sourceTree = "<group>"; };
+		73D1B42520B6A65600193EC6 /* eddingtonTableStart.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = eddingtonTableStart.txt; sourceTree = "<group>"; };
+		73D1B42720B6A68300193EC6 /* eddingtonTableStyle.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = eddingtonTableStyle.txt; sourceTree = "<group>"; };
+		73D1B42920B6A6A800193EC6 /* EddingtonTableScripts.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = EddingtonTableScripts.txt; sourceTree = "<group>"; };
 		73D3171C2018BEA90070C40B /* TextViewToStringTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewToStringTransformer.swift; sourceTree = "<group>"; };
 		73D3738620176FD600E44427 /* BikeGraphs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BikeGraphs.swift; sourceTree = "<group>"; };
 		73D6CC701FC80A75006830DA /* GraphFormat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphFormat.swift; sourceTree = "<group>"; };
@@ -601,17 +613,16 @@
 				73B2B9E91F894CC00044DD4E /* Assets.xcassets */,
 				73E1216D1F98F89400037DAF /* Controller */,
 				73E1216E1F98F8F700037DAF /* Data Model */,
-				73FC61DE200E19A000C61DE6 /* filteringTable.html */,
 				73D8D7181FB5F3CE00FAB8A3 /* GUI */,
 				739C1E6D209725CA00A3D805 /* Info-Dev.plist */,
 				73B2B9EE1F894CC00044DD4E /* Info.plist */,
 				73B2B9EB1F894CC00044DD4E /* Main.storyboard */,
+				730561C120B8B8D800EC357B /* Calculator.storyboard */,
 				730A478520A750420040263E /* Days.storyboard */,
 				730A478220A74E950040263E /* Planning.storyboard */,
 				730A477F20A74CBE0040263E /* TSB.storyboard */,
 				730A477C20A74ADA0040263E /* Bikes.storyboard */,
 				73A2DDA320A69A53002947AF /* Workouts.storyboard */,
-				73A2DDA920A6C555002947AF /* Calculator.storyboard */,
 				73C9E90320A696F400586DB5 /* Years.storyboard */,
 				73DB7D9D20A6287D00658A3F /* Defaults.storyboard */,
 				73DB7D9A20A6268900658A3F /* Compare.storyboard */,
@@ -620,8 +631,7 @@
 				73ECC2C520A61EF600F12A99 /* Graph.storyboard */,
 				73D91C86209E3880005A333B /* Buckets.storyboard */,
 				735E0AAD202D47B20089C2CD /* Maths.swift */,
-				73FC61E2200E1D5200C61DE6 /* tableEnd.txt */,
-				73FC61E0200E1D1900C61DE6 /* tableStart.txt */,
+				73D1B42020B6A48500193EC6 /* html */,
 				73E6A3EE20525CBD00551C85 /* Training Diary.entitlements */,
 				73B3188B1FAB78AD00B75550 /* Type Extensions */,
 			);
@@ -705,7 +715,6 @@
 				73339CC720513AF3007CD288 /* EddingtonSplitViewController.swift */,
 				73339CC920513E90007CD288 /* EddingtonTableViewController.swift */,
 				73C65C5A20517C1400A3FBC3 /* EddingtonTreeViewController.swift */,
-				7372FBF420B0046800287C6A /* HTMLGenerateAndSave.swift */,
 			);
 			path = Eddington;
 			sourceTree = "<group>";
@@ -799,6 +808,21 @@
 				73E3C6DF208B214800B39235 /* PlansArrayController.swift */,
 			);
 			path = Planning;
+			sourceTree = "<group>";
+		};
+		73D1B42020B6A48500193EC6 /* html */ = {
+			isa = PBXGroup;
+			children = (
+				7372FBF420B0046800287C6A /* HTMLGenerateAndSave.swift */,
+				730561BE20B72C9F00EC357B /* HTMLGenerator.swift */,
+				73FC61DE200E19A000C61DE6 /* filteringTable.html */,
+				73FC61E2200E1D5200C61DE6 /* tableEnd.txt */,
+				73D1B42520B6A65600193EC6 /* eddingtonTableStart.txt */,
+				73D1B42720B6A68300193EC6 /* eddingtonTableStyle.txt */,
+				73D1B42920B6A6A800193EC6 /* EddingtonTableScripts.txt */,
+				73FC61E0200E1D1900C61DE6 /* tableStart.txt */,
+			);
+			path = html;
 			sourceTree = "<group>";
 		};
 		73D8D7181FB5F3CE00FAB8A3 /* GUI */ = {
@@ -984,7 +1008,6 @@
 				730A477E20A74AE10040263E /* Bikes.storyboard in Resources */,
 				730A477B20A736DC0040263E /* Eddington.storyboard in Resources */,
 				730A478420A74E9B0040263E /* Planning.storyboard in Resources */,
-				73A2DDAB20A6C55A002947AF /* Calculator.storyboard in Resources */,
 				730A478720A7504D0040263E /* Days.storyboard in Resources */,
 				73D91C88209E3888005A333B /* Buckets.storyboard in Resources */,
 				735F63AC20970BE400AE3503 /* Assets.xcassets in Resources */,
@@ -994,9 +1017,13 @@
 				735F63AE20970BE400AE3503 /* tableStart.txt in Resources */,
 				735F63AF20970BE400AE3503 /* tableEnd.txt in Resources */,
 				73A2DDA520A69A59002947AF /* Workouts.storyboard in Resources */,
+				730561C320B8B8DD00EC357B /* Calculator.storyboard in Resources */,
 				73ECC2CA20A6249D00F12A99 /* Physiological.storyboard in Resources */,
 				73DB7D9C20A6268D00658A3F /* Compare.storyboard in Resources */,
+				73D1B42B20B6AAA300193EC6 /* eddingtonTableStart.txt in Resources */,
+				73D1B42D20B6AAAA00193EC6 /* EddingtonTableScripts.txt in Resources */,
 				730A478120A74CD30040263E /* TSB.storyboard in Resources */,
+				73D1B42C20B6AAA700193EC6 /* eddingtonTableStyle.txt in Resources */,
 				735F63B020970BE400AE3503 /* filteringTable.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1005,8 +1032,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				73D1B42820B6A68300193EC6 /* eddingtonTableStyle.txt in Resources */,
 				73D91C87209E3880005A333B /* Buckets.storyboard in Resources */,
 				730A478020A74CBE0040263E /* TSB.storyboard in Resources */,
+				73D1B42A20B6A6A800193EC6 /* EddingtonTableScripts.txt in Resources */,
+				730561C220B8B8D800EC357B /* Calculator.storyboard in Resources */,
 				73A2DDA420A69A53002947AF /* Workouts.storyboard in Resources */,
 				73ECC2C620A61EF600F12A99 /* Graph.storyboard in Resources */,
 				73B2B9EA1F894CC00044DD4E /* Assets.xcassets in Resources */,
@@ -1015,7 +1045,6 @@
 				730A478620A750420040263E /* Days.storyboard in Resources */,
 				73B2B9ED1F894CC00044DD4E /* Main.storyboard in Resources */,
 				730A477A20A736D70040263E /* Eddington.storyboard in Resources */,
-				73A2DDAA20A6C555002947AF /* Calculator.storyboard in Resources */,
 				73DB7D9B20A6268900658A3F /* Compare.storyboard in Resources */,
 				730A478320A74E950040263E /* Planning.storyboard in Resources */,
 				73FC61E1200E1D1900C61DE6 /* tableStart.txt in Resources */,
@@ -1024,6 +1053,7 @@
 				73FC61E3200E1D5200C61DE6 /* tableEnd.txt in Resources */,
 				739C1E6E209725CA00A3D805 /* Info-Dev.plist in Resources */,
 				73FC61DF200E19A000C61DE6 /* filteringTable.html in Resources */,
+				73D1B42620B6A65600193EC6 /* eddingtonTableStart.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1120,6 +1150,7 @@
 				735F636E20970BE400AE3503 /* MeanAggregator.swift in Sources */,
 				735F636F20970BE400AE3503 /* LTDEddingtonNumber+Extension.swift in Sources */,
 				735F637020970BE400AE3503 /* PhysiologicalsArrayController.swift in Sources */,
+				730561C020B72CA400EC357B /* HTMLGenerator.swift in Sources */,
 				735F637120970BE400AE3503 /* Date+Extension.swift in Sources */,
 				735F637220970BE400AE3503 /* TrainingDiaryViewController.swift in Sources */,
 				735F637320970BE400AE3503 /* PeriodNodeImplementation.swift in Sources */,
@@ -1277,6 +1308,7 @@
 				73B5644420260B6E0022E80A /* LTDEddingtonNumber+Extension.swift in Sources */,
 				7333B9F61FB6F199005F424E /* PhysiologicalsArrayController.swift in Sources */,
 				73C3B37F1F97DC5A00ED6108 /* Date+Extension.swift in Sources */,
+				730561BF20B72C9F00EC357B /* HTMLGenerator.swift in Sources */,
 				733837D71FD99BDD0082C45B /* TrainingDiaryViewController.swift in Sources */,
 				733AA828202930BB0065C8B9 /* PeriodNodeImplementation.swift in Sources */,
 				73C3B37D1F97AC1400ED6108 /* EddingtonNumberCalculator.swift in Sources */,

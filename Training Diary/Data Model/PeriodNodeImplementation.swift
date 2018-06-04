@@ -26,7 +26,9 @@ class PeriodNodeImplementation: NSObject, PeriodNode{
     @objc var name: String { return periodName }
     @objc var children: [PeriodNode] { return childPeriods }
     @objc var childCount: Int { return children.count }
+    
     func add(child: PeriodNode) { childPeriods.append(child) }
+    
     @objc var totalKM: Double { return children.reduce(0.0, {$0 + $1.totalKM}) }
     @objc var totalSeconds: Double { return TimeInterval(children.reduce(0.0, {$0 + $1.totalSeconds})) }
     @objc var totalTSS: Double { return children.reduce(0.0, {$0 + $1.totalTSS}) }
@@ -44,6 +46,18 @@ class PeriodNodeImplementation: NSObject, PeriodNode{
     @objc var isLeaf: Bool { return children.count == 0}
     @objc var isWorkout: Bool { return false}
     @objc var isRoot: Bool { return rootNode }
+    
+    @objc var leafCount: Int {
+        if isLeaf{
+            return 1
+        }else{
+            var count = 0
+            for c in children{
+                count += c.leafCount
+            }
+            return count
+        }
+    }
     
     func inPeriod(_ p: PeriodNode) -> Bool{
         return (p.fromDate <= from) && (p.toDate >= to)

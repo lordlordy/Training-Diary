@@ -9,6 +9,13 @@
 
 import Foundation
 
+protocol TrainingDiaryPropertyProtocol{
+    //string for key value protocol
+    func propertyName() -> String
+    //user friendly name
+    func displayName() -> String
+}
+
 enum JSONGenerator: String{
     case SwiftTrainingDiary, FileMakerProTrainingDiary
 }
@@ -509,7 +516,7 @@ enum LTDEddingtonNumberProperty: String{
     
     static var StringProperties = [activity, activityType, dayType, equipment, period, unit, code, shortCode]
     static var jsonProperties = [activity, activityType, dayType, equipment, period, unit, code, shortCode, maturity, plusOne, value]
-    static var csvProperties = [activity, activityType, dayType, equipment, period, unit, code, shortCode, maturity, plusOne, value]
+    static var csvProperties = [value, shortCode, plusOne, maturity, dayType, activity, activityType, equipment, period, unit]
 }
 
 enum EddingtonHistoryProperty: String{
@@ -553,7 +560,7 @@ enum Month: String{
 
 }
 
-enum PlanProperty: String{
+enum PlanProperty: String, TrainingDiaryPropertyProtocol{
     case from, name, taperStart, to, locked
     case bikeStartATL, bikeStartCTL, runStartATL, runStartCTL, swimStartATL, swimStartCTL
     case basicWeek, planDays, trainingDiary
@@ -562,11 +569,21 @@ enum PlanProperty: String{
 
     static let jsonProperties = [iso8061FromString, iso8061TaperStartString, iso8061ToString, name, locked, bikeStartATL, bikeStartCTL, runStartATL, runStartCTL, swimStartATL, swimStartCTL]
     static let csvProperties = [csvFromString, csvTaperStartString, csvToString, name, locked, bikeStartATL, bikeStartCTL, runStartATL, runStartCTL, swimStartATL, swimStartCTL]
+    
+    func propertyName() -> String { return self.rawValue }
+    func displayName() -> String{
+        switch self{
+        case .from, .iso8061FromString, .csvFromString: return "From"
+        case .to, .iso8061ToString, .csvToString: return "To"
+        case .taperStart, .iso8061TaperStartString, .csvTaperStartString: return "Taper Start"
+        default: return self.rawValue
+        }
+    }
 
     
 }
 
-enum PlanDayProperty: String{
+enum PlanDayProperty: String, TrainingDiaryPropertyProtocol{
     case swimATL, swimCTL, swimTSS, swimTSB
     case bikeATL, bikeCTL, bikeTSS, bikeTSB
     case runATL, runCTL, runTSS, runTSB
@@ -586,11 +603,19 @@ enum PlanDayProperty: String{
     
     static let jsonProperties = [swimATL, swimCTL, swimTSS, bikeATL, bikeCTL, bikeTSS, runATL, runCTL, runTSS, actualSwimATL, actualSwimCTL, actualSwimTSS, actualBikeATL, actualBikeCTL, actualBikeTSS, actualRunATL, actualRunCTL, actualRunTSS, actualThenPlanSwimATL, actualThenPlanSwimCTL, actualThenPlanSwimTSB, actualThenPlanBikeATL, actualThenPlanBikeCTL, actualThenPlanBikeTSB, actualThenPlanRunATL, actualThenPlanRunCTL, actualThenPlanRunTSB, actualThenPlanAllATL, actualThenPlanAllCTL, actualThenPlanAllTSB, iso8061DateString, comments]
 
-        static let csvProperties = [swimATL, swimCTL, swimTSS, bikeATL, bikeCTL, bikeTSS, runATL, runCTL, runTSS, actualSwimATL, actualSwimCTL, actualSwimTSS, actualBikeATL, actualBikeCTL, actualBikeTSS, actualRunATL, actualRunCTL, actualRunTSS, actualThenPlanSwimATL, actualThenPlanSwimCTL, actualThenPlanSwimTSB, actualThenPlanBikeATL, actualThenPlanBikeCTL, actualThenPlanBikeTSB, actualThenPlanRunATL, actualThenPlanRunCTL, actualThenPlanRunTSB, actualThenPlanAllATL, actualThenPlanAllCTL, actualThenPlanAllTSB, csvDateString, comments, planName]
+    static let csvProperties = [swimATL, swimCTL, swimTSS, bikeATL, bikeCTL, bikeTSS, runATL, runCTL, runTSS, actualSwimATL, actualSwimCTL, actualSwimTSS, actualBikeATL, actualBikeCTL, actualBikeTSS, actualRunATL, actualRunCTL, actualRunTSS, actualThenPlanSwimATL, actualThenPlanSwimCTL, actualThenPlanSwimTSB, actualThenPlanBikeATL, actualThenPlanBikeCTL, actualThenPlanBikeTSB, actualThenPlanRunATL, actualThenPlanRunCTL, actualThenPlanRunTSB, actualThenPlanAllATL, actualThenPlanAllCTL, actualThenPlanAllTSB, csvDateString, comments, planName]
+    
+    func propertyName() -> String {
+        return self.rawValue
+    }
+    
+    func displayName() -> String{
+        return self.rawValue
+    }
     
 }
 
-enum BasicWeekDayProperty: String{
+enum BasicWeekDayProperty: String, TrainingDiaryPropertyProtocol{
     case swimPercentage, swimTaperPercentage, swimTSS
     case bikePercentage, bikeTaperPercentage, bikeTSS
     case runPercentage, runTaperPercentage, runTSS
@@ -599,7 +624,15 @@ enum BasicWeekDayProperty: String{
     
     static var observables: [BasicWeekDayProperty] = [.swimTSS, .bikeTSS, .runTSS]
     static let jsonProperties = [swimPercentage, swimTaperPercentage, swimTSS, bikePercentage, bikeTaperPercentage, bikeTSS, runPercentage, runTaperPercentage, runTSS, name, order, comments]
-    static var csvProperties = [swimPercentage, swimTaperPercentage, swimTSS, bikePercentage, bikeTaperPercentage, bikeTSS, runPercentage, runTaperPercentage, runTSS, name, order, comments, planName]
+    static var csvProperties = [name, swimTSS, bikeTSS, runTSS, comments, swimPercentage, swimTaperPercentage, bikePercentage, bikeTaperPercentage, runPercentage, runTaperPercentage, planName, order]
+    
+    func propertyName() -> String {
+        return self.rawValue
+    }
+    
+    func displayName() -> String {
+        return self.rawValue
+    }
 }
 
 

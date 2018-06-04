@@ -10,6 +10,8 @@ import Cocoa
 
 extension Workout: PeriodNode{
 
+    
+
     @objc dynamic var hours:        Double{ return seconds * Constant.HoursPerSecond.rawValue}
     @objc dynamic var minutes:      Double{ return seconds * Constant.MinutesPerSecond.rawValue}
     @objc dynamic var miles:        Double{ return km * Constant.MilesPerKM.rawValue }
@@ -137,6 +139,10 @@ extension Workout: PeriodNode{
     }
     func add(child: PeriodNode) {
         print("Can't add children to Workouts")
+    }
+    
+    var leafCount: Int {
+        return 1
     }
 
 

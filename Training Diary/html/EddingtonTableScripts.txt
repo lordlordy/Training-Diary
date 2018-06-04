@@ -1,0 +1,39 @@
+
+<script>
+function filterNumbers() {
+var dt,a,e,at,p,u, filter, table, tr, td, i,c;
+dt = document.getElementById("dayType");
+a = document.getElementById("activity");
+e = document.getElementById("equipment");
+at = document.getElementById("type");
+p = document.getElementById("period");
+u = document.getElementById("unit");
+dtUpper = dt.value.toUpperCase();
+aUpper = a.value.toUpperCase();
+eUpper = e.value.toUpperCase();
+atUpper = at.value.toUpperCase();
+pUpper = p.value.toUpperCase();
+uUpper = u.value.toUpperCase();
+table = document.getElementById("edNumTable");
+tr = table.getElementsByTagName("tr");
+
+for (i = 0, c = 0; i < tr.length; i++) {
+dtd = tr[i].getElementsByTagName("td")[0];
+ad = tr[i].getElementsByTagName("td")[1];
+ed = tr[i].getElementsByTagName("td")[2];
+atd = tr[i].getElementsByTagName("td")[3];
+pd = tr[i].getElementsByTagName("td")[4];
+ud = tr[i].getElementsByTagName("td")[5];
+if (dtd) {
+if ((dtd.innerHTML.toUpperCase().indexOf(dtUpper) > -1) && (ad.innerHTML.toUpperCase().indexOf(aUpper) > -1) && (ed.innerHTML.toUpperCase().indexOf(eUpper) > -1) && (atd.innerHTML.toUpperCase().indexOf(atUpper) > -1) && (pd.innerHTML.toUpperCase().indexOf(pUpper) > -1) && (ud.innerHTML.toUpperCase().indexOf(uUpper) > -1)) {
+tr[i].style.display = "";
+c++
+} else {
+tr[i].style.display = "none";
+}
+}
+}
+document.getElementById("count").value = c
+}
+
+</script>

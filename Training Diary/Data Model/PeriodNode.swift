@@ -30,6 +30,7 @@ import Foundation
     @objc var isLeaf:           Bool        { get }
     @objc var isWorkout:        Bool        { get }
     @objc var isRoot:           Bool        { get }
+    @objc var leafCount:        Int         { get }
     
     func add(child: PeriodNode)
     func inPeriod(_ p: PeriodNode) -> Bool

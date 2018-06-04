@@ -10,8 +10,6 @@ import Cocoa
 
 class DayTreeViewController:  TrainingDiaryViewController {
     
-//    @objc dynamic var trainingDiary: TrainingDiary?
-    
     private var monthYearNodes: [PeriodNode] = []
     private var weekYearNodes: [PeriodNode] = []
     
@@ -101,7 +99,6 @@ class DayTreeViewController:  TrainingDiaryViewController {
         
         for d in trainingDiary!.descendingOrderedDays(){
             let year: String = String(d.date!.yearForWeekOfYear())
-  //          let week: String = "Wk-\(d.date!.weekOfYear()) \(d.date!.yearForWeekOfYear())"
             let week: String = "Wk-\(d.date!.weekOfYear())"
             var yearNode: PeriodNode
             var weekNode: PeriodNode

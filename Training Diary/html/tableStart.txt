@@ -1,0 +1,19 @@
+
+<input type="text" id="dayType" onkeyup="filterNumbers()" placeholder="Filter day type.." title="Type in a name">
+<input type="text" id="activity" onkeyup="filterNumbers()" placeholder="Filter activity.." title="Type in a name">
+<input type="text" id="equipment" onkeyup="filterNumbers()" placeholder="Filter equipment.." title="Type in a name">
+<input type="text" id="type" onkeyup="filterNumbers()" placeholder="Filter type.." title="Type in a name">
+<input type="text" id="period" onkeyup="filterNumbers()" placeholder="Filter period.." title="Type in a name">
+<input type="text" id="unit" onkeyup="filterNumbers()" placeholder="Filter unit.." title="Type in a name">
+<input type="text" id="count" placeholder="count..." title="Type in a name">
+<table id="edNumTable">
+<tr class="Header">
+<th style="width:14%;">Day Type</th>
+<th style="width:14%;">Activity</th>
+<th style="width:14%;">Equipment</th>
+<th style="width:14%;">Type</th>
+<th style="width:14%;">Period</th>
+<th style="width:14%;">Unit</th>
+<th style="width:8%;">#</th>
+<th style="width:8%;">+1</th>
+</tr>

@@ -10,10 +10,10 @@ import Foundation
 
 extension Plan{
 
-    @objc dynamic var basicWeekTotalSwimTSS: Double { return totalBasicWeek(forProperty: BasicWeekDayProperty.swimTSS) }
-    @objc dynamic var basicWeekTotalBikeTSS: Double { return totalBasicWeek(forProperty: BasicWeekDayProperty.bikeTSS) }
-    @objc dynamic var basicWeekTotalRunTSS: Double { return totalBasicWeek(forProperty: BasicWeekDayProperty.runTSS) }
-    @objc dynamic var basicWeekTotalAllTSS: Double { return basicWeekTotalSwimTSS + basicWeekTotalBikeTSS + basicWeekTotalRunTSS }
+//    @objc dynamic var basicWeekTotalSwimTSS: Double { return totalBasicWeek(forProperty: BasicWeekDayProperty.swimTSS) }
+//    @objc dynamic var basicWeekTotalBikeTSS: Double { return totalBasicWeek(forProperty: BasicWeekDayProperty.bikeTSS) }
+//    @objc dynamic var basicWeekTotalRunTSS: Double { return totalBasicWeek(forProperty: BasicWeekDayProperty.runTSS) }
+//    @objc dynamic var basicWeekTotalAllTSS: Double { return basicWeekTotalSwimTSS + basicWeekTotalBikeTSS + basicWeekTotalRunTSS }
 
     
     //this is for JSON serialisation
@@ -167,6 +167,13 @@ extension Plan{
         return []
     }
     
+    func orderedBasicWeek() -> [BasicWeekDay]{
+        if let basicWeek = basicWeek?.allObjects as? [BasicWeekDay]{
+            return basicWeek.sorted(by: {$0.order < $1.order})
+        }
+        return []
+    }
+    
     
     //returns the new day
     private func addNewPlanDay() -> PlanDay{
@@ -201,20 +208,15 @@ extension Plan{
     }
     
     
-    private func orderedBasicWeek() -> [BasicWeekDay]{
-        if let basicWeek = basicWeek?.allObjects as? [BasicWeekDay]{
-            return basicWeek.sorted(by: {$0.order < $1.order})
-        }
-        return []
-    }
     
-    private func totalBasicWeek(forProperty p: BasicWeekDayProperty) -> Double{
-        var result: Double = 0.0
-        for d in orderedBasicWeek(){
-            result += d.value(forKey: p.rawValue) as! Double
-        }
-        return result
-    }
+    
+//    private func totalBasicWeek(forProperty p: BasicWeekDayProperty) -> Double{
+//        var result: Double = 0.0
+//        for d in orderedBasicWeek(){
+//            result += d.value(forKey: p.rawValue) as! Double
+//        }
+//        return result
+//    }
     
 
 }

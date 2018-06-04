@@ -1,0 +1,94 @@
+* {
+box-sizing: border-box;
+}
+
+#dayType {
+background-position: 10px 10px;
+background-repeat: no-repeat;
+width: 14%;
+font-size: 12px;
+padding: 2px 2px 2px 2px;
+border: 1px solid #ddd;
+margin-bottom: 2px;
+}
+
+#activity {
+background-position: 10px 10px;
+background-repeat: no-repeat;
+width: 14%;
+font-size: 12px;
+padding: 2px 2px 2px 2px;
+border: 1px solid #ddd;
+margin-bottom: 2px;
+}
+
+#equipment {
+background-position: 10px 10px;
+background-repeat: no-repeat;
+width: 14%;
+font-size: 12px;
+padding: 2px 2px 2px 2px;
+border: 1px solid #ddd;
+margin-bottom: 2px;
+}
+
+#type {
+background-position: 10px 10px;
+background-repeat: no-repeat;
+width: 14%;
+font-size: 12px;
+padding: 2px 2px 2px 2px;
+border: 1px solid #ddd;
+margin-bottom: 2px;
+}
+
+#period {
+background-position: 10px 10px;
+background-repeat: no-repeat;
+width: 14%;
+font-size: 12px;
+padding: 2px 2px 2px 2px;
+border: 1px solid #ddd;
+margin-bottom: 2px;
+}
+
+#unit {
+background-position: 10px 10px;
+background-repeat: no-repeat;
+width: 14%;
+font-size: 12px;
+padding: 2px 2px 2px 2px;
+border: 1px solid #ddd;
+margin-bottom: 2px;
+}
+
+#count {
+background-position: 10px 10px;
+background-repeat: no-repeat;
+width: 10%;
+font-size: 12px;
+padding: 2px 2px 2px 2px;
+border: 1px solid #ddd;
+margin-bottom: 2px;
+}
+
+#edNumTable {
+border-collapse: collapse;
+width: 100%;
+border: 1px solid #ddd;
+font-size: 12px;
+}
+
+#edNumTable th, #edNumTable td {
+text-align: left;
+padding: 2px;
+}
+
+#edNumTable tr {
+border-bottom: 1px solid #ddd;
+}
+
+#edNumTable tr.header, #edNumTable tr:hover {
+background-color: #f1f1f1;
+}
+

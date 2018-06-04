@@ -14,9 +14,7 @@ class PlanningSplitViewController: TrainingDiarySplitViewController{
     @IBOutlet var plansArrayController: PlansArrayController!
     @IBOutlet var basicWeekArrayController: NSArrayController!
     @IBOutlet var planDaysArrayController: NSArrayController!
-    
-    private var basicWeekDays: [BasicWeekDay] = []
-    
+        
     @IBAction func exportSelectionAsJSON(_ sender: Any) {
         if let selectedPlan = selectedPlan(){
             if let url = OpenAndSaveDialogues().saveFilePath(suggestedFileName: "Plan", allowFileTypes: ["json"]){
@@ -58,6 +56,29 @@ class PlanningSplitViewController: TrainingDiarySplitViewController{
             }
         }
     }
+
+    @IBAction func exportSelectionAsHTML(_ sender: Any) {
+        if let selectedPlan = selectedPlan(){
+            
+            var tables:  [(objects: [NSObject], properties: [TrainingDiaryPropertyProtocol], paragraph: String?)] = []
+            
+            tables.append(([selectedPlan], PlanProperty.csvProperties,"PLAN: \(selectedPlan.name ?? "")"))
+            tables.append((selectedPlan.orderedBasicWeek(), BasicWeekDayProperty.csvProperties,"BASIC WEEK"))
+            tables.append((selectedPlan.orderedPlanDays(), PlanDayProperty.csvProperties,"PLAN DAYS"))
+
+
+            let html = HTMLGenerator().createStandardTablesHTML(tables)
+            if let url = OpenAndSaveDialogues().saveFilePath(suggestedFileName: "Plan-\(selectedPlan.name ?? "")", allowFileTypes: ["html"]){
+                do{
+                    try html.write(to: url, atomically: true, encoding: .utf8)
+                }catch{
+                    print("Unable to save JSON")
+                    print(error)
+                }
+            }
+        }
+      }
+
     
     override func viewDidLoad(){
         super.viewDidLoad()
@@ -69,8 +90,11 @@ class PlanningSplitViewController: TrainingDiarySplitViewController{
         }
 
         setGraphDataCache()
-        addBasicWeekDayObservers()
 
+    }
+    
+    func basicWeekDays() -> [BasicWeekDay]{
+        return basicWeekArrayController.arrangedObjects as? [BasicWeekDay] ?? []
     }
     
     func setStartingTSBValuesFromTrainingDiary(){
@@ -164,10 +188,10 @@ class PlanningSplitViewController: TrainingDiarySplitViewController{
  
     func planSelectionChanged(){
         setGraphDataCache()
-        addBasicWeekDayObservers()
+ //       addBasicWeekDayObservers()
     }
     
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+/*    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if let bwvc = getBasicWeekViewController(){
             if let p = keyPath{
                 switch p{
@@ -186,6 +210,8 @@ class PlanningSplitViewController: TrainingDiarySplitViewController{
             }
         }
     }
+    */
+    //MARK: - Private
     
     private func updateEndCTLs(){
         if let p = selectedPlan(){
@@ -275,24 +301,6 @@ class PlanningSplitViewController: TrainingDiarySplitViewController{
         }
         return nil
     }
-    
-    private func addBasicWeekDayObservers(){
-        
-        for b in basicWeekDays{
-            for p in BasicWeekDayProperty.observables{
-                b.removeObserver(self, forKeyPath: p.rawValue)
-            }
-        }
-        
-        if let bwd = selectedPlan()?.basicWeek?.allObjects as? [BasicWeekDay]{
-            basicWeekDays = bwd
-            for b in basicWeekDays{
-                for p in BasicWeekDayProperty.observables{
-                    b.addObserver(self, forKeyPath: p.rawValue, options: .new, context: nil)
-                }
-            }
-        }
-    }
-    
+
 
 }

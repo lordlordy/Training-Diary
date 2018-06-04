@@ -76,9 +76,9 @@ import Foundation
         
         while bucketMin <= max{
             let count = values.filter({$0 > bucketMin && $0 <= bucketMax}).count
-            var name = "->" + String(Int(bucketMax))
+            var name = "->" + String(Double(Int(bucketMax*10))/10.0)
             if bucketMin == 0.0001{
-                name = "0->" + String(Int(bucketMax))
+                name = "0" + name
             }
             result.append(Bucket(name: name, from: bucketMin, to: bucketMax, size: count))
             bucketMin = bucketMax

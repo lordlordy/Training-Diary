@@ -10,6 +10,8 @@ import Foundation
 
 extension Day: PeriodNode, DayValueProtocol{
 
+    
+
     /* We do not want this to fail as when requesting a value for a particular combination of activity, type and unit a valid answer is zero. For example: if this gets asked what the swim squad ascent is then the correct answer is zero.
     */
     func valueFor(dayType dt: DayType? = nil, activity a: Activity? = nil, activityType at: ActivityType? = nil, equipment e: Equipment? = nil, unit u: Unit) -> Double{
@@ -101,90 +103,10 @@ extension Day: PeriodNode, DayValueProtocol{
         }
     }
     
-/*    func valuesFor(dayType dt: DayType? = nil, activity a: Activity? = nil, activityType at: ActivityType? = nil, equipment e: Equipment? = nil, period p: Period, unit u: Unit) -> [(date: Date, value: Double)]{
-        let ALL = ConstantString.EddingtonAll.rawValue
-        return valuesFor(dayType: dt?.rawValue ?? ALL, activity: a?.name ?? ALL, activityType: at?.name ?? ALL, equipment: e?.name ?? ALL, period: p, unit: u)
-    }
-  */
-/*    func valuesFor(dayType dt: String, activity a: String, activityType at: String, equipment e: String, period p: Period, unit u: Unit) -> [(date: Date, value: Double)]{
-
-        var v: Double = 0.0
-                
-        if (dt == ConstantString.EddingtonAll.rawValue || dt == self.type || dt == date?.dayOfWeekName() || dt == date?.monthName()){
-            switch p{
-            case .Workout: return workoutValuesMatching(activity: a, activityType: at, equipment: e, period: p, unit: u)
-            case .Day:
-                v = valueFor(dayType: dt, activity: a, activityType: at, equipment: e, unit: u)
-            case .Week:
-                if self.date!.isEndOfWeek(){ // this is checking for Sunday
-                    v = valuesFor(dayType: dt, activity: a, activityType: at, equipment: e, period: Period.rWeek, unit: u)[0].value
-                }
-            case .WeekTue:
-                if self.date!.isMonday(){
-                    v = valuesFor( dayType: dt, activity: a, activityType: at, equipment: e, period: Period.rWeek, unit: u)[0].value
-                }
-            case .WeekWed:
-                if self.date!.isTuesday(){
-                    v = valuesFor( dayType: dt, activity: a, activityType: at, equipment: e, period: Period.rWeek, unit: u)[0].value
-                }
-            case .WeekThu:
-                if self.date!.isWednesday(){
-                    v = valuesFor( dayType: dt, activity: a, activityType: at, equipment: e, period: Period.rWeek, unit: u)[0].value
-                }
-            case .WeekFri:
-                if self.date!.isThursday(){
-                    v = valuesFor( dayType: dt, activity: a, activityType: at, equipment: e, period: Period.rWeek, unit: u)[0].value
-                }
-            case .WeekSat:
-                if self.date!.isFriday(){
-                    v = valuesFor( dayType: dt, activity: a, activityType: at, equipment: e, period: Period.rWeek, unit: u)[0].value
-                }
-            case .WeekSun:
-                if self.date!.isSaturday(){
-                    v = valuesFor( dayType: dt, activity: a, activityType: at, equipment: e, period: Period.rWeek, unit: u)[0].value
-                }
-            case .Month:
-                if self.date!.isEndOfMonth(){
-                    v = valuesFor( dayType: dt, activity: a, activityType: at, equipment: e, period: Period.rMonth, unit: u)[0].value
-                }
-            case .Year:
-                if self.date!.isEndOfYear(){
-                    v = valuesFor( dayType: dt, activity: a, activityType: at, equipment: e, period: Period.rYear, unit: u)[0].value
-                }
-            case .WeekToDate:
-                v = recursiveAdd(toDate: self.date!.startOfWeek(), dayType: dt, activity: a, activityType: at, equipment: e, unit: u)
-            case .WTDTue:
-                v = recursiveAdd(toDate: self.date!.startOfWeek(firstDayOfWeek: WeekDay.gregorianTuesday), dayType: dt, activity: a, activityType: at, equipment: e, unit: u)
-            case .WTDWed:
-                v = recursiveAdd(toDate: self.date!.startOfWeek(firstDayOfWeek: WeekDay.gregorianWednesday), dayType: dt, activity: a, activityType: at, equipment: e, unit: u)
-            case .WTDThu:
-                v = recursiveAdd(toDate: self.date!.startOfWeek(firstDayOfWeek: WeekDay.gregorianThursday), dayType: dt, activity: a, activityType: at, equipment: e, unit: u)
-            case .WTDFri:
-                v = recursiveAdd(toDate: self.date!.startOfWeek(firstDayOfWeek: WeekDay.gregorianFriday), dayType: dt, activity: a, activityType: at, equipment: e, unit: u)
-            case .WTDSat:
-                v = recursiveAdd(toDate: self.date!.startOfWeek(firstDayOfWeek: WeekDay.gregorianSaturday), dayType: dt, activity: a, activityType: at, equipment: e, unit: u)
-            case .WTDSun:
-                v = recursiveAdd(toDate: self.date!.startOfWeek(firstDayOfWeek: WeekDay.gregorianSunday), dayType: dt, activity: a, activityType: at, equipment: e, unit: u)
-            case .MonthToDate:
-                v = recursiveAdd(toDate: self.date!.startOfMonth(), dayType: dt, activity: a, activityType: at, equipment: e, unit: u)
-            case .YearToDate:
-                v = recursiveAdd(toDate: self.date!.startOfYear(), dayType: dt, activity: a, activityType: at, equipment: e, unit: u)
-            case .rWeek:
-                v = recursiveAdd(toDate: self.date!.startOfRWeek(), dayType: dt, activity: a, activityType: at, equipment: e, unit: u)
-            case .rMonth:
-                v = recursiveAdd(toDate: self.date!.startOfRMonth(), dayType: dt, activity: a, activityType: at, equipment: e, unit: u)
-            case .rYear:
-                v = recursiveAdd(toDate: self.date!.startOfRYear(), dayType: dt, activity: a, activityType: at, equipment: e, unit: u)
-            case .Adhoc, .Lifetime:
-                v = 0.0
-            }
-        }
-        
-
-        return [(date!,v)]
+    var leafCount: Int {
+        return workouts?.count ?? 0
     }
 
- */
     //MARK: - Core Data dependent key values
     
     /*This is the method that needs implementing to ensure calculated properties update when the properties

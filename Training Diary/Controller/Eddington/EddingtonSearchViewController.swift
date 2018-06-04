@@ -15,7 +15,9 @@ class EddingtonSearchViewController: TrainingDiaryViewController {
     @IBOutlet weak var tableView: TableViewWithColumnSort!
     
     @IBAction func exportSelectionAsHTML(_ sender: Any) {
-        HTMLGenerateAndSave().saveAsHTML(selectedEddingtonNumbers().sorted(by: {$0.code < $1.code}), fromView: view)
+        let selectedNumbers: [LTDEddingtonNumber] = selectedEddingtonNumbers().sorted(by: {$0.code < $1.code})
+        let paragraph: String = "Here are \(selectedNumbers.count) of my Eddington Numbers"
+        HTMLGenerateAndSave().saveAsHTML(selectedNumbers, withOpeningParagraph: paragraph)
     }
     
     @IBAction func exportSelectionAsJSON(_ sender: Any) {
