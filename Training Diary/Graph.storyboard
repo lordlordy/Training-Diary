@@ -30,7 +30,7 @@
                     </connections>
                 </splitViewController>
                 <customObject id="Dg2-hD-jw4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <arrayController objectClassName="Training_Diary_Dev.ActivityGraphDefinition" id="qA9-O2-UJe" userLabel="Graphs AC" customClass="GraphArrayController" customModule="Training_Diary" customModuleProvider="target"/>
+                <arrayController objectClassName="Training_Diary.ActivityGraphDefinition" id="qA9-O2-UJe" userLabel="Graphs AC" customClass="GraphArrayController" customModule="Training_Diary" customModuleProvider="target"/>
             </objects>
             <point key="canvasLocation" x="256" y="1376"/>
         </scene>
@@ -208,7 +208,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="eKL-Uu-sIE">
+                                                <tableColumn identifier="" width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="eKL-Uu-sIE">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Line Colour">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -242,7 +242,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn width="38" minWidth="10" maxWidth="3.4028234663852886e+38" id="N6e-rL-wZX">
+                                                <tableColumn identifier="" width="38" minWidth="10" maxWidth="3.4028234663852886e+38" id="N6e-rL-wZX">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Size">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -314,7 +314,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn width="34" minWidth="10" maxWidth="3.4028234663852886e+38" id="7t3-M0-aRT">
+                                                <tableColumn identifier="" width="34" minWidth="10" maxWidth="3.4028234663852886e+38" id="7t3-M0-aRT">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Fill?">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -351,7 +351,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="4HS-We-nQi">
+                                                <tableColumn identifier="" width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="4HS-We-nQi">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Start Gradient">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -385,7 +385,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="dPg-en-TH7">
+                                                <tableColumn identifier="" width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="dPg-en-TH7">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="End Gradient">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -419,7 +419,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn width="48" minWidth="10" maxWidth="3.4028234663852886e+38" id="XkU-mR-8CR">
+                                                <tableColumn identifier="" width="48" minWidth="10" maxWidth="3.4028234663852886e+38" id="XkU-mR-8CR">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Angle">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -566,7 +566,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn width="45" minWidth="10" maxWidth="3.4028234663852886e+38" id="3dV-Jz-CfQ">
+                                                <tableColumn identifier="" width="45" minWidth="10" maxWidth="3.4028234663852886e+38" id="3dV-Jz-CfQ">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Activity Type">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -605,7 +605,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn width="62" minWidth="10" maxWidth="3.4028234663852886e+38" id="Aj8-it-NZH">
+                                                <tableColumn identifier="" width="62" minWidth="10" maxWidth="3.4028234663852886e+38" id="Aj8-it-NZH">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="0?">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -642,7 +642,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="kQK-w2-lJm">
+                                                <tableColumn identifier="" width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="kQK-w2-lJm">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Aggregation Method">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>

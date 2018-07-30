@@ -315,7 +315,7 @@
                                             <tableViewGridLines key="gridStyleMask" horizontal="YES"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn width="51" minWidth="40" maxWidth="1000" id="QHZ-xb-0Bc">
+                                                <tableColumn identifier="" width="51" minWidth="40" maxWidth="1000" id="QHZ-xb-0Bc">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Name">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -351,7 +351,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn width="41" minWidth="40" maxWidth="1000" id="Fru-fG-d7D">
+                                                <tableColumn identifier="" width="41" minWidth="40" maxWidth="1000" id="Fru-fG-d7D">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Size">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -1261,7 +1261,7 @@
                     </connections>
                 </viewController>
                 <customObject id="Lhh-Kv-8Ye" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <arrayController objectClassName="Training_Diary_Dev.BucketGraphDefinition" id="81p-9B-jqf" customClass="BucketGraphArrayController" customModule="Training_Diary" customModuleProvider="target"/>
+                <arrayController objectClassName="Training_Diary.BucketGraphDefinition" id="81p-9B-jqf" customClass="BucketGraphArrayController" customModule="Training_Diary" customModuleProvider="target"/>
             </objects>
             <point key="canvasLocation" x="855" y="-17.5"/>
         </scene>
