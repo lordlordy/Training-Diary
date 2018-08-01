@@ -16,15 +16,19 @@ import Foundation
     @objc var totalKM:          Double      { get }
     @objc var totalSeconds:     TimeInterval{ get }
     @objc var totalTSS:         Double      { get }
+    @objc var totalCTL:         Double     { get }
     @objc var swimKM:           Double      { get }
     @objc var swimSeconds:      TimeInterval{ get }
     @objc var swimTSS:          Double      { get }
+    @objc var swimCTL:          Double      { get }
     @objc var bikeKM:           Double      { get }
     @objc var bikeSeconds:      TimeInterval{ get }
     @objc var bikeTSS:          Double      { get }
+    @objc var bikeCTL:          Double      { get }
     @objc var runKM:            Double      { get }
     @objc var runSeconds:       TimeInterval{ get }
     @objc var runTSS:           Double      { get }
+    @objc var runCTL:           Double      { get }
     @objc var fromDate:         Date        { get }
     @objc var toDate:           Date        { get }
     @objc var isLeaf:           Bool        { get }

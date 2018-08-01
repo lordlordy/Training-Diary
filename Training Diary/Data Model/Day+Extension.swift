@@ -12,6 +12,8 @@ extension Day: PeriodNode, DayValueProtocol{
 
     
 
+    
+
     /* We do not want this to fail as when requesting a value for a particular combination of activity, type and unit a valid answer is zero. For example: if this gets asked what the swim squad ascent is then the correct answer is zero.
     */
     func valueFor(dayType dt: DayType? = nil, activity a: Activity? = nil, activityType at: ActivityType? = nil, equipment e: Equipment? = nil, unit u: Unit) -> Double{
@@ -84,6 +86,7 @@ extension Day: PeriodNode, DayValueProtocol{
     @objc var totalKM: Double { return allKM}
     @objc var totalSeconds: TimeInterval { return allSeconds }
     @objc var totalTSS: Double { return allTSS }
+    @objc var totalCTL: Double { return allCTL }
     @objc var fromDate: Date { return date! }
     @objc var toDate: Date { return date! }
     func inPeriod(_ p: PeriodNode) -> Bool{

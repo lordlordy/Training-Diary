@@ -10,7 +10,10 @@ import Cocoa
 
 extension Workout: PeriodNode{
 
-    
+    var totalCTL: Double { return 0.0 }
+    var swimCTL: Double { return 0.0 }
+    var bikeCTL: Double { return 0.0 }
+    var runCTL: Double { return 0.0 }
 
     @objc dynamic var hours:        Double{ return seconds * Constant.HoursPerSecond.rawValue}
     @objc dynamic var minutes:      Double{ return seconds * Constant.MinutesPerSecond.rawValue}

@@ -32,15 +32,47 @@ class PeriodNodeImplementation: NSObject, PeriodNode{
     @objc var totalKM: Double { return children.reduce(0.0, {$0 + $1.totalKM}) }
     @objc var totalSeconds: Double { return TimeInterval(children.reduce(0.0, {$0 + $1.totalSeconds})) }
     @objc var totalTSS: Double { return children.reduce(0.0, {$0 + $1.totalTSS}) }
+    @objc var totalCTL: Double {
+        let sorted = children.sorted(by: {$0.toDate > $1.toDate})
+        if sorted.count > 0{
+            return sorted[0].totalCTL
+        }else{
+            return 0.0
+        }
+    }
     @objc var swimKM: Double { return children.reduce(0.0, {$0 + $1.swimKM}) }
     @objc var swimSeconds: Double { return children.reduce(0.0, {$0 + $1.swimSeconds}) }
     @objc var swimTSS: Double { return children.reduce(0.0, {$0 + $1.swimTSS}) }
+    @objc var swimCTL: Double {
+        let sorted = children.sorted(by: {$0.toDate > $1.toDate})
+        if sorted.count > 0{
+            return sorted[0].swimCTL
+        }else{
+            return 0.0
+        }
+    }
     @objc var bikeKM: Double { return children.reduce(0.0, {$0 + $1.bikeKM}) }
     @objc var bikeSeconds: Double { return children.reduce(0.0, {$0 + $1.bikeSeconds}) }
     @objc var bikeTSS: Double { return children.reduce(0.0, {$0 + $1.bikeTSS}) }
+    @objc var bikeCTL: Double {
+        let sorted = children.sorted(by: {$0.toDate > $1.toDate})
+        if sorted.count > 0{
+            return sorted[0].bikeCTL
+        }else{
+            return 0.0
+        }
+    }
     @objc var runKM: Double { return children.reduce(0.0, {$0 + $1.runKM}) }
     @objc var runSeconds: Double { return children.reduce(0.0, {$0 + $1.runSeconds}) }
     @objc var runTSS: Double { return children.reduce(0.0, {$0 + $1.runTSS}) }
+    @objc var runCTL: Double {
+        let sorted = children.sorted(by: {$0.toDate > $1.toDate})
+        if sorted.count > 0{
+            return sorted[0].runCTL
+        }else{
+            return 0.0
+        }
+    }
     @objc var fromDate: Date { return from }
     @objc var toDate: Date { return to }
     @objc var isLeaf: Bool { return children.count == 0}

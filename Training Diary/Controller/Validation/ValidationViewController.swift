@@ -1,33 +1,28 @@
 //
-//  DefaultsViewController.swift
+//  ValidationViewController.swift
 //  Training Diary
 //
-//  Created by Steven Lord on 06/02/2018.
+//  Created by Steven Lord on 30/07/2018.
 //  Copyright © 2018 Steven Lord. All rights reserved.
 //
 
 import Cocoa
 
-class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource, ReferenceToMainProtocol{
-
-    private var mainViewController: ViewController?
-//    private let maxDaysForActivityDecay: Int = 30
-
-    
-//    @IBOutlet weak var activityGraphView: GraphView!
-    @IBOutlet var activitiesArrayController: NSArrayController!
+class ValidationViewController: TrainingDiaryViewController{
+   
     
     @IBOutlet var validationOutputTextView: NSTextView!
     
+
     //MARK: - IBActions
     @IBAction func adhoc(_ sender: Any) {
-
+        
         
         let dayKeys =  DayProperty.jsonProperties.map({$0.rawValue})
         let workoutKeys = WorkoutProperty.jsonProperties.map({$0.rawValue })
         let physiologicalKeys = PhysiologicalProperty.jsonProperties.map({$0.rawValue})
         let weightKeys = WeightProperty.jsonProperties.map({$0.rawValue})
-
+        
         print(dayKeys)
         if let days = trainingDiary?.days?.allObjects as? [Day]{
             if days.count > 0{
@@ -66,11 +61,11 @@ class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource,
         
     }
     
-
+    
     @IBAction func duplicateDays(_ sender: Any) {
         
         logMessage("DUPLICATE DAYS:")
-
+        
         var days: [Date] = []
         var duplicates: [Day] = []
         if let td = trainingDiary{
@@ -86,10 +81,10 @@ class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource,
                 }
             }
         }
-    
+        
         logMessage("Duplicated count = \(duplicates.count)")
         logMessage("---------------------------------------------------------------------")
-
+        
     }
     
     
@@ -106,30 +101,9 @@ class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource,
         }
     }
     
-    @IBAction func recalcMonotonyAndStrain(_ sender: Any) {
-        let start = Date()
-        DispatchQueue.global(qos: .userInitiated).async {
 
-            if let td = self.trainingDiary{
-                let count: Double = Double(td.activitiesArray().count)
-                var i: Double = 0.0
-                for a in td.activitiesArray(){
-                    i += 1.0
-                    DispatchQueue.main.sync {
-                        self.mainViewController!.mainStatusField!.stringValue = "Calculating monotony & strain:  \(String(describing: a.name)) - \(Int(Date().timeIntervalSince(start)))s ..."
-                        self.mainViewController!.mainProgressBar!.doubleValue = i * 100 / count
-                    }
-                    td.calculateMonotonyAndStrain(forActivity: a, fromDate: td.firstDayOfDiary)
-                }
-            }
-            DispatchQueue.main.sync {
-                self.mainViewController!.mainStatusField!.stringValue = "Monotony and Strain Calculation took \(Date().timeIntervalSince(start))s"
-            }
-        }
-        print("Monotony and Strain Calculation took \(Date().timeIntervalSince(start))s")
-    }
     
-
+    
     @IBAction func printEntityCounts(_ sender: Any) {
         logMessage("*** Entity Counts:")
         for e in CoreDataStackSingleton.shared.getEntityCounts(forDiary: trainingDiary!){
@@ -164,7 +138,7 @@ class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource,
         logMessage("\(activiesConnected) workouts connected to activity")
         logMessage("\(activityTypesConnected) workouts connected to activity type")
         logMessage("---------------------------------------------------------------------")
-
+        
     }
     
     @IBAction func listMissingConnections(_ sender: Any){
@@ -219,8 +193,8 @@ class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource,
         logMessage("Days missing training diary: \(missingTrainingDiarySet)")
         logMessage("LTDEddingtonNumber without parent or training diary: \(ltd.count)")
         logMessage("---------------------------------------------------------------------")
-
-
+        
+        
     }
     
     @IBAction func deleleteEntitiesWithMissingConnections(_ sender: Any){
@@ -284,146 +258,18 @@ class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource,
         logMessage("\(i) workouts missing equipment (ie bike) set")
         logMessage("*** Unique Bike Names and Missing Equipment")
         logMessage("")
-
-    }
-    
-
-//    override func viewDidLoad() {
-    
- //       updateGraphs(forActivity: trainingDiary!.activity(forString: FixedActivity.Bike.rawValue)!)
         
-//    }
-    
-    //MARK: - NSTableViewDelegate
-//    func tableViewSelectionDidChange(_ notification: Notification) {
-//       print("Activity table selection changed")
- //       if let ac = activitiesArrayController{
-   //         if let selection = ac.selectedObjects{
-     //           if selection.count > 0{
-       //             if let a = selection[0] as? Activity{
-         //               print(a.name as Any)
-           //             if let gv = activityGraphView{
-             //               gv.clearGraphs()
-               //             updateGraphs(forActivity: a)
-                 //       }
-                   // }
-                //}
-            //}
-        //}
-//    }
-    
-    //MARK: - ReferenceToMainProtocol
-    func setMainViewControllerReference(to vc: ViewController){
-        mainViewController = vc
-    }
-
-
-    
-    //MARK: - NSComboBoxDataSource implementation  TSBTableActivityCB
-    func comboBox(_ comboBox: NSComboBox, objectValueForItemAt index: Int) -> Any? {
-        if let identifier = comboBox.identifier{
-            switch identifier.rawValue{
-                
-            case "TSBTableActivityCB":
-                let activities = trainingDiary!.activitiesArray().map({$0.name})
-                if index < activities.count{
-                    return activities[index]
-                }
-            default:
-                print("What combo box is this \(identifier.rawValue) which I'm (AdminViewController) a data source for? ")
-            }
-        }
-        return nil
     }
     
-    func numberOfItems(in comboBox: NSComboBox) -> Int {
-        if let identifier = comboBox.identifier{
-            switch identifier.rawValue{
-            case "TSBTableActivityCB":
-                return trainingDiary!.activitiesArray().count
-            default:
-                return 0
-            }
-        }
-        return 0
-    }
     
-   
     private func logMessage(_ s: String){
         print(s)
         
         if let votv = validationOutputTextView{
-//            let oldString = votv.string
+            //            let oldString = votv.string
             votv.string += "\n" + s
         }
-
+        
     }
 
-
-//    private func ctlReplacementData(forActivity a: Activity) -> [(x: Double, y: Double)]{
-//        var result: [(x: Double, y: Double)] = []
-//        let d = Date()
-//
-//        for i in 0...maxDaysForActivityDecay{
-//            result.append((x: d.addDays(numberOfDays: i).timeIntervalSinceReferenceDate, y: 100 * a.ctlReplacementTSSFactor(afterNDays: i)))
-//        }
-//        return result
-//    }
-//
-//    private func ctlDecayData(forActivity a: Activity) -> [(x: Double, y: Double)]{
-//        var result: [(x: Double, y: Double)] = []
-//        let d = Date()
-//
-//        for i in 0...maxDaysForActivityDecay{
-//            result.append((x: d.addDays(numberOfDays: i).timeIntervalSinceReferenceDate, y: 100 * a.ctlDecayFactor(afterNDays: i)))
-//        }
-//        return result
-//    }
-//
-//    private func atlReplacementData(forActivity a: Activity) -> [(x: Double, y: Double)]{
-//        var result: [(x: Double, y: Double)] = []
-//        let d = Date()
-//
-//        for i in 0...maxDaysForActivityDecay{
-//            result.append((x: d.addDays(numberOfDays: i).timeIntervalSinceReferenceDate, y: 100 * a.atlReplacementTSSFactor(afterNDays: i)))
-//        }
-//        return result
-//    }
-//
-//    private func atlDecayData(forActivity a: Activity) -> [(x: Double, y: Double)]{
-//        var result: [(x: Double, y: Double)] = []
-//        let d = Date()
-//
-//        for i in 0...maxDaysForActivityDecay{
-//            result.append((x: d.addDays(numberOfDays: i).timeIntervalSinceReferenceDate, y: 100 * a.atlDecayFactor(afterNDays: i)))
-//        }
-//        return result
-//    }
-    
-
-//    private func graphs(forActivity a: Activity) -> [GraphDefinition]{
-//
-//        let testCTLData = ctlReplacementData(forActivity: a)
-//        let testATLData = atlReplacementData(forActivity: a)
-//        let testCTLDecayData = ctlDecayData(forActivity: a)
-//        let testATLDecayData = atlDecayData(forActivity: a)
-//
-//        var testData: [(x: Double, y: Double)] = []
-//        for i in 0...maxDaysForActivityDecay{
-//            testData.append((x: testCTLDecayData[i].x, y: testCTLDecayData[i].y - testATLDecayData[i].y))
-//        }
-//
-//        let ctlGraphDefinition = GraphDefinition(name: a.name!, data: testCTLData, axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .red, fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 1.0, size: 2.0, opacity: 1.0), drawZeroes: true, priority: 1)
-//
-//        let atlGraphDefinition = GraphDefinition(name: a.name!, data: testATLData, axis: .Primary, type: .Line, format: GraphFormat.init(fill: false, colour: .green, fillGradientStart: .green, fillGradientEnd: .green, gradientAngle: 1.0, size: 2.0, opacity: 1.0), drawZeroes: true, priority: 1)
-//
-//        let ctlDecayGraphDefinition = GraphDefinition(name: a.name!, data: testCTLDecayData, axis: .Secondary, type: .Line, format: GraphFormat.init(fill: false, colour: .red, fillGradientStart: .red, fillGradientEnd: .red, gradientAngle: 1.0, size: 2.0, opacity: 1.0), drawZeroes: true, priority: 1)
-//
-//        let atlDecayGraphDefinition = GraphDefinition(name: a.name!, data: testATLDecayData, axis: .Secondary, type: .Line, format: GraphFormat.init(fill: false, colour: .green, fillGradientStart: .green, fillGradientEnd: .green, gradientAngle: 1.0, size: 2.0, opacity: 1.0), drawZeroes: true, priority: 1)
-//
-//        let testGraphDefinition = GraphDefinition(name: a.name!, data: testData, axis: .Secondary, type: .Line, format: GraphFormat.init(fill: false, colour: .yellow, fillGradientStart: .yellow, fillGradientEnd: .yellow, gradientAngle: 1.0, size: 2.0, opacity: 1.0), drawZeroes: true, priority: 1)
-//
-//        return [ctlGraphDefinition, atlGraphDefinition, ctlDecayGraphDefinition, atlDecayGraphDefinition, testGraphDefinition]
-//
-//    }
 }

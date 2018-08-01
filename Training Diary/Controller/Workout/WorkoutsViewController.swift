@@ -89,7 +89,18 @@ class WorkoutsViewController: TrainingDiarySplitViewController {
             let booleanTemplate = NSPredicateEditorRowTemplate.init(leftExpressions: booleanExpressions, rightExpressionAttributeType: NSAttributeType.booleanAttributeType, modifier: NSComparisonPredicate.Modifier.direct, operators: booleanOperators, options: Int(NSComparisonPredicate.Options.caseInsensitive.rawValue))
             
             
-            editor.rowTemplates.append(contentsOf: [doubleTemplate, stringTemplate, booleanTemplate])
+            var dateExpressions: [NSExpression] = []
+            var dateOperators: [NSNumber] = []
+            dateExpressions.append(NSExpression(forKeyPath: "day.date"))
+            dateOperators.append(NSNumber(value:NSComparisonPredicate.Operator.equalTo.rawValue))
+            dateOperators.append(NSNumber(value:NSComparisonPredicate.Operator.greaterThan.rawValue))
+            dateOperators.append(NSNumber(value:NSComparisonPredicate.Operator.greaterThanOrEqualTo.rawValue))
+            dateOperators.append(NSNumber(value:NSComparisonPredicate.Operator.lessThan.rawValue))
+            dateOperators.append(NSNumber(value:NSComparisonPredicate.Operator.lessThanOrEqualTo.rawValue))
+            
+            let dateTemplate = NSPredicateEditorRowTemplate.init(leftExpressions: dateExpressions, rightExpressionAttributeType: NSAttributeType.dateAttributeType, modifier: NSComparisonPredicate.Modifier.direct, operators: dateOperators, options: Int(NSComparisonPredicate.Options.caseInsensitive.rawValue))
+            
+            editor.rowTemplates.append(contentsOf: [doubleTemplate, stringTemplate, booleanTemplate, dateTemplate])
         }
         
     }

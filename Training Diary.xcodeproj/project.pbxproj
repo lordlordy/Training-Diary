@@ -38,6 +38,10 @@
 		732103AE1FCFFB570020F365 /* CSVImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732103AD1FCFFB570020F365 /* CSVImporter.swift */; };
 		73265B641FB471A00081D3F9 /* WeightHRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73265B631FB471A00081D3F9 /* WeightHRViewController.swift */; };
 		73265B661FB47D240081D3F9 /* Weight+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73265B651FB47D240081D3F9 /* Weight+Extension.swift */; };
+		7327B5D2210F8D5B0086C051 /* Validation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7327B5D1210F8D5B0086C051 /* Validation.storyboard */; };
+		7327B5D5210F8DDE0086C051 /* ValidationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7327B5D4210F8DDE0086C051 /* ValidationViewController.swift */; };
+		7327B5D6211036840086C051 /* Validation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7327B5D1210F8D5B0086C051 /* Validation.storyboard */; };
+		7327B5D721116BEA0086C051 /* ValidationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7327B5D4210F8DDE0086C051 /* ValidationViewController.swift */; };
 		732807091FACBBF100658833 /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732807081FACBBF100658833 /* LinkedList.swift */; };
 		7328070B1FACBC2900658833 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7328070A1FACBC2900658833 /* Queue.swift */; };
 		732EF2141FD0B5E6008768C0 /* RollingPeriodWeightedAverage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732EF2131FD0B5E6008768C0 /* RollingPeriodWeightedAverage.swift */; };
@@ -378,6 +382,8 @@
 		732103AD1FCFFB570020F365 /* CSVImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVImporter.swift; sourceTree = "<group>"; };
 		73265B631FB471A00081D3F9 /* WeightHRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightHRViewController.swift; sourceTree = "<group>"; };
 		73265B651FB47D240081D3F9 /* Weight+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Weight+Extension.swift"; sourceTree = "<group>"; };
+		7327B5D1210F8D5B0086C051 /* Validation.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Validation.storyboard; sourceTree = "<group>"; };
+		7327B5D4210F8DDE0086C051 /* ValidationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationViewController.swift; sourceTree = "<group>"; };
 		732807081FACBBF100658833 /* LinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
 		7328070A1FACBC2900658833 /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		732EF2131FD0B5E6008768C0 /* RollingPeriodWeightedAverage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollingPeriodWeightedAverage.swift; sourceTree = "<group>"; };
@@ -564,6 +570,14 @@
 			name = Aggregators;
 			sourceTree = "<group>";
 		};
+		7327B5D3210F8DD00086C051 /* Validation */ = {
+			isa = PBXGroup;
+			children = (
+				7327B5D4210F8DDE0086C051 /* ValidationViewController.swift */,
+			);
+			path = Validation;
+			sourceTree = "<group>";
+		};
 		73308C39209D0BCB00AC8832 /* Buckets */ = {
 			isa = PBXGroup;
 			children = (
@@ -625,6 +639,7 @@
 				73A2DDA320A69A53002947AF /* Workouts.storyboard */,
 				73C9E90320A696F400586DB5 /* Years.storyboard */,
 				73DB7D9D20A6287D00658A3F /* Defaults.storyboard */,
+				7327B5D1210F8D5B0086C051 /* Validation.storyboard */,
 				73DB7D9A20A6268900658A3F /* Compare.storyboard */,
 				730A477920A736D70040263E /* Eddington.storyboard */,
 				73ECC2C820A6226800F12A99 /* Physiological.storyboard */,
@@ -859,6 +874,7 @@
 		73E1216D1F98F89400037DAF /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				7327B5D3210F8DD00086C051 /* Validation */,
 				7364485520A0AB0B00E6292B /* Buckets */,
 				73BFC3882090EC7600CE3493 /* Activity */,
 				73BFC3872090EC5900CE3493 /* Bikes */,
@@ -1019,6 +1035,7 @@
 				73A2DDA520A69A59002947AF /* Workouts.storyboard in Resources */,
 				730561C320B8B8DD00EC357B /* Calculator.storyboard in Resources */,
 				73ECC2CA20A6249D00F12A99 /* Physiological.storyboard in Resources */,
+				7327B5D6211036840086C051 /* Validation.storyboard in Resources */,
 				73DB7D9C20A6268D00658A3F /* Compare.storyboard in Resources */,
 				73D1B42B20B6AAA300193EC6 /* eddingtonTableStart.txt in Resources */,
 				73D1B42D20B6AAAA00193EC6 /* EddingtonTableScripts.txt in Resources */,
@@ -1052,6 +1069,7 @@
 				73DB7D9E20A6287D00658A3F /* Defaults.storyboard in Resources */,
 				73FC61E3200E1D5200C61DE6 /* tableEnd.txt in Resources */,
 				739C1E6E209725CA00A3D805 /* Info-Dev.plist in Resources */,
+				7327B5D2210F8D5B0086C051 /* Validation.storyboard in Resources */,
 				73FC61DF200E19A000C61DE6 /* filteringTable.html in Resources */,
 				73D1B42620B6A65600193EC6 /* eddingtonTableStart.txt in Resources */,
 			);
@@ -1131,6 +1149,7 @@
 				73E1F3D820AEB360008AE0FC /* DayValueProtocol.swift in Sources */,
 				735F635D20970BE400AE3503 /* GraphSplitViewController.swift in Sources */,
 				735F635E20970BE400AE3503 /* AggregationMethodComboBox.swift in Sources */,
+				7327B5D721116BEA0086C051 /* ValidationViewController.swift in Sources */,
 				735F635F20970BE400AE3503 /* DayAggregator.swift in Sources */,
 				735F636020970BE400AE3503 /* Enumerations.swift in Sources */,
 				735F636120970BE400AE3503 /* GraphArrayController.swift in Sources */,
@@ -1289,6 +1308,7 @@
 				73DE3E2A206BF4450029EF14 /* GraphSplitViewController.swift in Sources */,
 				7352E1EB20932B4500C64FD5 /* AggregationMethodComboBox.swift in Sources */,
 				7302C68D2092DBF1004B17F5 /* DayAggregator.swift in Sources */,
+				7327B5D5210F8DDE0086C051 /* ValidationViewController.swift in Sources */,
 				73444C3F1F96AB9B00B3E84D /* Enumerations.swift in Sources */,
 				73C2E4951FD7B29800C30316 /* GraphArrayController.swift in Sources */,
 				73EBA47F208346EB00426626 /* ActivityGraphViewController.swift in Sources */,
