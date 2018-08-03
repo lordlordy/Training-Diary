@@ -15,11 +15,11 @@ class TrainingDiaryViewController: NSViewController, TrainingDiaryViewController
     func set(trainingDiary td: TrainingDiary){
         self.trainingDiary = td
         //not sure we should do this here
-        for c in childViewControllers{
-            if let tdvc = c as? TrainingDiaryViewControllerProtocol{
-                tdvc.set(trainingDiary: td)
-            }
-        }
+//        for c in childViewControllers{
+//            if let tdvc = c as? TrainingDiaryViewControllerProtocol{
+//                tdvc.set(trainingDiary: td)
+//            }
+//        }
     }
     
 }

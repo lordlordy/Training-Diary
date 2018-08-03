@@ -2488,8 +2488,8 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView misplaced="YES" id="ccR-HF-yOh">
-                                                            <rect key="frame" x="44" y="1" width="40" height="43"/>
+                                                        <tableCellView id="ccR-HF-yOh">
+                                                            <rect key="frame" x="44" y="1" width="40" height="20"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <comboBox identifier="WorkoutActivityComboBox" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zLw-V8-jqH">
@@ -2527,8 +2527,8 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView misplaced="YES" id="pOs-lY-fH5">
-                                                            <rect key="frame" x="87" y="1" width="29" height="43"/>
+                                                        <tableCellView id="pOs-lY-fH5">
+                                                            <rect key="frame" x="87" y="1" width="29" height="20"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <comboBox identifier="WorkoutActivityTypeComboBox" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="t8D-Jd-LgB">
@@ -2566,8 +2566,8 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView misplaced="YES" id="52h-bZ-FAq">
-                                                            <rect key="frame" x="119" y="1" width="38" height="43"/>
+                                                        <tableCellView id="52h-bZ-FAq">
+                                                            <rect key="frame" x="119" y="1" width="38" height="20"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <comboBox identifier="WorkoutEquipmentComboBox" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="11M-aJ-i6L">
@@ -3051,8 +3051,8 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView misplaced="YES" id="1sv-Og-JQ1">
-                                                            <rect key="frame" x="845" y="1" width="64" height="43"/>
+                                                        <tableCellView id="1sv-Og-JQ1">
+                                                            <rect key="frame" x="845" y="1" width="64" height="20"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6Pv-jW-39W" customClass="TSSMethodComboBox" customModule="Training_Diary" customModuleProvider="target">

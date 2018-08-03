@@ -222,9 +222,9 @@ extension TrainingDiary{
         for a in activitiesArray(){
             let workouts = CoreDataStackSingleton.shared.workouts(forActivity: a, andTrainingDiary: self)
             for w in workouts{
-                var possibleValue: String = w.activityString!
+                var possibleValue: String = w.activityString
                 possibleValue += ":"
-                possibleValue += w.activityTypeString!
+                possibleValue += w.activityTypeString
                 if possibleValue == "Swim:Road"{
                     print("\(possibleValue) - \(w.day!.date!.dateOnlyShorterString())")
                 }
@@ -442,10 +442,9 @@ extension TrainingDiary{
         let bikeWorkouts = CoreDataStackSingleton.shared.workouts(forActivity: activity(forString: FixedActivity.Bike.rawValue)!, andTrainingDiary: self)
         var result: [String] = []
         for b in bikeWorkouts{
-            if let name = b.equipmentName{
-                if !result.contains(name){ result.append(name)}
-            }else{
-                print("No bike string set for workout dated \(String(describing: b.day?.date?.dateOnlyShorterString()))")
+            let name = b.equipmentName
+            if !result.contains(name){
+                result.append(name)
             }
         }
         

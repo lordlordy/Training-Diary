@@ -122,6 +122,7 @@ enum Constant: Double {
 
 enum ConstantString: String{
     case EddingtonAll       = "All"
+    case NotSet             = "Not Set"
 }
 
 
@@ -601,7 +602,7 @@ enum PlanDayProperty: String, TrainingDiaryPropertyProtocol{
     case iso8061DateString
     case csvDateString, planName
     
-    static let jsonProperties = [swimATL, swimCTL, swimTSS, bikeATL, bikeCTL, bikeTSS, runATL, runCTL, runTSS, actualSwimATL, actualSwimCTL, actualSwimTSS, actualBikeATL, actualBikeCTL, actualBikeTSS, actualRunATL, actualRunCTL, actualRunTSS, actualThenPlanSwimATL, actualThenPlanSwimCTL, actualThenPlanSwimTSB, actualThenPlanBikeATL, actualThenPlanBikeCTL, actualThenPlanBikeTSB, actualThenPlanRunATL, actualThenPlanRunCTL, actualThenPlanRunTSB, actualThenPlanAllATL, actualThenPlanAllCTL, actualThenPlanAllTSB, iso8061DateString, comments]
+    static let jsonProperties = [swimATL, swimCTL, swimTSS, bikeATL, bikeCTL, bikeTSS, runATL, runCTL, runTSS, actualSwimATL, actualSwimCTL, actualSwimTSS, actualBikeATL, actualBikeCTL, actualBikeTSS, actualRunATL, actualRunCTL, actualRunTSS, actualThenPlanSwimATL, actualThenPlanSwimCTL, actualThenPlanBikeATL, actualThenPlanBikeCTL, actualThenPlanRunATL, actualThenPlanRunCTL, iso8061DateString, comments]
 
     static let csvProperties = [swimATL, swimCTL, swimTSS, bikeATL, bikeCTL, bikeTSS, runATL, runCTL, runTSS, actualSwimATL, actualSwimCTL, actualSwimTSS, actualBikeATL, actualBikeCTL, actualBikeTSS, actualRunATL, actualRunCTL, actualRunTSS, actualThenPlanSwimATL, actualThenPlanSwimCTL, actualThenPlanSwimTSB, actualThenPlanBikeATL, actualThenPlanBikeCTL, actualThenPlanBikeTSB, actualThenPlanRunATL, actualThenPlanRunCTL, actualThenPlanRunTSB, actualThenPlanAllATL, actualThenPlanAllCTL, actualThenPlanAllTSB, csvDateString, comments, planName]
     

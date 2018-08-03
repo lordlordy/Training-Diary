@@ -56,7 +56,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
             tdac.add(sender)
         }
     }
-    
+        
     //MARK: - Initialisers
     
     required init?(coder: NSCoder) {
@@ -69,6 +69,8 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
         ValueTransformer.setValueTransformer(NumberToSummaryTimeFormatter(), forName: NSValueTransformerName(rawValue: "NumberToSummaryTimeFormatter"))
         ValueTransformer.setValueTransformer(TextViewToStringTransformer(), forName: NSValueTransformerName(rawValue: "TextViewToStringTransformer"))
         ValueTransformer.setValueTransformer(ActivityToStringTransformer(), forName: NSValueTransformerName(rawValue: "ActivityToStringTransformer"))
+        ValueTransformer.setValueTransformer(ActivityTypeToStringTransformer(), forName: NSValueTransformerName(rawValue: "ActivityTypeToStringTransformer"))
+
 
         
     }
@@ -139,6 +141,8 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
             for c in trainingDiaryVCs{
                 c.set(trainingDiary: trainingDiary)
             }
+            
+            
             updateAll()
         }
     }

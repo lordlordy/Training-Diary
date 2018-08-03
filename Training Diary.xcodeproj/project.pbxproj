@@ -42,6 +42,10 @@
 		7327B5D5210F8DDE0086C051 /* ValidationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7327B5D4210F8DDE0086C051 /* ValidationViewController.swift */; };
 		7327B5D6211036840086C051 /* Validation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7327B5D1210F8D5B0086C051 /* Validation.storyboard */; };
 		7327B5D721116BEA0086C051 /* ValidationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7327B5D4210F8DDE0086C051 /* ValidationViewController.swift */; };
+		7327B5D9211252510086C051 /* WorkoutsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7327B5D8211252510086C051 /* WorkoutsListViewController.swift */; };
+		7327B5DB2112564A0086C051 /* ActivityTypeToStringTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7327B5DA2112564A0086C051 /* ActivityTypeToStringTransformer.swift */; };
+		7327B5DC2112564E0086C051 /* ActivityTypeToStringTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7327B5DA2112564A0086C051 /* ActivityTypeToStringTransformer.swift */; };
+		7327B5DD211258330086C051 /* WorkoutsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7327B5D8211252510086C051 /* WorkoutsListViewController.swift */; };
 		732807091FACBBF100658833 /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732807081FACBBF100658833 /* LinkedList.swift */; };
 		7328070B1FACBC2900658833 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7328070A1FACBC2900658833 /* Queue.swift */; };
 		732EF2141FD0B5E6008768C0 /* RollingPeriodWeightedAverage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732EF2131FD0B5E6008768C0 /* RollingPeriodWeightedAverage.swift */; };
@@ -384,6 +388,8 @@
 		73265B651FB47D240081D3F9 /* Weight+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Weight+Extension.swift"; sourceTree = "<group>"; };
 		7327B5D1210F8D5B0086C051 /* Validation.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Validation.storyboard; sourceTree = "<group>"; };
 		7327B5D4210F8DDE0086C051 /* ValidationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationViewController.swift; sourceTree = "<group>"; };
+		7327B5D8211252510086C051 /* WorkoutsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutsListViewController.swift; sourceTree = "<group>"; };
+		7327B5DA2112564A0086C051 /* ActivityTypeToStringTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTypeToStringTransformer.swift; sourceTree = "<group>"; };
 		732807081FACBBF100658833 /* LinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
 		7328070A1FACBC2900658833 /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		732EF2131FD0B5E6008768C0 /* RollingPeriodWeightedAverage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollingPeriodWeightedAverage.swift; sourceTree = "<group>"; };
@@ -689,6 +695,7 @@
 			children = (
 				7309AED51FC6CCC100054A6B /* ActivityGraphDefinition.swift */,
 				73EBA47E208346EB00426626 /* ActivityGraphViewController.swift */,
+				7327B5DA2112564A0086C051 /* ActivityTypeToStringTransformer.swift */,
 				73593313201F7C6F007BB525 /* ActivityToStringTransformer.swift */,
 				73D89F9F1FD1E241002F07A2 /* DatedActivityGraphDefinition.swift */,
 			);
@@ -781,6 +788,7 @@
 				738ED876204D749A006187A1 /* WorkoutsInputViewController.swift */,
 				73A06B04204D594A0088BD09 /* WorkoutSplitViewController.swift */,
 				73C13FBB2049DC5400199D47 /* WorkoutsViewController.swift */,
+				7327B5D8211252510086C051 /* WorkoutsListViewController.swift */,
 				73BBE74B2085E4AD0033EAA6 /* WorkoutPredicateViewController.swift */,
 			);
 			path = Workout;
@@ -1096,11 +1104,13 @@
 				735F632E20970BE400AE3503 /* ActivityType+Extension.swift in Sources */,
 				7317E1C320B5E63800128A21 /* EddingtonAnnualHistory+Extension.swift in Sources */,
 				735F632F20970BE400AE3503 /* ActivityGraphDefinition.swift in Sources */,
+				7327B5DC2112564E0086C051 /* ActivityTypeToStringTransformer.swift in Sources */,
 				735F633020970BE400AE3503 /* DaysInputViewController.swift in Sources */,
 				735F633120970BE400AE3503 /* NumberToDetailedTimeTransformer.swift in Sources */,
 				735F633220970BE400AE3503 /* DaysPredicatorEditorViewController.swift in Sources */,
 				735F633320970BE400AE3503 /* TableViewWithColumnSort.swift in Sources */,
 				735F633420970BE400AE3503 /* WeightHRVTablesViewController.swift in Sources */,
+				7327B5DD211258330086C051 /* WorkoutsListViewController.swift in Sources */,
 				735F633520970BE400AE3503 /* DayAggregatorProtocol.swift in Sources */,
 				735F633620970BE400AE3503 /* EddingtonContributorsViewController.swift in Sources */,
 				735F633720970BE400AE3503 /* DayTypeComboBox.swift in Sources */,
@@ -1299,6 +1309,7 @@
 				73265B641FB471A00081D3F9 /* WeightHRViewController.swift in Sources */,
 				73E25E1B1FC038FC0081FC62 /* GraphViewController.swift in Sources */,
 				73339CCC20514804007CD288 /* ReferenceToMainProtocol.swift in Sources */,
+				7327B5DB2112564A0086C051 /* ActivityTypeToStringTransformer.swift in Sources */,
 				7385C4791FAA600A00F48685 /* DaysViewController.swift in Sources */,
 				73641578201C7207009D5817 /* Activity+Extension.swift in Sources */,
 				734C9C50204BDDE90007F5B1 /* TrainingDiaryViewControllerProtocol.swift in Sources */,
@@ -1385,6 +1396,7 @@
 				7333B9F21FB613CA005F424E /* UnitComboBox.swift in Sources */,
 				7369D9F21FB24F2B00ECAA1E /* ActivityComboBox.swift in Sources */,
 				7369D9F41FB24F5000ECAA1E /* ActivityTypeComboBox.swift in Sources */,
+				7327B5D9211252510086C051 /* WorkoutsListViewController.swift in Sources */,
 				73BBE74C2085E4AD0033EAA6 /* WorkoutPredicateViewController.swift in Sources */,
 				73B9FCBB2006A4EF00C57D25 /* GraphDefinition.swift in Sources */,
 				7359C183204CFB7700A09B61 /* DaysSplitViewController.swift in Sources */,

@@ -13,7 +13,14 @@ class WorkoutsViewController: TrainingDiarySplitViewController {
     
     @IBOutlet var workoutsArrayController: NSArrayController!
     
-    
+    @objc dynamic var workoutsAC: NSArrayController?{
+        for c in childViewControllers{
+            if let vc = c as? WorkoutsListViewController{
+                return vc.workoutsAC
+            }
+        }
+        return nil
+    }
     
     @IBAction func exportSelectionAsCSV(_ sender: Any) {
         

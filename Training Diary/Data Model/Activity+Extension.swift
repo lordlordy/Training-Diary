@@ -11,7 +11,7 @@ import Foundation
 extension Activity: CategoryProtocol{
     
     @objc dynamic var isFixedActivity: Bool {return isOneOfFixedActivityTypes() }
-    @objc dynamic var canEditName: Bool { return !isFixedActivity }
+    @objc dynamic var canEditName: Bool { return !isFixedActivity && workoutCount == 0 }
     
     @objc dynamic var workoutCount: Int { return workouts?.count ?? 0 }
     @objc dynamic var km: Double { return getWorkouts().reduce(0,{$0 + $1.km}) }

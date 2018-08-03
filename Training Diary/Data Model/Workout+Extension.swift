@@ -32,6 +32,47 @@ extension Workout: PeriodNode{
         }
     }
     
+    @objc dynamic var activityString: String{
+        get{
+            return activity?.name ?? "Activity not set"
+        }
+        set{
+            if let td = day?.trainingDiary{
+                activity = td.addActivity(forString: newValue)
+            }
+        }
+    }
+    
+    @objc dynamic var activityTypeString: String{
+        get{
+            return activityType?.name ?? ConstantString.NotSet.rawValue
+        }
+        set{
+            if newValue != ConstantString.NotSet.rawValue{
+                if let td = day?.trainingDiary{
+                    if let a = activity?.name{
+                        activityType = td.addActivityType(forActivity: a, andType: newValue)
+                    }
+                }
+            }
+        }
+    }
+    
+    @objc dynamic var equipmentName: String{
+        get{
+            return equipment?.name ?? ConstantString.NotSet.rawValue
+        }
+        set{
+            if newValue != ConstantString.NotSet.rawValue{
+                if let td = day?.trainingDiary{
+                    if let a = activity?.name{
+                        equipment = td.addEquipment(forActivity: a, andName: newValue)
+                    }
+                }
+            }
+        }
+    }
+    
     
     override public class func keyPathsForValuesAffectingValue(forKey key: String) -> Set<String>{
         let keyPaths = super.keyPathsForValuesAffectingValue(forKey: key)
@@ -63,14 +104,14 @@ extension Workout: PeriodNode{
     @objc var totalSeconds:  Double { return TimeInterval(seconds) }
     @objc var totalTSS: Double { return tss }
     @objc var swimKM: Double {
-        if activityString! == FixedActivity.Swim.rawValue{
+        if activityString == FixedActivity.Swim.rawValue{
             return km
         }else{
             return 0.0
         }
     }
     @objc var swimSeconds: TimeInterval {
-        if activityString! == FixedActivity.Swim.rawValue{
+        if activityString == FixedActivity.Swim.rawValue{
             return TimeInterval(seconds)
         }else{
             return TimeInterval(0.0)
@@ -78,49 +119,49 @@ extension Workout: PeriodNode{
     }
 
     @objc var swimTSS: Double {
-        if activityString! == FixedActivity.Swim.rawValue{
+        if activityString == FixedActivity.Swim.rawValue{
             return tss
         }else{
             return 0.0
         }
     }
     @objc var bikeKM: Double {
-        if activityString! == FixedActivity.Bike.rawValue{
+        if activityString == FixedActivity.Bike.rawValue{
             return km
         }else{
             return 0.0
         }
     }
     @objc var bikeSeconds: TimeInterval {
-        if activityString! == FixedActivity.Bike.rawValue{
+        if activityString == FixedActivity.Bike.rawValue{
             return TimeInterval(seconds)
         }else{
             return TimeInterval(0.0)
         }
     }
     @objc var bikeTSS: Double {
-        if activityString! == FixedActivity.Bike.rawValue{
+        if activityString == FixedActivity.Bike.rawValue{
             return tss
         }else{
             return 0.0
         }
     }
     @objc var runKM: Double {
-        if activityString! == FixedActivity.Run.rawValue{
+        if activityString == FixedActivity.Run.rawValue{
             return km
         }else{
             return 0.0
         }
     }
     @objc var runSeconds: TimeInterval {
-        if activityString! == FixedActivity.Run.rawValue{
+        if activityString == FixedActivity.Run.rawValue{
             return TimeInterval(seconds)
         }else{
             return TimeInterval(0.0)
         }
     }
     @objc var runTSS: Double {
-        if activityString! == FixedActivity.Run.rawValue{
+        if activityString == FixedActivity.Run.rawValue{
             return tss
         }else{
             return 0.0

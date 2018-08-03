@@ -132,9 +132,15 @@ class JSONImporter{
             //we have a workout
             let workout = NSManagedObject.init(entity: NSEntityDescription.entity(forEntityName: ENTITY.Workout.rawValue, in: persistentContainer.viewContext)!, insertInto: persistentContainer.viewContext)
             day.mutableSetValue(forKey: DayProperty.workouts.rawValue).add(workout)
+            
+            // these need to be set after activity is set
+            var finalProperties: [String: Any] = [:]
+            
             for wp in workoutDict{
                 switch wp.key{
-                case WorkoutProperty.activityString.rawValue, WorkoutProperty.activityTypeString.rawValue, WorkoutProperty.ascentMetres.rawValue, WorkoutProperty.equipmentName.rawValue, WorkoutProperty.cadence.rawValue, WorkoutProperty.hr.rawValue, WorkoutProperty.kj.rawValue, WorkoutProperty.km.rawValue, WorkoutProperty.reps.rawValue, WorkoutProperty.rpe.rawValue, WorkoutProperty.seconds.rawValue, WorkoutProperty.tss.rawValue, WorkoutProperty.tssMethod.rawValue, WorkoutProperty.watts.rawValue, WorkoutProperty.comments.rawValue, WorkoutProperty.keywords.rawValue:
+                case WorkoutProperty.activityTypeString.rawValue, WorkoutProperty.equipmentName.rawValue:
+                    finalProperties[wp.key] = wp.value
+                case WorkoutProperty.activityString.rawValue, WorkoutProperty.ascentMetres.rawValue, WorkoutProperty.cadence.rawValue, WorkoutProperty.hr.rawValue, WorkoutProperty.kj.rawValue, WorkoutProperty.km.rawValue, WorkoutProperty.reps.rawValue, WorkoutProperty.rpe.rawValue, WorkoutProperty.seconds.rawValue, WorkoutProperty.tss.rawValue, WorkoutProperty.tssMethod.rawValue, WorkoutProperty.watts.rawValue, WorkoutProperty.comments.rawValue, WorkoutProperty.keywords.rawValue:
                     if wp.value is NSNull {
                         //     print("\(wp) is nil")
                     }else{
@@ -146,21 +152,30 @@ class JSONImporter{
                     print("--JSON not added for WORKOUT & Key: \(wp.key) with value: \(wp.value)")
                 }
             }
-            //need to set up Activity Properties etc..
-            if let wkt = workout as? Workout{
-                if let a = wkt.activityString{
-                    let activity = trainingDiary.addActivity(forString: a)
-                    wkt.activity = activity
-                    if let at = wkt.activityTypeString{
-                        let activityType = trainingDiary.addActivityType(forActivity: a, andType: at)
-                        wkt.activityType = activityType
-                    }
-                    if let e = wkt.equipmentName{
-                        let equipment = trainingDiary.addEquipment(forActivity: a, andName: e)
-                        wkt.equipment = equipment
-                    }
+            
+            for p in finalProperties{
+                if p.value is NSNull {
+                     print("\(p) is nil")
+                }else{
+                    workout.setValue(p.value, forKey: p.key)
                 }
             }
+            
+            //need to set up Activity Properties etc..
+//            if let wkt = workout as? Workout{
+//                if let a = wkt.activityString{
+//                    let activity = trainingDiary.addActivity(forString: a)
+//                    wkt.activity = activity
+//                    if let at = wkt.activityTypeString{
+//                        let activityType = trainingDiary.addActivityType(forActivity: a, andType: at)
+//                        wkt.activityType = activityType
+//                    }
+//                    if let e = wkt.equipmentName{
+//                        let equipment = trainingDiary.addEquipment(forActivity: a, andName: e)
+//                        wkt.equipment = equipment
+//                    }
+//                }
+//            }
         }
     }
     
@@ -169,18 +184,20 @@ class JSONImporter{
         
         let trainingDiaryWeightDateStrings: [String] = td.weightsArray().map({$0.fromDate!.dateOnlyString()})
         var addedCount: Int = 0
-                
-        for mDict in json[TrainingDiaryProperty.weights.rawValue] as! [[String:Any]]{
-            if let dateString = mDict[WeightProperty.iso8061DateString.rawValue] as? String{
-                let dateOnly = dateString.split(separator: "T")[0]
-                if trainingDiaryWeightDateStrings.contains(String(dateOnly)){
-                    print("TrainingDiary already includes Weight for \(dateOnly)")
+        
+        if json.count > 0{
+            for mDict in json[TrainingDiaryProperty.weights.rawValue] as! [[String:Any]]{
+                if let dateString = mDict[WeightProperty.iso8061DateString.rawValue] as? String{
+                    let dateOnly = dateString.split(separator: "T")[0]
+                    if trainingDiaryWeightDateStrings.contains(String(dateOnly)){
+                        print("TrainingDiary already includes Weight for \(dateOnly)")
+                    }else{
+                        addWeight(td, mDict)
+                        addedCount += 1
+                    }
                 }else{
-                    addWeight(td, mDict)
-                    addedCount += 1
+                    print("No iso8061DateString value for Weight so can't add \(mDict)")
                 }
-            }else{
-                print("No iso8061DateString value for Weight so can't add \(mDict)")
             }
         }
         print("Added \(addedCount) Weights ")

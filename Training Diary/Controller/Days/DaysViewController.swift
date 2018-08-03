@@ -160,64 +160,64 @@ class DaysViewController: TrainingDiaryViewController, NSComboBoxDataSource, NST
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if let key = keyPath{
-            if let w = object as? Workout{
-                switch key{
-                case WorkoutProperty.equipmentName.rawValue:
-                    if let td = trainingDiary{
-                        if let workout = currentWorkout{
-                            if let e = workout.equipmentName{
-                                if let equipment = td.equipment(forActivity: w.activityString!, andName: e){
-                                    workout.equipment = equipment
-                                    print("Workout \(workout.day!.date!.dateOnlyShorterString()) added to  \(equipment.name!)")
-                                }
-                            }
-                        }
-                    }
-                case WorkoutProperty.activityString.rawValue:
-                    print("activityString changed ")
-                    print("\(String(describing: w.activityString)):\(String(describing: w.activityTypeString)):\(w.day!.date!.dateOnlyShorterString()) connecting activity...")
-                        if let td = w.day?.trainingDiary{
-                            w.activity = td.activity(forString: w.activityString!)
-                            print("DONE")
-                        }else{
-                            print("Failed as couldn't connect to training diary")
-                        }
-                    
-                case WorkoutProperty.activityTypeString.rawValue:
-                    print("activityTypeString changed")
-                        print("\(String(describing: w.activityString)):\(String(describing: w.activityTypeString)):\(w.day!.date!.dateOnlyShorterString()) connecting activityType...")
-                        if let td = w.day?.trainingDiary{
-                            w.activityType = td.activityType(forActivity: w.activityString!, andType: w.activityTypeString!)
-                            print("DONE")
-                        }else{
-                            print("Failed as couldn't connect to training diary")
-                        }
-                    
-                default:
-                    print("!! Didn't thinkk I set an observer for \(String(describing: keyPath))")
-                }
-            }
-        }
+//        if let key = keyPath{
+//            if let w = object as? Workout{
+//                switch key{
+//                case WorkoutProperty.equipmentName.rawValue:
+//                    if let td = trainingDiary{
+//                        if let workout = currentWorkout{
+//                            if let e = workout.equipmentName{
+//                                if let equipment = td.equipment(forActivity: w.activityString!, andName: e){
+//                                    workout.equipment = equipment
+//                                    print("Workout \(workout.day!.date!.dateOnlyShorterString()) added to  \(equipment.name!)")
+//                                }
+//                            }
+//                        }
+//                    }
+//                case WorkoutProperty.activityString.rawValue:
+//                    print("activityString changed ")
+//                    print("\(String(describing: w.activityString)):\(String(describing: w.activityTypeString)):\(w.day!.date!.dateOnlyShorterString()) connecting activity...")
+//                        if let td = w.day?.trainingDiary{
+//                            w.activity = td.activity(forString: w.activityString!)
+//                            print("DONE")
+//                        }else{
+//                            print("Failed as couldn't connect to training diary")
+//                        }
+//
+//                case WorkoutProperty.activityTypeString.rawValue:
+//                    print("activityTypeString changed")
+//                        print("\(String(describing: w.activityString)):\(String(describing: w.activityTypeString)):\(w.day!.date!.dateOnlyShorterString()) connecting activityType...")
+//                        if let td = w.day?.trainingDiary{
+//                            w.activityType = td.activityType(forActivity: w.activityString!, andType: w.activityTypeString!)
+//                            print("DONE")
+//                        }else{
+//                            print("Failed as couldn't connect to training diary")
+//                        }
+//
+//                default:
+//                    print("!! Didn't thinkk I set an observer for \(String(describing: keyPath))")
+//                }
+//            }
+//        }
     }
     
     
     //MARK: - NSTableViewDelegate
     func tableViewSelectionDidChange(_ notification: Notification) {
-        if let workout = currentWorkout{
-            workout.removeObserver(self, forKeyPath: WorkoutProperty.equipmentName.rawValue)
-            workout.removeObserver(self, forKeyPath: WorkoutProperty.activityString.rawValue)
-            workout.removeObserver(self, forKeyPath: WorkoutProperty.activityTypeString.rawValue)
-        }
-        if let wac = workoutArrayController{
-            let workouts = wac.selectedObjects as! [Workout]
-            if workouts.count == 1{
-                currentWorkout = workouts[0]
-                workouts[0].addObserver(self, forKeyPath: WorkoutProperty.equipmentName.rawValue, options: NSKeyValueObservingOptions.new, context: nil)
-                workouts[0].addObserver(self, forKeyPath: WorkoutProperty.activityString.rawValue, options: NSKeyValueObservingOptions.new, context: nil)
-                workouts[0].addObserver(self, forKeyPath: WorkoutProperty.activityTypeString.rawValue, options: NSKeyValueObservingOptions.new, context: nil)
-            }
-        }
+//        if let workout = currentWorkout{
+//            workout.removeObserver(self, forKeyPath: WorkoutProperty.equipmentName.rawValue)
+//            workout.removeObserver(self, forKeyPath: WorkoutProperty.activityString.rawValue)
+//            workout.removeObserver(self, forKeyPath: WorkoutProperty.activityTypeString.rawValue)
+//        }
+//        if let wac = workoutArrayController{
+//            let workouts = wac.selectedObjects as! [Workout]
+//            if workouts.count == 1{
+//                currentWorkout = workouts[0]
+//                workouts[0].addObserver(self, forKeyPath: WorkoutProperty.equipmentName.rawValue, options: NSKeyValueObservingOptions.new, context: nil)
+//                workouts[0].addObserver(self, forKeyPath: WorkoutProperty.activityString.rawValue, options: NSKeyValueObservingOptions.new, context: nil)
+//                workouts[0].addObserver(self, forKeyPath: WorkoutProperty.activityTypeString.rawValue, options: NSKeyValueObservingOptions.new, context: nil)
+//            }
+//        }
     
     }
     

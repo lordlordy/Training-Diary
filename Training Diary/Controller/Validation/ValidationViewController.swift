@@ -113,31 +113,31 @@ class ValidationViewController: TrainingDiaryViewController{
     
     @IBAction func connectActivities(_ sender: Any){
         // connects up activity objects in to workouts
-        
-        var activiesConnected: Int = 0
-        var activityTypesConnected: Int = 0
-        
-        for w in trainingDiary!.workouts{
-            if w.activity == nil{
-                if let td = trainingDiary{
-                    if let a = w.activityString{
-                        w.activity = td.activity(forString: a)
-                        logMessage("Connected activity  for workout \(String(describing: w.day!.date?.dateOnlyShorterString()))")
-                        activiesConnected += 1
-                    }
-                }
-            }
-            if w.activityType == nil{
-                w.activityType = trainingDiary!.activityType(forActivity: w.activityString!, andType: w.activityTypeString!)
-                logMessage("Connected activity type for workout \(String(describing: w.day!.date?.dateOnlyShorterString()))")
-                activityTypesConnected += 1
-            }
-        }
-        
-        logMessage("*** Connecting Activities:")
-        logMessage("\(activiesConnected) workouts connected to activity")
-        logMessage("\(activityTypesConnected) workouts connected to activity type")
-        logMessage("---------------------------------------------------------------------")
+        logMessage("shouldn't need to connect activities now")
+//        var activiesConnected: Int = 0
+//        var activityTypesConnected: Int = 0
+//
+//        for w in trainingDiary!.workouts{
+//            if w.activity == nil{
+//                if let td = trainingDiary{
+//                    if let a = w.activityString{
+//                        w.activity = td.activity(forString: a)
+//                        logMessage("Connected activity  for workout \(String(describing: w.day!.date?.dateOnlyShorterString()))")
+//                        activiesConnected += 1
+//                    }
+//                }
+//            }
+//            if w.activityType == nil{
+//                w.activityType = trainingDiary!.activityType(forActivity: w.activityString!, andType: w.activityTypeString!)
+//                logMessage("Connected activity type for workout \(String(describing: w.day!.date?.dateOnlyShorterString()))")
+//                activityTypesConnected += 1
+//            }
+//        }
+//
+//        logMessage("*** Connecting Activities:")
+//        logMessage("\(activiesConnected) workouts connected to activity")
+//        logMessage("\(activityTypesConnected) workouts connected to activity type")
+//        logMessage("---------------------------------------------------------------------")
         
     }
     
@@ -242,16 +242,16 @@ class ValidationViewController: TrainingDiaryViewController{
                         logMessage("Equipment not set for bike workout \(String(describing: w.day?.date?.dateOnlyShorterString()))")
                         i += 1
                     }
-                    if w.equipmentName == nil{
-                        logMessage("setting equipment name for \(String(describing: w.day?.date?.dateOnlyShorterString())) to...")
-                        if let e = w.equipment{
-                            w.equipmentName = e.name
-                            logMessage(w.equipmentName!)
-                        }else{
-                            logMessage("FAILED TO SET")
-                        }
-                        
-                    }
+//                    if w.equipmentName == nil{
+//                        logMessage("setting equipment name for \(String(describing: w.day?.date?.dateOnlyShorterString())) to...")
+//                        if let e = w.equipment{
+//                            w.equipmentName = e.name
+//                            logMessage(w.equipmentName!)
+//                        }else{
+//                            logMessage("FAILED TO SET")
+//                        }
+//                        
+//                    }
                 }
             }
         }

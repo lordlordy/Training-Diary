@@ -31,62 +31,62 @@ class WorkoutsInputViewController: TrainingDiaryViewController, NSComboBoxDataSo
     //MARK: - Property Observing
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if let key = keyPath{
-            if let w = object as? Workout{
-                switch key{
-                case WorkoutProperty.equipmentName.rawValue:
-                    if let td = trainingDiary{
-                        if let workout = currentWorkout{
-                            if let e = workout.equipmentName{
-                                if let equipment = td.equipment(forActivity: w.activityString!, andName: e){
-                                    workout.equipment = equipment
-                                }
-                            }
-                        }
-                    }
-                case WorkoutProperty.activityString.rawValue:
-                    if let td = w.day?.trainingDiary{
-                        w.activity = td.activity(forString: w.activityString!)
-                    }else{
-                        print("Failed as couldn't connect to training diary")
-                    }
-                    
-                case WorkoutProperty.activityTypeString.rawValue:
-                    if let td = w.day?.trainingDiary{
-                        if let ats = w.activityTypeString{
-                            w.activityType = td.activityType(forActivity: w.activityString!, andType: ats)
-                        }
-                    }else{
-                        print("Failed as couldn't connect to training diary")
-                    }
-                    
-                default:
-                    print("!! Didn't thinkk I set an observer for \(String(describing: keyPath))")
-                }
-            }
-        }
+//        if let key = keyPath{
+//            if let w = object as? Workout{
+//                switch key{
+//                case WorkoutProperty.equipmentName.rawValue:
+//                    if let td = trainingDiary{
+//                        if let workout = currentWorkout{
+//                            if let e = workout.equipmentName{
+//                                if let equipment = td.equipment(forActivity: w.activityString!, andName: e){
+//                                    workout.equipment = equipment
+//                                }
+//                            }
+//                        }
+//                    }
+//                case WorkoutProperty.activityString.rawValue:
+//                    if let td = w.day?.trainingDiary{
+//                        w.activity = td.activity(forString: w.activityString!)
+//                    }else{
+//                        print("Failed as couldn't connect to training diary")
+//                    }
+//
+//                case WorkoutProperty.activityTypeString.rawValue:
+//                    if let td = w.day?.trainingDiary{
+//                        if let ats = w.activityTypeString{
+//                            w.activityType = td.activityType(forActivity: w.activityString!, andType: ats)
+//                        }
+//                    }else{
+//                        print("Failed as couldn't connect to training diary")
+//                    }
+//
+//                default:
+//                    print("!! Didn't thinkk I set an observer for \(String(describing: keyPath))")
+//                }
+//            }
+//        }
     }
     
     //MARK: - NSTableViewDelegate
     func tableViewSelectionDidChange(_ notification: Notification) {
-        if let workout = currentWorkout{
-            workout.removeObserver(self, forKeyPath: WorkoutProperty.equipmentName.rawValue)
-            workout.removeObserver(self, forKeyPath: WorkoutProperty.activityString.rawValue)
-            workout.removeObserver(self, forKeyPath: WorkoutProperty.activityTypeString.rawValue)
-        }
-        if let wsvc = parent as? WorkoutSplitViewController{
-            if let wac = wsvc.workoutArrayController{
-                let workouts = wac.selectedObjects as! [Workout]
-                if workouts.count == 1{
-                    currentWorkout = workouts[0]
-                    workouts[0].addObserver(self, forKeyPath: WorkoutProperty.equipmentName.rawValue, options: NSKeyValueObservingOptions.new, context: nil)
-                    workouts[0].addObserver(self, forKeyPath: WorkoutProperty.activityString.rawValue, options: NSKeyValueObservingOptions.new, context: nil)
-                    workouts[0].addObserver(self, forKeyPath: WorkoutProperty.activityTypeString.rawValue, options: NSKeyValueObservingOptions.new, context: nil)
-                }else{
-                    currentWorkout = nil
-                }
-            }
-        }
+//        if let workout = currentWorkout{
+//            workout.removeObserver(self, forKeyPath: WorkoutProperty.equipmentName.rawValue)
+//            workout.removeObserver(self, forKeyPath: WorkoutProperty.activityString.rawValue)
+//            workout.removeObserver(self, forKeyPath: WorkoutProperty.activityTypeString.rawValue)
+//        }
+//        if let wsvc = parent as? WorkoutSplitViewController{
+//            if let wac = wsvc.workoutArrayController{
+//                let workouts = wac.selectedObjects as! [Workout]
+//                if workouts.count == 1{
+//                    currentWorkout = workouts[0]
+//                    workouts[0].addObserver(self, forKeyPath: WorkoutProperty.equipmentName.rawValue, options: NSKeyValueObservingOptions.new, context: nil)
+//                    workouts[0].addObserver(self, forKeyPath: WorkoutProperty.activityString.rawValue, options: NSKeyValueObservingOptions.new, context: nil)
+//                    workouts[0].addObserver(self, forKeyPath: WorkoutProperty.activityTypeString.rawValue, options: NSKeyValueObservingOptions.new, context: nil)
+//                }else{
+//                    currentWorkout = nil
+//                }
+//            }
+//        }
         
     }
     
