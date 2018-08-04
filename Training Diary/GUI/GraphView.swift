@@ -616,7 +616,7 @@ class GraphView: NSView {
                 }
                 
                 if graph.format.fill{
-                    let endOfXAxis = coordinatesInView(xValue: end - start, yValue: 0.0,forAxis: graph.axis, dirtyRect)
+                    let endOfXAxis = coordinatesInView(xValue: graph.data[graph.data.count-1].x - start, yValue: 0.0,forAxis: graph.axis, dirtyRect)
                     path.line(to: endOfXAxis)
                     if let gradient = NSGradient(starting: graph.format.fillGradientStart  , ending: graph.format.fillGradientEnd){
                         gradient.draw(in: path, angle: graph.format.gradientAngle)
