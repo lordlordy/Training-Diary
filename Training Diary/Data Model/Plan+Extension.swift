@@ -76,14 +76,7 @@ extension Plan{
             buildCount += 1
         }
 
-//        //taper phase
-//        var taperCount = 0
-//        while cal.compare(to!, to: currentDay, toGranularity: Calendar.Component.day) == ComparisonResult.orderedDescending{
-//            let pDay = newPlanTaperDay(from: basicWeekDictionary[currentDay.dayOfWeekName()]!, buildDays: buildCount, planTaperDay: taperCount)
-//            pDay.date = currentDay
-//            currentDay = currentDay.addDays(numberOfDays: 1)
-//            taperCount += 1
-//        }
+
 
         calcTSB()
         
@@ -185,24 +178,24 @@ extension Plan{
         let newDay = addNewPlanDay()
         let week = Int(Double(planDay)/7.0)
         
-        newDay.bikeTSS = day.bikeTSS * pow((1 + day.bikePercentage/100),Double(week))
-        newDay.swimTSS = day.swimTSS * pow((1 + day.swimPercentage/100),Double(week))
-        newDay.runTSS = day.runTSS * pow((1 + day.runPercentage/100),Double(week))
+        newDay.bikeTSS = day.bikeTSS * pow((1 + day.bikePercentage),Double(week))
+        newDay.swimTSS = day.swimTSS * pow((1 + day.swimPercentage),Double(week))
+        newDay.runTSS = day.runTSS * pow((1 + day.runPercentage),Double(week))
         newDay.comments = day.comments
         
         return newDay
     }
-
-    private func newPlanTaperDay(from day: BasicWeekDay, buildDays: Int, planTaperDay : Int) -> PlanDay{
-        let newDay = addNewPlanDay()
-        let buildWeeks = Int(Double(buildDays)/7.0)
-        
-        newDay.bikeTSS = day.bikeTSS * pow((1 + day.bikePercentage/100),Double(buildWeeks))
-        newDay.swimTSS = day.swimTSS * pow((1 + day.swimPercentage/100),Double(buildWeeks))
-        newDay.runTSS = day.runTSS * pow((1 + day.runPercentage/100),Double(buildWeeks))
-        
-        return newDay
-    }
+//
+//    private func newPlanTaperDay(from day: BasicWeekDay, buildDays: Int, planTaperDay : Int) -> PlanDay{
+//        let newDay = addNewPlanDay()
+//        let buildWeeks = Int(Double(buildDays)/7.0)
+//        
+//        newDay.bikeTSS = day.bikeTSS * pow((1 + day.bikePercentage/100),Double(buildWeeks))
+//        newDay.swimTSS = day.swimTSS * pow((1 + day.swimPercentage/100),Double(buildWeeks))
+//        newDay.runTSS = day.runTSS * pow((1 + day.runPercentage/100),Double(buildWeeks))
+//        
+//        return newDay
+//    }
     
     /* Logic here. Priority is:
      1. Take starting from Training Diary if last day of diary is this day  or later

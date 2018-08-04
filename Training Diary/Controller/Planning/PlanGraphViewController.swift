@@ -120,7 +120,7 @@ class PlanGraphViewController: NSViewController{
         ctlGraphActual.dash = [4.0, 4.0]
         
         if let acb = activityComboBox{
-            acb.stringValue = "All"
+            acb.stringValue = ActualThenPlanNames.all.rawValue
         }
         
     
