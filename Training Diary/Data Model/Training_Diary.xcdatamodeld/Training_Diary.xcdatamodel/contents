@@ -20,16 +20,13 @@
     </entity>
     <entity name="BasicWeekDay" representedClassName="BasicWeekDay" syncable="YES" codeGenerationType="class">
         <attribute name="bikePercentage" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="bikeTaperPercentage" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="bikeTSS" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="comments" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="order" optional="YES" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="runPercentage" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="runTaperPercentage" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="runTSS" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="swimPercentage" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="swimTaperPercentage" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="swimTSS" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="plan" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Plan" inverseName="basicWeek" inverseEntity="Plan" syncable="YES"/>
     </entity>
@@ -140,12 +137,12 @@
         <attribute name="runStartCTL" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="swimStartATL" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="swimStartCTL" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="taperStart" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="to" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="useStartingLoadOverrides" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="basicWeek" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BasicWeekDay" inverseName="plan" inverseEntity="BasicWeekDay" syncable="YES"/>
+        <relationship name="followingPlan" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Plan" inverseName="precedingPlan" inverseEntity="Plan" syncable="YES"/>
         <relationship name="planDays" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PlanDay" inverseName="plan" inverseEntity="PlanDay" syncable="YES"/>
-        <relationship name="precedingPlan" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Plan" syncable="YES"/>
+        <relationship name="precedingPlan" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Plan" inverseName="followingPlan" inverseEntity="Plan" syncable="YES"/>
         <relationship name="trainingDiary" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TrainingDiary" inverseName="plans" inverseEntity="TrainingDiary" syncable="YES"/>
     </entity>
     <entity name="PlanDay" representedClassName="PlanDay" syncable="YES" codeGenerationType="class">
@@ -225,7 +222,7 @@
     <elements>
         <element name="Activity" positionX="160" positionY="-513" width="128" height="195"/>
         <element name="ActivityType" positionX="412" positionY="-279" width="128" height="105"/>
-        <element name="BasicWeekDay" positionX="-432" positionY="-801" width="128" height="238"/>
+        <element name="BasicWeekDay" positionX="-432" positionY="-801" width="128" height="193"/>
         <element name="Day" positionX="-279" positionY="-165" width="128" height="253"/>
         <element name="EddingtonAnnualContributor" positionX="-477" positionY="135" width="128" height="90"/>
         <element name="EddingtonAnnualHistory" positionX="-630" positionY="147" width="128" height="103"/>
@@ -236,7 +233,7 @@
         <element name="LTDEddingtonNumber" positionX="-659" positionY="-522" width="128" height="255"/>
         <element name="Metric" positionX="-299" positionY="158" width="128" height="103"/>
         <element name="Physiological" positionX="-36" positionY="-375" width="128" height="180"/>
-        <element name="Plan" positionX="-227" positionY="-774" width="191" height="285"/>
+        <element name="Plan" positionX="-200" positionY="-792" width="191" height="283"/>
         <element name="PlanDay" positionX="-504" positionY="-720" width="128" height="465"/>
         <element name="TrainingDiary" positionX="-234" positionY="-471" width="128" height="255"/>
         <element name="Weight" positionX="-45" positionY="-160" width="128" height="105"/>

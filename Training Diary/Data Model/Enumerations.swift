@@ -562,21 +562,20 @@ enum Month: String{
 }
 
 enum PlanProperty: String, TrainingDiaryPropertyProtocol{
-    case from, name, taperStart, to, locked
+    case from, name, to, locked
     case bikeStartATL, bikeStartCTL, runStartATL, runStartCTL, swimStartATL, swimStartCTL
     case basicWeek, planDays, trainingDiary
-    case iso8061FromString, iso8061TaperStartString, iso8061ToString
-    case csvFromString, csvTaperStartString, csvToString
+    case iso8061FromString, iso8061ToString
+    case csvFromString, csvToString
 
-    static let jsonProperties = [iso8061FromString, iso8061TaperStartString, iso8061ToString, name, locked, bikeStartATL, bikeStartCTL, runStartATL, runStartCTL, swimStartATL, swimStartCTL]
-    static let csvProperties = [csvFromString, csvTaperStartString, csvToString, name, locked, bikeStartATL, bikeStartCTL, runStartATL, runStartCTL, swimStartATL, swimStartCTL]
+    static let jsonProperties = [iso8061FromString, iso8061ToString, name, locked, bikeStartATL, bikeStartCTL, runStartATL, runStartCTL, swimStartATL, swimStartCTL]
+    static let csvProperties = [csvFromString, csvToString, name, locked, bikeStartATL, bikeStartCTL, runStartATL, runStartCTL, swimStartATL, swimStartCTL]
     
     func propertyName() -> String { return self.rawValue }
     func displayName() -> String{
         switch self{
         case .from, .iso8061FromString, .csvFromString: return "From"
         case .to, .iso8061ToString, .csvToString: return "To"
-        case .taperStart, .iso8061TaperStartString, .csvTaperStartString: return "Taper Start"
         default: return self.rawValue
         }
     }
@@ -617,15 +616,15 @@ enum PlanDayProperty: String, TrainingDiaryPropertyProtocol{
 }
 
 enum BasicWeekDayProperty: String, TrainingDiaryPropertyProtocol{
-    case swimPercentage, swimTaperPercentage, swimTSS
-    case bikePercentage, bikeTaperPercentage, bikeTSS
-    case runPercentage, runTaperPercentage, runTSS
+    case swimPercentage, swimTSS
+    case bikePercentage, bikeTSS
+    case runPercentage, runTSS
     case name, order, totalTSS, comments
     case planName
     
     static var observables: [BasicWeekDayProperty] = [.swimTSS, .bikeTSS, .runTSS]
-    static let jsonProperties = [swimPercentage, swimTaperPercentage, swimTSS, bikePercentage, bikeTaperPercentage, bikeTSS, runPercentage, runTaperPercentage, runTSS, name, order, comments]
-    static var csvProperties = [name, swimTSS, bikeTSS, runTSS, comments, swimPercentage, swimTaperPercentage, bikePercentage, bikeTaperPercentage, runPercentage, runTaperPercentage, planName, order]
+    static let jsonProperties = [swimPercentage, swimTSS, bikePercentage, bikeTSS, runPercentage, runTSS, name, order, comments]
+    static var csvProperties = [name, swimTSS, bikeTSS, runTSS, comments, swimPercentage, bikePercentage, runPercentage, planName, order]
     
     func propertyName() -> String {
         return self.rawValue

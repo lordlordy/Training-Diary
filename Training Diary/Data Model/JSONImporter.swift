@@ -309,12 +309,12 @@ class JSONImporter{
                     }else{
                         print("failed to import Plan date: \(p.key) : \(p.value)")
                     }
-                case PlanProperty.iso8061TaperStartString.rawValue:
-                    if let date = dateFormatter.date(from: p.value as! String){
-                        planMO.setValue(date, forKey: PlanProperty.taperStart.rawValue)
-                    }else{
-                        print("failed to import Plan date: \(p.key) : \(p.value)")
-                    }
+//                case PlanProperty.iso8061TaperStartString.rawValue:
+//                    if let date = dateFormatter.date(from: p.value as! String){
+//                        planMO.setValue(date, forKey: PlanProperty.taperStart.rawValue)
+//                    }else{
+//                        print("failed to import Plan date: \(p.key) : \(p.value)")
+//                    }
                 case PlanProperty.bikeStartATL.rawValue, PlanProperty.bikeStartCTL.rawValue, PlanProperty.locked.rawValue, PlanProperty.name.rawValue, PlanProperty.runStartATL.rawValue, PlanProperty.runStartCTL.rawValue, PlanProperty.swimStartATL.rawValue, PlanProperty.swimStartCTL.rawValue:
                     planMO.setValue(p.value, forKey: p.key)
                 case PlanProperty.basicWeek.rawValue:

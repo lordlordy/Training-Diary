@@ -112,8 +112,8 @@ class PlanGraphViewController: NSViewController{
         actualGraphs = [tsbGraphActual, atlGraphActual, ctlGraphActual]
 
         tsbGraph.startFromOrigin = true
-        tsbGraphActualThenPlan.startFromOrigin = true
-        tsbGraphActual.startFromOrigin = true
+//        tsbGraphActualThenPlan.startFromOrigin = true
+//        tsbGraphActual.startFromOrigin = true
         
         tsbGraphActual.dash = [2.0, 2.0]
         atlGraphActual.dash = [3.0, 3.0]

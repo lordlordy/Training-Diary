@@ -596,7 +596,7 @@ class GraphView: NSView {
                 var firstPoint: Bool = true
                 
                 if graph.startFromOrigin || graph.format.fill{
-                    let origin = coordinatesInView(xValue: 0.0, yValue: 0.0, forAxis: graph.axis, dirtyRect)
+                    let origin = coordinatesInView(xValue: graph.data[0].x - start, yValue: 0.0, forAxis: graph.axis, dirtyRect)
                     path.move(to: origin)
                     firstPoint = false
                 }

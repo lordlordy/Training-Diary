@@ -24,9 +24,9 @@ extension Plan{
     @objc dynamic var iso8061FromString: String{
         return from!.iso8601Format()
     }
-    @objc dynamic var iso8061TaperStartString: String{
-        return taperStart!.iso8601Format()
-    }
+//    @objc dynamic var iso8061TaperStartString: String{
+//        return taperStart!.iso8601Format()
+//    }
     @objc dynamic var iso8061ToString: String{
         return to!.iso8601Format()
     }
@@ -35,9 +35,9 @@ extension Plan{
     @objc dynamic var csvFromString: String{
         return from!.dateOnlyString()
     }
-    @objc dynamic var csvTaperStartString: String{
-        return taperStart!.dateOnlyString()
-    }
+//    @objc dynamic var csvTaperStartString: String{
+//        return taperStart!.dateOnlyString()
+//    }
     @objc dynamic var csvToString: String{
         return to!.dateOnlyString()
     }
@@ -69,22 +69,21 @@ extension Plan{
         cal.timeZone = TimeZone.init(secondsFromGMT: 0)!
         var buildCount = 0
         
-        //build phase
-        while cal.compare(taperStart!, to: currentDay, toGranularity: Calendar.Component.day) == ComparisonResult.orderedDescending{
+        while cal.compare(to!, to: currentDay, toGranularity: Calendar.Component.day) != ComparisonResult.orderedAscending{
             let pDay = newPlanDay(from: basicWeekDictionary[currentDay.dayOfWeekName()]!, planDay: buildCount)
             pDay.date = currentDay
             currentDay = currentDay.addDays(numberOfDays: 1)
             buildCount += 1
         }
 
-        //taper phase
-        var taperCount = 0
-        while cal.compare(to!, to: currentDay, toGranularity: Calendar.Component.day) == ComparisonResult.orderedDescending{
-            let pDay = newPlanTaperDay(from: basicWeekDictionary[currentDay.dayOfWeekName()]!, buildDays: buildCount, planTaperDay: taperCount)
-            pDay.date = currentDay
-            currentDay = currentDay.addDays(numberOfDays: 1)
-            taperCount += 1
-        }
+//        //taper phase
+//        var taperCount = 0
+//        while cal.compare(to!, to: currentDay, toGranularity: Calendar.Component.day) == ComparisonResult.orderedDescending{
+//            let pDay = newPlanTaperDay(from: basicWeekDictionary[currentDay.dayOfWeekName()]!, buildDays: buildCount, planTaperDay: taperCount)
+//            pDay.date = currentDay
+//            currentDay = currentDay.addDays(numberOfDays: 1)
+//            taperCount += 1
+//        }
 
         calcTSB()
         
@@ -197,11 +196,10 @@ extension Plan{
     private func newPlanTaperDay(from day: BasicWeekDay, buildDays: Int, planTaperDay : Int) -> PlanDay{
         let newDay = addNewPlanDay()
         let buildWeeks = Int(Double(buildDays)/7.0)
-        let taperWeek = Int(Double(planTaperDay)/7.0) + 1
         
-        newDay.bikeTSS = day.bikeTSS * pow((1 + day.bikePercentage/100),Double(buildWeeks)) * pow((1 - day.bikeTaperPercentage/100),Double(taperWeek))
-        newDay.swimTSS = day.swimTSS * pow((1 + day.swimPercentage/100),Double(buildWeeks)) * pow((1 - day.swimTaperPercentage/100),Double(taperWeek))
-        newDay.runTSS = day.runTSS * pow((1 + day.runPercentage/100),Double(buildWeeks)) * pow((1 - day.runTaperPercentage/100),Double(taperWeek))
+        newDay.bikeTSS = day.bikeTSS * pow((1 + day.bikePercentage/100),Double(buildWeeks))
+        newDay.swimTSS = day.swimTSS * pow((1 + day.swimPercentage/100),Double(buildWeeks))
+        newDay.runTSS = day.runTSS * pow((1 + day.runPercentage/100),Double(buildWeeks))
         
         return newDay
     }
@@ -229,6 +227,21 @@ extension Plan{
             populateTrainingLoad(fromTrainingDiary: td, inDay: day)
         }
         
+        //for starting point plan, act, actualThen plan should all be same
+        day.actualSwimATL = day.swimATL
+        day.actualSwimCTL = day.swimCTL
+        day.actualBikeATL = day.bikeATL
+        day.actualBikeCTL = day.bikeCTL
+        day.actualRunATL = day.runATL
+        day.actualRunCTL = day.runCTL
+        
+        day.actualThenPlanSwimATL = day.swimATL
+        day.actualThenPlanSwimCTL = day.swimCTL
+        day.actualThenPlanBikeATL = day.bikeATL
+        day.actualThenPlanBikeCTL = day.bikeCTL
+        day.actualThenPlanRunATL = day.runATL
+        day.actualThenPlanRunCTL = day.runCTL
+        
         
     }
     
@@ -242,12 +255,6 @@ extension Plan{
             day.runATL = d.runATL
             day.runCTL = d.runCTL
             
-            day.actualSwimATL = d.swimATL
-            day.actualSwimCTL = d.swimCTL
-            day.actualBikeATL = d.bikeATL
-            day.actualBikeATL = d.bikeCTL
-            day.actualRunATL = d.runATL
-            day.actualRunCTL = d.runCTL
         }else if let d = td.latestDay(){
             let cal = Calendar.init(identifier: .iso8601)
             let dc = cal.dateComponents(Set([Calendar.Component.day]), from: d.date!, to: day.date!)
@@ -259,6 +266,7 @@ extension Plan{
             day.bikeCTL = decayCTL(value: d.bikeCTL, forActivity: FixedActivity.Bike.rawValue, numberOfDays: decayDays)
             day.runATL = decayATL(value: d.runATL, forActivity: FixedActivity.Run.rawValue, numberOfDays: decayDays)
             day.runCTL = decayCTL(value: d.runCTL, forActivity: FixedActivity.Run.rawValue, numberOfDays: decayDays)
+        
         }
     }
     
@@ -280,6 +288,7 @@ extension Plan{
                     day.bikeCTL = planDay.actualThenPlanBikeCTL
                     day.runATL = planDay.actualThenPlanRunATL
                     day.runCTL = planDay.actualThenPlanRunCTL
+                    
                 }
             }else{
                 let planDay = planDays[planDays.count - 1]
@@ -289,6 +298,7 @@ extension Plan{
                 day.bikeCTL = decayCTL(value: planDay.actualThenPlanBikeCTL, forActivity: FixedActivity.Bike.rawValue, numberOfDays: daysSince)
                 day.runATL = decayATL(value: planDay.actualThenPlanRunATL, forActivity: FixedActivity.Run.rawValue, numberOfDays: daysSince)
                 day.runCTL = decayCTL(value: planDay.actualThenPlanRunCTL, forActivity: FixedActivity.Run.rawValue, numberOfDays: daysSince)
+                
             }
         }
         
@@ -302,12 +312,6 @@ extension Plan{
         day.runATL = runStartATL
         day.runCTL = runStartCTL
         
-        day.actualSwimATL = swimStartATL
-        day.actualSwimCTL = swimStartCTL
-        day.actualBikeATL = bikeStartATL
-        day.actualBikeCTL = bikeStartCTL
-        day.actualRunATL = runStartATL
-        day.actualRunCTL = runStartCTL
     }
     
 

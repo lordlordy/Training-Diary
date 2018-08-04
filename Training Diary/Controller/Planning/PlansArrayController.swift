@@ -25,8 +25,7 @@ class PlansArrayController: NSArrayController{
         }
         
         plan.from = nextMonday()
-        plan.taperStart = plan.from!.addDays(numberOfDays: 70)
-        plan.to = plan.taperStart!.addDays(numberOfDays: 21)
+        plan.to = plan.from!.addDays(numberOfDays: 70)
         
         return plan
     }
