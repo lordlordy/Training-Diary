@@ -10,11 +10,15 @@ import Foundation
 
 extension Plan{
 
-//    @objc dynamic var basicWeekTotalSwimTSS: Double { return totalBasicWeek(forProperty: BasicWeekDayProperty.swimTSS) }
-//    @objc dynamic var basicWeekTotalBikeTSS: Double { return totalBasicWeek(forProperty: BasicWeekDayProperty.bikeTSS) }
-//    @objc dynamic var basicWeekTotalRunTSS: Double { return totalBasicWeek(forProperty: BasicWeekDayProperty.runTSS) }
-//    @objc dynamic var basicWeekTotalAllTSS: Double { return basicWeekTotalSwimTSS + basicWeekTotalBikeTSS + basicWeekTotalRunTSS }
-
+    @objc dynamic var precedingPlanName: String{
+        get{
+            return precedingPlan?.name ?? ConstantString.NotSet.rawValue
+        }
+        set{
+           let p  = trainingDiary?.plan(forName: newValue)
+            precedingPlan = p
+        }
+    }
     
     //this is for JSON serialisation
     @objc dynamic var iso8061FromString: String{
@@ -45,33 +49,19 @@ extension Plan{
         return true
     }
     
-    private var basicWeekDictionary: [String: BasicWeekDay]{
-        let a = basicWeek!.allObjects as! [BasicWeekDay]
-        var result: [String: BasicWeekDay] = [:]
-        for d in a{
-            result[d.name!] = d
+    func updateFirstDay(){
+        let days = orderedPlanDays()
+        if days.count > 0{
+            populateStartingTrainingLoads(inDay: days[0])
         }
-        return result
     }
-    
     
     func createPlan(){
         planDays = nil
         let firstDay = addNewPlanDay()
         firstDay.date = from?.yesterday()
-        firstDay.swimATL = swimStartATL
-        firstDay.swimCTL = swimStartCTL
-        firstDay.bikeATL = bikeStartATL
-        firstDay.bikeCTL = bikeStartCTL
-        firstDay.runATL = runStartATL
-        firstDay.runCTL = runStartCTL
 
-        firstDay.actualSwimATL = swimStartATL
-        firstDay.actualSwimCTL = swimStartCTL
-        firstDay.actualBikeATL = bikeStartATL
-        firstDay.actualBikeCTL = bikeStartCTL
-        firstDay.actualRunATL = runStartATL
-        firstDay.actualRunCTL = runStartCTL
+        populateStartingTrainingLoads(inDay: firstDay)
         
         var currentDay = from!
         
@@ -174,6 +164,15 @@ extension Plan{
         return []
     }
     
+    private var basicWeekDictionary: [String: BasicWeekDay]{
+        let a = basicWeek!.allObjects as! [BasicWeekDay]
+        var result: [String: BasicWeekDay] = [:]
+        for d in a{
+            result[d.name!] = d
+        }
+        return result
+    }
+    
     
     //returns the new day
     private func addNewPlanDay() -> PlanDay{
@@ -207,16 +206,123 @@ extension Plan{
         return newDay
     }
     
+    /* Logic here. Priority is:
+     1. Take starting from Training Diary if last day of diary is this day  or later
+     2. If preceding plan is set take from there and decay to day before start if needed
+     3. If start training loads override set to true
+     4. Final thing is to use Training Plan and decay from there
+    */
+    private func populateStartingTrainingLoads(inDay day: PlanDay){
+        guard let date = day.date else { return }
+        guard let td = trainingDiary else { return }
+        
+        let cal = Calendar.init(identifier: Calendar.Identifier.iso8601)
+        let comparison: ComparisonResult = cal.compare(date, to: td.lastDayOfDiary, toGranularity: .day)
+        
+        if comparison != ComparisonResult.orderedDescending{
+            populateTrainingLoad(fromTrainingDiary: td, inDay: day)
+        }else if let plan = precedingPlan{
+            populateTrainingLoad(fromPlan: plan, inDay: day)
+        }else if useStartingLoadOverrides{
+            populateTrainingLoadFromOverrides(inDay: day)
+        }else{
+            populateTrainingLoad(fromTrainingDiary: td, inDay: day)
+        }
+        
+        
+    }
     
+    private func populateTrainingLoad(fromTrainingDiary td: TrainingDiary, inDay day: PlanDay){
+        if let d = td.getDay(forDate: day.date!){
+            //can just get plan and actual from this day
+            day.swimATL = d.swimATL
+            day.swimCTL = d.swimCTL
+            day.bikeATL = d.bikeATL
+            day.bikeCTL = d.bikeCTL
+            day.runATL = d.runATL
+            day.runCTL = d.runCTL
+            
+            day.actualSwimATL = d.swimATL
+            day.actualSwimCTL = d.swimCTL
+            day.actualBikeATL = d.bikeATL
+            day.actualBikeATL = d.bikeCTL
+            day.actualRunATL = d.runATL
+            day.actualRunCTL = d.runCTL
+        }else if let d = td.latestDay(){
+            let cal = Calendar.init(identifier: .iso8601)
+            let dc = cal.dateComponents(Set([Calendar.Component.day]), from: d.date!, to: day.date!)
+            let decayDays: Int = dc.day ?? 1
+            
+            day.swimATL = decayATL(value: d.swimATL, forActivity: FixedActivity.Swim.rawValue, numberOfDays: decayDays)
+            day.swimCTL = decayCTL(value: d.swimCTL, forActivity: FixedActivity.Swim.rawValue, numberOfDays: decayDays)
+            day.bikeATL = decayATL(value: d.bikeATL, forActivity: FixedActivity.Bike.rawValue, numberOfDays: decayDays)
+            day.bikeCTL = decayCTL(value: d.bikeCTL, forActivity: FixedActivity.Bike.rawValue, numberOfDays: decayDays)
+            day.runATL = decayATL(value: d.runATL, forActivity: FixedActivity.Run.rawValue, numberOfDays: decayDays)
+            day.runCTL = decayCTL(value: d.runCTL, forActivity: FixedActivity.Run.rawValue, numberOfDays: decayDays)
+        }
+    }
     
+    private func populateTrainingLoad(fromPlan plan: Plan, inDay day: PlanDay){
+        let planDays: [PlanDay] = plan.orderedPlanDays()
+        guard planDays.count > 0 else {return}
+        let cal = Calendar.init(identifier: .iso8601)
+        let pDay = cal.startOfDay(for: planDays[planDays.count - 1].date!)
+        let daysSinceEndOfPlan = cal.dateComponents(Set([Calendar.Component.day]), from: pDay, to: cal.startOfDay(for: day.date!))
+        
+        if let daysSince = daysSinceEndOfPlan.day{
+            if daysSince < 0{
+                let index = planDays.count + daysSince - 1
+                if index >= 0 && index < planDays.count{
+                    let planDay = planDays[index]
+                    day.swimATL = planDay.actualThenPlanSwimATL
+                    day.swimCTL = planDay.actualThenPlanSwimCTL
+                    day.bikeATL = planDay.actualThenPlanBikeATL
+                    day.bikeCTL = planDay.actualThenPlanBikeCTL
+                    day.runATL = planDay.actualThenPlanRunATL
+                    day.runCTL = planDay.actualThenPlanRunCTL
+                }
+            }else{
+                let planDay = planDays[planDays.count - 1]
+                day.swimATL = decayATL(value: planDay.actualThenPlanSwimATL, forActivity: FixedActivity.Swim.rawValue, numberOfDays: daysSince)
+                day.swimCTL = decayCTL(value: planDay.actualThenPlanSwimCTL, forActivity: FixedActivity.Swim.rawValue, numberOfDays: daysSince)
+                day.bikeATL = decayATL(value: planDay.actualThenPlanBikeATL, forActivity: FixedActivity.Bike.rawValue, numberOfDays: daysSince)
+                day.bikeCTL = decayCTL(value: planDay.actualThenPlanBikeCTL, forActivity: FixedActivity.Bike.rawValue, numberOfDays: daysSince)
+                day.runATL = decayATL(value: planDay.actualThenPlanRunATL, forActivity: FixedActivity.Run.rawValue, numberOfDays: daysSince)
+                day.runCTL = decayCTL(value: planDay.actualThenPlanRunCTL, forActivity: FixedActivity.Run.rawValue, numberOfDays: daysSince)
+            }
+        }
+        
+    }
     
-//    private func totalBasicWeek(forProperty p: BasicWeekDayProperty) -> Double{
-//        var result: Double = 0.0
-//        for d in orderedBasicWeek(){
-//            result += d.value(forKey: p.rawValue) as! Double
-//        }
-//        return result
-//    }
+    private func populateTrainingLoadFromOverrides(inDay day: PlanDay){
+        day.swimATL = swimStartATL
+        day.swimCTL = swimStartCTL
+        day.bikeATL = bikeStartATL
+        day.bikeCTL = bikeStartCTL
+        day.runATL = runStartATL
+        day.runCTL = runStartCTL
+        
+        day.actualSwimATL = swimStartATL
+        day.actualSwimCTL = swimStartCTL
+        day.actualBikeATL = bikeStartATL
+        day.actualBikeCTL = bikeStartCTL
+        day.actualRunATL = runStartATL
+        day.actualRunCTL = runStartCTL
+    }
     
+
+    private func decayATL(value: Double, forActivity a: String, numberOfDays i: Int) -> Double{
+        if let activity: Activity = trainingDiary?.activity(forString: a){
+            return value * activity.atlDecayFactor(afterNDays: i)
+        }
+        return value
+    }
+
+    private func decayCTL(value: Double, forActivity a: String, numberOfDays i: Int) -> Double{
+        if let activity: Activity = trainingDiary?.activity(forString: a){
+            return value * activity.ctlDecayFactor(afterNDays: i)
+        }
+        return value
+    }
 
 }

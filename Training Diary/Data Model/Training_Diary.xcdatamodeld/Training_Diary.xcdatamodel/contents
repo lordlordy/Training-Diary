@@ -142,8 +142,10 @@
         <attribute name="swimStartCTL" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="taperStart" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="to" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="useStartingLoadOverrides" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="basicWeek" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BasicWeekDay" inverseName="plan" inverseEntity="BasicWeekDay" syncable="YES"/>
         <relationship name="planDays" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PlanDay" inverseName="plan" inverseEntity="PlanDay" syncable="YES"/>
+        <relationship name="precedingPlan" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Plan" syncable="YES"/>
         <relationship name="trainingDiary" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TrainingDiary" inverseName="plans" inverseEntity="TrainingDiary" syncable="YES"/>
     </entity>
     <entity name="PlanDay" representedClassName="PlanDay" syncable="YES" codeGenerationType="class">
@@ -234,9 +236,9 @@
         <element name="LTDEddingtonNumber" positionX="-659" positionY="-522" width="128" height="255"/>
         <element name="Metric" positionX="-299" positionY="158" width="128" height="103"/>
         <element name="Physiological" positionX="-36" positionY="-375" width="128" height="180"/>
-        <element name="Plan" positionX="-227" positionY="-720" width="191" height="255"/>
-        <element name="PlanDay" positionX="-486" positionY="-610" width="128" height="465"/>
-        <element name="TrainingDiary" positionX="-227" positionY="-531" width="128" height="255"/>
+        <element name="Plan" positionX="-227" positionY="-774" width="191" height="285"/>
+        <element name="PlanDay" positionX="-504" positionY="-720" width="128" height="465"/>
+        <element name="TrainingDiary" positionX="-234" positionY="-471" width="128" height="255"/>
         <element name="Weight" positionX="-45" positionY="-160" width="128" height="105"/>
         <element name="Workout" positionX="-36" positionY="-3" width="128" height="345"/>
     </elements>

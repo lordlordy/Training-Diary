@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class PlansTableViewController: TrainingDiaryViewController, NSTableViewDelegate{
+class PlansTableViewController: TrainingDiaryViewController, NSTableViewDelegate, NSComboBoxDataSource{
     
     @IBAction func add(_ sender: Any) {
         if let vc = parent?.parent as? PlanningSplitViewController{
@@ -23,16 +23,29 @@ class PlansTableViewController: TrainingDiaryViewController, NSTableViewDelegate
         }
     }
     
-    @IBAction func startingFromDiaryPressed(_ sender: Any) {
-        if let p = parent?.parent as? PlanningSplitViewController{
-            p.setStartingTSBValuesFromTrainingDiary()
+//    @IBAction func startingFromDiaryPressed(_ sender: Any) {
+//        if let p = parent?.parent as? PlanningSplitViewController{
+//            p.setStartingTSBValuesFromTrainingDiary()
+//        }
+//    }
+    
+//    @IBAction func copyStartingToPlanPressed(_ sender: Any) {
+//        if let p = parent?.parent as? PlanningSplitViewController{
+//            p.copyStartingTSBValuesToFirstPlanDay()
+//        }
+//    }
+    
+    //MARK: - NSComboBoxDataSource
+    func comboBox(_ comboBox: NSComboBox, objectValueForItemAt index: Int) -> Any? {
+        let plans: [Plan] = trainingDiary?.plans?.allObjects as? [Plan] ?? []
+        if index < plans.count{
+            return plans[index].name
         }
+        return nil
     }
     
-    @IBAction func copyStartingToPlanPressed(_ sender: Any) {
-        if let p = parent?.parent as? PlanningSplitViewController{
-            p.copyStartingTSBValuesToFirstPlanDay()
-        }
+    func numberOfItems(in comboBox: NSComboBox) -> Int {
+        return trainingDiary?.plans?.count ?? 0
     }
     
     //NSTableViewDelegate

@@ -13,7 +13,6 @@ extension Date{
    
     private var gmtTZ: TimeZone{ return TimeZone(secondsFromGMT: 0)! }
     private var gregorianCalendar: Calendar{
-   //     var cal = Calendar.init(identifier: .gregorian)
         var cal = Calendar.init(identifier: .iso8601)
         cal.timeZone = gmtTZ
         return cal

@@ -465,6 +465,15 @@ extension TrainingDiary{
         return activeBikes().sorted(by: {$0.name! < $1.name!})
     }
     
+    func plan(forName name: String) -> Plan?{
+        for p in plans?.allObjects as? [Plan] ?? []{
+            if p.name == name{
+                return p
+            }
+        }
+        return nil
+    }
+    
     //MARK: -
     
     func latestDay() -> Day?{
