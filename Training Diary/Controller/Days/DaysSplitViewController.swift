@@ -67,4 +67,9 @@ class DaysSplitViewController: TrainingDiarySplitViewController{
         }
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        daysArrayController.filterPredicate = NSPredicate(format: "date >= %@ AND date <= %@", argumentArray: [Date().addDays(numberOfDays: -90),Date().addDays(numberOfDays: 10)])
+    }
+    
 }
