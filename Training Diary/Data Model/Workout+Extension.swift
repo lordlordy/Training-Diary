@@ -24,6 +24,18 @@ extension Workout: PeriodNode{
     @objc dynamic var activityTypeOK:   Bool { return activityTypeValid() }
     @objc dynamic var equipmentOK:      Bool { return equipmentValid() }
     
+    @objc var secondsPerKM: TimeInterval{
+        return km > 0 ? TimeInterval(seconds / km ) : 0.0
+    }
+    
+    @objc var secondsPer100m: TimeInterval{
+        return secondsPerKM / 10.0
+    }
+    
+    @objc var kph: TimeInterval{
+        return km / hours
+    }
+    
     @objc dynamic var estimatedKJ: Double{
         if watts > 0.0{
             return watts * seconds / 1000.0
@@ -152,6 +164,9 @@ extension Workout: PeriodNode{
         }else{
             return 0.0
         }
+    }
+    @objc var runSecondsPerKM: TimeInterval{
+        return runKM > 0 ? runSeconds / runKM : 0.0
     }
     @objc var runSeconds: TimeInterval {
         if activityString == FixedActivity.Run.rawValue{

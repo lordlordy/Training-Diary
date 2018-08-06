@@ -27,6 +27,19 @@ struct HRVData{
 
 extension TrainingDiary{
 
+    //the string is the result of dateOnlyShorterString() call on date
+    var daysDictionary: [String:Day]{
+        var result: [String:Day] = [:]
+        
+        if let diaryDays = self.days?.allObjects as? [Day]{
+            for d in diaryDays{
+                if let date = d.date{
+                    result[date.dateOnlyShorterString()] = d
+                }
+            }
+        }
+        return result
+    }
     
     //MARK: - Lifetime for display in GUI summary
     @objc dynamic var totalBikeKM:          Double { return total(forKey: DayCalculatedProperty.bikeKM.rawValue) }
@@ -131,7 +144,7 @@ extension TrainingDiary{
     }
     
     func getDay(forDate d: Date) -> Day?{
-        if let day = daysDictionary()[d.dateOnlyShorterString()]{
+        if let day = daysDictionary[d.dateOnlyShorterString()]{
             return day
         }
         return nil
@@ -969,19 +982,7 @@ extension TrainingDiary{
         return nil
     }
     
-    //the string is the result of dateOnlyShorterString() call on date
-    private func daysDictionary() -> [String:Day]{
-        var result: [String:Day] = [:]
-        
-        if let diaryDays = self.days?.allObjects as? [Day]{
-            for d in diaryDays{
-                if let date = d.date{
-                    result[date.dateOnlyShorterString()] = d
-                }
-            }
-        }
-        return result
-    }
+
     
     
 

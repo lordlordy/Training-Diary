@@ -26,9 +26,14 @@ class NumberToSummaryTimeFormatter: ValueTransformer {
     override class func allowsReverseTransformation() -> Bool {return false}
     
     override func transformedValue(_ value: Any?) -> Any? {
-        guard let s = value as? Int else { return nil }
+        if let s = value as? TimeInterval{
+            return formatter.string(from: s)
+        }
+        if let s = value as? Int{
+            return formatter.string(from: TimeInterval(s))
+        }
         
-        return formatter.string(from: TimeInterval(s))
+        return nil
                 
     }
     

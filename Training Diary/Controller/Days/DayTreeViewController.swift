@@ -31,9 +31,12 @@ class DayTreeViewController:  TrainingDiaryViewController {
     
     @IBAction func weekMonthToggle(_ sender: NSButton) {
         let onState: Bool = sender.state == NSControl.StateValue.on
+        print(onState)
         if onState{
+            print("Set nodes to Months")
             yearNodes = monthYearNodes
         }else{
+            print("Set nodes to Weeks")
             yearNodes = weekYearNodes
         }
         if let ov = outlineView{
@@ -89,7 +92,7 @@ class DayTreeViewController:  TrainingDiaryViewController {
             }
             monthNode.add(child: d)
         }
-        
+        print("\(monthYearNodes.count) monthYearNodes")
     }
     
     private func createWeekOutlineView(){
@@ -120,7 +123,8 @@ class DayTreeViewController:  TrainingDiaryViewController {
             weekNode.add(child: d)
         }
         
-        
+        print("\(weekYearNodes.count) weekYearNodes")
+
     }
     
 }

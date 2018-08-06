@@ -27,6 +27,7 @@ import Foundation
     @objc var bikeCTL:          Double      { get }
     @objc var runKM:            Double      { get }
     @objc var runSeconds:       TimeInterval{ get }
+    @objc var runSecondsPerKM:  TimeInterval{ get }
     @objc var runTSS:           Double      { get }
     @objc var runCTL:           Double      { get }
     @objc var fromDate:         Date        { get }

@@ -17,47 +17,52 @@ class ValidationViewController: TrainingDiaryViewController{
     //MARK: - IBActions
     @IBAction func adhoc(_ sender: Any) {
         
-        
-        let dayKeys =  DayProperty.jsonProperties.map({$0.rawValue})
-        let workoutKeys = WorkoutProperty.jsonProperties.map({$0.rawValue })
-        let physiologicalKeys = PhysiologicalProperty.jsonProperties.map({$0.rawValue})
-        let weightKeys = WeightProperty.jsonProperties.map({$0.rawValue})
-        
-        print(dayKeys)
-        if let days = trainingDiary?.days?.allObjects as? [Day]{
-            if days.count > 0{
-                let day = days[0]
-                let dayDictionary = day.dictionaryWithValues(forKeys: dayKeys)
-                print(dayDictionary)
-            }
-            findWorkout: for d in days{
-                if let workouts = d.workouts?.allObjects as? [Workout]{
-                    if workouts.count > 0{
-                        print(workoutKeys)
-                        let workoutDict = workouts[0].dictionaryWithValues(forKeys: workoutKeys)
-                        print(workoutDict)
-                        break findWorkout
-                    }
-                }
-            }
-        }
-        
-        if let physios = trainingDiary?.physiologicals?.allObjects as? [Physiological]{
-            if physios.count > 0{
-                print(physiologicalKeys)
-                let physioDict = physios[0].dictionaryWithValues(forKeys: physiologicalKeys)
-                print(physioDict)
-            }
-        }
-        
-        if let weights = trainingDiary?.weights?.allObjects as? [Weight]{
-            if weights.count > 0{
-                print(weightKeys)
-                let weightDict = weights[0].dictionaryWithValues(forKeys: weightKeys)
-                print(weightDict)
-            }
-        }
-        
+//        let formatter: DateFormatter = DateFormatter()
+//        formatter.dateFormat = "dd-MMM-yyyy"
+//        
+//        if let url = OpenAndSaveDialogues().selectedPath(withTitle: "chose .csv file",andFileTypes: [FileExtension.csv.rawValue]) {
+//            do{
+//                let string = try String(contentsOf: url)
+//                let rows = string.components(separatedBy: "\n")
+//                
+//                for r in rows{
+//                    
+//                    let bits = r.components(separatedBy: ",").map({$0.trimmingCharacters(in: CharacterSet(charactersIn: "\r"))})
+//                    var d: String = ""
+//                    var theRest: String = ""
+//                    var i = 0
+//                    for b in bits{
+//                        if i == 0{
+//                            d = b
+//                        }else{
+//                            theRest += b + ";"
+//                        }
+//                        i += 1
+//                    }
+//                    theRest = theRest.trimmingCharacters(in: CharacterSet(charactersIn: "\";"))
+//                    if theRest.count > 0{
+//                        if let date = formatter.date(from: d){
+//                            let day: Day = trainingDiary!.getDay(forDate: date)!
+//                            var hasComments: Bool = false
+//                            if let c = day.comments{
+//                                hasComments = c.count > 0
+//                            }
+//                            if !hasComments{
+//                                print("Trainging Dairy day: \(day.date!)")
+//                                print("\(date.dateOnlyShorterString()) adding Comments: \(theRest)")
+//
+//                                day.comments = theRest
+//                            }
+//                        }
+//
+//                    }
+//                }
+//            }catch{
+//                print("error importing Training Diary for URL: " + url.absoluteString)
+//                
+//            }
+//        }
+//        
         
     }
     

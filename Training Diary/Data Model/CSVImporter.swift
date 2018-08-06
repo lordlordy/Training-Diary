@@ -120,19 +120,7 @@ class CSVImporter{
                 physio.fromDate = day.date
             }
         }
-        //need to put in activity type and equipment objects
-//        for w in day.workouts?.allObjects as! [Workout]{
-//            if let ats = w.activityTypeString{
-//                if let activityType = td.addActivityType(forActivity: w.activityString!, andType: ats){
-//                    w.activityType = activityType
-//                }
-//            }
-//            if let e = w.equipmentName{
-//                if let equipment = td.addEquipment(forActivity: w.activityString!, andName: e){
-//                    w.equipment = equipment
-//                }
-//            }
-//        }
+
     }
     
     private func createManagedObjectModelFrom(csv: [[String]], into td: TrainingDiary){

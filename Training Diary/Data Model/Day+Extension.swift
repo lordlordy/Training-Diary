@@ -277,6 +277,9 @@ extension Day: PeriodNode, DayValueProtocol{
     @objc dynamic var runSeconds: Double{
         return sumOverWorkouts(activity: activityRun().name!, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, unit: WorkoutProperty.seconds.unit()!)
     }
+    @objc dynamic var runSecondsPerKM: TimeInterval{
+        return runKM > 0 ? runSeconds / runKM : 0.0
+    }
     @objc dynamic var runTSS: Double{
         return sumOverWorkouts(activity: activityRun().name!, activityType: ConstantString.EddingtonAll.rawValue, equipment: ConstantString.EddingtonAll.rawValue, unit: WorkoutProperty.tss.unit()!)
     }

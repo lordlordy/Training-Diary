@@ -413,11 +413,12 @@ enum WorkoutProperty: String{
     case isRace, keywords, kj, km, reps, rpe, seconds, rpeTSS, hours, miles
     case tss, tssMethod, watts, wattsEstimated, notBike, estimatedKJ
     case activityString, activityTypeString, equipmentOK, activityTypeOK
+    case secondsPerKM, secondsPer100m, kph
     
     static var AllProperties = [activity, activityType, activityString, activityTypeString, ascentFeet, ascentMetres, equipment, equipmentName, brick, cadence, comments, estimatedKJ, hours, hr, isRace, keywords, kj, km, reps, rpe, seconds, rpeTSS, tss, tssMethod, watts, wattsEstimated, equipmentOK, activityTypeOK]
     static var jsonProperties = [activityString, activityTypeString, equipmentName, seconds, km, rpe, tss, tssMethod, watts, wattsEstimated, hr, kj, ascentMetres, brick, cadence, isRace, keywords, reps, comments]
     static var csvProperties = [activityString, activityTypeString, equipmentName, seconds, km, rpe, tss, tssMethod, watts, wattsEstimated, hr, kj, ascentMetres, brick, cadence, isRace, keywords, reps, comments]
-    static var DoubleProperties = [ascentFeet, ascentMetres, cadence, estimatedKJ, hr, hours, kj, km, miles, reps, rpe, seconds, rpeTSS, tss, watts]
+    static var DoubleProperties = [ascentFeet, ascentMetres, cadence, estimatedKJ, hr, hours, kj, km, miles, reps, rpe, seconds, secondsPerKM, secondsPer100m, kph, rpeTSS, tss, watts]
     static var StringProperties = [activityString, activityTypeString, equipmentName, comments, keywords, tssMethod]
     static var BooleanProperties = [brick, isRace, wattsEstimated, equipmentOK, activityTypeOK]
     
@@ -444,7 +445,7 @@ enum WorkoutProperty: String{
         case .seconds:          return Unit.seconds
         case .tss:              return Unit.tss
         case .watts:            return Unit.watts
-        case .activity, .activityString, .activityType, .activityTypeOK, .activityTypeString, .equipment, .equipmentName, .equipmentOK, .comments, .estimatedKJ, .isRace, .keywords, .notBike, .rpe, .tssMethod, .wattsEstimated:
+        case .activity, .activityString, .activityType, .activityTypeOK, .activityTypeString, .equipment, .equipmentName, .equipmentOK, .comments, .estimatedKJ, .isRace, .keywords, .notBike, .rpe, .tssMethod, .wattsEstimated, .secondsPerKM, .secondsPer100m, .kph:
             return nil
         }
     }

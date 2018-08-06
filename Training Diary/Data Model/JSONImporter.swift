@@ -161,21 +161,7 @@ class JSONImporter{
                 }
             }
             
-            //need to set up Activity Properties etc..
-//            if let wkt = workout as? Workout{
-//                if let a = wkt.activityString{
-//                    let activity = trainingDiary.addActivity(forString: a)
-//                    wkt.activity = activity
-//                    if let at = wkt.activityTypeString{
-//                        let activityType = trainingDiary.addActivityType(forActivity: a, andType: at)
-//                        wkt.activityType = activityType
-//                    }
-//                    if let e = wkt.equipmentName{
-//                        let equipment = trainingDiary.addEquipment(forActivity: a, andName: e)
-//                        wkt.equipment = equipment
-//                    }
-//                }
-//            }
+
         }
     }
     

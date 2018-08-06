@@ -15,8 +15,6 @@ class NumberToDetailedTimeTransformer: ValueTransformer {
     
     override init() {
         formatter = DateComponentsFormatter()
- //       formatter.allowedUnits = [.year, .day, .hour, .minute, .second]
- //       formatter.unitsStyle = .abbreviated
         formatter.allowedUnits = [ .hour, .minute, .second]
         formatter.unitsStyle = .positional
         super.init()

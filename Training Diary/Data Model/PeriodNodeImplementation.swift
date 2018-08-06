@@ -64,6 +64,9 @@ class PeriodNodeImplementation: NSObject, PeriodNode{
     }
     @objc var runKM: Double { return children.reduce(0.0, {$0 + $1.runKM}) }
     @objc var runSeconds: Double { return children.reduce(0.0, {$0 + $1.runSeconds}) }
+    @objc var runSecondsPerKM: TimeInterval {
+        return runKM > 0 ? runSeconds / runKM : 0.0
+    }
     @objc var runTSS: Double { return children.reduce(0.0, {$0 + $1.runTSS}) }
     @objc var runCTL: Double {
         let sorted = children.sorted(by: {$0.toDate > $1.toDate})
@@ -73,8 +76,20 @@ class PeriodNodeImplementation: NSObject, PeriodNode{
             return 0.0
         }
     }
-    @objc var fromDate: Date { return from }
-    @objc var toDate: Date { return to }
+    @objc var fromDate: Date {
+        let childFromDate = children.map({$0.fromDate}).sorted(by: {$0 < $1})
+        if childFromDate.count > 0{
+            return childFromDate[0]
+        }
+        return Date()
+    }
+    @objc var toDate: Date {
+        let childToDate = children.map({$0.toDate}).sorted(by: {$0 > $1})
+        if childToDate.count > 0{
+            return childToDate[0]
+        }
+        return Date()
+    }
     @objc var isLeaf: Bool { return children.count == 0}
     @objc var isWorkout: Bool { return false}
     @objc var isRoot: Bool { return rootNode }
