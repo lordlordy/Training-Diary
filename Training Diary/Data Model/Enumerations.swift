@@ -371,7 +371,7 @@ enum ActivityTypeProperty: String{
 
 enum WeightProperty: String{
     
-    case fatPercent, kg, lbs
+    case fatPercent, kg, lbs, basalCalsPerDay, bmi
     case fromDate, iso8061DateString, fromDateString
     case trainingDiary
     
@@ -395,7 +395,7 @@ enum PhysiologicalProperty: String{
 //change all to lower case start so no need to specify teh string
 enum TrainingDiaryProperty: String{
     case name
-    case athleteHeightCM, athleteName
+    case athleteHeightCM, athleteName, athleteDOB
     case hrvEasyPercentile, hrvHardPercentile, hrvOffPercentile
     case monotonyDays
 
@@ -404,7 +404,7 @@ enum TrainingDiaryProperty: String{
     case days, physiologicals, weights, plans
     case activities
     
-    static let jsonProperties = [name, athleteHeightCM, athleteName, hrvEasyPercentile, hrvHardPercentile, hrvOffPercentile, monotonyDays ]
+    static let jsonProperties = [name, athleteHeightCM, athleteName, athleteDOB, hrvEasyPercentile, hrvHardPercentile, hrvOffPercentile, monotonyDays ]
     
 }
 
@@ -481,6 +481,7 @@ enum DayProperty: String{
     case gymATL, walkATL, otherATL
     case kg, lbs, fatPercent, restingHR, restingSDNN, restingRMSSD
     case numberOfWorkouts, totalReps
+    case basalCalsMiffLinStJeor, basalCalKatchMcArdle
     
     static let csvProperties = [dateCSVString, fatigue, motivation, sleep, sleepQuality, type, comments]
     static let weightProperties = [kg, fatPercent]

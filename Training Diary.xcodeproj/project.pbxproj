@@ -64,6 +64,7 @@
 		733990C31FB34BD200E80D4A /* PeriodComboBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733990C21FB34BD200E80D4A /* PeriodComboBox.swift */; };
 		733AA828202930BB0065C8B9 /* PeriodNodeImplementation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733AA827202930BB0065C8B9 /* PeriodNodeImplementation.swift */; };
 		733AA82A202A6E550065C8B9 /* DefaultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733AA829202A6E550065C8B9 /* DefaultsViewController.swift */; };
+		7341659A2118B066005931DC /* AgeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734165992118B066005931DC /* AgeFormatter.swift */; };
 		73444C3F1F96AB9B00B3E84D /* Enumerations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73444C3E1F96AB9B00B3E84D /* Enumerations.swift */; };
 		73475E9D2021CD67002407CB /* TreeNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73475E9C2021CD67002407CB /* TreeNode.swift */; };
 		734C9C50204BDDE90007F5B1 /* TrainingDiaryViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734C9C4F204BDDE90007F5B1 /* TrainingDiaryViewControllerProtocol.swift */; };
@@ -408,6 +409,7 @@
 		733990C21FB34BD200E80D4A /* PeriodComboBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodComboBox.swift; sourceTree = "<group>"; };
 		733AA827202930BB0065C8B9 /* PeriodNodeImplementation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodNodeImplementation.swift; sourceTree = "<group>"; };
 		733AA829202A6E550065C8B9 /* DefaultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsViewController.swift; sourceTree = "<group>"; };
+		734165992118B066005931DC /* AgeFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgeFormatter.swift; sourceTree = "<group>"; };
 		73444C3E1F96AB9B00B3E84D /* Enumerations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enumerations.swift; sourceTree = "<group>"; };
 		73475E9C2021CD67002407CB /* TreeNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreeNode.swift; sourceTree = "<group>"; };
 		734C9C4F204BDDE90007F5B1 /* TrainingDiaryViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingDiaryViewControllerProtocol.swift; sourceTree = "<group>"; };
@@ -867,6 +869,7 @@
 				73E25E181FBEA9150081FC62 /* GraphView.swift */,
 				73DC9B101FDC373700D4774A /* NumberToDetailedTimeTransformer.swift */,
 				73DC9B121FDC39B500D4774A /* NumberToSummaryTimeFormatter.swift */,
+				734165992118B066005931DC /* AgeFormatter.swift */,
 				73AF79AC2025CF2E0067CE37 /* OutLineViewWithColumnSort.swift */,
 				733990C21FB34BD200E80D4A /* PeriodComboBox.swift */,
 				7352E1EA20932B4500C64FD5 /* AggregationMethodComboBox.swift */,
@@ -923,8 +926,8 @@
 				73C3B37C1F97AC1400ED6108 /* EddingtonNumberCalculator.swift */,
 				73444C3E1F96AB9B00B3E84D /* Enumerations.swift */,
 				73C2F03D20206E480073323D /* Equipment+Extension.swift */,
-				73C5D1F2205406C1005C460D /* JSONExporter.swift */,
 				73F2119E1FB4A06900062DAE /* JSONImporter.swift */,
+				73C5D1F2205406C1005C460D /* JSONExporter.swift */,
 				73B5644320260B6E0022E80A /* LTDEddingtonNumber+Extension.swift */,
 				730DB7561FE132F500579A81 /* Metric+Extension.swift */,
 				73CAFEA920292284003E4D6B /* PeriodNode.swift */,
@@ -1286,6 +1289,7 @@
 				731CF8051F981C3300C59AA8 /* RollingSum.swift in Sources */,
 				73BFC3952090EE4500CE3493 /* BikeGraphViewController.swift in Sources */,
 				73AF79AB2025CA0C0067CE37 /* GMTDatePicker.swift in Sources */,
+				7341659A2118B066005931DC /* AgeFormatter.swift in Sources */,
 				735F47AE206BAAEC00962F99 /* CompareGraphTableViewController.swift in Sources */,
 				73789C9020123C69002D2393 /* PeriodTextField.swift in Sources */,
 				73BE9F52208E0F5F00CD03B8 /* PlanDay+Extension.swift in Sources */,

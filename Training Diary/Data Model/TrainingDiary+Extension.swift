@@ -41,6 +41,8 @@ extension TrainingDiary{
         return result
     }
     
+   
+    
     //MARK: - Lifetime for display in GUI summary
     @objc dynamic var totalBikeKM:          Double { return total(forKey: DayCalculatedProperty.bikeKM.rawValue) }
     @objc dynamic var totalSwimKM:          Double { return total(forKey: DayCalculatedProperty.swimKM.rawValue) }
@@ -66,6 +68,7 @@ extension TrainingDiary{
         }
         return true
     }
+    
 
     @objc dynamic var bikes: NSSet?{ return bikeMutableSet() }
     
@@ -703,6 +706,10 @@ extension TrainingDiary{
         print("Calc strain for \(String(describing: a.name)) took \(Date().timeIntervalSince(start))s")
     }
     
+    public func basalCalsPerDay(forDate d: Date) -> Double{
+        let mapped = basalCalsArray.map({(x:$0.date, y:$0.cals)})
+        return Maths().linearInterpolate(forX: d.timeIntervalSince1970, fromValues: mapped)
+    }
     public func kg(forDate d: Date) -> Double{
         let maths = Maths()
         let mapped = kgArray().map({(x:$0.date, y:$0.kg)})
@@ -840,6 +847,19 @@ extension TrainingDiary{
     
 
     //MARK: - Private
+    
+    private var basalCalsArray: [(date: Double, cals: Double)]{
+       
+        var result:[(date: Double, cals: Double)] = []
+
+        for w in weightsArray(){
+            if let d = w.fromDate{
+                result.append((d.timeIntervalSince1970, w.basalCalsPerDay))
+            }
+        }
+        
+        return result
+    }
     
     private func kgArray() -> [(date: Double, kg: Double)]{
     

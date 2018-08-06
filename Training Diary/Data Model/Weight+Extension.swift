@@ -35,12 +35,20 @@ extension Weight{
         }
         return 0.0
     }
+    /*Katch-McArdle formula
+     daily cals = 370 + 21.6 x leanBodyMass
+     */
+    @objc dynamic var basalCalsPerDay: Double{
+        return 370 + 21.6 * (kg * (1-fatPercent/100.0))
+    }
     
     override public class func keyPathsForValuesAffectingValue(forKey key: String) -> Set<String>{
         let keyPaths = super.keyPathsForValuesAffectingValue(forKey: key)
         switch key {
-        case "lbs":
-            return keyPaths.union(Set(["kg"]))
+        case WeightProperty.lbs.rawValue, WeightProperty.bmi.rawValue:
+            return keyPaths.union(Set([WeightProperty.kg.rawValue]))
+        case WeightProperty.basalCalsPerDay.rawValue:
+            return keyPaths.union(Set([WeightProperty.kg.rawValue, WeightProperty.fatPercent.rawValue]))
         default:
             return keyPaths
         }

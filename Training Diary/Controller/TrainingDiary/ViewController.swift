@@ -70,7 +70,8 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
         ValueTransformer.setValueTransformer(TextViewToStringTransformer(), forName: NSValueTransformerName(rawValue: "TextViewToStringTransformer"))
         ValueTransformer.setValueTransformer(ActivityToStringTransformer(), forName: NSValueTransformerName(rawValue: "ActivityToStringTransformer"))
         ValueTransformer.setValueTransformer(ActivityTypeToStringTransformer(), forName: NSValueTransformerName(rawValue: "ActivityTypeToStringTransformer"))
-
+        ValueTransformer.setValueTransformer(AgeFormatter(), forName: NSValueTransformerName(rawValue: "AgeFormatter"))
+    
 
         
     }

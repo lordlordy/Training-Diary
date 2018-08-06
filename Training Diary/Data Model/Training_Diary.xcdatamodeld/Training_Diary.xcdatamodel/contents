@@ -176,6 +176,7 @@
         <relationship name="plan" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Plan" inverseName="planDays" inverseEntity="Plan" syncable="YES"/>
     </entity>
     <entity name="TrainingDiary" representedClassName="TrainingDiary" syncable="YES" codeGenerationType="class">
+        <attribute name="athleteDOB" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="athleteHeightCM" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="athleteName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="hrvEasyPercentile" optional="YES" attributeType="Double" minValueString="0" maxValueString="100" defaultValueString="25" usesScalarValueType="YES" syncable="YES"/>
@@ -235,7 +236,7 @@
         <element name="Physiological" positionX="-36" positionY="-375" width="128" height="180"/>
         <element name="Plan" positionX="-200" positionY="-792" width="191" height="283"/>
         <element name="PlanDay" positionX="-504" positionY="-720" width="128" height="465"/>
-        <element name="TrainingDiary" positionX="-234" positionY="-471" width="128" height="255"/>
+        <element name="TrainingDiary" positionX="-234" positionY="-471" width="128" height="270"/>
         <element name="Weight" positionX="-45" positionY="-160" width="128" height="105"/>
         <element name="Workout" positionX="-36" positionY="-3" width="128" height="345"/>
     </elements>

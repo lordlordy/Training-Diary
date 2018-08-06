@@ -110,6 +110,44 @@ extension Day: PeriodNode, DayValueProtocol{
         return workouts?.count ?? 0
     }
 
+    @objc dynamic var age: DateComponents?{
+        if let d = date{
+            if let dob = trainingDiary?.athleteDOB{
+                let cal = Calendar.init(identifier: .iso8601)
+                let dc = cal.dateComponents(Set([Calendar.Component.year, Calendar.Component.day]), from: dob, to: d)
+                return dc
+            }
+        }
+        return nil
+    }
+    
+    @objc dynamic var ageYears: Double{
+        if let y = age?.year{
+            if let d = age?.day{
+                return Double(y) + Double(d)/365.0
+            }
+        }
+        return 0.0
+    }
+    
+    /* Usiner Mifflin St Jeor Equation:
+     Daily Cals = 10 * kg + 6.25 * HeightCM - 5 * AgeYear + s
+     where s is:
+     5 - Male
+     -161 - Female
+     
+    */
+    @objc dynamic var basalCalsMiffLinStJeor: Double{
+        return kg * 10.0 + 6.25 * trainingDiary!.athleteHeightCM - 5.0 * ageYears  + 5.0
+    }
+    
+    @objc dynamic var basalCalKatchMcArdle: Double{
+        if let td = trainingDiary{
+            return td.basalCalsPerDay(forDate: self.date!)
+        }
+        return 0.0
+    }
+    
     //MARK: - Core Data dependent key values
     
     /*This is the method that needs implementing to ensure calculated properties update when the properties
