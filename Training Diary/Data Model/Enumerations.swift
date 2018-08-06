@@ -397,14 +397,14 @@ enum TrainingDiaryProperty: String{
     case name
     case athleteHeightCM, athleteName, athleteDOB
     case hrvEasyPercentile, hrvHardPercentile, hrvOffPercentile
-    case monotonyDays
+    case monotonyDays, awakeBasalFactor
 
     //relationships
     case eddingtonNumbers, ltdEddingtonNumbers
     case days, physiologicals, weights, plans
     case activities
     
-    static let jsonProperties = [name, athleteHeightCM, athleteName, athleteDOB, hrvEasyPercentile, hrvHardPercentile, hrvOffPercentile, monotonyDays ]
+    static let jsonProperties = [name, athleteHeightCM, athleteName, athleteDOB, hrvEasyPercentile, hrvHardPercentile, hrvOffPercentile, monotonyDays, awakeBasalFactor ]
     
 }
 
@@ -482,6 +482,7 @@ enum DayProperty: String{
     case kg, lbs, fatPercent, restingHR, restingSDNN, restingRMSSD
     case numberOfWorkouts, totalReps
     case basalCalsMiffLinStJeor, basalCalKatchMcArdle
+    case estimatedCaloriesMifflinStJeor, estimatedCaloriesKatchMcArdle
     
     static let csvProperties = [dateCSVString, fatigue, motivation, sleep, sleepQuality, type, comments]
     static let weightProperties = [kg, fatPercent]

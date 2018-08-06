@@ -89,6 +89,8 @@ extension Day: PeriodNode, DayValueProtocol{
     @objc var totalCTL: Double { return allCTL }
     @objc var fromDate: Date { return date! }
     @objc var toDate: Date { return date! }
+    
+    
     func inPeriod(_ p: PeriodNode) -> Bool{
         return (p.fromDate <= fromDate) && (p.toDate >= toDate)
     }
@@ -146,6 +148,22 @@ extension Day: PeriodNode, DayValueProtocol{
             return td.basalCalsPerDay(forDate: self.date!)
         }
         return 0.0
+    }
+    
+    private var remainingHours: Double{
+        return 24.0 - sleep - (totalSeconds / (60.0*60.0))
+    }
+    
+    @objc dynamic var estimatedCaloriesMifflinStJeor: Double{
+        let sleepCals = sleep * basalCalsMiffLinStJeor / 24.0
+        let otherCals = remainingHours * basalCalsMiffLinStJeor * trainingDiary!.awakeBasalFactor / 24.0
+        return sleepCals + otherCals + allKJ
+    }
+    
+    @objc dynamic var estimatedCaloriesKatchMcArdle: Double{
+        let sleepCals = sleep * basalCalKatchMcArdle / 24.0
+        let otherCals = remainingHours * basalCalKatchMcArdle * trainingDiary!.awakeBasalFactor / 24.0
+        return sleepCals + otherCals + allKJ
     }
     
     //MARK: - Core Data dependent key values
