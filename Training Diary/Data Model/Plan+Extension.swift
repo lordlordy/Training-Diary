@@ -49,6 +49,19 @@ extension Plan{
         return true
     }
     
+    @objc dynamic var planDaysCount: Int{
+        if let f = from{
+            if let t = to{
+                let d = Calendar.init(identifier: .iso8601).dateComponents(Set([Calendar.Component.day]), from: f, to: t)
+                if let count = d.day{
+                    //+1 as includes start and end date
+                    return count + 1
+                }
+            }
+        }
+        return 0
+    }
+    
     func updateFirstDay(){
         let days = orderedPlanDays()
         if days.count > 0{
@@ -154,6 +167,16 @@ extension Plan{
             return basicWeek.sorted(by: {$0.order < $1.order})
         }
         return []
+    }
+    
+    override public class func keyPathsForValuesAffectingValue(forKey key: String) -> Set<String>{
+        let keyPaths = super.keyPathsForValuesAffectingValue(forKey: key)
+        switch key {
+        case PlanProperty.planDaysCount.rawValue:
+            return keyPaths.union(Set([PlanProperty.from.rawValue, PlanProperty.to.rawValue]))
+        default:
+            return keyPaths
+        }
     }
     
     private var basicWeekDictionary: [String: BasicWeekDay]{

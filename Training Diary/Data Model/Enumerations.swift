@@ -565,7 +565,7 @@ enum Month: String{
 }
 
 enum PlanProperty: String, TrainingDiaryPropertyProtocol{
-    case from, name, to, locked
+    case from, name, to, planDaysCount, locked
     case bikeStartATL, bikeStartCTL, runStartATL, runStartCTL, swimStartATL, swimStartCTL
     case basicWeek, planDays, trainingDiary
     case iso8061FromString, iso8061ToString
