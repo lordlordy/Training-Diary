@@ -395,7 +395,7 @@ enum PhysiologicalProperty: String{
 //change all to lower case start so no need to specify teh string
 enum TrainingDiaryProperty: String{
     case name
-    case athleteHeightCM, athleteName, athleteDOB
+    case athleteHeightCM, athleteName, athleteDOB, athleteDOBString
     case hrvEasyPercentile, hrvHardPercentile, hrvOffPercentile
     case monotonyDays, awakeBasalFactor
 
@@ -404,8 +404,9 @@ enum TrainingDiaryProperty: String{
     case days, physiologicals, weights, plans
     case activities
     
-    static let jsonProperties = [name, athleteHeightCM, athleteName, athleteDOB, hrvEasyPercentile, hrvHardPercentile, hrvOffPercentile, monotonyDays, awakeBasalFactor ]
-    
+//    static let jsonProperties = [name, athleteHeightCM, athleteName, athleteDOB, hrvEasyPercentile, hrvHardPercentile, hrvOffPercentile, monotonyDays, awakeBasalFactor ]
+    static let jsonProperties = [name, athleteHeightCM, athleteName, athleteDOBString, hrvEasyPercentile, hrvHardPercentile, hrvOffPercentile, monotonyDays, awakeBasalFactor ]
+
 }
 
 enum WorkoutProperty: String{

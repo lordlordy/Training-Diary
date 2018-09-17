@@ -108,12 +108,12 @@ class JSONExporter{
             trainingDiaryDictionary[TrainingDiaryProperty.days.rawValue] = createDaysJSON(days)
             included = included + "Days :"
         }
-        
+
         if physios.count > 0{
             trainingDiaryDictionary[TrainingDiaryProperty.physiologicals.rawValue] = createPhysiologicalsJSON(physios)
             included = included + "Physiologicals :"
         }
-        
+
         if weights.count > 0{
             trainingDiaryDictionary[TrainingDiaryProperty.weights.rawValue] = createWeightsJSON(weights)
             included = included + "Weights :"
@@ -125,6 +125,7 @@ class JSONExporter{
         }
         
         trainingDiaryDictionary["Included"] = included.trimmingCharacters(in: CharacterSet.init(charactersIn: " :"))
+        
         
         do {
             let data = try JSONSerialization.data(withJSONObject: trainingDiaryDictionary, options: .prettyPrinted)

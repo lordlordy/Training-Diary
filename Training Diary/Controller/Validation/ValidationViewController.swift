@@ -17,52 +17,11 @@ class ValidationViewController: TrainingDiaryViewController{
     //MARK: - IBActions
     @IBAction func adhoc(_ sender: Any) {
         
-//        let formatter: DateFormatter = DateFormatter()
-//        formatter.dateFormat = "dd-MMM-yyyy"
-//        
-//        if let url = OpenAndSaveDialogues().selectedPath(withTitle: "chose .csv file",andFileTypes: [FileExtension.csv.rawValue]) {
-//            do{
-//                let string = try String(contentsOf: url)
-//                let rows = string.components(separatedBy: "\n")
-//                
-//                for r in rows{
-//                    
-//                    let bits = r.components(separatedBy: ",").map({$0.trimmingCharacters(in: CharacterSet(charactersIn: "\r"))})
-//                    var d: String = ""
-//                    var theRest: String = ""
-//                    var i = 0
-//                    for b in bits{
-//                        if i == 0{
-//                            d = b
-//                        }else{
-//                            theRest += b + ";"
-//                        }
-//                        i += 1
-//                    }
-//                    theRest = theRest.trimmingCharacters(in: CharacterSet(charactersIn: "\";"))
-//                    if theRest.count > 0{
-//                        if let date = formatter.date(from: d){
-//                            let day: Day = trainingDiary!.getDay(forDate: date)!
-//                            var hasComments: Bool = false
-//                            if let c = day.comments{
-//                                hasComments = c.count > 0
-//                            }
-//                            if !hasComments{
-//                                print("Trainging Dairy day: \(day.date!)")
-//                                print("\(date.dateOnlyShorterString()) adding Comments: \(theRest)")
-//
-//                                day.comments = theRest
-//                            }
-//                        }
-//
-//                    }
-//                }
-//            }catch{
-//                print("error importing Training Diary for URL: " + url.absoluteString)
-//                
-//            }
-//        }
-//        
+        if let service = NSSharingService(named: NSSharingService.Name.composeEmail){
+            service.recipients = ["stevenlord@me.com"]
+            service.subject = "Test"
+            service.perform(withItems: ["Items","another"])
+        }
         
     }
     

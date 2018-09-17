@@ -69,6 +69,10 @@ extension TrainingDiary{
         return true
     }
     
+    //this is for JSON serialisation
+    @objc dynamic var athleteDOBString: String{
+        return athleteDOB?.iso8601Format() ?? ""
+    }
 
     @objc dynamic var bikes: NSSet?{ return bikeMutableSet() }
     

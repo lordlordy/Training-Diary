@@ -54,7 +54,7 @@ import Foundation
     }
 
     private func addObservers(){
-        print("Adding observers for \(dataSeriesDefinition.name)")
+//        print("Adding observers for \(dataSeriesDefinition.name)")
         for p in DataSeriesDefinition.Property.observables{
             dataSeriesDefinition.addObserver(self, forKeyPath: p.rawValue, options: .new, context: nil)
         }

@@ -36,6 +36,8 @@ import Foundation
         } set{
             if let dt = DayType(rawValue: newValue){
                 dayType = dt
+            }else{
+                dayType = nil
             }
         }
     }
