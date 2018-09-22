@@ -199,6 +199,42 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
         print("TBI exportHTML")
     }
     
+    @IBAction func exportJSONForYear(_ sender: NSMenuItem){
+        print("export json for year")
+        let msg = NSAlert()
+        msg.addButton(withTitle: "OK")
+        msg.addButton(withTitle: "Cancel")
+        msg.messageText = "Select a year"
+        msg.informativeText = "Type a year (eg 2009)"
+        
+        let txt = NSTextField(frame:NSRect(x:0, y:0, width: 100, height: 24))
+        let formatter = NumberFormatter()
+        formatter.format = "0000"
+        txt.formatter = formatter
+        txt.intValue = Int32(Date().year())
+        msg.accessoryView = txt
+        
+        let response: NSApplication.ModalResponse = msg.runModal()
+        
+        if response == NSApplication.ModalResponse.alertFirstButtonReturn{
+            if let td = getSelectedTrainingDiary(){
+                if let url = OpenAndSaveDialogues().saveFilePath(suggestedFileName: "TrainingDiary", allowFileTypes: ["json"]){
+                    if let jsonString = JSONExporter().createJSON(forTrainingDiary: td, andYear: Int(txt.intValue)){
+                        do{
+                            try jsonString.write(to: url, atomically: true, encoding: String.Encoding.utf8.rawValue)
+                        }catch{
+                            print("Unable to save JSON")
+                            print(error)
+                        }
+                    }
+                }                
+            }
+        }else{
+            print("cancelled")
+        }
+        
+    }
+    
     @IBAction func exportJSON(_ sender: NSMenuItem){
         if let td = getSelectedTrainingDiary(){
             

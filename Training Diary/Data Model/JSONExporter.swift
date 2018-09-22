@@ -13,12 +13,19 @@ class JSONExporter{
     func createJSON(forTrainingDiary td: TrainingDiary? = nil, forDays days: [Day], forPhysiologicals physios: [Physiological], forWeights weights: [Weight], forPlans plans: [Plan]) -> NSString?{
         return createJSON(td, days, physios, weights, plans)
     }
+    
+    func createJSON(forTrainingDiary td: TrainingDiary, andYear year: Int) -> NSString?{
+        let days = td.daysArray().filter({$0.date!.year() == year})
+        let physios = td.physiologicalArray().filter({$0.fromDate!.year() == year})
+        let weights = td.weightsArray().filter({$0.fromDate!.year() == year})
+        let plans = td.plansArray().filter({$0.from!.year() == year})
+        return createJSON(td, days, physios, weights, plans)
+    }
+    
 
     
     func createJSON(forTrainingDiary td: TrainingDiary) -> NSString?{
-        
-        return createJSON(td, td.days?.allObjects as? [Day] ?? [], td.physiologicals?.allObjects as? [Physiological] ?? [], td.weights?.allObjects as? [Weight] ?? [], td.plans?.allObjects as? [Plan] ?? [])
-
+        return createJSON(td, td.daysArray(), td.physiologicalArray(), td.weightsArray(), td.plansArray())
     }
     
     func createJSON(forPlan plan: Plan) -> NSString?{
@@ -105,22 +112,22 @@ class JSONExporter{
         var included: String = ""
         
         if days.count > 0{
-            trainingDiaryDictionary[TrainingDiaryProperty.days.rawValue] = createDaysJSON(days)
+            trainingDiaryDictionary[TrainingDiaryProperty.days.rawValue] = createDaysJSON(days.sorted(by: {$0.date! < $1.date!}))
             included = included + "Days :"
         }
 
         if physios.count > 0{
-            trainingDiaryDictionary[TrainingDiaryProperty.physiologicals.rawValue] = createPhysiologicalsJSON(physios)
+            trainingDiaryDictionary[TrainingDiaryProperty.physiologicals.rawValue] = createPhysiologicalsJSON(physios.sorted(by: {$0.fromDate! < $1.fromDate!}))
             included = included + "Physiologicals :"
         }
 
         if weights.count > 0{
-            trainingDiaryDictionary[TrainingDiaryProperty.weights.rawValue] = createWeightsJSON(weights)
+            trainingDiaryDictionary[TrainingDiaryProperty.weights.rawValue] = createWeightsJSON(weights.sorted(by: {$0.fromDate! < $1.fromDate!}))
             included = included + "Weights :"
         }
         
         if plans.count > 0{
-            trainingDiaryDictionary[TrainingDiaryProperty.plans.rawValue] = createPlansJSON(plans)
+            trainingDiaryDictionary[TrainingDiaryProperty.plans.rawValue] = createPlansJSON(plans.sorted(by: {$0.from! < $1.from!}))
             included = included + "Plans"
         }
         
