@@ -215,37 +215,83 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
         }
     }
     
+    //MARK: - CSV Support
+
+    @IBAction func exportCSVForYear(_ sender: NSMenuItem){
+        print("export csv for year")
+        let msg = NSAlert()
+        msg.addButton(withTitle: "OK")
+        msg.addButton(withTitle: "Cancel")
+        msg.messageText = "Select a year"
+        msg.informativeText = "Type a year (eg 2009)"
+        
+        let txt = NSTextField(frame:NSRect(x:0, y:0, width: 100, height: 24))
+        let formatter = NumberFormatter()
+        formatter.format = "0000"
+        txt.formatter = formatter
+        txt.intValue = Int32(Date().year())
+        msg.accessoryView = txt
+        
+        let response: NSApplication.ModalResponse = msg.runModal()
+        
+        if response == NSApplication.ModalResponse.alertFirstButtonReturn{
+            if let td = getSelectedTrainingDiary(){
+                let csv = CSVExporter().convertToCSV(trainingDiary: td, forYear: Int(txt.intValue))
+                saveCSV(csv, subFolderName: txt.stringValue)
+            }
+        }else{
+            print("cancelled")
+        }
+        
+    }
+    
+
+    
     @IBAction func exportCSV(_ sender: NSMenuItem){
         let csvExporter = CSVExporter()
         
         if let td = getSelectedTrainingDiary(){
             let csv = csvExporter.convertToCSV(trainingDiary: td)
             
-            if let saveFolder = OpenAndSaveDialogues().chooseFolderForSave(createSubFolder: "Data-\(Date().dateOnlyString())"){
-                var saveFileName = saveFolder.appendingPathComponent("workouts.csv")
-                do{
-                    try csv.workouts.write(to: saveFileName, atomically: false, encoding: .utf8)
-                }catch let error as NSError{
-                    print(error)
-                }
-                saveFileName = saveFolder.appendingPathComponent("days.csv")
-                do{
-                    try csv.days.write(to: saveFileName, atomically: false, encoding: .utf8)
-                }catch let error as NSError{
-                    print(error)
-                }
+            saveCSV(csv, subFolderName: "Data-\(Date().dateOnlyString())")
+        }
+    }
+    
+    
+    
+    //MARK: - Private functions
+    
+    fileprivate func saveCSV(_ csv: CSVExporter.TrainingDiaryCVSStrings, subFolderName name: String) {
+        if let saveFolder = OpenAndSaveDialogues().chooseFolderForSave(createSubFolder: name){
+            var saveFileName = saveFolder.appendingPathComponent("workouts.csv")
+            do{
+                try csv.workouts.write(to: saveFileName, atomically: false, encoding: .utf8)
+            }catch let error as NSError{
+                print(error)
+            }
+            saveFileName = saveFolder.appendingPathComponent("days.csv")
+            do{
+                try csv.days.write(to: saveFileName, atomically: false, encoding: .utf8)
+            }catch let error as NSError{
+                print(error)
+            }
+            if csv.weights != ""{
                 saveFileName = saveFolder.appendingPathComponent("weights.csv")
                 do{
                     try csv.weights.write(to: saveFileName, atomically: false, encoding: .utf8)
                 }catch let error as NSError{
                     print(error)
                 }
+            }
+            if csv.physiologicals != ""{
                 saveFileName = saveFolder.appendingPathComponent("physiologicals.csv")
                 do{
                     try csv.physiologicals.write(to: saveFileName, atomically: false, encoding: .utf8)
                 }catch let error as NSError{
                     print(error)
                 }
+            }
+            if csv.plans != ""{
                 saveFileName = saveFolder.appendingPathComponent("plans.csv")
                 do{
                     try csv.plans.write(to: saveFileName, atomically: false, encoding: .utf8)
@@ -267,11 +313,6 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
             }
         }
     }
-    
-    //MARK: - CSV Support
-    
-    
-    //MARK: - Private functions
     
     private func getSelectedTrainingDiary() -> TrainingDiary?{
         //array controller set to only allow single selection. So the array should always have only one item

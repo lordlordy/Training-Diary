@@ -99,6 +99,19 @@
                                                 </items>
                                             </menu>
                                         </menuItem>
+                                        <menuItem title="Export Year" id="nIK-GL-JpF">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <menu key="submenu" title="Export Year" id="zHO-Pn-8Wz">
+                                                <items>
+                                                    <menuItem title="as CSV..." id="0On-d0-O2C">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="exportCSVForYear:" target="Ady-hI-5gd" id="Ty6-YG-l2u"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
+                                        </menuItem>
                                         <menuItem title="Calculator..." id="Wig-p5-eIJ">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
@@ -1253,11 +1266,11 @@
                                         <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1ih-v5-dGN">
                                             <rect key="frame" x="21" y="3" width="611" height="76"/>
                                             <clipView key="contentView" id="333-1S-yMu">
-                                                <rect key="frame" x="1" y="0.0" width="609" height="75"/>
+                                                <rect key="frame" x="1" y="0.0" width="609" height="60"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" emptySelection="NO" autosaveName="trainingDiaryTableView" rowSizeStyle="automatic" headerView="PS6-Sd-DTG" viewBased="YES" id="5kx-Ve-SwN" customClass="TableViewWithColumnSort" customModule="Training_Diary" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="743" height="52"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="743" height="37"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1689,8 +1702,8 @@
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="76" id="TPJ-tw-jY5"/>
                                             </constraints>
-                                            <scroller key="horizontalScroller" verticalHuggingPriority="750" doubleValue="0.47014925373134331" horizontal="YES" id="8ho-Yx-3zP">
-                                                <rect key="frame" x="1" y="59" width="609" height="16"/>
+                                            <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="8ho-Yx-3zP">
+                                                <rect key="frame" x="1" y="60" width="609" height="15"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
                                             <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="A1h-3H-k6g">

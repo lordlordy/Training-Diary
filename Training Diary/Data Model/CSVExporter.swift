@@ -35,6 +35,10 @@ class CSVExporter{
         return convertToCSV(td, td.days?.allObjects as? [Day] ?? [], td.weights?.allObjects as? [Weight] ?? [], td.physiologicals?.allObjects as? [Physiological] ?? [], td.plans?.allObjects as? [Plan] ?? [])
     }
     
+    func convertToCSV(trainingDiary td: TrainingDiary, forYear year: Int) -> TrainingDiaryCVSStrings{
+        return convertToCSV(td, td.daysArray().filter({$0.date!.year() == year}).sorted(by: {$0.date! < $1.date!}), td.weightsArray().filter({$0.fromDate!.year() == year}).sorted(by: {$0.fromDate! < $1.fromDate!}), td.physiologicalArray().filter({$0.fromDate!.year() == year}).sorted(by: {$0.fromDate! < $1.fromDate!}), td.plansArray().filter({$0.from?.year() == year}).sorted(by: {$0.from! < $1.from!}))
+    }
+    
     //this is split out to allow the conversion of a selection to CSV
     func convertToCSV(_ td: TrainingDiary, _ days: [Day], _ weights: [Weight], _ physiologicals: [Physiological], _ plans: [Plan]) -> TrainingDiaryCVSStrings{
         
@@ -155,6 +159,10 @@ class CSVExporter{
     }
     
     private func convertToCSV(_ plans: [Plan]) -> (plan: String, basicWeek: String, planDays: String){
+        
+        if plans.count == 0{
+            return (plan: "", basicWeek: "", planDays: "")
+        }
         
         var planString: String = createHeaderRow(PlanProperty.csvProperties.map({$0.rawValue}))
         planString += "\n"
@@ -280,7 +288,8 @@ class CSVExporter{
             }
             result += ","
         }
-        return result.trimmingCharacters(in: CharacterSet(charactersIn: ","))
+        return result
+//        return result.trimmingCharacters(in: CharacterSet(charactersIn: ","))
     }
     
     private func createHeaderRow(_ properties: [String]) -> String{

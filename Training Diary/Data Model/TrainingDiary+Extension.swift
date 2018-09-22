@@ -517,6 +517,10 @@ extension TrainingDiary{
         return days?.allObjects as? [Day] ?? []
     }
     
+    func plansArray() -> [Plan]{
+        return plans?.allObjects as? [Plan] ?? []
+    }
+    
     func kgAscendingDateOrder() -> [(date: Date, value: Double)]{
         var result: [(date: Date, value: Double)] = []
         for w in weightsAscendingDateOrder(){
