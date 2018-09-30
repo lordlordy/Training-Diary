@@ -304,11 +304,11 @@
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="22" horizontalPageScroll="10" verticalLineScroll="22" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V4N-bz-TWN">
                                 <rect key="frame" x="122" y="1" width="327" height="247"/>
                                 <clipView key="contentView" id="hyV-r2-7fw">
-                                    <rect key="frame" x="1" y="0.0" width="325" height="246"/>
+                                    <rect key="frame" x="1" y="0.0" width="325" height="231"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" autosaveName="bucketsTable" rowHeight="20" headerView="yMf-78-B3G" viewBased="YES" id="W8e-or-aeR">
-                                            <rect key="frame" x="0.0" y="0.0" width="1505" height="223"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="1505" height="208"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1180,7 +1180,7 @@
                                     </subviews>
                                 </clipView>
                                 <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="pa4-Ju-AIv">
-                                    <rect key="frame" x="1" y="230" width="325" height="16"/>
+                                    <rect key="frame" x="1" y="231" width="325" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="QNG-hB-Z4y">
@@ -1261,7 +1261,7 @@
                     </connections>
                 </viewController>
                 <customObject id="Lhh-Kv-8Ye" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <arrayController objectClassName="Training_Diary.BucketGraphDefinition" id="81p-9B-jqf" customClass="BucketGraphArrayController" customModule="Training_Diary" customModuleProvider="target"/>
+                <arrayController objectClassName="Training_Diary_Dev.BucketGraphDefinition" id="81p-9B-jqf" customClass="BucketGraphArrayController" customModule="Training_Diary" customModuleProvider="target"/>
             </objects>
             <point key="canvasLocation" x="855" y="-17.5"/>
         </scene>

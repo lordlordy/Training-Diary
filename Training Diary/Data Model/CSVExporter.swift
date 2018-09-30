@@ -57,6 +57,7 @@ class CSVExporter{
         workoutString += "\n"
         for w in workouts{
             workoutString += w.day!.date!.dateOnlyString()
+            workoutString += ","
             workoutString += csv(w, WorkoutProperty.csvProperties.map({$0.rawValue}))
             workoutString += "\n"
         }
@@ -145,6 +146,7 @@ class CSVExporter{
                     for w in workouts{
                         workoutCount += 1
                         workoutString += dateString
+                        workoutString += ","
                         workoutString += csv(w as! Workout, WorkoutProperty.csvProperties.map({$0.rawValue}))
                         workoutString += "\n"
                     }
