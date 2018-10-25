@@ -15,7 +15,7 @@ class BucketsSplitViewController: TrainingDiarySplitViewController{
     private let endColour: NSColor = .red
     
     var graphView: GraphView?{
-        for c in childViewControllers{
+        for c in children{
             if let graph = c as? BucketsGraphViewController{
                 let gv = graph.graphView
                 return gv
@@ -25,7 +25,7 @@ class BucketsSplitViewController: TrainingDiarySplitViewController{
     }
     
     private var bucketViewController: BucketsViewController?{
-        for c in childViewControllers{
+        for c in children{
             if let bvc = c as? BucketsViewController{
                 return bvc
             }

@@ -112,7 +112,7 @@ class TSBGraphSplitViewController: TrainingDiarySplitViewController{
     }
     
     private func getGraphView() -> GraphView?{
-        for v in childViewControllers{
+        for v in children{
             if let gvc = v as? TSBGraphViewController{
                 return gvc.graphView
             }

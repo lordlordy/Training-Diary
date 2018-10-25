@@ -36,8 +36,8 @@ class TableViewWithColumnSort: NSTableView {
     
 
     
-    override func controlTextDidEndEditing(_ obj: Notification) {
-        super.controlTextDidEndEditing(obj)
+    func controlTextDidEndEditing(_ obj: Notification) {
+    //    super.controlTextDidEndEditing(obj)
         print("control text")
         if let userInfo = userActivity?.userInfo{
             for u in userInfo{
@@ -56,7 +56,7 @@ class TableViewWithColumnSort: NSTableView {
     }
     
     private func tableName() -> String{
-        return autosaveName?.rawValue ?? "unNamedTable"
+        return autosaveName ?? "unNamedTable"
     }
     
     // assumes the the column ID and the key for the data are the same
@@ -77,7 +77,7 @@ class TableViewWithColumnSort: NSTableView {
     }
     
     private func key(forColumn c: NSTableColumn) -> String{
-        var key = autosaveName?.rawValue ?? "~"
+        var key = autosaveName ?? "~"
         key += ":"
         key += c.title
         return key

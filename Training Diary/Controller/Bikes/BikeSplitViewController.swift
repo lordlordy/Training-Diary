@@ -11,7 +11,7 @@ import Foundation
 class BikeSplitViewController: TrainingDiarySplitViewController{
     
     var bikeGraphViewController: BikeGraphViewController?{
-        for c in childViewControllers{
+        for c in children{
             if let vc = c as? BikeGraphViewController{
                 return vc
             }

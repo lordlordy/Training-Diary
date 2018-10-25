@@ -84,7 +84,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
         
         guard let tabViewController = segue.destinationController as? NSTabViewController else {return}
         
-        for controller in tabViewController.childViewControllers{
+        for controller in tabViewController.children{
             if let c = controller as? TrainingDiaryViewControllerProtocol{
                 print("adding \(c)")
                 trainingDiaryVCs.append(c)
@@ -100,7 +100,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
             print("Setting main view controller for \(controller)")
             controller.setMainViewControllerReference(to: self)
         }
-        for c in vc.childViewControllers{
+        for c in vc.children{
             checkToSetMainViewController(c)
         }
     }

@@ -188,7 +188,7 @@ class CompareGraphSplitViewController: TrainingDiarySplitViewController, GraphMa
     
     private func getGraphView() -> GraphView?{
     
-        for vc in childViewControllers{
+        for vc in children{
             if let graphVC = vc as? CompareGraphViewController{
                 return graphVC.graphView
             }

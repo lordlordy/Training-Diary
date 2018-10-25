@@ -11,7 +11,7 @@ import Cocoa
 class WeightHRVSplitViewController: TrainingDiarySplitViewController {
     
     var graphViewController: WeightHRVGraphViewController?{
-        for c in childViewControllers{
+        for c in children{
             if let gac = c as? WeightHRVGraphViewController{
                 return gac
             }

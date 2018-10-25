@@ -181,11 +181,11 @@ class PlanningSplitViewController: TrainingDiarySplitViewController{
     }
     
     private func getGraphViewController() -> PlanGraphViewController?{
-        for v in childViewControllers{
+        for v in children{
             if let gvc = v as? PlanGraphViewController{
                 return gvc
             }
-            for gcvc in v.childViewControllers{
+            for gcvc in v.children{
                 if let gvc = gcvc as? PlanGraphViewController{
                     return gvc
                 }
@@ -195,11 +195,11 @@ class PlanningSplitViewController: TrainingDiarySplitViewController{
     }
 
     private func getPlanOutputViewController() -> PlanOutputViewController?{
-        for v in childViewControllers{
+        for v in children{
             if let gvc = v as? PlanOutputViewController{
                 return gvc
             }
-            for gcvc in v.childViewControllers{
+            for gcvc in v.children{
                 if let gvc = gcvc as? PlanOutputViewController{
                     return gvc
                 }
@@ -209,11 +209,11 @@ class PlanningSplitViewController: TrainingDiarySplitViewController{
     }
 
     private func getBasicWeekViewController() -> PlanBasicWeekViewController?{
-        for v in childViewControllers{
+        for v in children{
             if let gvc = v as? PlanBasicWeekViewController{
                 return gvc
             }
-            for gcvc in v.childViewControllers{
+            for gcvc in v.children{
                 if let gvc = gcvc as? PlanBasicWeekViewController{
                     return gvc
                 }

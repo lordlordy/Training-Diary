@@ -156,7 +156,7 @@ class TSBConstantsSplitViewController: TrainingDiarySplitViewController{
     }
     
     private func getGraphView() -> GraphView?{
-        for vc in childViewControllers{
+        for vc in children{
             if let gvc = vc as? ActivityGraphViewController{
                 return gvc.activityConstantsGraphView
             }

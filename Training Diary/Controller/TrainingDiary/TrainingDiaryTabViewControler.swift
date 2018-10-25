@@ -11,7 +11,7 @@ import Cocoa
 class TrainingDiaryTabViewControler: NSTabViewController, TrainingDiaryViewControllerProtocol {
 
     func set(trainingDiary td: TrainingDiary) {
-        for vc in childViewControllers{
+        for vc in children{
             if let tdvc = vc as? TrainingDiaryViewControllerProtocol{
                 print("Setting training diary on \(tdvc)")
                 tdvc.set(trainingDiary: td)

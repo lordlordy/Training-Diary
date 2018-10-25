@@ -335,7 +335,7 @@ class GraphSplitViewController: TrainingDiarySplitViewController, GraphManagemen
     }
     
     private func getGraphView() -> GraphView?{
-        for vc in childViewControllers{
+        for vc in children{
             if let graphVC = vc as? GraphViewController{
                 return graphVC.graphView
             }
@@ -344,7 +344,7 @@ class GraphSplitViewController: TrainingDiarySplitViewController, GraphManagemen
     }
     
     private func getFromDatePicker() -> NSDatePicker?{
-        for vc in childViewControllers{
+        for vc in children{
             if let graphVC = vc as? GraphListViewController{
                 return graphVC.fromDatePicker
             }
@@ -353,7 +353,7 @@ class GraphSplitViewController: TrainingDiarySplitViewController, GraphManagemen
     }
     
     private func getToDatePicker() -> NSDatePicker?{
-        for vc in childViewControllers{
+        for vc in children{
             if let graphVC = vc as? GraphListViewController{
                 return graphVC.toDatePicker
             }

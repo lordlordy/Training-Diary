@@ -42,8 +42,8 @@ class EddingtonSplitViewController: TrainingDiarySplitViewController {
     
     
     private func getGraphView() -> EddingtonGraphViewController?{
-        for child in childViewControllers{
-            for grandChild in child.childViewControllers{
+        for child in children{
+            for grandChild in child.children{
                 if let result = grandChild as? EddingtonGraphViewController{
                     return result
                 }

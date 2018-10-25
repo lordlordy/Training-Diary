@@ -591,7 +591,7 @@ class GraphView: NSView {
         
         
         if let start = graphsXMinimum(){
-            if let end = graphsXMaximum(){
+            if graphsXMaximum() != nil{
                 
                 var firstPoint: Bool = true
                 

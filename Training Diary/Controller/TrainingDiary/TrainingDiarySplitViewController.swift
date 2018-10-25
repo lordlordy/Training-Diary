@@ -14,7 +14,7 @@ class TrainingDiarySplitViewController: NSSplitViewController, TrainingDiaryView
     
     func set(trainingDiary td: TrainingDiary) {
         trainingDiary = td
-        for vc in childViewControllers{
+        for vc in children{
             if let tdvc = vc as? TrainingDiaryViewControllerProtocol{
                 print("Setting training diary on \(tdvc)")
                 tdvc.set(trainingDiary: td)

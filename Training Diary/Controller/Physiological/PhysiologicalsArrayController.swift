@@ -21,7 +21,7 @@ class PhysiologicalsArrayController: NSArrayController {
         
         physio.fromDate = fromDate
         let physios = self.arrangedObjects as! [Physiological]
-        let sortedPhysios = physios.sorted(by: {$0.fromDate! > $1.fromDate!})
+        _ = physios.sorted(by: {$0.fromDate! > $1.fromDate!})
 
         return physio
     }

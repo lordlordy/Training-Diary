@@ -198,12 +198,12 @@ class DefaultsViewController: TrainingDiaryViewController, NSComboBoxDataSource,
                     missingActivityType += 1
                     logMessage("activityType nil for workout \(String(describing: w.activityTypeString)) - \(w.day!.date!.dateOnlyShorterString())")
                 }
-                if w.activityString == nil{
-                    logMessage("Workout is missing activity string \(w.day!.date!.dateOnlyShorterString())")
-                }
-                if w.activityTypeString == nil{
-                    logMessage("Workout is missing activity string \(w.day!.date!.dateOnlyShorterString())")
-                }
+        //        if w.activityString == nil{
+          //          logMessage("Workout is missing activity string \(w.day!.date!.dateOnlyShorterString())")
+            //    }
+              //  if w.activityTypeString == nil{
+                //    logMessage("Workout is missing activity string \(w.day!.date!.dateOnlyShorterString())")
+                //}
             }
         }
         

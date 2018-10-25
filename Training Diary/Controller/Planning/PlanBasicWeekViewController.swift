@@ -25,11 +25,11 @@ class PlanBasicWeekViewController: TrainingDiaryViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        fromDP.datePickerElements = .yearMonthDayDatePickerElementFlag
-        fromDP.datePickerStyle = .textFieldAndStepperDatePickerStyle
+        fromDP.datePickerElements = .yearMonthDay
+        fromDP.datePickerStyle = .textFieldAndStepper
         
-        toDP.datePickerElements = .yearMonthDayDatePickerElementFlag
-        toDP.datePickerStyle = .textFieldAndStepperDatePickerStyle
+        toDP.datePickerElements = .yearMonthDay
+        toDP.datePickerStyle = .textFieldAndStepper
 
         fromTF.stringValue = "From:"
         fromTF.alignment = .right

@@ -14,7 +14,7 @@ class WorkoutsViewController: TrainingDiarySplitViewController {
     @IBOutlet var workoutsArrayController: NSArrayController!
     
     @objc dynamic var workoutsAC: NSArrayController?{
-        for c in childViewControllers{
+        for c in children{
             if let vc = c as? WorkoutsListViewController{
                 return vc.workoutsAC
             }
@@ -35,7 +35,7 @@ class WorkoutsViewController: TrainingDiarySplitViewController {
                 }
 
             }else{
-                print("Failed to get any selected Workouts from Array Controller: \(workoutsArrayController)")
+                print("Failed to get any selected Workouts from Array Controller: \(String(describing: workoutsArrayController))")
             }
         }
     }
@@ -114,7 +114,7 @@ class WorkoutsViewController: TrainingDiarySplitViewController {
     
     
     private func predicateEditor() -> NSPredicateEditor?{
-        for vc in childViewControllers{
+        for vc in children{
             if let wpvc = vc as? WorkoutPredicateViewController{
                 return wpvc.predicateEditor
             }

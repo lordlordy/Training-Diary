@@ -37,7 +37,7 @@ extension Equipment: CategoryProtocol{
     }
     
     @objc dynamic var numberOfTypes: Int{
-        let typeStrings = getWorkouts().flatMap({$0.activityType?.name})
+        let typeStrings = getWorkouts().compactMap({$0.activityType?.name})
         let mySet = Set<String>(typeStrings)
         return mySet.count
     }
