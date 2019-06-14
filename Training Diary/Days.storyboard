@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="qk9-zs-dEC">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="qk9-zs-dEC">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
         <capability name="cells containing NSDateComponentsFormatter" minSystemVersion="10.12"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -77,11 +77,11 @@
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="24" horizontalPageScroll="10" verticalLineScroll="24" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8r8-XH-X5e">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="277"/>
                                 <clipView key="contentView" id="B7I-Zb-7ry">
-                                    <rect key="frame" x="1" y="0.0" width="598" height="276"/>
+                                    <rect key="frame" x="1" y="0.0" width="598" height="261"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" alternatingRowBackgroundColors="YES" columnSelection="YES" autosaveName="DayTableInSplitView" rowHeight="22" rowSizeStyle="small" headerView="0ln-Y1-doe" viewBased="YES" id="z5E-D0-7Yn" customClass="TableViewWithColumnSort" customModule="Training_Diary" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="3637" height="253"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="3637" height="238"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -2209,15 +2209,19 @@
                                                 </tableColumn>
                                             </tableColumns>
                                             <connections>
-                                                <binding destination="9ce-il-Z5v" name="content" keyPath="parentViewController.parentViewController.daysArrayController.arrangedObjects" id="Ypx-vT-p9k"/>
-                                                <binding destination="9ce-il-Z5v" name="selectionIndexes" keyPath="parentViewController.parentViewController.daysArrayController.selectionIndexes" previousBinding="Ypx-vT-p9k" id="G7Z-VP-ixp"/>
-                                                <binding destination="9ce-il-Z5v" name="sortDescriptors" keyPath="parentViewController.parentViewController.daysArrayController.sortDescriptors" previousBinding="G7Z-VP-ixp" id="L60-Pk-BD8"/>
+                                                <binding destination="9ce-il-Z5v" name="content" keyPath="grandParent.daysArrayController.arrangedObjects" id="xOg-wZ-ihN">
+                                                    <dictionary key="options">
+                                                        <bool key="NSRaisesForNotApplicableKeys" value="NO"/>
+                                                    </dictionary>
+                                                </binding>
+                                                <binding destination="9ce-il-Z5v" name="selectionIndexes" keyPath="grandParent.daysArrayController.selectionIndexes" previousBinding="xOg-wZ-ihN" id="zg0-j5-XAT"/>
+                                                <binding destination="9ce-il-Z5v" name="sortDescriptors" keyPath="grandParent.daysArrayController.sortDescriptors" previousBinding="zg0-j5-XAT" id="I2N-Jb-MNj"/>
                                             </connections>
                                         </tableView>
                                     </subviews>
                                 </clipView>
                                 <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="Xgf-sN-GlL">
-                                    <rect key="frame" x="1" y="260" width="598" height="16"/>
+                                    <rect key="frame" x="1" y="261" width="598" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="n7D-wP-cQP">
@@ -2287,7 +2291,7 @@
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                                 <connections>
-                                                    <binding destination="9ce-il-Z5v" name="value" keyPath="parentViewController.parentViewController.daysArrayController.arrangedObjects.@count" id="668-VB-L1E"/>
+                                                    <binding destination="9ce-il-Z5v" name="value" keyPath="grandParent.daysArrayController.arrangedObjects.@count" id="t1l-U2-3pe"/>
                                                 </connections>
                                             </textField>
                                             <button horizontalHuggingPriority="252" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="q7G-XL-bhf">
@@ -2496,24 +2500,17 @@
                             <scrollView wantsLayer="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wY9-Ov-IvB">
                                 <rect key="frame" x="0.0" y="0.0" width="254" height="279"/>
                                 <clipView key="contentView" drawsBackground="NO" id="FgE-IL-tlY">
-                                    <rect key="frame" x="1" y="1" width="252" height="277"/>
+                                    <rect key="frame" x="1" y="1" width="237" height="277"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView importsGraphics="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="dCe-Hl-bAn">
-                                            <rect key="frame" x="0.0" y="0.0" width="252" height="277"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="237" height="277"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="252" height="277"/>
+                                            <size key="minSize" width="237" height="277"/>
                                             <size key="maxSize" width="463" height="10000000"/>
                                             <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                            <connections>
-                                                <binding destination="xEg-Wn-Ccy" name="attributedString" keyPath="parentViewController.parentViewController.daysArrayController.selection.comments" id="tw9-Tg-n6t">
-                                                    <dictionary key="options">
-                                                        <string key="NSValueTransformerName">TextViewToStringTransformer</string>
-                                                    </dictionary>
-                                                </binding>
-                                            </connections>
                                         </textView>
                                     </subviews>
                                 </clipView>
@@ -2522,7 +2519,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="nVn-kB-0Ma">
-                                    <rect key="frame" x="237" y="1" width="16" height="277"/>
+                                    <rect key="frame" x="238" y="1" width="15" height="277"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
@@ -2597,15 +2594,15 @@
                             <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sbQ-9C-L6b">
                                 <rect key="frame" x="0.0" y="0.0" width="254" height="101"/>
                                 <clipView key="contentView" drawsBackground="NO" id="jPv-dz-SOm">
-                                    <rect key="frame" x="1" y="1" width="252" height="99"/>
+                                    <rect key="frame" x="1" y="1" width="237" height="84"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView importsGraphics="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="jSF-cX-XhI">
-                                            <rect key="frame" x="0.0" y="0.0" width="462" height="99"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="447" height="84"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="252" height="99"/>
+                                            <size key="minSize" width="237" height="84"/>
                                             <size key="maxSize" width="660" height="10000000"/>
                                             <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                             <connections>
@@ -2619,11 +2616,11 @@
                                     </subviews>
                                 </clipView>
                                 <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="sOt-B5-djn">
-                                    <rect key="frame" x="1" y="84" width="252" height="16"/>
+                                    <rect key="frame" x="1" y="85" width="237" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="fjs-Ir-045">
-                                    <rect key="frame" x="237" y="1" width="16" height="99"/>
+                                    <rect key="frame" x="238" y="1" width="15" height="84"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
@@ -2654,11 +2651,11 @@
                             <scrollView wantsLayer="YES" autohidesScrollers="YES" horizontalLineScroll="24" horizontalPageScroll="10" verticalLineScroll="24" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Dv-h4-MHn">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="99"/>
                                 <clipView key="contentView" id="mRZ-R6-dz6">
-                                    <rect key="frame" x="1" y="0.0" width="598" height="98"/>
+                                    <rect key="frame" x="1" y="0.0" width="598" height="83"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveName="workoutInputTable" rowHeight="22" rowSizeStyle="small" headerView="s0j-7m-NdZ" viewBased="YES" id="nWA-ve-hEd" customClass="TableViewWithColumnSort" customModule="Training_Diary" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="1447" height="75"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="1447" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -3608,7 +3605,7 @@
                                     </subviews>
                                 </clipView>
                                 <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="2c0-ME-Gig">
-                                    <rect key="frame" x="1" y="82" width="598" height="16"/>
+                                    <rect key="frame" x="1" y="83" width="598" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="IVw-tf-gX3">

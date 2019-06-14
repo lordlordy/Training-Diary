@@ -13,6 +13,25 @@ class DaysInputViewController: TrainingDiaryViewController {
     
     @IBOutlet weak var daysTableView: TableViewWithColumnSort!
     
+    @objc dynamic var arrayController: NSArrayController?{
+        print("Parent is \(parent)")
+        if let p = parent{
+            print("my parents parent is \(p.parent)")
+        }
+        if let dsvc = parent?.parent as? DaysSplitViewController{
+            print("returning daysArrayController from my grandparent")
+            return dsvc.daysArrayController
+        }
+        return nil
+    }
+    
+    @objc dynamic var grandParent: DaysSplitViewController?{
+        if let grandParent = parent?.parent as? DaysSplitViewController{
+            return grandParent
+        }
+        return nil
+    }
+    
     @IBAction func add(_ sender: Any) {
         if let parentVC = parent?.parent as? DaysSplitViewController{
             if let dac = parentVC.daysArrayController{

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13196"/>
-        <capability name="box content view" minToolsVersion="7.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
-        <capability name="stacking Non-gravity area distributions on NSStackView" minToolsVersion="7.0" minSystemVersion="10.11"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -679,7 +677,7 @@
                                         <menuItem title="Show Sidebar" keyEquivalent="s" id="kIP-vf-haE">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                                             <connections>
-                                                <action selector="toggleSourceList:" target="Ady-hI-5gd" id="iwa-gc-5KM"/>
+                                                <action selector="toggleSidebar:" target="Ady-hI-5gd" id="iwa-gc-5KM"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Enter Full Screen" keyEquivalent="f" id="4J7-dP-txa">
@@ -744,7 +742,7 @@
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
-                    <window key="window" title="Training Diary" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
+                    <window key="window" title="Training Diary" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" texturedBackground="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
@@ -809,11 +807,11 @@
                             <box titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="oGQ-je-2nL">
                                 <rect key="frame" x="2" y="643" width="1116" height="84"/>
                                 <view key="contentView" id="ovp-na-ACh">
-                                    <rect key="frame" x="2" y="2" width="1112" height="80"/>
+                                    <rect key="frame" x="3" y="3" width="1110" height="78"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <stackView distribution="fillEqually" orientation="horizontal" alignment="top" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dDx-a7-nCh" userLabel="Year Comparison">
-                                            <rect key="frame" x="633" y="3" width="474" height="72"/>
+                                            <rect key="frame" x="631" y="1" width="474" height="72"/>
                                             <subviews>
                                                 <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jmP-qy-3pu">
                                                     <rect key="frame" x="0.0" y="3" width="79" height="69"/>
@@ -841,7 +839,7 @@
                                                             <rect key="frame" x="0.0" y="19" width="79" height="19"/>
                                                             <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="51b-Xm-adi">
                                                                 <font key="font" metaFont="smallSystem"/>
-                                                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
                                                             <connections>
@@ -1232,7 +1230,7 @@
                                             </customSpacing>
                                         </stackView>
                                         <stackView distribution="fillEqually" orientation="vertical" alignment="centerX" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="B0q-aW-R8s">
-                                            <rect key="frame" x="1" y="41" width="19" height="38"/>
+                                            <rect key="frame" x="1" y="39" width="19" height="38"/>
                                             <subviews>
                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FtS-jx-YZl">
                                                     <rect key="frame" x="3" y="18" width="13" height="21"/>
@@ -1270,9 +1268,9 @@
                                             </customSpacing>
                                         </stackView>
                                         <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1ih-v5-dGN">
-                                            <rect key="frame" x="21" y="3" width="611" height="76"/>
+                                            <rect key="frame" x="21" y="1" width="609" height="76"/>
                                             <clipView key="contentView" id="333-1S-yMu">
-                                                <rect key="frame" x="1" y="0.0" width="609" height="75"/>
+                                                <rect key="frame" x="1" y="0.0" width="607" height="75"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" emptySelection="NO" autosaveName="trainingDiaryTableView" rowSizeStyle="automatic" headerView="PS6-Sd-DTG" viewBased="YES" id="5kx-Ve-SwN" customClass="TableViewWithColumnSort" customModule="Training_Diary" customModuleProvider="target">
@@ -1282,7 +1280,7 @@
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="gridColor" red="0.80002713199999997" green="0.32847021770000001" blue="0.35634106859999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                         <tableColumns>
-                                                            <tableColumn identifier="" width="105" minWidth="40" maxWidth="1000" id="IS9-nh-6Z5">
+                                                            <tableColumn width="105" minWidth="40" maxWidth="1000" id="IS9-nh-6Z5">
                                                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Name">
                                                                     <font key="font" metaFont="smallSystem"/>
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -1620,7 +1618,7 @@
                                                                     </tableCellView>
                                                                 </prototypeCellViews>
                                                             </tableColumn>
-                                                            <tableColumn identifier="" width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="mCp-e9-0mS">
+                                                            <tableColumn width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="mCp-e9-0mS">
                                                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="DOB">
                                                                     <font key="font" metaFont="smallSystem"/>
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -1658,7 +1656,7 @@
                                                                     </tableCellView>
                                                                 </prototypeCellViews>
                                                             </tableColumn>
-                                                            <tableColumn identifier="" width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="IqK-W1-6Fv">
+                                                            <tableColumn width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="IqK-W1-6Fv">
                                                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Basal Factor">
                                                                     <font key="font" metaFont="smallSystem"/>
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -1708,11 +1706,11 @@
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="76" id="TPJ-tw-jY5"/>
                                             </constraints>
-                                            <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="8ho-Yx-3zP">
-                                                <rect key="frame" x="1" y="59" width="609" height="16"/>
+                                            <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="8ho-Yx-3zP">
+                                                <rect key="frame" x="1" y="59" width="607" height="16"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
-                                            <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="A1h-3H-k6g">
+                                            <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="A1h-3H-k6g">
                                                 <rect key="frame" x="224" y="17" width="15" height="102"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
@@ -1833,7 +1831,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="994" height="374"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <font key="font" size="12" name=".AppleSystemUIFont"/>
-                        <tabViewItems/>
                         <connections>
                             <outlet property="delegate" destination="qdR-OF-74A" id="Xmi-BS-hbf"/>
                         </connections>

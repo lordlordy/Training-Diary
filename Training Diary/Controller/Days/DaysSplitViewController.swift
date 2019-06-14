@@ -64,12 +64,19 @@ class DaysSplitViewController: TrainingDiarySplitViewController{
         super.set(trainingDiary: td)
         if let dac = daysArrayController{
             dac.trainingDiary = td
+            if let d = td.latestDay()?.date{
+                dac.filterPredicate = NSPredicate(format: "date >= %@ AND date <= %@", argumentArray: [d.addDays(numberOfDays: -45),d.addDays(numberOfDays: 1)])
+            }
         }
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        daysArrayController.filterPredicate = NSPredicate(format: "date >= %@ AND date <= %@", argumentArray: [Date().addDays(numberOfDays: -90),Date().addDays(numberOfDays: 10)])
-    }
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//        print("view loaded. Do I have a training diary?: \(trainingDiary)")
+//        if let d = trainingDiary?.latestDay()?.date{
+//            print("last day of diary: \(d)")
+//            daysArrayController.filterPredicate = NSPredicate(format: "date >= %@ AND date <= %@", argumentArray: [d.addDays(numberOfDays: -45),d.addDays(numberOfDays: 1)])
+//        }
+//    }
     
 }
