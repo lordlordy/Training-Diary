@@ -142,7 +142,7 @@ class ValidationViewController: TrainingDiaryViewController{
            //     if w.activityTypeString == nil{
              //       logMessage("Workout is missing activity string \(w.day!.date!.dateOnlyShorterString())")
                // }
-            }
+            } 
         }
         
         let ltd = CoreDataStackSingleton.shared.ltdEdNumsMissingParentAndTrainingDiary()
