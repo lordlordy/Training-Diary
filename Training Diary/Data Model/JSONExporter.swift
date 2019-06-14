@@ -38,7 +38,7 @@ class JSONExporter{
         var workoutArray: [[String:Any]] = []
         for workout in workouts{
             var workoutDictionary = workout.dictionaryWithValues(forKeys: WorkoutProperty.jsonProperties.map({$0.rawValue }))
-            workoutDictionary[DayProperty.iso8061DateString.rawValue] = workout.day!.date!.iso8601Format()
+            workoutDictionary[DayProperty.iso8601DateString.rawValue] = workout.day!.date!.iso8601Format()
             workoutArray.append(workoutDictionary)
         }
         trainingDiaryDictionary[DayProperty.workouts.rawValue] = workoutArray

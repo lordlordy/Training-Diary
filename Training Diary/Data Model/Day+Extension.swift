@@ -184,7 +184,7 @@ extension Day: PeriodNode, DayValueProtocol{
     }
 
     //this is for JSON serialisation
-    @objc dynamic var iso8061DateString: String{
+    @objc dynamic var iso8601DateString: String{
         return date!.iso8601Format()
     }
     

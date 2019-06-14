@@ -12,7 +12,7 @@ extension Weight{
     
     
     //this is for JSON serialisation
-    @objc dynamic var iso8061DateString: String{
+    @objc dynamic var iso8601DateString: String{
         return fromDate?.iso8601Format() ?? ""
     }
     

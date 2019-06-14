@@ -70,7 +70,7 @@ class JSONImporter{
         
         if let days = json[TrainingDiaryProperty.days.rawValue] as? [[String:Any]]{
             for dayDict in days{
-                if let dateString = dayDict[DayProperty.iso8061DateString.rawValue] as? String{
+                if let dateString = dayDict[DayProperty.iso8601DateString.rawValue] as? String{
                     let dateOnly = dateString.split(separator: "T")[0]
                     if trainingDiaryDateString.contains(String(dateOnly)){
                         print("TrainingDiary already includes day for \(dateOnly)")
@@ -80,7 +80,7 @@ class JSONImporter{
                         addedCount += 1
                     }
                 }else{
-                    print("No iso8061DateString value so can't add \(dayDict)")
+                    print("No iso8601DateString value so can't add \(dayDict)")
                 }
             }
             let addedDays: [Day] = td.mutableSetValue(forKey: TrainingDiaryProperty.days.rawValue).allObjects as! [Day]
@@ -99,7 +99,7 @@ class JSONImporter{
         
         for p in dayDict{
             switch p.key{
-            case DayProperty.iso8061DateString.rawValue:
+            case DayProperty.iso8601DateString.rawValue:
                 if let d = ISO8601DateFormatter().date(from: p.value as! String){
                     day.setValue(d, forKey: DayProperty.date.rawValue)
                 }else{
@@ -173,7 +173,7 @@ class JSONImporter{
         
         if json.count > 0{
             for mDict in json[TrainingDiaryProperty.weights.rawValue] as! [[String:Any]]{
-                if let dateString = mDict[WeightProperty.iso8061DateString.rawValue] as? String{
+                if let dateString = mDict[WeightProperty.iso8601DateString.rawValue] as? String{
                     let dateOnly = dateString.split(separator: "T")[0]
                     if trainingDiaryWeightDateStrings.contains(String(dateOnly)){
                         print("TrainingDiary already includes Weight for \(dateOnly)")
@@ -182,7 +182,7 @@ class JSONImporter{
                         addedCount += 1
                     }
                 }else{
-                    print("No iso8061DateString value for Weight so can't add \(mDict)")
+                    print("No iso8601DateString value for Weight so can't add \(mDict)")
                 }
             }
         }
@@ -197,7 +197,7 @@ class JSONImporter{
         td.mutableSetValue(forKey: TrainingDiaryProperty.weights.rawValue).add(weight)
         for p in mDict{
             switch p.key{
-            case WeightProperty.iso8061DateString.rawValue:
+            case WeightProperty.iso8601DateString.rawValue:
                 if let date = ISO8601DateFormatter().date(from: p.value as! String){
                     weight.setValue(date, forKey: WeightProperty.fromDate.rawValue)
                 }else{
@@ -219,7 +219,7 @@ class JSONImporter{
         var addedCount: Int = 0
         
         for pDict in json[TrainingDiaryProperty.physiologicals.rawValue] as! [[String:Any]]{
-            if let dateString = pDict[PhysiologicalProperty.iso8061DateString.rawValue] as? String{
+            if let dateString = pDict[PhysiologicalProperty.iso8601DateString.rawValue] as? String{
                 let dateOnly = dateString.split(separator: "T")[0]
                 if trainingDiaryPhysiologicalDateStrings.contains(String(dateOnly)){
                     print("TrainingDiary already includes Physiological for \(dateOnly)")
@@ -228,7 +228,7 @@ class JSONImporter{
                     addedCount += 1
                 }
             }else{
-                print("No iso8061DateString value for Physiological so can't add \(pDict)")
+                print("No iso8601DateString value for Physiological so can't add \(pDict)")
             }
         }
         print("Added \(addedCount) Physiologicals")
@@ -240,7 +240,7 @@ class JSONImporter{
         td.mutableSetValue(forKey: TrainingDiaryProperty.physiologicals.rawValue).add(physio)
         for p in pDict{
             switch p.key{
-            case PhysiologicalProperty.iso8061DateString.rawValue:
+            case PhysiologicalProperty.iso8601DateString.rawValue:
                 if let date = ISO8601DateFormatter().date(from: p.value as! String){
                     physio.setValue(date, forKey: PhysiologicalProperty.fromDate.rawValue)
                 }else{
@@ -283,19 +283,19 @@ class JSONImporter{
             let pairs = plan as! [String: Any]
             for p in pairs{
                 switch p.key{
-                case PlanProperty.iso8061FromString.rawValue:
+                case PlanProperty.iso8601FromString.rawValue:
                     if let date = dateFormatter.date(from: p.value as! String){
                         planMO.setValue(date, forKey: PlanProperty.from.rawValue)
                     }else{
                         print("failed to import Plan date: \(p.key) : \(p.value)")
                     }
-                case PlanProperty.iso8061ToString.rawValue:
+                case PlanProperty.iso8601ToString.rawValue:
                     if let date = dateFormatter.date(from: p.value as! String){
                         planMO.setValue(date, forKey: PlanProperty.to.rawValue)
                     }else{
                         print("failed to import Plan date: \(p.key) : \(p.value)")
                     }
-//                case PlanProperty.iso8061TaperStartString.rawValue:
+//                case PlanProperty.iso8601TaperStartString.rawValue:
 //                    if let date = dateFormatter.date(from: p.value as! String){
 //                        planMO.setValue(date, forKey: PlanProperty.taperStart.rawValue)
 //                    }else{
@@ -334,7 +334,7 @@ class JSONImporter{
                             planDaysMOSet.add(planDay)
                             if let dayDict = day as? [String:Any]{
                                 for d in dayDict{
-                                    if d.key == PlanDayProperty.iso8061DateString.rawValue{
+                                    if d.key == PlanDayProperty.iso8601DateString.rawValue{
                                         if let date = ISO8601DateFormatter().date(from: d.value as! String){
                                             planDay.setValue(date, forKey: PlanDayProperty.date.rawValue)
                                         }

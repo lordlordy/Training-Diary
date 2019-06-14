@@ -13,7 +13,7 @@ extension EddingtonHistory{
     @objc dynamic var maturity: Double { return EddingtonNumberCalculator.calculateMaturity(ednum: Int(value), plusOne: Int(plusOne), max: max)}
     
     //this is for JSON serialisation
-    @objc dynamic var iso8061DateString: String{
+    @objc dynamic var iso8601DateString: String{
         return date!.iso8601Format()
     }
     

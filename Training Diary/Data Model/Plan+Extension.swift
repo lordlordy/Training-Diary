@@ -21,13 +21,13 @@ extension Plan{
     }
     
     //this is for JSON serialisation
-    @objc dynamic var iso8061FromString: String{
+    @objc dynamic var iso8601FromString: String{
         return from!.iso8601Format()
     }
-//    @objc dynamic var iso8061TaperStartString: String{
+//    @objc dynamic var iso8601TaperStartString: String{
 //        return taperStart!.iso8601Format()
 //    }
-    @objc dynamic var iso8061ToString: String{
+    @objc dynamic var iso8601ToString: String{
         return to!.iso8601Format()
     }
 
