@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="hzp-uh-pY9">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="hzp-uh-pY9">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -17,11 +17,11 @@
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="24" horizontalPageScroll="10" verticalLineScroll="24" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5lp-7G-Xvq">
                                 <rect key="frame" x="0.0" y="0.0" width="1112" height="550"/>
                                 <clipView key="contentView" id="svz-9f-pCd">
-                                    <rect key="frame" x="1" y="0.0" width="1110" height="549"/>
+                                    <rect key="frame" x="1" y="0.0" width="1110" height="534"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveName="DaysOutlineView" rowHeight="22" rowSizeStyle="small" headerView="ZES-1S-e4h" viewBased="YES" indentationPerLevel="10" autoresizesOutlineColumn="YES" outlineTableColumn="dKe-oo-aB3" id="dax-mI-oO0">
-                                            <rect key="frame" x="0.0" y="0.0" width="1477" height="526"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="1477" height="511"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -929,7 +929,7 @@
                                     </subviews>
                                 </clipView>
                                 <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="ASO-0V-d2S">
-                                    <rect key="frame" x="1" y="533" width="1110" height="16"/>
+                                    <rect key="frame" x="1" y="534" width="1110" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="aJ9-zg-wfY">

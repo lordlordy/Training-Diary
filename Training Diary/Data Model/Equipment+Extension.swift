@@ -64,7 +64,7 @@ extension Equipment: CategoryProtocol{
 
     
     func workoutDateRange() -> (from: Date, to: Date){
-        let dates = getWorkouts().map({$0.day!.date!})
+        let dates = getWorkouts().filter({$0.day != nil}).map({$0.day!.date!})
         if dates.count == 0{
             return (from: Date(), to: Date())
         }

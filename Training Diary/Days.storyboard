@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="qk9-zs-dEC">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="qk9-zs-dEC">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14868"/>
         <capability name="cells containing NSDateComponentsFormatter" minSystemVersion="10.12"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -138,12 +138,12 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView id="3FA-Zn-vXj">
+                                                        <tableCellView misplaced="YES" id="3FA-Zn-vXj">
                                                             <rect key="frame" x="44" y="1" width="54" height="20"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0ih-Xb-xU3" customClass="DayTypeComboBox" customModule="Training_Diary" customModuleProvider="target">
-                                                                    <rect key="frame" x="0.0" y="-4" width="57" height="26"/>
+                                                                    <rect key="frame" x="0.0" y="-4" width="57" height="25"/>
                                                                     <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" buttonBordered="NO" completes="NO" numberOfVisibleItems="5" id="fka-CP-ia6">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -213,12 +213,12 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView id="eME-TN-kwl">
+                                                        <tableCellView misplaced="YES" id="eME-TN-kwl">
                                                             <rect key="frame" x="153" y="1" width="64" height="20"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OZN-WG-kwY" customClass="SleepQualityComboBox" customModule="Training_Diary" customModuleProvider="target">
-                                                                    <rect key="frame" x="0.0" y="-4" width="67" height="26"/>
+                                                                    <rect key="frame" x="0.0" y="-4" width="67" height="25"/>
                                                                     <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" buttonBordered="NO" completes="NO" numberOfVisibleItems="5" id="Ak6-3d-3zF">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -2315,7 +2315,7 @@
                                                 </connections>
                                             </button>
                                             <textField horizontalHuggingPriority="240" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="74W-Vh-uX8">
-                                                <rect key="frame" x="250" y="1" width="307" height="17"/>
+                                                <rect key="frame" x="250" y="2" width="307" height="16"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="35" id="E5k-8E-ON8"/>
                                                 </constraints>
@@ -2712,12 +2712,12 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView id="ccR-HF-yOh">
+                                                        <tableCellView misplaced="YES" id="ccR-HF-yOh">
                                                             <rect key="frame" x="44" y="1" width="40" height="20"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <comboBox identifier="WorkoutActivityComboBox" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zLw-V8-jqH">
-                                                                    <rect key="frame" x="0.0" y="-4" width="43" height="26"/>
+                                                                    <rect key="frame" x="0.0" y="-4" width="43" height="25"/>
                                                                     <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" buttonBordered="NO" usesDataSource="YES" numberOfVisibleItems="5" id="Qp0-XJ-Oct">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -2751,12 +2751,12 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView id="pOs-lY-fH5">
+                                                        <tableCellView misplaced="YES" id="pOs-lY-fH5">
                                                             <rect key="frame" x="87" y="1" width="29" height="20"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <comboBox identifier="WorkoutActivityTypeComboBox" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="t8D-Jd-LgB">
-                                                                    <rect key="frame" x="0.0" y="-4" width="32" height="26"/>
+                                                                    <rect key="frame" x="0.0" y="-4" width="32" height="25"/>
                                                                     <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" buttonBordered="NO" usesDataSource="YES" numberOfVisibleItems="5" id="jG4-es-ick">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -2790,12 +2790,12 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView id="52h-bZ-FAq">
+                                                        <tableCellView misplaced="YES" id="52h-bZ-FAq">
                                                             <rect key="frame" x="119" y="1" width="38" height="20"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <comboBox identifier="WorkoutEquipmentComboBox" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="11M-aJ-i6L">
-                                                                    <rect key="frame" x="0.0" y="-4" width="41" height="26"/>
+                                                                    <rect key="frame" x="0.0" y="-4" width="41" height="25"/>
                                                                     <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" buttonBordered="NO" usesDataSource="YES" numberOfVisibleItems="5" id="hd0-Nf-Yad">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -3275,12 +3275,12 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView id="1sv-Og-JQ1">
+                                                        <tableCellView misplaced="YES" id="1sv-Og-JQ1">
                                                             <rect key="frame" x="845" y="1" width="64" height="20"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6Pv-jW-39W" customClass="TSSMethodComboBox" customModule="Training_Diary" customModuleProvider="target">
-                                                                    <rect key="frame" x="0.0" y="-4" width="67" height="26"/>
+                                                                    <rect key="frame" x="0.0" y="-4" width="67" height="25"/>
                                                                     <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" buttonBordered="NO" numberOfVisibleItems="5" id="BKY-ZI-0dX">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -3621,7 +3621,7 @@
                                 <rect key="frame" x="2" y="101" width="40" height="19"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="CJZ-JZ-q34">
-                                        <rect key="frame" x="0.0" y="-1" width="20" height="21"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
                                         <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSAddTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="x0b-q0-tce">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -3631,7 +3631,7 @@
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qyQ-aP-3kA">
-                                        <rect key="frame" x="21" y="-1" width="19" height="21"/>
+                                        <rect key="frame" x="21" y="0.0" width="19" height="20"/>
                                         <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSRemoveTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ph0-2w-Ok6">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
