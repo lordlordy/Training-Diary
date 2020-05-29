@@ -116,7 +116,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTextFieldDelegate
         if let currentYear = getSelectedTrainingDiary()?.lastDayOfDiary.year(){
             comparisonYear.stringValue = String(currentYear - 1)
         }else{
-            comparisonYear.stringValue = "2017"
+            comparisonYear.stringValue = "2018"
         }
     }
 

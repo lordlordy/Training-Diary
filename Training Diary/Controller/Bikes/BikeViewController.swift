@@ -245,7 +245,9 @@ class BikeViewController: TrainingDiaryViewController, NSTableViewDelegate, NSCo
         let data = bike.getWorkouts()
         var mappedData: [(date: Date, value: Double)]?
         
-         mappedData = data.map({(date: $0.day!.date!,Value: $0.value(forKey: p.rawValue) as! Double)}).filter({$0.value != 0.0})
+        // to handle rogue workouts without dates. Use default date and filter them out
+        let defaultDate: Date = Date(timeIntervalSince1970: TimeInterval(0))
+        mappedData = data.map({(date: $0.day?.date ?? defaultDate, Value: $0.value(forKey: p.rawValue) as! Double)}).filter({$0.value != 0.0}).filter({$0.date != defaultDate})
         
         // ltd data next
         var ltdData: [(Double,Double)] = []
